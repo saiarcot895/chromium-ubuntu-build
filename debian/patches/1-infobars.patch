@@ -1,0 +1,179 @@
+Index: src/chrome/browser/infobars/infobar_extension_api.h
+===================================================================
+--- src/chrome/browser/infobars/infobar_extension_api.h	(revision 158531)
++++ src/chrome/browser/infobars/infobar_extension_api.h	(working copy)
+@@ -10,7 +10,7 @@
+ class ShowInfoBarFunction : public SyncExtensionFunction {
+   virtual ~ShowInfoBarFunction() {}
+   virtual bool RunImpl() OVERRIDE;
+-  DECLARE_EXTENSION_FUNCTION_NAME("experimental.infobars.show")
++  DECLARE_EXTENSION_FUNCTION_NAME("infobars.show")
+ };
+ 
+ #endif  // CHROME_BROWSER_INFOBARS_INFOBAR_EXTENSION_API_H_
+Index: src/chrome/common/extensions_api_resources.grd
+===================================================================
+--- src/chrome/common/extensions_api_resources.grd	(revision 136242)
++++ src/chrome/common/extensions_api_resources.grd	(working copy)
+@@ -27,7 +27,6 @@
+       <include name="IDR_EXTENSION_API_JSON_EXPERIMENTAL_APP" file="extensions\api\experimental_app.json" type="BINDATA" />
+       <include name="IDR_EXTENSION_API_JSON_EXPERIMENTAL_BOOKMARKMANAGER" file="extensions\api\experimental_bookmark_manager.json" type="BINDATA" />
+       <include name="IDR_EXTENSION_API_JSON_EXPERIMENTAL_COMMANDS" file="extensions\api\experimental_commands.json" type="BINDATA" />
+-      <include name="IDR_EXTENSION_API_JSON_EXPERIMENTAL_INFOBARS" file="extensions\api\experimental_infobars.json" type="BINDATA" />
+       <include name="IDR_EXTENSION_API_JSON_EXPERIMENTAL_INPUT_VIRTUALKEYBOARD" file="extensions\api\experimental_input_virtual_keyboard.json" type="BINDATA" />
+       <include name="IDR_EXTENSION_API_JSON_EXPERIMENTAL_OFFSCREENTABS" file="extensions\api\experimental_offscreen_tabs.json" type="BINDATA" />
+       <include name="IDR_EXTENSION_API_JSON_EXPERIMENTAL_PROCESSES" file="extensions\api\experimental_processes.json" type="BINDATA" />
+@@ -42,6 +41,7 @@
+       <include name="IDR_EXTENSION_API_JSON_HISTORY" file="extensions\api\history.json" type="BINDATA" />
+       <include name="IDR_EXTENSION_API_JSON_I18N" file="extensions\api\i18n.json" type="BINDATA" />
+       <include name="IDR_EXTENSION_API_JSON_INPUT_IME" file="extensions\api\input_ime.json" type="BINDATA" />
++      <include name="IDR_EXTENSION_API_JSON_INFOBARS" file="extensions\api\infobars.json" type="BINDATA" />
+       <include name="IDR_EXTENSION_API_JSON_IDLE" file="extensions\api\idle.json" type="BINDATA" />
+       <include name="IDR_EXTENSION_API_JSON_INPUTMETHODPRIVATE" file="extensions\api\input_method_private.json" type="BINDATA" />
+       <include name="IDR_EXTENSION_API_JSON_MANAGEDMODEPRIVATE" file="extensions\api\managed_mode_private.json" type="BINDATA" />
+Index: src/chrome/common/extensions/permissions/permission_set.cc
+===================================================================
+--- src/chrome/common/extensions/permissions/permission_set.cc	(revision 136242)
++++ src/chrome/common/extensions/permissions/permission_set.cc	(working copy)
+@@ -41,6 +41,7 @@
+   "events",
+   "extension",
+   "i18n",
++  "infobars",
+   "omnibox",
+   "pageAction",
+   "pageActions",
+Index: src/chrome/common/extensions/api/infobars.json
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ src/chrome/common/extensions/api/infobars.json	2012-10-11 11:29:46.620701842 -0400
+@@ -0,0 +1,51 @@
++// Copyright (c) 2012 The Chromium Authors. All rights reserved.
++// Use of this source code is governed by a BSD-style license that can be
++// found in the LICENSE file.
++
++[
++  {
++    "namespace": "infobars",
++    "dependencies": [ "windows" ],
++    "types": [],
++    "functions": [
++      {
++        "name": "show",
++        "type": "function",
++        "description": "Shows an infobar in the specified tab. The infobar will be closed automatically when the tab navigates. Use window.close() to close the infobar before then.",
++        "parameters": [
++          {
++            "name": "details",
++            "type": "object",
++            "properties": {
++              "tabId": {
++                "type": "integer",
++                "description": "The tab id for the tab to display the infobar in."
++              },
++              "path": {
++                "type": "string",
++                "description": "The html file that contains the infobar."
++              },
++              "height": {
++                "type": "integer",
++                "description": "The height (in pixels) of the infobar to show. If omitted, the default infobar height will be used.",
++                "optional": true,
++                "minimum": 0,
++                "maximum": 72
++              }
++            }
++          },
++          {
++            "type": "function",
++            "name": "callback",
++            "optional": true,
++            "parameters": [
++              {
++                "name": "window", "$ref": "windows.Window", "description": "Contains details about the window in which the infobar was created."
++              }
++            ]
++          }
++        ]
++      }
++    ]
++  }
++]
+Index: src/chrome/common/extensions/api/extension_api.cc
+===================================================================
+--- src/chrome/common/extensions/api/extension_api.cc	(revision 158531)
++++ src/chrome/common/extensions/api/extension_api.cc	(working copy)
+@@ -376,8 +376,6 @@
+       IDR_EXTENSION_API_JSON_EXPERIMENTAL_BOOKMARKMANAGER));
+   RegisterSchema("experimental.commands", ReadFromResource(
+       IDR_EXTENSION_API_JSON_EXPERIMENTAL_COMMANDS));
+-  RegisterSchema("experimental.infobars", ReadFromResource(
+-      IDR_EXTENSION_API_JSON_EXPERIMENTAL_INFOBARS));
+   RegisterSchema("experimental.input.virtualKeyboard", ReadFromResource(
+       IDR_EXTENSION_API_JSON_EXPERIMENTAL_INPUT_VIRTUALKEYBOARD));
+   RegisterSchema("experimental.offscreenTabs", ReadFromResource(
+@@ -408,6 +406,8 @@
+       IDR_EXTENSION_API_JSON_I18N));
+   RegisterSchema("idle", ReadFromResource(
+       IDR_EXTENSION_API_JSON_IDLE));
++  RegisterSchema("infobars", ReadFromResource(
++      IDR_EXTENSION_API_JSON_INFOBARS));
+   RegisterSchema("input.ime", ReadFromResource(
+       IDR_EXTENSION_API_JSON_INPUT_IME));
+   RegisterSchema("inputMethodPrivate", ReadFromResource(
+Index: src/chrome/common/extensions/api/experimental_infobars.json
+===================================================================
+--- src.orig/chrome/common/extensions/api/experimental_infobars.json	(revision 158531)
++++ src/chrome/common/extensions/api/experimental_infobars.json	(working copy)
+@@ -1,51 +0,0 @@
+-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
+-// Use of this source code is governed by a BSD-style license that can be
+-// found in the LICENSE file.
+-
+-[
+-  {
+-    "namespace": "experimental.infobars",
+-    "dependencies": [ "windows" ],
+-    "types": [],
+-    "functions": [
+-      {
+-        "name": "show",
+-        "type": "function",
+-        "description": "Shows an infobar in the specified tab. The infobar will be closed automatically when the tab navigates. Use window.close() to close the infobar before then.",
+-        "parameters": [
+-          {
+-            "name": "details",
+-            "type": "object",
+-            "properties": {
+-              "tabId": {
+-                "type": "integer",
+-                "description": "The tab id for the tab to display the infobar in."
+-              },
+-              "path": {
+-                "type": "string",
+-                "description": "The html file that contains the infobar."
+-              },
+-              "height": {
+-                "type": "integer",
+-                "description": "The height (in pixels) of the infobar to show. If omitted, the default infobar height will be used.",
+-                "optional": true,
+-                "minimum": 0,
+-                "maximum": 72
+-              }
+-            }
+-          },
+-          {
+-            "type": "function",
+-            "name": "callback",
+-            "optional": true,
+-            "parameters": [
+-              {
+-                "name": "window", "$ref": "windows.Window", "description": "Contains details about the window in which the infobar was created."
+-              }
+-            ]
+-          }
+-        ]
+-      }
+-    ]
+-  }
+-]

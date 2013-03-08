@@ -1,0 +1,914 @@
+Index: upstream/src/chrome/app/generated_resources.grd
+===================================================================
+--- upstream.orig/src/chrome/app/generated_resources.grd	2013-03-02 05:15:15.638959726 -0600
++++ upstream/src/chrome/app/generated_resources.grd	2013-03-03 07:12:48.688863669 -0600
+@@ -12105,6 +12105,9 @@
+       <message name="IDS_OPTIONS_ADVANCED_SECTION_TITLE_CONTENT">
+         Web content
+       </message>
++      <message name="IDS_OPTIONS_ADVANCED_SECTION_TITLE_INTEGRATION">
++        Installed Websites
++      </message>
+       <message name="IDS_OPTIONS_ADVANCED_SECTION_TITLE_SECURITY">
+         HTTPS/SSL
+       </message>
+@@ -14898,6 +14901,35 @@
+       </message>
+     </if>
+ 
++<!-- Desktop integration -->
++    <message name="IDS_PROMPT_INTEGRATION_ENABLE_BUTTON_LABEL" desc="The text to be displayed on the checkbox that enables desktop integration.">
++      Notify me when the website I am visiting can run as an application
++    </message>
++    <message name="IDS_DESKTOP_INTEGRATION_NOTE_DESCRIPTION" desc="The text to be displayed below the Exceptions button in the Integrated Websites section.">
++      Websites which have been installed can be removed, like any other application, using Ubuntu Software Center.
++    </message>
++    <message name="IDS_DESKTOP_INTEGRATION_SETTINGS_EXCEPTIONS_BUTTON_LABEL" desc="The text to be displayed on the button that drives integration exceptions.">
++      Exceptions...
++    </message>
++    <message name="IDS_DESKTOP_INTEGRATION_SETTINGS_OVERLAY_TITLE" desc="Title for the desktop integration overlay.">
++      Integration prompt exceptions
++    </message>
++    <message name="IDS_DESKTOP_INTEGRATION_SETTINGS_OVERLAY_DESCRIPTION" desc="Description for the desktop integration overlay.">
++      These websites won't prompt to be installed:
++    </message>
++    <message name="IDS_OPTIONS_SETTINGS_INTEGRATION_WEBSITE_ADD_BUTTON"
++             desc="The label for the add button for adding a integration websites">
++      Add
++    </message>
++    <message name="IDS_OPTIONS_SETTINGS_INTEGRATION_WEBSITE_ADD_TEXT"
++             desc="The description text for the add overlay for adding a integration websites">
++      Website domain name (e.g. www.html5rocks.com)
++    </message>
++    <message name="IDS_OPTIONS_SETTINGS_INTEGRATION_WEBSITE_ADD_TITLE"
++             desc="Title for add overlay for adding a integration websites">
++      Add Integrated Website
++    </message>
++
+     <!-- Manage Profile Dialog -->
+     <message name="IDS_PROFILES_MANAGE_TITLE" desc="Title of the manage profile dialog">
+       Edit user
+Index: upstream/src/chrome/browser/resources/options/browser_options.js
+===================================================================
+--- upstream.orig/src/chrome/browser/resources/options/browser_options.js	2013-03-02 05:16:14.192974398 -0600
++++ upstream/src/chrome/browser/resources/options/browser_options.js	2013-03-03 06:54:45.851992431 -0600
+@@ -355,6 +355,23 @@
+             [String(event.target.options[event.target.selectedIndex].value)]);
+       };
+ 
++      // Desktop integration section
++      if (cr.isLinux && !cr.isChromeOS) {
++        var updateButtonState = function () {
++          $('desktop-integration-button').disabled =
++            ! $('promptIntegrationForAnyWebsite').checked;
++        };
++        $('promptIntegrationForAnyWebsite').onchange = function () {
++          updateButtonState();
++          chrome.send('setDesktopIntegrationAllowed',
++                      [$('promptIntegrationForAnyWebsite').checked]);
++        };
++        updateButtonState();
++        $('desktop-integration-button').onclick = function(event) {
++          OptionsPage.navigateToPage('desktopIntegrationOverlay');
++        };
++      }
++
+       // Languages section.
+       $('language-button').onclick = function(event) {
+         OptionsPage.navigateToPage('languages');
+@@ -1072,6 +1089,24 @@
+       OptionsPage.showPageByName('bluetooth', false);
+     },
+ 
++     /**
++      * Disable the desktop integration settings if needed.
++      * @private
++      */
++    disableDesktopIntegration_: function() {
++      $('desktop-integration-section').style.display = 'none';
++    },
++
++     /**
++      * Disable the desktop integration settings if needed.
++      * @private
++      */
++    setDesktopIntegrationIsAllowed_: function(enabled) {
++      $('promptIntegrationForAnyWebsite').checked = enabled;
++      $('desktop-integration-button').disabled =
++        ! $('promptIntegrationForAnyWebsite').checked;
++    },
++
+     /**
+      * Enables factory reset section.
+      * @private
+@@ -1371,6 +1406,7 @@
+   //Forward public APIs to private implementations.
+   [
+     'addBluetoothDevice',
++    'disableDesktopIntegration',
+     'enableFactoryResetSection',
+     'getCurrentProfile',
+     'getStartStopSyncButton',
+@@ -1384,6 +1420,7 @@
+     'setFontSize',
+     'setGtkThemeButtonEnabled',
+     'setHighContrastCheckboxState',
++    'setDesktopIntegrationIsAllowed',
+     'setMetricsReportingCheckboxState',
+     'setMetricsReportingSettingVisibility',
+     'setPasswordGenerationSettingVisibility',
+Index: upstream/src/chrome/browser/resources/options/desktop_integration_add_website_overlay.html
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ upstream/src/chrome/browser/resources/options/desktop_integration_add_website_overlay.html	2013-03-03 07:03:29.257079750 -0600
+@@ -0,0 +1,16 @@
++<div id="add-desktop-integration-website-overlay-page" class="page" hidden>
++  <div class="close-button"></div>
++  <h1 i18n-content="add_desktop_website_title"></h1>
++
++  <div class="content-area">
++    <span i18n-content="add_desktop_website_input_label"></span>
++    <input id="integration-domain-url-field" type="url" data-type="url"
+++           class="weakrtl favicon-cell hbox stretch">
++  </div>
++
++  <div class="action-area button-strip">
++    <button id="add-integration-website-overlay-cancel-button" i18n-content="cancel">
++    </button>
++    <button id="add-integration-website-overlay-ok-button" i18n-content="ok"></button>
++  </div>
++</div>
+Index: upstream/src/chrome/browser/resources/options/desktop_integration_add_website_overlay.js
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ upstream/src/chrome/browser/resources/options/desktop_integration_add_website_overlay.js	2013-03-03 07:02:28.618790317 -0600
+@@ -0,0 +1,25 @@
++<div id="desktop-integration-area" class="page" hidden>
++
++  <div class="close-button"></div>
++  <h1 i18n-content="desktopIntegrationPage"></h1>
++  
++  <span i18n-content="desktopIntegrationInfoText"></span>
++ 
++  <div class="content-area">
++    <list id="domains-list"></list>
++
++    <div class="desktop-integration-lower-left">
++      <button id="desktop-integration-add-button"
++              i18n-content="add_button"></button>
++    </div>
++  </div>
++
++  <div class="action-area">
++    <div class="button-strip">
++      <button id="desktop-integrations-overlay-confirm"
++          i18n-content="ok">
++      </button>
++    </div>
++  </div>
++
++</div>
+Index: upstream/src/chrome/browser/resources/options/desktop_integration_overlay.css
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ upstream/src/chrome/browser/resources/options/desktop_integration_overlay.css	2013-03-03 07:01:01.551441135 -0600
+@@ -0,0 +1,71 @@
++/* Copyright (c) 2012 The Chromium Authors. All rights reserved.
++ * Use of this source code is governed by a BSD-style license that can be
++ * found in the LICENSE file. */
++
++#desktop-integration-options {
++  min-width: 550px;
++}
++
++#desktop-integration-options list {
++  min-height: 172px;
++}
++
++.desktop-integration-list-item {
++  -webkit-box-flex: 1;
++  -webkit-padding-start: 8px;
++  overflow: hidden;
++  text-overflow: ellipsis;
++}
++
++.desktop-integration-lower-left button {
++  min-width: 70px;
++}
++
++.desktop-integration-lower-left {
++  -webkit-box-flex: 0;
++  -webkit-padding-start: 12px;
++  padding-bottom: 10px;
++}
++
++#desktop-integration-column-headers {
++  -webkit-margin-start: 17px;
++  display: -webkit-box;
++  margin-top: 17px;
++}
++
++#desktop-integration-column-headers > div {
++  font-weight: bold;
++}
++
++#desktop-integration-pattern-column {
++  -webkit-box-flex: 1;
++}
++
++#desktop-integration-behavior-column {
++  width: 145px;
++}
++
++#desktop-integration-area list {
++  margin-bottom: 10px;
++  margin-top: 4px;
++}
++
++#domains-list {
++  -webkit-box-flex: 1;
++  outline: none;
++  padding: 1px 0 0;
++  width: 100%;
++}
++
++#domains-list .domain-name {
++  -webkit-box-flex: 1;
++  overflow: hidden;
++  text-overflow: ellipsis;
++  white-space: nowrap;
++}
++
++#domains-list li {
++  -webkit-padding-start: 12px;
++  padding-bottom: 2px;
++  padding-top: 2px;
++}
+Index: upstream/src/chrome/browser/resources/options/desktop_integration_overlay.html
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ upstream/src/chrome/browser/resources/options/desktop_integration_overlay.html	2013-03-03 06:57:54.391965925 -0600
+@@ -0,0 +1,26 @@
++<div id="desktop-integration-area" class="page" hidden>
++
++  <div class="close-button"></div>
++  <h1 i18n-content="desktopIntegrationPage"></h1>
++  
++  <span i18n-content="desktopIntegrationInfoText"></span>
++ 
++  <div class="content-area">
++    <list id="domains-list"></list>
++
++    <div class="desktop-integration-lower-left">
++      <button id="desktop-integration-add-button"
++              i18n-content="add_button"></button>
++    </div>
++  </div>
++
++  <div class="action-area">
++    <div class="button-strip">
++      <button id="desktop-integrations-overlay-confirm"
++          i18n-content="ok">
++      </button>
++    </div>
++  </div>
++
++</div>
++
+Index: upstream/src/chrome/browser/resources/options/desktop_integration_overlay.js
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ upstream/src/chrome/browser/resources/options/desktop_integration_overlay.js	2013-03-03 07:00:25.746041346 -0600
+@@ -0,0 +1,203 @@
++// Copyright (c) 2012 The Chromium Authors. All rights reserved.
++// Use of this source code is governed by a BSD-style license that can be
++// found in the LICENSE file.
++
++cr.define('options', function() {
++  /** @const */ var ArrayDataModel = cr.ui.ArrayDataModel;
++  /** @const */ var DeletableItemList = options.DeletableItemList;
++  /** @const */ var DeletableItem = options.DeletableItem;
++
++  /**
++   * Creates a new exceptions list item.
++   * @constructor
++   * @extends {options.DeletableItem}
++   */
++  function IntegratedWebsitesListItem(domain) {
++    var el = cr.doc.createElement('div');
++    el.__proto__ = IntegratedWebsitesListItem.prototype;
++    el.domain = domain;
++    el.decorate();
++    return el;
++  }
++
++  IntegratedWebsitesListItem.prototype = {
++    __proto__: DeletableItem.prototype,
++
++    /**
++     * Called when an element is decorated as a list item.
++     */
++    decorate: function() {
++      DeletableItem.prototype.decorate.call(this);
++
++      // The stored label.
++      var label = this.ownerDocument.createElement('div');
++      label.className = 'domain-name';
++      label.textContent = this.domain;
++      this.contentElement.appendChild(label);
++
++      this.deletable = true;
++    },
++  };
++
++  /**
++   * Creates a integrated websites list.
++   * @constructor
++   * @extends {cr.ui.List}
++   */
++  var IntegratedWebsitesList = cr.ui.define('list');
++
++  IntegratedWebsitesList.prototype = {
++    __proto__: DeletableItemList.prototype,
++
++    /**
++     * Called when an element is decorated as a list.
++     */
++    decorate: function() {
++      DeletableItemList.prototype.decorate.call(this);
++      this.reset();
++    },
++
++    /** @inheritDoc */
++    createItem: function(domain) {
++      return new IntegratedWebsitesListItem(domain);
++    },
++
++    /*
++     * Adds a website domain name to the list of allowed integrated websites.
++     * @param {string} domain domain name of the website to add.
++     */
++    addWebsite: function(domain) {
++      if (!domain || this.dataModel.indexOf(domain) >= 0) {
++        return;
++      }
++      this.dataModel.push(domain);
++      this.redraw();
++      chrome.send('addIntegrationSite', [domain]);
++    },
++
++    /**
++     * Forces a revailidation of the list content. Content added while the list
++     * is hidden is not properly rendered when the list becomes visible. In
++     * addition, deleting a single item from the list results in a stale cache
++     * requiring an invalidation.
++     */
++    refresh: function() {
++      // TODO(kevers): Investigate if the root source of the problems can be
++      // fixed in cr.ui.list.
++      this.invalidate();
++      this.redraw();
++    },
++
++    /**
++     * Sets the integrated websites in the js model.
++     * @param {Object} entries A list of dictionaries of values, each dictionary
++     *     represents an exception.
++     */
++    setIntegratedWebsites: function(entries) {
++      var integratedWebsites = null;
++      try {
++        integratedWebsites = JSON.parse(entries);
++      } catch(e) {
++        console.log("Error while parsing integrated websites json: " + entries);
++        return;
++      }
++      // TODO hightlight domains differently based on permission
++      var domains = [];
++      domains = domains.concat(integratedWebsites['allowed']);
++      domains = domains.concat(integratedWebsites['dontask']);
++      this.dataModel = new ArrayDataModel(domains);
++      this.refresh();
++    },
++
++    /**
++     * Removes all integration scripts from the js model.
++     */
++    reset: function() {
++      this.dataModel = new ArrayDataModel([]);
++    },
++
++    /** @inheritDoc */
++    deleteItemAtIndex: function(index) {
++      if (index >= 0) {
++        var args = [this.dataModel.item(index)];
++        chrome.send('removeIntegrationSite', args);
++        this.dataModel.splice(index, 1);
++      }
++    },
++
++    /**
++     * The length of the list.
++     */
++    get length() {
++      return null != this.dataModel ? this.dataModel.length : 0;
++    },
++  };
++
++  var OptionsPage = options.OptionsPage;
++
++  /**
++   * DesktopIntegrationOverlay class
++   * Encapsulated handling of the 'Desktop integration' page.
++   * @class
++   */
++  function DesktopIntegrationOverlay() {
++    OptionsPage.call(this, 'desktopIntegrationOverlay',
++                     loadTimeData.getString('desktopIntegrationPage'),
++                     'desktop-integration-area');
++  }
++
++  cr.addSingletonGetter(DesktopIntegrationOverlay);
++
++  DesktopIntegrationOverlay.prototype = {
++    __proto__: OptionsPage.prototype,
++
++    /**
++     * Initialize the page.
++     */
++    initializePage: function() {
++      OptionsPage.prototype.initializePage.call(this);
++
++      var integrationList = $('domains-list');
++      IntegratedWebsitesList.decorate(integrationList);
++      $('desktop-integrations-overlay-confirm').onclick =
++          OptionsPage.closeOverlay.bind(OptionsPage);
++
++      // Set up add button.
++      $('desktop-integration-add-button').onclick = function(e) {
++        OptionsPage.navigateToPage('addDesktopIntegrationWebsite');
++      };
++
++      // Listen to add website dialog ok button.
++      var addWebsiteOkButton = $('add-integration-website-overlay-ok-button');
++      addWebsiteOkButton.addEventListener('click',
++          this.handleAddWebsiteOkButtonClick_.bind(this));
++    },
++
++    handleAddWebsiteOkButtonClick_: function () {
++      var website = $('integration-domain-url-field').value;
++      var integratedDomain = website.replace(/\s*/g, '')
++      console.log (integratedDomain);
++      $('domains-list').addWebsite(integratedDomain);
++      OptionsPage.closeOverlay();
++    },
++
++    /**
++     * Called by the options page when this page has been shown.
++     */
++    didShowPage: function() {
++      chrome.send('updateIntegratedWebsitesList');
++    },
++  };
++
++  DesktopIntegrationOverlay.setIntegratedWebsites = function(entries) {
++    $('domains-list').setIntegratedWebsites(entries);
++  };
++
++  // Export
++  return {
++    IntegratedWebsitesListItem: IntegratedWebsitesListItem,
++    IntegratedWebsitesList: IntegratedWebsitesList,
++    DesktopIntegrationOverlay: DesktopIntegrationOverlay
++  };
++});
++
+Index: upstream/src/chrome/browser/resources/options/options.html
+===================================================================
+--- upstream.orig/src/chrome/browser/resources/options/options.html	2013-03-02 05:16:14.120971921 -0600
++++ upstream/src/chrome/browser/resources/options/options.html	2013-03-03 06:45:37.638067954 -0600
+@@ -20,6 +20,7 @@
+ <link rel="stylesheet" href="clear_browser_data_overlay.css">
+ <link rel="stylesheet" href="content_settings.css">
+ <link rel="stylesheet" href="cookies_view.css">
++<link rel="stylesheet" href="desktop_integration_overlay.css">
+ <link rel="stylesheet" href="do_not_track_confirm_overlay.css">
+ <link rel="stylesheet" href="managed_user_set_passphrase.css">
+ <link rel="stylesheet" href="managed_user_settings.css">
+@@ -102,6 +103,7 @@
+   <include src="font_settings.html">
+   <include src="home_page_overlay.html">
+   <include src="import_data_overlay.html">
++  <include src="desktop_integration_overlay.html">
+   <include src="instant_confirm_overlay.html">
+   <include src="language_options.html">
+   <include src="manage_profile_overlay.html">
+@@ -131,6 +133,7 @@
+   <include src="autofill_edit_creditcard_overlay.html">
+   <include src="content_settings_exceptions_area.html">
+   <include src="cookies_view.html">
++  <include src="desktop_integration_add_website_overlay.html">
+   <include src="handler_options.html">
+   <include src="language_add_language_overlay.html">
+   <include src="managed_user_set_passphrase.html">
+Index: upstream/src/chrome/browser/resources/options/options.js
+===================================================================
+--- upstream.orig/src/chrome/browser/resources/options/options.js	2013-03-02 05:16:14.216975224 -0600
++++ upstream/src/chrome/browser/resources/options/options.js	2013-03-03 06:56:01.507250737 -0600
+@@ -14,6 +14,8 @@
+     options.contentSettings.ContentSettingsExceptionsArea;
+ var ContentSettings = options.ContentSettings;
+ var CookiesView = options.CookiesView;
++var DesktopIntegrationOverlay = options.DesktopIntegrationOverlay;
++var AddDesktopIntegrationWebsiteOverlay = options.AddDesktopIntegrationWebsiteOverlay;
+ var CreateProfileOverlay = options.CreateProfileOverlay;
+ var EditDictionaryOverlay = cr.IsMac ? null : options.EditDictionaryOverlay;
+ var FactoryResetOverlay = options.FactoryResetOverlay;
+@@ -129,6 +131,13 @@
+   OptionsPage.registerOverlay(FontSettings.getInstance(),
+                               BrowserOptions.getInstance(),
+                               [$('fontSettingsCustomizeFontsButton')]);
++  if (cr.isLinux && !cr.isChromeos) {
++    OptionsPage.registerOverlay(AddDesktopIntegrationWebsiteOverlay.getInstance(),
++                                DesktopIntegrationOverlay.getInstance());
++    OptionsPage.registerOverlay(DesktopIntegrationOverlay.getInstance(),
++                                BrowserOptions.getInstance(),
++                                [$('desktop-integration-button')]);
++  }
+   if (HandlerOptions && $('manage-handlers-button')) {
+     OptionsPage.registerOverlay(HandlerOptions.getInstance(),
+                                 ContentSettings.getInstance(),
+Index: upstream/src/chrome/browser/resources/options/options_bundle.js
+===================================================================
+--- upstream.orig/src/chrome/browser/resources/options/options_bundle.js	2013-03-02 05:16:14.744993390 -0600
++++ upstream/src/chrome/browser/resources/options/options_bundle.js	2013-03-03 06:46:39.612051992 -0600
+@@ -74,6 +74,8 @@
+ <include src="content_settings_ui.js"></include>
+ <include src="cookies_list.js"></include>
+ <include src="cookies_view.js"></include>
++<include src="desktop_integration_add_website_overlay.js"></include>
++<include src="desktop_integration_overlay.js"></include>
+ <include src="factory_reset_overlay.js"></include>
+ <include src="managed_user_settings.js"></include>
+ <include src="managed_user_set_passphrase.js"></include>
+Index: upstream/src/chrome/browser/ui/webui/options/desktop_integration_settings_handler.cc
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ upstream/src/chrome/browser/ui/webui/options/desktop_integration_settings_handler.cc	2013-03-03 07:05:06.736691648 -0600
+@@ -0,0 +1,262 @@
++// Copyright (c) 2012 The Chromium Authors. All rights reserved.
++// Use of this source code is governed by a BSD-style license that can be
++// found in the LICENSE file.
++
++#include "chrome/browser/ui/webui/options2/desktop_integration_settings_handler.h"
++
++#include <glib.h>
++#include <dlfcn.h>
++#include <vector>
++
++#include "base/bind.h"
++#include "base/bind_helpers.h"
++#include "base/logging.h"
++#include "base/string16.h"
++#include "base/string_number_conversions.h"
++#include "base/utf_string_conversions.h"
++#include "base/values.h"
++#include "chrome/browser/ui/webui/web_ui_util.h"
++#include "chrome/common/url_constants.h"
++#include "content/public/browser/web_ui.h"
++#include "grit/generated_resources.h"
++#include "grit/webkit_resources.h"
++#include "ui/base/l10n/l10n_util.h"
++
++// Not a constant but preprocessor definition for easy concatenation.
++#define kLibunityWebappsEntryPointLibName "libunity-webapps.so.0"
++
++namespace options2 {
++
++// TODO: -> extract to function
++DesktopIntegrationSettingsHandler::DesktopIntegrationSettingsHandler()
++    : lib_unity_webapps_handle_(NULL),
++      get_all_func_handle_(NULL),
++      remove_from_permissions_func_handle_(NULL),
++      add_allowed_domain_func_handle_(NULL),
++      is_integration_allowed_func_handle_(NULL),
++      set_integration_allowed_func_handle_(NULL) {
++}
++
++DesktopIntegrationSettingsHandler::~DesktopIntegrationSettingsHandler() {
++  if (lib_unity_webapps_handle_) {
++    dlclose (lib_unity_webapps_handle_);
++    lib_unity_webapps_handle_ = NULL;
++
++    remove_from_permissions_func_handle_ = NULL;
++    get_all_func_handle_ = NULL;
++    add_allowed_domain_func_handle_ = NULL;
++    is_integration_allowed_func_handle_ = NULL;
++    set_integration_allowed_func_handle_ = NULL;
++  }
++}
++
++/////////////////////////////////////////////////////////////////////////////
++// OptionsPageUIHandler implementation:
++void DesktopIntegrationSettingsHandler::GetLocalizedValues(
++    DictionaryValue* localized_strings) {
++  DCHECK(localized_strings);
++
++  static OptionsStringResource resources[] = {
++    { "desktopIntegrationInfoText",
++      IDS_DESKTOP_INTEGRATION_SETTINGS_OVERLAY_DESCRIPTION }
++  };
++
++  localized_strings->SetString("add_button",
++      l10n_util::GetStringUTF16(IDS_OPTIONS_SETTINGS_INTEGRATION_WEBSITE_ADD_BUTTON));
++  localized_strings->SetString("add_desktop_website_input_label",
++      l10n_util::GetStringUTF16(IDS_OPTIONS_SETTINGS_INTEGRATION_WEBSITE_ADD_TEXT));
++  localized_strings->SetString("add_desktop_website_title",
++      l10n_util::GetStringUTF16(IDS_OPTIONS_SETTINGS_INTEGRATION_WEBSITE_ADD_TITLE));
++
++  RegisterStrings(localized_strings, resources, arraysize(resources));
++  RegisterTitle(localized_strings, "desktopIntegrationPage",
++                IDS_DESKTOP_INTEGRATION_SETTINGS_OVERLAY_TITLE);
++}
++
++void DesktopIntegrationSettingsHandler::InitializeHandler() {
++  if (!IsUnityWebappsInitialized()) {
++    LoadUnityWebappsEntryPoint();
++  }
++}
++
++void DesktopIntegrationSettingsHandler::InitializePage() {
++  DCHECK(IsUnityWebappsInitialized());
++  LoadIntegratedWebsitesData();
++}
++
++void DesktopIntegrationSettingsHandler::RegisterMessages() {
++  web_ui()->RegisterMessageCallback(
++      std::string("addIntegrationSite"),
++      base::Bind(&DesktopIntegrationSettingsHandler::AddIntegrationSite,
++                 base::Unretained(this)));
++  web_ui()->RegisterMessageCallback(
++      std::string("setDesktopIntegrationAllowed"),
++      base::Bind(&DesktopIntegrationSettingsHandler::SetDesktopIntegrationAllowed,
++                 base::Unretained(this)));
++  web_ui()->RegisterMessageCallback(
++      std::string("removeIntegrationSite"),
++      base::Bind(&DesktopIntegrationSettingsHandler::RemoveIntegrationSite,
++                 base::Unretained(this)));
++  web_ui()->RegisterMessageCallback(
++      std::string("updateIntegratedWebsitesList"),
++      base::Bind(&DesktopIntegrationSettingsHandler::UpdateIntegratedWebsitesList,
++                 base::Unretained(this)));
++}
++
++void DesktopIntegrationSettingsHandler::LoadUnityWebappsEntryPoint() {
++  DCHECK(!IsUnityWebappsInitialized());
++
++  // TODO run on FILE thread
++  static const char* const search_paths[] = {
++    kLibunityWebappsEntryPointLibName,
++    "/usr/local/lib/" kLibunityWebappsEntryPointLibName
++    , "/usr/lib/" kLibunityWebappsEntryPointLibName
++  };
++
++  void * handle = NULL;
++  for (size_t i = 0; i < sizeof(search_paths)/sizeof(search_paths[0]); ++i) {
++    DCHECK(handle == NULL);
++    // TODO validate path?
++    handle = dlopen (search_paths[i], RTLD_LAZY|RTLD_GLOBAL);
++    if (handle) {
++      LOG(INFO) << "Found libunitywebapps entry point:" << search_paths[i];
++      break;
++    }
++  }
++  if (!handle) {
++    LOG(INFO) << "Could not load Unity Webapps entry point library";
++    return;
++  }
++
++  void * get_all_handle =
++    dlsym (handle, "unity_webapps_permissions_get_all_domains");
++  void * remove_from_permissions_handle =
++    dlsym (handle, "unity_webapps_permissions_remove_domain_from_permissions");
++  void * add_allowed_domain_handle =
++    dlsym (handle, "unity_webapps_permissions_allow_domain");
++  void * is_integration_allowed_handle =
++    dlsym (handle, "unity_webapps_permissions_is_integration_allowed");
++  void * set_integration_allowed_handle =
++    dlsym (handle, "unity_webapps_permissions_set_integration_allowed");
++
++  if (!get_all_handle ||
++      !remove_from_permissions_handle ||
++      !add_allowed_domain_handle ||
++      !is_integration_allowed_handle ||
++      !set_integration_allowed_handle) {
++    LOG(WARNING) << "Could not load Unity Webapps entry point functions";
++    dlclose(handle);
++    return;
++  }
++
++  // TODO(FIXME): cleanup that mess
++  lib_unity_webapps_handle_ = handle;
++  get_all_func_handle_ = get_all_handle;
++  remove_from_permissions_func_handle_ = remove_from_permissions_handle;
++  add_allowed_domain_func_handle_ = add_allowed_domain_handle;
++  is_integration_allowed_func_handle_ = is_integration_allowed_handle;
++  set_integration_allowed_func_handle_ = set_integration_allowed_handle;
++}
++
++bool DesktopIntegrationSettingsHandler::IsUnityWebappsInitialized() const {
++  return NULL != lib_unity_webapps_handle_
++    && NULL != get_all_func_handle_
++    && NULL != remove_from_permissions_func_handle_
++    && NULL != add_allowed_domain_func_handle_
++    && NULL != is_integration_allowed_func_handle_
++    && NULL != set_integration_allowed_func_handle_;
++}
++
++void DesktopIntegrationSettingsHandler::LoadIntegratedWebsitesData() {
++  if (!IsUnityWebappsInitialized()) {
++    web_ui()->CallJavascriptFunction(
++        "BrowserOptions.disableDesktopIntegration");
++    LOG(INFO) << "Disabling Desktop Integration options";
++    return;
++  }
++
++  typedef gboolean (* IsIntegrationAllowedFunc) (void);
++  gboolean isallowed =
++    ((IsIntegrationAllowedFunc) is_integration_allowed_func_handle_) ();
++  web_ui()->CallJavascriptFunction(
++       "BrowserOptions.setDesktopIntegrationIsAllowed",
++       base::FundamentalValue(isallowed));
++}
++
++void DesktopIntegrationSettingsHandler::UpdateIntegratedWebsitesList(
++    const base::ListValue* args) {
++  DCHECK(IsUnityWebappsInitialized());
++
++  // TODO move elsewhere
++  typedef gchar* (* GetAllDomainsFunc) (void);
++
++  gchar* all_domains = ((GetAllDomainsFunc) get_all_func_handle_) ();
++  if (all_domains) { 
++    web_ui()->CallJavascriptFunction(
++        "DesktopIntegrationOverlay.setIntegratedWebsites",
++        StringValue(all_domains));
++  }
++}
++
++void DesktopIntegrationSettingsHandler::SetDesktopIntegrationAllowed(
++    const base::ListValue* args) {
++  DCHECK(IsUnityWebappsInitialized());
++
++  // TODO move elsewhere
++  typedef void (* SetDesktopIntegrationAllowedFunc) (gboolean);
++
++  bool is_allowed;
++  if (!args->GetBoolean(0, &is_allowed)) {
++    NOTREACHED();
++    return;
++  }
++
++  LOG(INFO) << "Setting desktop integration:" << is_allowed;
++
++  ((SetDesktopIntegrationAllowedFunc) set_integration_allowed_func_handle_) (
++      is_allowed ? TRUE : FALSE);
++}
++
++void DesktopIntegrationSettingsHandler::AddIntegrationSite(
++    const base::ListValue* args) {
++  DCHECK(IsUnityWebappsInitialized());
++
++  // TODO move elsewhere
++  typedef void (* AddDomainFromPermissionsFunc) (gchar *);
++
++  std::string domain;
++  if (!args->GetString(0, &domain)) {
++    NOTREACHED();
++    return;
++  }
++
++  LOG(INFO) << "Adding domain:" << domain << " to the list of websites allowed";
++
++  ((AddDomainFromPermissionsFunc) add_allowed_domain_func_handle_) (
++      const_cast<gchar *>(domain.c_str()));
++
++  LoadIntegratedWebsitesData ();
++}
++
++void DesktopIntegrationSettingsHandler::RemoveIntegrationSite(
++    const base::ListValue* args) {
++  DCHECK(IsUnityWebappsInitialized());
++
++  // TODO move elsewhere
++  typedef void (* RemoveDomainFromPermissionsFunc) (gchar *);
++
++  std::string domain;
++  if (!args->GetString(0, &domain)) {
++    NOTREACHED();
++    return;
++  }
++
++  LOG(INFO) << "Removing domain:" << domain << " from the list of websites not prompting integration";
++
++  ((RemoveDomainFromPermissionsFunc) remove_from_permissions_func_handle_) (
++      const_cast<gchar *>(domain.c_str()));
++
++  LoadIntegratedWebsitesData ();
++}
++
++}  // namespace options2
+Index: upstream/src/chrome/browser/ui/webui/options/desktop_integration_settings_handler.h
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ upstream/src/chrome/browser/ui/webui/options/desktop_integration_settings_handler.h	2013-03-03 07:05:56.750514167 -0600
+@@ -0,0 +1,76 @@
++// Copyright (c) 2012 The Chromium Authors. All rights reserved.
++// Use of this source code is governed by a BSD-style license that can be
++// found in the LICENSE file.
++
++#ifndef CHROME_BROWSER_UI_WEBUI_OPTIONS2_DESKTOP_INTEGRATION_SETTINGS_HANDLER2_H_
++#define CHROME_BROWSER_UI_WEBUI_OPTIONS2_DESKTOP_INTEGRATION_SETTINGS_HANDLER2_H_
++
++#include <string>
++
++#include "base/compiler_specific.h"
++#include "chrome/browser/ui/webui/options2/options_ui.h"
++
++namespace base {
++class DictionaryValue;
++class ListValue;
++}
++
++namespace options2 {
++
++class DesktopIntegrationSettingsHandler : public OptionsPageUIHandler {
++ public:
++  DesktopIntegrationSettingsHandler();
++  virtual ~DesktopIntegrationSettingsHandler();
++
++  // OptionsPageUIHandler implementation.
++  virtual void GetLocalizedValues(
++      base::DictionaryValue* localized_strings) OVERRIDE;
++  virtual void InitializeHandler() OVERRIDE;
++  virtual void InitializePage() OVERRIDE;
++  virtual void RegisterMessages() OVERRIDE;
++
++ private:
++
++  // Loads the data associated with the currently integrated websites.
++  void LoadIntegratedWebsitesData();
++
++  // Initializes the list of website domain names that are currently
++  // either allowed or 'dontask' and send it to the overlay.
++  void LoadUnityWebappsEntryPoint();
++
++  // Removes an website from the list of integrated websites that won't prompt
++  // from integration.
++  // |args| - A string, the domain name of the website to remove.
++  void RemoveIntegrationSite(const base::ListValue* args);
++
++  // Adds an website from the list of integrated websites that won't prompt
++  // from integration. The website is being added to the list of 'allowed' sites.
++  // |args| - A string, the domain name of the website to add.
++  void AddIntegrationSite(const base::ListValue* args);
++
++  // Updates the integration allowed flag.
++  // |args| - A boolean flag indicating if integration should be allowed
++  void SetDesktopIntegrationAllowed(const base::ListValue* args);
++
++  // Updates the list of integrated websites.
++  void UpdateIntegratedWebsitesList(const base::ListValue* args);
++
++  // Predicate informing if we have been able to initialize the connection
++  // with the unity-webapps library (entry point for website integration
++  // permissions).
++  bool IsUnityWebappsInitialized() const;
++
++  // 
++  void * lib_unity_webapps_handle_;
++  void * get_all_func_handle_;
++  void * remove_from_permissions_func_handle_;
++  void * add_allowed_domain_func_handle_;
++  void * is_integration_allowed_func_handle_;
++  void * set_integration_allowed_func_handle_;
++
++  DISALLOW_COPY_AND_ASSIGN(DesktopIntegrationSettingsHandler);
++};
++
++}  // namespace options2
++
++#endif  // CHROME_BROWSER_UI_WEBUI_OPTIONS2_DESKTOP_INTEGRATION_SETTINGS_HANDLER2_H_
+Index: upstream/src/chrome/chrome_browser_ui.gypi
+===================================================================
+--- upstream.orig/src/chrome/chrome_browser_ui.gypi	2013-03-02 05:17:33.835714670 -0600
++++ upstream/src/chrome/chrome_browser_ui.gypi	2013-03-03 06:43:00.248774784 -0600
+@@ -2057,6 +2057,8 @@
+         'browser/ui/webui/options/cookies_view_handler.h',
+         'browser/ui/webui/options/core_options_handler.cc',
+         'browser/ui/webui/options/core_options_handler.h',
++        'browser/ui/webui/options2/desktop_integration_settings_handler.h',
++        'browser/ui/webui/options/desktop_integration_settings_handler.cc',
+         'browser/ui/webui/options/font_settings_handler.cc',
+         'browser/ui/webui/options/font_settings_handler.h',
+         'browser/ui/webui/options/font_settings_utils.h',

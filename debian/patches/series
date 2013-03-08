@@ -1,0 +1,23 @@
+translations/build.patch
+translations/translations-chromium_strings.patch
+translations/translations-generated_resources.patch
+translations/translations-inspector_strings.patch
+translations/translations-policy_templates.patch
+translations/translations-ui_strings.patch
+translations/translations-webkit_strings.patch
+# system_v8.patch
+#chromium_useragent.patch
+#disable_dlog_and_dcheck_in_release_builds.patch
+#webkit_rev_parser.patch
+#dlopen_sonamed_gl.patch
+#arm.patch
+#grd_parse_fix.patch
+#1-infobars.patch
+#2-get-domain-tld.patch
+#3-chrome-xid.patch
+#4-chromeless-window-launch-option.patch
+5-desktop-integration-settings.patch
+6-passwordless-install-support.patch
+#fix-1034541.patch
+#7-plugin-status.patch
+locale.patch

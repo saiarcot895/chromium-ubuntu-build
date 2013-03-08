@@ -1,0 +1,255 @@
+Index: src/chrome/browser/extensions/api/tld/tld_api.cc
+===================================================================
+--- src/chrome/browser/extensions/api/tld/tld_api.cc	(revision 0)
++++ src/chrome/browser/extensions/api/tld/tld_api.cc	(revision 0)
+@@ -0,0 +1,88 @@
++// Copyright (c) 2012 The Chromium Authors. All rights reserved.
++// Use of this source code is governed by a BSD-style license that can be
++// found in the LICENSE file.
++
++#include "chrome/browser/extensions/api/tld/tld_api.h"
++
++#include "base/time.h"
++#include "base/values.h"
++#include "chrome/browser/extensions/extension_service.h"
++#include "chrome/common/extensions/extension.h"
++#include "chrome/common/extensions/extension_constants.h"
++#include "googleurl/src/gurl.h"
++#include "googleurl/src/url_parse.h"
++#include "googleurl/src/url_util.h"
++#include "net/base/registry_controlled_domains/registry_controlled_domain.h"
++
++namespace {
++const char kInvalidUriError[] = "Invalid or unsupported URI";
++
++bool IsValidUrl(const GURL& url) {
++  return url.is_valid() && url.IsStandard() &&
++     !url.SchemeIsFile() && !url.SchemeIsFileSystem();
++}
++}  // namespace
++
++bool TldGetBaseDomainFunction::RunImpl() {
++  EXTENSION_FUNCTION_VALIDATE(args_->GetSize() == 1);
++
++  std::string uri;
++  EXTENSION_FUNCTION_VALIDATE(args_->GetString(0, &uri));
++
++  // We might delegate all the url validity check to GetDomainAndRegistry
++  // but try to be more explicit about the errors in some cases.
++  const GURL url(uri);
++  if (!IsValidUrl(url)) {
++    error_ = kInvalidUriError;
++    return false;
++  }
++
++  std::string tld =
++      net::RegistryControlledDomainService::GetDomainAndRegistry(url);
++
++  SetResult(Value::CreateStringValue(tld));
++
++  return true;
++}
++
++
++bool TldGetPublicSuffix::RunImpl() {
++  EXTENSION_FUNCTION_VALIDATE(args_->GetSize() == 2);
++
++  std::string uri;
++  EXTENSION_FUNCTION_VALIDATE(!args_->GetString(0, &uri));
++
++  // We might delegate all the url validity check to GetDomainAndRegistry
++  // or GetRegistryLength but try to be more explicit about the errors in
++  // some cases.
++  const GURL url(uri);
++  if (!IsValidUrl(url)) {
++    error_ = kInvalidUriError;
++    return false;
++  }
++
++  std::string suffix;
++
++  size_t reg_len =
++      net::RegistryControlledDomainService::GetRegistryLength(url, true);
++
++  if (std::string::npos == reg_len || 0 == reg_len)
++    return false;
++
++  std::string tld =
++      net::RegistryControlledDomainService::GetDomainAndRegistry(url);
++
++  if (!tld.empty () && tld.size() > reg_len)
++    suffix = tld.substr(tld.size() - reg_len - 1, reg_len);
++
++  // An empty suffix is a acceptable value since the URL might be
++  // "properly formed" but might fall into cases such as:
++  // * http://co.uk/file.html
++  // * http://<IP address>/file.html
++  // which are described by GetRegistryLength to return 0 (i.e. a valid value).
++  SetResult(Value::CreateStringValue(suffix));
++
++  return true;
++}
++
++
+Index: src/chrome/browser/extensions/api/tld/tld_api.h
+===================================================================
+--- src/chrome/browser/extensions/api/tld/tld_api.h	(revision 0)
++++ src/chrome/browser/extensions/api/tld/tld_api.h	(revision 0)
+@@ -0,0 +1,26 @@
++// Copyright (c) 2012 The Chromium Authors. All rights reserved.
++// Use of this source code is governed by a BSD-style license that can be
++// found in the LICENSE file.
++
++#ifndef CHROME_BROWSER_EXTENSIONS_API_TLD_TLD_API_H_
++#define CHROME_BROWSER_EXTENSIONS_API_TLD_TLD_API_H_
++#pragma once
++
++#include "chrome/browser/extensions/extension_function.h"
++
++class TldGetBaseDomainFunction : public SyncExtensionFunction {
++ public:
++  virtual ~TldGetBaseDomainFunction() {}
++  virtual bool RunImpl() OVERRIDE;
++  DECLARE_EXTENSION_FUNCTION_NAME("tld.getBaseDomain");
++};
++
++class TldGetPublicSuffix : public SyncExtensionFunction {
++ public:
++  virtual ~TldGetPublicSuffix() {}
++  virtual bool RunImpl() OVERRIDE;
++  DECLARE_EXTENSION_FUNCTION_NAME("tld.getPublicSuffix");
++};
++
++#endif  // CHROME_BROWSER_EXTENSIONS_API_TLD_TLD_API_H_
++
+Index: src/chrome/chrome_browser_extensions.gypi
+===================================================================
+--- src/chrome/chrome_browser_extensions.gypi	(revision 158531)
++++ src/chrome/chrome_browser_extensions.gypi	(working copy)
+@@ -215,6 +215,8 @@
+         'browser/extensions/api/terminal/terminal_extension_helper.h',
+         'browser/extensions/api/terminal/terminal_private_api.cc',
+         'browser/extensions/api/terminal/terminal_private_api.h',
++        'browser/extensions/api/tld/tld_api.cc',
++        'browser/extensions/api/tld/tld_api.h',
+         'browser/extensions/api/usb/usb_api.cc',
+         'browser/extensions/api/usb/usb_api.h',
+         'browser/extensions/api/usb/usb_device_resource.cc',
+Index: src/chrome/common/extensions_api_resources.grd
+===================================================================
+--- src/chrome/common/extensions_api_resources.grd	(revision 158531)
++++ src/chrome/common/extensions_api_resources.grd	(working copy)
+@@ -62,6 +62,7 @@
+       <include name="IDR_EXTENSION_API_JSON_TABS" file="extensions\api\tabs.json" type="BINDATA" />
+       <include name="IDR_EXTENSION_API_JSON_TERMINALPRIVATE" file="extensions\api\terminal_private.json" type="BINDATA" />
+       <include name="IDR_EXTENSION_API_JSON_TEST" file="extensions\api\test.json" type="BINDATA" />
++      <include name="IDR_EXTENSION_API_JSON_TLD" file="extensions\api\tld.json" type="BINDATA" />
+       <include name="IDR_EXTENSION_API_JSON_TOPSITES" file="extensions\api\top_sites.json" type="BINDATA" />
+       <include name="IDR_EXTENSION_API_JSON_TTS" file="extensions\api\tts.json" type="BINDATA" />
+       <include name="IDR_EXTENSION_API_JSON_TTSENGINE" file="extensions\api\tts_engine.json" type="BINDATA" />
+Index: src/chrome/common/extensions/permissions/permission_set.cc
+===================================================================
+--- src/chrome/common/extensions/permissions/permission_set.cc	(revision 158531)
++++ src/chrome/common/extensions/permissions/permission_set.cc	(working copy)
+@@ -48,6 +49,7 @@
+   "runtime",
+   "scriptBadge",
+   "test",
++  "tld",
+   "types"
+ };
+ const size_t kNumNonPermissionModuleNames =
+Index: src/chrome/common/extensions/api/extension_api.cc
+===================================================================
+--- src/chrome/common/extensions/api/extension_api.cc	(revision 158531)
++++ src/chrome/common/extensions/api/extension_api.cc	(working copy)
+@@ -448,6 +448,8 @@
+       IDR_EXTENSION_API_JSON_TERMINALPRIVATE));
+   RegisterSchema("test", ReadFromResource(
+       IDR_EXTENSION_API_JSON_TEST));
++  RegisterSchema("tld", ReadFromResource(
++      IDR_EXTENSION_API_JSON_TLD));
+   RegisterSchema("topSites", ReadFromResource(
+       IDR_EXTENSION_API_JSON_TOPSITES));
+   RegisterSchema("ttsEngine", ReadFromResource(
+Index: src/chrome/common/extensions/api/tld.json
+===================================================================
+--- src/chrome/common/extensions/api/tld.json	(revision 0)
++++ src/chrome/common/extensions/api/tld.json	(revision 0)
+@@ -0,0 +1,53 @@
++// Copyright (c) 2012 The Chromium Authors. All rights reserved.
++// Use of this source code is governed by a BSD-style license that can be
++// found in the LICENSE file.
++
++[
++  {
++    "namespace": "tld",
++    "nodoc": "true",
++    "types": [],
++    "functions": [
++      {
++        "name": "getBaseDomain",
++        "type": "function",
++        "description": "Returns the base domain of a URI; that is, the public suffix with a given number of additional domain name parts.",
++        "nodoc": "true",
++        "parameters": [
++          {
++            "name": "uri",
++            "type": "string"
++          },
++          {
++            "type": "function",
++            "name": "callback",
++            "parameters": [
++              {"name": "domain", "type": "string", "description": "The base domain name of the associated URI if any"}
++            ]
++          }
++        ]
++      }
++      ,
++      {
++        "name": "getPublicSuffix",
++        "type": "function",
++        "description": "Returns the public suffix of the domain part of a URI.",
++        "nodoc": "true",
++        "parameters": [
++          {
++            "name": "uri",
++            "type": "string"
++          },
++          {
++            "type": "function",
++            "name": "callback",
++            "parameters": [
++              {"name": "suffix", "type": "string", "description": "The public suffix of the associated URI if any"}
++            ]
++          }
++        ]
++      }
++    ]
++  }
++
++]
+Index: src/chrome/browser/extensions/extension_function_registry.cc
+===================================================================
+--- src/chrome/browser/extensions/extension_function_registry.cc	(revision 158531)
++++ src/chrome/browser/extensions/extension_function_registry.cc	(working copy)
+@@ -35,6 +35,7 @@
+ #include "chrome/browser/extensions/api/tabs/execute_code_in_tab_function.h"
+ #include "chrome/browser/extensions/api/tabs/tabs.h"
+ #include "chrome/browser/extensions/api/test/test_api.h"
++#include "chrome/browser/extensions/api/tld/tld_api.h"
+ #include "chrome/browser/extensions/api/web_navigation/web_navigation_api.h"
+ #include "chrome/browser/extensions/api/web_request/web_request_api.h"
+ #include "chrome/browser/extensions/api/web_socket_proxy_private/web_socket_proxy_private_api.h"
+@@ -171,6 +172,10 @@
+   RegisterFunction<MoveBookmarkFunction>();
+   RegisterFunction<UpdateBookmarkFunction>();
+ 
++  // TLD.
++  RegisterFunction<TldGetBaseDomainFunction>();
++  RegisterFunction<TldGetPublicSuffix>();
++
+   // Infobars.
+   RegisterFunction<ShowInfoBarFunction>();
+ 

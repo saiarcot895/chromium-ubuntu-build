@@ -1,0 +1,38 @@
+Index: src/chrome/browser/ui/gtk/browser_window_gtk.cc
+===================================================================
+--- src/chrome/browser/ui/gtk/browser_window_gtk.cc	(revision 158531)
++++ src/chrome/browser/ui/gtk/browser_window_gtk.cc	(working copy)
+@@ -152,6 +152,12 @@
+ // gtk_window_get_position() after the last GTK configure-event signal.
+ const int kDebounceTimeoutMilliseconds = 100;
+ 
++// A window property will be set to reflect the session_id of the
++//  associated browser window. The session_id is unique among browsers
++//  for a given session and actually corresponds to the window.id found
++//  in the extensions api.
++char kSessionIdPropertyName[] = "CHROMIUM_LINUX_SESSION_ID_PROPERTY";
++
+ // Ubuntu patches their verrsion of GTK+ so that there is always a
+ // gripper in the bottom right corner of the window. We dynamically
+ // look up this symbol because it's a non-standard Ubuntu extension to
+@@ -424,6 +433,20 @@
+     InitWidgets();
+   }
+ 
++  // Add a specific property to inform an interested third party
++  //  of our session id. Interesting in the context of an extension
++  //  where the session id corresponds to the window.id and is a way
++  //  to uniquely identify a window based on that (from within a given
++  //  extension).
++  gulong session_id = browser_->session_id().id();
++  gdk_property_change(GTK_WIDGET(window_)->window,
++		      gdk_atom_intern(kSessionIdPropertyName, FALSE),
++		      gdk_atom_intern("CARDINAL", FALSE),
++		      32,
++		      GDK_PROP_MODE_REPLACE,
++		      (guchar *)&session_id,
++		      1);
++
+   ConnectAccelerators();
+ 
+   // Set the initial background color of widgets.

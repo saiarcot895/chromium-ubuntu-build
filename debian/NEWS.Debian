@@ -1,0 +1,18 @@
+chromium-browser (10.0.648.205~r81283-0ubuntu1) natty; urgency=low
+
+  With this version (like with 10.0.648.204), you may notice that the saved
+  passwords are no longer accessible in Chromium. (LP: #743494) This is due to
+  an incompatibility between Chromium's GNOME keyring integration and the password
+  sync feature that was introduced in Chromium 10. The GNOME keyring integration
+  has been disabled by upstream while they are working to fix this issue. As a
+  result, your saved passwords in the GNOME keyring are temporarily unavailable.
+  They are still visible in the GNOME "Passwords and Encryption Keys"
+  application in the Control Center.
+  A possible workaround is to disable 'password sync' in Chromium (if enabled)
+  and after a restart, to use --password-store=detect (for example in the
+  CHROMIUM_FLAGS variable of /etc/chromium-browser/default).
+  An alternative could be to force --password-store=gnome if 'detect' doesn't
+  work.
+
+ -- Fabien Tassin <fta@ubuntu.com>  Thu, 14 Apr 2011 22:36:16 +0200
+

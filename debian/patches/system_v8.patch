@@ -1,0 +1,96 @@
+---
+ build/linux/system.gyp |   11 +++++++++++
+ net/net.gyp            |    8 ++++++++
+ webkit/webkit.gyp      |    8 ++++++++
+ 3 files changed, 27 insertions(+)
+
+Index: src/build/linux/system.gyp
+===================================================================
+--- src.orig/build/linux/system.gyp
++++ src/build/linux/system.gyp
+@@ -12,16 +12,27 @@
+         'pkg-config': './pkg-config-wrapper "<(sysroot)"',
+       }, {
+         'pkg-config': 'pkg-config'
+       }],
+     ],
+   },
+   'targets': [
+     {
++      'target_name': 'v8',
++      'type': 'settings',
++      'direct_dependent_settings': {
++      },
++      'link_settings': {
++        'libraries': [
++          '-lv8',
++        ],
++      },
++    },
++    {
+       'target_name': 'gtk',
+       'type': 'settings',
+       'direct_dependent_settings': {
+         'cflags': [
+           '<!@(<(pkg-config) --cflags gtk+-2.0 gthread-2.0)',
+         ],
+       },
+       'link_settings': {
+Index: src/webkit/webkit.gyp
+===================================================================
+--- src.orig/webkit/webkit.gyp
++++ src/webkit/webkit.gyp
+@@ -762,16 +762,24 @@
+       'scons_line_length' : 1,
+       'xcode_settings': {
+         # Some Mac-specific parts of WebKit won't compile without having this
+         # prefix header injected.
+         # TODO(mark): make this a first-class setting.
+         'GCC_PREFIX_HEADER': '../third_party/WebKit/WebCore/WebCorePrefix.h',
+       },
+       'conditions': [
++        ['javascript_engine=="system-v8"', {
++          'dependencies': [
++            '../build/linux/system.gyp:v8',
++          ],
++          'export_dependent_settings': [
++            '../build/linux/system.gyp:v8',
++          ],
++        }],
+         ['javascript_engine=="v8"', {
+           'dependencies': [
+             '../v8/tools/gyp/v8.gyp:v8',
+           ],
+           'export_dependent_settings': [
+             '../v8/tools/gyp/v8.gyp:v8',
+           ],
+         }],
+Index: src/net/net.gyp
+===================================================================
+--- src.orig/net/net.gyp
++++ src/net/net.gyp
+@@ -366,16 +366,24 @@
+         '../base/base.gyp:base',
+       ],
+       'conditions': [
+         ['javascript_engine=="v8"', {
+           'dependencies': [
+             '../v8/tools/gyp/v8.gyp:v8',
+           ],
+         }],
++        ['javascript_engine=="system-v8"', {
++          'dependencies': [
++            '../build/linux/system.gyp:v8',
++          ],
++          'export_dependent_settings': [
++            '../build/linux/system.gyp:v8',
++          ],
++        }],
+         [ 'OS == "linux"', {
+           'dependencies': [
+             '../build/linux/system.gyp:gconf',
+             '../build/linux/system.gyp:gdk',
+             '../build/linux/system.gyp:nss',
+           ],
+         }],
+         [ 'OS == "win"', {

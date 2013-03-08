@@ -1,0 +1,11 @@
+debian/tmp/etc
+debian/tmp/usr/bin
+debian/tmp/usr/lib/chromium-browser/chromium*
+debian/tmp/usr/lib/chromium-browser/*.pak
+debian/tmp/usr/lib/chromium-browser/xdg-settings
+debian/tmp/usr/lib/chromium-browser/xdg-mime
+debian/tmp/usr/lib/chromium-browser/locales/*
+debian/tmp/usr/lib/chromium-browser/resources/extension/demo/library.js
+debian/chromium-browser.desktop usr/share/applications
+debian/chromium-browser.xml usr/share/gnome-control-center/default-apps
+debian/apport/chromium-browser.py usr/share/apport/package-hooks/

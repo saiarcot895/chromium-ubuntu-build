@@ -1,0 +1,24 @@
+---
+ webkit/build/webkit_version.py |    9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+Index: src/webkit/build/webkit_version.py
+===================================================================
+--- src.orig/webkit/build/webkit_version.py	2011-10-21 18:38:45.875141666 +0100
++++ src/webkit/build/webkit_version.py	2011-10-21 18:39:12.591141191 +0100
+@@ -61,6 +61,15 @@
+       directory=os.path.join(webkit_dir, version_file_dir),
+       directory_regex_prior_to_src_url='webkit')
+ 
++  if version_info.url is None or version_info.url == 'unknown':
++    # parse the DEPS file
++    data = open("../../DEPS", "rb").read()
++    x = re.search(r'"webkit_revision": "(\d+)",', data)
++    rev = x.group(1) if x else "n-a"
++    x = re.search(r'"webkit_trunk": "(.*?)",', data)
++    branch = os.path.basename(x.group(1)) if x else "n-a"
++    return "%s@%s" % (branch, rev)
++
+   if version_info.url == None:
+     version_info.url = 'Unknown URL'
+   version_info.url = version_info.url.strip('/')

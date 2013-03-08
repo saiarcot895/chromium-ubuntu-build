@@ -1,0 +1,971 @@
+Index: src/chrome/browser/sessions/session_service.cc
+===================================================================
+--- src/chrome/browser/sessions/session_service.cc	(revision 158531)
++++ src/chrome/browser/sessions/session_service.cc	(working copy)
+@@ -33,6 +33,7 @@
+ #include "chrome/browser/ui/tab_contents/tab_contents.h"
+ #include "chrome/browser/ui/tabs/tab_strip_model.h"
+ #include "chrome/common/chrome_notification_types.h"
++#include "chrome/common/chrome_switches.h"
+ #include "chrome/common/extensions/extension.h"
+ #include "content/public/browser/navigation_details.h"
+ #include "content/public/browser/navigation_entry.h"
+@@ -584,6 +585,14 @@
+           !should_track_changes_for_browser_type(browser->type(), app_type))
+         return;
+ 
++      // Do not track changes for chromeless windows so that
++      // it won't be considered for restoration during a 'normal' browser
++      // instance.
++      if (browser->is_chromeless_mode() ||
++          CommandLine::ForCurrentProcess()->HasSwitch(switches::kChromeless)) {
++        return;
++      }
++
+       RestoreIfNecessary(std::vector<GURL>(), browser);
+       SetWindowType(browser->session_id(), browser->type(), app_type);
+       SetWindowAppName(browser->session_id(), browser->app_name());
+Index: src/chrome/browser/ui/startup/startup_browser_creator_impl.cc
+===================================================================
+--- src/chrome/browser/ui/startup/startup_browser_creator_impl.cc	(revision 158531)
++++ src/chrome/browser/ui/startup/startup_browser_creator_impl.cc	(working copy)
+@@ -405,6 +405,17 @@
+   return true;
+ }
+ 
++bool StartupBrowserCreatorImpl::IsChromelessLaunch(std::string* url)
++{
++  if (command_line_.HasSwitch(switches::kChromeless)) {
++    if (url)
++      *url = command_line_.GetSwitchValueASCII(switches::kChromeless);
++    return true;
++  }
++  return false;
++}
++
++
+ bool StartupBrowserCreatorImpl::IsAppLaunch(std::string* app_url,
+                                             std::string* app_id) {
+   if (command_line_.HasSwitch(switches::kApp)) {
+@@ -536,6 +547,12 @@
+     return;
+   }
+ 
++  if (IsChromelessLaunch(NULL)) {
++    // Open user-specified URLs like pinned tabs and startup tabs.
++    if (ProcessSpecifiedURLs(urls_to_open))
++      return;
++  }
++
+   if (process_startup && ProcessStartupURLs(urls_to_open)) {
+     // ProcessStartupURLs processed the urls, nothing else to do.
+     return;
+@@ -642,7 +659,8 @@
+   // mode. Also, no pages should be opened automatically if the session
+   // crashed. Otherwise it might trigger another crash, locking the user out of
+   // chrome. The crash infobar is shown in this case.
+-  if (!IncognitoModePrefs::ShouldLaunchIncognito(command_line_,
++  if (!IsChromelessLaunch(NULL) &&
++      !IncognitoModePrefs::ShouldLaunchIncognito(command_line_,
+                                                  profile_->GetPrefs()) &&
+       !HasPendingUncleanExit(profile_)) {
+     tabs = PinnedTabCodec::ReadPinnedTabs(profile_);
+@@ -718,6 +736,10 @@
+   if (!profile_ && browser)
+     profile_ = browser->profile();
+ 
++  if (IsChromelessLaunch(NULL)) {
++    browser = new Browser(Browser::CreateParams::CreateChromeless(profile_));
++  }
++
+   if (!browser || !browser->is_type_tabbed()) {
+     browser = new Browser(Browser::CreateParams(profile_));
+   } else {
+@@ -790,6 +812,13 @@
+   if (!browser || !profile_ || browser->tab_count() == 0)
+     return;
+ 
++  // We consider that being in a chromeless launch, we are to minimize as much as
++  // possible the most obvious "classic" Chromium behavior.
++  if (IsChromelessLaunch(NULL))
++    {
++      return;
++    }
++
+   if (HasPendingUncleanExit(browser->profile()))
+     chrome::ShowSessionCrashedPrompt(browser);
+ 
+Index: src/chrome/browser/ui/startup/startup_browser_creator_impl.h
+===================================================================
+--- src/chrome/browser/ui/startup/startup_browser_creator_impl.h	(revision 158531)
++++ src/chrome/browser/ui/startup/startup_browser_creator_impl.h	(working copy)
+@@ -68,6 +68,11 @@
+   FRIEND_TEST_ALL_PREFIXES(BrowserTest, RestorePinnedTabs);
+   FRIEND_TEST_ALL_PREFIXES(BrowserTest, AppIdSwitch);
+ 
++  // If the process was launched with the chromeless command line flag,
++  // e.g. --chromeless=http://www.google.com/ return true.
++  // In this case |url| is populated if they're non-null.
++  bool IsChromelessLaunch(std::string* url);
++
+   // If the process was launched with the web application command line flags,
+   // e.g. --app=http://www.google.com/ or --app_id=... return true.
+   // In this case |app_url| or |app_id| are populated if they're non-null.
+Index: src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc
+===================================================================
+--- src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc	(revision 158531)
++++ src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc	(working copy)
+@@ -782,9 +782,11 @@
+   g_signal_connect(tabstrip_.get(), "drag-data-received",
+                    G_CALLBACK(OnDragDataReceivedThunk), this);
+ 
+-  newtab_button_.reset(MakeNewTabButton());
+-  newtab_surface_bounds_.SetRect(0, 0, newtab_button_->SurfaceWidth(),
+-                                 newtab_button_->SurfaceHeight());
++  if (window_ && window_->browser() && ! window_->browser()->is_chromeless_mode()) {
++    newtab_button_.reset(MakeNewTabButton());
++    newtab_surface_bounds_.SetRect(0, 0, newtab_button_->SurfaceWidth(),
++                                   newtab_button_->SurfaceHeight());
++  }
+ 
+   gtk_widget_show_all(tabstrip_.get());
+ 
+@@ -1458,6 +1460,9 @@
+ 
+ void TabStripGtk::LayoutNewTabButton(double last_tab_right,
+                                      double unselected_width) {
++  if (window_ && window_->browser() && window_->browser()->is_chromeless_mode())
++    return;
++
+   GtkWidget* toplevel = gtk_widget_get_ancestor(widget(), GTK_TYPE_WINDOW);
+   bool is_maximized = false;
+   if (toplevel) {
+@@ -1511,8 +1516,10 @@
+   int available_width = tabstrip_allocation.width;
+   if (available_width_for_tabs_ < 0) {
+     available_width = bounds_.width();
+-    available_width -=
++    if (newtab_button_.get() != NULL) {
++      available_width -=
+         (kNewTabButtonHOffset + newtab_button_->WidgetAllocation().width);
++    }
+   } else {
+     // Interesting corner case: if |available_width_for_tabs_| > the result
+     // of the calculation in the conditional arm above, the strip is in
+@@ -2070,8 +2077,11 @@
+   gdk_region_union_with_rect(event->region, &event->area);
+ 
+   // Paint the New Tab button.
+-  gtk_container_propagate_expose(GTK_CONTAINER(tabstrip_.get()),
+-      newtab_button_->widget(), event);
++  if (newtab_button_.get() != NULL) {
++    // Paint the New Tab button.
++    gtk_container_propagate_expose(GTK_CONTAINER(tabstrip_.get()),
++                                   newtab_button_->widget(), event);
++  }
+ 
+   // Paint the tabs in reverse order, so they stack to the left.
+   TabGtk* selected_tab = NULL;
+@@ -2267,6 +2277,9 @@
+ }
+ 
+ void TabStripGtk::SetNewTabButtonBackground() {
++  if (newtab_button_.get() == NULL) {
++    return;
++  }
+   SkColor color = theme_service_->GetColor(
+       ThemeService::COLOR_BUTTON_BACKGROUND);
+   SkBitmap* background = theme_service_->GetBitmapNamed(
+Index: src/chrome/browser/ui/gtk/global_menu_bar.cc
+===================================================================
+--- src/chrome/browser/ui/gtk/global_menu_bar.cc	(revision 158531)
++++ src/chrome/browser/ui/gtk/global_menu_bar.cc	(working copy)
+@@ -24,35 +24,44 @@
+ #include "ui/base/gtk/menu_label_accelerator_util.h"
+ #include "ui/base/l10n/l10n_util.h"
+ 
++typedef bool (*GlobalMenuBarVisibilityHandler) (Browser * browser);
++
+ struct GlobalMenuBarCommand {
+   int str_id;
+   int command;
+   int tag;
++  GlobalMenuBarVisibilityHandler visibility_handler;
+ };
+ 
+ namespace {
+ 
++// static
++static bool GlobalMenuBarVisibilityHandler_NotInChromelessMode(
++    Browser * browser) {
++  return browser && !browser->is_chromeless_mode();
++}
++
+ const int MENU_SEPARATOR =-1;
+ const int MENU_END = -2;
+ const int MENU_DISABLED_LABEL = -3;
+ 
+ GlobalMenuBarCommand file_menu[] = {
+-  { IDS_NEW_TAB, IDC_NEW_TAB },
+-  { IDS_NEW_WINDOW, IDC_NEW_WINDOW },
+-  { IDS_NEW_INCOGNITO_WINDOW, IDC_NEW_INCOGNITO_WINDOW },
+-  { IDS_REOPEN_CLOSED_TABS_LINUX, IDC_RESTORE_TAB },
+-  { IDS_OPEN_FILE_LINUX, IDC_OPEN_FILE },
+-  { IDS_OPEN_LOCATION_LINUX, IDC_FOCUS_LOCATION },
++  { IDS_NEW_TAB, IDC_NEW_TAB, int(), GlobalMenuBarVisibilityHandler_NotInChromelessMode },
++  { IDS_NEW_WINDOW, IDC_NEW_WINDOW, int(), GlobalMenuBarVisibilityHandler_NotInChromelessMode },
++  { IDS_NEW_INCOGNITO_WINDOW, IDC_NEW_INCOGNITO_WINDOW, int(), GlobalMenuBarVisibilityHandler_NotInChromelessMode },
++  { IDS_REOPEN_CLOSED_TABS_LINUX, IDC_RESTORE_TAB, int(), GlobalMenuBarVisibilityHandler_NotInChromelessMode },
++  { IDS_OPEN_FILE_LINUX, IDC_OPEN_FILE, int(), GlobalMenuBarVisibilityHandler_NotInChromelessMode },
++  { IDS_OPEN_LOCATION_LINUX, IDC_FOCUS_LOCATION, int(), GlobalMenuBarVisibilityHandler_NotInChromelessMode },
+ 
+-  { MENU_SEPARATOR, MENU_SEPARATOR },
++  { MENU_SEPARATOR, MENU_SEPARATOR, int(), GlobalMenuBarVisibilityHandler_NotInChromelessMode },
+ 
+-  { IDS_CREATE_SHORTCUTS, IDC_CREATE_SHORTCUTS },
++  { IDS_CREATE_SHORTCUTS, IDC_CREATE_SHORTCUTS, int(), GlobalMenuBarVisibilityHandler_NotInChromelessMode },
+ 
+-  { MENU_SEPARATOR, MENU_SEPARATOR },
++  { MENU_SEPARATOR, MENU_SEPARATOR, int(), GlobalMenuBarVisibilityHandler_NotInChromelessMode },
+ 
+   { IDS_CLOSE_WINDOW_LINUX, IDC_CLOSE_WINDOW },
+   { IDS_CLOSE_TAB_LINUX, IDC_CLOSE_TAB },
+-  { IDS_SAVE_PAGE, IDC_SAVE_PAGE },
++  { IDS_SAVE_PAGE, IDC_SAVE_PAGE, int(), GlobalMenuBarVisibilityHandler_NotInChromelessMode },
+ 
+   { MENU_SEPARATOR, MENU_SEPARATOR },
+ 
+@@ -70,17 +79,17 @@
+ 
+   { IDS_FIND, IDC_FIND },
+ 
+-  { MENU_SEPARATOR, MENU_SEPARATOR },
++  { MENU_SEPARATOR, MENU_SEPARATOR, int(), GlobalMenuBarVisibilityHandler_NotInChromelessMode },
+ 
+-  { IDS_PREFERENCES, IDC_OPTIONS },
++  { IDS_PREFERENCES, IDC_OPTIONS, int(), GlobalMenuBarVisibilityHandler_NotInChromelessMode },
+ 
+   { MENU_END, MENU_END }
+ };
+ 
+ GlobalMenuBarCommand view_menu[] = {
+-  { IDS_SHOW_BOOKMARK_BAR, IDC_SHOW_BOOKMARK_BAR },
++  { IDS_SHOW_BOOKMARK_BAR, IDC_SHOW_BOOKMARK_BAR, int(), GlobalMenuBarVisibilityHandler_NotInChromelessMode },
+ 
+-  { MENU_SEPARATOR, MENU_SEPARATOR },
++  { MENU_SEPARATOR, MENU_SEPARATOR, int(), GlobalMenuBarVisibilityHandler_NotInChromelessMode },
+ 
+   { IDS_STOP_MENU_LINUX, IDC_STOP },
+   { IDS_RELOAD_MENU_LINUX, IDC_RELOAD },
+@@ -96,48 +105,48 @@
+ };
+ 
+ GlobalMenuBarCommand history_menu[] = {
+-  { IDS_HISTORY_HOME_LINUX, IDC_HOME },
+-  { IDS_HISTORY_BACK_LINUX, IDC_BACK },
+-  { IDS_HISTORY_FORWARD_LINUX, IDC_FORWARD },
++  { IDS_HISTORY_HOME_LINUX, IDC_HOME, int(), GlobalMenuBarVisibilityHandler_NotInChromelessMode },
++  { IDS_HISTORY_BACK_LINUX, IDC_BACK, int(), GlobalMenuBarVisibilityHandler_NotInChromelessMode },
++  { IDS_HISTORY_FORWARD_LINUX, IDC_FORWARD, int(), GlobalMenuBarVisibilityHandler_NotInChromelessMode },
+ 
+-  { MENU_SEPARATOR, MENU_SEPARATOR },
++  { MENU_SEPARATOR, MENU_SEPARATOR, int(), GlobalMenuBarVisibilityHandler_NotInChromelessMode },
+ 
+   { IDS_HISTORY_VISITED_LINUX, MENU_DISABLED_LABEL,
+-    GlobalMenuBar::TAG_MOST_VISITED_HEADER },
++    GlobalMenuBar::TAG_MOST_VISITED_HEADER, GlobalMenuBarVisibilityHandler_NotInChromelessMode },
+ 
+-  { MENU_SEPARATOR, MENU_SEPARATOR },
++  { MENU_SEPARATOR, MENU_SEPARATOR, int(), GlobalMenuBarVisibilityHandler_NotInChromelessMode },
+ 
+   { IDS_HISTORY_CLOSED_LINUX, MENU_DISABLED_LABEL,
+-    GlobalMenuBar::TAG_RECENTLY_CLOSED_HEADER },
++    GlobalMenuBar::TAG_RECENTLY_CLOSED_HEADER, GlobalMenuBarVisibilityHandler_NotInChromelessMode },
+ 
+-  { MENU_SEPARATOR, MENU_SEPARATOR },
++  { MENU_SEPARATOR, MENU_SEPARATOR, int(), GlobalMenuBarVisibilityHandler_NotInChromelessMode },
+ 
+-  { IDS_SHOWFULLHISTORY_LINK, IDC_SHOW_HISTORY },
++  { IDS_SHOWFULLHISTORY_LINK, IDC_SHOW_HISTORY, int(), GlobalMenuBarVisibilityHandler_NotInChromelessMode },
+ 
+   { MENU_END, MENU_END }
+ };
+ 
+ GlobalMenuBarCommand tools_menu[] = {
+-  { IDS_SHOW_DOWNLOADS, IDC_SHOW_DOWNLOADS },
+-  { IDS_SHOW_HISTORY, IDC_SHOW_HISTORY },
+-  { IDS_SHOW_EXTENSIONS, IDC_MANAGE_EXTENSIONS },
++  { IDS_SHOW_DOWNLOADS, IDC_SHOW_DOWNLOADS, int(), GlobalMenuBarVisibilityHandler_NotInChromelessMode },
++  { IDS_SHOW_HISTORY, IDC_SHOW_HISTORY, int(), GlobalMenuBarVisibilityHandler_NotInChromelessMode },
++  { IDS_SHOW_EXTENSIONS, IDC_MANAGE_EXTENSIONS, int(), GlobalMenuBarVisibilityHandler_NotInChromelessMode },
+ 
+-  { MENU_SEPARATOR, MENU_SEPARATOR },
++  { MENU_SEPARATOR, MENU_SEPARATOR, int(), GlobalMenuBarVisibilityHandler_NotInChromelessMode },
+ 
+-  { IDS_TASK_MANAGER, IDC_TASK_MANAGER },
+-  { IDS_CLEAR_BROWSING_DATA, IDC_CLEAR_BROWSING_DATA },
++  { IDS_TASK_MANAGER, IDC_TASK_MANAGER, int(), GlobalMenuBarVisibilityHandler_NotInChromelessMode },
++  { IDS_CLEAR_BROWSING_DATA, IDC_CLEAR_BROWSING_DATA, int(), GlobalMenuBarVisibilityHandler_NotInChromelessMode },
+ 
+-  { MENU_SEPARATOR, MENU_SEPARATOR },
++  { MENU_SEPARATOR, MENU_SEPARATOR, int(), GlobalMenuBarVisibilityHandler_NotInChromelessMode },
+ 
+-  { IDS_VIEW_SOURCE, IDC_VIEW_SOURCE },
+-  { IDS_DEV_TOOLS, IDC_DEV_TOOLS },
+-  { IDS_DEV_TOOLS_CONSOLE, IDC_DEV_TOOLS_CONSOLE },
++  { IDS_VIEW_SOURCE, IDC_VIEW_SOURCE, int(), GlobalMenuBarVisibilityHandler_NotInChromelessMode },
++  { IDS_DEV_TOOLS, IDC_DEV_TOOLS, int(), GlobalMenuBarVisibilityHandler_NotInChromelessMode },
++  { IDS_DEV_TOOLS_CONSOLE, IDC_DEV_TOOLS_CONSOLE, int(), GlobalMenuBarVisibilityHandler_NotInChromelessMode },
+ 
+   { MENU_END, MENU_END }
+ };
+ 
+ GlobalMenuBarCommand help_menu[] = {
+-  { IDS_FEEDBACK, IDC_FEEDBACK },
++  { IDS_FEEDBACK, IDC_FEEDBACK, int(), GlobalMenuBarVisibilityHandler_NotInChromelessMode },
+   { IDS_HELP_PAGE , IDC_HELP_PAGE_VIA_MENU },
+   { MENU_END, MENU_END }
+ };
+@@ -190,8 +199,10 @@
+   }
+ 
+   pref_change_registrar_.Init(browser_->profile()->GetPrefs());
+-  pref_change_registrar_.Add(prefs::kShowBookmarkBar, this);
+-  OnBookmarkBarVisibilityChanged();
++  if (! browser_->is_chromeless_mode()) {
++    pref_change_registrar_.Add(prefs::kShowBookmarkBar, this);
++    OnBookmarkBarVisibilityChanged();
++  }
+ }
+ 
+ GlobalMenuBar::~GlobalMenuBar() {
+@@ -214,8 +225,22 @@
+     std::map<int, GtkWidget*>* id_to_menu_item,
+     GlobalMenuBarCommand* commands,
+     GlobalMenuOwner* owner) {
++  // first pass to count the number of "visible" items
++  size_t count = 0;
++  for (int i = 0; commands[i].str_id != MENU_END; ++i) {
++    if (!commands[i].visibility_handler || commands[i].visibility_handler(browser_)) {
++      count++;
++    }
++  }
++  if (0 == count) {
++    return;
++  }
++
+   GtkWidget* menu = gtk_menu_new();
+   for (int i = 0; commands[i].str_id != MENU_END; ++i) {
++    if (commands[i].visibility_handler && !commands[i].visibility_handler(browser_)) {
++      continue;
++    }
+     GtkWidget* menu_item = BuildMenuItem(
+         commands[i].str_id, commands[i].command, commands[i].tag,
+         id_to_menu_item, menu);
+Index: src/chrome/browser/ui/gtk/browser_window_gtk.cc
+===================================================================
+--- src/chrome/browser/ui/gtk/browser_window_gtk.cc	(revision 158531)
++++ src/chrome/browser/ui/gtk/browser_window_gtk.cc	(working copy)
+@@ -409,6 +415,9 @@
+                          std::string(gdk_get_program_class()) +
+                          " (" + user_data_dir + ")");
+   }
++  else if (browser_->is_chromeless_mode()) {
++    SetWindowCustomClass(window_, web_app::GetWMClassFromAppName("chromeless"));
++  }
+ 
+   // For popups, we initialize widgets then set the window geometry, because
+   // popups need the widgets inited before they can set the window size
+@@ -987,7 +1010,7 @@
+ }
+ 
+ void BrowserWindowGtk::SetFocusToLocationBar(bool select_all) {
+-  if (!IsFullscreen())
++  if (!IsFullscreen() && IsToolbarSupported())
+     GetLocationBar()->FocusLocation(select_all);
+ }
+ 
+@@ -2541,7 +2564,7 @@
+ 
+ bool BrowserWindowGtk::UseCustomFrame() const {
+   // We don't use the custom frame for app mode windows or app window popups.
+-  return use_custom_frame_pref_.GetValue() && !browser_->is_app();
++  return use_custom_frame_pref_.GetValue() && !browser_->is_app() && !browser_->is_chromeless_mode();
+ }
+ 
+ bool BrowserWindowGtk::BoundsMatchMonitorSize() {
+Index: src/chrome/browser/ui/browser.cc
+===================================================================
+--- src/chrome/browser/ui/browser.cc	(revision 158531)
++++ src/chrome/browser/ui/browser.cc	(working copy)
+@@ -264,6 +264,7 @@
+     : type(TYPE_TABBED),
+       profile(NULL),
+       app_type(APP_TYPE_HOST),
++      is_chromeless_mode(false),
+       initial_show_state(ui::SHOW_STATE_DEFAULT),
+       is_session_restore(false),
+       window(NULL) {
+@@ -273,6 +274,7 @@
+   : type(TYPE_TABBED),
+     profile(profile),
+     app_type(APP_TYPE_HOST),
++    is_chromeless_mode(false),
+     initial_show_state(ui::SHOW_STATE_DEFAULT),
+     is_session_restore(false),
+     window(NULL) {
+@@ -282,6 +284,7 @@
+     : type(type),
+       profile(profile),
+       app_type(APP_TYPE_HOST),
++      is_chromeless_mode(false),
+       initial_show_state(ui::SHOW_STATE_DEFAULT),
+       is_session_restore(false),
+       window(NULL) {
+@@ -308,6 +311,14 @@
+ }
+ 
+ // static
++Browser::CreateParams Browser::CreateParams::CreateChromeless(Profile * profile)
++{
++  CreateParams params(profile);
++  params.is_chromeless_mode = true;
++  return params;
++}
++
++// static
+ Browser::CreateParams Browser::CreateParams::CreateForDevTools(
+     Profile* profile) {
+   CreateParams params(TYPE_POPUP, profile);
+@@ -328,7 +339,8 @@
+       ALLOW_THIS_IN_INITIALIZER_LIST(
+           tab_strip_model_(new TabStripModel(tab_strip_model_delegate_.get(),
+                                              params.profile))),
+-      app_name_(params.app_name),
++      app_name_(params.app_name), 
++      is_chromeless_mode_(params.is_chromeless_mode),
+       app_type_(params.app_type),
+       chrome_updater_factory_(this),
+       cancel_download_confirmation_state_(NOT_PROMPTED),
+@@ -523,6 +535,10 @@
+   return find_bar_controller_.get() != NULL;
+ }
+ 
++bool Browser::is_chromeless_mode () const {
++  return is_chromeless_mode_;
++}
++
+ bool Browser::is_app() const {
+   return !app_name_.empty();
+ }
+@@ -563,7 +579,7 @@
+ #else
+   int string_id = IDS_BROWSER_WINDOW_TITLE_FORMAT;
+   // Don't append the app name to window titles on app frames and app popups
+-  if (is_app())
++  if (is_app() || is_chromeless_mode())
+     string_id = IDS_BROWSER_WINDOW_TITLE_FORMAT_NO_LOGO;
+   return l10n_util::GetStringFUTF16(string_id, title);
+ #endif
+@@ -622,7 +638,7 @@
+     tab_restore_service->BrowserClosing(tab_restore_service_delegate());
+ #endif
+ 
+-  if (tab_restore_service && is_type_tabbed() && tab_count())
++  if (tab_restore_service && is_type_tabbed() && !is_chromeless_mode() && tab_count())
+     tab_restore_service->BrowserClosing(tab_restore_service_delegate());
+ 
+   // TODO(sky): convert session/tab restore to use notification.
+@@ -1466,7 +1482,7 @@
+     const history::HistoryAddPageArgs& add_page_args,
+     content::NavigationType navigation_type) {
+   // Don't update history if running as app.
+-  return !IsApplication();
++  return !IsApplication() && !is_chromeless_mode();
+ }
+ 
+ bool Browser::ShouldCreateWebContents(
+@@ -2163,20 +2179,20 @@
+ 
+   unsigned int features = FEATURE_INFOBAR | FEATURE_DOWNLOADSHELF;
+ 
+-  if (is_type_tabbed())
++  if (is_type_tabbed() && !is_chromeless_mode())
+     features |= FEATURE_BOOKMARKBAR;
+ 
+   if (!hide_ui_for_fullscreen) {
+-    if (!is_type_tabbed())
++    if (is_type_tabbed() && !is_chromeless_mode())
+       features |= FEATURE_TITLEBAR;
+-
++    
+     if (is_type_tabbed())
+       features |= FEATURE_TABSTRIP;
+-
+-    if (is_type_tabbed())
++    
++    if (is_type_tabbed() && !is_chromeless_mode())
+       features |= FEATURE_TOOLBAR;
+-
+-    if (!is_app())
++    
++    if (is_type_tabbed() && !is_chromeless_mode())
+       features |= FEATURE_LOCATIONBAR;
+   }
+   return !!(features & feature);
+Index: src/chrome/browser/ui/browser_commands.cc
+===================================================================
+--- src/chrome/browser/ui/browser_commands.cc	(revision 158531)
++++ src/chrome/browser/ui/browser_commands.cc	(working copy)
+@@ -392,6 +392,10 @@
+ 
+ void NewTab(Browser* browser) {
+   content::RecordAction(UserMetricsAction("NewTab"));
++
++  if (browser->is_chromeless_mode())
++    return;
++
+   // TODO(asvitkine): This is invoked programmatically from several places.
+   // Audit the code and change it so that the histogram only gets collected for
+   // user-initiated commands.
+@@ -428,7 +432,8 @@
+ bool CanRestoreTab(const Browser* browser) {
+   TabRestoreService* service =
+       TabRestoreServiceFactory::GetForProfile(browser->profile());
+-  return service && !service->entries().empty();
++  return service && !service->entries().empty()
++    && !browser->is_chromeless_mode();
+ }
+ 
+ void SelectNextTab(Browser* browser) {
+Index: src/chrome/browser/ui/browser_command_controller.cc
+===================================================================
+--- src/chrome/browser/ui/browser_command_controller.cc	(revision 158531)
++++ src/chrome/browser/ui/browser_command_controller.cc	(working copy)
+@@ -28,6 +28,7 @@
+ #include "chrome/browser/ui/tabs/tab_strip_model.h"
+ #include "chrome/browser/ui/webui/sync_promo/sync_promo_ui.h"
+ #include "chrome/common/chrome_notification_types.h"
++#include "chrome/common/chrome_switches.h"
+ #include "chrome/common/pref_names.h"
+ #include "chrome/common/profiling.h"
+ #include "content/public/browser/native_web_keyboard_event.h"
+@@ -691,8 +692,12 @@
+ // BrowserCommandController, private:
+ 
+ bool BrowserCommandController::IsShowingMainUI(bool is_fullscreen) {
++  const bool started_in_chromeless =
++    CommandLine::ForCurrentProcess()->HasSwitch(switches::kChromeless)
++    || browser_->is_chromeless_mode();
++
+ #if !defined(OS_MACOSX)
+-  return browser_->is_type_tabbed() && !is_fullscreen;
++  return browser_->is_type_tabbed() && !is_fullscreen && !started_in_chromeless;
+ #else
+   return browser_->is_type_tabbed();
+ #endif
+@@ -703,6 +708,9 @@
+   // (like Back & Forward with initial page load) must have their state
+   // initialized here, otherwise they will be forever disabled.
+ 
++  bool started_in_chromeless =
++    CommandLine::ForCurrentProcess()->HasSwitch(switches::kChromeless);
++
+   // Navigation commands
+   command_updater_.UpdateCommandEnabled(IDC_RELOAD, true);
+   command_updater_.UpdateCommandEnabled(IDC_RELOAD_IGNORING_CACHE, true);
+@@ -710,10 +718,12 @@
+ 
+   // Window management commands
+   command_updater_.UpdateCommandEnabled(IDC_CLOSE_WINDOW, true);
+-  command_updater_.UpdateCommandEnabled(IDC_NEW_TAB, true);
++  command_updater_.UpdateCommandEnabled(IDC_NEW_TAB, !started_in_chromeless);
+   command_updater_.UpdateCommandEnabled(IDC_CLOSE_TAB, true);
+-  command_updater_.UpdateCommandEnabled(IDC_DUPLICATE_TAB, true);
+-  command_updater_.UpdateCommandEnabled(IDC_RESTORE_TAB, false);
++  command_updater_.UpdateCommandEnabled(IDC_DUPLICATE_TAB,
++                                        !started_in_chromeless);
++  command_updater_.UpdateCommandEnabled(IDC_RESTORE_TAB,
++                                        !started_in_chromeless);
+   command_updater_.UpdateCommandEnabled(IDC_EXIT, true);
+   command_updater_.UpdateCommandEnabled(IDC_DEBUG_FRAME_TOGGLE, true);
+ 
+@@ -769,25 +779,33 @@
+   command_updater_.UpdateCommandEnabled(IDC_CREATE_SHORTCUTS, false);
+   UpdateCommandsForDevTools();
+   command_updater_.UpdateCommandEnabled(IDC_TASK_MANAGER, CanOpenTaskManager());
+-  command_updater_.UpdateCommandEnabled(IDC_SHOW_HISTORY, true);
+-  command_updater_.UpdateCommandEnabled(IDC_SHOW_DOWNLOADS, true);
++  command_updater_.UpdateCommandEnabled(IDC_SHOW_HISTORY,
++                                        !started_in_chromeless);
++  command_updater_.UpdateCommandEnabled(IDC_SHOW_DOWNLOADS,
++                                        !started_in_chromeless);
+   command_updater_.UpdateCommandEnabled(IDC_HELP_PAGE_VIA_KEYBOARD, true);
+   command_updater_.UpdateCommandEnabled(IDC_HELP_PAGE_VIA_MENU, true);
+-  command_updater_.UpdateCommandEnabled(IDC_BOOKMARKS_MENU, true);
++  command_updater_.UpdateCommandEnabled(IDC_BOOKMARKS_MENU,
++                                        !started_in_chromeless);
+ 
+   command_updater_.UpdateCommandEnabled(
+-      IDC_SHOW_SYNC_SETUP, profile()->GetOriginalProfile()->IsSyncAccessible());
++      IDC_SHOW_SYNC_SETUP,
++      profile()->GetOriginalProfile()->IsSyncAccessible()
++        && !started_in_chromeless);
+ 
+   // Initialize other commands based on the window type.
+   bool normal_window = browser_->is_type_tabbed();
+ 
+   // Navigation commands
+-  command_updater_.UpdateCommandEnabled(IDC_HOME, normal_window);
++  command_updater_.UpdateCommandEnabled(IDC_HOME,
++                                        normal_window
++                                          && !started_in_chromeless);
+ 
+   // Window management commands
+   // TODO(rohitrao): Disable fullscreen on non-Lion?
+   command_updater_.UpdateCommandEnabled(IDC_FULLSCREEN,
+-      !(browser_->is_type_panel() && browser_->is_app()));
++      !(browser_->is_type_panel() && browser_->is_app()
++        && started_in_chromeless));
+   command_updater_.UpdateCommandEnabled(IDC_SELECT_NEXT_TAB, normal_window);
+   command_updater_.UpdateCommandEnabled(IDC_SELECT_PREVIOUS_TAB,
+                                         normal_window);
+@@ -821,7 +839,9 @@
+                                         !browser_->is_devtools());
+ 
+   // Show various bits of UI
+-  command_updater_.UpdateCommandEnabled(IDC_CLEAR_BROWSING_DATA, normal_window);
++  command_updater_.UpdateCommandEnabled(IDC_CLEAR_BROWSING_DATA,
++                                        normal_window
++                                          && !started_in_chromeless);
+ 
+   // The upgrade entry and the view incompatibility entry should always be
+   // enabled. Whether they are visible is a separate matter determined on menu
+@@ -831,7 +851,8 @@
+ 
+   // View Background Pages entry is always enabled, but is hidden if there are
+   // no background pages.
+-  command_updater_.UpdateCommandEnabled(IDC_VIEW_BACKGROUND_PAGES, true);
++  command_updater_.UpdateCommandEnabled(IDC_VIEW_BACKGROUND_PAGES,
++                                        !started_in_chromeless);
+ 
+   // Toggle speech input
+   command_updater_.UpdateCommandEnabled(IDC_TOGGLE_SPEECH_INPUT, true);
+@@ -847,19 +868,26 @@
+ }
+ 
+ void BrowserCommandController::UpdateCommandsForIncognitoAvailability() {
++  bool started_in_chromeless =
++    CommandLine::ForCurrentProcess()->HasSwitch(switches::kChromeless)
++    || browser_->is_chromeless_mode();
++
+   IncognitoModePrefs::Availability incognito_availability =
+       IncognitoModePrefs::GetAvailability(profile()->GetPrefs());
+   command_updater_.UpdateCommandEnabled(
+       IDC_NEW_WINDOW,
+-      incognito_availability != IncognitoModePrefs::FORCED);
++      incognito_availability != IncognitoModePrefs::FORCED
++        && !started_in_chromeless);
+   command_updater_.UpdateCommandEnabled(
+       IDC_NEW_INCOGNITO_WINDOW,
+-      incognito_availability != IncognitoModePrefs::DISABLED);
++      incognito_availability != IncognitoModePrefs::DISABLED
++        && !started_in_chromeless);
+ 
+   // Bookmark manager and settings page/subpages are forced to open in normal
+   // mode. For this reason we disable these commands when incognito is forced.
+   const bool command_enabled =
+-      incognito_availability != IncognitoModePrefs::FORCED;
++      incognito_availability != IncognitoModePrefs::FORCED
++      && !started_in_chromeless;
+   command_updater_.UpdateCommandEnabled(
+       IDC_SHOW_BOOKMARK_MANAGER,
+       browser_defaults::bookmarks_enabled && command_enabled);
+@@ -894,7 +922,8 @@
+ 
+   // Window management commands
+   command_updater_.UpdateCommandEnabled(IDC_DUPLICATE_TAB,
+-      !browser_->is_app() && CanDuplicateTab(browser_));
++      !browser_->is_chromeless_mode() && !browser_->is_app()
++        && CanDuplicateTab(browser_));
+ 
+   // Page-related commands
+   window()->SetStarredState(
+@@ -904,10 +933,12 @@
+   window()->SetZoomIconTooltipPercent(
+       current_tab_contents->zoom_controller()->zoom_percent());
+   command_updater_.UpdateCommandEnabled(IDC_VIEW_SOURCE,
+-                                        CanViewSource(browser_));
++                                        CanViewSource(browser_)
++                                          && !browser_->is_chromeless_mode());
+   command_updater_.UpdateCommandEnabled(IDC_EMAIL_PAGE_LOCATION,
+-                                        CanEmailPageLocation(browser_));
+-  if (browser_->is_devtools())
++                                        CanEmailPageLocation(browser_)
++                                          && !browser_->is_chromeless_mode());
++  if (browser_->is_devtools() && browser_->is_chromeless_mode())
+     command_updater_.UpdateCommandEnabled(IDC_OPEN_FILE, false);
+ 
+   // Changing the encoding is not possible on Chrome-internal webpages.
+@@ -923,7 +954,8 @@
+ #if !defined(OS_MACOSX)
+   command_updater_.UpdateCommandEnabled(
+       IDC_CREATE_SHORTCUTS,
+-      CanCreateApplicationShortcuts(browser_));
++      CanCreateApplicationShortcuts(browser_)
++        && !browser_->is_chromeless_mode());
+ #endif
+ 
+   UpdateCommandsForContentRestrictionState();
+@@ -955,21 +987,31 @@
+ }
+ 
+ void BrowserCommandController::UpdateCommandsForBookmarkEditing() {
++  bool started_in_chromeless =
++    CommandLine::ForCurrentProcess()->HasSwitch(switches::kChromeless)
++    || browser_->is_chromeless_mode();
++
+   command_updater_.UpdateCommandEnabled(IDC_BOOKMARK_PAGE,
+-                                        CanBookmarkCurrentPage(browser_));
++                                        CanBookmarkCurrentPage(browser_)
++                                          && !started_in_chromeless);
+   command_updater_.UpdateCommandEnabled(IDC_BOOKMARK_ALL_TABS,
+-                                        CanBookmarkAllTabs(browser_));
++                                        CanBookmarkAllTabs(browser_)
++                                          && !started_in_chromeless);
+   command_updater_.UpdateCommandEnabled(IDC_PIN_TO_START_SCREEN,
+-                                        true);
++                                        !started_in_chromeless);
+ }
+ 
+ void BrowserCommandController::UpdateCommandsForBookmarkBar() {
++  const bool started_in_chromeless =
++    CommandLine::ForCurrentProcess()->HasSwitch(switches::kChromeless)
++    || browser_->is_chromeless_mode();
++
+   const bool show_main_ui =
+       IsShowingMainUI(window() && window()->IsFullscreen());
+   command_updater_.UpdateCommandEnabled(IDC_SHOW_BOOKMARK_BAR,
+       browser_defaults::bookmarks_enabled &&
+       !profile()->GetPrefs()->IsManagedPreference(prefs::kShowBookmarkBar) &&
+-      show_main_ui);
++      show_main_ui && !started_in_chromeless);
+ }
+ 
+ void BrowserCommandController::UpdateCommandsForFullscreenMode(
+@@ -1069,7 +1111,12 @@
+   if (local_state)
+     enabled = local_state->GetBoolean(prefs::kAllowFileSelectionDialogs);
+ 
+-  command_updater_.UpdateCommandEnabled(IDC_OPEN_FILE, enabled);
++  const bool started_in_chromeless =
++    CommandLine::ForCurrentProcess()->HasSwitch(switches::kChromeless)
++    || browser_->is_chromeless_mode();
++
++  command_updater_.UpdateCommandEnabled(IDC_OPEN_FILE,
++                                        enabled && !started_in_chromeless);
+ }
+ 
+ void BrowserCommandController::UpdateReloadStopState(bool is_loading,
+Index: src/chrome/browser/ui/browser.h
+===================================================================
+--- src/chrome/browser/ui/browser.h	(revision 158531)
++++ src/chrome/browser/ui/browser.h	(working copy)
+@@ -164,6 +164,9 @@
+                                      const gfx::Rect& window_bounds,
+                                      Profile* profile);
+ 
++    // Like Create, but creates a chromeless browser.
++    static CreateParams CreateChromeless(Profile * profile);
++
+     static CreateParams CreateForDevTools(Profile* profile);
+ 
+     // The browser type.
+@@ -181,6 +184,9 @@
+     // Type of app (host or child). See description of AppType.
+     AppType app_type;
+ 
++    // If the browser instance is supposed to be a chromeless one.
++    bool is_chromeless_mode;
++
+     // The bounds of the window to open.
+     gfx::Rect initial_bounds;
+ 
+@@ -448,6 +454,7 @@
+   bool is_type_popup() const { return type_ == TYPE_POPUP; }
+   bool is_type_panel() const { return type_ == TYPE_PANEL; }
+ 
++  bool is_chromeless_mode() const;
+   bool is_app() const;
+   bool is_devtools() const;
+ 
+@@ -806,6 +813,8 @@
+   // Type of app (host or child). See description of AppType.
+   AppType app_type_;
+ 
++  bool is_chromeless_mode_;
++
+   // Unique identifier of this browser for session restore. This id is only
+   // unique within the current session, and is not guaranteed to be unique
+   // across sessions.
+Index: src/chrome/browser/extensions/extension_module.h
+===================================================================
+--- src/chrome/browser/extensions/extension_module.h	(revision 158531)
++++ src/chrome/browser/extensions/extension_module.h	(working copy)
+@@ -47,4 +47,11 @@
+   virtual bool RunImpl() OVERRIDE;
+ };
+ 
++class IsChromelessWindowFunction : public SyncExtensionFunction {
++ protected:
++  virtual bool RunImpl() OVERRIDE;
++  DECLARE_EXTENSION_FUNCTION_NAME("extension.isChromelessWindow");
++};
++
++
+ #endif  // CHROME_BROWSER_EXTENSIONS_EXTENSION_MODULE_H__
+Index: src/chrome/browser/extensions/extension_function_registry.cc
+===================================================================
+--- src/chrome/browser/extensions/extension_function_registry.cc	(revision 158531)
++++ src/chrome/browser/extensions/extension_function_registry.cc	(working copy)
+@@ -314,6 +319,7 @@
+   RegisterFunction<SetUpdateUrlDataFunction>();
+   RegisterFunction<IsAllowedIncognitoAccessFunction>();
+   RegisterFunction<IsAllowedFileSchemeAccessFunction>();
++  RegisterFunction<IsChromelessWindowFunction>();
+ 
+   // WebstorePrivate.
+   RegisterFunction<extensions::GetBrowserLoginFunction>();
+Index: src/chrome/browser/extensions/extension_module.cc
+===================================================================
+--- src/chrome/browser/extensions/extension_module.cc	(revision 158531)
++++ src/chrome/browser/extensions/extension_module.cc	(working copy)
+@@ -6,10 +6,29 @@
+ 
+ #include <string>
+ 
++#if defined(OS_LINUX) && defined(TOOLKIT_GTK)
++#include <gdk/gdk.h>
++#include <gdk/gdkx.h>
++#endif
++
+ #include "chrome/browser/extensions/extension_prefs.h"
++#include "chrome/browser/extensions/extension_tab_util.h"
+ #include "chrome/browser/extensions/extension_service.h"
++#include "chrome/browser/ui/browser.h"
+ #include "chrome/browser/profiles/profile.h"
++#include "chrome/common/chrome_switches.h"
+ 
++#if defined(OS_LINUX) && defined(TOOLKIT_GTK)
++
++namespace {
++
++const char kNoCurrentWindowError[] = "No current window";
++const char kCouldNotIdentifyTab[] = "Could not find tab with specified ID";
++
++} // namespace {
++
++#endif
++
+ extensions::ExtensionPrefs* SetUpdateUrlDataFunction::extension_prefs() {
+   return profile()->GetExtensionService()->extension_prefs();
+ }
+@@ -39,3 +58,35 @@
+       ext_service->AllowFileAccess(extension)));
+   return true;
+ }
++
++bool IsChromelessWindowFunction::RunImpl() {
++  bool is_chromeless = false;
++
++  int tab_id = -1;
++  if (!args_->GetInteger(0, &tab_id)) {
++    Browser* browser = GetCurrentBrowser();
++    if (!browser) {
++      error_ = kNoCurrentWindowError;
++      return false;
++    }
++    is_chromeless = browser->is_chromeless_mode();
++  }
++  else {
++    Browser* browser = NULL;
++    if (!ExtensionTabUtil::GetTabById(tab_id,
++                                      profile(),
++                                      NULL,
++                                      &browser,
++                                      NULL,
++                                      NULL,
++                                      NULL)) {
++      error_ = kCouldNotIdentifyTab;
++      return false;
++    }
++    is_chromeless = browser->is_chromeless_mode();
++  }
++
++  SetResult(Value::CreateBooleanValue(is_chromeless));
++
++  return true;
++}
+Index: src/chrome/common/extensions/api/extension.json
+===================================================================
+--- src/chrome/common/extensions/api/extension.json	(revision 158531)
++++ src/chrome/common/extensions/api/extension.json	(working copy)
+@@ -193,6 +193,32 @@
+         }
+       },
+       {
++        "name": "isChromelessWindow",
++        "type": "function",
++        "unprivileged": true,
++        "description": "Checks is a given extension runs part of a chromeless window.",
++        "parameters": [
++          {
++            "type": "integer",
++            "name": "tabId",
++            "optional": true,
++            "description": "The tab id corresponding to the window to restrict the request to."
++          }
++          ,
++          {
++            "type": "function",
++            "name": "callback",
++            "parameters": [
++              {
++                "name": "isChromelessWindow",
++                "type": "boolean",
++                "description": "True if the extension runs part of a chromeless window, false otherwise."
++              }
++            ]
++          }
++        ]
++      },
++      {
+         "name": "isAllowedIncognitoAccess",
+         "type": "function",
+         "description": "Retrieves the state of the extension's access to Incognito-mode (as determined by the user-controlled 'Allowed in Incognito' checkbox.",
+Index: src/chrome/common/chrome_switches.cc
+===================================================================
+--- src/chrome/common/chrome_switches.cc	(revision 158531)
++++ src/chrome/common/chrome_switches.cc	(working copy)
+@@ -147,6 +147,9 @@
+ // Chrome Frame automation channel is closed.
+ const char kChromeFrameShutdownDelay[]      = "chrome-frame-shutdown-delay";
+ 
++// Specifies a given URL to be opened in a chromeless mode.
++const char kChromeless[]                    = "chromeless";
++
+ // Tells chrome to load the specified version of chrome.dll on Windows. If this
+ // version cannot be loaded, Chrome will exit.
+ const char kChromeVersion[]                 = "chrome-version";
+Index: src/chrome/common/chrome_switches.h
+===================================================================
+--- src/chrome/common/chrome_switches.h	(revision 158531)
++++ src/chrome/common/chrome_switches.h	(working copy)
+@@ -54,6 +54,7 @@
+ extern const char kCheckForUpdateIntervalSec[];
+ extern const char kCheckCloudPrintConnectorPolicy[];
+ extern const char kChromeFrameShutdownDelay[];
++extern const char kChromeless[];
+ extern const char kChromeVersion[];
+ extern const char kCipherSuiteBlacklist[];
+ extern const char kClearTokenService[];

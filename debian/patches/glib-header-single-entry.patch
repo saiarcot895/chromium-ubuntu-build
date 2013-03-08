@@ -1,0 +1,23 @@
+Description: glib header single entry point includes
+ since glib 2.24, using a single header include for glib as opposed to including
+ individual headers
+ see: http://git.gnome.org/browse/glib/commit/?id=62a133f55dcd5626e9583aabc2d95926936a8475
+Author: Micah Gersten <micahg@ubuntu.com>
+
+---
+ ui/base/l10n/l10n_util.cc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+Index: src/ui/base/l10n/l10n_util.cc
+===================================================================
+--- src.orig/ui/base/l10n/l10n_util.cc
++++ src/ui/base/l10n/l10n_util.cc
+@@ -5,7 +5,7 @@
+ #include "ui/base/l10n/l10n_util.h"
+ 
+ #if defined(USE_X11)
+-#include <glib/gutils.h>
++#include <glib.h>
+ #endif
+ 
+ #include <algorithm>
