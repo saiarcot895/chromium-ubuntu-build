@@ -193,8 +193,6 @@ INSTALL_EXCLUDE_FILES = \
 # The ffmpeg_branding variable controls which codecs are built inside the sumo lib.
 # By default, ffmpeg_branding equals to "Chromium" and only builds the ogg/vorbis/theora codecs.
 # When set to "Chrome", it also builds aac/ac3/mpeg4audio/h264/mov/mp3
-DEB_DH_SHLIBDEPS_ARGS_$(DEBIAN_CODECS_NAME) := -l$(CURDIR)/debian/$(DEBIAN_CODECS_NAME)/$(LIB_DIR)
-DEB_DH_SHLIBDEPS_ARGS_$(DEBIAN_CODECS_NAME)-extra := -l$(CURDIR)/debian/$(DEBIAN_CODECS_NAME)-extra/$(LIB_DIR)
 BROWSER_GYP_DEFINES += \
 	proprietary_codecs=1 \
 	build_ffmpegsumo=0 \
@@ -263,8 +261,8 @@ ifneq (,$(GYP_DEFINES))
 endif
 
 clean:
-	rm -f debian/*-stamp debian/stamp-* debian/tmp-*
-	rm -f $(subst_files) *.cdbs-config_list
+	rm -rf debian/*-stamp debian/stamp-* debian/tmp-*
+	rm -f $(subst_files)
 	rm -rf third_party chrome src/out
 #	cd src && find . -name "Makefile" -print0 | xargs -0 rm -f
 #	cd src && find . -name "*.mk" -print0 | xargs -0 rm -f
