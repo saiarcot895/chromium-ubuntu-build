@@ -17,7 +17,7 @@ translations/translations-webkit_strings.patch
 #3-chrome-xid.patch
 #4-chromeless-window-launch-option.patch
 5-desktop-integration-settings.patch
-6-passwordless-install-support.patch
+#6-passwordless-install-support.patch
 #fix-1034541.patch
 #7-plugin-status.patch
 locale.patch

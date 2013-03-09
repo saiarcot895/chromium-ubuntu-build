@@ -149,15 +149,6 @@ subst_files = \
 	debian/patches/chromium_useragent.patch \
 	$(NULL)
 
-clean::
-	rm -f debian/*-stamp debian/stamp-* debian/tmp-*
-	rm -f $(subst_files) *.cdbs-config_list
-	rm -rf third_party chrome src/out
-#	cd src && find . -name "Makefile" -print0 | xargs -0 rm -f
-#	cd src && find . -name "*.mk" -print0 | xargs -0 rm -f
-
-	dh_clean
-
 ifneq (1,$(PROCESSORS))
 BUILD_ARGS += -j$(PROCESSORS)
 endif
@@ -263,14 +254,6 @@ GYP_DEFINES += \
 endif
 
 ######
-DO = (touch r1; echo '$(1)'; $(1); touch r2 ; T1=`date -r r1 +%s` ; T2=`date -r r2 +%s`; echo "PERF: '$(2)' built in "`expr $$T2 - $$T1`" sec"; rm -f r1 r2;)
-
-%:: %.in
-	sed -e 's/@BUILD_DIST@/$(DEBIAN_DIST_NAME) $(DEBIAN_DIST_VERSION)/g' \
-	    -e 's/@BUILD_DIST_NAME@/$(DEBIAN_DIST_NAME)/g' \
-	    -e 's/@BUILD_DIST_VERSION@/$(DEBIAN_DIST_VERSION)/g' \
-	    < $< > $@
-
 DEB_MAKE_EXTRA_ARGS   := $(NULL)
 DEB_MAKE_BUILD_TARGET := $(BUILD_ARGS) $(BUILD_TARGETS) || ( $(KEEPALIVE) stop ; exit 1 )
 
@@ -279,9 +262,23 @@ ifneq (,$(GYP_DEFINES))
 	GYP_ENV += GYP_DEFINES="$(GYP_DEFINES) $(BROWSER_GYP_DEFINES)"
 endif
 
+clean:
+	rm -f debian/*-stamp debian/stamp-* debian/tmp-*
+	rm -f $(subst_files) *.cdbs-config_list
+	rm -rf third_party chrome src/out
+#	cd src && find . -name "Makefile" -print0 | xargs -0 rm -f
+#	cd src && find . -name "*.mk" -print0 | xargs -0 rm -f
+
+	dh_clean
+
 configure: configure-stamp
 configure-stamp:
 	dh_testdir
+	
+	sed -e 's/@BUILD_DIST@/$(DEBIAN_DIST_NAME) $(DEBIAN_DIST_VERSION)/g' \
+	    -e 's/@BUILD_DIST_NAME@/$(DEBIAN_DIST_NAME)/g' \
+	    -e 's/@BUILD_DIST_VERSION@/$(DEBIAN_DIST_VERSION)/g' \
+	    debian/chromium-browser.sh.in > debian/chromium-browser.sh
 	
 	sed -i 's,/etc/chromium/policies,/etc/$(DEBIAN_NAME)/policies,' \
 		$(DEB_TAR_SRCDIR)/chrome/common/chrome_paths.cc
@@ -292,11 +289,13 @@ configure-stamp:
 	echo "$(DEBIAN_REVISION)" > $(SRC_DIR)/build/LASTCHANGE.in
 
 build: configure-stamp build-stamp
+	touch $@
 build-stamp: configure-stamp
 	$(MAKE) -C $(SRC_DIR) $(BUILD_ARGS) $(BUILD_TARGETS)
-	build-stamp-ffmpeg-std
-	build-stamp-ffmpeg-extra
 	touch $@
+
+build-stamp: build-stamp-ffmpeg-std
+build-stamp: build-stamp-ffmpeg-extra
 
 binary-indep: build install
 
@@ -307,7 +306,7 @@ binary-arch: build install
 	dh_install
 
 	#dh_installdocs
-	#dh_installmenu
+	dh_installmenu
 	#dh_installchangelogs ChangeLog
 	dh_strip
 	dh_compress
@@ -325,15 +324,14 @@ configure-stamp-ffmpeg-%:
 	cd $(SRC_DIR) && GYP_DEFINES="$(GYP_DEFINES)" GYP_GENERATORS=make build/gyp_chromium --depth=../src $(FFMPEG_DIR)/ffmpeg.gyp
 	touch $@
 
-build-stamp-ffmpeg-%:
-	GYP_DEFINES += $(FFMPEG_MT_$(subst std,STD,$(subst extra,EXTRA,$*))_GYP_DEFINES) $(FFMPEG_MT_GYP_DEFINES)
-	FFMPEG_DIR = third_party/ffmpeg
-	FFMPEG_SRC_DIR = $(SRC_DIR)/$(FFMPEG_DIR)
-	BUILD_ARGS += CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS=""
-	configure-stamp-ffmpeg-%
+build-stamp-ffmpeg-%: GYP_DEFINES += $(FFMPEG_MT_$(subst std,STD,$(subst extra,EXTRA,$*))_GYP_DEFINES) $(FFMPEG_MT_GYP_DEFINES)
+build-stamp-ffmpeg-%: FFMPEG_DIR = third_party/ffmpeg
+build-stamp-ffmpeg-%: FFMPEG_SRC_DIR = $(SRC_DIR)/$(FFMPEG_DIR)
+build-stamp-ffmpeg-%: BUILD_ARGS += CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS=""
+build-stamp-ffmpeg-%: configure-stamp-ffmpeg-%
 	cd $(FFMPEG_SRC_DIR) ; $(MAKE) -f ffmpeg.Makefile $(BUILD_ARGS)
 	install -d -m 755 $(CURDIR)/debian/tmp-$*/$(LIB_DIR)
-	install -m 644 $(FFMPEG_SRC_DIR)/out/$(BUILD_TYPE)/libffmpegsumo.so $(CURDIR)/debian/tmp-$*/$(LIB_DIR)
+	install -m 644 $(FFMPEG_SRC_DIR)/out/$(BUILD_TYPE)/libffmpegsumo.so $(CURDIR)/debian/tmp-$*
 	touch $@
 
 install: build
@@ -342,7 +340,10 @@ install: build
 	dh_prep
 	
 	dh_installdirs --package=chromium-browser $(LIB_DIR)
-	( cd $(SRC_DIR)/out/$(BUILD_TYPE) && cp -r !($(shell echo $(INSTALL_EXCLUDE_DIRS) $(INSTALL_EXCLUDE_FILES) | tr ' ' '||')) debian/chromium-browser/$(LIB_DIR))
+	# Tar up out except $(INSTALL_EXCLUDE_DIRS), extract it, and then remove $(INSTALL_EXCLUDE_FILES)
+	( cd $(SRC_DIR)/out/$(BUILD_TYPE) && tar $(foreach excl,$(INSTALL_EXCLUDE_DIRS),--exclude=$(excl)) -cf - . ) | \
+	( cd debian/chromium-browser/$(LIB_DIR) && tar xvf - )
+	cd debian/chromium-browser/$(LIB_DIR) && rm -f $(INSTALL_EXCLUDE_FILES)
 	# Launcher script
 	dh_installdirs --package=chromium-browser usr/bin
 	cp -a debian/$(DEBIAN_NAME).sh debian/chromium-browser/usr/bin/$(DEBIAN_NAME)
@@ -357,7 +358,7 @@ install: build
 	mv debian/chromium-browser/$(LIB_DIR)/chrome_sandbox debian/chromium-browser/$(LIB_DIR)/$(DEBIAN_NAME)-sandbox
 	# Manpage
 	mv debian/chromium-browser/$(LIB_DIR)/chrome.1 debian/chromium-browser/$(LIB_DIR)/chromium-browser.1
-	dh_installman -package=chromium-browser debian/chromium-browser/$(LIB_DIR)/chromium-browser.1
+	dh_installman --package=chromium-browser debian/chromium-browser/$(LIB_DIR)/chromium-browser.1
 	rm -f debian/chromium-browser/$(LIB_DIR)/chromium-browser.1
 	# Icons
 	dh_installdirs --package=chromium-browser usr/share/pixmaps
@@ -380,15 +381,19 @@ endif
 #	cp -a debian/tmp/$(LIB_DIR)/nacl_irt_* debian/chromium-browser/$(LIB_DIR)/
 #endif
 	# Locales: only keep en-US in the main deb
-#	cd debian/chromium-browser/$(LIB_DIR)/locales && \
-#	  rm -f $(filter-out en-US.pak,$(notdir $(wildcard debian/chromium-browser/$(LIB_DIR)/locales/*)))
+	dh_installdirs --package=chromium-browser-l10n $(LIB_DIR)
+	cd debian/chromium-browser/$(LIB_DIR)/locales && \
+	  mv $(filter-out en-US.pak,$(notdir $(wildcard debian/chromium-browser/$(LIB_DIR)/locales/*))) ../../../../../chromium-browser-l10n/$(LIB_DIR)
 	
 	dh_installdirs --package=chromium-codecs-ffmpeg $(LIB_DIR)
 	cp debian/tmp-std/libffmpegsumo.so debian/chromium-codecs-ffmpeg/$(LIB_DIR)
 	
 	dh_installdirs --package=chromium-codecs-ffmpeg-extra $(LIB_DIR)
 	cp debian/tmp-extra/libffmpegsumo.so debian/chromium-codecs-ffmpeg-extra/$(LIB_DIR)
-
+	
+	dh_strip --package=chromium-browser --dbg-package=chromium-browser-dbg
+	dh_strip --package=chromium-codecs-ffmpeg --dbg-package=chromium-codecs-ffmpeg-dbg
+	dh_strip --package=chromium-codecs-ffmpeg-extra --dbg-package=chromium-codecs-ffmpeg-extra-dbg
 	
 
 # Compare
