@@ -731,9 +731,9 @@ endif
 	# Pack
 	if [ src != $(DEB_TAR_SRCDIR) ] ; then mv $(TMP_DIR)/src $(TMP_DIR)/$(DEB_TAR_SRCDIR) ; fi
 	#mv $(TMP_DIR)/tools/depot_tools $(TMP_DIR)/$(DEB_TAR_SRCDIR)/depot_tools
-	( cd $(TMP_DIR) ; tar --exclude-vcs -zcf ../../$(DEBIAN_NAME)_$(VERSION).orig.tar.gz $(DEB_TAR_SRCDIR) )
+	( cd $(TMP_DIR) ; tar --exclude-vcs --lzma -cf ../../$(DEBIAN_NAME)_$(VERSION).orig.tar.lzma $(DEB_TAR_SRCDIR) )
 	
 	# Remove all files and re-extract to make sure we don't have any leftover VCS files
-	rm -rf $(TMP_DIR) && tar -zxf ../$(DEBIAN_NAME)_$(VERSION).orig.tar.gz
+	rm -rf $(TMP_DIR) && tar --lzma -xf ../$(DEBIAN_NAME)_$(VERSION).orig.tar.lzma
 	@echo "# Done (created $(DEBIAN_NAME)_$(VERSION).orig.tar.gz)"
 
