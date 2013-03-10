@@ -1,8 +1,8 @@
-chromium-browser (27.0.1432.0~svn20130307r186592-0ubuntuppa1~unstable1) unstable; urgency=low
+chromium-browser (27.0.1435.0~svn20130309r187164-0ubuntuppa1~unstable1) unstable; urgency=low
 
   * New upstream release.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 09 Mar 2013 16:42:48 -0600
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 09 Mar 2013 21:22:44 -0600
 
 chromium-browser (22.0.1229.94~r161065-0ubuntu1) unstable; urgency=low
 

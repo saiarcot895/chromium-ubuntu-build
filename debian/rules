@@ -263,9 +263,9 @@ endif
 clean:
 	rm -rf debian/*-stamp debian/stamp-* debian/tmp-*
 	rm -f $(subst_files)
-	rm -rf third_party chrome src/out
-#	cd src && find . -name "Makefile" -print0 | xargs -0 rm -f
-#	cd src && find . -name "*.mk" -print0 | xargs -0 rm -f
+	rm -rf third_party chrome $(DEB_TAR_SRCDIR)/out
+#	cd $(DEB_TAR_SRCDIR) && find . -name "Makefile" -print0 | xargs -0 rm -f
+#	cd $(DEB_TAR_SRCDIR) && find . -name "*.mk" -print0 | xargs -0 rm -f
 
 	dh_clean
 
@@ -722,16 +722,16 @@ ifneq (,$(findstring Ubuntu,$(DEBIAN_DIST)))
 	# Merge Translations from Launchpad
 	if [ ! -d $(TMP_DIR)/translations-tools ] ; then bzr export $(TMP_DIR)/translations-tools $(TRANSLATIONS_TOOLS_BRANCH) ; fi
 	if [ ! -d $(TMP_DIR)/translations-export ] ; then bzr export $(TMP_DIR)/translations-export $(TRANSLATIONS_EXPORT_BRANCH) ; fi
-	( cd $(TMP_DIR)/src ; ../translations-tools/chromium2pot.py $(GRIT_CONVERTER_FLAGS) $(GRIT_TEMPLATES); cp translations-patches ../../debian/patches; mv translations-patches/* ../../debian/patches; cd ../../debian/patches/translation-patches; sed 's\--- old\--- old/src\' *; sed 's\+++ new\+++ new/src\' * )
+	( cd $(TMP_DIR)/src ; ../translations-tools/chromium2pot.py $(GRIT_CONVERTER_FLAGS) $(GRIT_TEMPLATES); mkdir ../../debian/patches/translations && mv translations-patches/* ../../debian/patches/translations && cd ../../debian/patches/translations && sed -i -e 's\--- old\--- old/src\' -e 's\+++ new\+++ new/src\' * )
 	# Patches created:
-	@( cd debian/patches ; ls translations* | xargs --verbose -n 1 diffstat -p 1 )
+	@( cd debian/patches/translations ; ls translations* | xargs --verbose -n 1 diffstat -p 1 )
 endif
 	# Pack
 	if [ src != $(DEB_TAR_SRCDIR) ] ; then mv $(TMP_DIR)/src $(TMP_DIR)/$(DEB_TAR_SRCDIR) ; fi
 	#mv $(TMP_DIR)/tools/depot_tools $(TMP_DIR)/$(DEB_TAR_SRCDIR)/depot_tools
-	( cd $(TMP_DIR) ; tar --exclude-vcs --lzma -cf ../../$(DEBIAN_NAME)_$(VERSION).orig.tar.lzma $(DEB_TAR_SRCDIR) )
+	( cd $(TMP_DIR) ; echo "This file is here solely to keep the directory structure when extracting." > PLACEHOLDER ; tar --exclude-vcs -Jcf ../../$(DEBIAN_NAME)_$(VERSION).orig.tar.xz $(DEB_TAR_SRCDIR) PLACEHOLDER )
 	
 	# Remove all files and re-extract to make sure we don't have any leftover VCS files
-	rm -rf $(TMP_DIR) && tar --lzma -xf ../$(DEBIAN_NAME)_$(VERSION).orig.tar.lzma
-	@echo "# Done (created $(DEBIAN_NAME)_$(VERSION).orig.tar.gz)"
+	rm -rf $(TMP_DIR) $(DEB_TAR_SRCDIR) && tar -Jxf ../$(DEBIAN_NAME)_$(VERSION).orig.tar.xz
+	@echo "# Done (created $(DEBIAN_NAME)_$(VERSION).orig.tar.xz)"
 
