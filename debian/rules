@@ -303,7 +303,7 @@ binary-arch: build install
 	dh_testroot
 	dh_install
 	dh_installmenu
-	dh_compress
+	dh_compress -- -Zxz
 	dh_fixperms --exclude chromium-browser-sandbox
 	dh_installdeb
 	dh_shlibdeps
@@ -330,7 +330,7 @@ build-stamp-ffmpeg-%: configure-stamp-ffmpeg-%
 
 install: build
 	dh_testdir
-	#dh_testroot
+	dh_testroot
 	dh_prep
 	
 	dh_installdirs --package=chromium-browser $(LIB_DIR)
