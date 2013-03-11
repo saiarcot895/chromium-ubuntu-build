@@ -297,6 +297,19 @@ build-stamp: configure-stamp
 	touch $@
 
 binary-indep: build install
+	dh_testdir
+	dh_testroot
+	dh_install
+ifeq (1,$(WANT_XZ_DEBS))
+	dh_compress -- -Zxz
+else
+	dh_compress
+endif
+	dh_fixperms
+	dh_installdeb
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
 
 binary-arch: build install
 	dh_testdir
