@@ -326,7 +326,8 @@ build-stamp-ffmpeg-%: FFMPEG_SRC_DIR = $(SRC_DIR)/$(FFMPEG_DIR)
 build-stamp-ffmpeg-%: BUILD_ARGS += CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS=""
 build-stamp-ffmpeg-%: configure-stamp-ffmpeg-%
 	cd $(FFMPEG_SRC_DIR) ; $(MAKE) -f ffmpeg.Makefile $(BUILD_ARGS)
-	install -m 644 $(FFMPEG_SRC_DIR)/out/$(BUILD_TYPE)/libffmpegsumo.so $(CURDIR)/debian/tmp-$*
+	mkdir debian/tmp-$*
+	cp $(FFMPEG_SRC_DIR)/out/$(BUILD_TYPE)/libffmpegsumo.so $(CURDIR)/debian/tmp-$*
 	touch $@
 
 install: build
@@ -376,10 +377,9 @@ endif
 #	cp -a debian/tmp/$(LIB_DIR)/nacl_irt_* debian/chromium-browser/$(LIB_DIR)/
 #endif
 	# Locales: only keep en-US in the main deb
-	dh_installdirs --package=chromium-browser-l10n $(LIB_DIR)
-	cd debian/chromium-browser/$(LIB_DIR)/locales && \
-	  mv $(filter-out en-US.pak,$(notdir $(wildcard debian/chromium-browser/$(LIB_DIR)/locales/*))) ../../../../../chromium-browser-l10n/$(LIB_DIR)
-	
+	dh_installdirs --package=chromium-browser-l10n $(LIB_DIR)/locales
+	cp $(SRC_DIR)/out/$(BUILD_TYPE)/locales/* debian/chromium-browser-l10n/$(LIB_DIR)/locales
+	mv debian/chromium-browser-l10n/$(LIB_DIR)/locales/en-US.pak debian/chromium-browser/$(LIB_DIR)/locales
 	dh_installdirs --package=chromium-codecs-ffmpeg $(LIB_DIR)
 	cp debian/tmp-std/libffmpegsumo.so debian/chromium-codecs-ffmpeg/$(LIB_DIR)
 	
