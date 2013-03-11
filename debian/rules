@@ -303,8 +303,12 @@ binary-arch: build install
 	dh_testroot
 	dh_install
 	dh_installmenu
+ifeq (1,$(WANT_XZ_DEBS))
 	dh_compress -- -Zxz
-	dh_fixperms --exclude chromium-browser-sandbox
+else
+	dh_compress
+endif
+	dh_fixperms --exclude $(DEB_FIXPERMS_EXCLUDE)
 	dh_installdeb
 	dh_shlibdeps
 	dh_gencontrol
