@@ -253,7 +253,7 @@ endif
 
 ######
 DEB_MAKE_EXTRA_ARGS   := $(NULL)
-DEB_MAKE_BUILD_TARGET := $(BUILD_ARGS) $(BUILD_TARGETS) || ( $(KEEPALIVE) stop ; exit 1 )
+DEB_MAKE_BUILD_TARGET := $(BUILD_ARGS) $(BUILD_TARGETS)
 
 GYP_ENV := GYP_GENERATORS=make
 ifneq (,$(GYP_DEFINES))
@@ -266,6 +266,8 @@ clean:
 	rm -rf third_party chrome $(DEB_TAR_SRCDIR)/out
 #	cd $(DEB_TAR_SRCDIR) && find . -name "Makefile" -print0 | xargs -0 rm -f
 #	cd $(DEB_TAR_SRCDIR) && find . -name "*.mk" -print0 | xargs -0 rm -f
+	sed -i 's,/etc/$(DEBIAN_NAME)/policies,/etc/chromium/policies,' \
+		$(DEB_TAR_SRCDIR)/chrome/common/chrome_paths.cc
 
 	dh_clean
 
@@ -282,27 +284,23 @@ configure-stamp:
 		$(DEB_TAR_SRCDIR)/chrome/common/chrome_paths.cc
 	
 	cd $(SRC_DIR) && $(GYP_ENV) python build/gyp_chromium --no-circular-check build/all.gyp
-	touch $@
 	# Populate the LASTCHANGE file template as we no longer have the VCS files at this point
 	echo "$(DEBIAN_REVISION)" > $(SRC_DIR)/build/LASTCHANGE.in
-
-build: configure-stamp build-stamp
 	touch $@
+
+build: configure-stamp build-stamp build-stamp-ffmpeg-std build-stamp-ffmpeg-extra
+	touch $@
+
 build-stamp: configure-stamp
 	$(MAKE) -C $(SRC_DIR) $(BUILD_ARGS) $(BUILD_TARGETS)
 	touch $@
-
-build-stamp: build-stamp-ffmpeg-std
-build-stamp: build-stamp-ffmpeg-extra
 
 binary-indep: build install
 
 binary-arch: build install
 	dh_testdir
 	dh_testroot
-
 	dh_install
-
 	#dh_installdocs
 	dh_installmenu
 	#dh_installchangelogs ChangeLog
@@ -328,13 +326,12 @@ build-stamp-ffmpeg-%: FFMPEG_SRC_DIR = $(SRC_DIR)/$(FFMPEG_DIR)
 build-stamp-ffmpeg-%: BUILD_ARGS += CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS=""
 build-stamp-ffmpeg-%: configure-stamp-ffmpeg-%
 	cd $(FFMPEG_SRC_DIR) ; $(MAKE) -f ffmpeg.Makefile $(BUILD_ARGS)
-	install -d -m 755 $(CURDIR)/debian/tmp-$*/$(LIB_DIR)
 	install -m 644 $(FFMPEG_SRC_DIR)/out/$(BUILD_TYPE)/libffmpegsumo.so $(CURDIR)/debian/tmp-$*
 	touch $@
 
 install: build
 	dh_testdir
-	dh_testroot
+	#dh_testroot
 	dh_prep
 	
 	dh_installdirs --package=chromium-browser $(LIB_DIR)
@@ -392,7 +389,6 @@ endif
 	dh_strip --package=chromium-browser --dbg-package=chromium-browser-dbg
 	dh_strip --package=chromium-codecs-ffmpeg --dbg-package=chromium-codecs-ffmpeg-dbg
 	dh_strip --package=chromium-codecs-ffmpeg-extra --dbg-package=chromium-codecs-ffmpeg-extra-dbg
-	
 
 # Compare
 PKG_DIRS = $(addprefix debian/,$(shell grep ^Package debian/control | cut -d' ' -f2))

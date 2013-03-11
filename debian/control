@@ -2,8 +2,9 @@ Source: chromium-browser
 Section: web
 Priority: optional
 Maintainer: Saikrishna Arcot <saiarcot895@gmail.com>
+XSBC-Original-Maintainer: Fabien Tassin <fta@ubuntu.com>
 Homepage: http://code.google.com/chromium/
-Build-Depends: cdbs, debhelper (>= 8.0.0), pkg-config, lsb-release, lzma, quilt, patchutils (>= 0.2.25), libc6-dev-i386 [amd64], g++-multilib, binutils-gold (>= 2.21.53) [!armel], hardening-wrapper, python, bison, flex, gperf, libjpeg-dev, libpng12-dev, libbz2-dev, zlib1g-dev, libxml2-dev, libxslt1-dev, lzma-dev, libpulse-dev, libcups2-dev | libcupsys2-dev, libhunspell-dev, libsqlite3-dev, libasound2-dev, libnss3-dev (>= 3.12.3), libnspr4-dev, libpam0g-dev, libpci-dev, libgl1-mesa-dri, mesa-common-dev, python-simplejson, libgl1-mesa-dev, libglu1-mesa-dev, libgles2-mesa-dev [armel armhf], libxt-dev, libxtst-dev, libxss-dev, libpango1.0-dev, libglib2.0-dev, libgtk2.0-dev, libdbus-glib-1-dev, libudev-dev, libgnome-keyring-dev, libgconf2-dev, libssl-dev, subversion, libkrb5-dev, apache2.2-bin, libsctp-dev, metacity, libwww-perl, libspeechd-dev
+Build-Depends: debhelper (>= 8.0.0), pkg-config, lsb-release, lzma, quilt, patchutils (>= 0.2.25), libc6-dev-i386 [amd64], g++-multilib, binutils-gold (>= 2.21.53) [!armel], hardening-wrapper, python, bison, flex, gperf, libjpeg-dev, libpng12-dev, libbz2-dev, zlib1g-dev, libxml2-dev, libxslt1-dev, lzma-dev, libpulse-dev, libcups2-dev | libcupsys2-dev, libhunspell-dev, libsqlite3-dev, libasound2-dev, libnss3-dev (>= 3.12.3), libnspr4-dev, libpam0g-dev, libpci-dev, libgl1-mesa-dri, mesa-common-dev, python-simplejson, libgl1-mesa-dev, libglu1-mesa-dev, libgles2-mesa-dev [armel armhf], libxt-dev, libxtst-dev, libxss-dev, libpango1.0-dev, libglib2.0-dev, libgtk2.0-dev, libdbus-glib-1-dev, libudev-dev, libgnome-keyring-dev, libgconf2-dev, libssl-dev, subversion, libkrb5-dev, apache2.2-bin, libsctp-dev, metacity, libwww-perl, libspeechd-dev
 Standards-Version: 3.9.3
 
 Package: chromium-browser
