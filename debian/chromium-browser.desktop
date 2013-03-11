@@ -216,7 +216,7 @@ Name[uk]=Відкрити нове вікно
 Name[vi]=Mở cửa sổ mới
 Name[zh_CN]=打开新窗口
 Name[zh_TW]=開啟新視窗
-Exec=/usr/bin/chromium-browser
+Exec=chromium-browser
 TargetEnvironment=Unity
 
 [Incognito Shortcut Group]
@@ -255,7 +255,7 @@ Name[uk]=Відкрити нове вікно у приватному режим
 Name[vi]=Mở cửa sổ mới trong chế độ ẩn danh
 Name[zh_CN]=以隐身模式打开新窗口
 Name[zh_TW]=以匿名模式開啟新視窗
-Exec=/usr/bin/chromium-browser --incognito
+Exec=chromium-browser --incognito
 TargetEnvironment=Unity
 
 [TempProfile Shortcut Group]
@@ -294,5 +294,5 @@ Name[ug]=ۋاقىتلىق سەپلىمە ھۆججەت بىلەن يېڭى كۆز
 Name[vi]=Mở cửa sổ mới với hồ sơ tạm
 Name[zh_CN]=以临时配置文件打开新窗口
 Name[zh_TW]=以暫時性個人身分開啟新視窗
-Exec=/usr/bin/chromium-browser --temp-profile
+Exec=chromium-browser --temp-profile
 TargetEnvironment=Unity
