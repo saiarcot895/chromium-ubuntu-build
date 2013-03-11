@@ -1,7 +1,7 @@
 Index: src/src/chrome/browser/extensions/api/module/module.cc
 ===================================================================
---- src.orig/src/chrome/browser/extensions/api/module/module.cc	2013-03-06 06:26:24.000000000 -0600
-+++ src/src/chrome/browser/extensions/api/module/module.cc	2013-03-08 22:23:04.908856983 -0600
+--- src.orig/src/chrome/browser/extensions/api/module/module.cc	2013-03-10 15:42:22.724337184 -0500
++++ src/src/chrome/browser/extensions/api/module/module.cc	2013-03-10 16:32:37.601788292 -0500
 @@ -6,9 +6,28 @@
  
  #include <string>
@@ -68,28 +68,10 @@ Index: src/src/chrome/browser/extensions/api/module/module.cc
 +}
 +
  }  // namespace extensions
-Index: src/src/chrome/browser/extensions/api/module/module.h
-===================================================================
---- src.orig/src/chrome/browser/extensions/api/module/module.h	2013-03-06 06:26:24.000000000 -0600
-+++ src/src/chrome/browser/extensions/api/module/module.h	2013-03-08 22:09:55.038227381 -0600
-@@ -51,6 +51,12 @@
-   virtual bool RunImpl() OVERRIDE;
- };
- 
-+class IsChromelessWindowFunction : public SyncExtensionFunction {
-+ protected:
-+  virtual bool RunImpl() OVERRIDE;
-+  DECLARE_EXTENSION_FUNCTION("extension.isChromelessWindow",
-+                              );
-+};
-+
- }  // namespace extensions
- 
- #endif  // CHROME_BROWSER_EXTENSIONS_API_MODULE_MODULE_H__
 Index: src/src/chrome/browser/extensions/extension_function_registry.cc
 ===================================================================
---- src.orig/src/chrome/browser/extensions/extension_function_registry.cc	2013-03-06 06:26:18.000000000 -0600
-+++ src/src/chrome/browser/extensions/extension_function_registry.cc	2013-03-08 22:11:47.714024530 -0600
+--- src.orig/src/chrome/browser/extensions/extension_function_registry.cc	2013-03-10 15:42:22.724337184 -0500
++++ src/src/chrome/browser/extensions/extension_function_registry.cc	2013-03-10 16:32:37.613788711 -0500
 @@ -72,6 +72,8 @@
    RegisterFunction<extensions::GetWebGLStatusFunction>();
    RegisterFunction<extensions::GetIsLauncherEnabledFunction>();
@@ -101,8 +83,8 @@ Index: src/src/chrome/browser/extensions/extension_function_registry.cc
    RegisterFunction<extensions::RuntimeReloadFunction>();
 Index: src/src/chrome/browser/ui/browser.cc
 ===================================================================
---- src.orig/src/chrome/browser/ui/browser.cc	2013-03-07 17:21:01.000000000 -0600
-+++ src/src/chrome/browser/ui/browser.cc	2013-03-08 19:55:10.680317766 -0600
+--- src.orig/src/chrome/browser/ui/browser.cc	2013-03-10 15:42:22.724337184 -0500
++++ src/src/chrome/browser/ui/browser.cc	2013-03-10 16:32:37.617788851 -0500
 @@ -253,6 +253,7 @@
        profile(profile),
        host_desktop_type(host_desktop_type),
@@ -198,8 +180,8 @@ Index: src/src/chrome/browser/ui/browser.cc
    return !!(features & feature);
 Index: src/src/chrome/browser/ui/browser.h
 ===================================================================
---- src.orig/src/chrome/browser/ui/browser.h	2013-03-07 17:21:01.000000000 -0600
-+++ src/src/chrome/browser/ui/browser.h	2013-03-08 21:49:11.880533825 -0600
+--- src.orig/src/chrome/browser/ui/browser.h	2013-03-10 15:42:22.724337184 -0500
++++ src/src/chrome/browser/ui/browser.h	2013-03-10 16:32:37.621788990 -0500
 @@ -163,6 +163,9 @@
                                       Profile* profile,
                                       chrome::HostDesktopType host_desktop_type);
@@ -239,8 +221,8 @@ Index: src/src/chrome/browser/ui/browser.h
    // across sessions.
 Index: src/src/chrome/browser/ui/browser_command_controller.cc
 ===================================================================
---- src.orig/src/chrome/browser/ui/browser_command_controller.cc	2013-03-06 06:27:39.000000000 -0600
-+++ src/src/chrome/browser/ui/browser_command_controller.cc	2013-03-08 20:48:54.094031624 -0600
+--- src.orig/src/chrome/browser/ui/browser_command_controller.cc	2013-03-10 15:42:22.724337184 -0500
++++ src/src/chrome/browser/ui/browser_command_controller.cc	2013-03-10 16:32:37.621788990 -0500
 @@ -27,6 +27,7 @@
  #include "chrome/browser/ui/tabs/tab_strip_model_utils.h"
  #include "chrome/browser/ui/webui/sync_promo/sync_promo_ui.h"
@@ -453,8 +435,17 @@ Index: src/src/chrome/browser/ui/browser_command_controller.cc
  void BrowserCommandController::UpdateReloadStopState(bool is_loading,
 Index: src/src/chrome/browser/ui/browser_commands.cc
 ===================================================================
---- src.orig/src/chrome/browser/ui/browser_commands.cc	2013-03-06 06:27:12.000000000 -0600
-+++ src/src/chrome/browser/ui/browser_commands.cc	2013-03-08 20:00:22.043386772 -0600
+--- src.orig/src/chrome/browser/ui/browser_commands.cc	2013-03-10 15:42:22.724337184 -0500
++++ src/src/chrome/browser/ui/browser_commands.cc	2013-03-10 16:32:37.625789129 -0500
+@@ -303,7 +303,7 @@
+ void OpenWindowWithRestoredTabs(Profile* profile,
+                                 HostDesktopType host_desktop_type) {
+   TabRestoreService* service = TabRestoreServiceFactory::GetForProfile(profile);
+-  if (service)
++  if (service && !browser->is_chromeless_mode())
+     service->RestoreMostRecentEntry(NULL, host_desktop_type);
+ }
+ 
 @@ -454,6 +454,10 @@
  
  void NewTab(Browser* browser) {
@@ -468,9 +459,9 @@ Index: src/src/chrome/browser/ui/browser_commands.cc
    // user-initiated commands.
 Index: src/src/chrome/browser/ui/gtk/browser_window_gtk.cc
 ===================================================================
---- src.orig/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-03-07 17:21:01.000000000 -0600
-+++ src/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-03-08 19:46:27.549891930 -0600
-@@ -301,6 +301,9 @@
+--- src.orig/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-03-10 16:32:37.557786760 -0500
++++ src/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-03-10 16:32:37.629789269 -0500
+@@ -307,6 +307,9 @@
      gtk_window_util::SetWindowCustomClass(window_,
          std::string(gdk_get_program_class()) + " (" + user_data_dir + ")");
    }
@@ -480,7 +471,7 @@ Index: src/src/chrome/browser/ui/gtk/browser_window_gtk.cc
  
    // For popups, we initialize widgets then set the window geometry, because
    // popups need the widgets inited before they can set the window size
-@@ -889,7 +892,7 @@
+@@ -909,7 +912,7 @@
  }
  
  void BrowserWindowGtk::SetFocusToLocationBar(bool select_all) {
@@ -489,7 +480,7 @@ Index: src/src/chrome/browser/ui/gtk/browser_window_gtk.cc
      GetLocationBar()->FocusLocation(select_all);
  }
  
-@@ -2210,7 +2213,7 @@
+@@ -2230,7 +2233,7 @@
  
  bool BrowserWindowGtk::UseCustomFrame() const {
    // We don't use the custom frame for app mode windows or app window popups.
@@ -500,8 +491,8 @@ Index: src/src/chrome/browser/ui/gtk/browser_window_gtk.cc
  void BrowserWindowGtk::PlaceBookmarkBar(bool is_floating) {
 Index: src/src/chrome/browser/ui/gtk/global_menu_bar.cc
 ===================================================================
---- src.orig/src/chrome/browser/ui/gtk/global_menu_bar.cc	2013-03-06 06:27:16.000000000 -0600
-+++ src/src/chrome/browser/ui/gtk/global_menu_bar.cc	2013-03-08 19:44:35.786002878 -0600
+--- src.orig/src/chrome/browser/ui/gtk/global_menu_bar.cc	2013-03-10 15:42:22.724337184 -0500
++++ src/src/chrome/browser/ui/gtk/global_menu_bar.cc	2013-03-10 16:32:37.629789269 -0500
 @@ -25,35 +25,44 @@
  #include "ui/base/gtk/menu_label_accelerator_util.h"
  #include "ui/base/l10n/l10n_util.h"
@@ -692,8 +683,8 @@ Index: src/src/chrome/browser/ui/gtk/global_menu_bar.cc
          id_to_menu_item, menu);
 Index: src/src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc
 ===================================================================
---- src.orig/src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc	2013-03-06 06:27:16.000000000 -0600
-+++ src/src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc	2013-03-08 19:28:28.292240956 -0600
+--- src.orig/src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc	2013-03-10 15:42:22.724337184 -0500
++++ src/src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc	2013-03-10 16:32:37.629789269 -0500
 @@ -786,9 +786,11 @@
    g_signal_connect(tabstrip_.get(), "drag-data-received",
                     G_CALLBACK(OnDragDataReceivedThunk), this);
@@ -758,9 +749,9 @@ Index: src/src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc
    SkBitmap background = theme_service_->GetImageNamed(
 Index: src/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc
 ===================================================================
---- src.orig/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc	2013-03-06 06:27:27.000000000 -0600
-+++ src/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc	2013-03-08 19:21:21.565356706 -0600
-@@ -400,6 +400,16 @@
+--- src.orig/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc	2013-03-10 15:42:22.724337184 -0500
++++ src/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc	2013-03-10 16:32:37.637789548 -0500
+@@ -425,6 +425,16 @@
    }
  }
  
@@ -777,7 +768,7 @@ Index: src/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc
  bool StartupBrowserCreatorImpl::IsAppLaunch(std::string* app_url,
                                              std::string* app_id) {
    if (command_line_.HasSwitch(switches::kApp)) {
-@@ -532,6 +542,12 @@
+@@ -557,6 +567,12 @@
      return;
    }
  
@@ -790,7 +781,7 @@ Index: src/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc
    if (process_startup && ProcessStartupURLs(urls_to_open)) {
      // ProcessStartupURLs processed the urls, nothing else to do.
      return;
-@@ -677,7 +693,8 @@
+@@ -702,7 +718,8 @@
    // mode. Also, no pages should be opened automatically if the session
    // crashed. Otherwise it might trigger another crash, locking the user out of
    // chrome. The crash infobar is shown in this case.
@@ -800,7 +791,7 @@ Index: src/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc
                                                   profile_->GetPrefs()) &&
        !HasPendingUncleanExit(profile_)) {
      tabs = PinnedTabCodec::ReadPinnedTabs(profile_);
-@@ -753,6 +770,10 @@
+@@ -783,6 +800,10 @@
    if (!profile_ && browser)
      profile_ = browser->profile();
  
@@ -811,7 +802,7 @@ Index: src/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc
    if (!browser || !browser->is_type_tabbed()) {
      // The startup code only executes for browsers launched in desktop mode.
      // i.e. HOST_DESKTOP_TYPE_NATIVE. Ash should never get here.
-@@ -831,6 +852,12 @@
+@@ -861,6 +882,12 @@
    if (!browser || !profile_ || browser->tab_strip_model()->count() == 0)
      return;
  
@@ -826,8 +817,8 @@ Index: src/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc
  
 Index: src/src/chrome/browser/ui/startup/startup_browser_creator_impl.h
 ===================================================================
---- src.orig/src/chrome/browser/ui/startup/startup_browser_creator_impl.h	2013-03-06 06:27:27.000000000 -0600
-+++ src/src/chrome/browser/ui/startup/startup_browser_creator_impl.h	2013-03-08 19:22:32.191814179 -0600
+--- src.orig/src/chrome/browser/ui/startup/startup_browser_creator_impl.h	2013-03-10 15:42:22.724337184 -0500
++++ src/src/chrome/browser/ui/startup/startup_browser_creator_impl.h	2013-03-10 16:32:37.637789548 -0500
 @@ -79,6 +79,11 @@
    FRIEND_TEST_ALL_PREFIXES(BrowserTest, RestorePinnedTabs);
    FRIEND_TEST_ALL_PREFIXES(BrowserTest, AppIdSwitch);
@@ -842,9 +833,9 @@ Index: src/src/chrome/browser/ui/startup/startup_browser_creator_impl.h
  
 Index: src/src/chrome/common/chrome_switches.cc
 ===================================================================
---- src.orig/src/chrome/common/chrome_switches.cc	2013-03-07 17:21:08.000000000 -0600
-+++ src/src/chrome/common/chrome_switches.cc	2013-03-08 22:26:14.783261996 -0600
-@@ -150,6 +150,9 @@
+--- src.orig/src/chrome/common/chrome_switches.cc	2013-03-10 15:42:22.724337184 -0500
++++ src/src/chrome/common/chrome_switches.cc	2013-03-10 16:32:37.641789686 -0500
+@@ -147,6 +147,9 @@
  // Chrome Frame automation channel is closed.
  const char kChromeFrameShutdownDelay[]      = "chrome-frame-shutdown-delay";
  
@@ -856,8 +847,8 @@ Index: src/src/chrome/common/chrome_switches.cc
  const char kChromeVersion[]                 = "chrome-version";
 Index: src/src/chrome/common/chrome_switches.h
 ===================================================================
---- src.orig/src/chrome/common/chrome_switches.h	2013-03-07 17:21:08.000000000 -0600
-+++ src/src/chrome/common/chrome_switches.h	2013-03-08 22:26:33.403890193 -0600
+--- src.orig/src/chrome/common/chrome_switches.h	2013-03-10 15:42:22.724337184 -0500
++++ src/src/chrome/common/chrome_switches.h	2013-03-10 16:32:37.641789686 -0500
 @@ -56,6 +56,7 @@
  extern const char kCheckForUpdateIntervalSec[];
  extern const char kCheckCloudPrintConnectorPolicy[];
@@ -868,8 +859,8 @@ Index: src/src/chrome/common/chrome_switches.h
  extern const char kClearTokenService[];
 Index: src/src/chrome/common/extensions/api/extension.json
 ===================================================================
---- src.orig/src/chrome/common/extensions/api/extension.json	2013-03-06 06:30:52.000000000 -0600
-+++ src/src/chrome/common/extensions/api/extension.json	2013-03-08 22:25:16.189285313 -0600
+--- src.orig/src/chrome/common/extensions/api/extension.json	2013-03-10 15:42:22.724337184 -0500
++++ src/src/chrome/common/extensions/api/extension.json	2013-03-10 16:32:37.645789825 -0500
 @@ -139,6 +139,32 @@
          }
        },
@@ -903,3 +894,52 @@ Index: src/src/chrome/common/extensions/api/extension.json
          "name": "isAllowedIncognitoAccess",
          "type": "function",
          "description": "Retrieves the state of the extension's access to Incognito-mode (as determined by the user-controlled 'Allowed in Incognito' checkbox.",
+Index: src/src/chrome/browser/extensions/api/module/module.h
+===================================================================
+--- src.orig/src/chrome/browser/extensions/api/module/module.h	2013-03-10 15:42:22.724337184 -0500
++++ src/src/chrome/browser/extensions/api/module/module.h	2013-03-10 19:19:22.399317655 -0500
+@@ -51,6 +51,17 @@
+   virtual bool RunImpl() OVERRIDE;
+ };
+ 
++class IsChromelessWindowFunction : public SyncExtensionFunction {
++ public:
++  DECLARE_EXTENSION_FUNCTION("extension.isChromelessWindow")
++
++ protected:
++  virtual ~IsChromelessWindowFunction() {}
++
++  // ExtensionFunction:
++  virtual bool RunImpl() OVERRIDE;
++};
++
+ }  // namespace extensions
+ 
+ #endif  // CHROME_BROWSER_EXTENSIONS_API_MODULE_MODULE_H__
+Index: src/src/chrome/browser/sessions/session_service.cc
+===================================================================
+--- src.orig/src/chrome/browser/sessions/session_service.cc	2013-03-10 15:42:22.724337184 -0500
++++ src/src/chrome/browser/sessions/session_service.cc	2013-03-10 16:32:37.645789825 -0500
+@@ -33,6 +33,7 @@
+ #include "chrome/browser/ui/startup/startup_browser_creator.h"
+ #include "chrome/browser/ui/tabs/tab_strip_model.h"
+ #include "chrome/common/chrome_notification_types.h"
++#include "chrome/common/chrome_switches.h"
+ #include "chrome/common/extensions/extension.h"
+ #include "chrome/common/startup_metric_utils.h"
+ #include "content/public/browser/navigation_details.h"
+@@ -580,6 +581,14 @@
+       if (!ShouldTrackBrowser(browser))
+         return;
+ 
++      // Do not track changes for chromeless windows so that
++      // it won't be considered for restoration during a 'normal' browser
++      // instance.
++      if (browser->is_chromeless_mode() ||
++          CommandLine::ForCurrentProcess()->HasSwitch(switches::kChromeless)) {
++        return;
++      }
++
+       AppType app_type = browser->is_app() ? TYPE_APP : TYPE_NORMAL;
+       RestoreIfNecessary(std::vector<GURL>(), browser);
+       SetWindowType(browser->session_id(), browser->type(), app_type);

@@ -1,12 +1,8 @@
----
- webkit/build/webkit_version.py |    9 +++++++++
- 1 file changed, 9 insertions(+)
-
-Index: src/webkit/build/webkit_version.py
+Index: src/src/webkit/build/webkit_version.py
 ===================================================================
---- src.orig/webkit/build/webkit_version.py	2011-10-21 18:38:45.875141666 +0100
-+++ src/webkit/build/webkit_version.py	2011-10-21 18:39:12.591141191 +0100
-@@ -61,6 +61,15 @@
+--- src.orig/src/webkit/build/webkit_version.py	2013-03-06 06:21:23.000000000 -0600
++++ src/src/webkit/build/webkit_version.py	2013-03-10 16:30:11.776857791 -0500
+@@ -62,6 +62,15 @@
        directory=os.path.join(webkit_dir, version_file_dir),
        directory_regex_prior_to_src_url='webkit')
  

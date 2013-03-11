@@ -1,17 +1,8 @@
-dlopen the sonamed libs directly, like it has already been done for libGL.so.1,
-as we don't want to Depend on the -dev packages for the .so files:
-- libosmesa.so.6: was already available in Hardy
-- libGLESv2.so.1 and libEGL.so.1: available only since Maverick
-
----
- ui/gfx/gl/gl_implementation_linux.cc |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-Index: src/ui/gl/gl_implementation_linux.cc
+Index: src/src/ui/gl/gl_implementation_linux.cc
 ===================================================================
---- src.orig/ui/gl/gl_implementation_linux.cc	2012-10-01 11:05:58.000000000 -0400
-+++ src/ui/gl/gl_implementation_linux.cc	2012-10-01 13:03:22.638459194 -0400
-@@ -75,7 +75,7 @@
+--- src.orig/src/ui/gl/gl_implementation_linux.cc	2013-03-06 06:31:13.000000000 -0600
++++ src/src/ui/gl/gl_implementation_linux.cc	2013-03-10 16:22:54.686203544 -0500
+@@ -79,7 +79,7 @@
        }
  
        base::NativeLibrary library = LoadLibrary(

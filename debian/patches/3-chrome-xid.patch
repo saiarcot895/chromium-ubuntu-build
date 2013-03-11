@@ -1,8 +1,8 @@
-Index: src/chrome/browser/ui/gtk/browser_window_gtk.cc
+Index: src/src/chrome/browser/ui/gtk/browser_window_gtk.cc
 ===================================================================
---- src/chrome/browser/ui/gtk/browser_window_gtk.cc	(revision 158531)
-+++ src/chrome/browser/ui/gtk/browser_window_gtk.cc	(working copy)
-@@ -152,6 +152,12 @@
+--- src.orig/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-03-10 14:53:05.167334123 -0500
++++ src/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-03-10 14:56:49.483008531 -0500
+@@ -141,6 +141,12 @@
  // gtk_window_get_position() after the last GTK configure-event signal.
  const int kDebounceTimeoutMilliseconds = 100;
  
@@ -12,10 +12,10 @@ Index: src/chrome/browser/ui/gtk/browser_window_gtk.cc
 +//  in the extensions api.
 +char kSessionIdPropertyName[] = "CHROMIUM_LINUX_SESSION_ID_PROPERTY";
 +
- // Ubuntu patches their verrsion of GTK+ so that there is always a
- // gripper in the bottom right corner of the window. We dynamically
- // look up this symbol because it's a non-standard Ubuntu extension to
-@@ -424,6 +433,20 @@
+ // Using gtk_window_get_position/size creates a race condition, so only use
+ // this to get the initial bounds.  After window creation, we pick up the
+ // normal bounds by connecting to the configure-event signal.
+@@ -316,6 +322,20 @@
      InitWidgets();
    }
  
@@ -26,12 +26,12 @@ Index: src/chrome/browser/ui/gtk/browser_window_gtk.cc
 +  //  extension).
 +  gulong session_id = browser_->session_id().id();
 +  gdk_property_change(GTK_WIDGET(window_)->window,
-+		      gdk_atom_intern(kSessionIdPropertyName, FALSE),
-+		      gdk_atom_intern("CARDINAL", FALSE),
-+		      32,
-+		      GDK_PROP_MODE_REPLACE,
-+		      (guchar *)&session_id,
-+		      1);
++                      gdk_atom_intern(kSessionIdPropertyName, FALSE),
++                      gdk_atom_intern("CARDINAL", FALSE),
++                      32,
++                      GDK_PROP_MODE_REPLACE,
++                      (guchar *)&session_id,
++                      1);
 +
    ConnectAccelerators();
  

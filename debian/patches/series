@@ -8,13 +8,13 @@ translations/translations-webkit_strings.patch
 # system_v8.patch
 #chromium_useragent.patch
 #disable_dlog_and_dcheck_in_release_builds.patch
-#webkit_rev_parser.patch
-#dlopen_sonamed_gl.patch
+webkit_rev_parser.patch
+dlopen_sonamed_gl.patch
 #arm.patch
 #grd_parse_fix.patch
 #1-infobars.patch
 #2-get-domain-tld.patch
-#3-chrome-xid.patch
+3-chrome-xid.patch
 #4-chromeless-window-launch-option.patch
 5-desktop-integration-settings.patch
 #6-passwordless-install-support.patch
