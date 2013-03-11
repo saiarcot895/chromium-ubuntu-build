@@ -163,6 +163,7 @@ INSTALL_EXCLUDE_DIRS = \
 	gmail_app \
 	pyproto \
 	pseudo_locales \
+	locales \
 	$(NULL)
 
 INSTALL_EXCLUDE_FILES = \
@@ -301,12 +302,9 @@ binary-arch: build install
 	dh_testdir
 	dh_testroot
 	dh_install
-	#dh_installdocs
 	dh_installmenu
-	#dh_installchangelogs ChangeLog
-	dh_strip
 	dh_compress
-	dh_fixperms
+	dh_fixperms --exclude chromium-browser-sandbox
 	dh_installdeb
 	dh_shlibdeps
 	dh_gencontrol
@@ -366,6 +364,7 @@ install: build
 	done
 	dh_installdirs --package=chromium-browser usr/share/icons/hicolor/scalable/apps
 	cp -a debian/chromium-browser.svg debian/chromium-browser/usr/share/icons/hicolor/scalable/apps
+	
 ifeq (1,$(WANT_SANDBOXING))
 	chmod 4755 debian/$(DEBIAN_NAME)/$(LIB_DIR)/chromium-browser-sandbox
 else
@@ -379,7 +378,9 @@ endif
 	# Locales: only keep en-US in the main deb
 	dh_installdirs --package=chromium-browser-l10n $(LIB_DIR)/locales
 	cp $(SRC_DIR)/out/$(BUILD_TYPE)/locales/* debian/chromium-browser-l10n/$(LIB_DIR)/locales
+	mkdir debian/chromium-browser/$(LIB_DIR)/locales
 	mv debian/chromium-browser-l10n/$(LIB_DIR)/locales/en-US.pak debian/chromium-browser/$(LIB_DIR)/locales
+	
 	dh_installdirs --package=chromium-codecs-ffmpeg $(LIB_DIR)
 	cp debian/tmp-std/libffmpegsumo.so debian/chromium-codecs-ffmpeg/$(LIB_DIR)
 	
