@@ -1,7 +1,9 @@
-chromium-browser (27.0.1435.0~svn20130309r187164-0ubuntuppa5~unstable1) UNRELEASED; urgency=low
+chromium-browser (27.0.1435.0~svn20130309r187164-0ubuntuppa5~unstable1) unstable; urgency=low
 
   * Removed extra locales in main package
   * Excluded chromium-browser-sandbox from dh_fixperms
+  * Added content to build-indep so that other locales will be packaged
+  * Deb files are now compressed with xz
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 11 Mar 2013 17:29:23 -0500
 

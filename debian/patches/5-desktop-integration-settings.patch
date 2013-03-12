@@ -142,32 +142,54 @@ Index: upstream/src/chrome/browser/resources/options/desktop_integration_add_web
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
 +++ upstream/src/chrome/browser/resources/options/desktop_integration_add_website_overlay.js	2013-03-03 07:02:28.618790317 -0600
-@@ -0,0 +1,25 @@
-+<div id="desktop-integration-area" class="page" hidden>
+@@ -0,0 +1,47 @@
++// Copyright (c) 2012 The Chromium Authors. All rights reserved.
++// Use of this source code is governed by a BSD-style license that can be
++// found in the LICENSE file.
 +
-+  <div class="close-button"></div>
-+  <h1 i18n-content="desktopIntegrationPage"></h1>
-+  
-+  <span i18n-content="desktopIntegrationInfoText"></span>
-+ 
-+  <div class="content-area">
-+    <list id="domains-list"></list>
++///////////////////////////////////////////////////////////////////////////////
++// AddDesktopIntegrationWebsiteOverlay class:
 +
-+    <div class="desktop-integration-lower-left">
-+      <button id="desktop-integration-add-button"
-+              i18n-content="add_button"></button>
-+    </div>
-+  </div>
++cr.define('options', function() {
++  /** @const */ var OptionsPage = options.OptionsPage;
 +
-+  <div class="action-area">
-+    <div class="button-strip">
-+      <button id="desktop-integrations-overlay-confirm"
-+          i18n-content="ok">
-+      </button>
-+    </div>
-+  </div>
++  /**
++   * @constructor
++   */
++  function AddDesktopIntegrationWebsiteOverlay() {
++    OptionsPage.call(this, 'addDesktopIntegrationWebsite',
++                     loadTimeData.getString('add_button'),
++                     'add-desktop-integration-website-overlay-page');
++  }
 +
-+</div>
++  cr.addSingletonGetter(AddDesktopIntegrationWebsiteOverlay);
++
++  AddDesktopIntegrationWebsiteOverlay.prototype = {
++    // Inherit AddDesktopIntegrationWebsiteOverlay from OptionsPage.
++    __proto__: OptionsPage.prototype,
++
++    /**
++     * Initializes AddDesktopIntegrationWebsiteOverlay page.
++     * Calls base class implementation to starts preference initialization.
++     */
++    initializePage: function() {
++      // Call base class implementation to starts preference initialization.
++      OptionsPage.prototype.initializePage.call(this);
++      
++      // Cleanup any previously entered text.
++      $('integration-domain-url-field').value = '';
++
++      // Set up the cancel button.
++      $('add-integration-website-overlay-cancel-button').onclick = function(e) {
++        OptionsPage.closeOverlay();
++      };
++    },
++  };
++
++  return {
++    AddDesktopIntegrationWebsiteOverlay: AddDesktopIntegrationWebsiteOverlay
++  };
++});
 Index: upstream/src/chrome/browser/resources/options/desktop_integration_overlay.css
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
