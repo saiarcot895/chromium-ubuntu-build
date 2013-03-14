@@ -1,8 +1,8 @@
-Index: upstream/src/chrome/app/generated_resources.grd
+Index: b/src/chrome/app/generated_resources.grd
 ===================================================================
---- upstream.orig/src/chrome/app/generated_resources.grd	2013-03-02 05:15:15.638959726 -0600
-+++ upstream/src/chrome/app/generated_resources.grd	2013-03-03 07:12:48.688863669 -0600
-@@ -12105,6 +12105,9 @@
+--- a/src/chrome/app/generated_resources.grd
++++ b/src/chrome/app/generated_resources.grd
+@@ -12313,6 +12313,9 @@
        <message name="IDS_OPTIONS_ADVANCED_SECTION_TITLE_CONTENT">
          Web content
        </message>
@@ -12,11 +12,11 @@ Index: upstream/src/chrome/app/generated_resources.grd
        <message name="IDS_OPTIONS_ADVANCED_SECTION_TITLE_SECURITY">
          HTTPS/SSL
        </message>
-@@ -14898,6 +14901,35 @@
+@@ -15173,6 +15176,35 @@
        </message>
      </if>
  
-+<!-- Desktop integration -->
++    <!-- Desktop integration -->
 +    <message name="IDS_PROMPT_INTEGRATION_ENABLE_BUTTON_LABEL" desc="The text to be displayed on the checkbox that enables desktop integration.">
 +      Notify me when the website I am visiting can run as an application
 +    </message>
@@ -48,15 +48,43 @@ Index: upstream/src/chrome/app/generated_resources.grd
      <!-- Manage Profile Dialog -->
      <message name="IDS_PROFILES_MANAGE_TITLE" desc="Title of the manage profile dialog">
        Edit user
-Index: upstream/src/chrome/browser/resources/options/browser_options.js
+Index: b/src/chrome/browser/resources/options/options.html
 ===================================================================
---- upstream.orig/src/chrome/browser/resources/options/browser_options.js	2013-03-02 05:16:14.192974398 -0600
-+++ upstream/src/chrome/browser/resources/options/browser_options.js	2013-03-03 06:54:45.851992431 -0600
-@@ -355,6 +355,23 @@
+--- a/src/chrome/browser/resources/options/options.html
++++ b/src/chrome/browser/resources/options/options.html
+@@ -19,6 +19,7 @@
+ <link rel="stylesheet" href="clear_browser_data_overlay.css">
+ <link rel="stylesheet" href="content_settings.css">
+ <link rel="stylesheet" href="cookies_view.css">
++<link rel="stylesheet" href="desktop_integration_overlay.css">
+ <link rel="stylesheet" href="do_not_track_confirm_overlay.css">
+ <link rel="stylesheet" href="managed_user_settings.css">
+ <link rel="stylesheet" href="font_settings.css">
+@@ -97,6 +98,7 @@
+   <include src="font_settings.html">
+   <include src="home_page_overlay.html">
+   <include src="import_data_overlay.html">
++  <include src="desktop_integration_overlay.html">
+   <include src="instant_confirm_overlay.html">
+   <include src="language_options.html">
+   <include src="manage_profile_overlay.html">
+@@ -125,6 +127,7 @@
+   <include src="autofill_edit_creditcard_overlay.html">
+   <include src="content_settings_exceptions_area.html">
+   <include src="cookies_view.html">
++  <include src="desktop_integration_add_website_overlay.html">
+   <include src="handler_options.html">
+   <include src="language_add_language_overlay.html">
+   <if expr="not is_macosx">
+Index: b/src/chrome/browser/resources/options/browser_options.js
+===================================================================
+--- a/src/chrome/browser/resources/options/browser_options.js
++++ b/src/chrome/browser/resources/options/browser_options.js
+@@ -341,6 +341,23 @@
              [String(event.target.options[event.target.selectedIndex].value)]);
        };
  
-+      // Desktop integration section
++      // Desktop integration section.
 +      if (cr.isLinux && !cr.isChromeOS) {
 +        var updateButtonState = function () {
 +          $('desktop-integration-button').disabled =
@@ -76,32 +104,32 @@ Index: upstream/src/chrome/browser/resources/options/browser_options.js
        // Languages section.
        $('language-button').onclick = function(event) {
          OptionsPage.navigateToPage('languages');
-@@ -1072,6 +1089,24 @@
-       OptionsPage.showPageByName('bluetooth', false);
+@@ -1017,6 +1034,24 @@
      },
  
-+     /**
-+      * Disable the desktop integration settings if needed.
-+      * @private
-+      */
+     /**
++     * Disable the desktop integration settings if needed.
++     * @private
++     */
 +    disableDesktopIntegration_: function() {
 +      $('desktop-integration-section').style.display = 'none';
 +    },
 +
-+     /**
-+      * Disable the desktop integration settings if needed.
-+      * @private
-+      */
++    /**
++     * Disable the desktop integration settings if needed.
++     * @private
++     */
 +    setDesktopIntegrationIsAllowed_: function(enabled) {
 +      $('promptIntegrationForAnyWebsite').checked = enabled;
 +      $('desktop-integration-button').disabled =
 +        ! $('promptIntegrationForAnyWebsite').checked;
 +    },
 +
-     /**
-      * Enables factory reset section.
++    /**
+      * Set the checked state of the metrics reporting checkbox.
       * @private
-@@ -1371,6 +1406,7 @@
+      */
+@@ -1306,6 +1341,7 @@
    //Forward public APIs to private implementations.
    [
      'addBluetoothDevice',
@@ -109,7 +137,7 @@ Index: upstream/src/chrome/browser/resources/options/browser_options.js
      'enableFactoryResetSection',
      'getCurrentProfile',
      'getStartStopSyncButton',
-@@ -1384,6 +1420,7 @@
+@@ -1319,6 +1355,7 @@
      'setFontSize',
      'setGtkThemeButtonEnabled',
      'setHighContrastCheckboxState',
@@ -117,31 +145,180 @@ Index: upstream/src/chrome/browser/resources/options/browser_options.js
      'setMetricsReportingCheckboxState',
      'setMetricsReportingSettingVisibility',
      'setPasswordGenerationSettingVisibility',
-Index: upstream/src/chrome/browser/resources/options/desktop_integration_add_website_overlay.html
+Index: b/src/chrome/browser/resources/options/options.js
 ===================================================================
---- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ upstream/src/chrome/browser/resources/options/desktop_integration_add_website_overlay.html	2013-03-03 07:03:29.257079750 -0600
-@@ -0,0 +1,16 @@
-+<div id="add-desktop-integration-website-overlay-page" class="page" hidden>
+--- a/src/chrome/browser/resources/options/options.js
++++ b/src/chrome/browser/resources/options/options.js
+@@ -14,6 +14,8 @@
+     options.contentSettings.ContentSettingsExceptionsArea;
+ var ContentSettings = options.ContentSettings;
+ var CookiesView = options.CookiesView;
++var DesktopIntegrationOverlay = options.DesktopIntegrationOverlay;
++var AddDesktopIntegrationWebsiteOverlay = options.AddDesktopIntegrationWebsiteOverlay;
+ var EditDictionaryOverlay = cr.IsMac ? null : options.EditDictionaryOverlay;
+ var FactoryResetOverlay = options.FactoryResetOverlay;
+ var ManagedUserSettings = options.ManagedUserSettings;
+@@ -125,6 +127,13 @@
+   OptionsPage.registerOverlay(FontSettings.getInstance(),
+                               BrowserOptions.getInstance(),
+                               [$('fontSettingsCustomizeFontsButton')]);
++  if (cr.isLinux && !cr.isChromeos) {
++    OptionsPage.registerOverlay(AddDesktopIntegrationWebsiteOverlay.getInstance(),
++                                DesktopIntegrationOverlay.getInstance());
++    OptionsPage.registerOverlay(DesktopIntegrationOverlay.getInstance(),
++                                BrowserOptions.getInstance(),
++                                [$('desktop-integration-button')]);
++  }
+   if (HandlerOptions && $('manage-handlers-button')) {
+     OptionsPage.registerOverlay(HandlerOptions.getInstance(),
+                                 ContentSettings.getInstance(),
+Index: b/src/chrome/browser/resources/options/options_bundle.js
+===================================================================
+--- a/src/chrome/browser/resources/options/options_bundle.js
++++ b/src/chrome/browser/resources/options/options_bundle.js
+@@ -71,6 +71,8 @@
+ <include src="content_settings_ui.js"></include>
+ <include src="cookies_list.js"></include>
+ <include src="cookies_view.js"></include>
++<include src="desktop_integration_add_website_overlay.js"></include>
++<include src="desktop_integration_overlay.js"></include>
+ <include src="factory_reset_overlay.js"></include>
+ <include src="managed_user_settings.js"></include>
+ <include src="font_settings.js"></include>
+Index: b/src/chrome/browser/resources/options/browser_options.html
+===================================================================
+--- a/src/chrome/browser/resources/options/browser_options.html
++++ b/src/chrome/browser/resources/options/browser_options.html
+@@ -376,6 +376,22 @@
+     </div>
+   </section>
+ </if>  <!-- pp_ifdef('chromeos') -->
++
++<if expr="is_linux and not pp_ifdef('chromeos')">
++  <section id="desktop-integration-section">
++    <h3 i18n-content="advancedSectionTitleIntegration"></h3>
++    <div class="checkbox">
++      <label>
++        <input id="promptIntegrationForAnyWebsite"
++            metric="Options_PromptIntegration" type="checkbox">
++        <span i18n-content="promptIntegrationEnableIntegration"></span>
++      </label>
++    </div>
++    <button id="desktop-integration-button"
++        i18n-content="desktopIntegrationExceptionsSettingsButton"></button>
++  </section>
++</if>
++
+   <section id="passwords-and-autofill-section">
+     <h3 i18n-content="passwordsAndAutofillGroupName"></h3>
+     <div class="checkbox">
+Index: b/src/chrome/browser/ui/webui/options/options_ui.cc
+===================================================================
+--- a/src/chrome/browser/ui/webui/options/options_ui.cc
++++ b/src/chrome/browser/ui/webui/options/options_ui.cc
+@@ -85,6 +85,10 @@
+ #include "chrome/browser/ui/webui/options/certificate_manager_handler.h"
+ #endif
+ 
++#if defined(OS_LINUX)
++#include "chrome/browser/ui/webui/options/desktop_integration_settings_handler.h"
++#endif
++
+ using content::RenderViewHost;
+ 
+ namespace {
+@@ -240,6 +244,10 @@
+   AddOptionsPageUIHandler(localized_strings, new ClearBrowserDataHandler());
+   AddOptionsPageUIHandler(localized_strings, new ContentSettingsHandler());
+   AddOptionsPageUIHandler(localized_strings, new CookiesViewHandler());
++#if defined(OS_LINUX)
++  AddOptionsPageUIHandler(localized_strings,
++                          new DesktopIntegrationSettingsHandler());
++#endif
+   AddOptionsPageUIHandler(localized_strings, new FontSettingsHandler());
+   AddOptionsPageUIHandler(localized_strings, new HomePageOverlayHandler());
+   AddOptionsPageUIHandler(localized_strings,
+Index: b/src/chrome/browser/ui/webui/options/browser_options_handler.cc
+===================================================================
+--- a/src/chrome/browser/ui/webui/options/browser_options_handler.cc
++++ b/src/chrome/browser/ui/webui/options/browser_options_handler.cc
+@@ -161,6 +161,8 @@
+     { "currentUserOnly", IDS_OPTIONS_CURRENT_USER_ONLY },
+     { "advancedSectionTitleContent",
+       IDS_OPTIONS_ADVANCED_SECTION_TITLE_CONTENT },
++    { "advancedSectionTitleIntegration",
++      IDS_OPTIONS_ADVANCED_SECTION_TITLE_INTEGRATION },
+     { "advancedSectionTitleLanguages",
+       IDS_OPTIONS_ADVANCED_SECTION_TITLE_LANGUAGES },
+     { "advancedSectionTitleNetwork",
+@@ -180,6 +182,10 @@
+     { "defaultFontSizeLabel", IDS_OPTIONS_DEFAULT_FONT_SIZE_LABEL },
+     { "defaultSearchManageEngines", IDS_OPTIONS_DEFAULTSEARCH_MANAGE_ENGINES },
+     { "defaultZoomFactorLabel", IDS_OPTIONS_DEFAULT_ZOOM_LEVEL_LABEL },
++    { "desktopIntegrationExceptionsSettingsButton",
++      IDS_DESKTOP_INTEGRATION_SETTINGS_EXCEPTIONS_BUTTON_LABEL },
++    { "desktopIntegrationNoteSettingsContent",
++      IDS_DESKTOP_INTEGRATION_NOTE_DESCRIPTION },
+ #if defined(OS_CHROMEOS)
+     { "disableGData", IDS_OPTIONS_DISABLE_GDATA },
+ #endif
+@@ -242,6 +248,8 @@
+     { "profilesDeleteSingle", IDS_PROFILES_DELETE_SINGLE_BUTTON_LABEL },
+     { "profilesListItemCurrent", IDS_PROFILES_LIST_ITEM_CURRENT },
+     { "profilesManage", IDS_PROFILES_MANAGE_BUTTON_LABEL },
++    { "promptIntegrationEnableIntegration",
++      IDS_PROMPT_INTEGRATION_ENABLE_BUTTON_LABEL },
+     { "proxiesLabel", IDS_OPTIONS_PROXIES_LABEL },
+     { "safeBrowsingEnableProtection",
+       IDS_OPTIONS_SAFEBROWSING_ENABLEPROTECTION },
+Index: b/src/chrome/chrome_browser_ui.gypi
+===================================================================
+--- a/src/chrome/chrome_browser_ui.gypi
++++ b/src/chrome/chrome_browser_ui.gypi
+@@ -1971,6 +1971,8 @@
+         'browser/ui/webui/options/cookies_view_handler.h',
+         'browser/ui/webui/options/core_options_handler.cc',
+         'browser/ui/webui/options/core_options_handler.h',
++        'browser/ui/webui/options/desktop_integration_settings_handler.cc',
++        'browser/ui/webui/options/desktop_integration_settings_handler.h',
+         'browser/ui/webui/options/font_settings_handler.cc',
+         'browser/ui/webui/options/font_settings_handler.h',
+         'browser/ui/webui/options/font_settings_utils.h',
+Index: b/src/chrome/browser/resources/options/desktop_integration_overlay.html
+===================================================================
+--- /dev/null
++++ b/src/chrome/browser/resources/options/desktop_integration_overlay.html
+@@ -0,0 +1,26 @@
++<div id="desktop-integration-area" class="page" hidden>
++
 +  <div class="close-button"></div>
-+  <h1 i18n-content="add_desktop_website_title"></h1>
-+
++  <h1 i18n-content="desktopIntegrationPage"></h1>
++  
++  <span i18n-content="desktopIntegrationInfoText"></span>
++ 
 +  <div class="content-area">
-+    <span i18n-content="add_desktop_website_input_label"></span>
-+    <input id="integration-domain-url-field" type="url" data-type="url"
-++           class="weakrtl favicon-cell hbox stretch">
++    <list id="domains-list"></list>
++
++    <div class="desktop-integration-lower-left">
++      <button id="desktop-integration-add-button"
++              i18n-content="add_button"></button>
++    </div>
 +  </div>
 +
-+  <div class="action-area button-strip">
-+    <button id="add-integration-website-overlay-cancel-button" i18n-content="cancel">
-+    </button>
-+    <button id="add-integration-website-overlay-ok-button" i18n-content="ok"></button>
++  <div class="action-area">
++    <div class="button-strip">
++      <button id="desktop-integrations-overlay-confirm"
++          i18n-content="ok">
++      </button>
++    </div>
 +  </div>
++
 +</div>
-Index: upstream/src/chrome/browser/resources/options/desktop_integration_add_website_overlay.js
++
+Index: b/src/chrome/browser/resources/options/desktop_integration_add_website_overlay.js
 ===================================================================
---- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ upstream/src/chrome/browser/resources/options/desktop_integration_add_website_overlay.js	2013-03-03 07:02:28.618790317 -0600
+--- /dev/null
++++ b/src/chrome/browser/resources/options/desktop_integration_add_website_overlay.js
 @@ -0,0 +1,47 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -190,117 +367,10 @@ Index: upstream/src/chrome/browser/resources/options/desktop_integration_add_web
 +    AddDesktopIntegrationWebsiteOverlay: AddDesktopIntegrationWebsiteOverlay
 +  };
 +});
-Index: upstream/src/chrome/browser/resources/options/desktop_integration_overlay.css
+Index: b/src/chrome/browser/resources/options/desktop_integration_overlay.js
 ===================================================================
---- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ upstream/src/chrome/browser/resources/options/desktop_integration_overlay.css	2013-03-03 07:01:01.551441135 -0600
-@@ -0,0 +1,71 @@
-+/* Copyright (c) 2012 The Chromium Authors. All rights reserved.
-+ * Use of this source code is governed by a BSD-style license that can be
-+ * found in the LICENSE file. */
-+
-+#desktop-integration-options {
-+  min-width: 550px;
-+}
-+
-+#desktop-integration-options list {
-+  min-height: 172px;
-+}
-+
-+.desktop-integration-list-item {
-+  -webkit-box-flex: 1;
-+  -webkit-padding-start: 8px;
-+  overflow: hidden;
-+  text-overflow: ellipsis;
-+}
-+
-+.desktop-integration-lower-left button {
-+  min-width: 70px;
-+}
-+
-+.desktop-integration-lower-left {
-+  -webkit-box-flex: 0;
-+  -webkit-padding-start: 12px;
-+  padding-bottom: 10px;
-+}
-+
-+#desktop-integration-column-headers {
-+  -webkit-margin-start: 17px;
-+  display: -webkit-box;
-+  margin-top: 17px;
-+}
-+
-+#desktop-integration-column-headers > div {
-+  font-weight: bold;
-+}
-+
-+#desktop-integration-pattern-column {
-+  -webkit-box-flex: 1;
-+}
-+
-+#desktop-integration-behavior-column {
-+  width: 145px;
-+}
-+
-+#desktop-integration-area list {
-+  margin-bottom: 10px;
-+  margin-top: 4px;
-+}
-+
-+#domains-list {
-+  -webkit-box-flex: 1;
-+  outline: none;
-+  padding: 1px 0 0;
-+  width: 100%;
-+}
-+
-+#domains-list .domain-name {
-+  -webkit-box-flex: 1;
-+  overflow: hidden;
-+  text-overflow: ellipsis;
-+  white-space: nowrap;
-+}
-+
-+#domains-list li {
-+  -webkit-padding-start: 12px;
-+  padding-bottom: 2px;
-+  padding-top: 2px;
-+}
-Index: upstream/src/chrome/browser/resources/options/desktop_integration_overlay.html
-===================================================================
---- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ upstream/src/chrome/browser/resources/options/desktop_integration_overlay.html	2013-03-03 06:57:54.391965925 -0600
-@@ -0,0 +1,26 @@
-+<div id="desktop-integration-area" class="page" hidden>
-+
-+  <div class="close-button"></div>
-+  <h1 i18n-content="desktopIntegrationPage"></h1>
-+  
-+  <span i18n-content="desktopIntegrationInfoText"></span>
-+ 
-+  <div class="content-area">
-+    <list id="domains-list"></list>
-+
-+    <div class="desktop-integration-lower-left">
-+      <button id="desktop-integration-add-button"
-+              i18n-content="add_button"></button>
-+    </div>
-+  </div>
-+
-+  <div class="action-area">
-+    <div class="button-strip">
-+      <button id="desktop-integrations-overlay-confirm"
-+          i18n-content="ok">
-+      </button>
-+    </div>
-+  </div>
-+
-+</div>
-+
-Index: upstream/src/chrome/browser/resources/options/desktop_integration_overlay.js
-===================================================================
---- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ upstream/src/chrome/browser/resources/options/desktop_integration_overlay.js	2013-03-03 07:00:25.746041346 -0600
+--- /dev/null
++++ b/src/chrome/browser/resources/options/desktop_integration_overlay.js
 @@ -0,0 +1,203 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -505,78 +575,107 @@ Index: upstream/src/chrome/browser/resources/options/desktop_integration_overlay
 +  };
 +});
 +
-Index: upstream/src/chrome/browser/resources/options/options.html
+Index: b/src/chrome/browser/resources/options/desktop_integration_overlay.css
 ===================================================================
---- upstream.orig/src/chrome/browser/resources/options/options.html	2013-03-02 05:16:14.120971921 -0600
-+++ upstream/src/chrome/browser/resources/options/options.html	2013-03-03 06:45:37.638067954 -0600
-@@ -20,6 +20,7 @@
- <link rel="stylesheet" href="clear_browser_data_overlay.css">
- <link rel="stylesheet" href="content_settings.css">
- <link rel="stylesheet" href="cookies_view.css">
-+<link rel="stylesheet" href="desktop_integration_overlay.css">
- <link rel="stylesheet" href="do_not_track_confirm_overlay.css">
- <link rel="stylesheet" href="managed_user_set_passphrase.css">
- <link rel="stylesheet" href="managed_user_settings.css">
-@@ -102,6 +103,7 @@
-   <include src="font_settings.html">
-   <include src="home_page_overlay.html">
-   <include src="import_data_overlay.html">
-+  <include src="desktop_integration_overlay.html">
-   <include src="instant_confirm_overlay.html">
-   <include src="language_options.html">
-   <include src="manage_profile_overlay.html">
-@@ -131,6 +133,7 @@
-   <include src="autofill_edit_creditcard_overlay.html">
-   <include src="content_settings_exceptions_area.html">
-   <include src="cookies_view.html">
-+  <include src="desktop_integration_add_website_overlay.html">
-   <include src="handler_options.html">
-   <include src="language_add_language_overlay.html">
-   <include src="managed_user_set_passphrase.html">
-Index: upstream/src/chrome/browser/resources/options/options.js
+--- /dev/null
++++ b/src/chrome/browser/resources/options/desktop_integration_overlay.css
+@@ -0,0 +1,71 @@
++/* Copyright (c) 2012 The Chromium Authors. All rights reserved.
++ * Use of this source code is governed by a BSD-style license that can be
++ * found in the LICENSE file. */
++
++#desktop-integration-options {
++  min-width: 550px;
++}
++
++#desktop-integration-options list {
++  min-height: 172px;
++}
++
++.desktop-integration-list-item {
++  -webkit-box-flex: 1;
++  -webkit-padding-start: 8px;
++  overflow: hidden;
++  text-overflow: ellipsis;
++}
++
++.desktop-integration-lower-left button {
++  min-width: 70px;
++}
++
++.desktop-integration-lower-left {
++  -webkit-box-flex: 0;
++  -webkit-padding-start: 12px;
++  padding-bottom: 10px;
++}
++
++#desktop-integration-column-headers {
++  -webkit-margin-start: 17px;
++  display: -webkit-box;
++  margin-top: 17px;
++}
++
++#desktop-integration-column-headers > div {
++  font-weight: bold;
++}
++
++#desktop-integration-pattern-column {
++  -webkit-box-flex: 1;
++}
++
++#desktop-integration-behavior-column {
++  width: 145px;
++}
++
++#desktop-integration-area list {
++  margin-bottom: 10px;
++  margin-top: 4px;
++}
++
++#domains-list {
++  -webkit-box-flex: 1;
++  outline: none;
++  padding: 1px 0 0;
++  width: 100%;
++}
++
++#domains-list .domain-name {
++  -webkit-box-flex: 1;
++  overflow: hidden;
++  text-overflow: ellipsis;
++  white-space: nowrap;
++}
++
++#domains-list li {
++  -webkit-padding-start: 12px;
++  padding-bottom: 2px;
++  padding-top: 2px;
++}
+Index: b/src/chrome/browser/resources/options/desktop_integration_add_website_overlay.html
 ===================================================================
---- upstream.orig/src/chrome/browser/resources/options/options.js	2013-03-02 05:16:14.216975224 -0600
-+++ upstream/src/chrome/browser/resources/options/options.js	2013-03-03 06:56:01.507250737 -0600
-@@ -14,6 +14,8 @@
-     options.contentSettings.ContentSettingsExceptionsArea;
- var ContentSettings = options.ContentSettings;
- var CookiesView = options.CookiesView;
-+var DesktopIntegrationOverlay = options.DesktopIntegrationOverlay;
-+var AddDesktopIntegrationWebsiteOverlay = options.AddDesktopIntegrationWebsiteOverlay;
- var CreateProfileOverlay = options.CreateProfileOverlay;
- var EditDictionaryOverlay = cr.IsMac ? null : options.EditDictionaryOverlay;
- var FactoryResetOverlay = options.FactoryResetOverlay;
-@@ -129,6 +131,13 @@
-   OptionsPage.registerOverlay(FontSettings.getInstance(),
-                               BrowserOptions.getInstance(),
-                               [$('fontSettingsCustomizeFontsButton')]);
-+  if (cr.isLinux && !cr.isChromeos) {
-+    OptionsPage.registerOverlay(AddDesktopIntegrationWebsiteOverlay.getInstance(),
-+                                DesktopIntegrationOverlay.getInstance());
-+    OptionsPage.registerOverlay(DesktopIntegrationOverlay.getInstance(),
-+                                BrowserOptions.getInstance(),
-+                                [$('desktop-integration-button')]);
-+  }
-   if (HandlerOptions && $('manage-handlers-button')) {
-     OptionsPage.registerOverlay(HandlerOptions.getInstance(),
-                                 ContentSettings.getInstance(),
-Index: upstream/src/chrome/browser/resources/options/options_bundle.js
+--- /dev/null
++++ b/src/chrome/browser/resources/options/desktop_integration_add_website_overlay.html
+@@ -0,0 +1,16 @@
++<div id="add-desktop-integration-website-overlay-page" class="page" hidden>
++  <div class="close-button"></div>
++  <h1 i18n-content="add_desktop_website_title"></h1>
++
++  <div class="content-area">
++    <span i18n-content="add_desktop_website_input_label"></span>
++    <input id="integration-domain-url-field" type="url" data-type="url"
++           class="weakrtl favicon-cell hbox stretch">
++  </div>
++
++  <div class="action-area button-strip">
++    <button id="add-integration-website-overlay-cancel-button" i18n-content="cancel">
++    </button>
++    <button id="add-integration-website-overlay-ok-button" i18n-content="ok"></button>
++  </div>
++</div>
+Index: b/src/chrome/browser/ui/webui/options/desktop_integration_settings_handler.cc
 ===================================================================
---- upstream.orig/src/chrome/browser/resources/options/options_bundle.js	2013-03-02 05:16:14.744993390 -0600
-+++ upstream/src/chrome/browser/resources/options/options_bundle.js	2013-03-03 06:46:39.612051992 -0600
-@@ -74,6 +74,8 @@
- <include src="content_settings_ui.js"></include>
- <include src="cookies_list.js"></include>
- <include src="cookies_view.js"></include>
-+<include src="desktop_integration_add_website_overlay.js"></include>
-+<include src="desktop_integration_overlay.js"></include>
- <include src="factory_reset_overlay.js"></include>
- <include src="managed_user_settings.js"></include>
- <include src="managed_user_set_passphrase.js"></include>
-Index: upstream/src/chrome/browser/ui/webui/options/desktop_integration_settings_handler.cc
-===================================================================
---- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ upstream/src/chrome/browser/ui/webui/options/desktop_integration_settings_handler.cc	2013-03-03 07:05:06.736691648 -0600
+--- /dev/null
++++ b/src/chrome/browser/ui/webui/options/desktop_integration_settings_handler.cc
 @@ -0,0 +1,262 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -595,7 +694,7 @@ Index: upstream/src/chrome/browser/ui/webui/options/desktop_integration_settings
 +#include "base/string_number_conversions.h"
 +#include "base/utf_string_conversions.h"
 +#include "base/values.h"
-+#include "ui/webui/web_ui_util.h"
++#include "chrome/browser/ui/webui/web_ui_util.h"
 +#include "chrome/common/url_constants.h"
 +#include "content/public/browser/web_ui.h"
 +#include "grit/generated_resources.h"
@@ -840,10 +939,10 @@ Index: upstream/src/chrome/browser/ui/webui/options/desktop_integration_settings
 +}
 +
 +}  // namespace options
-Index: upstream/src/chrome/browser/ui/webui/options/desktop_integration_settings_handler.h
+Index: b/src/chrome/browser/ui/webui/options/desktop_integration_settings_handler.h
 ===================================================================
---- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ upstream/src/chrome/browser/ui/webui/options/desktop_integration_settings_handler.h	2013-03-03 07:05:56.750514167 -0600
+--- /dev/null
++++ b/src/chrome/browser/ui/webui/options/desktop_integration_settings_handler.h
 @@ -0,0 +1,76 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -921,16 +1020,3 @@ Index: upstream/src/chrome/browser/ui/webui/options/desktop_integration_settings
 +}  // namespace options
 +
 +#endif  // CHROME_BROWSER_UI_WEBUI_OPTIONS_DESKTOP_INTEGRATION_SETTINGS_HANDLER2_H_
-Index: upstream/src/chrome/chrome_browser_ui.gypi
-===================================================================
---- upstream.orig/src/chrome/chrome_browser_ui.gypi	2013-03-02 05:17:33.835714670 -0600
-+++ upstream/src/chrome/chrome_browser_ui.gypi	2013-03-03 06:43:00.248774784 -0600
-@@ -2057,6 +2057,8 @@
-         'browser/ui/webui/options/cookies_view_handler.h',
-         'browser/ui/webui/options/core_options_handler.cc',
-         'browser/ui/webui/options/core_options_handler.h',
-+        'browser/ui/webui/options/desktop_integration_settings_handler.h',
-+        'browser/ui/webui/options/desktop_integration_settings_handler.cc',
-         'browser/ui/webui/options/font_settings_handler.cc',
-         'browser/ui/webui/options/font_settings_handler.h',
-         'browser/ui/webui/options/font_settings_utils.h',

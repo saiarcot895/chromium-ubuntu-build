@@ -1,7 +1,10 @@
-Index: src/src/ui/gl/gl_implementation_linux.cc
-===================================================================
---- src.orig/src/ui/gl/gl_implementation_linux.cc	2013-03-06 06:31:13.000000000 -0600
-+++ src/src/ui/gl/gl_implementation_linux.cc	2013-03-10 16:22:54.686203544 -0500
+Description: dlopen the sonamed libs directly, like it has already been done
+  for libGL.so.1, as we don't want to Depend on the -dev packages for the .so files:
+  - libosmesa.so.6: was already available in Hardy
+  - libGLESv2.so.1 and libEGL.so.1: available only since Maverick
+
+--- a/src/ui/gl/gl_implementation_linux.cc
++++ b/src/ui/gl/gl_implementation_linux.cc
 @@ -79,7 +79,7 @@
        }
  

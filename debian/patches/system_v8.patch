@@ -1,9 +1,3 @@
----
- build/linux/system.gyp |   11 +++++++++++
- net/net.gyp            |    8 ++++++++
- webkit/webkit.gyp      |    8 ++++++++
- 3 files changed, 27 insertions(+)
-
 Index: src/build/linux/system.gyp
 ===================================================================
 --- src.orig/build/linux/system.gyp
