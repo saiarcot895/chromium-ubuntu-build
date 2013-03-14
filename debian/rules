@@ -300,33 +300,33 @@ binary-indep: build install
 	dh_testdir
 	dh_testroot
 	dh_install
-ifeq (1,$(WANT_XZ_DEBS))
-	dh_compress -- -Zxz
-else
 	dh_compress
-endif
 	dh_fixperms
 	dh_installdeb
 	dh_gencontrol
 	dh_md5sums
+ifeq (1,$(WANT_XZ_DEBS))
+	dh_builddeb -- -Zxz
+else
 	dh_builddeb
+endif
 
 binary-arch: build install
 	dh_testdir
 	dh_testroot
 	dh_install
 	dh_installmenu
-ifeq (1,$(WANT_XZ_DEBS))
-	dh_compress -- -Zxz
-else
 	dh_compress
-endif
 	dh_fixperms --exclude $(DEB_FIXPERMS_EXCLUDE)
 	dh_installdeb
 	dh_shlibdeps
 	dh_gencontrol
 	dh_md5sums
+ifeq (1,$(WANT_XZ_DEBS))
+	dh_builddeb -- -Zxz
+else
 	dh_builddeb
+endif
 
 binary: binary-indep binary-arch
 

@@ -1,4 +1,4 @@
-chromium-browser (27.0.1435.0~svn20130309r187164-0ubuntuppa6~unstable1) unstable; urgency=low
+chromium-browser (27.0.1435.0~svn20130309r187164-0ubuntuppa7~unstable1) unstable; urgency=low
 
   * Removed extra locales in main package
   * Excluded chromium-browser-sandbox from dh_fixperms
@@ -6,7 +6,7 @@ chromium-browser (27.0.1435.0~svn20130309r187164-0ubuntuppa6~unstable1) unstable
   * Deb files are now compressed with xz
   * Correct 5-desktop-integration-settings.patch
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 11 Mar 2013 17:29:23 -0500
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 12 Mar 2013 05:20:46 -0500
 
 chromium-browser (27.0.1435.0~svn20130309r187164-0ubuntuppa4~unstable1) unstable; urgency=low
 
@@ -14,9 +14,9 @@ chromium-browser (27.0.1435.0~svn20130309r187164-0ubuntuppa4~unstable1) unstable
   * Update webkit_rev_parser.patch, dlopen_sonamed_gl.patch, 3-chrome-xid.patch, and 5-desktop-integration-settings.patch
   * 7-plugin-status.patch no longer seems to be needed
   * Add locale.patch to fix missing if statements
-  * Change .desktop file to use general commmand (LP: #1008741 )
+  * Change .desktop file to use general command (LP: #1008741 )
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 11 Mar 2013 06:30:34 -0600
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 11 Mar 2013 06:30:34 -0500
 
 chromium-browser (22.0.1229.94~r161065-0ubuntu1) unstable; urgency=low
 
