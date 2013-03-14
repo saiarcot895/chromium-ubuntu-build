@@ -265,8 +265,6 @@ clean:
 	rm -rf debian/*-stamp debian/stamp-* debian/tmp-*
 	rm -f $(subst_files)
 	rm -rf third_party chrome $(DEB_TAR_SRCDIR)/out
-#	cd $(DEB_TAR_SRCDIR) && find . -name "Makefile" -print0 | xargs -0 rm -f
-#	cd $(DEB_TAR_SRCDIR) && find . -name "*.mk" -print0 | xargs -0 rm -f
 	sed -i 's,/etc/$(DEBIAN_NAME)/policies,/etc/chromium/policies,' \
 		$(DEB_TAR_SRCDIR)/chrome/common/chrome_paths.cc
 
@@ -374,7 +372,7 @@ install: build
 	# Icons
 	dh_installdirs --package=chromium-browser usr/share/pixmaps
 	cp -a $(DEB_TAR_SRCDIR)/chrome/app/theme/chromium/product_logo_48.png debian/chromium-browser/usr/share/pixmaps/$(DEBIAN_NAME).png
-	for size in 16 22 24 32 48 64 128 256 ; do \
+	for size in 22 24 32 48 64 128 256 ; do \
 	  dh_installdirs --package=chromium-browser usr/share/icons/hicolor/$${size}x$${size}/apps ; \
 	  cp -a $(DEB_TAR_SRCDIR)/chrome/app/theme/chromium/product_logo_$$size.png  \
 	    debian/chromium-browser/usr/share/icons/hicolor/$${size}x$${size}/apps/chromium-browser.png ; \
@@ -742,10 +740,12 @@ ifneq (,$(findstring Ubuntu,$(DEBIAN_DIST)))
 endif
 	# Pack
 	if [ src != $(DEB_TAR_SRCDIR) ] ; then mv $(TMP_DIR)/src $(TMP_DIR)/$(DEB_TAR_SRCDIR) ; fi
-	#mv $(TMP_DIR)/tools/depot_tools $(TMP_DIR)/$(DEB_TAR_SRCDIR)/depot_tools
 	( cd $(TMP_DIR) ; echo "This file is here solely to keep the directory structure when extracting." > PLACEHOLDER ; tar --exclude-vcs -Jcf ../../$(DEBIAN_NAME)_$(VERSION).orig.tar.xz $(DEB_TAR_SRCDIR) PLACEHOLDER )
 	
-	# Remove all files and re-extract to make sure we don't have any leftover VCS files
-	rm -rf $(TMP_DIR) $(DEB_TAR_SRCDIR) && tar -Jxf ../$(DEBIAN_NAME)_$(VERSION).orig.tar.xz
+	# Remove existing files and common VCS folders and move the new source files over
+	cd $(DEB_TAR_SRCDIR) && find . -name ".svn" -print0 | xargs -0 rm -rf
+	cd $(DEB_TAR_SRCDIR) && find . -name ".git" -print0 | xargs -0 rm -rf
+	cd $(DEB_TAR_SRCDIR) && find . -name ".cvs" -print0 | xargs -0 rm -rf
+	rm -rf $(DEB_TAR_SRCDIR) && mv $(TMP_DIR)/$(DEB_TAR_SRCDIR) $(DEB_TAR_SRCDIR) && rm -rf $(TMP_DIR)
 	@echo "# Done (created $(DEBIAN_NAME)_$(VERSION).orig.tar.xz)"
 
