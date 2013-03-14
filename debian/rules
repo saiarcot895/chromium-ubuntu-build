@@ -348,53 +348,53 @@ install: build
 	dh_testroot
 	dh_prep
 	
-	dh_installdirs --package=chromium-browser $(LIB_DIR)
+	dh_installdirs --package=$(DEBIAN_NAME) $(LIB_DIR)
 	# Tar up out except $(INSTALL_EXCLUDE_DIRS), extract it, and then remove $(INSTALL_EXCLUDE_FILES)
 	( cd $(SRC_DIR)/out/$(BUILD_TYPE) && tar $(foreach excl,$(INSTALL_EXCLUDE_DIRS),--exclude=$(excl)) -cf - . ) | \
-	( cd debian/chromium-browser/$(LIB_DIR) && tar xvf - )
-	cd debian/chromium-browser/$(LIB_DIR) && rm -f $(INSTALL_EXCLUDE_FILES)
+	( cd debian/$(DEBIAN_NAME)/$(LIB_DIR) && tar xvf - )
+	cd debian/$(DEBIAN_NAME)/$(LIB_DIR) && rm -f $(INSTALL_EXCLUDE_FILES)
 	# Launcher script
-	dh_installdirs --package=chromium-browser usr/bin
-	cp -a debian/$(DEBIAN_NAME).sh debian/chromium-browser/usr/bin/$(DEBIAN_NAME)
-	chmod 755 debian/chromium-browser/usr/bin/$(DEBIAN_NAME)
+	dh_installdirs --package=$(DEBIAN_NAME) usr/bin
+	cp -a debian/$(DEBIAN_NAME).sh debian/$(DEBIAN_NAME)/usr/bin/$(DEBIAN_NAME)
+	chmod 755 debian/$(DEBIAN_NAME)/usr/bin/$(DEBIAN_NAME)
 	# Preferences
-	dh_installdirs --package=chromium-browser etc/$(DEBIAN_NAME)
-	cp -a debian/$(DEBIAN_NAME).default debian/chromium-browser/etc/$(DEBIAN_NAME)/default
+	dh_installdirs --package=$(DEBIAN_NAME) etc/$(DEBIAN_NAME)
+	cp -a debian/$(DEBIAN_NAME).default debian/$(DEBIAN_NAME)/etc/$(DEBIAN_NAME)/default
 	# Rename the binary from chrome to $(DEBIAN_NAME), this is required
 	# as chromium dereferences all symlinks before starting its children
 	# making the Gnome System Monitor confused with icons
-	mv debian/chromium-browser/$(LIB_DIR)/chrome debian/chromium-browser/$(LIB_DIR)/$(DEBIAN_NAME)
-	mv debian/chromium-browser/$(LIB_DIR)/chrome_sandbox debian/chromium-browser/$(LIB_DIR)/$(DEBIAN_NAME)-sandbox
+	mv debian/$(DEBIAN_NAME)/$(LIB_DIR)/chrome debian/$(DEBIAN_NAME)/$(LIB_DIR)/$(DEBIAN_NAME)
+	mv debian/$(DEBIAN_NAME)/$(LIB_DIR)/chrome_sandbox debian/$(DEBIAN_NAME)/$(LIB_DIR)/$(DEBIAN_NAME)-sandbox
 	# Manpage
-	mv debian/chromium-browser/$(LIB_DIR)/chrome.1 debian/chromium-browser/$(LIB_DIR)/chromium-browser.1
-	dh_installman --package=chromium-browser debian/chromium-browser/$(LIB_DIR)/chromium-browser.1
-	rm -f debian/chromium-browser/$(LIB_DIR)/chromium-browser.1
+	mv debian/$(DEBIAN_NAME)/$(LIB_DIR)/chrome.1 debian/$(DEBIAN_NAME)/$(LIB_DIR)/$(DEBIAN_NAME).1
+	dh_installman --package=$(DEBIAN_NAME) debian/$(DEBIAN_NAME)/$(LIB_DIR)/$(DEBIAN_NAME).1
+	rm -f debian/$(DEBIAN_NAME)/$(LIB_DIR)/$(DEBIAN_NAME).1
 	# Icons
-	dh_installdirs --package=chromium-browser usr/share/pixmaps
-	cp -a $(DEB_TAR_SRCDIR)/chrome/app/theme/chromium/product_logo_48.png debian/chromium-browser/usr/share/pixmaps/$(DEBIAN_NAME).png
+	dh_installdirs --package=$(DEBIAN_NAME) usr/share/pixmaps
+	cp -a $(DEB_TAR_SRCDIR)/chrome/app/theme/chromium/product_logo_48.png debian/$(DEBIAN_NAME)/usr/share/pixmaps/$(DEBIAN_NAME).png
 	for size in 22 24 32 48 64 128 256 ; do \
-	  dh_installdirs --package=chromium-browser usr/share/icons/hicolor/$${size}x$${size}/apps ; \
+	  dh_installdirs --package=$(DEBIAN_NAME) usr/share/icons/hicolor/$${size}x$${size}/apps ; \
 	  cp -a $(DEB_TAR_SRCDIR)/chrome/app/theme/chromium/product_logo_$$size.png  \
-	    debian/chromium-browser/usr/share/icons/hicolor/$${size}x$${size}/apps/chromium-browser.png ; \
+	    debian/$(DEBIAN_NAME)/usr/share/icons/hicolor/$${size}x$${size}/apps/$(DEBIAN_NAME).png ; \
 	done
-	dh_installdirs --package=chromium-browser usr/share/icons/hicolor/scalable/apps
+	dh_installdirs --package=$(DEBIAN_NAME) usr/share/icons/hicolor/scalable/apps
 	cp -a debian/chromium-browser.svg debian/chromium-browser/usr/share/icons/hicolor/scalable/apps
 	
 ifeq (1,$(WANT_SANDBOXING))
-	chmod 4755 debian/$(DEBIAN_NAME)/$(LIB_DIR)/chromium-browser-sandbox
+	chmod 4755 debian/$(DEBIAN_NAME)/$(LIB_DIR)/$(DEBIAN_NAME)-sandbox
 else
-	rm -vf debian/$(DEBIAN_NAME)/$(LIB_DIR)/chromium-browser-sandbox
+	rm -vf debian/$(DEBIAN_NAME)/$(LIB_DIR)/$(DEBIAN_NAME)-sandbox
 endif
 	# NaCL may be blacklisted, so only include it when it's been built
-#ifeq (,$(filter disable_nacl=1,$(GYP_DEFINES)))
-#	cp -a debian/tmp/$(LIB_DIR)/libppGoogleNaClPluginChrome.so debian/chromium-browser/$(LIB_DIR)/
-#	cp -a debian/tmp/$(LIB_DIR)/nacl_irt_* debian/chromium-browser/$(LIB_DIR)/
-#endif
+ifeq (,$(filter disable_nacl=1,$(GYP_DEFINES)))
+	cp -a debian/tmp/$(LIB_DIR)/libppGoogleNaClPluginChrome.so debian/chromium-browser/$(LIB_DIR)/
+	cp -a debian/tmp/$(LIB_DIR)/nacl_irt_* debian/$(DEBIAN_NAME)/$(LIB_DIR)/
+endif
 	# Locales: only keep en-US in the main deb
 	dh_installdirs --package=chromium-browser-l10n $(LIB_DIR)/locales
-	cp $(SRC_DIR)/out/$(BUILD_TYPE)/locales/* debian/chromium-browser-l10n/$(LIB_DIR)/locales
-	mkdir debian/chromium-browser/$(LIB_DIR)/locales
-	mv debian/chromium-browser-l10n/$(LIB_DIR)/locales/en-US.pak debian/chromium-browser/$(LIB_DIR)/locales
+	cp $(SRC_DIR)/out/$(BUILD_TYPE)/locales/* debian/$(DEBIAN_NAME)-l10n/$(LIB_DIR)/locales
+	mkdir debian/$(DEBIAN_NAME)/$(LIB_DIR)/locales
+	mv debian/$(DEBIAN_NAME)-l10n/$(LIB_DIR)/locales/en-US.pak debian/$(DEBIAN_NAME)/$(LIB_DIR)/locales
 	
 	dh_installdirs --package=chromium-codecs-ffmpeg $(LIB_DIR)
 	cp debian/tmp-std/libffmpegsumo.so debian/chromium-codecs-ffmpeg/$(LIB_DIR)
@@ -402,7 +402,7 @@ endif
 	dh_installdirs --package=chromium-codecs-ffmpeg-extra $(LIB_DIR)
 	cp debian/tmp-extra/libffmpegsumo.so debian/chromium-codecs-ffmpeg-extra/$(LIB_DIR)
 	
-	dh_strip --package=chromium-browser --dbg-package=chromium-browser-dbg
+	dh_strip --package=$(DEBIAN_NAME) --dbg-package=$(DEBIAN_NAME)-dbg
 	dh_strip --package=chromium-codecs-ffmpeg --dbg-package=chromium-codecs-ffmpeg-dbg
 	dh_strip --package=chromium-codecs-ffmpeg-extra --dbg-package=chromium-codecs-ffmpeg-extra-dbg
 
