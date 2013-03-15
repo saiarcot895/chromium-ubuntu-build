@@ -14,7 +14,7 @@ dlopen_sonamed_gl.patch
 arm.patch
 arm-neon.patch
 arm-crypto.patch
-struct-siginfo.patch
+#struct-siginfo.patch
 #grd_parse_fix.patch
 ffmpeg-gyp-config.patch
 ###: start lp:unity-chromium-extension

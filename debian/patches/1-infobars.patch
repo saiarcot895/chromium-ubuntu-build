@@ -1,50 +1,43 @@
-Index: a/src/chrome/common/extensions_api_resources.grd
+Index: src/src/chrome/browser/infobars/infobar_extension_api.h
 ===================================================================
---- a/src/chrome/common/extensions_api_resources.grd	(revision 179520)
-+++ a/src/chrome/common/extensions_api_resources.grd	(working copy)
-@@ -28,7 +28,6 @@
-       <include name="IDR_EXTENSION_API_JSON_EXPERIMENTAL_ACCESSIBILITY" file="extensions\api\experimental_accessibility.json" type="BINDATA" />
-       <include name="IDR_EXTENSION_API_JSON_EXPERIMENTAL_APP" file="extensions\api\experimental_app.json" type="BINDATA" />
-       <include name="IDR_EXTENSION_API_JSON_EXPERIMENTAL_HISTORY" file="extensions\api\experimental_history.json" type="BINDATA" />
--      <include name="IDR_EXTENSION_API_JSON_EXPERIMENTAL_INFOBARS" file="extensions\api\experimental_infobars.json" type="BINDATA" />
-       <include name="IDR_EXTENSION_API_JSON_EXPERIMENTAL_INPUT_VIRTUALKEYBOARD" file="extensions\api\experimental_input_virtual_keyboard.json" type="BINDATA" />
-       <include name="IDR_EXTENSION_API_JSON_EXPERIMENTAL_POWER" file="extensions\api\experimental_power.json" type="BINDATA" />
-       <include name="IDR_EXTENSION_API_JSON_EXPERIMENTAL_PROCESSES" file="extensions\api\experimental_processes.json" type="BINDATA" />
-@@ -44,6 +43,7 @@
-       <include name="IDR_EXTENSION_API_JSON_I18N" file="extensions\api\i18n.json" type="BINDATA" />
-       <include name="IDR_EXTENSION_API_JSON_INPUT_IME" file="extensions\api\input_ime.json" type="BINDATA" />
-       <include name="IDR_EXTENSION_API_JSON_IDLE" file="extensions\api\idle.json" type="BINDATA" />
-+      <include name="IDR_EXTENSION_API_JSON_INFOBARS" file="extensions\api\infobars.json" type="BINDATA" />
-       <include name="IDR_EXTENSION_API_JSON_INPUTMETHODPRIVATE" file="extensions\api\input_method_private.json" type="BINDATA" />
-       <include name="IDR_EXTENSION_API_JSON_MANAGEDMODEPRIVATE" file="extensions\api\managed_mode_private.json" type="BINDATA" />
-       <include name="IDR_EXTENSION_API_JSON_MANAGEMENT" file="extensions\api\management.json" type="BINDATA" />
-Index: a/src/chrome/common/extensions/api/extension_api.cc
+--- src.orig/src/chrome/browser/infobars/infobar_extension_api.h	2013-03-06 06:26:14.000000000 -0600
++++ src/src/chrome/browser/infobars/infobar_extension_api.h	2013-03-14 17:38:37.714948264 -0500
+@@ -10,8 +10,8 @@
+ class InfobarsShowFunction : public SyncExtensionFunction {
+   virtual ~InfobarsShowFunction() {}
+   virtual bool RunImpl() OVERRIDE;
+-  DECLARE_EXTENSION_FUNCTION("experimental.infobars.show",
+-                             EXPERIMENTAL_INFOBARS_SHOW)
++  DECLARE_EXTENSION_FUNCTION("infobars.show",
++                             INFOBARS_SHOW)
+ };
+ 
+ #endif  // CHROME_BROWSER_INFOBARS_INFOBAR_EXTENSION_API_H_
+Index: src/src/chrome/common/extensions/api/api.gyp
 ===================================================================
---- a/src/chrome/common/extensions/api/extension_api.cc	(revision 179520)
-+++ a/src/chrome/common/extensions/api/extension_api.cc	(working copy)
-@@ -378,8 +378,6 @@
-       IDR_EXTENSION_API_JSON_EXPERIMENTAL_APP));
-   RegisterSchema("experimental.history", ReadFromResource(
-       IDR_EXTENSION_API_JSON_EXPERIMENTAL_HISTORY));
--  RegisterSchema("experimental.infobars", ReadFromResource(
--      IDR_EXTENSION_API_JSON_EXPERIMENTAL_INFOBARS));
-   RegisterSchema("experimental.input.virtualKeyboard", ReadFromResource(
-       IDR_EXTENSION_API_JSON_EXPERIMENTAL_INPUT_VIRTUALKEYBOARD));
-   RegisterSchema("experimental.power", ReadFromResource(
-@@ -410,6 +408,8 @@
-       IDR_EXTENSION_API_JSON_I18N));
-   RegisterSchema("idle", ReadFromResource(
-       IDR_EXTENSION_API_JSON_IDLE));
-+  RegisterSchema("infobars", ReadFromResource(
-+      IDR_EXTENSION_API_JSON_INFOBARS));
-   RegisterSchema("input.ime", ReadFromResource(
-       IDR_EXTENSION_API_JSON_INPUT_IME));
-   RegisterSchema("inputMethodPrivate", ReadFromResource(
-Index: a/src/chrome/common/extensions/api/experimental_infobars.json
+--- src.orig/src/chrome/common/extensions/api/api.gyp	2013-03-09 19:44:22.000000000 -0600
++++ src/src/chrome/common/extensions/api/api.gyp	2013-03-14 16:31:57.559449312 -0500
+@@ -46,7 +46,6 @@
+           'experimental_history.json',
+           'experimental_identity.idl',
+           'experimental_idltest.idl',
+-          'experimental_infobars.json',
+           'experimental_media_galleries.idl',
+           'experimental_power.json',
+           'experimental_record.json',
+@@ -60,6 +59,7 @@
+           'history.json',
+           'i18n.json',
+           'idle.json',
++          'infobars.json',
+           'managed_mode_private.json',
+           'management.json',
+           'media_galleries.idl',
+Index: src/src/chrome/common/extensions/api/experimental_infobars.json
 ===================================================================
---- a/src/chrome/common/extensions/api/experimental_infobars.json	(revision 179520)
-+++ a/src/chrome/common/extensions/api/experimental_infobars.json	(working copy)
-@@ -1,51 +0,0 @@
+--- src.orig/src/chrome/common/extensions/api/experimental_infobars.json	2013-03-06 06:30:53.000000000 -0600
++++ /dev/null	1970-01-01 00:00:00.000000000 +0000
+@@ -1,54 +0,0 @@
 -// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 -// Use of this source code is governed by a BSD-style license that can be
 -// found in the LICENSE file.
@@ -52,6 +45,9 @@ Index: a/src/chrome/common/extensions/api/experimental_infobars.json
 -[
 -  {
 -    "namespace": "experimental.infobars",
+-    "compiler_options": {
+-      "implemented_in": "chrome/browser/infobars/infobar_extension_api.h"
+-    },
 -    "dependencies": [ "windows" ],
 -    "types": [],
 -    "functions": [
@@ -96,43 +92,21 @@ Index: a/src/chrome/common/extensions/api/experimental_infobars.json
 -    ]
 -  }
 -]
-Index: a/src/chrome/common/extensions/permissions/permission_set.cc
+Index: src/src/chrome/common/extensions/api/infobars.json
 ===================================================================
---- a/src/chrome/common/extensions/permissions/permission_set.cc	(revision 179520)
-+++ a/src/chrome/common/extensions/permissions/permission_set.cc	(working copy)
-@@ -43,6 +43,7 @@
-   "events",
-   "extension",
-   "i18n",
-+  "infobars",
-   "omnibox",
-   "pageAction",
-   "pageActions",
-Index: a/src/chrome/browser/infobars/infobar_extension_api.h
-===================================================================
---- a/src/chrome/browser/infobars/infobar_extension_api.h	(revision 179520)
-+++ a/src/chrome/browser/infobars/infobar_extension_api.h	(working copy)
-@@ -10,7 +10,7 @@
- class ShowInfoBarFunction : public SyncExtensionFunction {
-   virtual ~ShowInfoBarFunction() {}
-   virtual bool RunImpl() OVERRIDE;
--  DECLARE_EXTENSION_FUNCTION_NAME("experimental.infobars.show")
-+  DECLARE_EXTENSION_FUNCTION_NAME("infobars.show")
- };
- 
- #endif  // CHROME_BROWSER_INFOBARS_INFOBAR_EXTENSION_API_H_
-Index: a/src/chrome/common/extensions/api/infobars.json
-===================================================================
---- a/src/chrome/common/extensions/api/infobars.json	(revision 0)
-+++ a/src/chrome/common/extensions/api/infobars.json	(working copy)
-@@ -0,0 +1,51 @@
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ src/src/chrome/common/extensions/api/infobars.json	2013-03-06 06:30:53.000000000 -0600
+@@ -0,0 +1,54 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.
 +
 +[
 +  {
-+    "namespace": "infobars",
++    "namespace": "experimental.infobars",
++    "compiler_options": {
++      "implemented_in": "chrome/browser/infobars/infobar_extension_api.h"
++    },
 +    "dependencies": [ "windows" ],
 +    "types": [],
 +    "functions": [
@@ -177,3 +151,28 @@ Index: a/src/chrome/common/extensions/api/infobars.json
 +    ]
 +  }
 +]
+Index: src/src/chrome/common/extensions/permissions/permission_set.cc
+===================================================================
+--- src.orig/src/chrome/common/extensions/permissions/permission_set.cc	2013-03-09 19:44:22.000000000 -0600
++++ src/src/chrome/common/extensions/permissions/permission_set.cc	2013-03-14 16:34:43.489154741 -0500
+@@ -45,6 +45,7 @@
+   "events",
+   "extension",
+   "i18n",
++  "infobars",
+   "omnibox",
+   "pageAction",
+   "pageActions",
+Index: src/src/chrome/browser/extensions/extension_function_histogram_value.h
+===================================================================
+--- src.orig/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-03-14 17:39:56.881627768 -0500
++++ src/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-03-14 17:40:58.855725897 -0500
+@@ -287,7 +287,7 @@
+   EXPERIMENTAL_POWER_RELEASEKEEPAWAKE,
+   APP_CURRENTWINDOWINTERNAL_SETICON,
+   PUSHMESSAGING_GETCHANNELID,
+-  EXPERIMENTAL_INFOBARS_SHOW,
++  INFOBARS_SHOW,
+   INPUT_IME_SETCANDIDATEWINDOWPROPERTIES,
+   METRICSPRIVATE_RECORDPERCENTAGE,
+   TYPES_CHROMESETTING_GET,

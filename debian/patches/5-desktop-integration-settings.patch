@@ -58,8 +58,8 @@ Index: b/src/chrome/browser/resources/options/options.html
  <link rel="stylesheet" href="cookies_view.css">
 +<link rel="stylesheet" href="desktop_integration_overlay.css">
  <link rel="stylesheet" href="do_not_track_confirm_overlay.css">
+ <link rel="stylesheet" href="managed_user_set_passphrase.css">
  <link rel="stylesheet" href="managed_user_settings.css">
- <link rel="stylesheet" href="font_settings.css">
 @@ -97,6 +98,7 @@
    <include src="font_settings.html">
    <include src="home_page_overlay.html">
@@ -75,7 +75,7 @@ Index: b/src/chrome/browser/resources/options/options.html
 +  <include src="desktop_integration_add_website_overlay.html">
    <include src="handler_options.html">
    <include src="language_add_language_overlay.html">
-   <if expr="not is_macosx">
+   <include src="managed_user_set_passphrase.html">
 Index: b/src/chrome/browser/resources/options/browser_options.js
 ===================================================================
 --- a/src/chrome/browser/resources/options/browser_options.js
@@ -155,9 +155,9 @@ Index: b/src/chrome/browser/resources/options/options.js
  var CookiesView = options.CookiesView;
 +var DesktopIntegrationOverlay = options.DesktopIntegrationOverlay;
 +var AddDesktopIntegrationWebsiteOverlay = options.AddDesktopIntegrationWebsiteOverlay;
+ var CreateProfileOverlay = options.CreateProfileOverlay;
  var EditDictionaryOverlay = cr.IsMac ? null : options.EditDictionaryOverlay;
  var FactoryResetOverlay = options.FactoryResetOverlay;
- var ManagedUserSettings = options.ManagedUserSettings;
 @@ -125,6 +127,13 @@
    OptionsPage.registerOverlay(FontSettings.getInstance(),
                                BrowserOptions.getInstance(),
@@ -184,7 +184,7 @@ Index: b/src/chrome/browser/resources/options/options_bundle.js
 +<include src="desktop_integration_overlay.js"></include>
  <include src="factory_reset_overlay.js"></include>
  <include src="managed_user_settings.js"></include>
- <include src="font_settings.js"></include>
+ <include src="managed_user_set_passphrase.js"></include>
 Index: b/src/chrome/browser/resources/options/browser_options.html
 ===================================================================
 --- a/src/chrome/browser/resources/options/browser_options.html
@@ -268,9 +268,9 @@ Index: b/src/chrome/browser/ui/webui/options/browser_options_handler.cc
      { "profilesManage", IDS_PROFILES_MANAGE_BUTTON_LABEL },
 +    { "promptIntegrationEnableIntegration",
 +      IDS_PROMPT_INTEGRATION_ENABLE_BUTTON_LABEL },
-     { "proxiesLabel", IDS_OPTIONS_PROXIES_LABEL },
-     { "safeBrowsingEnableProtection",
-       IDS_OPTIONS_SAFEBROWSING_ENABLEPROTECTION },
+ #if defined(ENABLE_SETTINGS_APP)
+     { "profilesAppListSwitch", IDS_SETTINGS_APP_PROFILES_SWITCH_BUTTON_LABEL },
+ #endif
 Index: b/src/chrome/chrome_browser_ui.gypi
 ===================================================================
 --- a/src/chrome/chrome_browser_ui.gypi

@@ -1,6 +1,8 @@
---- /dev/null
-+++ b/src/chrome/browser/extensions/api/tld/tld_api.cc
-@@ -0,0 +1,88 @@
+Index: src/src/chrome/browser/extensions/api/tld/tld_api.cc
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ src/src/chrome/browser/extensions/api/tld/tld_api.cc	2013-03-14 17:45:36.597100770 -0500
+@@ -0,0 +1,87 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.
@@ -88,9 +90,10 @@
 +  return true;
 +}
 +
-+
---- /dev/null
-+++ b/src/chrome/browser/extensions/api/tld/tld_api.h
+Index: src/src/chrome/browser/extensions/api/tld/tld_api.h
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ src/src/chrome/browser/extensions/api/tld/tld_api.h	2013-03-14 17:46:28.122822566 -0500
 @@ -0,0 +1,26 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -118,51 +121,36 @@
 +
 +#endif  // CHROME_BROWSER_EXTENSIONS_API_TLD_TLD_API_H_
 +
---- a/src/chrome/chrome_browser_extensions.gypi
-+++ b/src/chrome/chrome_browser_extensions.gypi
-@@ -386,6 +386,8 @@
-         'browser/extensions/api/terminal/terminal_private_api.h',
-         'browser/extensions/api/test/test_api.cc',
+Index: src/src/chrome/chrome_browser_extensions.gypi
+===================================================================
+--- src.orig/src/chrome/chrome_browser_extensions.gypi	2013-03-09 19:44:15.000000000 -0600
++++ src/src/chrome/chrome_browser_extensions.gypi	2013-03-14 17:47:59.029861292 -0500
+@@ -424,6 +424,8 @@
          'browser/extensions/api/test/test_api.h',
+         'browser/extensions/api/themes/theme_api.cc',
+         'browser/extensions/api/themes/theme_api.h',
 +        'browser/extensions/api/tld/tld_api.cc',
 +        'browser/extensions/api/tld/tld_api.h',
          'browser/extensions/api/top_sites/top_sites_api.cc',
          'browser/extensions/api/top_sites/top_sites_api.h',
          'browser/extensions/api/usb/usb_api.cc',
---- a/src/chrome/common/extensions_api_resources.grd
-+++ b/src/chrome/common/extensions_api_resources.grd
-@@ -63,6 +63,7 @@
-       <include name="IDR_EXTENSION_API_JSON_TABS" file="extensions\api\tabs.json" type="BINDATA" />
-       <include name="IDR_EXTENSION_API_JSON_TERMINALPRIVATE" file="extensions\api\terminal_private.json" type="BINDATA" />
-       <include name="IDR_EXTENSION_API_JSON_TEST" file="extensions\api\test.json" type="BINDATA" />
-+      <include name="IDR_EXTENSION_API_JSON_TLD" file="extensions\api\tld.json" type="BINDATA" />
-       <include name="IDR_EXTENSION_API_JSON_TOPSITES" file="extensions\api\top_sites.json" type="BINDATA" />
-       <include name="IDR_EXTENSION_API_JSON_TTS" file="extensions\api\tts.json" type="BINDATA" />
-       <include name="IDR_EXTENSION_API_JSON_TTSENGINE" file="extensions\api\tts_engine.json" type="BINDATA" />
---- a/src/chrome/common/extensions/permissions/permission_set.cc
-+++ b/src/chrome/common/extensions/permissions/permission_set.cc
-@@ -52,6 +52,7 @@
-   "scriptBadge",
-   "tabs",
-   "test",
-+  "tld",
-   "types",
-   "windows"
- };
---- a/src/chrome/common/extensions/api/extension_api.cc
-+++ b/src/chrome/common/extensions/api/extension_api.cc
-@@ -450,6 +450,8 @@
-       IDR_EXTENSION_API_JSON_TERMINALPRIVATE));
-   RegisterSchema("test", ReadFromResource(
-       IDR_EXTENSION_API_JSON_TEST));
-+  RegisterSchema("tld", ReadFromResource(
-+      IDR_EXTENSION_API_JSON_TLD));
-   RegisterSchema("topSites", ReadFromResource(
-       IDR_EXTENSION_API_JSON_TOPSITES));
-   RegisterSchema("ttsEngine", ReadFromResource(
---- /dev/null
-+++ b/src/chrome/common/extensions/api/tld.json
-@@ -0,0 +1,53 @@
+Index: src/src/chrome/common/extensions/api/api.gyp
+===================================================================
+--- src.orig/src/chrome/common/extensions/api/api.gyp	2013-03-14 17:42:27.206717808 -0500
++++ src/src/chrome/common/extensions/api/api.gyp	2013-03-14 17:57:27.212879863 -0500
+@@ -86,6 +86,7 @@
+           'tabs.json',
+           'terminal_private.json',
+           'test.json',
++          'tld.json',
+           'top_sites.json',
+           'usb.idl',
+           'wallpaper_private.json',
+Index: src/src/chrome/common/extensions/api/tld.json
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ src/src/chrome/common/extensions/api/tld.json	2013-03-14 18:00:15.110507877 -0500
+@@ -0,0 +1,54 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.
@@ -216,24 +204,16 @@
 +  }
 +
 +]
---- a/src/chrome/browser/extensions/extension_function_registry.cc
-+++ b/src/chrome/browser/extensions/extension_function_registry.cc
-@@ -39,6 +39,7 @@
- #include "chrome/browser/extensions/api/tabs/execute_code_in_tab_function.h"
- #include "chrome/browser/extensions/api/tabs/tabs.h"
- #include "chrome/browser/extensions/api/test/test_api.h"
-+#include "chrome/browser/extensions/api/tld/tld_api.h"
- #include "chrome/browser/extensions/api/top_sites/top_sites_api.h"
- #include "chrome/browser/extensions/api/web_navigation/web_navigation_api.h"
- #include "chrome/browser/extensions/api/web_request/web_request_api.h"
-@@ -256,6 +257,10 @@
-   RegisterFunction<ExtensionTtsSpeakFunction>();
-   RegisterFunction<ExtensionTtsStopSpeakingFunction>();
- 
-+  // TLD.
-+  RegisterFunction<TldGetBaseDomainFunction>();
-+  RegisterFunction<TldGetPublicSuffix>();
 +
-   // Commands.
-   RegisterFunction<GetAllCommandsFunction>();
- 
+Index: src/src/chrome/common/extensions/permissions/permission_set.cc
+===================================================================
+--- src.orig/src/chrome/common/extensions/permissions/permission_set.cc	2013-03-14 17:42:27.000000000 -0500
++++ src/src/chrome/common/extensions/permissions/permission_set.cc	2013-03-14 17:58:26.462865554 -0500
+@@ -55,6 +55,7 @@
+   "scriptBadge",
+   "tabs",
+   "test",
++  "tld",
+   "types",
+   "windows"
+ };
