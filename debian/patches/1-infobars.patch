@@ -1,7 +1,7 @@
 Index: src/src/chrome/browser/infobars/infobar_extension_api.h
 ===================================================================
---- src.orig/src/chrome/browser/infobars/infobar_extension_api.h	2013-03-06 06:26:14.000000000 -0600
-+++ src/src/chrome/browser/infobars/infobar_extension_api.h	2013-03-14 17:38:37.714948264 -0500
+--- src.orig/src/chrome/browser/infobars/infobar_extension_api.h	2013-03-15 11:02:23.864112764 -0500
++++ src/src/chrome/browser/infobars/infobar_extension_api.h	2013-03-15 11:03:34.302394166 -0500
 @@ -10,8 +10,8 @@
  class InfobarsShowFunction : public SyncExtensionFunction {
    virtual ~InfobarsShowFunction() {}
@@ -15,9 +15,9 @@ Index: src/src/chrome/browser/infobars/infobar_extension_api.h
  #endif  // CHROME_BROWSER_INFOBARS_INFOBAR_EXTENSION_API_H_
 Index: src/src/chrome/common/extensions/api/api.gyp
 ===================================================================
---- src.orig/src/chrome/common/extensions/api/api.gyp	2013-03-09 19:44:22.000000000 -0600
-+++ src/src/chrome/common/extensions/api/api.gyp	2013-03-14 16:31:57.559449312 -0500
-@@ -46,7 +46,6 @@
+--- src.orig/src/chrome/common/extensions/api/api.gyp	2013-03-15 11:02:23.864112764 -0500
++++ src/src/chrome/common/extensions/api/api.gyp	2013-03-15 11:03:34.302394166 -0500
+@@ -45,7 +45,6 @@
            'experimental_history.json',
            'experimental_identity.idl',
            'experimental_idltest.idl',
@@ -25,7 +25,7 @@ Index: src/src/chrome/common/extensions/api/api.gyp
            'experimental_media_galleries.idl',
            'experimental_power.json',
            'experimental_record.json',
-@@ -60,6 +59,7 @@
+@@ -59,6 +58,7 @@
            'history.json',
            'i18n.json',
            'idle.json',
@@ -35,7 +35,7 @@ Index: src/src/chrome/common/extensions/api/api.gyp
            'media_galleries.idl',
 Index: src/src/chrome/common/extensions/api/experimental_infobars.json
 ===================================================================
---- src.orig/src/chrome/common/extensions/api/experimental_infobars.json	2013-03-06 06:30:53.000000000 -0600
+--- src.orig/src/chrome/common/extensions/api/experimental_infobars.json	2013-03-15 11:02:23.864112764 -0500
 +++ /dev/null	1970-01-01 00:00:00.000000000 +0000
 @@ -1,54 +0,0 @@
 -// Copyright (c) 2012 The Chromium Authors. All rights reserved.
@@ -95,7 +95,7 @@ Index: src/src/chrome/common/extensions/api/experimental_infobars.json
 Index: src/src/chrome/common/extensions/api/infobars.json
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ src/src/chrome/common/extensions/api/infobars.json	2013-03-06 06:30:53.000000000 -0600
++++ src/src/chrome/common/extensions/api/infobars.json	2013-03-15 11:03:34.342395463 -0500
 @@ -0,0 +1,54 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -153,8 +153,8 @@ Index: src/src/chrome/common/extensions/api/infobars.json
 +]
 Index: src/src/chrome/common/extensions/permissions/permission_set.cc
 ===================================================================
---- src.orig/src/chrome/common/extensions/permissions/permission_set.cc	2013-03-09 19:44:22.000000000 -0600
-+++ src/src/chrome/common/extensions/permissions/permission_set.cc	2013-03-14 16:34:43.489154741 -0500
+--- src.orig/src/chrome/common/extensions/permissions/permission_set.cc	2013-03-15 11:02:23.864112764 -0500
++++ src/src/chrome/common/extensions/permissions/permission_set.cc	2013-03-15 11:03:34.342395463 -0500
 @@ -45,6 +45,7 @@
    "events",
    "extension",
@@ -165,8 +165,8 @@ Index: src/src/chrome/common/extensions/permissions/permission_set.cc
    "pageActions",
 Index: src/src/chrome/browser/extensions/extension_function_histogram_value.h
 ===================================================================
---- src.orig/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-03-14 17:39:56.881627768 -0500
-+++ src/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-03-14 17:40:58.855725897 -0500
+--- src.orig/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-03-15 11:02:23.864112764 -0500
++++ src/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-03-15 11:03:34.346395593 -0500
 @@ -287,7 +287,7 @@
    EXPERIMENTAL_POWER_RELEASEKEEPAWAKE,
    APP_CURRENTWINDOWINTERNAL_SETICON,

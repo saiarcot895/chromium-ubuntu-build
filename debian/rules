@@ -16,7 +16,7 @@ LIB_DIR        := usr/lib/$(DEBIAN_NAME)
 DEB_BUILDDIR   := $(SRC_DIR)
 
 # Whitelist LP provided new langs only in release builds, PPAs ship them all
-WANT_ONLY_WHITELISTED_NEW_LANGS ?= 1
+WANT_ONLY_WHITELISTED_NEW_LANGS ?= 0
 
 WANT_XZ_DEBS     ?= 1
 WANT_DEBUG       := 0
@@ -618,10 +618,6 @@ TMP_DIR      := $(LOCAL_BRANCH)
 endif
 
 get-orig-source: REVISION = $(NULL)
-get-orig-source: TAG      = $(NULL)
-ifneq (,$(DEBIAN_TAG))
-get-orig-source: TAG      = $(DEBIAN_TAG)
-else
 ifneq (,$(DEBIAN_REV))
 get-orig-source: REVISION = --revision src@$(DEBIAN_REV)
 else
@@ -637,10 +633,8 @@ get-orig-source: CHROMIUM_URL  = $(CHROMIUM_RLZ)/$(VERS)
 get-orig-source: USE_GREEN_REV = 0
 endif
 endif
-endif
 get-orig-source: gos-all
 
-get-current-source: TAG      = $(NULL)
 get-current-source: REVISION = --revision src@$(DEBIAN_REVISION)
 ifneq (,$(DEBIAN_REV))
 get-current-source: REVISION = --revision src@$(DEBIAN_REV)
@@ -655,9 +649,6 @@ ifneq (,$(CHANNEL))
 	  echo "Error: Cannot parse $(CHANNELS_URL) to get the release version for channel $(CHANNEL)" ; \
 	  exit 1 ; \
 	fi
-endif
-ifneq (,$(TAG))
-	$(error gclient doesn\'t support tags. We need to tweak CHROMIUM_URL. Abort)
 endif
 ifeq (,$(LOCAL_BRANCH))
 	rm -rf $(TMP_DIR)
@@ -733,18 +724,15 @@ ifneq (,$(findstring Ubuntu,$(DEBIAN_DIST)))
 	# Merge Translations from Launchpad
 	if [ ! -d $(TMP_DIR)/translations-tools ] ; then bzr export $(TMP_DIR)/translations-tools $(TRANSLATIONS_TOOLS_BRANCH) ; fi
 	if [ ! -d $(TMP_DIR)/translations-export ] ; then bzr export $(TMP_DIR)/translations-export $(TRANSLATIONS_EXPORT_BRANCH) ; fi
-	( cd $(TMP_DIR)/src ; ../translations-tools/chromium2pot.py $(GRIT_CONVERTER_FLAGS) $(GRIT_TEMPLATES); mkdir ../../debian/patches/translations && mv translations-patches/* ../../debian/patches/translations && cd ../../debian/patches/translations && sed -i -e 's\--- old\--- old/src\' -e 's\+++ new\+++ new/src\' * )
+	( cd $(TMP_DIR)/src ; ../translations-tools/chromium2pot.py $(GRIT_CONVERTER_FLAGS) $(GRIT_TEMPLATES); mkdir -p ../../debian/patches/translations && mv translations-patches/* ../../debian/patches/translations && rm -rf translations-patches && cd ../../debian/patches/translations && sed -i -e 's\--- old\--- old/src\' -e 's\+++ new\+++ new/src\' * )
 	# Patches created:
 	@( cd debian/patches/translations ; ls translations* | xargs --verbose -n 1 diffstat -p 1 )
 endif
 	# Pack
 	if [ src != $(DEB_TAR_SRCDIR) ] ; then mv $(TMP_DIR)/src $(TMP_DIR)/$(DEB_TAR_SRCDIR) ; fi
-	( cd $(TMP_DIR) ; echo "This file is here solely to keep the directory structure when extracting." > PLACEHOLDER ; tar --exclude-vcs -Jcf ../../$(DEBIAN_NAME)_$(VERSION).orig.tar.xz $(DEB_TAR_SRCDIR) PLACEHOLDER )
+	( cd $(TMP_DIR) ; echo "This file is here solely to keep the directory structure when extracting." > PLACEHOLDER ; tar --exclude-vcs --hard-dereference -Jcf ../../$(DEBIAN_NAME)_$(VERSION).orig.tar.xz $(DEB_TAR_SRCDIR) PLACEHOLDER )
 	
-	# Remove existing files and common VCS folders and move the new source files over
-	cd $(DEB_TAR_SRCDIR) && find . -name ".svn" -print0 | xargs -0 rm -rf
-	cd $(DEB_TAR_SRCDIR) && find . -name ".git" -print0 | xargs -0 rm -rf
-	cd $(DEB_TAR_SRCDIR) && find . -name ".cvs" -print0 | xargs -0 rm -rf
-	rm -rf $(DEB_TAR_SRCDIR) && mv $(TMP_DIR)/$(DEB_TAR_SRCDIR) $(DEB_TAR_SRCDIR) && rm -rf $(TMP_DIR)
+	# Remove existing files do a clean re-extract
+	rm -rf $(DEB_TAR_SRCDIR) $(TMP_DIR) .pc && tar -Jxf ../$(DEBIAN_NAME)_$(VERSION).orig.tar.xz
 	@echo "# Done (created $(DEBIAN_NAME)_$(VERSION).orig.tar.xz)"
 

@@ -1,8 +1,8 @@
-Index: upstream/src/ui/base/strings/app_locale_settings.grd
+Index: src/src/ui/base/strings/app_locale_settings.grd
 ===================================================================
---- upstream.orig/src/ui/base/strings/app_locale_settings.grd	2013-03-04 18:42:08.431751343 -0600
-+++ upstream/src/ui/base/strings/app_locale_settings.grd	2013-03-04 18:42:14.379758370 -0600
-@@ -94,6 +94,7 @@
+--- src.orig/src/ui/base/strings/app_locale_settings.grd	2013-03-15 11:02:37.456552475 -0500
++++ src/src/ui/base/strings/app_locale_settings.grd	2013-03-15 11:04:11.195591784 -0500
+@@ -97,6 +97,7 @@
        <output filename="app_locale_settings_os.pak" type="data_package" lang="os" />
      </if>
      <output filename="app_locale_settings_pl.pak" type="data_package" lang="pl" />
@@ -10,11 +10,11 @@ Index: upstream/src/ui/base/strings/app_locale_settings.grd
        <!-- iOS uses pt for pt-BR -->
        <output filename="app_locale_settings_pt.pak" type="data_package" lang="pt-BR" />
      </if>
-Index: upstream/src/chrome/app/resources/locale_settings.grd
+Index: src/src/chrome/app/resources/locale_settings.grd
 ===================================================================
---- upstream.orig/src/chrome/app/resources/locale_settings.grd	2013-03-04 18:40:52.459859900 -0600
-+++ upstream/src/chrome/app/resources/locale_settings.grd	2013-03-04 18:42:14.379758370 -0600
-@@ -94,6 +94,7 @@
+--- src.orig/src/chrome/app/resources/locale_settings.grd	2013-03-15 11:02:37.456552475 -0500
++++ src/src/chrome/app/resources/locale_settings.grd	2013-03-15 11:04:11.195591784 -0500
+@@ -97,6 +97,7 @@
        <output filename="locale_settings_os.pak" type="data_package" lang="os" />
      </if>
      <output filename="locale_settings_pl.pak" type="data_package" lang="pl" />
@@ -22,11 +22,11 @@ Index: upstream/src/chrome/app/resources/locale_settings.grd
        <!-- iOS uses pt for pt-BR -->
        <output filename="locale_settings_pt.pak" type="data_package" lang="pt-BR" />
      </if>
-Index: upstream/src/chrome/app/chromium_strings.grd
+Index: src/src/chrome/app/chromium_strings.grd
 ===================================================================
---- upstream.orig/src/chrome/app/chromium_strings.grd	2013-03-04 18:28:22.000000000 -0600
-+++ upstream/src/chrome/app/chromium_strings.grd	2013-03-04 18:42:35.223800200 -0600
-@@ -98,6 +98,7 @@
+--- src.orig/src/chrome/app/chromium_strings.grd	2013-03-15 11:02:41.868695260 -0500
++++ src/src/chrome/app/chromium_strings.grd	2013-03-15 11:04:11.199591915 -0500
+@@ -101,6 +101,7 @@
      </if>
      <!-- 'no' for Norwegian Bokmål. It should be 'nb'. -->
      <output filename="chromium_strings_pl.pak" type="data_package" lang="pl" />
@@ -34,7 +34,7 @@ Index: upstream/src/chrome/app/chromium_strings.grd
        <!-- iOS uses pt for pt-BR -->
        <output filename="chromium_strings_pt.pak" type="data_package" lang="pt-BR" />
      </if>
-@@ -169,7 +170,7 @@
+@@ -172,7 +173,7 @@
        <file path="../../third_party/launchpad_translations/chromium_strings_ia.xtb" lang="ia" />
        <file path="../../third_party/launchpad_translations/chromium_strings_id.xtb" lang="id" />
        <file path="../../third_party/launchpad_translations/chromium_strings_it.xtb" lang="it" />
@@ -43,11 +43,11 @@ Index: upstream/src/chrome/app/chromium_strings.grd
        <file path="../../third_party/launchpad_translations/chromium_strings_ja.xtb" lang="ja" />
        <file path="../../third_party/launchpad_translations/chromium_strings_ka.xtb" lang="ka" />
        <file path="resources/chromium_strings_kn.xtb" lang="kn" />
-Index: upstream/src/chrome/app/generated_resources.grd
+Index: src/src/chrome/app/generated_resources.grd
 ===================================================================
---- upstream.orig/src/chrome/app/generated_resources.grd	2013-03-04 07:44:02.000000000 -0600
-+++ upstream/src/chrome/app/generated_resources.grd	2013-03-04 18:42:14.507758546 -0600
-@@ -103,6 +103,7 @@
+--- src.orig/src/chrome/app/generated_resources.grd	2013-03-15 11:03:51.910965542 -0500
++++ src/src/chrome/app/generated_resources.grd	2013-03-15 11:04:11.227592824 -0500
+@@ -106,6 +106,7 @@
        <output filename="generated_resources_os.pak" type="data_package" lang="os" />
      </if>
      <output filename="generated_resources_pl.pak" type="data_package" lang="pl" />
@@ -55,11 +55,11 @@ Index: upstream/src/chrome/app/generated_resources.grd
        <!-- iOS uses pt for pt-BR -->
        <output filename="generated_resources_pt.pak" type="data_package" lang="pt-BR" />
      </if>
-Index: upstream/src/ui/base/strings/ui_strings.grd
+Index: src/src/ui/base/strings/ui_strings.grd
 ===================================================================
---- upstream.orig/src/ui/base/strings/ui_strings.grd	2013-03-04 07:44:02.000000000 -0600
-+++ upstream/src/ui/base/strings/ui_strings.grd	2013-03-04 18:42:14.543758595 -0600
-@@ -105,6 +105,7 @@
+--- src.orig/src/ui/base/strings/ui_strings.grd	2013-03-15 11:02:55.121124297 -0500
++++ src/src/ui/base/strings/ui_strings.grd	2013-03-15 11:04:11.231592954 -0500
+@@ -108,6 +108,7 @@
        <output filename="ui_strings_os.pak" type="data_package" lang="os" />
      </if>
      <output filename="ui_strings_pl.pak" type="data_package" lang="pl" />

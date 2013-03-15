@@ -1,7 +1,7 @@
 Index: src/src/chrome/browser/extensions/api/tld/tld_api.cc
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ src/src/chrome/browser/extensions/api/tld/tld_api.cc	2013-03-14 17:45:36.597100770 -0500
++++ src/src/chrome/browser/extensions/api/tld/tld_api.cc	2013-03-15 11:03:38.766538982 -0500
 @@ -0,0 +1,87 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -93,7 +93,7 @@ Index: src/src/chrome/browser/extensions/api/tld/tld_api.cc
 Index: src/src/chrome/browser/extensions/api/tld/tld_api.h
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ src/src/chrome/browser/extensions/api/tld/tld_api.h	2013-03-14 17:46:28.122822566 -0500
++++ src/src/chrome/browser/extensions/api/tld/tld_api.h	2013-03-15 11:03:38.766538982 -0500
 @@ -0,0 +1,26 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -123,9 +123,9 @@ Index: src/src/chrome/browser/extensions/api/tld/tld_api.h
 +
 Index: src/src/chrome/chrome_browser_extensions.gypi
 ===================================================================
---- src.orig/src/chrome/chrome_browser_extensions.gypi	2013-03-09 19:44:15.000000000 -0600
-+++ src/src/chrome/chrome_browser_extensions.gypi	2013-03-14 17:47:59.029861292 -0500
-@@ -424,6 +424,8 @@
+--- src.orig/src/chrome/chrome_browser_extensions.gypi	2013-03-15 11:02:23.596104097 -0500
++++ src/src/chrome/chrome_browser_extensions.gypi	2013-03-15 11:03:38.786539631 -0500
+@@ -425,6 +425,8 @@
          'browser/extensions/api/test/test_api.h',
          'browser/extensions/api/themes/theme_api.cc',
          'browser/extensions/api/themes/theme_api.h',
@@ -136,9 +136,9 @@ Index: src/src/chrome/chrome_browser_extensions.gypi
          'browser/extensions/api/usb/usb_api.cc',
 Index: src/src/chrome/common/extensions/api/api.gyp
 ===================================================================
---- src.orig/src/chrome/common/extensions/api/api.gyp	2013-03-14 17:42:27.206717808 -0500
-+++ src/src/chrome/common/extensions/api/api.gyp	2013-03-14 17:57:27.212879863 -0500
-@@ -86,6 +86,7 @@
+--- src.orig/src/chrome/common/extensions/api/api.gyp	2013-03-15 11:03:34.302394166 -0500
++++ src/src/chrome/common/extensions/api/api.gyp	2013-03-15 11:03:38.786539631 -0500
+@@ -85,6 +85,7 @@
            'tabs.json',
            'terminal_private.json',
            'test.json',
@@ -149,7 +149,7 @@ Index: src/src/chrome/common/extensions/api/api.gyp
 Index: src/src/chrome/common/extensions/api/tld.json
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ src/src/chrome/common/extensions/api/tld.json	2013-03-14 18:00:15.110507877 -0500
++++ src/src/chrome/common/extensions/api/tld.json	2013-03-15 11:03:38.786539631 -0500
 @@ -0,0 +1,54 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -207,8 +207,8 @@ Index: src/src/chrome/common/extensions/api/tld.json
 +
 Index: src/src/chrome/common/extensions/permissions/permission_set.cc
 ===================================================================
---- src.orig/src/chrome/common/extensions/permissions/permission_set.cc	2013-03-14 17:42:27.000000000 -0500
-+++ src/src/chrome/common/extensions/permissions/permission_set.cc	2013-03-14 17:58:26.462865554 -0500
+--- src.orig/src/chrome/common/extensions/permissions/permission_set.cc	2013-03-15 11:03:34.342395463 -0500
++++ src/src/chrome/common/extensions/permissions/permission_set.cc	2013-03-15 11:03:38.786539631 -0500
 @@ -55,6 +55,7 @@
    "scriptBadge",
    "tabs",

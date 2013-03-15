@@ -1,6 +1,8 @@
---- a/src/base/logging.h
-+++ b/src/base/logging.h
-@@ -449,7 +449,7 @@
+Index: src/src/base/logging.h
+===================================================================
+--- src.orig/src/base/logging.h	2013-03-15 11:02:24.444131522 -0500
++++ src/src/base/logging.h	2013-03-15 11:03:02.405360221 -0500
+@@ -451,7 +451,7 @@
  // uses OFFICIAL_BUILD and other platforms use the branding flag when NDEBUG is
  // defined.
  #if ( defined(OS_WIN) && defined(OFFICIAL_BUILD)) || \

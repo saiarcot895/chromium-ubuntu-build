@@ -1,8 +1,10 @@
 Bug-Chromium: https://code.google.com/p/chromium/issues/detail?id=159349
                                                                        
---- a/src/third_party/ffmpeg/ffmpeg.gyp
-+++ b/src/third_party/ffmpeg/ffmpeg.gyp
-@@ -399,6 +399,9 @@
+Index: src/src/third_party/ffmpeg/ffmpeg.gyp
+===================================================================
+--- src.orig/src/third_party/ffmpeg/ffmpeg.gyp	2013-03-15 11:02:23.936115094 -0500
++++ src/src/third_party/ffmpeg/ffmpeg.gyp	2013-03-15 11:03:29.738246133 -0500
+@@ -423,6 +423,9 @@
    'targets': [
      {
        'target_name': 'ffmpeg',
@@ -20,7 +22,7 @@ Bug-Chromium: https://code.google.com/p/chromium/issues/detail?id=159349
              '<(output_root)',
              '../..',  # The chromium 'src' directory.
            ],
-@@ -640,6 +644,10 @@
+@@ -671,6 +675,10 @@
          ],
          'yasm_output_path': '<(shared_generated_dir)/yasm'
        },

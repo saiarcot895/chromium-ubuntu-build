@@ -1,7 +1,7 @@
 Index: src/src/chrome/browser/extensions/api/module/module.cc
 ===================================================================
 --- src.orig/src/chrome/browser/extensions/api/module/module.cc	2013-03-06 06:26:24.000000000 -0600
-+++ src/src/chrome/browser/extensions/api/module/module.cc	2013-03-14 21:55:22.939507421 -0500
++++ src/src/chrome/browser/extensions/api/module/module.cc	2013-03-15 10:58:06.635840669 -0500
 @@ -7,8 +7,27 @@
  #include <string>
  
@@ -70,7 +70,7 @@ Index: src/src/chrome/browser/extensions/api/module/module.cc
 Index: src/src/chrome/browser/extensions/api/module/module.h
 ===================================================================
 --- src.orig/src/chrome/browser/extensions/api/module/module.h	2013-03-06 06:26:24.000000000 -0600
-+++ src/src/chrome/browser/extensions/api/module/module.h	2013-03-14 21:58:46.946353745 -0500
++++ src/src/chrome/browser/extensions/api/module/module.h	2013-03-15 10:58:06.635840669 -0500
 @@ -51,6 +51,19 @@
    virtual bool RunImpl() OVERRIDE;
  };
@@ -93,20 +93,20 @@ Index: src/src/chrome/browser/extensions/api/module/module.h
  #endif  // CHROME_BROWSER_EXTENSIONS_API_MODULE_MODULE_H__
 Index: src/src/chrome/browser/extensions/extension_function_histogram_value.h
 ===================================================================
---- src.orig/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-03-14 17:42:27.390724040 -0500
-+++ src/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-03-14 22:09:08.579245167 -0500
+--- src.orig/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-03-15 10:50:30.000000000 -0500
++++ src/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-03-15 10:58:06.639840797 -0500
 @@ -486,6 +486,7 @@
    DEVELOPERPRIVATE_ALLOWINCOGNITO,
    INPUT_IME_DELETESURROUNDINGTEXT,
    FILEBROWSERPRIVATE_OPENNEWWINDOW,
-+  EXTENSION_ISCHROMELESSWINDOW, // Make sure that this entry ALWAYS STAYS right below FILEBROWSERPRIVATE_OPENNEWWINDOW
-   ENUM_BOUNDARY // Last entry: Add new entries above.
- };
- 
++  EXTENSION_ISCHROMELESSWINDOW, // Make sure that this entry ALWAYS STAYS between FILEBROWSERPRIVATE_OPENNEWWINDOW and CLOUDPRINTPRIVATE_GETCLIENTID
+   CLOUDPRINTPRIVATE_GETCLIENTID,
+   ECHOPRIVATE_GETUSERCONSENT,
+   SYNCFILESYSTEM_SETCONFLICTRESOLUTIONPOLICY,
 Index: src/src/chrome/browser/sessions/session_service.cc
 ===================================================================
 --- src.orig/src/chrome/browser/sessions/session_service.cc	2013-03-06 06:26:13.000000000 -0600
-+++ src/src/chrome/browser/sessions/session_service.cc	2013-03-14 21:59:42.620223001 -0500
++++ src/src/chrome/browser/sessions/session_service.cc	2013-03-15 10:58:06.639840797 -0500
 @@ -1553,7 +1553,8 @@
  bool SessionService::ShouldTrackBrowser(Browser* browser) const {
    AppType app_type = browser->is_app() ? TYPE_APP : TYPE_NORMAL;
@@ -119,8 +119,8 @@ Index: src/src/chrome/browser/sessions/session_service.cc
  bool SessionService::should_track_changes_for_browser_type(Browser::Type type,
 Index: src/src/chrome/browser/ui/browser.cc
 ===================================================================
---- src.orig/src/chrome/browser/ui/browser.cc	2013-03-09 19:44:05.000000000 -0600
-+++ src/src/chrome/browser/ui/browser.cc	2013-03-14 20:58:18.364611415 -0500
+--- src.orig/src/chrome/browser/ui/browser.cc	2013-03-15 07:45:16.000000000 -0500
++++ src/src/chrome/browser/ui/browser.cc	2013-03-15 10:58:06.643840926 -0500
 @@ -253,6 +253,7 @@
        profile(profile),
        host_desktop_type(host_desktop_type),
@@ -191,7 +191,7 @@ Index: src/src/chrome/browser/ui/browser.cc
      tab_restore_service->BrowserClosing(tab_restore_service_delegate());
  
    // TODO(sky): convert session/tab restore to use notification.
-@@ -2099,20 +2117,20 @@
+@@ -2103,20 +2121,20 @@
  
    unsigned int features = FEATURE_INFOBAR | FEATURE_DOWNLOADSHELF;
  
@@ -219,7 +219,7 @@ Index: src/src/chrome/browser/ui/browser.cc
 Index: src/src/chrome/browser/ui/browser.h
 ===================================================================
 --- src.orig/src/chrome/browser/ui/browser.h	2013-03-07 17:21:01.000000000 -0600
-+++ src/src/chrome/browser/ui/browser.h	2013-03-14 21:01:49.919656894 -0500
++++ src/src/chrome/browser/ui/browser.h	2013-03-15 10:58:06.643840926 -0500
 @@ -163,6 +163,11 @@
                                       Profile* profile,
                                       chrome::HostDesktopType host_desktop_type);
@@ -261,8 +261,8 @@ Index: src/src/chrome/browser/ui/browser.h
  
 Index: src/src/chrome/browser/ui/browser_command_controller.cc
 ===================================================================
---- src.orig/src/chrome/browser/ui/browser_command_controller.cc	2013-03-06 06:27:39.000000000 -0600
-+++ src/src/chrome/browser/ui/browser_command_controller.cc	2013-03-14 21:17:49.115744757 -0500
+--- src.orig/src/chrome/browser/ui/browser_command_controller.cc	2013-03-15 07:45:33.000000000 -0500
++++ src/src/chrome/browser/ui/browser_command_controller.cc	2013-03-15 10:58:06.647841054 -0500
 @@ -5,6 +5,7 @@
  #include "chrome/browser/ui/browser_command_controller.h"
  
@@ -310,9 +310,9 @@ Index: src/src/chrome/browser/ui/browser_command_controller.cc
 -  command_updater_.UpdateCommandEnabled(IDC_DUPLICATE_TAB, true);
 +  command_updater_.UpdateCommandEnabled(IDC_DUPLICATE_TAB, !started_in_chromeless);
    command_updater_.UpdateCommandEnabled(IDC_RESTORE_TAB, false);
-   command_updater_.UpdateCommandEnabled(IDC_EXIT, true);
-   command_updater_.UpdateCommandEnabled(IDC_DEBUG_FRAME_TOGGLE, true);
-@@ -884,15 +891,19 @@
+ #if defined(OS_WIN) && defined(USE_ASH)
+   if (browser_->host_desktop_type() != chrome::HOST_DESKTOP_TYPE_ASH)
+@@ -889,15 +896,19 @@
    UpdateCommandsForDevTools();
    command_updater_.UpdateCommandEnabled(IDC_TASK_MANAGER, CanOpenTaskManager());
    command_updater_.UpdateCommandEnabled(IDC_SHOW_HISTORY,
@@ -336,7 +336,7 @@ Index: src/src/chrome/browser/ui/browser_command_controller.cc
  
    UpdateShowSyncState(true);
  
-@@ -900,7 +911,8 @@
+@@ -905,7 +916,8 @@
    bool normal_window = browser_->is_type_tabbed();
  
    // Navigation commands
@@ -346,7 +346,7 @@ Index: src/src/chrome/browser/ui/browser_command_controller.cc
  
    // Window management commands
    command_updater_.UpdateCommandEnabled(IDC_SELECT_NEXT_TAB, normal_window);
-@@ -928,7 +940,8 @@
+@@ -933,7 +945,8 @@
    command_updater_.UpdateCommandEnabled(IDC_TABPOSE, normal_window);
  
    // Show various bits of UI
@@ -356,7 +356,7 @@ Index: src/src/chrome/browser/ui/browser_command_controller.cc
  
    // The upgrade entry and the view incompatibility entry should always be
    // enabled. Whether they are visible is a separate matter determined on menu
-@@ -938,7 +951,8 @@
+@@ -943,7 +956,8 @@
  
    // View Background Pages entry is always enabled, but is hidden if there are
    // no background pages.
@@ -366,7 +366,7 @@ Index: src/src/chrome/browser/ui/browser_command_controller.cc
  
    // Toggle speech input
    command_updater_.UpdateCommandEnabled(IDC_TOGGLE_SPEECH_INPUT, true);
-@@ -957,19 +971,25 @@
+@@ -962,19 +976,25 @@
  void BrowserCommandController::UpdateSharedCommandsForIncognitoAvailability(
      CommandUpdater* command_updater,
      Profile* profile) {
@@ -395,7 +395,7 @@ Index: src/src/chrome/browser/ui/browser_command_controller.cc
    command_updater->UpdateCommandEnabled(
        IDC_SHOW_BOOKMARK_MANAGER,
        browser_defaults::bookmarks_enabled && command_enabled);
-@@ -1009,17 +1029,20 @@
+@@ -1014,17 +1034,20 @@
  
    // Window management commands
    command_updater_.UpdateCommandEnabled(IDC_DUPLICATE_TAB,
@@ -420,7 +420,7 @@ Index: src/src/chrome/browser/ui/browser_command_controller.cc
      command_updater_.UpdateCommandEnabled(IDC_OPEN_FILE, false);
  
    // Changing the encoding is not possible on Chrome-internal webpages.
-@@ -1035,7 +1058,8 @@
+@@ -1040,7 +1063,8 @@
  #if !defined(OS_MACOSX)
    command_updater_.UpdateCommandEnabled(
        IDC_CREATE_SHORTCUTS,
@@ -430,7 +430,7 @@ Index: src/src/chrome/browser/ui/browser_command_controller.cc
  #endif
  
    command_updater_.UpdateCommandEnabled(
-@@ -1074,19 +1098,29 @@
+@@ -1079,19 +1103,29 @@
  }
  
  void BrowserCommandController::UpdateCommandsForBookmarkEditing() {
@@ -464,7 +464,7 @@ Index: src/src/chrome/browser/ui/browser_command_controller.cc
  }
  
  void BrowserCommandController::UpdateCommandsForFileSelectionDialogs() {
-@@ -1146,6 +1180,7 @@
+@@ -1151,6 +1185,7 @@
    // mode.
    bool fullscreen_enabled =
        !(browser_->is_type_panel() && browser_->is_app()) &&
@@ -472,7 +472,7 @@ Index: src/src/chrome/browser/ui/browser_command_controller.cc
        fullscreen_mode != FULLSCREEN_METRO_SNAP;
  #if defined(OS_MACOSX)
    // The Mac implementation doesn't support switching to fullscreen while
-@@ -1198,7 +1233,8 @@
+@@ -1203,7 +1238,8 @@
  
  void BrowserCommandController::UpdateShowSyncState(bool show_main_ui) {
    command_updater_.UpdateCommandEnabled(
@@ -482,7 +482,7 @@ Index: src/src/chrome/browser/ui/browser_command_controller.cc
  }
  
  // static
-@@ -1209,7 +1245,12 @@
+@@ -1214,7 +1250,12 @@
    if (local_state)
      enabled = local_state->GetBoolean(prefs::kAllowFileSelectionDialogs);
  
@@ -499,7 +499,7 @@ Index: src/src/chrome/browser/ui/browser_command_controller.cc
 Index: src/src/chrome/browser/ui/browser_commands.cc
 ===================================================================
 --- src.orig/src/chrome/browser/ui/browser_commands.cc	2013-03-06 06:27:12.000000000 -0600
-+++ src/src/chrome/browser/ui/browser_commands.cc	2013-03-14 20:41:09.780876313 -0500
++++ src/src/chrome/browser/ui/browser_commands.cc	2013-03-15 10:58:06.647841054 -0500
 @@ -453,6 +453,9 @@
  }
  
@@ -522,7 +522,7 @@ Index: src/src/chrome/browser/ui/browser_commands.cc
 Index: src/src/chrome/browser/ui/browser_finder.cc
 ===================================================================
 --- src.orig/src/chrome/browser/ui/browser_finder.cc	2013-03-06 06:27:39.000000000 -0600
-+++ src/src/chrome/browser/ui/browser_finder.cc	2013-03-14 22:06:36.222120913 -0500
++++ src/src/chrome/browser/ui/browser_finder.cc	2013-03-15 10:58:06.647841054 -0500
 @@ -24,6 +24,7 @@
  const int kMatchOriginalProfile         = 1 << 0;
  const int kMatchCanSupportWindowFeature = 1 << 1;
@@ -555,8 +555,8 @@ Index: src/src/chrome/browser/ui/browser_finder.cc
    if (match_original_profiles)
 Index: src/src/chrome/browser/ui/gtk/browser_window_gtk.cc
 ===================================================================
---- src.orig/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-03-14 18:04:01.000000000 -0500
-+++ src/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-03-14 18:28:59.816683606 -0500
+--- src.orig/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-03-15 10:50:30.000000000 -0500
++++ src/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-03-15 10:58:06.659841438 -0500
 @@ -307,6 +307,13 @@
      gtk_window_util::SetWindowCustomClass(window_,
          std::string(gdk_get_program_class()) + " (" + user_data_dir + ")");
@@ -668,7 +668,7 @@ Index: src/src/chrome/browser/ui/gtk/browser_window_gtk.cc
 Index: src/src/chrome/browser/ui/gtk/browser_window_gtk.h
 ===================================================================
 --- src.orig/src/chrome/browser/ui/gtk/browser_window_gtk.h	2013-03-07 17:21:01.000000000 -0600
-+++ src/src/chrome/browser/ui/gtk/browser_window_gtk.h	2013-03-14 18:39:37.838384897 -0500
++++ src/src/chrome/browser/ui/gtk/browser_window_gtk.h	2013-03-15 10:58:06.659841438 -0500
 @@ -187,6 +187,13 @@
                                  int index,
                                  bool user_gesture) OVERRIDE;
@@ -696,7 +696,7 @@ Index: src/src/chrome/browser/ui/gtk/browser_window_gtk.h
 Index: src/src/chrome/browser/ui/gtk/global_menu_bar.cc
 ===================================================================
 --- src.orig/src/chrome/browser/ui/gtk/global_menu_bar.cc	2013-03-06 06:27:16.000000000 -0600
-+++ src/src/chrome/browser/ui/gtk/global_menu_bar.cc	2013-03-14 18:37:47.374627595 -0500
++++ src/src/chrome/browser/ui/gtk/global_menu_bar.cc	2013-03-15 10:58:06.659841438 -0500
 @@ -25,35 +25,43 @@
  #include "ui/base/gtk/menu_label_accelerator_util.h"
  #include "ui/base/l10n/l10n_util.h"
@@ -886,7 +886,7 @@ Index: src/src/chrome/browser/ui/gtk/global_menu_bar.cc
 Index: src/src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc
 ===================================================================
 --- src.orig/src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc	2013-03-06 06:27:16.000000000 -0600
-+++ src/src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc	2013-03-14 18:14:04.526357742 -0500
++++ src/src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc	2013-03-15 10:58:06.663841566 -0500
 @@ -786,9 +786,12 @@
    g_signal_connect(tabstrip_.get(), "drag-data-received",
                     G_CALLBACK(OnDragDataReceivedThunk), this);
@@ -951,7 +951,7 @@ Index: src/src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc
 Index: src/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc
 ===================================================================
 --- src.orig/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc	2013-03-09 19:44:07.000000000 -0600
-+++ src/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc	2013-03-14 21:00:42.233401798 -0500
++++ src/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc	2013-03-15 10:58:06.663841566 -0500
 @@ -425,6 +425,16 @@
    }
  }
@@ -1019,7 +1019,7 @@ Index: src/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc
 Index: src/src/chrome/browser/ui/startup/startup_browser_creator_impl.h
 ===================================================================
 --- src.orig/src/chrome/browser/ui/startup/startup_browser_creator_impl.h	2013-03-06 06:27:27.000000000 -0600
-+++ src/src/chrome/browser/ui/startup/startup_browser_creator_impl.h	2013-03-14 20:32:38.295038430 -0500
++++ src/src/chrome/browser/ui/startup/startup_browser_creator_impl.h	2013-03-15 10:58:06.663841566 -0500
 @@ -79,6 +79,11 @@
    FRIEND_TEST_ALL_PREFIXES(BrowserTest, RestorePinnedTabs);
    FRIEND_TEST_ALL_PREFIXES(BrowserTest, AppIdSwitch);
@@ -1034,9 +1034,9 @@ Index: src/src/chrome/browser/ui/startup/startup_browser_creator_impl.h
  
 Index: src/src/chrome/common/chrome_switches.cc
 ===================================================================
---- src.orig/src/chrome/common/chrome_switches.cc	2013-03-09 19:44:23.000000000 -0600
-+++ src/src/chrome/common/chrome_switches.cc	2013-03-14 22:00:57.726745292 -0500
-@@ -147,6 +147,9 @@
+--- src.orig/src/chrome/common/chrome_switches.cc	2013-03-15 07:46:05.000000000 -0500
++++ src/src/chrome/common/chrome_switches.cc	2013-03-15 10:58:06.667841694 -0500
+@@ -143,6 +143,9 @@
  // Chrome Frame automation channel is closed.
  const char kChromeFrameShutdownDelay[]      = "chrome-frame-shutdown-delay";
  
@@ -1048,9 +1048,9 @@ Index: src/src/chrome/common/chrome_switches.cc
  const char kChromeVersion[]                 = "chrome-version";
 Index: src/src/chrome/common/chrome_switches.h
 ===================================================================
---- src.orig/src/chrome/common/chrome_switches.h	2013-03-09 19:44:23.000000000 -0600
-+++ src/src/chrome/common/chrome_switches.h	2013-03-14 22:01:20.023494207 -0500
-@@ -56,6 +56,7 @@
+--- src.orig/src/chrome/common/chrome_switches.h	2013-03-15 07:46:04.000000000 -0500
++++ src/src/chrome/common/chrome_switches.h	2013-03-15 10:58:06.667841694 -0500
+@@ -55,6 +55,7 @@
  extern const char kCheckForUpdateIntervalSec[];
  extern const char kCheckCloudPrintConnectorPolicy[];
  extern const char kChromeFrameShutdownDelay[];
@@ -1061,7 +1061,7 @@ Index: src/src/chrome/common/chrome_switches.h
 Index: src/src/chrome/common/extensions/api/extension.json
 ===================================================================
 --- src.orig/src/chrome/common/extensions/api/extension.json	2013-03-06 06:30:52.000000000 -0600
-+++ src/src/chrome/common/extensions/api/extension.json	2013-03-14 22:05:02.922984192 -0500
++++ src/src/chrome/common/extensions/api/extension.json	2013-03-15 10:58:06.667841694 -0500
 @@ -139,6 +139,32 @@
          }
        },
