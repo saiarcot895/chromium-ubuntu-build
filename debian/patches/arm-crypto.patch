@@ -1,0 +1,14 @@
+--- a/src/crypto/nss_util.cc
++++ b/src/crypto/nss_util.cc
+@@ -706,7 +706,11 @@
+ #elif defined(ARCH_CPU_X86)
+   paths.push_back(base::FilePath("/usr/lib/i386-linux-gnu/nss"));
+ #elif defined(ARCH_CPU_ARMEL)
++# ifdef __ARM_PCS_VFP
++  paths.push_back(base::FilePath("/usr/lib/arm-linux-gnueabihf/nss"));
++# else
+   paths.push_back(base::FilePath("/usr/lib/arm-linux-gnueabi/nss"));
++# endif
+ #endif
+ 
+   // A list of library files to load.

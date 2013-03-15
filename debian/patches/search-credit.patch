@@ -1,0 +1,20 @@
+Description: Add Ubuntu id into search queries to get credit.
+Author: Chad Miller <chad.miller@canonical.com>
+
+Index: src/src/chrome/browser/search_engines/prepopulated_engines.json
+===================================================================
+--- src.orig/src/chrome/browser/search_engines/prepopulated_engines.json	2013-03-06 06:27:49.000000000 -0600
++++ src/src/chrome/browser/search_engines/prepopulated_engines.json	2013-03-14 16:02:42.651616514 -0500
+@@ -847,9 +847,9 @@
+       "name": "Google",
+       "keyword": "google.com",
+       "favicon_url": "http://www.google.com/favicon.ico",
+-      "search_url": "{google:baseURL}search?q={searchTerms}&{google:RLZ}{google:originalQueryForSuggestion}{google:assistedQueryStats}{google:searchFieldtrialParameter}{google:searchClient}{google:sourceId}{google:instantExtendedEnabledParameter}ie={inputEncoding}",
+-      "suggest_url": "{google:baseSuggestURL}search?{google:searchFieldtrialParameter}client=chrome&q={searchTerms}&{google:cursorPosition}sugkey={google:suggestAPIKeyParameter}",
+-      "instant_url": "{google:baseURL}webhp?sourceid=chrome-instant&{google:RLZ}{google:instantEnabledParameter}{google:instantExtendedEnabledParameter}{google:omniboxStartMarginParameter}ie={inputEncoding}",
++      "search_url": "{google:baseURL}search?q={searchTerms}&client=ubuntu&channel=cs&{google:RLZ}{google:originalQueryForSuggestion}{google:assistedQueryStats}{google:searchFieldtrialParameter}{google:searchClient}{google:sourceId}{google:instantExtendedEnabledParameter}ie={inputEncoding}",
++      "suggest_url": "{google:baseSuggestURL}search?{google:searchFieldtrialParameter}client=ubuntu&channel=cs&q={searchTerms}&{google:cursorPosition}sugkey={google:suggestAPIKeyParameter}",
++      "instant_url": "{google:baseURL}webhp?sourceid=chrome-instant&client=ubuntu&channel=cs&{google:RLZ}{google:instantEnabledParameter}{google:instantExtendedEnabledParameter}{google:omniboxStartMarginParameter}ie={inputEncoding}",
+       "alternate_urls": [
+         "{google:baseURL}#q={searchTerms}",
+         "{google:baseURL}search#q={searchTerms}",

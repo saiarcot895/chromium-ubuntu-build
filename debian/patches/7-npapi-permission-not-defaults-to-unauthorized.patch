@@ -1,0 +1,141 @@
+Index: src/src/chrome/browser/browser_resources.grd
+===================================================================
+--- src.orig/src/chrome/browser/browser_resources.grd	2013-03-15 05:49:46.235302337 -0500
++++ src/src/chrome/browser/browser_resources.grd	2013-03-15 05:52:48.394009846 -0500
+@@ -174,6 +174,7 @@
+         </if>
+         <if expr="not pp_ifdef('chromeos')">
+           <include name="IDR_PLUGIN_DB_JSON" file="resources\plugin_metadata\plugins_linux.json" type="BINDATA" />
++          <include name="IDR_PLATFORM_PLUGIN_DB_JSON" file="resources\plugin_metadata\plugins_ubuntu_linux.json" type="BINDATA" />
+         </if>
+       </if>
+       <include name="IDR_POLICY_CSS" file="resources\policy.css" type="BINDATA"/>
+Index: src/src/chrome/browser/plugins/plugin_finder.cc
+===================================================================
+--- src.orig/src/chrome/browser/plugins/plugin_finder.cc	2013-03-06 06:27:40.000000000 -0600
++++ src/src/chrome/browser/plugins/plugin_finder.cc	2013-03-15 06:05:07.945878424 -0500
+@@ -133,6 +133,24 @@
+   LoadMimeTypes(true, plugin_dict, plugin);
+   return plugin;
+ }
++base::DictionaryValue* LoadPlatformPluginListWithId(int resourceId) {
++  base::StringPiece json_resource(
++      ResourceBundle::GetSharedInstance().GetRawDataResource(
++          IDR_PLUGIN_DB_JSON));
++  std::string error_str;
++  scoped_ptr<base::Value> value(base::JSONReader::ReadAndReturnError(
++      json_resource,
++      base::JSON_PARSE_RFC,
++      NULL,
++      &error_str));
++  if (!value.get()) {
++    DLOG(ERROR) << error_str;
++    return NULL;
++  }
++  if (value->GetType() != base::Value::TYPE_DICTIONARY)
++    return NULL;
++  return static_cast<base::DictionaryValue*>(value.release());
++}
+ 
+ }  // namespace
+ 
+@@ -142,6 +160,17 @@
+ }
+ 
+ // static
++void PluginFinder::MergePlatformSpecifiPlugins (base::DictionaryValue * plugin_list) {
++  if (!plugin_list)
++    return;
++  scoped_ptr<base::DictionaryValue> platform_plugin_list =
++    scoped_ptr<base::DictionaryValue>(LoadPlatformPluginList());
++  if (platform_plugin_list) {
++    plugin_list->MergeDictionary(platform_plugin_list.get());
++  }
++}
++
++// static
+ PluginFinder* PluginFinder::GetInstance() {
+   // PluginFinder::GetInstance() is the only method that's allowed to call
+   // Singleton<PluginFinder>::get().
+@@ -162,23 +191,13 @@
+ }
+ 
+ // static
++DictionaryValue* PluginFinder::LoadPlatformPluginList() {
++  return LoadPlatformPluginListWithId(IDR_PLATFORM_PLUGIN_DB_JSON);
++}
++
++// static
+ DictionaryValue* PluginFinder::LoadBuiltInPluginList() {
+-  base::StringPiece json_resource(
+-      ResourceBundle::GetSharedInstance().GetRawDataResource(
+-          IDR_PLUGIN_DB_JSON));
+-  std::string error_str;
+-  scoped_ptr<base::Value> value(base::JSONReader::ReadAndReturnError(
+-      json_resource,
+-      base::JSON_PARSE_RFC,
+-      NULL,
+-      &error_str));
+-  if (!value.get()) {
+-    DLOG(ERROR) << error_str;
+-    return NULL;
+-  }
+-  if (value->GetType() != base::Value::TYPE_DICTIONARY)
+-    return NULL;
+-  return static_cast<base::DictionaryValue*>(value.release());
++  return LoadPlatformPluginListWithId(IDR_PLUGIN_DB_JSON);
+ }
+ 
+ PluginFinder::~PluginFinder() {
+@@ -249,6 +268,8 @@
+   STLDeleteValues(&identifier_plugin_);
+   identifier_plugin_.clear();
+ 
++  MergePlatformSpecifiPlugins(plugin_list_.get());
++
+   for (DictionaryValue::Iterator plugin_it(*plugin_list);
+       plugin_it.HasNext(); plugin_it.Advance()) {
+     const DictionaryValue* plugin = NULL;
+Index: src/src/chrome/browser/plugins/plugin_finder.h
+===================================================================
+--- src.orig/src/chrome/browser/plugins/plugin_finder.h	2013-03-06 06:27:40.000000000 -0600
++++ src/src/chrome/browser/plugins/plugin_finder.h	2013-03-15 06:07:51.484834728 -0500
+@@ -80,6 +80,15 @@
+   // Returns NULL if the plug-in list couldn't be parsed.
+   static base::DictionaryValue* LoadBuiltInPluginList();
+ 
++  // Loads platform specific whitelisted plugins from the browser
++  // resources and parses it.
++  // Returns NULL if the plug-in list couldn't be parsed.
++  static base::DictionaryValue* LoadPlatformPluginList();
++
++  // Merges the platform specific plugins to the list of plugins
++  // passed as parameters.
++  static void MergePlatformSpecifiPlugins(base::DictionaryValue * plugin_list);
++
+ #if defined(ENABLE_PLUGIN_INSTALLATION)
+   std::map<std::string, PluginInstaller*> installers_;
+ #endif
+Index: src/src/chrome/browser/resources/plugin_metadata/plugins_ubuntu_linux.json
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ src/src/chrome/browser/resources/plugin_metadata/plugins_ubuntu_linux.json	2013-03-15 06:09:08.744439151 -0500
+@@ -0,0 +1,18 @@
++{
++  "libunity_npapi_plugin.so": {
++    "mime_types": [
++      "application/x-unity-webapps-npapi"
++    ],
++    "versions": [
++      {
++        "version": "0",
++        "status": "up_to_date",
++        "reference": "https://launchpad.net/unity-chromium-extension/12.10"
++      }
++    ],
++    "lang": "en-US",
++    "name": "Unity WebApps plugin",
++    "url": "https://launchpad.net/ubuntu/quantal/+source/unity-chromium-extension",
++    "group_name_matcher": "Unity WebApps plugin"
++  }
++}

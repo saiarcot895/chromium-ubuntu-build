@@ -1,0 +1,33 @@
+Bug-Chromium: https://code.google.com/p/chromium/issues/detail?id=159349
+                                                                       
+--- a/src/third_party/ffmpeg/ffmpeg.gyp
++++ b/src/third_party/ffmpeg/ffmpeg.gyp
+@@ -399,6 +399,9 @@
+   'targets': [
+     {
+       'target_name': 'ffmpeg',
++      'include_dirs': [
++        '<(platform_config_root)',
++      ],
+       'sources': [
+         # Files needed for stub generation rules.
+         '<@(sig_files)',
+@@ -512,6 +515,7 @@
+           ],
+           'type': '<(component)',
+           'include_dirs': [
++	    '<(platform_config_root)',
+             '<(output_root)',
+             '../..',  # The chromium 'src' directory.
+           ],
+@@ -640,6 +644,10 @@
+         ],
+         'yasm_output_path': '<(shared_generated_dir)/yasm'
+       },
++      'include_dirs': [
++        '<(platform_config_root)',
++        '.',
++      ],
+     },
+   ],  # targets
+ }

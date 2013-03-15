@@ -146,7 +146,6 @@ endif
 
 subst_files = \
 	debian/$(DEBIAN_NAME).sh \
-	debian/patches/chromium_useragent.patch \
 	$(NULL)
 
 ifneq (1,$(PROCESSORS))
