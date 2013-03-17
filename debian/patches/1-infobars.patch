@@ -103,7 +103,7 @@ Index: src/src/chrome/common/extensions/api/infobars.json
 +
 +[
 +  {
-+    "namespace": "experimental.infobars",
++    "namespace": "infobars",
 +    "compiler_options": {
 +      "implemented_in": "chrome/browser/infobars/infobar_extension_api.h"
 +    },

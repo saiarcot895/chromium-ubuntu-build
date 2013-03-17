@@ -2,6 +2,7 @@ chromium-browser (27.0.1441.0~svn20130315r188249-0ubuntuppa1~unstable1) unstable
 
   * Updated to 27.0.1441.0 (Revision 188249)
   * Added all locales
+  * Added and enabled more patches except for 4-chromeless-window-launch-option.patch and 7-npapi-permission-not-defaults-to-unauthorized.patch
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 15 Mar 2013 11:06:28 -0500
 

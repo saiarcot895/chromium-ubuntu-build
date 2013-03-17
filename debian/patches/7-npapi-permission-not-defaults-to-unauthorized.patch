@@ -1,7 +1,7 @@
 Index: src/src/chrome/browser/browser_resources.grd
 ===================================================================
---- src.orig/src/chrome/browser/browser_resources.grd	2013-03-15 05:49:46.235302337 -0500
-+++ src/src/chrome/browser/browser_resources.grd	2013-03-15 05:52:48.394009846 -0500
+--- src.orig/src/chrome/browser/browser_resources.grd	2013-03-15 14:43:52.185526471 -0500
++++ src/src/chrome/browser/browser_resources.grd	2013-03-15 18:48:45.117977314 -0500
 @@ -174,6 +174,7 @@
          </if>
          <if expr="not pp_ifdef('chromeos')">
@@ -12,8 +12,8 @@ Index: src/src/chrome/browser/browser_resources.grd
        <include name="IDR_POLICY_CSS" file="resources\policy.css" type="BINDATA"/>
 Index: src/src/chrome/browser/plugins/plugin_finder.cc
 ===================================================================
---- src.orig/src/chrome/browser/plugins/plugin_finder.cc	2013-03-06 06:27:40.000000000 -0600
-+++ src/src/chrome/browser/plugins/plugin_finder.cc	2013-03-15 06:05:07.945878424 -0500
+--- src.orig/src/chrome/browser/plugins/plugin_finder.cc	2013-03-15 14:43:52.185526471 -0500
++++ src/src/chrome/browser/plugins/plugin_finder.cc	2013-03-15 19:50:24.299919050 -0500
 @@ -133,6 +133,24 @@
    LoadMimeTypes(true, plugin_dict, plugin);
    return plugin;
@@ -43,7 +43,7 @@ Index: src/src/chrome/browser/plugins/plugin_finder.cc
  }
  
  // static
-+void PluginFinder::MergePlatformSpecifiPlugins (base::DictionaryValue * plugin_list) {
++void PluginFinder::MergePlatformSpecificPlugins (base::DictionaryValue * plugin_list) {
 +  if (!plugin_list)
 +    return;
 +  scoped_ptr<base::DictionaryValue> platform_plugin_list =
@@ -91,15 +91,15 @@ Index: src/src/chrome/browser/plugins/plugin_finder.cc
    STLDeleteValues(&identifier_plugin_);
    identifier_plugin_.clear();
  
-+  MergePlatformSpecifiPlugins(plugin_list_.get());
++  MergePlatformSpecificPlugins(plugin_list);
 +
    for (DictionaryValue::Iterator plugin_it(*plugin_list);
        plugin_it.HasNext(); plugin_it.Advance()) {
      const DictionaryValue* plugin = NULL;
 Index: src/src/chrome/browser/plugins/plugin_finder.h
 ===================================================================
---- src.orig/src/chrome/browser/plugins/plugin_finder.h	2013-03-06 06:27:40.000000000 -0600
-+++ src/src/chrome/browser/plugins/plugin_finder.h	2013-03-15 06:07:51.484834728 -0500
+--- src.orig/src/chrome/browser/plugins/plugin_finder.h	2013-03-15 14:43:52.185526471 -0500
++++ src/src/chrome/browser/plugins/plugin_finder.h	2013-03-15 19:50:26.904004494 -0500
 @@ -80,6 +80,15 @@
    // Returns NULL if the plug-in list couldn't be parsed.
    static base::DictionaryValue* LoadBuiltInPluginList();
@@ -111,7 +111,7 @@ Index: src/src/chrome/browser/plugins/plugin_finder.h
 +
 +  // Merges the platform specific plugins to the list of plugins
 +  // passed as parameters.
-+  static void MergePlatformSpecifiPlugins(base::DictionaryValue * plugin_list);
++  static void MergePlatformSpecificPlugins(base::DictionaryValue * plugin_list);
 +
  #if defined(ENABLE_PLUGIN_INSTALLATION)
    std::map<std::string, PluginInstaller*> installers_;
@@ -119,7 +119,7 @@ Index: src/src/chrome/browser/plugins/plugin_finder.h
 Index: src/src/chrome/browser/resources/plugin_metadata/plugins_ubuntu_linux.json
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ src/src/chrome/browser/resources/plugin_metadata/plugins_ubuntu_linux.json	2013-03-15 06:09:08.744439151 -0500
++++ src/src/chrome/browser/resources/plugin_metadata/plugins_ubuntu_linux.json	2013-03-15 18:48:45.133977842 -0500
 @@ -0,0 +1,18 @@
 +{
 +  "libunity_npapi_plugin.so": {

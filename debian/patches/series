@@ -21,9 +21,9 @@ ffmpeg-gyp-config.patch
 1-infobars.patch
 2-get-domain-tld.patch
 3-chrome-xid.patch
-4-chromeless-window-launch-option.patch
+#4-chromeless-window-launch-option.patch
 5-desktop-integration-settings.patch
 6-passwordless-install-support.patch
-7-npapi-permission-not-defaults-to-unauthorized.patch
+#7-npapi-permission-not-defaults-to-unauthorized.patch
 ###: end lp:unity-chromium-extension
 locale.patch
