@@ -3,6 +3,7 @@
 
  README.source - for ubuntu/debian chromium-browser
  Author: Alexander Sack <asac@ubuntu.com>
+ Updates: Saikrishna Arcot <saiarcot895@gmail.com>
 
 ------------------------------------------------------
 
@@ -10,9 +11,8 @@ Content:
 
   I. Packaging overview
   II. Upstream (orig.tar.gz)
-  III. Get sources for channels (aka dev, beta, release)
-  IV. Efficient Upstream orig.tar.gz production
-  V. Patching
+  III. Efficient Upstream orig.tar.gz production
+  IV. Patching
 
 ------
 
@@ -45,22 +45,10 @@ The nested tarball is packed using _lzma_ do get a minimal result.
 
 Examples on how to get orig.tar.gz for snapshots:
 
-  + get latest upstream snapshot:
-    ./debian/rules get-orig-source
-
   + get current upstream snapshot (by changelog):
     ./debian/rules get-current-source
 
-
-III. Get sources for channels (aka dev, beta, release)
-
-The packaging provides a feature to produce orig.tar.gz for release channels,
-like dev, beta and release builds. To get the latest beta build, append
-CHANNEL=beta to your debian/rules line, e.g.:
-
-  + ./debian/rules get-orig-source CHANNEL=beta
-
-IV. Efficient Upstream orig.tar.gz production
+III. Efficient Upstream orig.tar.gz production
 
 The packaging provides a feature to speed up the orig.tar.gz production by
 keeping a local mirror of the chromium checkouts; this reduces the
@@ -82,21 +70,12 @@ V. Patching
 
 We use quilt for the sake of efficiency to code and update patches.
 
-if you want to create a patch or write a patch, at best kick off a build
-and break it after the current patches have been applied. Then cd into the
-chromium tree:
+if you want to create a patch or write a patch, use:
 
- cd build-tree/src/
-
-create a link to the quilt patches directory
-
- ln -s ../../debian/patches
+ quilt patch -a
 
 and start working on quilt patches as usual, e.g.
 
- quilt applied
- quilt pop
+ quilt add <file name>
  quilt refresh
  ...
-
-

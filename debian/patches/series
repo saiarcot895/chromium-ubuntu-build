@@ -1,10 +1,10 @@
-translations/build.patch
-translations/translations-chromium_strings.patch
-translations/translations-generated_resources.patch
-translations/translations-inspector_strings.patch
-translations/translations-policy_templates.patch
-translations/translations-ui_strings.patch
-translations/translations-webkit_strings.patch
+#translations/build.patch
+#translations/translations-chromium_strings.patch
+#translations/translations-generated_resources.patch
+#translations/translations-inspector_strings.patch
+#translations/translations-policy_templates.patch
+#translations/translations-ui_strings.patch
+#translations/translations-webkit_strings.patch
 # system_v8.patch
 search-credit.patch
 chromium_useragent.patch
