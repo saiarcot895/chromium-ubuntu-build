@@ -1,4 +1,4 @@
-chromium-browser (27.0.1441.0~svn20130315r188249-0ubuntuppa1~unstable1) unstable; urgency=low
+chromium-browser (27.0.1441.0~svn20130315r188249-0ubuntuppa1~raring1) raring; urgency=low
 
   * Updated to 27.0.1441.0 (Revision 188249)
   * Added all locales
@@ -6,7 +6,7 @@ chromium-browser (27.0.1441.0~svn20130315r188249-0ubuntuppa1~unstable1) unstable
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 15 Mar 2013 11:06:28 -0500
 
-chromium-browser (27.0.1435.0~svn20130309r187164-0ubuntuppa7~unstable1) unstable; urgency=low
+chromium-browser (27.0.1435.0~svn20130309r187164-0ubuntuppa7~raring1) raring; urgency=low
 
   * Removed extra locales in main package
   * Excluded chromium-browser-sandbox from dh_fixperms
@@ -16,7 +16,7 @@ chromium-browser (27.0.1435.0~svn20130309r187164-0ubuntuppa7~unstable1) unstable
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 12 Mar 2013 05:20:46 -0500
 
-chromium-browser (27.0.1435.0~svn20130309r187164-0ubuntuppa4~unstable1) unstable; urgency=low
+chromium-browser (27.0.1435.0~svn20130309r187164-0ubuntuppa4~raring1) raring; urgency=low
 
   * New upstream release.
   * Update webkit_rev_parser.patch, dlopen_sonamed_gl.patch, 3-chrome-xid.patch, and 5-desktop-integration-settings.patch
@@ -26,7 +26,7 @@ chromium-browser (27.0.1435.0~svn20130309r187164-0ubuntuppa4~unstable1) unstable
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 11 Mar 2013 06:30:34 -0500
 
-chromium-browser (22.0.1229.94~r161065-0ubuntu1) unstable; urgency=low
+chromium-browser (22.0.1229.94~r161065-0ubuntu1) raring; urgency=low
 
   * New upstream release from the Stable Channel
     - [154983][154987] Critical CVE-2012-5112: SVG use-after-free and IPC 
@@ -34,7 +34,7 @@ chromium-browser (22.0.1229.94~r161065-0ubuntu1) unstable; urgency=low
 
  -- Ken VanDine <ken.vandine@canonical.com>  Sat, 13 Oct 2012 00:24:57 -0400
 
-chromium-browser (22.0.1229.79~r158531-0ubuntu1) unstable; urgency=low
+chromium-browser (22.0.1229.79~r158531-0ubuntu1) raring; urgency=low
 
   * New upstream release from the Stable Channel
   * debian/control
@@ -61,14 +61,14 @@ chromium-browser (22.0.1229.79~r158531-0ubuntu1) unstable; urgency=low
 
  -- Ken VanDine <ken.vandine@canonical.com>  Fri, 12 Oct 2012 09:31:11 -0400
 
-chromium-browser (20.0.1132.47~r144678-0ubuntu6) unstable; urgency=low
+chromium-browser (20.0.1132.47~r144678-0ubuntu6) raring; urgency=low
 
   * debian/patches/5-desktop-integration-settings.patch
     - Updated to match libunity-webapps.so.0 
 
  -- Ken VanDine <ken.vandine@canonical.com>  Wed, 19 Sep 2012 11:44:21 -0400
 
-chromium-browser (20.0.1132.47~r144678-0ubuntu5) unstable; urgency=low
+chromium-browser (20.0.1132.47~r144678-0ubuntu5) raring; urgency=low
 
   * debian/patches/fix-1034541.patch
     - fix chromeless issues if chromeless window is launched before a 
@@ -76,7 +76,7 @@ chromium-browser (20.0.1132.47~r144678-0ubuntu5) unstable; urgency=low
 
  -- Ken VanDine <ken.vandine@canonical.com>  Tue, 14 Aug 2012 14:45:16 -0400
 
-chromium-browser (20.0.1132.47~r144678-0ubuntu4) unstable; urgency=low
+chromium-browser (20.0.1132.47~r144678-0ubuntu4) raring; urgency=low
 
   * debian/patches/4-chromeless-window-launch-option.patch
     - updated to latest from webapps
@@ -85,7 +85,7 @@ chromium-browser (20.0.1132.47~r144678-0ubuntu4) unstable; urgency=low
 
  -- Ken VanDine <ken.vandine@canonical.com>  Mon, 13 Aug 2012 22:53:46 -0400
 
-chromium-browser (20.0.1132.47~r144678-0ubuntu3) unstable; urgency=low
+chromium-browser (20.0.1132.47~r144678-0ubuntu3) raring; urgency=low
 
   * debian/patches/1-infobars.patch
     - moved infobars out of experimental, used for webapps
@@ -101,7 +101,7 @@ chromium-browser (20.0.1132.47~r144678-0ubuntu3) unstable; urgency=low
 
  -- Ken VanDine <ken.vandine@canonical.com>  Mon, 06 Aug 2012 13:40:57 -0400
 
-chromium-browser (20.0.1132.47~r144678-0ubuntu2) unstable; urgency=low
+chromium-browser (20.0.1132.47~r144678-0ubuntu2) raring; urgency=low
 
   * debian/control
     - Dropped build depends for libvpx-dev
@@ -115,7 +115,7 @@ chromium-browser (20.0.1132.47~r144678-0ubuntu2) unstable; urgency=low
 
  -- Ken VanDine <ken.vandine@canonical.com>  Thu, 12 Jul 2012 15:56:59 -0400
 
-chromium-browser (20.0.1132.47~r144678-0ubuntu1) unstable; urgency=low
+chromium-browser (20.0.1132.47~r144678-0ubuntu1) raring; urgency=low
 
   * New upstream release from the Stable Channel
   * debian/control
@@ -139,7 +139,7 @@ chromium-browser (20.0.1132.47~r144678-0ubuntu1) unstable; urgency=low
 
  -- Ken VanDine <ken.vandine@canonical.com>  Thu, 12 Jul 2012 14:02:44 -0400
 
-chromium-browser (18.0.1025.168~r134367-0ubuntu2) unstable; urgency=low
+chromium-browser (18.0.1025.168~r134367-0ubuntu2) raring; urgency=low
 
   * debian/rules
     - force to build with gcc 4.6 to fix ftbfs (LP: #992212)
@@ -149,7 +149,7 @@ chromium-browser (18.0.1025.168~r134367-0ubuntu2) unstable; urgency=low
 
  -- Ken VanDine <ken.vandine@canonical.com>  Fri, 06 Jul 2012 13:51:59 -0400
 
-chromium-browser (18.0.1025.168~r134367-0ubuntu1) unstable; urgency=low
+chromium-browser (18.0.1025.168~r134367-0ubuntu1) raring; urgency=low
   
   * debian/rules
     - include armv7 in GYP_DEFINES for 11.10, 12.04 and 12.10.  Fixes 
@@ -157,7 +157,7 @@ chromium-browser (18.0.1025.168~r134367-0ubuntu1) unstable; urgency=low
 
  -- Ken VanDine <ken.vandine@canonical.com>  Mon, 18 Jun 2012 10:04:59 -0400
 
-chromium-browser (18.0.1025.168~r134367-0ubuntu0.12.04.1) unstable-security; urgency=low
+chromium-browser (18.0.1025.168~r134367-0ubuntu0.12.04.1) raring-security; urgency=low
 
   * New upstream release from the Stable Channel (LP: #992352)
     - [106413] High CVE-2011-3078: Use after free in floats handling. Credit to
@@ -174,7 +174,7 @@ chromium-browser (18.0.1025.168~r134367-0ubuntu0.12.04.1) unstable-security; urg
 
  -- Micah Gersten <micahg@ubuntu.com>  Tue, 01 May 2012 00:02:53 -0500
 
-chromium-browser (18.0.1025.151~r130497-0ubuntu1) unstable; urgency=low
+chromium-browser (18.0.1025.151~r130497-0ubuntu1) raring; urgency=low
 
   * New upstream release from the Stable Channel (LP: #977502)
     - black screen on Hybrid Graphics system with GPU accelerated compositing
@@ -217,7 +217,7 @@ chromium-browser (18.0.1025.151~r130497-0ubuntu1) unstable; urgency=low
 
  -- Micah Gersten <micahg@ubuntu.com>  Mon, 09 Apr 2012 16:21:40 -0500
 
-chromium-browser (18.0.1025.142~r129054-0ubuntu1) unstable; urgency=low
+chromium-browser (18.0.1025.142~r129054-0ubuntu1) raring; urgency=low
 
   * New upstream release from the Stable Channel (LP: #968901)
     This release fixes the following security issues:
@@ -256,7 +256,7 @@ chromium-browser (18.0.1025.142~r129054-0ubuntu1) unstable; urgency=low
 
  -- Micah Gersten <micahg@ubuntu.com>  Sun, 01 Apr 2012 22:17:11 -0500
 
-chromium-browser (17.0.963.83~r127885-0ubuntu1) unstable; urgency=low
+chromium-browser (17.0.963.83~r127885-0ubuntu1) raring; urgency=low
 
   * New upstream release from the Stable Channel (LP: #961831)
     This release fixes the following security issues:
@@ -281,7 +281,7 @@ chromium-browser (17.0.963.83~r127885-0ubuntu1) unstable; urgency=low
 
  -- Micah Gersten <micahg@ubuntu.com>  Wed, 21 Mar 2012 21:31:34 -0500
 
-chromium-browser (17.0.963.79~r125985-0ubuntu1) unstable; urgency=low
+chromium-browser (17.0.963.79~r125985-0ubuntu1) raring; urgency=low
 
   * New upstream release from the Stable Channel (LP: #952711)
     This release fixes the following security issue:
@@ -290,7 +290,7 @@ chromium-browser (17.0.963.79~r125985-0ubuntu1) unstable; urgency=low
 
  -- Micah Gersten <micahg@ubuntu.com>  Mon, 12 Mar 2012 00:01:07 -0500
 
-chromium-browser (17.0.963.78~r125577-0ubuntu1) unstable; urgency=low
+chromium-browser (17.0.963.78~r125577-0ubuntu1) raring; urgency=low
 
   * New upstream release from the Stable Channel (LP: #950174)
     This release fixes the following security issue:
@@ -303,7 +303,7 @@ chromium-browser (17.0.963.78~r125577-0ubuntu1) unstable; urgency=low
 
  -- Micah Gersten <micahg@ubuntu.com>  Fri, 09 Mar 2012 00:40:23 -0600
 
-chromium-browser (17.0.963.66~r124982-0ubuntu1) unstable; urgency=low
+chromium-browser (17.0.963.66~r124982-0ubuntu1) raring; urgency=low
 
   * New upstream release from the Stable Channel (LP: #948749)
     - fixes regression in the DOM [116789]
@@ -318,7 +318,7 @@ chromium-browser (17.0.963.66~r124982-0ubuntu1) unstable; urgency=low
 
  -- Micah Gersten <micahg@ubuntu.com>  Wed, 07 Mar 2012 02:00:53 -0600
 
-chromium-browser (17.0.963.65~r124586-0ubuntu1) unstable; urgency=low
+chromium-browser (17.0.963.65~r124586-0ubuntu1) raring; urgency=low
 
   * New upstream release from the Stable Channel (LP: #946914)
     - Cursors and backgrounds sometimes do not load [111218]
@@ -362,7 +362,7 @@ chromium-browser (17.0.963.65~r124586-0ubuntu1) unstable; urgency=low
 
  -- Micah Gersten <micahg@ubuntu.com>  Mon, 05 Mar 2012 03:48:05 -0600
 
-chromium-browser (17.0.963.56~r121963-0ubuntu3) unstable; urgency=low
+chromium-browser (17.0.963.56~r121963-0ubuntu3) raring; urgency=low
 
   * Fix arm specific flags again; Use findstring instead of filter as arm
     isn't the entire build arch name
@@ -370,7 +370,7 @@ chromium-browser (17.0.963.56~r121963-0ubuntu3) unstable; urgency=low
 
  -- Micah Gersten <micahg@ubuntu.com>  Mon, 20 Feb 2012 00:59:09 -0600
 
-chromium-browser (17.0.963.56~r121963-0ubuntu2) unstable; urgency=low
+chromium-browser (17.0.963.56~r121963-0ubuntu2) raring; urgency=low
 
   * Add arm specific flags for arm*, not just armel; This allows building on
     armhf successfully (we hope)
@@ -384,7 +384,7 @@ chromium-browser (17.0.963.56~r121963-0ubuntu2) unstable; urgency=low
 
  -- Micah Gersten <micahg@ubuntu.com>  Mon, 20 Feb 2012 00:23:47 -0600
 
-chromium-browser (17.0.963.56~r121963-0ubuntu1) unstable; urgency=low
+chromium-browser (17.0.963.56~r121963-0ubuntu1) raring; urgency=low
 
   * New upstream release from the Stable Channel (LP: #933262)
     This release fixes the following security issues:
@@ -418,7 +418,7 @@ chromium-browser (17.0.963.56~r121963-0ubuntu1) unstable; urgency=low
 
  -- Micah Gersten <micahg@ubuntu.com>  Wed, 15 Feb 2012 22:55:08 -0600
 
-chromium-browser (17.0.963.46~r119351-0ubuntu1) unstable; urgency=low
+chromium-browser (17.0.963.46~r119351-0ubuntu1) raring; urgency=low
 
   * New upstream release from the Stable Channel (LP: #931905)
     This release fixes the following security issues:
@@ -471,7 +471,7 @@ chromium-browser (17.0.963.46~r119351-0ubuntu1) unstable; urgency=low
 
  -- Micah Gersten <micahg@ubuntu.com>  Wed, 15 Feb 2012 01:32:50 -0600
 
-chromium-browser (16.0.912.77~r118311-0ubuntu1) unstable; urgency=low
+chromium-browser (16.0.912.77~r118311-0ubuntu1) raring; urgency=low
 
   * New upstream release from the Stable Channel (LP: #923602, #897389)
     (LP: #914648, #889711)
@@ -543,7 +543,7 @@ chromium-browser (16.0.912.77~r118311-0ubuntu1) unstable; urgency=low
 
  -- Micah Gersten <micahg@ubuntu.com>  Mon, 30 Jan 2012 14:43:06 -0600
 
-chromium-browser (15.0.874.120~r108895-0ubuntu1) unstable; urgency=low
+chromium-browser (15.0.874.120~r108895-0ubuntu1) raring; urgency=low
 
   * New upstream release from the Stable Channel (LP: #889711)
     This release fixes the following security issues:
@@ -562,7 +562,7 @@ chromium-browser (15.0.874.120~r108895-0ubuntu1) unstable; urgency=low
 
  -- Micah Gersten <micahg@ubuntu.com>  Sun, 13 Nov 2011 00:11:03 -0600
 
-chromium-browser (15.0.874.106~r107270-0ubuntu1) unstable; urgency=low
+chromium-browser (15.0.874.106~r107270-0ubuntu1) raring; urgency=low
 
   * New upstream release from the Stable Channel (LP: #881786)
     - This release fixes a regression with regard to logging into certain
@@ -570,7 +570,7 @@ chromium-browser (15.0.874.106~r107270-0ubuntu1) unstable; urgency=low
 
  -- Micah Gersten <micahg@ubuntu.com>  Wed, 26 Oct 2011 23:19:00 -0500
 
-chromium-browser (15.0.874.102~r106587-0ubuntu1) unstable; urgency=low
+chromium-browser (15.0.874.102~r106587-0ubuntu1) raring; urgency=low
 
   * New upstream release from the Stable Channel (LP: #881786)
     - fix LP: #881607 - Error initializing NSS without a persistent database
@@ -615,7 +615,7 @@ chromium-browser (15.0.874.102~r106587-0ubuntu1) unstable; urgency=low
 
   [ Micah Gersten <micahg@ubuntu.com> ]
   * Switch to xz debs; Add Pre-Depends on dpkg >= 1.15.6 which is needed
-    until after unstable
+    until after raring
     - update debian/rules
     - update debian/control
 
@@ -642,7 +642,7 @@ chromium-browser (15.0.874.102~r106587-0ubuntu1) unstable; urgency=low
 
  -- Micah Gersten <micahg@ubuntu.com>  Wed, 26 Oct 2011 02:52:39 -0500
 
-chromium-browser (14.0.835.202~r103287-0ubuntu2) unstable; urgency=low
+chromium-browser (14.0.835.202~r103287-0ubuntu2) raring; urgency=low
 
   * Switch maintainer to Ubuntu Developers; Thanks to Fabien Tassin for all
     his work on this package
@@ -653,12 +653,12 @@ chromium-browser (14.0.835.202~r103287-0ubuntu2) unstable; urgency=low
     - update debian/control
   * Switch to default libjpeg
     - update debian/control
-  * Update Vcs-Bzr for unstable
+  * Update Vcs-Bzr for raring
     - update debian/control
 
  -- Micah Gersten <micahg@ubuntu.com>  Tue, 18 Oct 2011 02:50:27 -0500
 
-chromium-browser (14.0.835.202~r103287-0ubuntu1) unstable; urgency=low
+chromium-browser (14.0.835.202~r103287-0ubuntu1) raring; urgency=low
 
   * New upstream release from the Stable Channel (LP: #858744)
     This release fixes the following security issues:
@@ -757,20 +757,20 @@ chromium-browser (14.0.835.202~r103287-0ubuntu1) unstable; urgency=low
     - update debian/rules
   * Add a "Conflicts" with -inspector so that it gets removed
     - update debian/control
-  * Build with the default gcc-4.6 on unstable
+  * Build with the default gcc-4.6 on raring
     - update debian/control
     - update debian/rules
   * Refresh Patches
 
  -- Micah Gersten <micahg@ubuntu.com>  Wed, 05 Oct 2011 04:06:44 -0500
 
-chromium-browser (13.0.782.215~r97094-0ubuntu2) unstable; urgency=low
+chromium-browser (13.0.782.215~r97094-0ubuntu2) raring; urgency=low
 
   * Enable hardening on armel. LP: #641126.
 
  -- Matthias Klose <doko@ubuntu.com>  Wed, 21 Sep 2011 23:47:00 +0200
 
-chromium-browser (13.0.782.215~r97094-0ubuntu1) unstable; urgency=high
+chromium-browser (13.0.782.215~r97094-0ubuntu1) raring; urgency=high
 
   * New upstream release from the Stable Channel
     This release fixes the following security issues:
@@ -803,14 +803,14 @@ chromium-browser (13.0.782.215~r97094-0ubuntu1) unstable; urgency=high
 
  -- Fabien Tassin <fta@ubuntu.com>  Tue, 23 Aug 2011 07:22:44 +0200
 
-chromium-browser (13.0.782.107~r94237-0ubuntu2) unstable; urgency=high
+chromium-browser (13.0.782.107~r94237-0ubuntu2) raring; urgency=high
 
   * Add libgles2-mesa-dev to Build-deps for Armel (only), fixing a FTBFS
     - update debian/control
 
  -- Fabien Tassin <fta@ubuntu.com>  Wed, 03 Aug 2011 21:20:41 +0200
 
-chromium-browser (13.0.782.107~r94237-0ubuntu1) unstable; urgency=high
+chromium-browser (13.0.782.107~r94237-0ubuntu1) raring; urgency=high
 
   * New Major upstream release from the Stable Channel
     This release fixes the following security issues:
@@ -880,7 +880,7 @@ chromium-browser (13.0.782.107~r94237-0ubuntu1) unstable; urgency=high
   Packaging changes:
   * Add a "Conflicts" with -inspector so that it gets removed
     - update debian/control
-  * Disable PIE for ARM on unstable too
+  * Disable PIE for ARM on raring too
     - update debian/rules
   * Run the gclient hooks when creating the source tarball, as we need files
     from the Native Client's integrated runtime (IRT) library.
@@ -893,7 +893,7 @@ chromium-browser (13.0.782.107~r94237-0ubuntu1) unstable; urgency=high
 
  -- Fabien Tassin <fta@ubuntu.com>  Tue, 02 Aug 2011 17:33:23 +0200
 
-chromium-browser (12.0.742.112~r90304-0ubuntu1) unstable; urgency=high
+chromium-browser (12.0.742.112~r90304-0ubuntu1) raring; urgency=high
 
   * New Minor upstream release from the Stable Channel (LP: #803107)
     This release fixes the following security issues:
@@ -927,7 +927,7 @@ chromium-browser (12.0.742.112~r90304-0ubuntu1) unstable; urgency=high
     - update debian/rules
   * Properly stop the keep-alive when the build fails
     - update debian/rules
-  * Fix the HTML5 <video> tag regression in unstable by properly linking
+  * Fix the HTML5 <video> tag regression in raring by properly linking
     libvpx so it's not being dropped from libffmpegsumo.so (LP: #795171)
     - add debian/patches/html5-codecs-fix.patch
     - update debian/patches/series
@@ -944,7 +944,7 @@ chromium-browser (12.0.742.112~r90304-0ubuntu1) unstable; urgency=high
 
  -- Fabien Tassin <fta@ubuntu.com>  Tue, 28 Jun 2011 07:17:52 +0200
 
-chromium-browser (12.0.742.91~r87961-0ubuntu1) unstable; urgency=high
+chromium-browser (12.0.742.91~r87961-0ubuntu1) raring; urgency=high
 
   * New upstream release from the Stable Channel (LP: #794197)
     It includes:
@@ -1021,7 +1021,7 @@ chromium-browser (12.0.742.91~r87961-0ubuntu1) unstable; urgency=high
 
  -- Fabien Tassin <fta@ubuntu.com>  Thu, 26 May 2011 17:16:41 +0200
 
-chromium-browser (11.0.696.71~r86024-0ubuntu1) unstable; urgency=low
+chromium-browser (11.0.696.71~r86024-0ubuntu1) raring; urgency=low
 
   * New Minor upstream release from the Stable Channel (LP: #787846)
     This release fixes the following security issues:
@@ -1045,7 +1045,7 @@ chromium-browser (11.0.696.71~r86024-0ubuntu1) unstable; urgency=low
 
  -- Fabien Tassin <fta@ubuntu.com>  Thu, 24 May 2011 23:42:08 +0200
 
-chromium-browser (11.0.696.68~r84545-0ubuntu1) unstable; urgency=high
+chromium-browser (11.0.696.68~r84545-0ubuntu1) raring; urgency=high
 
   * New Minor upstream release from the Stable Channel (LP: #781822)
     This release fixes the following security issues:
@@ -1057,7 +1057,7 @@ chromium-browser (11.0.696.68~r84545-0ubuntu1) unstable; urgency=high
 
  -- Fabien Tassin <fta@ubuntu.com>  Thu, 12 May 2011 19:37:35 +0200
 
-chromium-browser (11.0.696.65~r84435-0ubuntu1) unstable; urgency=high
+chromium-browser (11.0.696.65~r84435-0ubuntu1) raring; urgency=high
 
   * New Minor upstream release from the Stable Channel (LP: #778822)
     This release fixes the following security issues:
@@ -1082,7 +1082,7 @@ chromium-browser (11.0.696.65~r84435-0ubuntu1) unstable; urgency=high
   * Pass --delete_unversioned_trees to gclient and drop the git.chromium.org
     workaround.
     - update debian/rules
-  * Build with gcc-4.5 on unstable for now. It's not ready for 4.6
+  * Build with gcc-4.5 on raring for now. It's not ready for 4.6
     - update debian/control
     - update debian/rules
 
