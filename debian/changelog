@@ -1,3 +1,10 @@
+chromium-browser (27.0.1453.6-0ubuntuppa1~raring1) raring; urgency=low
+
+  * New upstream version 27.0.1453.6
+  * Removed Launchpad locales
+
+ -- Saikrishna Arcot <saikrishna@saikrishna-HP>  Sat, 30 Mar 2013 08:46:28 -0500
+
 chromium-browser (27.0.1441.0~svn20130315r188249-0ubuntuppa1~raring1) raring; urgency=low
 
   * Updated to 27.0.1441.0 (Revision 188249)

@@ -26,4 +26,4 @@ ffmpeg-gyp-config.patch
 6-passwordless-install-support.patch
 #7-npapi-permission-not-defaults-to-unauthorized.patch
 ###: end lp:unity-chromium-extension
-locale.patch
+#locale.patch
