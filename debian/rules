@@ -433,11 +433,11 @@ endif
 
 ###############################################################################################
 
-# Tarball (get-orig-source & get-current-source)
+# Tarball (get-packaged-orig-source)
 GCLIENT_URL  := http://src.chromium.org/svn/trunk/tools/depot_tools
 #CHROMIUM_URL := http://src.chromium.org/svn/trunk/src
-CHROMIUM_RLZ := http://src.chromium.org/svn/releases
-DEPS_URL     := http://src.chromium.org/svn/trunk/deps/third_party
+CHROMIUM_RLZ := https://src.chromium.org/chrome/releases/
+#DEPS_URL     := http://src.chromium.org/svn/trunk/deps/third_party
 GREEN_REV_URL := http://chromium-status.appspot.com/lkgr
 
 TRANSLATIONS_TOOLS_BRANCH  := lp:~chromium-team/chromium-browser/chromium-translations-tools.head
@@ -622,8 +622,8 @@ endif
 get-orig-source:
 	$(warning $@ is deprecated. Use changelog to set version, and either param/rule "get-packaged-orig-source" or a recent "bzr builddeb".)
 
-get-packaged-orig-source: ORIG_VERSION = $(shell wget -qO- "https://omahaproxy.appspot.com/all?os=linux&channel=dev" | grep linux | while IFS=, read col1 col2 col3 col4; do echo $col3; done)
-get-packaged-orig-source: UPSTREAM_REV_NUMBER = $(shell wget -q -O - http://omahaproxy.appspot.com/revision.json?version=$(ORIG_VERSION) |python -c 'import json, sys; print json.loads(sys.stdin.read())["chromium_revision"]')
+get-packaged-orig-source: ORIG_VERSION = $(shell wget -qO- "https://omahaproxy.appspot.com/all?os=linux&channel=dev" | grep linux | while IFS=, read col1 col2 col3 col4; do echo $$col3; done)
+#get-packaged-orig-source: UPSTREAM_REV_NUMBER = $(shell wget -q -O - http://omahaproxy.appspot.com/revision.json?version=$(ORIG_VERSION) |python -c 'import json, sys; print json.loads(sys.stdin.read())["chromium_revision"]')
 get-packaged-orig-source: gos-co gos-pack
 
 gos-co: CHROMIUM_URL = $(CHROMIUM_RLZ)/$(ORIG_VERSION)
@@ -649,24 +649,24 @@ ifneq (,$(STRIPPED_DIRS_FROM_CO))
 	grep -Ev '^($$|[[:blank:]]*#)' $(TMP_DIR)/.gclient
 endif
 endif
-
+	
 	# Checkout (drop the previous content and retry if gclient failed, see http://crbug.com/39954)
 	cd $(TMP_DIR) && ./tools/depot_tools/gclient update $(GCLIENT_UPDATE_FLAGS) || \
 	  ( rm -rf $(foreach dir,src [0-9]*,$(wildcard $(TMP_DIR)/$(dir))) ; \
 	   ./tools/depot_tools/gclient update $(GCLIENT_UPDATE_FLAGS) )
-
+	
 	# For NaCL, run the hooks, but not the gyp ones. All one "&&"-chained
 	# statement so that a failure will stop the program and be noticed.
 	cd $(TMP_DIR) && SDIR=$$(grep '"name"' .gclient |cut -d\" -f4) && perl -i~ -pe 's%\[((.)python\2, (.)(?:src/build/gyp_chromium|src/build/download_nacl_toolchains.py)\3)%[\2echo\2, \2#disabled#\2, \1%' $$SDIR/DEPS && perl -i~ -pe 's%(\bsys\.executable)\b$$%(\1 or "/usr/bin/python")%' tools/depot_tools/gclient.py && ./tools/depot_tools/gclient runhooks && mv $$SDIR/DEPS~ $$SDIR/DEPS && mv tools/depot_tools/gclient.py~ tools/depot_tools/gclient.py
-
+	
 ifneq (,$(LOCAL_BRANCH))
 	rm -rf $(TMP_DDIR)
 	cp -la $(TMP_DIR) $(TMP_DDIR)
 endif
-
+	
 ifeq (1,$(STRIP_TARBALL))
 	# Strip tarball from some big directories not needed on the linux platform
-	cd $(TMP_DDIR)/src && rm -rfv $(STRIPPED_DIRS) | grep -vE '/\.svn(/|.$$)' > $(TMP_DDIR)/REMOVED-stripped.txt
+	cd $(TMP_DDIR)/src && rm -rfv $(STRIPPED_DIRS) | grep -vE '/\.svn(/|.$$)' > ../REMOVED-stripped.txt
 ifneq (,$(ALMOST_STRIPPED_DIRS))
 	# Strip listed dirs almost completely (keep *.gyp and README.chromium)
 	$(call ALMOST_STRIP_DIRS,$(ALMOST_STRIPPED_DIRS),$(TMP_DDIR)/src) | grep -vE '/\.svn(/|.$$)' >> $(TMP_DDIR)/REMOVED-stripped.txt
@@ -675,12 +675,12 @@ ifneq (,$(STRIPPED_SYSTEM_LIB_DIRS))
 	$(call STRIP_SYSTEM_DIRS,$(STRIPPED_SYSTEM_LIB_DIRS),$(TMP_DDIR)/src) | grep -vE '/\.svn(/|.$$)' >> $(TMP_DDIR)/REMOVED-stripped.txt
 endif
 	# Remove binaries
-	cd $(TMP_DDIR)/src && find . -type f \( -iname \*.exe -o -iname \*.dll -o -iname \*.pdb -o -name \*.o -o -name \*.a -o -name \*.dylib -o -name \*.so -o -name \*.so.\* \) -print -delete > $(TMP_DDIR)/REMOVED-bin_only.txt
-
+	cd $(TMP_DDIR)/src && find . -type f \( -iname \*.exe -o -iname \*.dll -o -iname \*.pdb -o -name \*.o -o -name \*.a -o -name \*.dylib -o -name \*.so -o -name \*.so.\* \) -print -delete > ../REMOVED-bin_only.txt
+	
 	# Remove cache files and backups
-	cd $(TMP_DDIR)/src && find . -type f \( -iname \*.bak -o -iname \*.orig -o -iname \*.cache -o -name \*.pyc -o -name \*.pyo \) -print -delete > $(TMP_DDIR)/REMOVED-ephemera.txt
-	cd $(TMP_DDIR)/src && find . -type d -name autom4te.cache -print -delete >> $(TMP_DDIR)/REMOVED-ephemera.txt
-
+	cd $(TMP_DDIR)/src && find . -type f \( -iname \*.bak -o -iname \*.orig -o -iname \*.cache -o -name \*.pyc -o -name \*.pyo \) -print -delete > ../REMOVED-ephemera.txt
+	cd $(TMP_DDIR)/src && find . -type d -name autom4te.cache -print -delete >> ../REMOVED-ephemera.txt
+	
 	find $(TMP_DDIR) -regex '.*/\([^/]*\)/\1[^/]*\.\(Makefile\|\(target\|host\)\.mk\)' -print -delete >> $(TMP_DDIR)/REMOVED-gyp.txt
 	
 	wc -l $(TMP_DDIR)/REMOVED-*.txt
@@ -704,11 +704,11 @@ endif
 endif
 	# Pack
 	if [ src != $(DEB_TAR_SRCDIR) ] ; then mv $(TMP_DIR)/src $(TMP_DIR)/$(DEB_TAR_SRCDIR) ; fi
-	( cd $(TMP_DIR) ; echo "This file is here solely to keep the directory structure when extracting." > PLACEHOLDER ; tar --exclude-vcs --hard-dereference -Jcf ../../$(DEBIAN_NAME)_$(VERSION).orig.tar.xz $(DEB_TAR_SRCDIR) PLACEHOLDER )
+	( cd $(TMP_DIR) ; echo "This file is here solely to keep the directory structure when extracting." > PLACEHOLDER ; tar --exclude-vcs --hard-dereference -Jcf ../../$(DEBIAN_NAME)_$(ORIG_VERSION).orig.tar.xz $(DEB_TAR_SRCDIR) PLACEHOLDER )
 	
 	# Remove existing files do a clean re-extract
-	rm -rf $(DEB_TAR_SRCDIR) $(TMP_DIR) .pc && tar -Jxf ../$(DEBIAN_NAME)_$(VERSION).orig.tar.xz
-	dch -v $(VERSION) "New upstream version $(VERSION)"
-	@echo "# Done (created $(DEBIAN_NAME)_$(VERSION).orig.tar.xz)"
+	rm -rf $(DEB_TAR_SRCDIR) $(TMP_DIR) .pc && tar -Jxf ../$(DEBIAN_NAME)_$(ORIG_VERSION).orig.tar.xz
+	dch -v $(ORIG_VERSION)-0ubuntuppa1~raring1 "New upstream version $(ORIG_VERSION)"
+	@echo "# Done (created $(DEBIAN_NAME)_$(ORIG_VERSION).orig.tar.xz)"
 	@echo "Be sure to edit debian/changelog as necessary"
 
