@@ -15,16 +15,21 @@ SRC_DIR        := $(CURDIR)/$(DEB_TAR_SRCDIR)
 LIB_DIR        := usr/lib/$(DEBIAN_NAME)
 DEB_BUILDDIR   := $(SRC_DIR)
 
-# Whitelist LP provided new langs only in release builds, PPAs ship them all
-WANT_ONLY_WHITELISTED_NEW_LANGS ?= 0
+ifneq (,$(findstring Ubuntu,$(DEBIAN_DIST)))
+UBUNTU_DIST=$(DEBIAN_DIST)
+ ifneq (,$(findstring 10.04,$(DEBIAN_DIST)))
+BINARY_PACKAGE_COMPRESSION ?= bzip2# bzip2, gzip, lzma, xz, none
+ else
+BINARY_PACKAGE_COMPRESSION ?= xz# bzip2, gzip, lzma, xz, none
+ endif
+else
+BINARY_PACKAGE_COMPRESSION ?= xz# bzip2, gzip, lzma, xz, none
+endif
 
 WANT_XZ_DEBS     ?= 1
 WANT_DEBUG       := 0
-WANT_SYSTEM_LIBS ?= 0
+WANT_SYSTEM_LIBS ?= 1
 WANT_SHARED_LIBS ?= 0
-WANT_SANDBOXING  ?= 1
-USE_SYSTEM_V8    ?= 0
-VERBOSE          ?= 0
 PROCESSORS       ?= $(shell grep -ic ^processor /proc/cpuinfo)
 ifeq (0,$(PROCESSORS))
 PROCESSORS := 1
@@ -42,13 +47,25 @@ endif
 endif
 $(warning ## DEB_BUILD_HARDENING=$(DEB_BUILD_HARDENING))
 
-# Disable SSE2
-GYP_DEFINES = disable_sse2=1
+# Disable SSE2 and enable sandbox
+GYP_DEFINES = disable_sse2=1 \
+		linux_sandbox_path=/$(LIB_DIR)/$(DEBIAN_NAME)-sandbox \
+		linux_sandbox_chrome_path=/$(LIB_DIR)/$(DEBIAN_NAME) \
+		$(NULL)
+
+# Needed to preserve the suid and make the sandbox happy
+DEB_FIXPERMS_EXCLUDE := $(DEBIAN_NAME)-sandbox
 
 # Build the launchpad translations (already landed upstream)
 GYP_DEFINES += use_third_party_translations=0
 # Also merges the newer translations from launchpad
+## Policy: 2012-10-30, cm,kv,cc, disabling merging of LP translations. "0"
 WANT_LP_TRANSLATIONS ?= 0
+## Rationale: Instead of merging other stuff before "orig" (!) tarball
+## creation, let's export translation templates to Launchpad, and send them
+## upstream to be included in the real orig source.  It's slower for circuit,
+## but all users win, and is less buggy for us.
+##
 
 # Only keep -Werror when building for the Debian or Ubuntu development branches
 ifeq (,$(filter unstable development,$(DEBIAN_DIST)))
@@ -70,7 +87,6 @@ GYP_DEFINES += \
 	use_cups=1 \
 	$(NULL)
  ifeq (armel,$(DEB_HOST_ARCH))
-AVOID_GCC_44 := 0
 GYP_DEFINES += \
 	v8_use_arm_eabi_hardfloat=false \
 	arm_float_abi=soft \
@@ -110,11 +126,6 @@ DEB_DH_INSTALLINIT_ARGS += --noscripts --onlyscripts
 # Don't let scour touch the svg files
 DEB_DH_SCOUR_ARGS += -Xsvg
 
-# Use lzma instead of gzip inside the debs (passed to dpkg-deb)
-ifeq (1,$(WANT_XZ_DEBS))
-DEB_DH_BUILDDEB_ARGS += -- -Z xz
-endif
-
 ifeq (1,$(WANT_DEBUG))
 BUILD_TYPE := Debug
 else
@@ -123,11 +134,7 @@ BUILD_TYPE := Release
 BUILD_ARGS += SYMBOLS=1
 endif
 BUILD_ARGS += BUILDTYPE=$(BUILD_TYPE)
-
-# Verbose?
-ifeq (1,$(VERBOSE))
 BUILD_ARGS += V=1
-endif
 
 # Shared libraries
 ifeq (1,$(WANT_SHARED_LIBS))
@@ -139,13 +146,13 @@ BUILD_ARGS += CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS=""
 
 CC_VERSION   := $(shell gcc -dumpversion | cut -d. -f-2)
 
-# Set this to use gcc 4.6 instead of 4.7
-AVOID_GCC_47 ?= 0
-ifeq (4.7,$(CC_VERSION))
+# Set this to use gcc 4.7 instead of 4.8
+AVOID_GCC_48 ?= 0
+ifeq (4.8,$(CC_VERSION))
 GYP_DEFINES += werror=$(NULL)
-ifeq (1,$(AVOID_GCC_47))
-CC  := gcc-4.6
-CXX := g++-4.6
+ifeq (1,$(AVOID_GCC_48))
+CC  := gcc-4.7
+CXX := g++-4.7
 BUILD_ARGS += CC=$(CC) CXX=$(CXX) CC.host=$(CC) CXX.host=$(CXX) LINK.host=$(CXX)
 endif
 endif
@@ -218,8 +225,23 @@ GYP_DEFINES += use_gnome_keyring=1 linux_link_gnome_keyring=1
 GYP_DEFINES += use_gconf=1 use_gio=1
 endif
 
-USE_SYSTEM_SQLITE := $(shell pkg-config 'sqlite3 >= 3.6.1' && echo 1 || echo 0)
+#USE_SYSTEM_SQLITE := $(shell pkg-config 'sqlite3 >= 3.6.1' && echo 1 || echo 0)
+# undefined reference to 'chromium_sqlite3_initialize_unix_sqlite3_file'
 USE_SYSTEM_SQLITE := 0
+USE_SYSTEM_V8 := 0
+ifneq (,$(filter 8.10 9.04,$(DEBIAN_DIST)))
+# Don't build with system zlib on Intrepid/Jaunty. See http://crbug.com/38073
+USE_SYSTEM_ZLIB = 0
+else
+USE_SYSTEM_ZLIB = 1
+endif
+# Recursive third-party/opus/opus.h self-#inclusion.  Disabled for now.
+USE_SYSTEM_OPUS = 0
+# 'WebPPictureImportBGRX' was not declared
+USE_SYSTEM_WEBP = 0
+# minizip/unzip.h: No such file or directory
+USE_SYSTEM_MINIZIP = 0
+USE_SYSTEM_LIBSRTP = 0
 
 # System libs
 ifeq (1,$(WANT_SYSTEM_LIBS))
@@ -228,8 +250,24 @@ GYP_DEFINES += \
 	use_system_libjpeg=1 \
 	use_system_libpng=1 \
 	use_system_sqlite=$(USE_SYSTEM_SQLITE) \
-	use_system_libxml=0 \
+	use_system_libxml=$(USE_SYSTEM_LIBXML) \
 	use_system_libxslt=1 \
+	use_system_v8=$(USE_SYSTEM_V8) \
+	use_system_flac=1 \
+	use_system_harfbuzz=1 \
+	use_system_icu=1 \
+	use_system_libevent=1 \
+	use_system_libsrtp=$(USE_SYSTEM_LIBSRTP) \
+	use_system_libusb=1 \
+	use_system_libvpx=1 \
+	use_system_libwebp=$(USE_SYSTEM_WEBP) \
+	use_system_minizip=$(USE_SYSTEM_MINIZIP) \
+	use_system_opus=$(USE_SYSTEM_OPUS) \
+	use_system_protobuf=1 \
+	use_system_speex=1 \
+	use_system_xdg_utils=1 \
+	use_system_yasm=1 \
+	use_system_zlib=$(USE_SYSTEM_ZLIB) \
 	$(NULL)
 endif
 
@@ -239,23 +277,6 @@ BUILD_TARGETS += \
 	chrome \
 	chrome_sandbox \
 	$(NULL)
-
-ifeq (1,$(WANT_SANDBOXING))
-GYP_DEFINES += \
-	linux_sandbox_path=/$(LIB_DIR)/$(DEBIAN_NAME)-sandbox \
-	linux_sandbox_chrome_path=/$(LIB_DIR)/$(DEBIAN_NAME) \
-	$(NULL)
-
-# needed to preserve the suid and make the sandbox happy
-DEB_FIXPERMS_EXCLUDE := $(DEBIAN_NAME)-sandbox
-endif
-
-# use system v8
-ifeq (1,$(USE_SYSTEM_V8))
-GYP_DEFINES += \
-	javascript_engine=system-v8 \
-	$(NULL)
-endif
 
 ######
 DEB_MAKE_EXTRA_ARGS   := $(NULL)
@@ -308,11 +329,7 @@ binary-indep: build install
 	dh_installdeb
 	dh_gencontrol
 	dh_md5sums
-ifeq (1,$(WANT_XZ_DEBS))
-	dh_builddeb -- -Zxz
-else
-	dh_builddeb
-endif
+	dh_builddeb -- -Z$(BINARY_PACKAGE_COMPRESSION)
 
 binary-arch: build install
 	dh_testdir
@@ -325,11 +342,7 @@ binary-arch: build install
 	dh_shlibdeps
 	dh_gencontrol
 	dh_md5sums
-ifeq (1,$(WANT_XZ_DEBS))
-	dh_builddeb -- -Zxz
-else
-	dh_builddeb
-endif
+	dh_builddeb -- -Z$(BINARY_PACKAGE_COMPRESSION)
 
 binary: binary-indep binary-arch
 
@@ -385,11 +398,7 @@ install: build
 	dh_installdirs --package=$(DEBIAN_NAME) usr/share/icons/hicolor/scalable/apps
 	cp -a debian/chromium-browser.svg debian/chromium-browser/usr/share/icons/hicolor/scalable/apps
 	
-ifeq (1,$(WANT_SANDBOXING))
 	chmod 4755 debian/$(DEBIAN_NAME)/$(LIB_DIR)/$(DEBIAN_NAME)-sandbox
-else
-	rm -vf debian/$(DEBIAN_NAME)/$(LIB_DIR)/$(DEBIAN_NAME)-sandbox
-endif
 	# NaCL may be blacklisted, so only include it when it's been built
 ifeq (,$(filter disable_nacl=1,$(GYP_DEFINES)))
 	cp -a debian/tmp/$(LIB_DIR)/libppGoogleNaClPluginChrome.so debian/chromium-browser/$(LIB_DIR)/
@@ -437,94 +446,6 @@ endif
 GCLIENT_URL  := http://src.chromium.org/svn/trunk/tools/depot_tools
 #CHROMIUM_URL := http://src.chromium.org/svn/trunk/src
 CHROMIUM_RLZ := https://src.chromium.org/chrome/releases/
-#DEPS_URL     := http://src.chromium.org/svn/trunk/deps/third_party
-GREEN_REV_URL := http://chromium-status.appspot.com/lkgr
-
-TRANSLATIONS_TOOLS_BRANCH  := lp:~chromium-team/chromium-browser/chromium-translations-tools.head
-TRANSLATIONS_EXPORT_BRANCH := lp:~chromium-team/chromium-browser/chromium-translations-exports.head
-GRIT_TEMPLATES := \
-	chrome/app/chromium_strings.grd \
-	chrome/app/generated_resources.grd \
-	chrome/app/policy/policy_templates.grd \
-	ui/base/strings/ui_strings.grd \
-	webkit/glue/inspector_strings.grd \
-	webkit/glue/webkit_strings.grd \
-	$(NULL)
-OTHER_GRIT_TEMPLATES := \
-	ui/base/strings/app_locale_settings.grd \
-	chrome/app/resources/locale_settings.grd \
-	chrome/app/resources/locale_settings_linux.grd \
-	$(NULL)
-MAPPED_GRIT_TEMPLATES := \
-	--map-template-names ui/base/strings/ui_strings.grd=ui/base/strings/app_strings.grd \
-	$(NULL)
-
-# New langs with enough coverage (I call 80% 'enough coverage') to land in official builds
-# (leave empty to accept all new lang)
-GRIT_WHITELISTED_LANGS ?= \
-	ar \
-	bg \
-	bn \
-	ca \
-	ca@valencia \
-	cs \
-	da \
-	de \
-	el \
-	en_AU \
-	en_GB \
-	et \
-	eu \
-	es \
-	fil \
-	fi \
-	fr \
-	gl \
-	gu \
-	he \
-	hi \
-	hr \
-	hu \
-	id \
-	it \
-	ja \
-	kn \
-	ko \
-	lv \
-	lt \
-	ml \
-	ms \
-	mr \
-	nb \
-	nl \
-	ro \
-	ru \
-	sr \
-	sk \
-	sl \
-	sv \
-	ta \
-	te \
-	tr \
-	ug \
-	uk \
-	vi \
-	zh_CN \
-	zh_TW \
-	$(NULL)
-
-GRIT_CONVERTER_FLAGS := \
-	--create-patches translations-patches \
-	--import-gettext ../translations-export \
-	--export-grit ../translations-grit \
-	--build-gyp-file build/common.gypi \
-	--other-grd-files $(shell echo $(OTHER_GRIT_TEMPLATES) | tr ' ' ',') \
-	$(MAPPED_GRIT_TEMPLATES) \
-	$(NULL)
-	
-ifeq (1,$(WANT_ONLY_WHITELISTED_NEW_LANGS))
-GRIT_CONVERTER_FLAGS += --whitelisted-new-langs $(shell echo $(GRIT_WHITELISTED_LANGS) | tr ' ' ',')
-endif
 
 STRIP_TARBALL ?= 1
 
@@ -537,6 +458,13 @@ STRIPPED_DIRS_FROM_CO := \
 	src/third_party/ffmpeg/binaries/chromium/linux/ia32_dbg \
 	src/third_party/ffmpeg/binaries/chromium/linux/x64 \
 	src/third_party/ffmpeg/binaries/chromium/linux/x64_dbg \
+	src/third_party/flac \
+	src/third_party/gold \
+	src/third_party/icu \
+	src/third_party/libvpx \
+	src/third_party/speex \
+	build/third_party/cbuildbot_chromite \
+	commit-queue \
 	$(NULL)
 
 # stuff we don't have access to and shouldn't be in DEPS
@@ -562,7 +490,7 @@ STRIPPED_DIRS := \
 	third_party/gles_book_examples \
 	third_party/gold \
 	third_party/hunspell/dictionaries \
-	third_party/icu/mac \
+#	third_party/icu/mac \
 	third_party/lcov \
 	third_party/lighttpd \
 	third_party/nspr \
@@ -597,9 +525,21 @@ ifeq (1,$(WANT_SYSTEM_LIBS))
 # third_party/sqlite because it's a conditional build (see USE_SYSTEM_SQLITE)
 STRIPPED_SYSTEM_LIB_DIRS += \
 	third_party/bzip2 \
+	third_party/flac \
+	third_party/harfbuzz-ng \
+	third_party/icu \
+	third_party/libevent \
 	third_party/libjpeg \
 	third_party/libpng \
+	third_party/libusb \
+	third_party/libvpx \
 	third_party/libxslt \
+	third_party/protobuf \
+	third_party/speex \
+	third_party/sqlite \
+	third_party/xdg-utils \
+	third_party/yasm \
+	third_party/zlib \
 	$(NULL)
 endif
 
@@ -692,16 +632,6 @@ gos-pack: DISCOVERED_SRC_VERSION  = $(shell cut -d= -f2 $(TMP_DIR)/src/chrome/VE
 gos-pack:
 	test "$(ORIG_VERSION)"="$(DISCOVERED_SRC_VERSION)"
 	
-ifneq (,$(findstring Ubuntu,$(DEBIAN_DIST)))
-ifeq (1,$(WANT_LP_TRANSLATIONS))
-	# Merge Translations from Launchpad
-	if [ ! -d $(TMP_DIR)/translations-tools ] ; then bzr export $(TMP_DIR)/translations-tools $(TRANSLATIONS_TOOLS_BRANCH) ; fi
-	if [ ! -d $(TMP_DIR)/translations-export ] ; then bzr export $(TMP_DIR)/translations-export $(TRANSLATIONS_EXPORT_BRANCH) ; fi
-	( cd $(TMP_DIR)/src ; ../translations-tools/chromium2pot.py $(GRIT_CONVERTER_FLAGS) $(GRIT_TEMPLATES); mkdir -p ../../debian/patches/translations && mv translations-patches/* ../../debian/patches/translations && rm -rf translations-patches && cd ../../debian/patches/translations && sed -i -e 's\--- old\--- old/src\' -e 's\+++ new\+++ new/src\' * )
-	# Patches created:
-	@( cd debian/patches/translations ; ls translations* | xargs --verbose -n 1 diffstat -p 1 )
-endif
-endif
 	# Pack
 	if [ src != $(DEB_TAR_SRCDIR) ] ; then mv $(TMP_DIR)/src $(TMP_DIR)/$(DEB_TAR_SRCDIR) ; fi
 	( cd $(TMP_DIR) ; echo "This file is here solely to keep the directory structure when extracting." > PLACEHOLDER ; tar --exclude-vcs --hard-dereference -Jcf ../../$(DEBIAN_NAME)_$(ORIG_VERSION).orig.tar.xz $(DEB_TAR_SRCDIR) PLACEHOLDER )
