@@ -242,6 +242,7 @@ USE_SYSTEM_WEBP = 0
 # minizip/unzip.h: No such file or directory
 USE_SYSTEM_MINIZIP = 0
 USE_SYSTEM_LIBSRTP = 0
+USE_SYSTEM_HARFBUZZ = $(shell pkg-config 'libharfbuzz-dev' && echo 1 || echo 0)
 
 # System libs
 ifeq (1,$(WANT_SYSTEM_LIBS))
@@ -254,7 +255,7 @@ GYP_DEFINES += \
 	use_system_libxslt=1 \
 	use_system_v8=$(USE_SYSTEM_V8) \
 	use_system_flac=1 \
-	use_system_harfbuzz=1 \
+	use_system_harfbuzz=$(USE_SYSTEM_HARFBUZZ) \
 	use_system_icu=1 \
 	use_system_libevent=1 \
 	use_system_libsrtp=$(USE_SYSTEM_LIBSRTP) \
@@ -445,7 +446,7 @@ endif
 # Tarball (get-packaged-orig-source)
 GCLIENT_URL  := http://src.chromium.org/svn/trunk/tools/depot_tools
 #CHROMIUM_URL := http://src.chromium.org/svn/trunk/src
-CHROMIUM_RLZ := https://src.chromium.org/chrome/releases/
+CHROMIUM_RLZ := https://src.chromium.org/chrome/releases
 
 STRIP_TARBALL ?= 1
 
@@ -460,8 +461,6 @@ STRIPPED_DIRS_FROM_CO := \
 	src/third_party/ffmpeg/binaries/chromium/linux/x64_dbg \
 	src/third_party/flac \
 	src/third_party/gold \
-	src/third_party/icu \
-	src/third_party/libvpx \
 	src/third_party/speex \
 	build/third_party/cbuildbot_chromite \
 	commit-queue \
