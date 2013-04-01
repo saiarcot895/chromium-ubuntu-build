@@ -1,3 +1,9 @@
+chromium-browser (27.0.1453.6-0ubuntuppa3~raring1) raring; urgency=low
+
+  * Forgot to remove libusb-1.0-0-dev from debian/control
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 31 Mar 2013 22:28:12 -0500
+
 chromium-browser (27.0.1453.6-0ubuntuppa2~raring1) raring; urgency=low
 
   * Disable system libusb, and update checking method

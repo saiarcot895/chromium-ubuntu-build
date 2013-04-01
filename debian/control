@@ -60,7 +60,6 @@ Build-Depends: debhelper (>= 8.0.0),
 		libudev-dev,
 		libgnome-keyring-dev,
 		libgconf2-dev,
-		libusb-1.0.0-dev,
 		libssl-dev
 Standards-Version: 3.9.3
 
