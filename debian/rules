@@ -242,7 +242,9 @@ USE_SYSTEM_WEBP = 0
 # minizip/unzip.h: No such file or directory
 USE_SYSTEM_MINIZIP = 0
 USE_SYSTEM_LIBSRTP = 0
-USE_SYSTEM_HARFBUZZ = $(shell pkg-config 'libharfbuzz-dev' && echo 1 || echo 0)
+USE_SYSTEM_HARFBUZZ = $(shell (dpkg --get-selections | grep -q libharfbuzz-dev) && echo 1 || echo 0)
+# For some reason, libusb-1.0-0-dev is marked as missing even when installed
+USE_SYSTEM_LIBUSB = 0
 
 # System libs
 ifeq (1,$(WANT_SYSTEM_LIBS))
@@ -259,7 +261,7 @@ GYP_DEFINES += \
 	use_system_icu=1 \
 	use_system_libevent=1 \
 	use_system_libsrtp=$(USE_SYSTEM_LIBSRTP) \
-	use_system_libusb=1 \
+	use_system_libusb=$(USE_SYSTEM_LIBUSB) \
 	use_system_libvpx=1 \
 	use_system_libwebp=$(USE_SYSTEM_WEBP) \
 	use_system_minizip=$(USE_SYSTEM_MINIZIP) \
