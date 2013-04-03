@@ -1,3 +1,14 @@
+chromium-browser (27.0.1453.12-0ubuntuppa1~raring1) raring; urgency=low
+
+  * New upstream version 27.0.1453.12
+  * debian/rules: Re-add flac, gold, and speex, and don't strip their
+    gyp's
+  * debian/rules: Don't automatically add an entry to debian/changelog
+  * debian/rules: Remove touch files on clean
+  * Remove debian/chromium-browser.sh; should exist only during building
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 02 Apr 2013 21:19:36 -0500
+
 chromium-browser (27.0.1453.6-0ubuntuppa3~raring1) raring; urgency=low
 
   * Forgot to remove libusb-1.0-0-dev from debian/control

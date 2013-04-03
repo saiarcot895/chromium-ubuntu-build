@@ -292,6 +292,9 @@ endif
 
 clean:
 	rm -rf debian/*-stamp debian/stamp-* debian/tmp-*
+	rm -f build configure-stamp build-stamp \
+		build-stamp-ffmpeg-std build-stamp-ffmpeg-extra \
+		configure-stamp-ffmpeg-std configure-stamp-ffmpeg-extra
 	rm -f $(subst_files)
 	rm -rf third_party chrome $(DEB_TAR_SRCDIR)/out
 	sed -i 's,/etc/$(DEBIAN_NAME)/policies,/etc/chromium/policies,' \
@@ -461,9 +464,6 @@ STRIPPED_DIRS_FROM_CO := \
 	src/third_party/ffmpeg/binaries/chromium/linux/ia32_dbg \
 	src/third_party/ffmpeg/binaries/chromium/linux/x64 \
 	src/third_party/ffmpeg/binaries/chromium/linux/x64_dbg \
-	src/third_party/flac \
-	src/third_party/gold \
-	src/third_party/speex \
 	build/third_party/cbuildbot_chromite \
 	commit-queue \
 	$(NULL)
@@ -491,7 +491,7 @@ STRIPPED_DIRS := \
 	third_party/gles_book_examples \
 	third_party/gold \
 	third_party/hunspell/dictionaries \
-#	third_party/icu/mac \
+	third_party/icu/mac \
 	third_party/lcov \
 	third_party/lighttpd \
 	third_party/nspr \
@@ -639,7 +639,6 @@ gos-pack:
 	
 	# Remove existing files do a clean re-extract
 	rm -rf $(DEB_TAR_SRCDIR) $(TMP_DIR) .pc && tar -Jxf ../$(DEBIAN_NAME)_$(ORIG_VERSION).orig.tar.xz
-	dch -v $(ORIG_VERSION)-0ubuntuppa1~raring1 "New upstream version $(ORIG_VERSION)"
 	@echo "# Done (created $(DEBIAN_NAME)_$(ORIG_VERSION).orig.tar.xz)"
 	@echo "Be sure to edit debian/changelog as necessary"
 
