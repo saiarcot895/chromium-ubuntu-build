@@ -30,6 +30,7 @@ WANT_XZ_DEBS     ?= 1
 WANT_DEBUG       := 0
 WANT_SYSTEM_LIBS ?= 1
 WANT_SHARED_LIBS ?= 0
+VERBOSE          := 0
 PROCESSORS       ?= $(shell grep -ic ^processor /proc/cpuinfo)
 ifeq (0,$(PROCESSORS))
 PROCESSORS := 1
@@ -134,7 +135,9 @@ BUILD_TYPE := Release
 BUILD_ARGS += SYMBOLS=1
 endif
 BUILD_ARGS += BUILDTYPE=$(BUILD_TYPE)
+ifeq (1,$(VERBOSE))
 BUILD_ARGS += V=1
+endif
 
 # Shared libraries
 ifeq (1,$(WANT_SHARED_LIBS))
@@ -229,12 +232,7 @@ endif
 # undefined reference to 'chromium_sqlite3_initialize_unix_sqlite3_file'
 USE_SYSTEM_SQLITE := 0
 USE_SYSTEM_V8 := 0
-ifneq (,$(filter 8.10 9.04,$(DEBIAN_DIST)))
-# Don't build with system zlib on Intrepid/Jaunty. See http://crbug.com/38073
-USE_SYSTEM_ZLIB = 0
-else
-USE_SYSTEM_ZLIB = 1
-endif
+
 # Recursive third-party/opus/opus.h self-#inclusion.  Disabled for now.
 USE_SYSTEM_OPUS = 0
 # 'WebPPictureImportBGRX' was not declared
@@ -245,6 +243,8 @@ USE_SYSTEM_LIBSRTP = 0
 USE_SYSTEM_HARFBUZZ = $(shell (dpkg --get-selections | grep -q libharfbuzz-dev) && echo 1 || echo 0)
 # For some reason, libusb-1.0-0-dev is marked as missing even when installed
 USE_SYSTEM_LIBUSB = 0
+# Missing function reference
+USE_SYSTEM_LIBVPX = 0
 
 # System libs
 ifeq (1,$(WANT_SYSTEM_LIBS))
@@ -253,8 +253,7 @@ GYP_DEFINES += \
 	use_system_libjpeg=1 \
 	use_system_libpng=1 \
 	use_system_sqlite=$(USE_SYSTEM_SQLITE) \
-	use_system_libxml=$(USE_SYSTEM_LIBXML) \
-	use_system_libxslt=1 \
+	use_system_libxml=1 \
 	use_system_v8=$(USE_SYSTEM_V8) \
 	use_system_flac=1 \
 	use_system_harfbuzz=$(USE_SYSTEM_HARFBUZZ) \
@@ -262,7 +261,7 @@ GYP_DEFINES += \
 	use_system_libevent=1 \
 	use_system_libsrtp=$(USE_SYSTEM_LIBSRTP) \
 	use_system_libusb=$(USE_SYSTEM_LIBUSB) \
-	use_system_libvpx=1 \
+	use_system_libvpx=$(USE_SYSTEM_LIBVPX) \
 	use_system_libwebp=$(USE_SYSTEM_WEBP) \
 	use_system_minizip=$(USE_SYSTEM_MINIZIP) \
 	use_system_opus=$(USE_SYSTEM_OPUS) \
@@ -270,7 +269,7 @@ GYP_DEFINES += \
 	use_system_speex=1 \
 	use_system_xdg_utils=1 \
 	use_system_yasm=1 \
-	use_system_zlib=$(USE_SYSTEM_ZLIB) \
+	use_system_zlib=1 \
 	$(NULL)
 endif
 
@@ -527,20 +526,15 @@ ifeq (1,$(WANT_SYSTEM_LIBS))
 STRIPPED_SYSTEM_LIB_DIRS += \
 	third_party/bzip2 \
 	third_party/flac \
-	third_party/harfbuzz-ng \
 	third_party/icu \
 	third_party/libevent \
 	third_party/libjpeg \
 	third_party/libpng \
-	third_party/libusb \
-	third_party/libvpx \
 	third_party/libxslt \
 	third_party/protobuf \
 	third_party/speex \
-	third_party/sqlite \
 	third_party/xdg-utils \
 	third_party/yasm \
-	third_party/zlib \
 	$(NULL)
 endif
 

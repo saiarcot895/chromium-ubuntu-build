@@ -1,3 +1,13 @@
+chromium-browser (27.0.1453.12-0ubuntuppa1~raring2) UNRELEASED; urgency=low
+
+  * debian/rules: Disable verbose build
+  * debian/rules: Intrepid and Jaunty are no longer supported, so use
+    system zlib
+  * debian/rules: Disable system libvpx
+  * debian/rules: libxml and libxslt have the same function now
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 04 Apr 2013 20:40:46 -0500
+
 chromium-browser (27.0.1453.12-0ubuntuppa1~raring1) raring; urgency=low
 
   * New upstream version 27.0.1453.12
