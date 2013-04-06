@@ -5,6 +5,7 @@ chromium-browser (27.0.1453.12-0ubuntuppa1~raring2) UNRELEASED; urgency=low
     system zlib
   * debian/rules: Disable system libvpx
   * debian/rules: libxml and libxslt have the same function now
+  * Add libspeechd-dev dependency
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 04 Apr 2013 20:40:46 -0500
 
