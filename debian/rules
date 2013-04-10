@@ -7,7 +7,9 @@ DEBIAN_REVISION		:= $(shell echo $(DEBIAN_VERSION) | sed 's/^.*r\([^-]*\)-.*/\1/
 DEBIAN_DIST		:= $(shell lsb_release -ds | tr -d '()')
 DEBIAN_DIST_NAME	:= $(shell lsb_release -si)
 DEBIAN_DIST_VERSION	:= $(shell lsb_release -sr)
+
 DEBIAN_CODECS_NAME      := $(subst browser,codecs-ffmpeg,$(DEBIAN_NAME))
+DEBIAN_DRIVER_NAME      := $(subst browser,chromedriver,$(DEBIAN_NAME))
 
 # DEB_TAR_SRCDIR has to be 'src' as this is what gyp expects :(
 DEB_TAR_SRCDIR := src
@@ -39,12 +41,10 @@ endif
 # Enable the hardening wrapper (See https://wiki.ubuntu.com/Security/HardeningWrapper)
 # Don't do it on maverick/armel either for now, it fails to link
 # Don't do it on lucid/armel either, it crashes: LP #716703
-ifeq (armel,$(DEB_BUILD_ARCH))
-ifeq (,$(filter 10.04 10.10 11.04 11.10 12.04 12.10 13.04,$(DEBIAN_DIST_VERSION)))
-export DEB_BUILD_HARDENING=1
+ifeq (armel,$(filter armel armhf,$(DEB_HOST_ARCH)))
+$(warning ## Not enabling DEB_BUILD_HARDENING on armel/armhf. See LP #641126 and LP #716703)
 else
-$(warning ## Not enabling DEB_BUILD_HARDENING on Ubuntu 10.04+ armel. See LP #641126 and LP #716703)
-endif
+export DEB_BUILD_HARDENING=1
 endif
 $(warning ## DEB_BUILD_HARDENING=$(DEB_BUILD_HARDENING))
 
@@ -68,10 +68,12 @@ WANT_LP_TRANSLATIONS ?= 0
 ## but all users win, and is less buggy for us.
 ##
 
-# Only keep -Werror when building for the Debian or Ubuntu development branches
-ifeq (,$(filter unstable development,$(DEBIAN_DIST)))
+# Don't fail on compilation warnings
 GYP_DEFINES += werror=$(NULL)
-endif
+
+# We are never using a sysroot-based toolchain; override the wrong
+# autodetection for arm.
+GYP_DEFINES += sysroot=
 
 # Disable NaCl until we figure out what to do with the private toolchain
 GYP_DEFINES += disable_nacl=1
@@ -113,19 +115,16 @@ GYP_DEFINES += \
  endif
 endif
 
-ifeq (amd64,$(DEB_BUILD_ARCH))
+ifeq (amd64,$(DEB_HOST_ARCH))
 GYP_DEFINES += target_arch=x64
 endif
 
-ifeq (i386,$(DEB_BUILD_ARCH))
+ifeq (i386,$(DEB_HOST_ARCH))
 GYP_DEFINES += target_arch=ia32
 endif
 
 # Don't let dh_installinit install *.default in /etc/default
 DEB_DH_INSTALLINIT_ARGS += --noscripts --onlyscripts
-
-# Don't let scour touch the svg files
-DEB_DH_SCOUR_ARGS += -Xsvg
 
 ifeq (1,$(WANT_DEBUG))
 BUILD_TYPE := Debug
@@ -135,6 +134,7 @@ BUILD_TYPE := Release
 BUILD_ARGS += SYMBOLS=1
 endif
 BUILD_ARGS += BUILDTYPE=$(BUILD_TYPE)
+
 ifeq (1,$(VERBOSE))
 BUILD_ARGS += V=1
 endif
@@ -144,10 +144,9 @@ ifeq (1,$(WANT_SHARED_LIBS))
 GYP_DEFINES += library=shared_library
 endif
 
-# Use upstream build flags (defined in build/common.gypi)
-BUILD_ARGS += CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS=""
-
 CC_VERSION   := $(shell gcc -dumpversion | cut -d. -f-2)
+CC := gcc
+CXX := g++
 
 # Set this to use gcc 4.7 instead of 4.8
 AVOID_GCC_48 ?= 0
@@ -156,7 +155,6 @@ GYP_DEFINES += werror=$(NULL)
 ifeq (1,$(AVOID_GCC_48))
 CC  := gcc-4.7
 CXX := g++-4.7
-BUILD_ARGS += CC=$(CC) CXX=$(CXX) CC.host=$(CC) CXX.host=$(CXX) LINK.host=$(CXX)
 endif
 endif
 
@@ -178,7 +176,10 @@ INSTALL_EXCLUDE_DIRS = \
 	gmail_app \
 	pyproto \
 	pseudo_locales \
+	DumpRenderTree_resources \
+	lib.target \
 	locales \
+	chromedriver \
 	$(NULL)
 
 INSTALL_EXCLUDE_FILES = \
@@ -201,6 +202,8 @@ INSTALL_EXCLUDE_FILES = \
 	re2c \
 	yasm \
 	libvpx_obj_int_extract \
+	xdisplaycheck \
+	libTestRunner.so \
 	$(NULL)
 
 # FFmpeg-mt
@@ -240,54 +243,66 @@ USE_SYSTEM_WEBP = 0
 # minizip/unzip.h: No such file or directory
 USE_SYSTEM_MINIZIP = 0
 USE_SYSTEM_LIBSRTP = 0
-USE_SYSTEM_HARFBUZZ = $(shell (dpkg --get-selections | grep -q libharfbuzz-dev) && echo 1 || echo 0)
+USE_SYSTEM_HARFBUZZ = $(shell (dpkg --get-selections | grep -q libharfbuzz-dev && echo 1 || echo 0))
 # For some reason, libusb-1.0-0-dev is marked as missing even when installed
 USE_SYSTEM_LIBUSB = 0
 # Missing function reference
 USE_SYSTEM_LIBVPX = 0
+ifneq (,$(findstring 11.10,$(DEBIAN_DIST)))
+# 'class icu_44::NumberingSystem' has no member named 'getName'
+USE_SYSTEM_LIBICU ?= 0
+else
+USE_SYSTEM_LIBICU ?= 1
+endif
 
 # System libs
 ifeq (1,$(WANT_SYSTEM_LIBS))
-GYP_DEFINES += \
-	use_system_bzip2=1 \
-	use_system_libjpeg=1 \
-	use_system_libpng=1 \
-	use_system_sqlite=$(USE_SYSTEM_SQLITE) \
-	use_system_libxml=1 \
-	use_system_v8=$(USE_SYSTEM_V8) \
-	use_system_flac=1 \
-	use_system_harfbuzz=$(USE_SYSTEM_HARFBUZZ) \
-	use_system_icu=1 \
-	use_system_libevent=1 \
-	use_system_libsrtp=$(USE_SYSTEM_LIBSRTP) \
-	use_system_libusb=$(USE_SYSTEM_LIBUSB) \
-	use_system_libvpx=$(USE_SYSTEM_LIBVPX) \
-	use_system_libwebp=$(USE_SYSTEM_WEBP) \
-	use_system_minizip=$(USE_SYSTEM_MINIZIP) \
-	use_system_opus=$(USE_SYSTEM_OPUS) \
-	use_system_protobuf=1 \
-	use_system_speex=1 \
-	use_system_xdg_utils=1 \
-	use_system_yasm=1 \
-	use_system_zlib=1 \
-	$(NULL)
+#GYP_DEFINES += \
+#	use_system_bzip2=1 \
+#	use_system_libjpeg=0 \
+#	use_system_libpng=0 \
+#	use_system_sqlite=$(USE_SYSTEM_SQLITE) \
+#	use_system_libxml=1 \
+#	use_system_v8=$(USE_SYSTEM_V8) \
+#	use_system_flac=1 \
+#	use_system_harfbuzz=$(USE_SYSTEM_HARFBUZZ) \
+#	use_system_icu=$(USE_SYSTEM_LIBICU) \
+#	use_system_libevent=1 \
+#	use_system_libsrtp=$(USE_SYSTEM_LIBSRTP) \
+#	use_system_libusb=$(USE_SYSTEM_LIBUSB) \
+#	use_system_libvpx=$(USE_SYSTEM_LIBVPX) \
+#	use_system_libwebp=$(USE_SYSTEM_WEBP) \
+#	use_system_minizip=$(USE_SYSTEM_MINIZIP) \
+#	use_system_opus=$(USE_SYSTEM_OPUS) \
+#	use_system_protobuf=1 \
+#	use_system_speex=1 \
+#	use_system_xdg_utils=1 \
+#	use_system_yasm=1 \
+#	use_system_zlib=0 \
+#	$(NULL)
 endif
 
-# Build everything (like All), including test programs but minus things we don't
-# want (breakpad, courgette, ..) or don't need (the other small tools)
+# Build only chrome and chrome_sandbox
 BUILD_TARGETS += \
 	chrome \
 	chrome_sandbox \
+	chromedriver2 \
 	$(NULL)
 
 ######
-DEB_MAKE_EXTRA_ARGS   := $(NULL)
-DEB_MAKE_BUILD_TARGET := $(BUILD_ARGS) $(BUILD_TARGETS)
-
 GYP_ENV := GYP_GENERATORS=make
 ifneq (,$(GYP_DEFINES))
 	GYP_ENV += GYP_DEFINES="$(GYP_DEFINES) $(BROWSER_GYP_DEFINES)"
 endif
+
+ifneq ($(DEB_HOST_ARCH),$(DEB_BUILD_ARCH))
+$(note Cross compiling for $(DEB_HOST_ARCH), from this $(DEB_BUILD_ARCH))
+CROSS_BUILD = PKG_CONFIG_PATH=/usr/lib/$(DEB_HOST_MULTIARCH)/pkgconfig:/usr/$(DEB_HOST_MULTIARCH)/lib/pkgconfig CXX=$(DEB_HOST_GNU_TYPE)-$(CXX)
+DEB_MAKE_ENVVARS += CXX=$(DEB_HOST_GNU_TYPE)-$(CXX)
+else
+CROSS_BUILD = 
+endif
+BUILD_ARGS += CC_host=$(CC) CXX_host=$(CXX) 
 
 clean:
 	rm -rf debian/*-stamp debian/stamp-* debian/tmp-*
@@ -313,7 +328,7 @@ configure-stamp:
 	sed -i 's,/etc/chromium/policies,/etc/$(DEBIAN_NAME)/policies,' \
 		$(DEB_TAR_SRCDIR)/chrome/common/chrome_paths.cc
 	
-	cd $(SRC_DIR) && $(GYP_ENV) python build/gyp_chromium --no-circular-check build/all.gyp
+	cd $(SRC_DIR) && $(GYP_ENV) $(CROSS_BUILD) python build/gyp_chromium --no-circular-check build/all.gyp
 	# Populate the LASTCHANGE file template as we no longer have the VCS files at this point
 	echo "$(DEBIAN_REVISION)" > $(SRC_DIR)/build/LASTCHANGE.in
 	touch $@
@@ -353,15 +368,14 @@ binary: binary-indep binary-arch
 
 configure-stamp-ffmpeg-%:
 	rm -rf $(FFMPEG_SRC_DIR)/*.mk $(FFMPEG_SRC_DIR)/out
-	cd $(SRC_DIR) && GYP_DEFINES="$(GYP_DEFINES)" GYP_GENERATORS=make build/gyp_chromium --depth=../src $(FFMPEG_DIR)/ffmpeg.gyp
+	cd $(SRC_DIR) && GYP_DEFINES="$(GYP_DEFINES)" $(CROSS_BUILD) GYP_GENERATORS=make build/gyp_chromium --depth=../src $(FFMPEG_DIR)/ffmpeg.gyp
 	touch $@
 
 build-stamp-ffmpeg-%: GYP_DEFINES += $(FFMPEG_MT_$(subst std,STD,$(subst extra,EXTRA,$*))_GYP_DEFINES) $(FFMPEG_MT_GYP_DEFINES)
 build-stamp-ffmpeg-%: FFMPEG_DIR = third_party/ffmpeg
 build-stamp-ffmpeg-%: FFMPEG_SRC_DIR = $(SRC_DIR)/$(FFMPEG_DIR)
-build-stamp-ffmpeg-%: BUILD_ARGS += CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS=""
 build-stamp-ffmpeg-%: configure-stamp-ffmpeg-%
-	cd $(FFMPEG_SRC_DIR) ; $(MAKE) -f ffmpeg.Makefile $(BUILD_ARGS)
+	cd $(FFMPEG_SRC_DIR) ; $(MAKE) -f ffmpeg.Makefile $(BUILD_ARGS) $(CROSS_BUILD)
 	mkdir debian/tmp-$*
 	cp $(FFMPEG_SRC_DIR)/out/$(BUILD_TYPE)/libffmpegsumo.so $(CURDIR)/debian/tmp-$*
 	touch $@
@@ -372,7 +386,7 @@ install: build
 	dh_prep
 	
 	dh_installdirs --package=$(DEBIAN_NAME) $(LIB_DIR)
-	# Tar up out except $(INSTALL_EXCLUDE_DIRS), extract it, and then remove $(INSTALL_EXCLUDE_FILES)
+	# Tar up out except INSTALL_EXCLUDE_DIRS, extract it, and then remove INSTALL_EXCLUDE_FILES
 	( cd $(SRC_DIR)/out/$(BUILD_TYPE) && tar $(foreach excl,$(INSTALL_EXCLUDE_DIRS),--exclude=$(excl)) -cf - . ) | \
 	( cd debian/$(DEBIAN_NAME)/$(LIB_DIR) && tar xvf - )
 	cd debian/$(DEBIAN_NAME)/$(LIB_DIR) && rm -f $(INSTALL_EXCLUDE_FILES)
@@ -401,19 +415,22 @@ install: build
 	    debian/$(DEBIAN_NAME)/usr/share/icons/hicolor/$${size}x$${size}/apps/$(DEBIAN_NAME).png ; \
 	done
 	dh_installdirs --package=$(DEBIAN_NAME) usr/share/icons/hicolor/scalable/apps
-	cp -a debian/chromium-browser.svg debian/chromium-browser/usr/share/icons/hicolor/scalable/apps
+	cp -a debian/chromium-browser.svg debian/$(DEBIAN_NAME)/usr/share/icons/hicolor/scalable/apps
 	
 	chmod 4755 debian/$(DEBIAN_NAME)/$(LIB_DIR)/$(DEBIAN_NAME)-sandbox
 	# NaCL may be blacklisted, so only include it when it's been built
 ifeq (,$(filter disable_nacl=1,$(GYP_DEFINES)))
-	cp -a debian/tmp/$(LIB_DIR)/libppGoogleNaClPluginChrome.so debian/chromium-browser/$(LIB_DIR)/
-	cp -a debian/tmp/$(LIB_DIR)/nacl_irt_* debian/$(DEBIAN_NAME)/$(LIB_DIR)/
+	cp -a $(SRC_DIR)/out/$(BUILD_TYPE)/libppGoogleNaClPluginChrome.so debian/$(DEBIAN_NAME)/$(LIB_DIR)/
+	cp -a $(SRC_DIR)/out/$(BUILD_TYPE)/nacl_irt_* debian/$(DEBIAN_NAME)/$(LIB_DIR)/
 endif
 	# Locales: only keep en-US in the main deb
 	dh_installdirs --package=chromium-browser-l10n $(LIB_DIR)/locales
 	cp $(SRC_DIR)/out/$(BUILD_TYPE)/locales/* debian/$(DEBIAN_NAME)-l10n/$(LIB_DIR)/locales
 	mkdir debian/$(DEBIAN_NAME)/$(LIB_DIR)/locales
 	mv debian/$(DEBIAN_NAME)-l10n/$(LIB_DIR)/locales/en-US.pak debian/$(DEBIAN_NAME)/$(LIB_DIR)/locales
+	# chromedriver
+	dh_installdirs --package=$(DEBIAN_DRIVER_NAME) $(LIB_DIR)
+	cp -a $(SRC_DIR)/out/$(BUILD_TYPE)/chromedriver debian/$(DEBIAN_DRIVER_NAME)/$(LIB_DIR)
 	
 	dh_installdirs --package=chromium-codecs-ffmpeg $(LIB_DIR)
 	cp debian/tmp-std/libffmpegsumo.so debian/chromium-codecs-ffmpeg/$(LIB_DIR)
@@ -452,187 +469,20 @@ GCLIENT_URL  := http://src.chromium.org/svn/trunk/tools/depot_tools
 #CHROMIUM_URL := http://src.chromium.org/svn/trunk/src
 CHROMIUM_RLZ := https://src.chromium.org/chrome/releases
 
-STRIP_TARBALL ?= 1
-
-STRIPPED_DIRS_FROM_CO := \
-	src/chrome/tools/test/reference_build \
-	src/chrome/tools/test/reference_build/chrome_linux \
-	src/webkit/data/layout_tests/LayoutTests \
-	src/third_party/WebKit/LayoutTests \
-	src/third_party/ffmpeg/binaries/chromium/linux/ia32 \
-	src/third_party/ffmpeg/binaries/chromium/linux/ia32_dbg \
-	src/third_party/ffmpeg/binaries/chromium/linux/x64 \
-	src/third_party/ffmpeg/binaries/chromium/linux/x64_dbg \
-	build/third_party/cbuildbot_chromite \
-	commit-queue \
-	$(NULL)
-
-# stuff we don't have access to and shouldn't be in DEPS
-STRIPPED_DIRS_FROM_CO += \
-	src/chrome/app/theme/google_chrome \
-	src/chrome/installer/linux \
-	$(NULL)
-
-# prefix with _ those that we can't remove (just yet) because of the gclient
-# hooks (see build/all.gyp) or of some unneeded deps/includes
-STRIPPED_DIRS := \
-	chrome/test/data/safe_browsing/old \
-	chrome/test/data/firefox2_nss_mac \
-	chrome/third_party/wtl/ \
-	gears \
-	google_update \
-	o3d \
-	third_party/boost \
-	third_party/bsdiff \
-	third_party/bspatch \
-	third_party/ffmpeg/binaries \
-	third_party/fuzzymatch \
-	third_party/gles_book_examples \
-	third_party/gold \
-	third_party/hunspell/dictionaries \
-	third_party/icu/mac \
-	third_party/lcov \
-	third_party/lighttpd \
-	third_party/nspr \
-	third_party/nss \
-	third_party/ocmock \
-	third_party/pthread \
-	third_party/pyftpdlib \
-	third_party/simplejson \
-	third_party/scons \
-	_third_party/tcmalloc \
-	tools/symsrc \
-	tools/site_compare \
-	tools/stats_viewer \
-	tools/valgrind \
-	tools/wine_valgrind \
-	v8/test/cctest \
-	webkit/data/layout_tests \
-	$(NULL)
-
-# There are directories we want to strip, but that are unnecessarily required by the build-system
-# So we drop everything but the gyp/gypi files and README.chromium (to see what that dir contained)
-ALMOST_STRIPPED_DIRS := \
-	courgette \
-	third_party/gles2_book \
-	third_party/openssl \
-	$(NULL)
-
-ifeq (1,$(WANT_SYSTEM_LIBS))
-# Directories that will be dropped if the corresponding system lib are enabled in GYP_DEFINES
-# We need to keep some files (like *.gyp) so we can't use STRIPPED_DIRS
-# We can't drop third_party/zlib because we don't have contrib/minizip/*zip.h, and
-# third_party/sqlite because it's a conditional build (see USE_SYSTEM_SQLITE)
-STRIPPED_SYSTEM_LIB_DIRS += \
-	third_party/bzip2 \
-	third_party/flac \
-	third_party/icu \
-	third_party/libevent \
-	third_party/libjpeg \
-	third_party/libpng \
-	third_party/libxslt \
-	third_party/protobuf \
-	third_party/speex \
-	third_party/xdg-utils \
-	third_party/yasm \
-	$(NULL)
-endif
-
-STRIP_SYSTEM_DIRS = \
-	($(foreach DIR,$(1),$(if $(findstring use_system_$(notdir $(DIR))=1,$(GYP_DEFINES)),\
-	  (cd $(2)/$(dir $(DIR)) && \
-	  find $(notdir $(DIR)) -depth -mindepth 1 \! \( -name \*.gyp -o -name \*.gypi -o -name README.chromium -o -name \*.patch \) -print -delete );)))
-
-ALMOST_STRIP_DIRS = \
-	($(foreach DIR,$(1),(cd $(2)/$(dir $(DIR)) && \
-	  find $(notdir $(DIR)) -depth -mindepth 1 \! \( -name \*.gyp -o -name \*.gypi -o -name README.chromium \) -print -delete );))
-
-TMP_DDIR     := $(DEBIAN_NAME)-$(shell echo $$$$)
-ifeq (,$(LOCAL_BRANCH))
-TMP_DIR      := $(TMP_DDIR)
-else
-TMP_DIR      := $(LOCAL_BRANCH)
-endif
-
 get-orig-source:
-	$(warning $@ is deprecated. Use changelog to set version, and either param/rule "get-packaged-orig-source" or a recent "bzr builddeb".)
+	$(warning $@ is deprecated. Use param/rule "get-packaged-orig-source" or a recent "bzr builddeb".)
 
 get-packaged-orig-source: ORIG_VERSION = $(shell wget -qO- "https://omahaproxy.appspot.com/all?os=linux&channel=dev" | grep linux | while IFS=, read col1 col2 col3 col4; do echo $$col3; done)
-#get-packaged-orig-source: UPSTREAM_REV_NUMBER = $(shell wget -q -O - http://omahaproxy.appspot.com/revision.json?version=$(ORIG_VERSION) |python -c 'import json, sys; print json.loads(sys.stdin.read())["chromium_revision"]')
-get-packaged-orig-source: gos-co gos-pack
+get-packaged-orig-source: gos
 
-gos-co: CHROMIUM_URL = $(CHROMIUM_RLZ)/$(ORIG_VERSION)
-gos-co: GCLIENT_UPDATE_FLAGS = --nohooks --delete_unversioned_trees
-gos-co:
-ifeq (,$(LOCAL_BRANCH))
-	rm -rf $(TMP_DIR)
-endif
-	@if [ ! -d $(TMP_DIR) ] ; then echo mkdir $(TMP_DIR); mkdir $(TMP_DIR) ; fi
-	@set -x; if [ ! -d $(TMP_DIR)/tools/depot_tools ] ; then \
-	  svn co --quiet $(GCLIENT_URL) $(TMP_DIR)/tools/depot_tools ; \
-	else \
-	  svn update $(TMP_DIR)/tools/depot_tools ; \
-	fi; set +x
-	rm -f $(TMP_DIR)/.gclient
-	cd $(TMP_DIR) && ./tools/depot_tools/gclient config $(CHROMIUM_URL)
-ifeq (1,$(STRIP_TARBALL))
-ifneq (,$(STRIPPED_DIRS_FROM_CO))
-	# Add exclusions in .gclient for $(STRIPPED_DIRS_FROM_CO)
-	@for excl in $(STRIPPED_DIRS_FROM_CO) ; do \
-	  perl -i -pe 's,("custom_deps"\s*:\s*{),$$1\n      "'$$excl'": None\,,' $(TMP_DIR)/.gclient ; \
-	done
-	grep -Ev '^($$|[[:blank:]]*#)' $(TMP_DIR)/.gclient
-endif
-endif
-	
-	# Checkout (drop the previous content and retry if gclient failed, see http://crbug.com/39954)
-	cd $(TMP_DIR) && ./tools/depot_tools/gclient update $(GCLIENT_UPDATE_FLAGS) || \
-	  ( rm -rf $(foreach dir,src [0-9]*,$(wildcard $(TMP_DIR)/$(dir))) ; \
-	   ./tools/depot_tools/gclient update $(GCLIENT_UPDATE_FLAGS) )
-	
-	# For NaCL, run the hooks, but not the gyp ones. All one "&&"-chained
-	# statement so that a failure will stop the program and be noticed.
-	cd $(TMP_DIR) && SDIR=$$(grep '"name"' .gclient |cut -d\" -f4) && perl -i~ -pe 's%\[((.)python\2, (.)(?:src/build/gyp_chromium|src/build/download_nacl_toolchains.py)\3)%[\2echo\2, \2#disabled#\2, \1%' $$SDIR/DEPS && perl -i~ -pe 's%(\bsys\.executable)\b$$%(\1 or "/usr/bin/python")%' tools/depot_tools/gclient.py && ./tools/depot_tools/gclient runhooks && mv $$SDIR/DEPS~ $$SDIR/DEPS && mv tools/depot_tools/gclient.py~ tools/depot_tools/gclient.py
-	
-ifneq (,$(LOCAL_BRANCH))
-	rm -rf $(TMP_DDIR)
-	cp -la $(TMP_DIR) $(TMP_DDIR)
-endif
-	
-ifeq (1,$(STRIP_TARBALL))
-	# Strip tarball from some big directories not needed on the linux platform
-	cd $(TMP_DDIR)/src && rm -rfv $(STRIPPED_DIRS) | grep -vE '/\.svn(/|.$$)' > ../REMOVED-stripped.txt
-ifneq (,$(ALMOST_STRIPPED_DIRS))
-	# Strip listed dirs almost completely (keep *.gyp and README.chromium)
-	$(call ALMOST_STRIP_DIRS,$(ALMOST_STRIPPED_DIRS),$(TMP_DDIR)/src) | grep -vE '/\.svn(/|.$$)' >> $(TMP_DDIR)/REMOVED-stripped.txt
-endif
-ifneq (,$(STRIPPED_SYSTEM_LIB_DIRS))
-	$(call STRIP_SYSTEM_DIRS,$(STRIPPED_SYSTEM_LIB_DIRS),$(TMP_DDIR)/src) | grep -vE '/\.svn(/|.$$)' >> $(TMP_DDIR)/REMOVED-stripped.txt
-endif
-	# Remove binaries
-	cd $(TMP_DDIR)/src && find . -type f \( -iname \*.exe -o -iname \*.dll -o -iname \*.pdb -o -name \*.o -o -name \*.a -o -name \*.dylib -o -name \*.so -o -name \*.so.\* \) -print -delete > ../REMOVED-bin_only.txt
-	
-	# Remove cache files and backups
-	cd $(TMP_DDIR)/src && find . -type f \( -iname \*.bak -o -iname \*.orig -o -iname \*.cache -o -name \*.pyc -o -name \*.pyo \) -print -delete > ../REMOVED-ephemera.txt
-	cd $(TMP_DDIR)/src && find . -type d -name autom4te.cache -print -delete >> ../REMOVED-ephemera.txt
-	
-	find $(TMP_DDIR) -regex '.*/\([^/]*\)/\1[^/]*\.\(Makefile\|\(target\|host\)\.mk\)' -print -delete >> $(TMP_DDIR)/REMOVED-gyp.txt
-	
-	wc -l $(TMP_DDIR)/REMOVED-*.txt
-endif
-
-gos-pack: TMP_DIR  = $(TMP_DDIR)
-gos-pack: REVISION = $(shell cd $(TMP_DIR)/src && svn info | grep ^Revision: | cut -d' ' -f2)
-gos-pack: DISCOVERED_SRC_VERSION  = $(shell cut -d= -f2 $(TMP_DIR)/src/chrome/VERSION | sed -e 's,$$,.,' | tr -d '\n' | sed -e 's/.$$//')
-gos-pack:
-	test "$(ORIG_VERSION)"="$(DISCOVERED_SRC_VERSION)"
-	
-	# Pack
-	if [ src != $(DEB_TAR_SRCDIR) ] ; then mv $(TMP_DIR)/src $(TMP_DIR)/$(DEB_TAR_SRCDIR) ; fi
-	( cd $(TMP_DIR) ; echo "This file is here solely to keep the directory structure when extracting." > PLACEHOLDER ; tar --exclude-vcs --hard-dereference -Jcf ../../$(DEBIAN_NAME)_$(ORIG_VERSION).orig.tar.xz $(DEB_TAR_SRCDIR) PLACEHOLDER )
-	
-	# Remove existing files do a clean re-extract
-	rm -rf $(DEB_TAR_SRCDIR) $(TMP_DIR) .pc && tar -Jxf ../$(DEBIAN_NAME)_$(ORIG_VERSION).orig.tar.xz
-	@echo "# Done (created $(DEBIAN_NAME)_$(ORIG_VERSION).orig.tar.xz)"
+gos: URL=https://commondatastorage.googleapis.com/chromium-browser-official/chromium-$(ORIG_VERSION).tar.xz
+gos: DEST_FILENAME=$(DEBIAN_NAME)_$(ORIG_VERSION).orig.tar.xz
+gos: CONTAINER_DIR=$(DEBIAN_NAME)-$(ORIG_VERSION)
+gos:
+	mkdir -p $(CONTAINER_DIR)/src
+	wget --continue --progress=dot:mega --output-document=- $(URL) |(cd $(CONTAINER_DIR)/src; tar xJf - --strip-components=1;)
+	tar cJf $(DEST_FILENAME) $(CONTAINER_DIR)
+	rm -r $(CONTAINER_DIR)
+	@echo "# Done (created $(CURDIR)/$(DEST_FILENAME))"
 	@echo "Be sure to edit debian/changelog as necessary"
 

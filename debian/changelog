@@ -1,3 +1,17 @@
+chromium-browser (27.0.1453.12-0ubuntuppa2~raring1) raring; urgency=low
+
+  * 
+  * Do not use system zlib
+  * Do not treat warnings as errors
+  * debian/rules: Disable using system libraries, since it doesn't seem
+    to be working
+  * Merge changes and new package from lp:~cmiller/chromium-browser/ppa-
+    chromium-browser.raring.beta
+  * Merge some changes from lp:~cmiller/chromium-browser/ppa-state-
+    stable-raring
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 10 Apr 2013 17:21:53 -0500
+
 chromium-browser (27.0.1453.12-0ubuntuppa1~raring2) UNRELEASED; urgency=low
 
   * debian/rules: Disable verbose build
