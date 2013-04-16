@@ -4,12 +4,18 @@ DEBIAN_NAME		:= $(shell dpkg-parsechangelog | sed -n 's/^Source: *\(.*\)$$/\1/ p
 DEBIAN_VERSION		:= $(shell dpkg-parsechangelog | sed -n 's/^Version: *\(.*\)$$/\1/ p')
 DEBIAN_UPSTREAM_VERSION	:= $(shell echo $(DEBIAN_VERSION) | sed 's/^\(.*\)-[^-]*$$/\1/')
 DEBIAN_REVISION		:= $(shell echo $(DEBIAN_VERSION) | sed 's/^.*r\([^-]*\)-.*/\1/')
-DEBIAN_DIST		:= $(shell lsb_release -ds | tr -d '()')
-DEBIAN_DIST_NAME	:= $(shell lsb_release -si)
-DEBIAN_DIST_VERSION	:= $(shell lsb_release -sr)
+DEBIAN_DIST		:= $(shell lsb_release -ds | tr -d '()' | sed -e 's/\#/ /g')
+DEBIAN_DIST_NAME	:= $(shell lsb_release -si | sed -e 's/\#/ /g')
+DEBIAN_DIST_VERSION	:= $(shell lsb_release -sr | sed -e 's/\#/ /g')
 
 DEBIAN_CODECS_NAME      := $(subst browser,codecs-ffmpeg,$(DEBIAN_NAME))
 DEBIAN_DRIVER_NAME      := $(subst browser,chromedriver,$(DEBIAN_NAME))
+
+DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
+DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
+DEB_HOST_ARCH_CPU ?= $(shell dpkg-architecture -qDEB_HOST_ARCH_CPU)
+DEB_BUILD_ARCH ?= $(shell dpkg-architecture -qDEB_BUILD_ARCH)
+DEB_BUILD_ARCH_BITS ?= $(shell dpkg-architecture -qDEB_BUILD_ARCH_BITS)
 
 # DEB_TAR_SRCDIR has to be 'src' as this is what gyp expects :(
 DEB_TAR_SRCDIR := src
@@ -32,6 +38,7 @@ WANT_XZ_DEBS     ?= 1
 WANT_DEBUG       := 0
 WANT_SYSTEM_LIBS ?= 1
 WANT_SHARED_LIBS ?= 0
+USE_SYSTEM_V8    ?= 0
 VERBOSE          := 0
 PROCESSORS       ?= $(shell grep -ic ^processor /proc/cpuinfo)
 ifeq (0,$(PROCESSORS))
@@ -39,6 +46,7 @@ PROCESSORS := 1
 endif
 
 # Enable the hardening wrapper (See https://wiki.ubuntu.com/Security/HardeningWrapper)
+# Don't do it on {hardy,jaunty}+amd64 as it doesn't build for nacl on amd64
 # Don't do it on maverick/armel either for now, it fails to link
 # Don't do it on lucid/armel either, it crashes: LP #716703
 ifeq (armel,$(filter armel armhf,$(DEB_HOST_ARCH)))
@@ -49,16 +57,10 @@ endif
 $(warning ## DEB_BUILD_HARDENING=$(DEB_BUILD_HARDENING))
 
 # Disable SSE2 and enable sandbox
-GYP_DEFINES = disable_sse2=1 \
-		linux_sandbox_path=/$(LIB_DIR)/$(DEBIAN_NAME)-sandbox \
-		linux_sandbox_chrome_path=/$(LIB_DIR)/$(DEBIAN_NAME) \
-		$(NULL)
-
-# Needed to preserve the suid and make the sandbox happy
-DEB_FIXPERMS_EXCLUDE := $(DEBIAN_NAME)-sandbox
+GYP_DEFINES += disable_sse2=1
 
 # Build the launchpad translations (already landed upstream)
-GYP_DEFINES += use_third_party_translations=0
+GYP_DEFINES += use_third_party_translations=1
 # Also merges the newer translations from launchpad
 ## Policy: 2012-10-30, cm,kv,cc, disabling merging of LP translations. "0"
 WANT_LP_TRANSLATIONS ?= 0
@@ -67,6 +69,9 @@ WANT_LP_TRANSLATIONS ?= 0
 ## upstream to be included in the real orig source.  It's slower for circuit,
 ## but all users win, and is less buggy for us.
 ##
+
+# Always add debug symbols, and strip them when we don't want them.
+GYP_DEFINES += release_extra_cflags="-g"
 
 # Don't fail on compilation warnings
 GYP_DEFINES += werror=$(NULL)
@@ -123,6 +128,18 @@ ifeq (i386,$(DEB_HOST_ARCH))
 GYP_DEFINES += target_arch=ia32
 endif
 
+#ifeq (32,$(DEB_BUILD_ARCH_BITS))
+#$(warning Since this machine's word size is too small for linking full binary now, we're dynamically linking at run time instead, at a cost of some startup time.)
+#COMPONENT_SHARED_LIB_BUILD := 1
+#endif
+
+ifeq (1,$(COMPONENT_SHARED_LIB_BUILD))
+GYP_DEFINES += component=shared_library
+endif
+
+# Webkit library is enormous. Exclude for now.
+GYP_DEFINES += remove_webcore_debug_symbols=1
+
 # Don't let dh_installinit install *.default in /etc/default
 DEB_DH_INSTALLINIT_ARGS += --noscripts --onlyscripts
 
@@ -135,6 +152,7 @@ BUILD_ARGS += SYMBOLS=1
 endif
 BUILD_ARGS += BUILDTYPE=$(BUILD_TYPE)
 
+# Verbose?
 ifeq (1,$(VERBOSE))
 BUILD_ARGS += V=1
 endif
@@ -179,7 +197,6 @@ INSTALL_EXCLUDE_DIRS = \
 	DumpRenderTree_resources \
 	lib.target \
 	locales \
-	chromedriver \
 	$(NULL)
 
 INSTALL_EXCLUDE_FILES = \
@@ -204,6 +221,7 @@ INSTALL_EXCLUDE_FILES = \
 	libvpx_obj_int_extract \
 	xdisplaycheck \
 	libTestRunner.so \
+	libchromedriver2.so \
 	$(NULL)
 
 # FFmpeg-mt
@@ -223,7 +241,7 @@ FFMPEG_MT_GYP_DEFINES = \
 FFMPEG_MT_STD_GYP_DEFINES   = $(NULL)
 FFMPEG_MT_EXTRA_GYP_DEFINES = ffmpeg_branding=Chrome
 
-ifneq (,$(filter 12.10 unstable development,$(DEBIAN_DIST)))
+ifneq (,$(filter 12.10% 13.04% unstable development,$(DEBIAN_DIST)))
 # enable compile-time dependency on gnome-keyring
 GYP_DEFINES += use_gnome_keyring=1 linux_link_gnome_keyring=1
 # controlling the use of GConf (the classic GNOME configuration
@@ -234,7 +252,6 @@ endif
 #USE_SYSTEM_SQLITE := $(shell pkg-config 'sqlite3 >= 3.6.1' && echo 1 || echo 0)
 # undefined reference to 'chromium_sqlite3_initialize_unix_sqlite3_file'
 USE_SYSTEM_SQLITE := 0
-USE_SYSTEM_V8 := 0
 
 # Recursive third-party/opus/opus.h self-#inclusion.  Disabled for now.
 USE_SYSTEM_OPUS = 0
@@ -257,42 +274,55 @@ endif
 
 # System libs
 ifeq (1,$(WANT_SYSTEM_LIBS))
-#GYP_DEFINES += \
-#	use_system_bzip2=1 \
-#	use_system_libjpeg=0 \
-#	use_system_libpng=0 \
-#	use_system_sqlite=$(USE_SYSTEM_SQLITE) \
-#	use_system_libxml=1 \
-#	use_system_v8=$(USE_SYSTEM_V8) \
-#	use_system_flac=1 \
-#	use_system_harfbuzz=$(USE_SYSTEM_HARFBUZZ) \
-#	use_system_icu=$(USE_SYSTEM_LIBICU) \
-#	use_system_libevent=1 \
-#	use_system_libsrtp=$(USE_SYSTEM_LIBSRTP) \
-#	use_system_libusb=$(USE_SYSTEM_LIBUSB) \
-#	use_system_libvpx=$(USE_SYSTEM_LIBVPX) \
-#	use_system_libwebp=$(USE_SYSTEM_WEBP) \
-#	use_system_minizip=$(USE_SYSTEM_MINIZIP) \
-#	use_system_opus=$(USE_SYSTEM_OPUS) \
-#	use_system_protobuf=1 \
-#	use_system_speex=1 \
-#	use_system_xdg_utils=1 \
-#	use_system_yasm=1 \
-#	use_system_zlib=0 \
-#	$(NULL)
+GYP_DEFINES += \
+	use_system_bzip2=1 \
+	use_system_libjpeg=1 \
+	use_system_libpng=0 \
+	use_system_sqlite=$(USE_SYSTEM_SQLITE) \
+	use_system_libxml=0 \
+	use_system_flac=1 \
+	use_system_harfbuzz=$(USE_SYSTEM_HARFBUZZ) \
+	use_system_icu=$(USE_SYSTEM_LIBICU) \
+	use_system_libevent=1 \
+	use_system_libsrtp=$(USE_SYSTEM_LIBSRTP) \
+	use_system_libusb=$(USE_SYSTEM_LIBUSB) \
+	use_system_libvpx=$(USE_SYSTEM_LIBVPX) \
+	use_system_libwebp=$(USE_SYSTEM_WEBP) \
+	use_system_minizip=$(USE_SYSTEM_MINIZIP) \
+	use_system_opus=$(USE_SYSTEM_OPUS) \
+	use_system_protobuf=1 \
+	use_system_speex=1 \
+	use_system_xdg_utils=1 \
+	use_system_yasm=1 \
+	use_system_zlib=0 \
+	$(NULL)
 endif
 
-# Build only chrome and chrome_sandbox
+# Build chrome and chrome_sandbox, and chromedriver2
 BUILD_TARGETS += \
 	chrome \
 	chrome_sandbox \
 	chromedriver2 \
 	$(NULL)
 
-######
-GYP_ENV := GYP_GENERATORS=make
-ifneq (,$(GYP_DEFINES))
-	GYP_ENV += GYP_DEFINES="$(GYP_DEFINES) $(BROWSER_GYP_DEFINES)"
+GYP_DEFINES += \
+	linux_sandbox_path=/$(LIB_DIR)/$(DEBIAN_NAME)-sandbox \
+	linux_sandbox_chrome_path=/$(LIB_DIR)/$(DEBIAN_NAME) \
+	$(NULL)
+
+# Needed to preserve the suid and make the sandbox happy
+DEB_FIXPERMS_EXCLUDE := $(DEBIAN_NAME)-sandbox
+
+# use system v8
+ifeq (1,$(USE_SYSTEM_V8))
+GYP_DEFINES += \
+	javascript_engine=system-v8 \
+	$(NULL)
+endif
+
+ifneq (,$(GOOGLEAPI_APIKEY_$(DISTRIBUTION)))
+GYP_PARAMS += \
+	-Dgoogle_api_key='$(GOOGLEAPI_APIKEY_$(DISTRIBUTION))' -Dgoogle_default_client_id='$(GOOGLEAPI_CLIENTID_$(DISTRIBUTION))' -Dgoogle_default_client_secret='$(GOOGLEAPI_CLIENTSECRET_$(DISTRIBUTION))'
 endif
 
 ifneq ($(DEB_HOST_ARCH),$(DEB_BUILD_ARCH))
@@ -310,15 +340,24 @@ clean:
 		build-stamp-ffmpeg-std build-stamp-ffmpeg-extra \
 		configure-stamp-ffmpeg-std configure-stamp-ffmpeg-extra
 	rm -f $(subst_files)
-	rm -rf third_party chrome $(DEB_TAR_SRCDIR)/out
+	rm -rf $(DEB_TAR_SRCDIR)/out $(DEB_TAR_SRCDIR)/third_party/ffmpeg/yasm $(DEB_TAR_SRCDIR)/third_party/ffmpeg/out
+	find $(DEB_TAR_SRCDIR) \( -name \*.pyc -o -name \*.pyo -name \*.o \) -delete
+	find $(DEB_TAR_SRCDIR) -regex '.*/\([^/]*\)/\1[^/]*\.\(Makefile\|\(target\|host\)\.mk\)' -delete
 	sed -i 's,/etc/$(DEBIAN_NAME)/policies,/etc/chromium/policies,' \
 		$(DEB_TAR_SRCDIR)/chrome/common/chrome_paths.cc
-
+	
 	dh_clean
 
 configure: configure-stamp
+configure-stamp: GYP_ENV = GYP_GENERATORS=make
+configure-stamp: GYP_ENV += GYP_DEFINES="$(GYP_DEFINES) $(BROWSER_GYP_DEFINES)"
 configure-stamp:
 	dh_testdir
+	
+	if [ ! -d src ]; then \
+		mv $(DEBIAN_NAME)-$(DEBIAN_UPSTREAM_VERSION)/src .; \
+		rm -r $(DEBIAN_NAME)-$(DEBIAN_UPSTREAM_VERSION); \
+	fi
 	
 	sed -e 's/@BUILD_DIST@/$(DEBIAN_DIST_NAME) $(DEBIAN_DIST_VERSION)/g' \
 	    -e 's/@BUILD_DIST_NAME@/$(DEBIAN_DIST_NAME)/g' \
@@ -328,12 +367,13 @@ configure-stamp:
 	sed -i 's,/etc/chromium/policies,/etc/$(DEBIAN_NAME)/policies,' \
 		$(DEB_TAR_SRCDIR)/chrome/common/chrome_paths.cc
 	
-	cd $(SRC_DIR) && $(GYP_ENV) $(CROSS_BUILD) python build/gyp_chromium --no-circular-check build/all.gyp
-	# Populate the LASTCHANGE file template as we no longer have the VCS files at this point
+	cd $(SRC_DIR) && $(GYP_ENV) $(CROSS_BUILD) python build/gyp_chromium build/all.gyp $(GYP_PARAMS)
+	# Populate the LASTCHANGE file template as we no longer have the VCS
+	# files at this point
 	echo "$(DEBIAN_REVISION)" > $(SRC_DIR)/build/LASTCHANGE.in
 	touch $@
 
-build: configure-stamp build-stamp build-stamp-ffmpeg-std build-stamp-ffmpeg-extra
+build: build-stamp build-stamp-ffmpeg-std build-stamp-ffmpeg-extra
 	touch $@
 
 build-stamp: configure-stamp
@@ -430,7 +470,7 @@ endif
 	mv debian/$(DEBIAN_NAME)-l10n/$(LIB_DIR)/locales/en-US.pak debian/$(DEBIAN_NAME)/$(LIB_DIR)/locales
 	# chromedriver
 	dh_installdirs --package=$(DEBIAN_DRIVER_NAME) $(LIB_DIR)
-	cp -a $(SRC_DIR)/out/$(BUILD_TYPE)/chromedriver debian/$(DEBIAN_DRIVER_NAME)/$(LIB_DIR)
+	cp -a $(SRC_DIR)/out/$(BUILD_TYPE)/libchromedriver2.so debian/$(DEBIAN_DRIVER_NAME)/$(LIB_DIR)
 	
 	dh_installdirs --package=chromium-codecs-ffmpeg $(LIB_DIR)
 	cp debian/tmp-std/libffmpegsumo.so debian/chromium-codecs-ffmpeg/$(LIB_DIR)

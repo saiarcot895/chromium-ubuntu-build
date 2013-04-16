@@ -1,7 +1,7 @@
-Index: src/src/ui/base/resource/data_pack.cc
+Index: dev.raring/src/ui/base/resource/data_pack.cc
 ===================================================================
---- src.orig/src/ui/base/resource/data_pack.cc	2013-03-15 11:02:24.216124148 -0500
-+++ src/src/ui/base/resource/data_pack.cc	2013-03-15 11:03:17.293842658 -0500
+--- dev.raring.orig/src/ui/base/resource/data_pack.cc	2013-04-16 18:29:02.973486846 -0500
++++ dev.raring/src/ui/base/resource/data_pack.cc	2013-04-16 18:29:23.102006283 -0500
 @@ -147,9 +147,11 @@
    // 2) Verify the entries are within the appropriate bounds. There's an extra
    // entry after the last item which gives us the length of the last item.
@@ -15,10 +15,10 @@ Index: src/src/ui/base/resource/data_pack.cc
        LOG(ERROR) << "Entry #" << i << " in data pack points off end of file. "
                   << "Was the file corrupted?";
        UMA_HISTOGRAM_ENUMERATION("DataPack.Load", ENTRY_NOT_FOUND,
-Index: src/src/v8/src/arm/macro-assembler-arm.cc
+Index: dev.raring/src/v8/src/arm/macro-assembler-arm.cc
 ===================================================================
---- src.orig/src/v8/src/arm/macro-assembler-arm.cc	2013-03-15 11:02:24.216124148 -0500
-+++ src/src/v8/src/arm/macro-assembler-arm.cc	2013-03-15 11:03:17.861861071 -0500
+--- dev.raring.orig/src/v8/src/arm/macro-assembler-arm.cc	2013-04-16 18:29:02.973486846 -0500
++++ dev.raring/src/v8/src/arm/macro-assembler-arm.cc	2013-04-16 18:29:23.118006694 -0500
 @@ -61,9 +61,9 @@
  // We do not support thumb inter-working with an arm architecture not supporting
  // the blx instruction (below v5t).  If you know what CPU you are compiling for

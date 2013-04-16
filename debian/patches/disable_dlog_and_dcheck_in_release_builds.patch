@@ -1,7 +1,7 @@
 Index: dev.raring/src/base/logging.h
 ===================================================================
---- dev.raring.orig/src/base/logging.h	2013-03-29 18:39:45.593310856 -0500
-+++ dev.raring/src/base/logging.h	2013-03-29 18:39:59.725844754 -0500
+--- dev.raring.orig/src/base/logging.h	2013-04-16 18:29:03.353496670 -0500
++++ dev.raring/src/base/logging.h	2013-04-16 18:29:19.553914868 -0500
 @@ -451,7 +451,7 @@
  // uses OFFICIAL_BUILD and other platforms use the branding flag when NDEBUG is
  // defined.

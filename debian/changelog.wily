@@ -1,3 +1,24 @@
+chromium-browser (28.0.1478.0-0ubuntuppa1~raring1) raring; urgency=low
+
+  * New upstream version 28.0.1478.0
+  * Update patches
+  * debian/rules: Check if src directory exists, and move it if it
+    doesn't exist
+  * Correct chromedriver file copying
+  * Re-enable system libs except for libpng, libxml, and zlib
+  * Remove *.pyc and *.o files in clean;
+  * Split USE_SYSTEM_V8 variable from the system libs section
+  * Always compile symbols with the -g flag
+  * Remove webcore debug symbols due to its size
+  * Enable third-party translations that are already in upstream
+  * Update commands to get variables, and add HOST and BUILD variables
+    to detect if cross-compiling
+  * Don't call configure-stamp from build, as it will be called from
+    build-stamp
+  * Update variables used in configure-stamp
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 16 Apr 2013 18:36:35 -0500
+
 chromium-browser (27.0.1453.12-0ubuntuppa2~raring1) raring; urgency=low
 
   * 
