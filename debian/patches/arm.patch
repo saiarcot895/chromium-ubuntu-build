@@ -1,7 +1,7 @@
 Index: dev.raring/src/ui/base/resource/data_pack.cc
 ===================================================================
---- dev.raring.orig/src/ui/base/resource/data_pack.cc	2013-04-16 18:29:02.973486846 -0500
-+++ dev.raring/src/ui/base/resource/data_pack.cc	2013-04-16 18:29:23.102006283 -0500
+--- dev.raring.orig/src/ui/base/resource/data_pack.cc	2013-04-23 06:20:37.688136221 -0500
++++ dev.raring/src/ui/base/resource/data_pack.cc	2013-04-23 06:21:02.102613534 -0500
 @@ -147,9 +147,11 @@
    // 2) Verify the entries are within the appropriate bounds. There's an extra
    // entry after the last item which gives us the length of the last item.
@@ -15,20 +15,3 @@ Index: dev.raring/src/ui/base/resource/data_pack.cc
        LOG(ERROR) << "Entry #" << i << " in data pack points off end of file. "
                   << "Was the file corrupted?";
        UMA_HISTOGRAM_ENUMERATION("DataPack.Load", ENTRY_NOT_FOUND,
-Index: dev.raring/src/v8/src/arm/macro-assembler-arm.cc
-===================================================================
---- dev.raring.orig/src/v8/src/arm/macro-assembler-arm.cc	2013-04-16 18:29:02.973486846 -0500
-+++ dev.raring/src/v8/src/arm/macro-assembler-arm.cc	2013-04-16 18:29:23.118006694 -0500
-@@ -61,9 +61,9 @@
- // We do not support thumb inter-working with an arm architecture not supporting
- // the blx instruction (below v5t).  If you know what CPU you are compiling for
- // you can use -march=armv7 or similar.
--#if defined(USE_THUMB_INTERWORK) && !defined(CAN_USE_THUMB_INSTRUCTIONS)
--# error "For thumb inter-working we require an architecture which supports blx"
--#endif
-+//#if defined(USE_THUMB_INTERWORK) && !defined(CAN_USE_THUMB_INSTRUCTIONS)
-+//# error "For thumb inter-working we require an architecture which supports blx"
-+//#endif
- 
- 
- // Using bx does not yield better code, so use it only when required

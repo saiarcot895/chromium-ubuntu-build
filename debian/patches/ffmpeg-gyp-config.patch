@@ -2,8 +2,8 @@ Bug-Chromium: https://code.google.com/p/chromium/issues/detail?id=159349
                                                                        
 Index: dev.raring/src/third_party/ffmpeg/ffmpeg.gyp
 ===================================================================
---- dev.raring.orig/src/third_party/ffmpeg/ffmpeg.gyp	2013-04-16 18:29:02.469473812 -0500
-+++ dev.raring/src/third_party/ffmpeg/ffmpeg.gyp	2013-04-16 18:29:27.466118633 -0500
+--- dev.raring.orig/src/third_party/ffmpeg/ffmpeg.gyp	2013-04-23 06:20:37.536120795 -0500
++++ dev.raring/src/third_party/ffmpeg/ffmpeg.gyp	2013-04-23 06:21:02.930697555 -0500
 @@ -423,6 +423,9 @@
    'targets': [
      {

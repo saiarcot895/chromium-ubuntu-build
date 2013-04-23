@@ -1,9 +1,9 @@
 Index: dev.raring/src/webkit/build/webkit_version.py
 ===================================================================
---- dev.raring.orig/src/webkit/build/webkit_version.py	2013-04-16 18:29:03.261494291 -0500
-+++ dev.raring/src/webkit/build/webkit_version.py	2013-04-16 18:29:20.673943732 -0500
-@@ -62,6 +62,15 @@
-       directory=os.path.join(webkit_dir, version_file_dir),
+--- dev.raring.orig/src/webkit/build/webkit_version.py	2013-04-23 06:20:37.772144745 -0500
++++ dev.raring/src/webkit/build/webkit_version.py	2013-04-23 06:21:01.542556702 -0500
+@@ -32,6 +32,15 @@
+       directory=webkit_src_dir,
        directory_regex_prior_to_src_url='webkit')
  
 +  if version_info.url is None or version_info.url == 'unknown':
