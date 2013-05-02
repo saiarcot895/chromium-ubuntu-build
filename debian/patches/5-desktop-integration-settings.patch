@@ -1,8 +1,8 @@
 Index: dev.raring/src/chrome/app/generated_resources.grd
 ===================================================================
---- dev.raring.orig/src/chrome/app/generated_resources.grd	2013-04-23 06:16:30.774906103 -0500
-+++ dev.raring/src/chrome/app/generated_resources.grd	2013-04-23 06:21:04.174823798 -0500
-@@ -12082,6 +12082,9 @@
+--- dev.raring.orig/src/chrome/app/generated_resources.grd	2013-05-01 20:26:49.861841982 -0500
++++ dev.raring/src/chrome/app/generated_resources.grd	2013-05-01 20:26:49.817840555 -0500
+@@ -12112,6 +12112,9 @@
        <message name="IDS_OPTIONS_ADVANCED_SECTION_TITLE_CONTENT">
          Web content
        </message>
@@ -12,7 +12,7 @@ Index: dev.raring/src/chrome/app/generated_resources.grd
        <message name="IDS_OPTIONS_ADVANCED_SECTION_TITLE_SECURITY">
          HTTPS/SSL
        </message>
-@@ -14770,6 +14773,35 @@
+@@ -14803,6 +14806,35 @@
        </message>
      </if>
  
@@ -50,8 +50,8 @@ Index: dev.raring/src/chrome/app/generated_resources.grd
        Edit user
 Index: dev.raring/src/chrome/browser/resources/options/options.html
 ===================================================================
---- dev.raring.orig/src/chrome/browser/resources/options/options.html	2013-04-23 06:16:30.774906103 -0500
-+++ dev.raring/src/chrome/browser/resources/options/options.html	2013-04-23 06:21:04.174823798 -0500
+--- dev.raring.orig/src/chrome/browser/resources/options/options.html	2013-05-01 20:26:49.861841982 -0500
++++ dev.raring/src/chrome/browser/resources/options/options.html	2013-05-01 20:26:49.821840685 -0500
 @@ -20,6 +20,7 @@
  <link rel="stylesheet" href="clear_browser_data_overlay.css">
  <link rel="stylesheet" href="content_settings.css">
@@ -60,15 +60,15 @@ Index: dev.raring/src/chrome/browser/resources/options/options.html
  <link rel="stylesheet" href="do_not_track_confirm_overlay.css">
  <link rel="stylesheet" href="managed_user_set_passphrase.css">
  <link rel="stylesheet" href="managed_user_settings.css">
-@@ -102,6 +103,7 @@
+@@ -101,6 +102,7 @@
    <include src="font_settings.html">
    <include src="home_page_overlay.html">
    <include src="import_data_overlay.html">
 +  <include src="desktop_integration_overlay.html">
-   <include src="instant_confirm_overlay.html">
    <include src="language_options.html">
    <include src="manage_profile_overlay.html">
-@@ -131,6 +133,7 @@
+   <include src="password_manager.html">
+@@ -129,6 +131,7 @@
    <include src="autofill_edit_creditcard_overlay.html">
    <include src="content_settings_exceptions_area.html">
    <include src="cookies_view.html">
@@ -78,8 +78,8 @@ Index: dev.raring/src/chrome/browser/resources/options/options.html
    <include src="managed_user_set_passphrase.html">
 Index: dev.raring/src/chrome/browser/resources/options/browser_options.js
 ===================================================================
---- dev.raring.orig/src/chrome/browser/resources/options/browser_options.js	2013-04-23 06:16:30.774906103 -0500
-+++ dev.raring/src/chrome/browser/resources/options/browser_options.js	2013-04-23 06:21:04.174823798 -0500
+--- dev.raring.orig/src/chrome/browser/resources/options/browser_options.js	2013-05-01 20:26:49.861841982 -0500
++++ dev.raring/src/chrome/browser/resources/options/browser_options.js	2013-05-01 20:26:49.825840816 -0500
 @@ -366,6 +366,23 @@
              [String(event.target.options[event.target.selectedIndex].value)]);
        };
@@ -129,7 +129,7 @@ Index: dev.raring/src/chrome/browser/resources/options/browser_options.js
       * Set the checked state of the metrics reporting checkbox.
       * @private
       */
-@@ -1401,6 +1436,7 @@
+@@ -1403,6 +1438,7 @@
    //Forward public APIs to private implementations.
    [
      'addBluetoothDevice',
@@ -137,7 +137,7 @@ Index: dev.raring/src/chrome/browser/resources/options/browser_options.js
      'enableFactoryResetSection',
      'getCurrentProfile',
      'getStartStopSyncButton',
-@@ -1414,6 +1450,7 @@
+@@ -1416,6 +1452,7 @@
      'setFontSize',
      'setGtkThemeButtonEnabled',
      'setHighContrastCheckboxState',
@@ -147,8 +147,8 @@ Index: dev.raring/src/chrome/browser/resources/options/browser_options.js
      'setPasswordGenerationSettingVisibility',
 Index: dev.raring/src/chrome/browser/resources/options/options.js
 ===================================================================
---- dev.raring.orig/src/chrome/browser/resources/options/options.js	2013-04-23 06:16:30.774906103 -0500
-+++ dev.raring/src/chrome/browser/resources/options/options.js	2013-04-23 06:21:04.178824203 -0500
+--- dev.raring.orig/src/chrome/browser/resources/options/options.js	2013-05-01 20:26:49.861841982 -0500
++++ dev.raring/src/chrome/browser/resources/options/options.js	2013-05-01 20:26:49.825840816 -0500
 @@ -14,6 +14,8 @@
      options.contentSettings.ContentSettingsExceptionsArea;
  var ContentSettings = options.ContentSettings;
@@ -158,7 +158,7 @@ Index: dev.raring/src/chrome/browser/resources/options/options.js
  var CreateProfileOverlay = options.CreateProfileOverlay;
  var EditDictionaryOverlay = cr.IsMac ? null : options.EditDictionaryOverlay;
  var FactoryResetOverlay = options.FactoryResetOverlay;
-@@ -131,6 +133,13 @@
+@@ -120,6 +122,13 @@
    OptionsPage.registerOverlay(FontSettings.getInstance(),
                                BrowserOptions.getInstance(),
                                [$('fontSettingsCustomizeFontsButton')]);
@@ -174,8 +174,8 @@ Index: dev.raring/src/chrome/browser/resources/options/options.js
                                  ContentSettings.getInstance(),
 Index: dev.raring/src/chrome/browser/resources/options/options_bundle.js
 ===================================================================
---- dev.raring.orig/src/chrome/browser/resources/options/options_bundle.js	2013-04-23 06:16:30.774906103 -0500
-+++ dev.raring/src/chrome/browser/resources/options/options_bundle.js	2013-04-23 06:21:04.178824203 -0500
+--- dev.raring.orig/src/chrome/browser/resources/options/options_bundle.js	2013-05-01 20:26:49.861841982 -0500
++++ dev.raring/src/chrome/browser/resources/options/options_bundle.js	2013-05-01 20:26:49.825840816 -0500
 @@ -75,6 +75,8 @@
  <include src="content_settings_ui.js"></include>
  <include src="cookies_list.js"></include>
@@ -187,8 +187,8 @@ Index: dev.raring/src/chrome/browser/resources/options/options_bundle.js
  <include src="managed_user_settings.js"></include>
 Index: dev.raring/src/chrome/browser/resources/options/browser_options.html
 ===================================================================
---- dev.raring.orig/src/chrome/browser/resources/options/browser_options.html	2013-04-23 06:16:30.774906103 -0500
-+++ dev.raring/src/chrome/browser/resources/options/browser_options.html	2013-04-23 06:21:04.178824203 -0500
+--- dev.raring.orig/src/chrome/browser/resources/options/browser_options.html	2013-05-01 20:26:49.861841982 -0500
++++ dev.raring/src/chrome/browser/resources/options/browser_options.html	2013-05-01 20:26:49.825840816 -0500
 @@ -381,6 +381,22 @@
      </div>
    </section>
@@ -214,8 +214,8 @@ Index: dev.raring/src/chrome/browser/resources/options/browser_options.html
      <div class="checkbox">
 Index: dev.raring/src/chrome/browser/ui/webui/options/options_ui.cc
 ===================================================================
---- dev.raring.orig/src/chrome/browser/ui/webui/options/options_ui.cc	2013-04-23 06:16:30.774906103 -0500
-+++ dev.raring/src/chrome/browser/ui/webui/options/options_ui.cc	2013-04-23 06:21:04.182824608 -0500
+--- dev.raring.orig/src/chrome/browser/ui/webui/options/options_ui.cc	2013-05-01 20:26:49.861841982 -0500
++++ dev.raring/src/chrome/browser/ui/webui/options/options_ui.cc	2013-05-01 20:26:49.833841074 -0500
 @@ -88,6 +88,10 @@
  #include "chrome/browser/ui/webui/options/certificate_manager_handler.h"
  #endif
@@ -227,7 +227,7 @@ Index: dev.raring/src/chrome/browser/ui/webui/options/options_ui.cc
  using content::RenderViewHost;
  
  namespace {
-@@ -253,6 +257,10 @@
+@@ -255,6 +259,10 @@
    AddOptionsPageUIHandler(localized_strings, new ClearBrowserDataHandler());
    AddOptionsPageUIHandler(localized_strings, new ContentSettingsHandler());
    AddOptionsPageUIHandler(localized_strings, new CookiesViewHandler());
@@ -240,8 +240,8 @@ Index: dev.raring/src/chrome/browser/ui/webui/options/options_ui.cc
    AddOptionsPageUIHandler(localized_strings,
 Index: dev.raring/src/chrome/browser/ui/webui/options/browser_options_handler.cc
 ===================================================================
---- dev.raring.orig/src/chrome/browser/ui/webui/options/browser_options_handler.cc	2013-04-23 06:16:30.774906103 -0500
-+++ dev.raring/src/chrome/browser/ui/webui/options/browser_options_handler.cc	2013-04-23 06:21:04.182824608 -0500
+--- dev.raring.orig/src/chrome/browser/ui/webui/options/browser_options_handler.cc	2013-05-01 20:26:49.861841982 -0500
++++ dev.raring/src/chrome/browser/ui/webui/options/browser_options_handler.cc	2013-05-01 20:26:49.833841074 -0500
 @@ -183,6 +183,8 @@
      { "currentUserOnly", IDS_OPTIONS_CURRENT_USER_ONLY },
      { "advancedSectionTitleContent",
@@ -262,7 +262,7 @@ Index: dev.raring/src/chrome/browser/ui/webui/options/browser_options_handler.cc
  #if defined(OS_CHROMEOS)
      { "disableGData", IDS_OPTIONS_DISABLE_GDATA },
  #endif
-@@ -261,6 +267,8 @@
+@@ -260,6 +266,8 @@
      { "profilesDeleteSingle", IDS_PROFILES_DELETE_SINGLE_BUTTON_LABEL },
      { "profilesListItemCurrent", IDS_PROFILES_LIST_ITEM_CURRENT },
      { "profilesManage", IDS_PROFILES_MANAGE_BUTTON_LABEL },
@@ -273,9 +273,9 @@ Index: dev.raring/src/chrome/browser/ui/webui/options/browser_options_handler.cc
  #endif
 Index: dev.raring/src/chrome/chrome_browser_ui.gypi
 ===================================================================
---- dev.raring.orig/src/chrome/chrome_browser_ui.gypi	2013-04-23 06:16:30.774906103 -0500
-+++ dev.raring/src/chrome/chrome_browser_ui.gypi	2013-04-23 06:21:04.190825421 -0500
-@@ -2114,6 +2114,8 @@
+--- dev.raring.orig/src/chrome/chrome_browser_ui.gypi	2013-05-01 20:26:49.861841982 -0500
++++ dev.raring/src/chrome/chrome_browser_ui.gypi	2013-05-01 20:26:49.845841461 -0500
+@@ -2124,6 +2124,8 @@
          'browser/ui/webui/options/cookies_view_handler.h',
          'browser/ui/webui/options/core_options_handler.cc',
          'browser/ui/webui/options/core_options_handler.h',
@@ -287,7 +287,7 @@ Index: dev.raring/src/chrome/chrome_browser_ui.gypi
 Index: dev.raring/src/chrome/browser/resources/options/desktop_integration_overlay.html
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.raring/src/chrome/browser/resources/options/desktop_integration_overlay.html	2013-04-23 06:21:04.190825421 -0500
++++ dev.raring/src/chrome/browser/resources/options/desktop_integration_overlay.html	2013-05-01 20:26:49.845841461 -0500
 @@ -0,0 +1,26 @@
 +<div id="desktop-integration-area" class="page" hidden>
 +
@@ -318,7 +318,7 @@ Index: dev.raring/src/chrome/browser/resources/options/desktop_integration_overl
 Index: dev.raring/src/chrome/browser/resources/options/desktop_integration_add_website_overlay.js
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.raring/src/chrome/browser/resources/options/desktop_integration_add_website_overlay.js	2013-04-23 06:21:04.190825421 -0500
++++ dev.raring/src/chrome/browser/resources/options/desktop_integration_add_website_overlay.js	2013-05-01 20:26:49.849841592 -0500
 @@ -0,0 +1,47 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -370,7 +370,7 @@ Index: dev.raring/src/chrome/browser/resources/options/desktop_integration_add_w
 Index: dev.raring/src/chrome/browser/resources/options/desktop_integration_overlay.js
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.raring/src/chrome/browser/resources/options/desktop_integration_overlay.js	2013-04-23 06:21:04.190825421 -0500
++++ dev.raring/src/chrome/browser/resources/options/desktop_integration_overlay.js	2013-05-01 20:26:49.849841592 -0500
 @@ -0,0 +1,203 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -578,7 +578,7 @@ Index: dev.raring/src/chrome/browser/resources/options/desktop_integration_overl
 Index: dev.raring/src/chrome/browser/resources/options/desktop_integration_overlay.css
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.raring/src/chrome/browser/resources/options/desktop_integration_overlay.css	2013-04-23 06:21:04.190825421 -0500
++++ dev.raring/src/chrome/browser/resources/options/desktop_integration_overlay.css	2013-05-01 20:26:49.849841592 -0500
 @@ -0,0 +1,71 @@
 +/* Copyright (c) 2012 The Chromium Authors. All rights reserved.
 + * Use of this source code is governed by a BSD-style license that can be
@@ -654,7 +654,7 @@ Index: dev.raring/src/chrome/browser/resources/options/desktop_integration_overl
 Index: dev.raring/src/chrome/browser/resources/options/desktop_integration_add_website_overlay.html
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.raring/src/chrome/browser/resources/options/desktop_integration_add_website_overlay.html	2013-04-23 06:21:04.190825421 -0500
++++ dev.raring/src/chrome/browser/resources/options/desktop_integration_add_website_overlay.html	2013-05-01 20:26:49.849841592 -0500
 @@ -0,0 +1,16 @@
 +<div id="add-desktop-integration-website-overlay-page" class="page" hidden>
 +  <div class="close-button"></div>
@@ -675,7 +675,7 @@ Index: dev.raring/src/chrome/browser/resources/options/desktop_integration_add_w
 Index: dev.raring/src/chrome/browser/ui/webui/options/desktop_integration_settings_handler.cc
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.raring/src/chrome/browser/ui/webui/options/desktop_integration_settings_handler.cc	2013-04-23 06:21:04.194825828 -0500
++++ dev.raring/src/chrome/browser/ui/webui/options/desktop_integration_settings_handler.cc	2013-05-01 20:26:49.849841592 -0500
 @@ -0,0 +1,262 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -942,7 +942,7 @@ Index: dev.raring/src/chrome/browser/ui/webui/options/desktop_integration_settin
 Index: dev.raring/src/chrome/browser/ui/webui/options/desktop_integration_settings_handler.h
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.raring/src/chrome/browser/ui/webui/options/desktop_integration_settings_handler.h	2013-04-23 06:21:04.194825828 -0500
++++ dev.raring/src/chrome/browser/ui/webui/options/desktop_integration_settings_handler.h	2013-05-01 20:26:49.853841722 -0500
 @@ -0,0 +1,76 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be

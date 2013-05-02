@@ -1,3 +1,10 @@
+chromium-browser (28.0.1490.2-0ubuntuppa1~raring1) raring; urgency=low
+
+  * New upstream version 28.0.1490.2
+  * Updated patches
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 01 May 2013 20:28:45 -0500
+
 chromium-browser (28.0.1485.0-0ubuntuppa1~raring1) raring; urgency=low
 
   * New upstream version 28.0.1485.0

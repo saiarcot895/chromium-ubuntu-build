@@ -1,7 +1,7 @@
 Index: dev.raring/src/chrome/browser/extensions/api/module/module.cc
 ===================================================================
---- dev.raring.orig/src/chrome/browser/extensions/api/module/module.cc	2013-04-14 08:21:51.000000000 -0500
-+++ dev.raring/src/chrome/browser/extensions/api/module/module.cc	2013-04-16 16:29:39.475216848 -0500
+--- dev.raring.orig/src/chrome/browser/extensions/api/module/module.cc	2013-05-01 20:25:00.298318765 -0500
++++ dev.raring/src/chrome/browser/extensions/api/module/module.cc	2013-05-01 20:24:59.930308334 -0500
 @@ -7,8 +7,27 @@
  #include <string>
  
@@ -69,8 +69,8 @@ Index: dev.raring/src/chrome/browser/extensions/api/module/module.cc
  }  // namespace extensions
 Index: dev.raring/src/chrome/browser/extensions/api/module/module.h
 ===================================================================
---- dev.raring.orig/src/chrome/browser/extensions/api/module/module.h	2013-04-14 08:21:51.000000000 -0500
-+++ dev.raring/src/chrome/browser/extensions/api/module/module.h	2013-04-16 16:29:39.475216848 -0500
+--- dev.raring.orig/src/chrome/browser/extensions/api/module/module.h	2013-05-01 20:25:00.298318765 -0500
++++ dev.raring/src/chrome/browser/extensions/api/module/module.h	2013-05-01 20:24:59.938308558 -0500
 @@ -51,6 +51,19 @@
    virtual bool RunImpl() OVERRIDE;
  };
@@ -93,8 +93,8 @@ Index: dev.raring/src/chrome/browser/extensions/api/module/module.h
  #endif  // CHROME_BROWSER_EXTENSIONS_API_MODULE_MODULE_H__
 Index: dev.raring/src/chrome/browser/extensions/extension_function_histogram_value.h
 ===================================================================
---- dev.raring.orig/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-04-16 16:25:27.000000000 -0500
-+++ dev.raring/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-04-16 16:29:39.479216978 -0500
+--- dev.raring.orig/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-05-01 20:25:00.298318765 -0500
++++ dev.raring/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-05-01 20:24:59.938308558 -0500
 @@ -485,6 +485,7 @@
    DEVELOPERPRIVATE_ALLOWINCOGNITO,
    INPUT_IME_DELETESURROUNDINGTEXT,
@@ -105,8 +105,8 @@ Index: dev.raring/src/chrome/browser/extensions/extension_function_histogram_val
    SYNCFILESYSTEM_SETCONFLICTRESOLUTIONPOLICY,
 Index: dev.raring/src/chrome/browser/sessions/session_service.cc
 ===================================================================
---- dev.raring.orig/src/chrome/browser/sessions/session_service.cc	2013-04-14 08:22:00.000000000 -0500
-+++ dev.raring/src/chrome/browser/sessions/session_service.cc	2013-04-16 16:29:39.483217109 -0500
+--- dev.raring.orig/src/chrome/browser/sessions/session_service.cc	2013-05-01 20:25:00.298318765 -0500
++++ dev.raring/src/chrome/browser/sessions/session_service.cc	2013-05-01 20:24:59.990310033 -0500
 @@ -1553,7 +1553,8 @@
  bool SessionService::ShouldTrackBrowser(Browser* browser) const {
    AppType app_type = browser->is_app() ? TYPE_APP : TYPE_NORMAL;
@@ -119,8 +119,8 @@ Index: dev.raring/src/chrome/browser/sessions/session_service.cc
  bool SessionService::should_track_changes_for_browser_type(Browser::Type type,
 Index: dev.raring/src/chrome/browser/ui/browser.cc
 ===================================================================
---- dev.raring.orig/src/chrome/browser/ui/browser.cc	2013-04-14 08:21:57.000000000 -0500
-+++ dev.raring/src/chrome/browser/ui/browser.cc	2013-04-16 16:29:39.487217240 -0500
+--- dev.raring.orig/src/chrome/browser/ui/browser.cc	2013-05-01 20:25:00.298318765 -0500
++++ dev.raring/src/chrome/browser/ui/browser.cc	2013-05-01 20:25:00.030311167 -0500
 @@ -254,6 +254,7 @@
        profile(profile),
        host_desktop_type(host_desktop_type),
@@ -181,7 +181,7 @@ Index: dev.raring/src/chrome/browser/ui/browser.cc
        title :
        l10n_util::GetStringFUTF16(IDS_BROWSER_WINDOW_TITLE_FORMAT, title);
  }
-@@ -634,7 +651,8 @@
+@@ -632,7 +649,8 @@
      tab_restore_service->BrowserClosing(tab_restore_service_delegate());
  #endif
  
@@ -191,7 +191,7 @@ Index: dev.raring/src/chrome/browser/ui/browser.cc
      tab_restore_service->BrowserClosing(tab_restore_service_delegate());
  
    // TODO(sky): convert session/tab restore to use notification.
-@@ -2097,20 +2115,20 @@
+@@ -2117,20 +2135,20 @@
  
    unsigned int features = FEATURE_INFOBAR | FEATURE_DOWNLOADSHELF;
  
@@ -218,8 +218,8 @@ Index: dev.raring/src/chrome/browser/ui/browser.cc
    return !!(features & feature);
 Index: dev.raring/src/chrome/browser/ui/browser.h
 ===================================================================
---- dev.raring.orig/src/chrome/browser/ui/browser.h	2013-04-14 08:21:57.000000000 -0500
-+++ dev.raring/src/chrome/browser/ui/browser.h	2013-04-16 16:29:39.487217240 -0500
+--- dev.raring.orig/src/chrome/browser/ui/browser.h	2013-05-01 20:25:00.298318765 -0500
++++ dev.raring/src/chrome/browser/ui/browser.h	2013-05-01 20:25:00.086312754 -0500
 @@ -161,6 +161,11 @@
                                       Profile* profile,
                                       chrome::HostDesktopType host_desktop_type);
@@ -261,8 +261,8 @@ Index: dev.raring/src/chrome/browser/ui/browser.h
  
 Index: dev.raring/src/chrome/browser/ui/browser_command_controller.cc
 ===================================================================
---- dev.raring.orig/src/chrome/browser/ui/browser_command_controller.cc	2013-04-14 08:21:57.000000000 -0500
-+++ dev.raring/src/chrome/browser/ui/browser_command_controller.cc	2013-04-16 16:29:39.491217370 -0500
+--- dev.raring.orig/src/chrome/browser/ui/browser_command_controller.cc	2013-05-01 20:25:00.298318765 -0500
++++ dev.raring/src/chrome/browser/ui/browser_command_controller.cc	2013-05-01 20:25:00.110313435 -0500
 @@ -5,6 +5,7 @@
  #include "chrome/browser/ui/browser_command_controller.h"
  
@@ -279,7 +279,7 @@ Index: dev.raring/src/chrome/browser/ui/browser_command_controller.cc
  #include "chrome/common/pref_names.h"
  #include "chrome/common/profiling.h"
  #include "content/public/browser/native_web_keyboard_event.h"
-@@ -811,7 +813,8 @@
+@@ -814,7 +816,8 @@
  
  bool BrowserCommandController::IsShowingMainUI() {
    bool should_hide_ui = window() && window()->ShouldHideUIForFullscreen();
@@ -289,7 +289,7 @@ Index: dev.raring/src/chrome/browser/ui/browser_command_controller.cc
  }
  
  void BrowserCommandController::InitCommandState() {
-@@ -819,6 +822,9 @@
+@@ -822,6 +825,9 @@
    // (like Back & Forward with initial page load) must have their state
    // initialized here, otherwise they will be forever disabled.
  
@@ -299,7 +299,7 @@ Index: dev.raring/src/chrome/browser/ui/browser_command_controller.cc
    // Navigation commands
    command_updater_.UpdateCommandEnabled(IDC_RELOAD, true);
    command_updater_.UpdateCommandEnabled(IDC_RELOAD_IGNORING_CACHE, true);
-@@ -826,9 +832,10 @@
+@@ -829,9 +835,10 @@
  
    // Window management commands
    command_updater_.UpdateCommandEnabled(IDC_CLOSE_WINDOW, true);
@@ -312,7 +312,7 @@ Index: dev.raring/src/chrome/browser/ui/browser_command_controller.cc
    command_updater_.UpdateCommandEnabled(IDC_RESTORE_TAB, false);
  #if defined(OS_WIN) && defined(USE_ASH)
    if (browser_->host_desktop_type() != chrome::HOST_DESKTOP_TYPE_ASH)
-@@ -896,15 +903,19 @@
+@@ -899,15 +906,19 @@
    UpdateCommandsForDevTools();
    command_updater_.UpdateCommandEnabled(IDC_TASK_MANAGER, CanOpenTaskManager());
    command_updater_.UpdateCommandEnabled(IDC_SHOW_HISTORY,
@@ -336,7 +336,7 @@ Index: dev.raring/src/chrome/browser/ui/browser_command_controller.cc
  
    UpdateShowSyncState(true);
  
-@@ -912,7 +923,8 @@
+@@ -915,7 +926,8 @@
    bool normal_window = browser_->is_type_tabbed();
  
    // Navigation commands
@@ -346,7 +346,7 @@ Index: dev.raring/src/chrome/browser/ui/browser_command_controller.cc
  
    // Window management commands
    command_updater_.UpdateCommandEnabled(IDC_SELECT_NEXT_TAB, normal_window);
-@@ -940,7 +952,8 @@
+@@ -943,7 +955,8 @@
    command_updater_.UpdateCommandEnabled(IDC_TABPOSE, normal_window);
  
    // Show various bits of UI
@@ -356,7 +356,7 @@ Index: dev.raring/src/chrome/browser/ui/browser_command_controller.cc
  
    // The upgrade entry and the view incompatibility entry should always be
    // enabled. Whether they are visible is a separate matter determined on menu
-@@ -950,7 +963,8 @@
+@@ -953,7 +966,8 @@
  
    // View Background Pages entry is always enabled, but is hidden if there are
    // no background pages.
@@ -366,7 +366,7 @@ Index: dev.raring/src/chrome/browser/ui/browser_command_controller.cc
  
    // Toggle speech input
    command_updater_.UpdateCommandEnabled(IDC_TOGGLE_SPEECH_INPUT, true);
-@@ -969,19 +983,25 @@
+@@ -972,19 +986,25 @@
  void BrowserCommandController::UpdateSharedCommandsForIncognitoAvailability(
      CommandUpdater* command_updater,
      Profile* profile) {
@@ -395,7 +395,7 @@ Index: dev.raring/src/chrome/browser/ui/browser_command_controller.cc
    command_updater->UpdateCommandEnabled(
        IDC_SHOW_BOOKMARK_MANAGER,
        browser_defaults::bookmarks_enabled && command_enabled);
-@@ -1021,17 +1041,20 @@
+@@ -1024,17 +1044,20 @@
  
    // Window management commands
    command_updater_.UpdateCommandEnabled(IDC_DUPLICATE_TAB,
@@ -420,7 +420,7 @@ Index: dev.raring/src/chrome/browser/ui/browser_command_controller.cc
      command_updater_.UpdateCommandEnabled(IDC_OPEN_FILE, false);
  
    // Changing the encoding is not possible on Chrome-internal webpages.
-@@ -1047,7 +1070,8 @@
+@@ -1050,7 +1073,8 @@
  #if !defined(OS_MACOSX)
    command_updater_.UpdateCommandEnabled(
        IDC_CREATE_SHORTCUTS,
@@ -430,7 +430,7 @@ Index: dev.raring/src/chrome/browser/ui/browser_command_controller.cc
  #endif
  
    command_updater_.UpdateCommandEnabled(
-@@ -1086,19 +1110,29 @@
+@@ -1089,19 +1113,29 @@
  }
  
  void BrowserCommandController::UpdateCommandsForBookmarkEditing() {
@@ -464,7 +464,7 @@ Index: dev.raring/src/chrome/browser/ui/browser_command_controller.cc
  }
  
  void BrowserCommandController::UpdateCommandsForFileSelectionDialogs() {
-@@ -1155,7 +1189,8 @@
+@@ -1160,7 +1194,8 @@
  #endif
  
    // Disable explicit fullscreen toggling when in metro snap mode.
@@ -474,7 +474,7 @@ Index: dev.raring/src/chrome/browser/ui/browser_command_controller.cc
  #if defined(OS_MACOSX)
    // The Mac implementation doesn't support switching to fullscreen while
    // a tab modal dialog is displayed.
-@@ -1206,8 +1241,13 @@
+@@ -1211,8 +1246,13 @@
  }
  
  void BrowserCommandController::UpdateShowSyncState(bool show_main_ui) {
@@ -489,7 +489,7 @@ Index: dev.raring/src/chrome/browser/ui/browser_command_controller.cc
  }
  
  // static
-@@ -1218,7 +1258,12 @@
+@@ -1223,7 +1263,12 @@
    if (local_state)
      enabled = local_state->GetBoolean(prefs::kAllowFileSelectionDialogs);
  
@@ -505,8 +505,8 @@ Index: dev.raring/src/chrome/browser/ui/browser_command_controller.cc
  void BrowserCommandController::UpdateReloadStopState(bool is_loading,
 Index: dev.raring/src/chrome/browser/ui/browser_commands.cc
 ===================================================================
---- dev.raring.orig/src/chrome/browser/ui/browser_commands.cc	2013-04-14 08:21:57.000000000 -0500
-+++ dev.raring/src/chrome/browser/ui/browser_commands.cc	2013-04-16 16:29:39.491217370 -0500
+--- dev.raring.orig/src/chrome/browser/ui/browser_commands.cc	2013-05-01 20:25:00.298318765 -0500
++++ dev.raring/src/chrome/browser/ui/browser_commands.cc	2013-05-01 20:25:00.126313888 -0500
 @@ -457,6 +457,9 @@
  }
  
@@ -528,8 +528,8 @@ Index: dev.raring/src/chrome/browser/ui/browser_commands.cc
      return TabStripModelDelegate::RESTORE_WINDOW;
 Index: dev.raring/src/chrome/browser/ui/browser_finder.cc
 ===================================================================
---- dev.raring.orig/src/chrome/browser/ui/browser_finder.cc	2013-04-14 08:21:57.000000000 -0500
-+++ dev.raring/src/chrome/browser/ui/browser_finder.cc	2013-04-16 17:56:37.909893610 -0500
+--- dev.raring.orig/src/chrome/browser/ui/browser_finder.cc	2013-05-01 20:25:00.298318765 -0500
++++ dev.raring/src/chrome/browser/ui/browser_finder.cc	2013-05-01 20:25:00.134314116 -0500
 @@ -24,6 +24,7 @@
  const int kMatchOriginalProfile         = 1 << 0;
  const int kMatchCanSupportWindowFeature = 1 << 1;
@@ -562,8 +562,8 @@ Index: dev.raring/src/chrome/browser/ui/browser_finder.cc
    if (match_original_profiles)
 Index: dev.raring/src/chrome/browser/ui/gtk/browser_window_gtk.cc
 ===================================================================
---- dev.raring.orig/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-04-16 16:25:27.000000000 -0500
-+++ dev.raring/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-04-16 16:29:39.495217499 -0500
+--- dev.raring.orig/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-05-01 20:25:00.298318765 -0500
++++ dev.raring/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-05-01 20:25:00.138314229 -0500
 @@ -307,6 +307,13 @@
      gtk_window_util::SetWindowCustomClass(window_,
          std::string(gdk_get_program_class()) + " (" + user_data_dir + ")");
@@ -587,7 +587,7 @@ Index: dev.raring/src/chrome/browser/ui/gtk/browser_window_gtk.cc
      GetLocationBar()->FocusLocation(select_all);
  }
  
-@@ -1201,6 +1208,20 @@
+@@ -1205,6 +1212,20 @@
    gtk_util::SetWindowIcon(window_, browser_->profile());
  }
  
@@ -608,7 +608,7 @@ Index: dev.raring/src/chrome/browser/ui/gtk/browser_window_gtk.cc
  void BrowserWindowGtk::TabDetachedAt(WebContents* contents, int index) {
    // We use index here rather than comparing |contents| because by this time
    // the model has already removed |contents| from its list, so
-@@ -1211,6 +1232,23 @@
+@@ -1215,6 +1236,23 @@
      UpdateDevToolsForContents(NULL);
    }
    contents_container_->DetachTab(contents);
@@ -632,7 +632,7 @@ Index: dev.raring/src/chrome/browser/ui/gtk/browser_window_gtk.cc
  }
  
  void BrowserWindowGtk::ActiveTabChanged(WebContents* old_contents,
-@@ -2163,8 +2201,12 @@
+@@ -2167,8 +2205,12 @@
  }
  
  void BrowserWindowGtk::ShowSupportedWindowFeatures() {
@@ -647,7 +647,7 @@ Index: dev.raring/src/chrome/browser/ui/gtk/browser_window_gtk.cc
  
    if (IsToolbarSupported()) {
      toolbar_->Show();
-@@ -2177,8 +2219,12 @@
+@@ -2181,8 +2223,12 @@
  }
  
  void BrowserWindowGtk::HideUnsupportedWindowFeatures() {
@@ -662,7 +662,7 @@ Index: dev.raring/src/chrome/browser/ui/gtk/browser_window_gtk.cc
  
    if (!IsToolbarSupported())
      toolbar_->Hide();
-@@ -2218,7 +2264,8 @@
+@@ -2222,7 +2268,8 @@
  
  bool BrowserWindowGtk::UseCustomFrame() const {
    // We don't use the custom frame for app mode windows or app window popups.
@@ -674,9 +674,9 @@ Index: dev.raring/src/chrome/browser/ui/gtk/browser_window_gtk.cc
  void BrowserWindowGtk::PlaceBookmarkBar(bool is_floating) {
 Index: dev.raring/src/chrome/browser/ui/gtk/browser_window_gtk.h
 ===================================================================
---- dev.raring.orig/src/chrome/browser/ui/gtk/browser_window_gtk.h	2013-04-14 08:21:53.000000000 -0500
-+++ dev.raring/src/chrome/browser/ui/gtk/browser_window_gtk.h	2013-04-16 16:29:39.495217499 -0500
-@@ -185,6 +185,13 @@
+--- dev.raring.orig/src/chrome/browser/ui/gtk/browser_window_gtk.h	2013-05-01 20:25:00.298318765 -0500
++++ dev.raring/src/chrome/browser/ui/gtk/browser_window_gtk.h	2013-05-01 20:25:00.146314455 -0500
+@@ -186,6 +186,13 @@
                                  int index,
                                  int reason) OVERRIDE;
  
@@ -690,7 +690,7 @@ Index: dev.raring/src/chrome/browser/ui/gtk/browser_window_gtk.h
    // Overridden from ActiveWindowWatcherXObserver.
    virtual void ActiveWindowChanged(GdkWindow* active_window) OVERRIDE;
  
-@@ -328,6 +335,9 @@
+@@ -329,6 +336,9 @@
    // ctrl-l, etc.).
    void ConnectAccelerators();
  
@@ -702,8 +702,8 @@ Index: dev.raring/src/chrome/browser/ui/gtk/browser_window_gtk.h
    bool UsingCustomPopupFrame() const;
 Index: dev.raring/src/chrome/browser/ui/gtk/global_menu_bar.cc
 ===================================================================
---- dev.raring.orig/src/chrome/browser/ui/gtk/global_menu_bar.cc	2013-04-14 08:21:53.000000000 -0500
-+++ dev.raring/src/chrome/browser/ui/gtk/global_menu_bar.cc	2013-04-16 16:29:39.507217891 -0500
+--- dev.raring.orig/src/chrome/browser/ui/gtk/global_menu_bar.cc	2013-05-01 20:25:00.298318765 -0500
++++ dev.raring/src/chrome/browser/ui/gtk/global_menu_bar.cc	2013-05-01 20:25:00.158314796 -0500
 @@ -25,35 +25,43 @@
  #include "ui/base/gtk/menu_label_accelerator_util.h"
  #include "ui/base/l10n/l10n_util.h"
@@ -892,8 +892,8 @@ Index: dev.raring/src/chrome/browser/ui/gtk/global_menu_bar.cc
          id_to_menu_item, menu);
 Index: dev.raring/src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc
 ===================================================================
---- dev.raring.orig/src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc	2013-04-14 08:21:53.000000000 -0500
-+++ dev.raring/src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc	2013-04-16 16:29:39.507217891 -0500
+--- dev.raring.orig/src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc	2013-05-01 20:25:00.298318765 -0500
++++ dev.raring/src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc	2013-05-01 20:25:00.178315363 -0500
 @@ -786,9 +786,12 @@
    g_signal_connect(tabstrip_.get(), "drag-data-received",
                     G_CALLBACK(OnDragDataReceivedThunk), this);
@@ -957,8 +957,8 @@ Index: dev.raring/src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc
    SkBitmap background = theme_service_->GetImageNamed(
 Index: dev.raring/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc
 ===================================================================
---- dev.raring.orig/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc	2013-04-14 08:21:56.000000000 -0500
-+++ dev.raring/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc	2013-04-16 16:29:39.511218021 -0500
+--- dev.raring.orig/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc	2013-05-01 20:25:00.298318765 -0500
++++ dev.raring/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc	2013-05-01 20:25:00.190315702 -0500
 @@ -447,6 +447,16 @@
    }
  }
@@ -1025,8 +1025,8 @@ Index: dev.raring/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc
  
 Index: dev.raring/src/chrome/browser/ui/startup/startup_browser_creator_impl.h
 ===================================================================
---- dev.raring.orig/src/chrome/browser/ui/startup/startup_browser_creator_impl.h	2013-04-14 08:21:56.000000000 -0500
-+++ dev.raring/src/chrome/browser/ui/startup/startup_browser_creator_impl.h	2013-04-16 16:29:39.511218021 -0500
+--- dev.raring.orig/src/chrome/browser/ui/startup/startup_browser_creator_impl.h	2013-05-01 20:25:00.298318765 -0500
++++ dev.raring/src/chrome/browser/ui/startup/startup_browser_creator_impl.h	2013-05-01 20:25:00.194315816 -0500
 @@ -79,6 +79,11 @@
    FRIEND_TEST_ALL_PREFIXES(BrowserTest, RestorePinnedTabs);
    FRIEND_TEST_ALL_PREFIXES(BrowserTest, AppIdSwitch);
@@ -1041,11 +1041,11 @@ Index: dev.raring/src/chrome/browser/ui/startup/startup_browser_creator_impl.h
  
 Index: dev.raring/src/chrome/common/chrome_switches.cc
 ===================================================================
---- dev.raring.orig/src/chrome/common/chrome_switches.cc	2013-04-14 08:22:09.000000000 -0500
-+++ dev.raring/src/chrome/common/chrome_switches.cc	2013-04-16 16:29:39.515218150 -0500
-@@ -155,6 +155,9 @@
- // Chrome Frame automation channel is closed.
- const char kChromeFrameShutdownDelay[]      = "chrome-frame-shutdown-delay";
+--- dev.raring.orig/src/chrome/common/chrome_switches.cc	2013-05-01 20:25:00.298318765 -0500
++++ dev.raring/src/chrome/common/chrome_switches.cc	2013-05-01 20:25:00.258317630 -0500
+@@ -146,6 +146,9 @@
+ // as a dependent process of the Chrome Frame plugin.
+ const char kChromeFrame[]                   = "chrome-frame";
  
 +// Specifies a given URL to be opened in a chromeless mode.
 +const char kChromeless[]                    = "chromeless";
@@ -1055,20 +1055,20 @@ Index: dev.raring/src/chrome/common/chrome_switches.cc
  const char kChromeVersion[]                 = "chrome-version";
 Index: dev.raring/src/chrome/common/chrome_switches.h
 ===================================================================
---- dev.raring.orig/src/chrome/common/chrome_switches.h	2013-04-14 08:22:09.000000000 -0500
-+++ dev.raring/src/chrome/common/chrome_switches.h	2013-04-16 16:29:39.515218150 -0500
-@@ -60,6 +60,7 @@
+--- dev.raring.orig/src/chrome/common/chrome_switches.h	2013-05-01 20:25:00.298318765 -0500
++++ dev.raring/src/chrome/common/chrome_switches.h	2013-05-01 20:25:00.282318311 -0500
+@@ -56,6 +56,7 @@
+ extern const char kCheckForUpdateIntervalSec[];
  extern const char kCheckCloudPrintConnectorPolicy[];
  extern const char kChromeFrame[];
- extern const char kChromeFrameShutdownDelay[];
 +extern const char kChromeless[];
  extern const char kChromeVersion[];
  extern const char kCipherSuiteBlacklist[];
  extern const char kClearTokenService[];
 Index: dev.raring/src/chrome/common/extensions/api/extension.json
 ===================================================================
---- dev.raring.orig/src/chrome/common/extensions/api/extension.json	2013-04-14 08:22:09.000000000 -0500
-+++ dev.raring/src/chrome/common/extensions/api/extension.json	2013-04-16 16:29:39.515218150 -0500
+--- dev.raring.orig/src/chrome/common/extensions/api/extension.json	2013-05-01 20:25:00.298318765 -0500
++++ dev.raring/src/chrome/common/extensions/api/extension.json	2013-05-01 20:25:00.294318652 -0500
 @@ -138,6 +138,32 @@
          }
        },

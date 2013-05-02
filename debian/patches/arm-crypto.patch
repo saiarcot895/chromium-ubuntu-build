@@ -1,7 +1,7 @@
 Index: dev.raring/src/crypto/nss_util.cc
 ===================================================================
---- dev.raring.orig/src/crypto/nss_util.cc	2013-04-23 06:20:37.596126885 -0500
-+++ dev.raring/src/crypto/nss_util.cc	2013-04-23 06:21:02.666670768 -0500
+--- dev.raring.orig/src/crypto/nss_util.cc	2013-05-01 20:23:46.008226030 -0500
++++ dev.raring/src/crypto/nss_util.cc	2013-05-01 20:23:45.996225694 -0500
 @@ -706,7 +706,11 @@
  #elif defined(ARCH_CPU_X86)
    paths.push_back(base::FilePath("/usr/lib/i386-linux-gnu/nss"));
