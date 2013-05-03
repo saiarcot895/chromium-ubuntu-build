@@ -2,9 +2,9 @@ Description: Add "Chromium" and "Ubuntu" to the user-agent text.
 
 Index: dev.raring/src/webkit/user_agent/user_agent_util.cc
 ===================================================================
---- dev.raring.orig/src/webkit/user_agent/user_agent_util.cc	2013-05-01 20:23:42.736134473 -0500
-+++ dev.raring/src/webkit/user_agent/user_agent_util.cc	2013-05-01 20:23:42.732134361 -0500
-@@ -170,13 +170,21 @@
+--- dev.raring.orig/src/webkit/user_agent/user_agent_util.cc	2013-05-03 16:13:16.444635178 -0500
++++ dev.raring/src/webkit/user_agent/user_agent_util.cc	2013-05-03 16:13:16.436634869 -0500
+@@ -180,13 +180,21 @@
    // Derived from Safari's UA string.
    // This is done to expose our product name in a manner that is maximally
    // compatible with Safari, we hope!!

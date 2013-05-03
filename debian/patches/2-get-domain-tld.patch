@@ -1,7 +1,7 @@
 Index: dev.raring/src/chrome/browser/extensions/api/tld/tld_api.cc
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.raring/src/chrome/browser/extensions/api/tld/tld_api.cc	2013-05-01 20:24:58.798276247 -0500
++++ dev.raring/src/chrome/browser/extensions/api/tld/tld_api.cc	2013-05-03 16:31:03.618460700 -0500
 @@ -0,0 +1,87 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -93,7 +93,7 @@ Index: dev.raring/src/chrome/browser/extensions/api/tld/tld_api.cc
 Index: dev.raring/src/chrome/browser/extensions/api/tld/tld_api.h
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.raring/src/chrome/browser/extensions/api/tld/tld_api.h	2013-05-01 20:24:58.802276361 -0500
++++ dev.raring/src/chrome/browser/extensions/api/tld/tld_api.h	2013-05-03 16:31:03.618460700 -0500
 @@ -0,0 +1,28 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -125,9 +125,9 @@ Index: dev.raring/src/chrome/browser/extensions/api/tld/tld_api.h
 +
 Index: dev.raring/src/chrome/chrome_browser_extensions.gypi
 ===================================================================
---- dev.raring.orig/src/chrome/chrome_browser_extensions.gypi	2013-05-01 20:24:58.842277494 -0500
-+++ dev.raring/src/chrome/chrome_browser_extensions.gypi	2013-05-01 20:24:58.830277154 -0500
-@@ -449,6 +449,8 @@
+--- dev.raring.orig/src/chrome/chrome_browser_extensions.gypi	2013-05-03 16:31:03.690463180 -0500
++++ dev.raring/src/chrome/chrome_browser_extensions.gypi	2013-05-03 16:31:03.654461940 -0500
+@@ -448,6 +448,8 @@
          'browser/extensions/api/tabs/windows_event_router.h',
          'browser/extensions/api/test/test_api.cc',
          'browser/extensions/api/test/test_api.h',
@@ -138,8 +138,8 @@ Index: dev.raring/src/chrome/chrome_browser_extensions.gypi
          'browser/extensions/api/usb/usb_api.cc',
 Index: dev.raring/src/chrome/common/extensions/api/api.gyp
 ===================================================================
---- dev.raring.orig/src/chrome/common/extensions/api/api.gyp	2013-05-01 20:24:58.842277494 -0500
-+++ dev.raring/src/chrome/common/extensions/api/api.gyp	2013-05-01 20:24:58.830277154 -0500
+--- dev.raring.orig/src/chrome/common/extensions/api/api.gyp	2013-05-03 16:31:03.690463180 -0500
++++ dev.raring/src/chrome/common/extensions/api/api.gyp	2013-05-03 16:31:03.654461940 -0500
 @@ -90,6 +90,7 @@
            'tabs.json',
            'terminal_private.json',
@@ -151,7 +151,7 @@ Index: dev.raring/src/chrome/common/extensions/api/api.gyp
 Index: dev.raring/src/chrome/common/extensions/api/tld.json
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.raring/src/chrome/common/extensions/api/tld.json	2013-05-01 20:24:58.830277154 -0500
++++ dev.raring/src/chrome/common/extensions/api/tld.json	2013-05-03 16:31:03.670462491 -0500
 @@ -0,0 +1,54 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -209,9 +209,9 @@ Index: dev.raring/src/chrome/common/extensions/api/tld.json
 +
 Index: dev.raring/src/chrome/common/extensions/permissions/permission_set.cc
 ===================================================================
---- dev.raring.orig/src/chrome/common/extensions/permissions/permission_set.cc	2013-05-01 20:24:58.842277494 -0500
-+++ dev.raring/src/chrome/common/extensions/permissions/permission_set.cc	2013-05-01 20:24:58.838277380 -0500
-@@ -52,6 +52,7 @@
+--- dev.raring.orig/src/chrome/common/extensions/permissions/permission_set.cc	2013-05-03 16:31:03.690463180 -0500
++++ dev.raring/src/chrome/common/extensions/permissions/permission_set.cc	2013-05-03 16:31:03.670462491 -0500
+@@ -54,6 +54,7 @@
    "scriptBadge",
    "tabs",
    "test",
@@ -221,8 +221,8 @@ Index: dev.raring/src/chrome/common/extensions/permissions/permission_set.cc
  };
 Index: dev.raring/src/chrome/browser/extensions/extension_function_histogram_value.h
 ===================================================================
---- dev.raring.orig/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-05-01 20:24:58.842277494 -0500
-+++ dev.raring/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-05-01 20:24:58.838277380 -0500
+--- dev.raring.orig/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-05-03 16:31:03.690463180 -0500
++++ dev.raring/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-05-03 16:31:03.686463042 -0500
 @@ -491,6 +491,8 @@
    SYNCFILESYSTEM_GETCONFLICTRESOLUTIONPOLICY,
    NETWORKINGPRIVATE_SETPROPERTIES,

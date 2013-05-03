@@ -1,3 +1,10 @@
+chromium-browser (28.0.1496.0-0ubuntuppa1~raring1) raring; urgency=low
+
+  * New upstream version 28.0.1496.0
+  * Updated patches
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 03 May 2013 16:32:25 -0500
+
 chromium-browser (28.0.1490.2-0ubuntuppa2~raring1) raring; urgency=low
 
   * Redisabled patch 4-chromeless-window-launch-option.patch

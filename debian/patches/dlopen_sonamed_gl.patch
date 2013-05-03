@@ -3,10 +3,10 @@ Description: dlopen the sonamed libs directly, like it has already been done
   - libosmesa.so.6: was already available in Hardy
   - libGLESv2.so.1 and libEGL.so.1: available only since Maverick
 
-Index: dev.raring/src/ui/gl/gl_implementation_linux.cc
+Index: dev.raring/src/ui/gl/gl_implementation_x11.cc
 ===================================================================
---- dev.raring.orig/src/ui/gl/gl_implementation_linux.cc	2013-05-01 20:23:44.348179574 -0500
-+++ dev.raring/src/ui/gl/gl_implementation_linux.cc	2013-05-01 20:23:44.328179013 -0500
+--- dev.raring.orig/src/ui/gl/gl_implementation_x11.cc	2013-05-03 16:30:59.746327346 -0500
++++ dev.raring/src/ui/gl/gl_implementation_x11.cc	2013-05-03 16:30:59.714326244 -0500
 @@ -79,7 +79,7 @@
        }
  
