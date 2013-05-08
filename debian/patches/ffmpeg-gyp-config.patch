@@ -2,9 +2,9 @@ Bug-Chromium: https://code.google.com/p/chromium/issues/detail?id=159349
                                                                        
 Index: dev.raring/src/third_party/ffmpeg/ffmpeg.gyp
 ===================================================================
---- dev.raring.orig/src/third_party/ffmpeg/ffmpeg.gyp	2013-05-03 16:31:02.378417999 -0500
-+++ dev.raring/src/third_party/ffmpeg/ffmpeg.gyp	2013-05-03 16:31:02.374417860 -0500
-@@ -423,6 +423,9 @@
+--- dev.raring.orig/src/third_party/ffmpeg/ffmpeg.gyp	2013-05-08 17:02:56.955028206 -0500
++++ dev.raring/src/third_party/ffmpeg/ffmpeg.gyp	2013-05-08 17:02:56.947027930 -0500
+@@ -418,6 +418,9 @@
    'targets': [
      {
        'target_name': 'ffmpeg',
@@ -14,15 +14,15 @@ Index: dev.raring/src/third_party/ffmpeg/ffmpeg.gyp
        'sources': [
          # Files needed for stub generation rules.
          '<@(sig_files)',
-@@ -512,6 +515,7 @@
+@@ -505,6 +508,7 @@
            ],
            'type': '<(component)',
            'include_dirs': [
 +	    '<(platform_config_root)',
              '<(output_root)',
              '../..',  # The chromium 'src' directory.
-           ],
-@@ -671,6 +675,10 @@
+             '<(platform_config_root)',
+@@ -627,6 +631,10 @@
          ],
          'yasm_output_path': '<(shared_generated_dir)/yasm'
        },

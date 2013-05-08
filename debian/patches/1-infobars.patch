@@ -1,7 +1,7 @@
 Index: dev.raring/src/chrome/browser/infobars/infobar_extension_api.h
 ===================================================================
---- dev.raring.orig/src/chrome/browser/infobars/infobar_extension_api.h	2013-05-03 16:31:03.002439488 -0500
-+++ dev.raring/src/chrome/browser/infobars/infobar_extension_api.h	2013-05-03 16:31:02.870434942 -0500
+--- dev.raring.orig/src/chrome/browser/infobars/infobar_extension_api.h	2013-05-08 17:02:57.515047494 -0500
++++ dev.raring/src/chrome/browser/infobars/infobar_extension_api.h	2013-05-08 17:02:57.411043912 -0500
 @@ -10,8 +10,8 @@
  class InfobarsShowFunction : public SyncExtensionFunction {
    virtual ~InfobarsShowFunction() {}
@@ -15,8 +15,8 @@ Index: dev.raring/src/chrome/browser/infobars/infobar_extension_api.h
  #endif  // CHROME_BROWSER_INFOBARS_INFOBAR_EXTENSION_API_H_
 Index: dev.raring/src/chrome/common/extensions/api/api.gyp
 ===================================================================
---- dev.raring.orig/src/chrome/common/extensions/api/api.gyp	2013-05-03 16:31:03.002439488 -0500
-+++ dev.raring/src/chrome/common/extensions/api/api.gyp	2013-05-03 16:31:02.906436181 -0500
+--- dev.raring.orig/src/chrome/common/extensions/api/api.gyp	2013-05-08 17:02:57.515047494 -0500
++++ dev.raring/src/chrome/common/extensions/api/api.gyp	2013-05-08 17:02:57.455045428 -0500
 @@ -48,7 +48,6 @@
            'experimental_history.json',
            'experimental_identity.idl',
@@ -25,9 +25,9 @@ Index: dev.raring/src/chrome/common/extensions/api/api.gyp
            'location.idl',
            'experimental_media_galleries.idl',
            'experimental_record.json',
-@@ -62,6 +61,7 @@
-           'history.json',
+@@ -63,6 +62,7 @@
            'i18n.json',
+           'identity.idl',
            'idle.json',
 +          'infobars.json',
            'managed_mode_private.json',
@@ -35,7 +35,7 @@ Index: dev.raring/src/chrome/common/extensions/api/api.gyp
            'manifest_types.json',
 Index: dev.raring/src/chrome/common/extensions/api/experimental_infobars.json
 ===================================================================
---- dev.raring.orig/src/chrome/common/extensions/api/experimental_infobars.json	2013-05-03 16:31:03.002439488 -0500
+--- dev.raring.orig/src/chrome/common/extensions/api/experimental_infobars.json	2013-05-08 17:02:57.515047494 -0500
 +++ /dev/null	1970-01-01 00:00:00.000000000 +0000
 @@ -1,53 +0,0 @@
 -// Copyright (c) 2012 The Chromium Authors. All rights reserved.
@@ -94,7 +94,7 @@ Index: dev.raring/src/chrome/common/extensions/api/experimental_infobars.json
 Index: dev.raring/src/chrome/common/extensions/api/infobars.json
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.raring/src/chrome/common/extensions/api/infobars.json	2013-05-03 16:31:02.926436870 -0500
++++ dev.raring/src/chrome/common/extensions/api/infobars.json	2013-05-08 17:02:57.463045703 -0500
 @@ -0,0 +1,53 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -151,8 +151,8 @@ Index: dev.raring/src/chrome/common/extensions/api/infobars.json
 +]
 Index: dev.raring/src/chrome/common/extensions/permissions/permission_set.cc
 ===================================================================
---- dev.raring.orig/src/chrome/common/extensions/permissions/permission_set.cc	2013-05-03 16:31:03.002439488 -0500
-+++ dev.raring/src/chrome/common/extensions/permissions/permission_set.cc	2013-05-03 16:31:02.938437283 -0500
+--- dev.raring.orig/src/chrome/common/extensions/permissions/permission_set.cc	2013-05-08 17:02:57.515047494 -0500
++++ dev.raring/src/chrome/common/extensions/permissions/permission_set.cc	2013-05-08 17:02:57.495046805 -0500
 @@ -44,6 +44,7 @@
    "events",
    "extension",
@@ -163,8 +163,8 @@ Index: dev.raring/src/chrome/common/extensions/permissions/permission_set.cc
    "pageActions",
 Index: dev.raring/src/chrome/browser/extensions/extension_function_histogram_value.h
 ===================================================================
---- dev.raring.orig/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-05-03 16:31:03.002439488 -0500
-+++ dev.raring/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-05-03 16:31:02.998439350 -0500
+--- dev.raring.orig/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-05-08 17:02:57.515047494 -0500
++++ dev.raring/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-05-08 17:02:57.515047494 -0500
 @@ -287,7 +287,7 @@
    EXPERIMENTAL_POWER_RELEASEKEEPAWAKE,
    APP_CURRENTWINDOWINTERNAL_SETICON,

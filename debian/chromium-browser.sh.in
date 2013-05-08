@@ -6,6 +6,16 @@
 #  Fabien Tassin <fta@sofaraway.org>
 # License: GPLv2 or later
 
+# Explicitly set the PATH to that of ENV_SUPATH in /etc/login.defs and unset
+# various other variables. (LP: #1045986). This can be removed once AppArmor
+# supports environment filtering (LP: #1045985)
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+export ENV=
+export BASH_ENV=
+export CDPATH=
+export GLOBIGNORE=
+export BASH_XTRACEFD=
+
 APPNAME=chromium-browser
 LIBDIR=/usr/lib/chromium-browser
 GDB=/usr/bin/gdb

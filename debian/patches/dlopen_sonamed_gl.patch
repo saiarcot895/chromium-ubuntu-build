@@ -5,8 +5,8 @@ Description: dlopen the sonamed libs directly, like it has already been done
 
 Index: dev.raring/src/ui/gl/gl_implementation_x11.cc
 ===================================================================
---- dev.raring.orig/src/ui/gl/gl_implementation_x11.cc	2013-05-03 16:30:59.746327346 -0500
-+++ dev.raring/src/ui/gl/gl_implementation_x11.cc	2013-05-03 16:30:59.714326244 -0500
+--- dev.raring.orig/src/ui/gl/gl_implementation_x11.cc	2013-05-08 17:02:54.934958632 -0500
++++ dev.raring/src/ui/gl/gl_implementation_x11.cc	2013-05-08 17:02:54.930958494 -0500
 @@ -79,7 +79,7 @@
        }
  

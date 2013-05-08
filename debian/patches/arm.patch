@@ -1,7 +1,7 @@
 Index: dev.raring/src/ui/base/resource/data_pack.cc
 ===================================================================
---- dev.raring.orig/src/ui/base/resource/data_pack.cc	2013-05-03 16:31:00.834364822 -0500
-+++ dev.raring/src/ui/base/resource/data_pack.cc	2013-05-03 16:31:00.826364546 -0500
+--- dev.raring.orig/src/ui/base/resource/data_pack.cc	2013-05-08 17:02:55.346972822 -0500
++++ dev.raring/src/ui/base/resource/data_pack.cc	2013-05-08 17:02:55.338972547 -0500
 @@ -147,9 +147,11 @@
    // 2) Verify the entries are within the appropriate bounds. There's an extra
    // entry after the last item which gives us the length of the last item.
