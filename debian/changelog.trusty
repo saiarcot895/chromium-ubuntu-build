@@ -1,3 +1,9 @@
+chromium-browser (28.0.1500.3-0ubuntuppa2~raring1) raring; urgency=low
+
+  * Removed extra build dependency
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 08 May 2013 22:11:51 -0500
+
 chromium-browser (28.0.1500.3-0ubuntuppa1~raring1) raring; urgency=low
 
   * New upstream version 28.0.1500.3
