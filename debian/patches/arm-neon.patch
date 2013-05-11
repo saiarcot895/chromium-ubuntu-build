@@ -6,8 +6,8 @@ Bug-Ubuntu: 1084852
 
 Index: dev.raring/src/third_party/webrtc/modules/audio_coding/codecs/isac/fix/source/isacfix.gypi
 ===================================================================
---- dev.raring.orig/src/third_party/webrtc/modules/audio_coding/codecs/isac/fix/source/isacfix.gypi	2013-05-08 17:02:55.902991971 -0500
-+++ dev.raring/src/third_party/webrtc/modules/audio_coding/codecs/isac/fix/source/isacfix.gypi	2013-05-08 17:02:55.874991007 -0500
+--- dev.raring.orig/src/third_party/webrtc/modules/audio_coding/codecs/isac/fix/source/isacfix.gypi	2013-05-11 12:56:34.701397028 -0500
++++ dev.raring/src/third_party/webrtc/modules/audio_coding/codecs/isac/fix/source/isacfix.gypi	2013-05-11 12:56:34.657395504 -0500
 @@ -72,7 +72,7 @@
              'WEBRTC_LINUX',
            ],
@@ -19,8 +19,8 @@ Index: dev.raring/src/third_party/webrtc/modules/audio_coding/codecs/isac/fix/so
              'lattice_armv7.S',
 Index: dev.raring/src/third_party/webrtc/system_wrappers/source/cpu_features.cc
 ===================================================================
---- dev.raring.orig/src/third_party/webrtc/system_wrappers/source/cpu_features.cc	2013-05-08 17:02:55.902991971 -0500
-+++ dev.raring/src/third_party/webrtc/system_wrappers/source/cpu_features.cc	2013-05-08 17:02:55.898991834 -0500
+--- dev.raring.orig/src/third_party/webrtc/system_wrappers/source/cpu_features.cc	2013-05-11 12:56:34.701397028 -0500
++++ dev.raring/src/third_party/webrtc/system_wrappers/source/cpu_features.cc	2013-05-11 12:56:34.697396889 -0500
 @@ -18,6 +18,47 @@
  
  #include "typedefs.h"
