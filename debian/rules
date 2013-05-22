@@ -166,16 +166,6 @@ CC_VERSION   := $(shell gcc -dumpversion | cut -d. -f-2)
 CC := gcc
 CXX := g++
 
-# Set this to use gcc 4.7 instead of 4.8
-AVOID_GCC_48 ?= 0
-ifeq (4.8,$(CC_VERSION))
-GYP_DEFINES += werror=$(NULL)
-ifeq (1,$(AVOID_GCC_48))
-CC  := gcc-4.7
-CXX := g++-4.7
-endif
-endif
-
 subst_files = \
 	debian/$(DEBIAN_NAME).sh \
 	$(NULL)
@@ -241,7 +231,8 @@ FFMPEG_MT_GYP_DEFINES = \
 FFMPEG_MT_STD_GYP_DEFINES   = $(NULL)
 FFMPEG_MT_EXTRA_GYP_DEFINES = ffmpeg_branding=Chrome
 
-ifneq (,$(filter 12.10% 13.04% unstable development,$(DEBIAN_DIST)))
+# Precise and earlier don't set some settings.
+ifeq (,$(filter 12.04% 11.10% 11.04%,$(DEBIAN_DIST)))
 # enable compile-time dependency on gnome-keyring
 GYP_DEFINES += use_gnome_keyring=1 linux_link_gnome_keyring=1
 # controlling the use of GConf (the classic GNOME configuration

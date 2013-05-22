@@ -177,6 +177,7 @@ MimeType=text/html;text/xml;application/xhtml_xml;x-scheme-handler/http;x-scheme
 StartupWMClass=Chromium-browser
 StartupNotify=true
 X-Ayatana-Desktop-Shortcuts=NewWindow;Incognito;TempProfile
+X-AppInstall-Package=chromium-browser
 
 [NewWindow Shortcut Group]
 Name=Open a New Window
@@ -217,7 +218,6 @@ Name[vi]=Mở cửa sổ mới
 Name[zh_CN]=打开新窗口
 Name[zh_TW]=開啟新視窗
 Exec=chromium-browser
-TargetEnvironment=Unity
 
 [Incognito Shortcut Group]
 Name=Open a New Window in incognito mode
@@ -256,7 +256,6 @@ Name[vi]=Mở cửa sổ mới trong chế độ ẩn danh
 Name[zh_CN]=以隐身模式打开新窗口
 Name[zh_TW]=以匿名模式開啟新視窗
 Exec=chromium-browser --incognito
-TargetEnvironment=Unity
 
 [TempProfile Shortcut Group]
 Name=Open a New Window with a temporary profile
@@ -295,4 +294,3 @@ Name[vi]=Mở cửa sổ mới với hồ sơ tạm
 Name[zh_CN]=以临时配置文件打开新窗口
 Name[zh_TW]=以暫時性個人身分開啟新視窗
 Exec=chromium-browser --temp-profile
-TargetEnvironment=Unity

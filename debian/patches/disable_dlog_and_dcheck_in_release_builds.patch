@@ -1,7 +1,7 @@
-Index: dev.raring/src/base/logging.h
+Index: dev.saucy/src/base/logging.h
 ===================================================================
---- dev.raring.orig/src/base/logging.h	2013-05-14 20:50:37.779738805 -0500
-+++ dev.raring/src/base/logging.h	2013-05-14 20:50:37.771738511 -0500
+--- dev.saucy.orig/src/base/logging.h	2013-05-22 16:33:47.327490637 -0500
++++ dev.saucy/src/base/logging.h	2013-05-22 16:33:47.315490220 -0500
 @@ -451,7 +451,7 @@
  // uses OFFICIAL_BUILD and other platforms use the branding flag when NDEBUG is
  // defined.

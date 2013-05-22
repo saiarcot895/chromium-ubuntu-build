@@ -1,0 +1,15 @@
+Description: Make default of third-party cookies the most secure for users.
+
+Index: dev.saucy/src/chrome/browser/content_settings/cookie_settings.cc
+===================================================================
+--- dev.saucy.orig/src/chrome/browser/content_settings/cookie_settings.cc	2013-05-22 16:33:45.739435538 -0500
++++ dev.saucy/src/chrome/browser/content_settings/cookie_settings.cc	2013-05-22 16:33:45.731435261 -0500
+@@ -70,7 +70,7 @@
+     user_prefs::PrefRegistrySyncable* registry) {
+   registry->RegisterBooleanPref(
+       prefs::kBlockThirdPartyCookies,
+-      false,
++      true,
+       user_prefs::PrefRegistrySyncable::SYNCABLE_PREF);
+ }
+ 

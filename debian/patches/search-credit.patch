@@ -1,10 +1,10 @@
 Description: Add Ubuntu id into search queries to get credit.
 Author: Chad Miller <chad.miller@canonical.com>
 
-Index: dev.raring/src/chrome/browser/search_engines/prepopulated_engines.json
+Index: dev.saucy/src/chrome/browser/search_engines/prepopulated_engines.json
 ===================================================================
---- dev.raring.orig/src/chrome/browser/search_engines/prepopulated_engines.json	2013-05-14 20:50:36.403688208 -0500
-+++ dev.raring/src/chrome/browser/search_engines/prepopulated_engines.json	2013-05-14 20:50:36.395687915 -0500
+--- dev.saucy.orig/src/chrome/browser/search_engines/prepopulated_engines.json	2013-05-22 16:33:46.587464961 -0500
++++ dev.saucy/src/chrome/browser/search_engines/prepopulated_engines.json	2013-05-22 16:33:46.575464545 -0500
 @@ -847,9 +847,9 @@
        "name": "Google",
        "keyword": "google.com",

@@ -1,0 +1,16 @@
+Description: Never default to using the custom title bar. Chromium should
+  integrate, not be a special little snowflake.
+
+Index: dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.cc
+===================================================================
+--- dev.saucy.orig/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-05-22 16:33:44.691399177 -0500
++++ dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-05-22 16:33:44.687399038 -0500
+@@ -2386,6 +2386,8 @@
+   // WM, but at least some of the WMs in the latter group don't set it.
+   // Instead, we default to using system decorations for all WMs and
+   // special-case the ones where the custom frame should be used.
++  return false;
++
+   ui::WindowManagerName wm_type = ui::GuessWindowManager();
+   return (wm_type == ui::WM_BLACKBOX ||
+           wm_type == ui::WM_COMPIZ ||

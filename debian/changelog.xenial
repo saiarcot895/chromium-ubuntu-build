@@ -1,3 +1,33 @@
+chromium-browser (28.0.1500.20-0ubuntuppa1~saucy1) saucy; urgency=low
+
+  * New upstream version 28.0.1500.20
+  * Merged changes from lp:~cmiller/chromium-browser/ppa-chromium-
+    browser.saucy.stable:
+  * Include upstream patch debian/patches/ld-memory-32bit.patch that
+    makes 32 bit machines more likely to use BDF linker and include
+    parameters that make it more memory efficient.
+  * GCC doesn't allow -Wno-format with hardening -Werror=format-security
+    . Add debian/patches/format-flag.patch .
+  * Invert sense of a quantal+ test so that we don't have to track
+    things forever.  Name things we know about, instead of things that
+    don't exist yet.  Update debian/rules .
+  * Always default chromium to using the system title bar.  Add
+    debian/patches/title-bar-default-system.patch .
+  * Default third-party cookies to most secure to users: off.  Add
+    debian/patches/third-party-cookies-off-by-default.patch .
+  * Remove flags that make several useful application actions only
+    appear on Unity.  Update debian/chromium-browser.desktop .
+  * Add a lp:app-install-data-ubuntu flag that names the package.
+    Update debian/chromium-browser.desktop .
+  * Remove full path from freedesktop default-apps file.  Update
+    debian/chromium-browser.xml .
+  *
+  * Drop debian/patches/ld-memory-32bit.patch and debian/patches/safe-
+    browsing-sigbus.patch as they have been merged upstream
+  * Updated patches
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 22 May 2013 16:36:52 -0500
+
 chromium-browser (28.0.1500.11-0ubuntuppa1~raring1) raring; urgency=low
 
   * New upstream version 28.0.1500.11

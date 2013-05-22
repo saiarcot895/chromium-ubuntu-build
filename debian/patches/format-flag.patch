@@ -1,0 +1,17 @@
+Description: GCC doesn't allow -Wno-format with hardening
+  -Werror=format-security .
+
+Index: dev.saucy/src/build/common.gypi
+===================================================================
+--- dev.saucy.orig/src/build/common.gypi	2013-05-22 16:33:46.179450805 -0500
++++ dev.saucy/src/build/common.gypi	2013-05-22 16:33:46.175450667 -0500
+@@ -2247,9 +2247,6 @@
+               '-Wno-deprecated',
+             ],
+             'cflags': [
+-              # Don't warn about printf format problems.
+-              # This is off by default in gcc but on in Ubuntu's gcc(!).
+-              '-Wno-format',
+             ],
+             'cflags_cc!': [
+               # TODO(fischman): remove this.

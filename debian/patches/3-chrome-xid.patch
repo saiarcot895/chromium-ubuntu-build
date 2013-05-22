@@ -1,7 +1,7 @@
-Index: dev.raring/src/chrome/browser/ui/gtk/browser_window_gtk.cc
+Index: dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.cc
 ===================================================================
---- dev.raring.orig/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-05-14 20:50:43.363944127 -0500
-+++ dev.raring/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-05-14 20:50:43.351943685 -0500
+--- dev.saucy.orig/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-05-22 16:33:51.247626655 -0500
++++ dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-05-22 16:33:51.239626376 -0500
 @@ -141,6 +141,12 @@
  // gtk_window_get_position() after the last GTK configure-event signal.
  const int kDebounceTimeoutMilliseconds = 100;
