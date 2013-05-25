@@ -3,9 +3,9 @@ Description: GCC doesn't allow -Wno-format with hardening
 
 Index: dev.saucy/src/build/common.gypi
 ===================================================================
---- dev.saucy.orig/src/build/common.gypi	2013-05-22 16:33:46.179450805 -0500
-+++ dev.saucy/src/build/common.gypi	2013-05-22 16:33:46.175450667 -0500
-@@ -2247,9 +2247,6 @@
+--- dev.saucy.orig/src/build/common.gypi	2013-05-25 10:36:02.836715258 -0500
++++ dev.saucy/src/build/common.gypi	2013-05-25 10:36:02.820714698 -0500
+@@ -2220,9 +2220,6 @@
                '-Wno-deprecated',
              ],
              'cflags': [

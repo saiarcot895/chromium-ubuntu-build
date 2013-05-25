@@ -1,7 +1,7 @@
 Index: dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.cc
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.cc	2013-05-22 16:33:50.703607778 -0500
++++ dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.cc	2013-05-25 10:36:06.692850148 -0500
 @@ -0,0 +1,87 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -93,7 +93,7 @@ Index: dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.cc
 Index: dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.h
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.h	2013-05-22 16:33:50.703607778 -0500
++++ dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.h	2013-05-25 10:36:06.692850148 -0500
 @@ -0,0 +1,28 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -125,9 +125,9 @@ Index: dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.h
 +
 Index: dev.saucy/src/chrome/chrome_browser_extensions.gypi
 ===================================================================
---- dev.saucy.orig/src/chrome/chrome_browser_extensions.gypi	2013-05-22 16:33:50.723608472 -0500
-+++ dev.saucy/src/chrome/chrome_browser_extensions.gypi	2013-05-22 16:33:50.707607917 -0500
-@@ -445,6 +445,8 @@
+--- dev.saucy.orig/src/chrome/chrome_browser_extensions.gypi	2013-05-25 10:36:06.704850568 -0500
++++ dev.saucy/src/chrome/chrome_browser_extensions.gypi	2013-05-25 10:36:06.696850288 -0500
+@@ -455,6 +455,8 @@
          'browser/extensions/api/tabs/windows_event_router.h',
          'browser/extensions/api/test/test_api.cc',
          'browser/extensions/api/test/test_api.h',
@@ -138,9 +138,9 @@ Index: dev.saucy/src/chrome/chrome_browser_extensions.gypi
          'browser/extensions/api/usb/usb_api.cc',
 Index: dev.saucy/src/chrome/common/extensions/api/api.gyp
 ===================================================================
---- dev.saucy.orig/src/chrome/common/extensions/api/api.gyp	2013-05-22 16:33:50.723608472 -0500
-+++ dev.saucy/src/chrome/common/extensions/api/api.gyp	2013-05-22 16:33:50.707607917 -0500
-@@ -91,6 +91,7 @@
+--- dev.saucy.orig/src/chrome/common/extensions/api/api.gyp	2013-05-25 10:36:06.704850568 -0500
++++ dev.saucy/src/chrome/common/extensions/api/api.gyp	2013-05-25 10:36:06.696850288 -0500
+@@ -92,6 +92,7 @@
            'tabs.json',
            'terminal_private.json',
            'test.json',
@@ -151,7 +151,7 @@ Index: dev.saucy/src/chrome/common/extensions/api/api.gyp
 Index: dev.saucy/src/chrome/common/extensions/api/tld.json
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.saucy/src/chrome/common/extensions/api/tld.json	2013-05-22 16:33:50.707607917 -0500
++++ dev.saucy/src/chrome/common/extensions/api/tld.json	2013-05-25 10:36:06.696850288 -0500
 @@ -0,0 +1,54 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -209,8 +209,8 @@ Index: dev.saucy/src/chrome/common/extensions/api/tld.json
 +
 Index: dev.saucy/src/chrome/common/extensions/permissions/permission_set.cc
 ===================================================================
---- dev.saucy.orig/src/chrome/common/extensions/permissions/permission_set.cc	2013-05-22 16:33:50.723608472 -0500
-+++ dev.saucy/src/chrome/common/extensions/permissions/permission_set.cc	2013-05-22 16:33:50.707607917 -0500
+--- dev.saucy.orig/src/chrome/common/extensions/permissions/permission_set.cc	2013-05-25 10:36:06.704850568 -0500
++++ dev.saucy/src/chrome/common/extensions/permissions/permission_set.cc	2013-05-25 10:36:06.696850288 -0500
 @@ -54,6 +54,7 @@
    "scriptBadge",
    "tabs",
@@ -221,8 +221,8 @@ Index: dev.saucy/src/chrome/common/extensions/permissions/permission_set.cc
  };
 Index: dev.saucy/src/chrome/browser/extensions/extension_function_histogram_value.h
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-05-22 16:33:50.723608472 -0500
-+++ dev.saucy/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-05-22 16:33:50.711608055 -0500
+--- dev.saucy.orig/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-05-25 10:36:06.704850568 -0500
++++ dev.saucy/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-05-25 10:36:06.696850288 -0500
 @@ -491,6 +491,8 @@
    SYNCFILESYSTEM_GETCONFLICTRESOLUTIONPOLICY,
    NETWORKINGPRIVATE_SETPROPERTIES,

@@ -283,6 +283,7 @@ GYP_DEFINES += \
 	use_system_opus=$(USE_SYSTEM_OPUS) \
 	use_system_protobuf=1 \
 	use_system_speex=1 \
+	use_system_v8=1 \
 	use_system_xdg_utils=1 \
 	use_system_yasm=1 \
 	use_system_zlib=0 \
