@@ -4,6 +4,9 @@ chromium-browser (29.0.1516.3-0ubuntuppa1~saucy1) saucy; urgency=low
   * Dropped patch disable_dlog_and_dcheck_in_release_builds.patch, since
     it seems to be applied upstream
   * Updated patches
+  * (In previous commit) Corrected and re-added patches 4-chromeless-
+    window-launch-option.patch and 7-npapi-permission-not-defaults-to-
+    unauthorized.patch
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 25 May 2013 10:44:41 -0500
 
