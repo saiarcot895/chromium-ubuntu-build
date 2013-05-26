@@ -1,3 +1,9 @@
+chromium-browser (29.0.1516.3-0ubuntuppa2~saucy1) saucy; urgency=low
+
+  * Corrected 4-chromeless-window-launch-option.patch
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 26 May 2013 10:12:55 -0500
+
 chromium-browser (29.0.1516.3-0ubuntuppa1~saucy1) saucy; urgency=low
 
   * New upstream version 29.0.1516.3

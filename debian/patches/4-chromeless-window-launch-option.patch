@@ -80,7 +80,7 @@ Index: dev.saucy/src/chrome/browser/extensions/api/module/module.h
 + protected:
 +  virtual bool RunImpl() OVERRIDE;
 +  DECLARE_EXTENSION_FUNCTION("extension.isChromelessWindow",
-+                             EXTENSION_IS_CHROMELESS_WINDOW);
++                             EXTENSION_ISCHROMELESSWINDOW);
 +};
 +
  }  // namespace extensions
@@ -94,7 +94,7 @@ Index: dev.saucy/src/chrome/browser/extensions/extension_function_histogram_valu
    SYSTEMINDICATOR_DISABLE,
    SCRIPTBADGE_SETPOPUP,
    EXTENSION_ISALLOWEDFILESCHEMEACCESS,
-+  EXTENSION_IS_CHROMELESS_WINDOW,
++  EXTENSION_ISCHROMELESSWINDOW,
    EXPERIMENTAL_IDENTITY_LAUNCHWEBAUTHFLOW,
    FILEBROWSERPRIVATE_GETDRIVECONNECTIONSTATE,
    TABS_DETECTLANGUAGE,
