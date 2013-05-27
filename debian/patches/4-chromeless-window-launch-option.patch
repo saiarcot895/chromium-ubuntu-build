@@ -35,7 +35,7 @@ Index: dev.saucy/src/chrome/browser/extensions/api/module/module.cc
    return true;
  }
  
-+bool IsChromelessWindowFunction::RunImpl() {
++bool ExtensionIsChromelessWindowFunction::RunImpl() {
 +  bool is_chromeless = false;
 +
 +  int tab_id = -1;

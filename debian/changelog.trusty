@@ -1,3 +1,11 @@
+chromium-browser (29.0.1516.3-0ubuntuppa3~saucy1) saucy; urgency=low
+
+  * Corrected 4-chromeless-window-launch-option.patch (again)
+  * Corrected build dependency to libv8-dev, and added a minimum version
+    to ensure the one from the PPA is used
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 27 May 2013 06:21:00 -0500
+
 chromium-browser (29.0.1516.3-0ubuntuppa2~saucy1) saucy; urgency=low
 
   * Corrected 4-chromeless-window-launch-option.patch
