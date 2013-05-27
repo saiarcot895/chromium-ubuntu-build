@@ -33,7 +33,7 @@ Build-Depends: debhelper (>= 8.0.0),
 		protobuf-compiler,
 		libspeex-dev,
 		libspeechd-dev,
-		libv8-dev (>= 3.19.3.1),
+		libv8-dev (>> 3.18),
 		xdg-utils,
 		yasm,
 		lzma-dev,
@@ -61,7 +61,9 @@ Build-Depends: debhelper (>= 8.0.0),
 		libudev-dev,
 		libgnome-keyring-dev,
 		libgconf2-dev,
-		libssl-dev
+		libssl-dev,
+		libsnappy-dev,
+		libexpat1-dev
 Standards-Version: 3.9.3
 
 Package: chromium-browser

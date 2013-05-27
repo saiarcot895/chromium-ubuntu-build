@@ -70,8 +70,8 @@ WANT_LP_TRANSLATIONS ?= 0
 ## but all users win, and is less buggy for us.
 ##
 
-# Always add debug symbols, and strip them when we don't want them.
-GYP_DEFINES += release_extra_cflags="-g"
+## Always add debug symbols, and strip them when we don't want them.
+#GYP_DEFINES += release_extra_cflags="-g"
 
 # Don't fail on compilation warnings
 GYP_DEFINES += werror=$(NULL)
@@ -147,8 +147,8 @@ ifeq (1,$(WANT_DEBUG))
 BUILD_TYPE := Debug
 else
 BUILD_TYPE := Release
-# Add symbols
-BUILD_ARGS += SYMBOLS=1
+## Add symbols
+#BUILD_ARGS += SYMBOLS=1
 endif
 BUILD_ARGS += BUILDTYPE=$(BUILD_TYPE)
 
@@ -256,37 +256,40 @@ USE_SYSTEM_HARFBUZZ = $(shell (dpkg --get-selections | grep -q libharfbuzz-dev &
 USE_SYSTEM_LIBUSB = 0
 # Missing function reference
 USE_SYSTEM_LIBVPX = 0
-ifneq (,$(findstring 11.10,$(DEBIAN_DIST)))
-# 'class icu_44::NumberingSystem' has no member named 'getName'
-USE_SYSTEM_LIBICU ?= 0
-else
-USE_SYSTEM_LIBICU ?= 1
-endif
 
 # System libs
 ifeq (1,$(WANT_SYSTEM_LIBS))
 GYP_DEFINES += \
 	use_system_bzip2=1 \
-	use_system_libjpeg=1 \
-	use_system_libpng=0 \
-	use_system_sqlite=$(USE_SYSTEM_SQLITE) \
-	use_system_libxml=0 \
-	use_system_flac=1 \
-	use_system_harfbuzz=$(USE_SYSTEM_HARFBUZZ) \
-	use_system_icu=$(USE_SYSTEM_LIBICU) \
-	use_system_libevent=1 \
 	use_system_libsrtp=$(USE_SYSTEM_LIBSRTP) \
-	use_system_libusb=$(USE_SYSTEM_LIBUSB) \
-	use_system_libvpx=$(USE_SYSTEM_LIBVPX) \
-	use_system_libwebp=$(USE_SYSTEM_WEBP) \
-	use_system_minizip=$(USE_SYSTEM_MINIZIP) \
-	use_system_opus=$(USE_SYSTEM_OPUS) \
 	use_system_protobuf=1 \
-	use_system_speex=1 \
-	use_system_v8=1 \
 	use_system_xdg_utils=1 \
 	use_system_yasm=1 \
-	use_system_zlib=0 \
+	$(NULL)
+
+SYSTEM_LIBS = \
+	-Duse_system_expat=0 \
+	-Duse_system_ffmpeg=0 \
+	-Duse_system_flac=1 \
+	-Duse_system_harfbuzz=$(USE_SYSTEM_HARFBUZZ) \
+	-Duse_system_icu=1 \
+	-Duse_system_jsoncpp=0 \
+	-Duse_system_libevent=1 \
+	-Duse_system_libjpeg=1 \
+	-Duse_system_libpng=0 \
+	-Duse_system_libusb=$(USE_SYSTEM_LIBUSB) \
+	-Duse_system_libvpx=$(USE_SYSTEM_LIBVPX) \
+	-Duse_system_libwebp=$(USE_SYSTEM_WEBP) \
+	-Duse_system_libxml=0 \
+	-Duse_system_libxslt=0 \
+	-Duse_system_minizip=$(USE_SYSTEM_MINIZIP) \
+	-Duse_system_opus=$(USE_SYSTEM_OPUS) \
+	-Duse_system_re2=0 \
+	-Duse_system_snappy=1 \
+	-Duse_system_speex=1 \
+	-Duse_system_sqlite=0 \
+	-Duse_system_v8=1 \
+	-Duse_system_zlib=0 \
 	$(NULL)
 endif
 
@@ -313,8 +316,12 @@ GYP_DEFINES += \
 endif
 
 ifneq (,$(GOOGLEAPI_APIKEY_$(DISTRIBUTION)))
-GYP_PARAMS += \
-	-Dgoogle_api_key='$(GOOGLEAPI_APIKEY_$(DISTRIBUTION))' -Dgoogle_default_client_id='$(GOOGLEAPI_CLIENTID_$(DISTRIBUTION))' -Dgoogle_default_client_secret='$(GOOGLEAPI_CLIENTSECRET_$(DISTRIBUTION))'
+GYP_DEFINES += \
+	google_api_key='$(GOOGLEAPI_APIKEY_$(DISTRIBUTION))' \
+	google_default_client_id='$(GOOGLEAPI_CLIENTID_$(DISTRIBUTION))' \
+	google_default_client_secret='$(GOOGLEAPI_CLIENTSECRET_$(DISTRIBUTION))'
+else
+$(warning Google API info is not set in build variables GOOGLEAPI_APIKEY_$(DISTRIBUTION) GOOGLEAPI_CLIENTID_$(DISTRIBUTION) GOOGLEAPI_CLIENTSECRET_$(DISTRIBUTION))
 endif
 
 ifneq ($(DEB_HOST_ARCH),$(DEB_BUILD_ARCH))
@@ -359,7 +366,9 @@ configure-stamp:
 	sed -i 's,/etc/chromium/policies,/etc/$(DEBIAN_NAME)/policies,' \
 		$(DEB_TAR_SRCDIR)/chrome/common/chrome_paths.cc
 	
+	cd $(SRC_DIR) && python build/linux/unbundle/replace_gyp_files.py $(SYSTEM_LIBS)
 	cd $(SRC_DIR) && $(GYP_ENV) $(CROSS_BUILD) python build/gyp_chromium build/all.gyp $(GYP_PARAMS)
+	
 	# Populate the LASTCHANGE file template as we no longer have the VCS
 	# files at this point
 	echo "$(DEBIAN_REVISION)" > $(SRC_DIR)/build/LASTCHANGE.in

@@ -1,3 +1,9 @@
+chromium-browser (29.0.1516.3-0ubuntuppa4~saucy1) saucy; urgency=low
+
+  * Updated system libraries syntax
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 27 May 2013 17:32:18 -0500
+
 chromium-browser (29.0.1516.3-0ubuntuppa3~saucy1) saucy; urgency=low
 
   * Corrected 4-chromeless-window-launch-option.patch (again)
