@@ -23,18 +23,6 @@ SRC_DIR        := $(CURDIR)/$(DEB_TAR_SRCDIR)
 LIB_DIR        := usr/lib/$(DEBIAN_NAME)
 DEB_BUILDDIR   := $(SRC_DIR)
 
-ifneq (,$(findstring Ubuntu,$(DEBIAN_DIST)))
-UBUNTU_DIST=$(DEBIAN_DIST)
- ifneq (,$(findstring 10.04,$(DEBIAN_DIST)))
-BINARY_PACKAGE_COMPRESSION ?= bzip2# bzip2, gzip, lzma, xz, none
- else
-BINARY_PACKAGE_COMPRESSION ?= xz# bzip2, gzip, lzma, xz, none
- endif
-else
-BINARY_PACKAGE_COMPRESSION ?= xz# bzip2, gzip, lzma, xz, none
-endif
-
-WANT_XZ_DEBS     ?= 1
 WANT_DEBUG       := 0
 WANT_SYSTEM_LIBS ?= 1
 WANT_SHARED_LIBS ?= 0
@@ -253,7 +241,7 @@ USE_SYSTEM_MINIZIP = 0
 USE_SYSTEM_LIBSRTP = 0
 USE_SYSTEM_HARFBUZZ = $(shell (dpkg --get-selections | grep -q libharfbuzz-dev && echo 1 || echo 0))
 # For some reason, libusb-1.0-0-dev is marked as missing even when installed
-USE_SYSTEM_LIBUSB = 0
+USE_SYSTEM_LIBUSB = 1
 # Missing function reference
 USE_SYSTEM_LIBVPX = 0
 
@@ -268,7 +256,7 @@ GYP_DEFINES += \
 	$(NULL)
 
 SYSTEM_LIBS = \
-	-Duse_system_expat=0 \
+	-Duse_system_expat=1 \
 	-Duse_system_ffmpeg=0 \
 	-Duse_system_flac=1 \
 	-Duse_system_harfbuzz=$(USE_SYSTEM_HARFBUZZ) \
@@ -280,8 +268,8 @@ SYSTEM_LIBS = \
 	-Duse_system_libusb=$(USE_SYSTEM_LIBUSB) \
 	-Duse_system_libvpx=$(USE_SYSTEM_LIBVPX) \
 	-Duse_system_libwebp=$(USE_SYSTEM_WEBP) \
-	-Duse_system_libxml=0 \
-	-Duse_system_libxslt=0 \
+	-Duse_system_libxml=1 \
+	-Duse_system_libxslt=1 \
 	-Duse_system_minizip=$(USE_SYSTEM_MINIZIP) \
 	-Duse_system_opus=$(USE_SYSTEM_OPUS) \
 	-Duse_system_re2=0 \
@@ -307,13 +295,6 @@ GYP_DEFINES += \
 
 # Needed to preserve the suid and make the sandbox happy
 DEB_FIXPERMS_EXCLUDE := $(DEBIAN_NAME)-sandbox
-
-# use system v8
-ifeq (1,$(USE_SYSTEM_V8))
-GYP_DEFINES += \
-	javascript_engine=system-v8 \
-	$(NULL)
-endif
 
 ifneq (,$(GOOGLEAPI_APIKEY_$(DISTRIBUTION)))
 GYP_DEFINES += \
@@ -390,7 +371,7 @@ binary-indep: build install
 	dh_installdeb
 	dh_gencontrol
 	dh_md5sums
-	dh_builddeb -- -Z$(BINARY_PACKAGE_COMPRESSION)
+	dh_builddeb -- -Zxz
 
 binary-arch: build install
 	dh_testdir
@@ -403,7 +384,7 @@ binary-arch: build install
 	dh_shlibdeps
 	dh_gencontrol
 	dh_md5sums
-	dh_builddeb -- -Z$(BINARY_PACKAGE_COMPRESSION)
+	dh_builddeb -- -Zxz
 
 binary: binary-indep binary-arch
 

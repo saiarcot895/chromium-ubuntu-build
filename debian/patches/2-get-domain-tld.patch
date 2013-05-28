@@ -43,7 +43,7 @@ Index: dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.cc
 +  }
 +
 +  std::string tld =
-+      net::RegistryControlledDomainService::GetDomainAndRegistry(url);
++      net::registry_controlled_domains::GetDomainAndRegistry(url, net::registry_controlled_domains::EXCLUDE_PRIVATE_REGISTRIES);
 +
 +  SetResult(Value::CreateStringValue(tld));
 +
@@ -69,13 +69,13 @@ Index: dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.cc
 +  std::string suffix;
 +
 +  size_t reg_len =
-+      net::RegistryControlledDomainService::GetRegistryLength(url, true);
++      net::registry_controlled_domains::GetRegistryLength(url, net::registry_controlled_domains::INCLUDE_UNKNOWN_REGISTRIES, net::registry_controlled_domains::EXCLUDE_PRIVATE_REGISTRIES);
 +
 +  if (std::string::npos == reg_len || 0 == reg_len)
 +    return false;
 +
 +  std::string tld =
-+      net::RegistryControlledDomainService::GetDomainAndRegistry(url);
++      net::registry_controlled_domains::GetDomainAndRegistry(url, net::registry_controlled_domains::EXCLUDE_PRIVATE_REGISTRIES);
 +
 +  if (!tld.empty () && tld.size() > reg_len)
 +    suffix = tld.substr(tld.size() - reg_len - 1, reg_len);
