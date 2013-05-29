@@ -64,7 +64,7 @@ Build-Depends: debhelper (>= 8.0.0),
 		libssl-dev,
 		libsnappy-dev,
 		libexpat1-dev,
-		libusb-1.0.0-dev
+		libusb-1.0-0-dev
 Standards-Version: 3.9.3
 
 Package: chromium-browser

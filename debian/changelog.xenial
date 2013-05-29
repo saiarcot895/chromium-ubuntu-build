@@ -1,3 +1,9 @@
+chromium-browser (29.0.1516.3-0ubuntuppa8~saucy1) saucy; urgency=low
+
+  * Corrected dependency name from libusb-1.0.0-dev to libusb-1.0-0-dev
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 29 May 2013 06:11:42 -0500
+
 chromium-browser (29.0.1516.3-0ubuntuppa7~saucy1) saucy; urgency=low
 
   * Added libusb-1.0.0-dev dependency
