@@ -1,3 +1,9 @@
+chromium-browser (29.0.1516.3-0ubuntuppa6~saucy1) saucy; urgency=low
+
+  * Re-enable symbols
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 28 May 2013 19:17:59 -0500
+
 chromium-browser (29.0.1516.3-0ubuntuppa5~saucy1) saucy; urgency=low
 
   * Corrected 4-chromeless-window-launch-option.patch
