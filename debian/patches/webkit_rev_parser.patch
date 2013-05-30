@@ -1,7 +1,7 @@
 Index: dev.saucy/src/webkit/build/webkit_version.py
 ===================================================================
---- dev.saucy.orig/src/webkit/build/webkit_version.py	2013-05-25 10:36:04.108759756 -0500
-+++ dev.saucy/src/webkit/build/webkit_version.py	2013-05-25 10:36:04.100759475 -0500
+--- dev.saucy.orig/src/webkit/build/webkit_version.py	2013-05-30 16:49:16.565648960 -0500
++++ dev.saucy/src/webkit/build/webkit_version.py	2013-05-30 16:49:16.541648083 -0500
 @@ -32,6 +32,15 @@
        directory=webkit_src_dir,
        directory_regex_prior_to_src_url='webkit')

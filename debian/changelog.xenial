@@ -1,3 +1,10 @@
+chromium-browser (29.0.1521.3-0ubuntu0ppa1~saucy1) saucy; urgency=low
+
+  * New upstream version 29.0.1521.3
+  * Updated patches
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 30 May 2013 16:57:03 -0500
+
 chromium-browser (29.0.1516.3-0ubuntuppa8~saucy1) saucy; urgency=low
 
   * Corrected dependency name from libusb-1.0.0-dev to libusb-1.0-0-dev
