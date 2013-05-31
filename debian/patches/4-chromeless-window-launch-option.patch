@@ -1018,7 +1018,7 @@ Index: dev.saucy/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc
  
 +  if (IsChromelessLaunch(NULL)) {
 +    // Open user-specified URLs like pinned tabs and startup tabs.
-+    if (ProcessSpecifiedURLs(urls_to_open))
++    if (ProcessSpecifiedURLs(urls_to_open, desktop_type))
 +      return;
 +  }
 +
