@@ -27,7 +27,7 @@ WANT_DEBUG       := 0
 WANT_SYSTEM_LIBS ?= 1
 WANT_SHARED_LIBS ?= 0
 USE_SYSTEM_V8    ?= 0
-VERBOSE          := 0
+VERBOSE          := 1
 PROCESSORS       ?= $(shell grep -ic ^processor /proc/cpuinfo)
 ifeq (0,$(PROCESSORS))
 PROCESSORS := 1
@@ -367,7 +367,7 @@ binary-indep: build install
 	dh_testroot
 	dh_install
 	dh_compress
-	dh_fixperms
+	dh_fixperms --exclude $(DEB_FIXPERMS_EXCLUDE)
 	dh_installdeb
 	dh_gencontrol
 	dh_md5sums
