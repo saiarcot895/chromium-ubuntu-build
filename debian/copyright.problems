@@ -45,6 +45,7 @@ Whitelisted licenses:
   - 'MPL (v1.1) GPL (unversioned/unknown version)'
   - 'MPL (v1.1) GPL (unversioned/unknown version) GENERATED FILE'
   - 'MPL 1.1/GPL 2.0/LGPL 2.1'
+  - 'Paul Hsieh's Public Domain Option'
   - 'SGI Free Software B License (v2.0)'
   - 'zlib/libpng'
   - 'GENERATED FILE'
@@ -58,143 +59,1055 @@ Whitelisted licenses:
   - '*No copyright* Public domain'
   - 'ZERO-CODE-FILES or GENERATED'
 
-Files: src/chrome/browser/chromeos/{ipc_message.h}
-Copyright: Copyright: 2010 The Chromium OS Authors. All rights reserved:
+Files: src/base/{hash.cc}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/breakpad/src/client/mac/handler/{breakpad_nlist_64.cc}
+Copyright: Copyright: 1989, 1993 / 1999 Apple Computer, Inc. All rights reserved:
+License: BSD (4 clause)
+
+Files: src/breakpad/src/client/mac/tests/{testlogging.h}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/breakpad/src/common/{convert_UTF.c,convert_UTF.h}
+Copyright: Copyright: 2001-2004 Unicode, Inc:
 License: UNKNOWN
 
-Files: src/chrome/browser/importer/{nss_decryptor_linux.cc}
-Copyright: Copyright: 2009 The Chromium Authors. All rights reserved / 1994-2000:
-License: MPL (v1.1)
-
-Files: src/chrome/test/data/dromaeo/{store.php}
-Copyright: UNKNOWN:
-License: *No copyright* UNKNOWN
-
-Files: src/chrome/test/data/layout_tests/LayoutTests/http/tests/resources/{network-simulator.php,portabilityLayer.php,redirect.php,reset-temp-file.php,tripmine.php}
-Copyright: UNKNOWN:
-License: *No copyright* UNKNOWN
-
-Files: src/chrome/test/data/layout_tests/LayoutTests/http/tests/workers/resources/{subworker-encoded.php,worker-encoded.php,xhr-query-utf8.php,xhr-response.php}
-Copyright: UNKNOWN:
-License: *No copyright* UNKNOWN
-
-Files: src/chrome/test/data/layout_tests/LayoutTests/http/tests/xmlhttprequest/{null-auth.php}
-Copyright: UNKNOWN:
-License: *No copyright* UNKNOWN
-
-Files: src/chrome/test/data/layout_tests/LayoutTests/http/tests/xmlhttprequest/resources/{304.pl,access-control-basic-preflight-cache-invalidation.php,access-control-basic-preflight-cache-timeout.php,access-control-basic-preflight-cache.php,big-response.php,cross-origin-authorization.php,cross-origin-check-cookies.php,cross-origin-no-authorization.php,cross-origin-set-cookies.php,echo-auth.php,echo-host.php,empty-content-type.php,endlessxml.php,infinite-loop.php,no-custom-header.php,redirect.php}
-Copyright: UNKNOWN:
-License: *No copyright* UNKNOWN
-
-Files: src/chrome/test/data/layout_tests/LayoutTests/http/tests/xmlhttprequest/resources/basic-auth/{basic-auth.php}
-Copyright: UNKNOWN:
-License: *No copyright* UNKNOWN
-
-Files: src/chrome/test/data/layout_tests/LayoutTests/http/tests/xmlhttprequest/resources/logout/{resource.php}
-Copyright: UNKNOWN:
-License: *No copyright* UNKNOWN
-
-Files: src/chrome/test/data/layout_tests/LayoutTests/http/tests/xmlhttprequest/resources/re-login/{resource.php}
-Copyright: UNKNOWN:
-License: *No copyright* UNKNOWN
-
-Files: src/chrome/test/data/layout_tests/LayoutTests/http/tests/xmlhttprequest/workers/resources/{endless-response.php}
-Copyright: UNKNOWN:
-License: *No copyright* UNKNOWN
-
-Files: src/gpu/command_buffer/common/KHR/{khrplatform.h}
-Copyright: Copyright: 2008-2009 The Khronos Group Inc / HOLDERS BE LIABLE FOR ANY:
+Files: src/breakpad/src/common/{md5.h}
+Copyright: Copyright: 2007 Google Inc. All Rights Reserved:
 License: UNKNOWN
 
-Files: src/net/tools/flip_server/{other_defines.h,string_piece_utils.h}
-Copyright: UNKNOWN:
-License: *No copyright* UNKNOWN
-
-Files: src/sandbox/linux/seccomp/{access.cc,clone.cc,debug.cc,debug.h,exit.cc,getpid.cc,gettid.cc,ioctl.cc,ipc.cc,library.cc,library.h,madvise.cc,maps.cc,maps.h,mmap.cc,mprotect.cc,munmap.cc,mutex.h,open.cc,sandbox.cc,sandbox.h,sandbox_impl.h,securemem.cc,securemem.h,socketcall.cc,stat.cc,syscall.cc,syscall.h,syscall_table.c,syscall_table.h,tls.h,trusted_process.cc,trusted_thread.cc,x86_decode.cc,x86_decode.h}
-Copyright: UNKNOWN:
-License: *No copyright* UNKNOWN
-
-Files: src/sandbox/sandbox_poc/{resource.h}
-Copyright: UNKNOWN:
-License: *No copyright* UNKNOWN
-
-Files: src/sdch/mac/{config.h}
-Copyright: UNKNOWN:
-License: *No copyright* UNKNOWN
-
-Files: src/sdch/open-vcdiff/{autogen.sh}
-Copyright: UNKNOWN:
-License: *No copyright* UNKNOWN
-
-Files: src/sdch/open-vcdiff/packages/{deb.sh,rpm.sh}
-Copyright: UNKNOWN:
-License: *No copyright* UNKNOWN
-
-Files: src/sdch/open-vcdiff/src/{codetablewriter_interface.h}
-Copyright: Copyright: 2008 Google Inc. All Rights Reserved:
+Files: src/breakpad/src/common/{scoped_ptr.h}
+Copyright: Copyright: Greg Colvin and Beman Dawes 1998, 1999 / 2001, 2002 Peter Dimov:
 License: UNKNOWN
 
-Files: src/third_party/WebKit/WebCore/{make-generated-sources.sh,move-js-headers.sh}
+Files: src/breakpad/src/common/linux/{synth_elf.cc}
 Copyright: UNKNOWN:
 License: *No copyright* UNKNOWN
 
-Files: src/third_party/WebKit/WebCore/dom/{Entity.cpp,NamedNodeMap.h}
+Files: src/breakpad/src/common/testdata/{func-line-pairing.h}
 Copyright: UNKNOWN:
 License: *No copyright* UNKNOWN
 
-Files: src/third_party/WebKit/WebCore/html/{DataGridColumnList.h}
+Files: src/breakpad/src/processor/{synth_minidump_unittest_data.h}
 Copyright: UNKNOWN:
 License: *No copyright* UNKNOWN
 
-Files: src/third_party/WebKit/WebCore/manual-tests/{timeout-test.php}
+Files: src/breakpad/src/third_party/curl/{types.h}
 Copyright: UNKNOWN:
 License: *No copyright* UNKNOWN
 
-Files: src/third_party/WebKit/WebCore/manual-tests/NPN_Invoke/{main.c}
-Copyright: UNKNOWN:
-License: *No copyright* UNKNOWN
-
-Files: src/third_party/WebKit/WebCore/manual-tests/resources/{ArrayParameterTestApplet.java,CheckerApplet.java,StringTypeTest.java,TestApplet.java}
-Copyright: UNKNOWN:
-License: *No copyright* UNKNOWN
-
-Files: src/third_party/WebKit/WebCore/platform/image-decoders/zlib/{crc32.h,inffixed.h,trees.h}
-Copyright: UNKNOWN:
-License: *No copyright* UNKNOWN
-
-Files: src/third_party/WebKit/WebCore/storage/wince/{DatabaseThreadWince.cpp,DatabaseThreadWince.h,LocalStorageThreadWince.cpp,LocalStorageThreadWince.h}
-Copyright: Copyright: 2009 Torch Mobile, Inc. All rights reserved:
+Files: src/breakpad/src/third_party/curl/{mprintf.h}
+Copyright: Copyright: 1998 - 2006, Daniel Stenberg, <daniel@haxx.se>, et al:
 License: UNKNOWN
 
-Files: src/third_party/apple/{ImageAndTextCell.h}
+Files: src/breakpad/src/third_party/curl/{multi.h}
+Copyright: Copyright: 1998 - 2007, Daniel Stenberg, <daniel@haxx.se>, et al:
+License: UNKNOWN
+
+Files: src/breakpad/src/third_party/curl/{easy.h}
+Copyright: Copyright: 1998 - 2008, Daniel Stenberg, <daniel@haxx.se>, et al:
+License: UNKNOWN
+
+Files: src/breakpad/src/third_party/curl/{curl.h,curlrules.h,stdcheaders.h,typecheck-gcc.h}
+Copyright: Copyright: 1998 - 2009, Daniel Stenberg, <daniel@haxx.se>, et al:
+License: UNKNOWN
+
+Files: src/breakpad/src/third_party/libdisasm/{ia32_implicit.c,ia32_implicit.h,ia32_insn.c,ia32_insn.h,ia32_invariant.c,ia32_invariant.h,ia32_modrm.c,ia32_modrm.h,ia32_opcode_tables.c,ia32_opcode_tables.h,ia32_operand.c,ia32_operand.h,ia32_reg.c,ia32_reg.h,ia32_settings.c,ia32_settings.h,libdis.h,qword.h,x86_disasm.c,x86_format.c,x86_imm.c,x86_imm.h,x86_insn.c,x86_misc.c,x86_operand_list.c,x86_operand_list.h}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/breakpad/src/third_party/libdisasm/swig/ruby/{extconf.rb}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/net/third_party/nss/ssl/{SSLerrs.h,authcert.c,cmpcert.c,derive.c,dtlscon.c,os2_err.c,os2_err.h,preenc.h,prelib.c,ssl.h,ssl3con.c,ssl3ecc.c,ssl3ext.c,ssl3prot.h,sslauth.c,sslcon.c,ssldef.c,sslenum.c,sslerr.c,sslerr.h,sslerrstrs.c,sslgathr.c,sslimpl.h,sslinfo.c,sslinit.c,sslmutex.c,sslmutex.h,sslnonce.c,sslproto.h,sslreveal.c,sslsecur.c,sslsnce.c,sslsock.c,sslt.h,ssltrace.c,sslver.c,unix_err.c,unix_err.h,win32err.c,win32err.h}
+Copyright: UNKNOWN:
+License: *No copyright* MPL (v2.0)
+
+Files: src/net/third_party/nss/ssl/{ssl3gthr.c}
+Copyright: Copyright: data (entire SSL3 record) has been received:
+License: MPL (v2.0)
+
+Files: src/net/third_party/nss/ssl/bodge/{secitem_array.c}
+Copyright: UNKNOWN:
+License: *No copyright* MPL (v2.0)
+
+Files: src/net/tools/spdyshark/{moduleinfo.h}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/ppapi/lib/gl/include/GLES2/{gl2.h,gl2ext.h,gl2platform.h}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/angle/include/GLES2/{gl2.h,gl2ext.h,gl2platform.h}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/angle/include/GLSLANG/{ShaderLang.h}
+Copyright: Copyright: 2002-2010 The ANGLE Project Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/angle/samples/translator/{translator.cpp}
+Copyright: Copyright: 2002-2010 The ANGLE Project Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/angle/src/common/*
+Copyright: Copyright: 2002-2010 The ANGLE Project Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/angle/src/common/*
+Copyright: Copyright: 2002-2012 The ANGLE Project Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/angle/src/compiler/{BaseTypes.h,CodeGenGLSL.cpp,CodeGenHLSL.cpp,Common.h,ExtensionBehavior.h,InfoSink.cpp,InfoSink.h,Initialize.cpp,Initialize.h,InitializeDll.cpp,InitializeDll.h,InitializeGlobals.h,InitializeParseContext.h,IntermTraverse.cpp,MMap.h,PoolAlloc.cpp,PoolAlloc.h,QualifierAlive.cpp,QualifierAlive.h,RemoveTree.cpp,RemoveTree.h,SearchSymbol.cpp,SearchSymbol.h,SymbolTable.h,TranslatorGLSL.cpp,TranslatorGLSL.h,TranslatorHLSL.cpp,TranslatorHLSL.h,ValidateLimitations.cpp,VariableInfo.cpp,VersionGLSL.h,debug.cpp,debug.h,intermOut.cpp,localintermediate.h,osinclude.h,ossource_posix.cpp,ossource_win.cpp,parseConst.cpp,util.h}
+Copyright: Copyright: 2002-2010 The ANGLE Project Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/angle/src/compiler/{BuiltInFunctionEmulator.cpp,DetectCallDepth.cpp,DetectCallDepth.h,OutputESSL.cpp,OutputESSL.h,OutputGLSL.cpp,OutputGLSL.h,OutputGLSLBase.cpp,OutputGLSLBase.h,ShaderLang.cpp,TranslatorESSL.cpp,TranslatorESSL.h,VariableInfo.h}
+Copyright: Copyright: 2002-2011 The ANGLE Project Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/angle/src/compiler/{Compiler.cpp,HashNames.h,MapLongVariableNames.cpp,MapLongVariableNames.h,OutputHLSL.cpp,OutputHLSL.h,ParseHelper.h,ShHandle.h,SymbolTable.cpp,Types.h,UnfoldShortCircuit.h,VariablePacker.cpp,VariablePacker.h,VersionGLSL.cpp}
+Copyright: Copyright: 2002-2012 The ANGLE Project Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/angle/src/compiler/{ConstantUnion.h,ForLoopUnroll.cpp,Intermediate.cpp,ParseHelper.cpp,UnfoldShortCircuit.cpp,intermediate.h}
+Copyright: Copyright: 2002-2013 The ANGLE Project Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/angle/src/compiler/{ValidateLimitations.h,generate_parser.sh,glslang.h,util.cpp}
+Copyright: Copyright: 2010 The ANGLE Project Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/angle/src/compiler/{BuiltInFunctionEmulator.h,ForLoopUnroll.h}
+Copyright: Copyright: 2011 The ANGLE Project Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/angle/src/compiler/{DetectDiscontinuity.cpp,DetectDiscontinuity.h,Diagnostics.cpp,Diagnostics.h,DirectiveHandler.cpp,DirectiveHandler.h,InitializeParseContext.cpp,Pragma.h,RenameFunction.h}
+Copyright: Copyright: 2012 The ANGLE Project Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/angle/src/compiler/depgraph/{DependencyGraph.cpp,DependencyGraph.h,DependencyGraphBuilder.cpp,DependencyGraphBuilder.h,DependencyGraphOutput.cpp,DependencyGraphOutput.h,DependencyGraphTraverse.cpp}
+Copyright: Copyright: 2012 The ANGLE Project Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/angle/src/compiler/preprocessor/*
+Copyright: Copyright: 2011 The ANGLE Project Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/angle/src/compiler/preprocessor/*
+Copyright: Copyright: 2012 The ANGLE Project Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/angle/src/compiler/timing/{RestrictFragmentShaderTiming.cpp,RestrictFragmentShaderTiming.h,RestrictVertexShaderTiming.cpp,RestrictVertexShaderTiming.h}
+Copyright: Copyright: 2012 The ANGLE Project Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/angle/src/libEGL/{Config.cpp,Config.h,Surface.cpp,Surface.h,libEGL.cpp,main.h}
+Copyright: Copyright: 2002-2010 The ANGLE Project Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/angle/src/libEGL/{Display.cpp,Display.h,main.cpp}
+Copyright: Copyright: 2002-2012 The ANGLE Project Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/angle/src/libEGL/{ShaderCache.h}
+Copyright: Copyright: 2012 The ANGLE Project Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/angle/src/libGLESv2/{Blit.cpp,Blit.h,Buffer.cpp,Buffer.h,Fence.cpp,Fence.h,Framebuffer.h,Renderbuffer.cpp,Renderbuffer.h,ResourceManager.cpp,ResourceManager.h,TextureSSE2.cpp,main.h}
+Copyright: Copyright: 2002-2010 The ANGLE Project Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/angle/src/libGLESv2/{HandleAllocator.cpp,HandleAllocator.h}
+Copyright: Copyright: 2002-2011 The ANGLE Project Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/angle/src/libGLESv2/{Context.h,Framebuffer.cpp,IndexDataManager.cpp,IndexDataManager.h,Program.cpp,Program.h,ProgramBinary.cpp,ProgramBinary.h,Shader.cpp,Shader.h,Texture.h,VertexDataManager.cpp,VertexDataManager.h,libGLESv2.cpp,main.cpp,mathutil.h,utilities.cpp,utilities.h}
+Copyright: Copyright: 2002-2012 The ANGLE Project Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/angle/src/libGLESv2/{Context.cpp,Texture.cpp}
+Copyright: Copyright: 2002-2013 The ANGLE Project Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/angle/src/libGLESv2/{BinaryStream.h,D3DConstantTable.cpp,D3DConstantTable.h,Float16ToFloat32.cpp,Float16ToFloat32.py,Query.cpp,Query.h}
+Copyright: Copyright: 2012 The ANGLE Project Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/angle/tests/compiler_tests/*
+Copyright: Copyright: 2002-2012 The ANGLE Project Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/angle/tests/compiler_tests/*
+Copyright: Copyright: 2002-2013 The ANGLE Project Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/angle/tests/preprocessor_tests/{MockDiagnostics.h,MockDirectiveHandler.h,PreprocessorTest.cpp,PreprocessorTest.h,char_test.cpp,comment_test.cpp,define_test.cpp,error_test.cpp,extension_test.cpp,identifier_test.cpp,if_test.cpp,input_test.cpp,location_test.cpp,number_test.cpp,operator_test.cpp,pragma_test.cpp,space_test.cpp,token_test.cpp,version_test.cpp}
+Copyright: Copyright: 2012 The ANGLE Project Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/apple_apsl/{CFBase.h}
+Copyright: Copyright: 1998-2011, Apple Inc. All rights reserved / 2011 Apple Inc. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/apple_apsl/{malloc.h}
+Copyright: Copyright: 1999 Apple Computer, Inc. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/apple_apsl/{cssmapplePriv.h}
+Copyright: Copyright: 2000-2004 Apple Computer, Inc. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/apple_apsl/{CFRuntime.h}
+Copyright: Copyright: 2009 Apple Inc. All rights reserved / 1999-2009, Apple Inc. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/apple_sample_code/{ImageAndTextCell.h,ImageAndTextCell.m}
 Copyright: Copyright: 2009 Apple Inc. All Rights Reserved:
 License: UNKNOWN
 
-Files: src/third_party/cld/bar/toolbar/cld/i18n/encodings/compact_lang_det/{subsetsequence_unittest.cc}
-Copyright: Copyright: 2008 Google Inc. All Rights Reserved:
+Files: src/third_party/bintrees/bintrees/{__init__.py,avltree.py,bintree.py,ctrees.c,ctrees.h,cwalker.pyx,qavltree.pyx,qbintree.pyx,qrbtree.pyx,rbtree.py,stack.c,stack.h,treemixin.py,treeslice.py,walker.py}
+Copyright: Copyright: 2010-2013 by Manfred Moitzi:
 License: UNKNOWN
 
-Files: src/third_party/cld/bar/toolbar/cld/i18n/encodings/compact_lang_det/generated/{compact_lang_det_generated_ctjkvz_0.cc}
-Copyright: Copyright: 2009 Google Inc:
+Files: src/third_party/bsdiff/{mbsdiff.cc}
+Copyright: Copyright: 2003 Colin Percival:
 License: UNKNOWN
 
-Files: src/third_party/cld/bar/toolbar/cld/i18n/encodings/compact_lang_det/win/{cld_utf8utils_google3.cc}
-Copyright: Copyright: 2009 Google Inc. All Rights Reserved:
+Files: src/third_party/chromite/{__init__.py}
+Copyright: Copyright: 2012 The Chromium OS Authors. All rights reserved:
 License: UNKNOWN
 
-Files: src/third_party/ffmpeg/source/patched-ffmpeg-mt/doc/{texi2pod.pl}
-Copyright: Copyright: 1999, 2000, 2001 Free Software Foundation, Inc:
-License: GPL
+Files: src/third_party/chromite/appengine/chromiumos-build-stats/{main.py,model.py,stats.py}
+Copyright: Copyright: 2012 The Chromium OS Authors. All rights reserved:
+License: UNKNOWN
 
-Files: src/third_party/ffmpeg/source/patched-ffmpeg-mt/libswscale/x86/{yuv2rgb_template.c}
-Copyright: Copyright: 2000, Silicon Integrated System Corp:
-License: GPL
+Files: src/third_party/chromite/bin/*
+Copyright: Copyright: 2012 The Chromium OS Authors. All rights reserved:
+License: UNKNOWN
 
-Files: src/third_party/jemalloc/chromium/{build-crt.py}
+Files: src/third_party/chromite/bin/*
+Copyright: Copyright: 2013 The Chromium OS Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/chromite/buildbot/{cbuildbot_results.py,chromeos_version_test.sh,configure_repo.py}
+Copyright: Copyright: 2011 The Chromium OS Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/chromite/buildbot/{trybot_patch_pool.py,validation_pool_unittest.py}
+Copyright: Copyright: 2011-2012 The Chromium OS Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/chromite/buildbot/{builderstage.py,cbuildbot.py,cbuildbot_commands.py,cbuildbot_commands_unittest.py,cbuildbot_config.py,cbuildbot_config_unittest.py,cbuildbot_stages.py,cbuildbot_stages_unittest.py,cbuildbot_unittest.py,constants.py,lkgm_manager.py,lkgm_manager_unittest.py,manifest_version.py,manifest_version_unittest.py,portage_utilities.py,portage_utilities_unittest.py,remote_try_unittest.py,repository.py,repository_unittest.py,tee.py}
+Copyright: Copyright: 2012 The Chromium OS Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/chromite/buildbot/{lab_status.py,lab_status_unittest.py}
+Copyright: Copyright: 2013 The Chromium OS Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/chromite/buildbot/{validation_pool.py}
+Copyright: Copyright: for c in changes)) / 2011-2012 The Chromium OS Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/chromite/cros/{__init__.py,init_unittest.py}
+Copyright: Copyright: 2012 The Chromium OS Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/chromite/cros/commands/{__init__.py,cros_build.py,cros_build_unittest.py,cros_chrome_sdk.py,cros_chrome_sdk_unittest.py,cros_image.py,cros_image_unittest.py,cros_lint.py,init_unittest.py}
+Copyright: Copyright: 2012 The Chromium OS Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/chromite/lib/{dot_helper.py,tracker_access.py}
+Copyright: Copyright: 2010 The Chromium OS Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/chromite/lib/{cros_test_lib.py,gdata_lib.py,gdata_lib_unittest.py,gerrit.py,operation.py,table.py,table_unittest.py,terminal.py,upgrade_table.py,upgrade_table_unittest.py}
+Copyright: Copyright: 2011 The Chromium OS Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/chromite/lib/{patch.py,signals.py,sudo.py}
+Copyright: Copyright: 2011-2012 The Chromium OS Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/chromite/lib/{cache.py,cgroups.py,cgroups_unittest.py,chrome_util.py,chrome_util_unittest.py,cleanup.py,commandline.py,commandline_unittest.py,cros_build_lib.py,cros_build_lib_unittest.py,cros_test_lib_unittest.py,gclient.py,gerrit_unittest.py,git.py,gs.py,gs_unittest.py,locking.py,osutils.py,osutils_unittest.py,parallel.py,parallel_unittest.py,partial_mock.py,partial_mock_unittest.py,patch_unittest.py,remote_access.py,remote_access_unittest.py,rewrite_git_alternates.py,toolchain.py}
+Copyright: Copyright: 2012 The Chromium OS Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/chromite/lib/{binpkg.py}
+Copyright: Copyright: 2012 The Chromium OS Authors. All rights reserved / 2003-2004 Gentoo Foundation:
+License: UNKNOWN
+
+Files: src/third_party/chromite/lib/{git_unittest.py,namespaces.py,stats.py,stats_unittest.py}
+Copyright: Copyright: 2013 The Chromium OS Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/chromite/scripts/{cros_deps_diff.py,cros_extract_deps.py,cros_generate_deps_graphs.py,loman.py}
+Copyright: Copyright: 2010 The Chromium OS Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/chromite/scripts/{chrome_set_ver.py,cros_enable_push.py,merge_package_status.py,merge_package_status_unittest.py,refresh_package_status.py,sync_package_status.py,sync_package_status_unittest.py,upload_package_status.py,upload_package_status_unittest.py}
+Copyright: Copyright: 2011 The Chromium OS Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/chromite/scripts/{cbuildbot.py,check_gdata_token_unittest.py,cros.py,cros_best_revision.py,cros_best_revision_unittest.py,cros_check_patches.py,cros_env_whitelist.py,cros_generate_local_binhosts.py,cros_generate_sysroot_unittest.py,cros_list_buildbot_crashes.py,cros_list_modified_packages.py,cros_list_overlays.py,cros_mark_as_stable.py,cros_mark_as_stable_unittest.py,cros_mark_chrome_as_stable.py,cros_mark_chrome_as_stable_unittest.py,cros_merge_to_branch.py,cros_portage_upgrade.py,cros_portage_upgrade_unittest.py,cros_sdk.py,cros_setup_toolchains.py,deploy_chrome.py,deploy_chrome_unittest.py,gerrit.py,gerrit_stats.py,parallel_emerge.py,sync_chrome.py,upload_command_stats.py,upload_prebuilts.py,upload_prebuilts_unittest.py,wrapper.py}
+Copyright: Copyright: 2012 The Chromium OS Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/chromite/scripts/{lddtree.py}
+Copyright: Copyright: 2012-2013 Mike Frysinger <vapier@gentoo.org> / 2012-2013 Gentoo Foundation:
+License: UNKNOWN
+
+Files: src/third_party/chromite/scripts/{autotest_quickmerge.py,autotest_quickmerge_unittest.py,cros_unittest.py,gs_fetch_binpkg.py,upload_command_stats_unittest.py}
+Copyright: Copyright: 2013 The Chromium OS Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/chromite/scripts/license-generation/{licenses.py}
+Copyright: Copyright: 2012 The Chromium OS Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/chromite/scripts/license-generation/{process-pkg.py}
+Copyright: Copyright: 2012 The Chromium OS Authors. All rights reserved / Google):
+License: UNKNOWN
+
+Files: src/third_party/chromite/scripts/license-generation/{gather-licenses.sh}
+Copyright: Copyright: 2012 The Chromium OS Authors. All rights reserved / gathering suppressed for ${CATEGORY}/${PN}-${PVR}":
+License: UNKNOWN
+
+Files: src/third_party/chromite/third_party/{argparse.py}
 Copyright: UNKNOWN:
 License: *No copyright* UNKNOWN
 
-Files: src/third_party/jemalloc/vendor/{build-crt.py}
+Files: src/third_party/chromite/third_party/*
+Copyright: Copyright: 2007-2012 Michael Foord & the mock team:
+License: UNKNOWN
+
+Files: src/third_party/chromite/third_party/*
+Copyright: Copyright: 2012-2013 Mike Frysinger <vapier@gentoo.org> / 2012-2013 Gentoo Foundation:
+License: UNKNOWN
+
+Files: src/third_party/cros_dbus_cplusplus/source/{autogen.sh}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/cros_dbus_cplusplus/source/examples/async/{async-client.cpp,async-client.h,async-server.cpp,async-server.h}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/cros_dbus_cplusplus/source/examples/echo/{echo-client-mt.cpp,echo-client.cpp,echo-client.h,echo-server.cpp,echo-server.h,ef-echo-server.cpp,ef-echo-server.h}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/cros_dbus_cplusplus/source/examples/ecore/{dbus_ecore.cpp,dbus_ecore.h}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/cros_dbus_cplusplus/source/examples/glib/{dbus-browser.cpp,dbus-browser.h}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/cros_dbus_cplusplus/source/examples/hal/{hal-listen.cpp,hal-listen.h}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/cros_dbus_cplusplus/source/examples/properties/{propsgs-client.cpp,propsgs-client.h,propsgs-server.cpp,propsgs-server.h}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/cros_system_api/dbus/{service_constants.h}
+Copyright: Copyright: 2012 The Chromium OS Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/cros_system_api/switches/{chrome_switches.h}
+Copyright: Copyright: 2013 The Chromium OS Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/gles2_book/Chapter_10/MultiTexture/{MultiTexture.c}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/gles2_book/Chapter_11/Multisample/{Multisample.c}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/gles2_book/Chapter_11/Stencil_Test/{Stencil_Test.c,Stencil_Test.h}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/gles2_book/Chapter_13/Noise3D/{generatenoise.c}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/gles2_book/Chapter_13/ParticleSystem/{ParticleSystem.c}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/gles2_book/Chapter_15/Hello_Triangle_KD/{Hello_Triangle_KD.c}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/gles2_book/Chapter_2/Hello_Triangle/{Hello_Triangle.c,Hello_Triangle.h}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/gles2_book/Chapter_8/Simple_VertexShader/{Simple_VertexShader.c,Simple_VertexShader.h}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/gles2_book/Chapter_9/MipMap2D/{MipMap2D.c,MipMap2D.h}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/gles2_book/Chapter_9/Simple_Texture2D/{Simple_Texture2D.c,Simple_Texture2D.h}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/gles2_book/Chapter_9/Simple_TextureCubemap/{Simple_TextureCubemap.c,Simple_TextureCubemap.h}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/gles2_book/Chapter_9/TextureWrap/{TextureWrap.c,TextureWrap.h}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/gles2_book/Common/Include/{esUtil.h}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/gles2_book/Common/Source/{esShader.c,esShapes.c,esTransform.c,esUtil.c}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/khronos/GLES2/{gl2.h,gl2ext.h,gl2platform.h}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/leveldatabase/*
+Copyright: Copyright: 2011 The LevelDB Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/leveldatabase/*
+Copyright: Copyright: 2013 The LevelDB Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/leveldatabase/port/{port_chromium.cc,port_chromium.h}
+Copyright: Copyright: 2011 The LevelDB Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/leveldatabase/src/db/{builder.cc,c.cc,c_test.c,corruption_test.cc,db_bench.cc,db_impl.cc,db_impl.h,db_iter.cc,db_iter.h,db_test.cc,dbformat.cc,dbformat.h,dbformat_test.cc,filename.cc,filename.h,filename_test.cc,log_format.h,log_reader.cc,log_reader.h,log_test.cc,log_writer.cc,log_writer.h,memtable.cc,memtable.h,skiplist.h,skiplist_test.cc,snapshot.h,table_cache.cc,table_cache.h,version_edit.cc,version_edit.h,version_edit_test.cc,version_set.cc,version_set.h,version_set_test.cc,write_batch.cc,write_batch_internal.h,write_batch_test.cc}
+Copyright: Copyright: 2011 The LevelDB Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/leveldatabase/src/db/{leveldb_main.cc}
+Copyright: Copyright: 2012 The LevelDB Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/leveldatabase/src/db/{repair.cc}
+Copyright: Copyright: For each table: if it overlaps earlier table, place in level-0 / 2011 The LevelDB Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/leveldatabase/src/doc/bench/{db_bench_sqlite3.cc,db_bench_tree_db.cc}
+Copyright: Copyright: 2011 The LevelDB Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/leveldatabase/src/helpers/memenv/{memenv.cc,memenv.h,memenv_test.cc}
+Copyright: Copyright: 2011 The LevelDB Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/leveldatabase/src/include/leveldb/*
+Copyright: Copyright: 2011 The LevelDB Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/leveldatabase/src/include/leveldb/*
+Copyright: Copyright: 2012 The LevelDB Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/leveldatabase/src/port/*
+Copyright: Copyright: 2011 The LevelDB Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/leveldatabase/src/port/*
+Copyright: Copyright: 2012 The LevelDB Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/leveldatabase/src/port/win/{stdint.h}
+Copyright: Copyright: 2011 The LevelDB Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/leveldatabase/src/table/*
+Copyright: Copyright: 2011 The LevelDB Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/leveldatabase/src/table/*
+Copyright: Copyright: 2012 The LevelDB Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/leveldatabase/src/util/{arena.cc,arena.h,arena_test.cc,cache.cc,cache_test.cc,coding.cc,coding.h,coding_test.cc,comparator.cc,crc32c.cc,crc32c.h,crc32c_test.cc,env.cc,env_posix.cc,env_test.cc,hash.cc,hash.h,histogram.cc,histogram.h,logging.h,mutexlock.h,options.cc,posix_logger.h,random.h,status.cc,testharness.cc,testharness.h,testutil.cc}
+Copyright: Copyright: 2011 The LevelDB Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/leveldatabase/src/util/{logging.cc}
+Copyright: Copyright: 2011 The LevelDB Authors. All rights reserved / & 0xff);:
+License: UNKNOWN
+
+Files: src/third_party/leveldatabase/src/util/{bloom.cc,bloom_test.cc,filter_policy.cc}
+Copyright: Copyright: 2012 The LevelDB Authors. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/libjingle/source/talk/app/webrtc/{statscollector_unittest.cc}
+Copyright: UNKNOWN:
+License: *No copyright* BSD (3 clause)
+
+Files: src/third_party/libjingle/source/talk/base/{macsocketserver.cc,sha1.h,sigslot.h,sslroots.h,windowpicker_unittest.cc}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/libjingle/source/talk/base/{base64.cc,base64.h}
+Copyright: Copyright: 1999, Bob Withers - bwit@pobox.com:
+License: UNKNOWN
+
+Files: src/third_party/libjingle/source/talk/base/{httpserver_unittest.cc}
+Copyright: Copyright: 2007 Google Inc:
+License: UNKNOWN
+
+Files: src/third_party/libjingle/source/talk/base/{unittest_main.cc}
+Copyright: Copyright: 2007 Google Inc. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libjingle/source/talk/base/{macsocketserver.h}
+Copyright: Copyright: 2007, Google Inc:
+License: UNKNOWN
+
+Files: src/third_party/libjingle/source/talk/base/{macasyncsocket.h}
+Copyright: Copyright: 2008 Google Inc. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libjingle/source/talk/base/{win32socketserver_unittest.cc}
+Copyright: Copyright: 2009 Google Inc. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libjingle/source/talk/base/{macasyncsocket.cc,macwindowpicker.cc,macwindowpicker.h,macwindowpicker_unittest.cc,win32toolhelp.h,win32windowpicker.cc,win32windowpicker.h,win32windowpicker_unittest.cc,windowpicker.h}
+Copyright: Copyright: 2010 Google Inc. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libjingle/source/talk/base/{scoped_ptr.h}
+Copyright: Copyright: Greg Colvin and Beman Dawes 1998, 1999 / 2001, 2002 Peter Dimov:
+License: UNKNOWN
+
+Files: src/third_party/libjingle/source/talk/examples/pcp/{pcp_main.cc}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/libjingle/source/talk/media/base/*
+Copyright: Copyright: 2008 Google Inc:
+License: UNKNOWN
+
+Files: src/third_party/libjingle/source/talk/media/base/*
+Copyright: Copyright: 2012 Google Inc:
+License: UNKNOWN
+
+Files: src/third_party/libjingle/source/talk/media/devices/{v4llookup.cc,v4llookup.h}
+Copyright: Copyright: 2009 Google Inc:
+License: UNKNOWN
+
+Files: src/third_party/libjingle/source/talk/media/webrtc/{webrtcpassthroughrender_unittest.cc,webrtcvoiceengine_unittest.cc}
+Copyright: Copyright: 2008 Google Inc:
+License: UNKNOWN
+
+Files: src/third_party/libjingle/source/talk/p2p/client/*
+Copyright: Copyright: 2010 Google Inc. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libjingle/source/talk/p2p/client/*
+Copyright: Copyright: 2011 Google Inc. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libjingle/source/talk/site_scons/{talk.py}
+Copyright: Copyright: 2010 Google Inc:
+License: UNKNOWN
+
+Files: src/third_party/libjingle/source/talk/site_scons/site_tools/{talk_noops.py}
+Copyright: Copyright: 2010 Google Inc:
+License: UNKNOWN
+
+Files: src/third_party/libjingle/source/talk/xmpp/{jid_unittest.cc,xmppengine_unittest.cc,xmpplogintask_unittest.cc,xmppstanzaparser_unittest.cc}
+Copyright: Copyright: 2004 Google Inc. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libjingle/source/talk/xmpp/{util_unittest.cc}
+Copyright: Copyright: 2004 Google, Inc. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libjingle/source/talk/xmpp/{hangoutpubsubclient_unittest.cc,pingtask.cc,pubsubclient_unittest.cc,pubsubtasks_unittest.cc}
+Copyright: Copyright: 2011 Google Inc. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libjingle/source/talk/xmpp/{mucroomuniquehangoutidtask.cc,mucroomuniquehangoutidtask.h}
+Copyright: Copyright: 2012 Google Inc. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg/{jinclude.h}
+Copyright: Copyright: 1991-1994, Thomas G. Lane:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg/{jccolor.c,jcsample.c,jdsample.c,jfdctint.c,jquant1.c,jquant2.c,jutils.c}
+Copyright: Copyright: 1991-1996, Thomas G. Lane:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg/{jchuff.c,jchuff.h,jcinit.c,jcmaster.c,jdcolor.c,jdhuff.c,jdhuff.h,jdinput.c,jdmaster.c,jmemmgr.c,jpegint.h}
+Copyright: Copyright: 1991-1997, Thomas G. Lane:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg/{jcmarker.c,jcparam.c,jdmarker.c,jerror.c,jidctint.c}
+Copyright: Copyright: 1991-1998, Thomas G. Lane:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg/{jmemnobs.c}
+Copyright: Copyright: 1992-1996, Thomas G. Lane:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg/{jmemsys.h}
+Copyright: Copyright: 1992-1997, Thomas G. Lane:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg/{jcapistd.c,jcdctmgr.c,jcmainct.c,jcprepct.c,jdapistd.c,jdatadst.c,jdatasrc.c,jdct.h,jddctmgr.c,jdmainct.c,jdmerge.c,jdpostct.c,jfdctflt.c,jfdctfst.c}
+Copyright: Copyright: 1994-1996, Thomas G. Lane:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg/{jccoefct.c,jcomapi.c,jdcoefct.c,jerror.h}
+Copyright: Copyright: 1994-1997, Thomas G. Lane:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg/{jcapimin.c,jdapimin.c,jidctflt.c,jidctfst.c,jidctred.c}
+Copyright: Copyright: 1994-1998, Thomas G. Lane:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg/{jcphuff.c,jdphuff.c}
+Copyright: Copyright: 1995-1997, Thomas G. Lane:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg/{jmorecfg.h}
+Copyright: Copyright: 1998 Netscape Communications Corporation. All Rights / 1991-1997, Thomas G. Lane:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{example.c,jaricom.c,jcarith.c,jdarith.c}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{jinclude.h}
+Copyright: Copyright: 1991-1994, Thomas G. Lane:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{jfdctint.c,jutils.c,rdrle.c,rdtarga.c,wrppm.c,wrrle.c,wrtarga.c}
+Copyright: Copyright: 1991-1996, Thomas G. Lane:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{jquant1.c,jquant2.c}
+Copyright: Copyright: 1991-1996, Thomas G. Lane / 2009, D. R. Commander:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{cdjpeg.c,jchuff.h,jcinit.c,jmemmgr.c,jpegint.h}
+Copyright: Copyright: 1991-1997, Thomas G. Lane:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{rdppm.c}
+Copyright: Copyright: 1991-1997, Thomas G. Lane / 1988 by Jef Poskanzer:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{jdcolor.c}
+Copyright: Copyright: 1991-1997, Thomas G. Lane / 2009 Pierre Ossman <ossman@cendio.se> for Cendio AB / 2009, 2011-2012, D. R. Commander:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{jdcolext.c,jmorecfg.h}
+Copyright: Copyright: 1991-1997, Thomas G. Lane / 2009, 2011, D. R. Commander:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{jcmaster.c,jdinput.c}
+Copyright: Copyright: 1991-1997, Thomas G. Lane / 2010, D. R. Commander:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{djpeg.c,jdhuff.h}
+Copyright: Copyright: 1991-1997, Thomas G. Lane / 2010-2011, D. R. Commander:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{rdgif.c}
+Copyright: Copyright: 1991-1997, Thomas G. Lane / is the property of:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{wrgif.c}
+Copyright: Copyright: 1991-1997, Thomas G. Lane / is the property of / 1989 by Jef Poskanzer:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{jerror.c,jidctint.c}
+Copyright: Copyright: 1991-1998, Thomas G. Lane:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{cjpeg.c,jcmarker.c}
+Copyright: Copyright: 1991-1998, Thomas G. Lane / 2010, D. R. Commander:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{jdmarker.c}
+Copyright: Copyright: 1991-1998, Thomas G. Lane / 2012, D. R. Commander:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{jmemnobs.c}
+Copyright: Copyright: 1992-1996, Thomas G. Lane:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{jmemsys.h}
+Copyright: Copyright: 1992-1997, Thomas G. Lane:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{jcapistd.c,jcmainct.c,jcprepct.c,jdatadst-tj.c,jdatadst.c,jdatasrc-tj.c,jdatasrc.c,jdct.h,jdpostct.c,jfdctflt.c,jfdctfst.c,rdbmp.c,wrbmp.c}
+Copyright: Copyright: 1994-1996, Thomas G. Lane:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{rdcolmap.c}
+Copyright: Copyright: 1994-1996, Thomas G. Lane / 1988 by Jef Poskanzer:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{jdmrgext.c}
+Copyright: Copyright: 1994-1996, Thomas G. Lane / 2011, D. R. Commander:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{cderror.h,cdjpeg.h,jccoefct.c,jcomapi.c,jerror.h,rdjpgcom.c,wrjpgcom.c}
+Copyright: Copyright: 1994-1997, Thomas G. Lane:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{jcapimin.c,jdapimin.c,jidctflt.c,jidctfst.c,jidctred.c}
+Copyright: Copyright: 1994-1998, Thomas G. Lane:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{jcphuff.c,jdphuff.c,jdtrans.c}
+Copyright: Copyright: 1995-1997, Thomas G. Lane:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{jctrans.c}
+Copyright: Copyright: 1995-1998, Thomas G. Lane:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{jpegtran.c}
+Copyright: Copyright: 1995-2010, Thomas G. Lane, Guido Vollbeding / 2010, D. R. Commander:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{transupp.h}
+Copyright: Copyright: 1997-2009, Thomas G. Lane, Guido Vollbeding:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{transupp.c}
+Copyright: Copyright: 1997-2009, Thomas G. Lane, Guido Vollbeding / 2010, D. R. Commander:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{rrtimer.h}
+Copyright: Copyright: 2005 Sun Microsystems, Inc / 2004 Landmark Graphics Corporation:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{rrutil.h}
+Copyright: Copyright: 2005 Sun Microsystems, Inc / 2004 Landmark Graphics Corporation / 2010 D. R. Commander:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{jpegut.c,turbojpegl.c}
+Copyright: Copyright: 2005 Sun Microsystems, Inc / 2009 D. R. Commander / 2004 Landmark Graphics Corporation:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{jpgtest.cxx}
+Copyright: Copyright: 2009 D. R. Commander / 2004 Landmark Graphics Corporation / 2005, 2006 Sun Microsystems, Inc:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{jcsample.c}
+Copyright: Copyright: 2009 Pierre Ossman <ossman@cendio.se> for Cendio AB / 1991-1996, Thomas G. Lane:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{jsimddct.h}
+Copyright: Copyright: 2009 Pierre Ossman <ossman@cendio.se> for Cendio AB / 1999-2006, MIYASAKA Masaru:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{jdmerge.c}
+Copyright: Copyright: 2009 Pierre Ossman <ossman@cendio.se> for Cendio AB / 2009, 2011, D. R. Commander / 1994-1996, Thomas G. Lane:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{jdsample.c}
+Copyright: Copyright: 2009 Pierre Ossman <ossman@cendio.se> for Cendio AB / 2010, D. R. Commander / 1991-1996, Thomas G. Lane:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{jddctmgr.c}
+Copyright: Copyright: 2009 Pierre Ossman <ossman@cendio.se> for Cendio AB / 2010, D. R. Commander / 1994-1996, Thomas G. Lane:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{jsimd_none.c}
+Copyright: Copyright: 2009-2011 D. R. Commander / 2009 Pierre Ossman <ossman@cendio.se> for Cendio AB / 1999-2006, MIYASAKA Masaru:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{jchuff.c,jdhuff.c,jdmaster.c}
+Copyright: Copyright: 2009-2011, D. R. Commander / 1991-1997, Thomas G. Lane:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{jcparam.c}
+Copyright: Copyright: 2009-2011, D. R. Commander / 1991-1998, Thomas G. Lane:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{jccolext.c}
+Copyright: Copyright: 2009-2012, D. R. Commander / 1991-1996, Thomas G. Lane:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{jccolor.c}
+Copyright: Copyright: 2009-2012, D. R. Commander / 2009 Pierre Ossman <ossman@cendio.se> for Cendio AB / 1991-1996, Thomas G. Lane:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{jpegcomp.h}
+Copyright: Copyright: 2010, D. R. Commander:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{rdswitch.c}
+Copyright: Copyright: 2010, D. R. Commander / 1991-1996, Thomas G. Lane:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{jdapistd.c,jdmainct.c}
+Copyright: Copyright: 2010, D. R. Commander / 1994-1996, Thomas G. Lane:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{jdcoefct.c}
+Copyright: Copyright: 2010, D. R. Commander / 1994-1997, Thomas G. Lane:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{jsimd.h}
+Copyright: Copyright: 2011 D. R. Commander / 2009 Pierre Ossman <ossman@cendio.se> for Cendio AB / 1999-2006, MIYASAKA Masaru:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{jcdctmgr.c}
+Copyright: Copyright: 2011 D. R. Commander / 2009 Pierre Ossman <ossman@cendio.se> for Cendio AB / 1999-2006, MIYASAKA Masaru / 1994-1996, Thomas G. Lane:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{tjbench.c,tjunittest.c,turbojpeg.c,turbojpeg.h}
+Copyright: Copyright: HOLDERS AND CONTRIBUTORS "AS IS" / 2009-2012 D. R. Commander. All Rights Reserved / HOLDERS OR CONTRIBUTORS BE:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{bmp.c,bmp.h,tjutil.c,tjutil.h}
+Copyright: Copyright: HOLDERS AND CONTRIBUTORS "AS IS" / 2011 D. R. Commander. All Rights Reserved / HOLDERS OR CONTRIBUTORS BE:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/{turbojpeg-jni.c}
+Copyright: Copyright: HOLDERS AND CONTRIBUTORS "AS IS" / 2011-2012 D. R. Commander. All Rights Reserved / HOLDERS OR CONTRIBUTORS BE:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/simd/{jcolsamp.inc,jdct.inc}
+Copyright: Copyright: 2009 Pierre Ossman <ossman@cendio.se> for Cendio AB / 1999-2006, MIYASAKA Masaru:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/simd/{jsimd_arm.c,jsimd_i386.c,jsimd_x86_64.c}
+Copyright: Copyright: 2009-2011 D. R. Commander / 2009 Pierre Ossman <ossman@cendio.se> for Cendio AB / 1999-2006, MIYASAKA Masaru:
+License: UNKNOWN
+
+Files: src/third_party/libjpeg_turbo/simd/{jsimd.h}
+Copyright: Copyright: 2011 D. R. Commander / 2009 Pierre Ossman <ossman@cendio.se> for Cendio AB / 1999-2006, MIYASAKA Masaru:
+License: UNKNOWN
+
+Files: src/third_party/libmtp/doc/{mainpage.h}
+Copyright: Copyright: 2006 Linus Walleij <triad@df.lth.se>:
+License: LGPL (v2) (with incorrect FSF address)
+
+Files: src/third_party/libusb/src/{autogen.sh,config.h}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/libusb/src/libusb/os/{poll_posix.h}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/libusb/src/msvc/{config.h}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/libusb/src/msvc/{inttypes.h,stdint.h}
+Copyright: Copyright: assigned and is placed in the Public Domain:
+License: UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/*
+Copyright: Copyright: 2010 The WebM project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/*
+Copyright: Copyright: 2010 The WebM project authors. All Rights Reserved / 2002-2010 The Xiph.Org Foundation and contributors:
+License: UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/examples/{encoder_tmpl.c}
+Copyright: Copyright: 2010 The WebM project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/examples/includes/ASCIIMathPHP-2.0/{ASCIIMathPHP-2.0.cfg.php}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/examples/includes/HTML-Toc-0.91/{Toc.pm,TocGenerator.pm,TocUpdator.pm}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/examples/includes/geshi/contrib/{aliased.php,example.php,langcheck.php}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/vp9/*
+Copyright: Copyright: 2010 The WebM project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/vp9/*
+Copyright: Copyright: 2013 The WebM project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/vp9/common/{vp9_rtcd_defs.sh}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/vp9/common/{vp9_alloccommon.c,vp9_alloccommon.h,vp9_blockd.c,vp9_blockd.h,vp9_common.h,vp9_debugmodes.c,vp9_entropy.c,vp9_entropy.h,vp9_entropymode.c,vp9_entropymode.h,vp9_entropymv.c,vp9_entropymv.h,vp9_extend.c,vp9_extend.h,vp9_filter.c,vp9_findnearmv.c,vp9_findnearmv.h,vp9_header.h,vp9_idct.c,vp9_idct.h,vp9_invtrans.c,vp9_invtrans.h,vp9_loopfilter.c,vp9_loopfilter.h,vp9_loopfilter_filters.c,vp9_mbpitch.c,vp9_modecont.c,vp9_modecont.h,vp9_modecontext.c,vp9_mv.h,vp9_onyx.h,vp9_onyxc_int.h,vp9_postproc.c,vp9_postproc.h,vp9_ppflags.h,vp9_pragmas.h,vp9_quant_common.c,vp9_quant_common.h,vp9_recon.c,vp9_reconinter.c,vp9_reconinter.h,vp9_reconintra.c,vp9_reconintra.h,vp9_reconintra4x4.c,vp9_sadmxn.h,vp9_seg_common.c,vp9_setupintrarecon.c,vp9_setupintrarecon.h,vp9_subpelvar.h,vp9_swapyv12buffer.c,vp9_swapyv12buffer.h,vp9_systemdependent.h,vp9_textblit.c,vp9_textblit.h,vp9_tile_common.c,vp9_tile_common.h,vp9_treecoder.c,vp9_treecoder.h}
+Copyright: Copyright: 2010 The WebM project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/vp9/common/{vp9_asm_com_offsets.c,vp9_filter.h,vp9_rtcd.c}
+Copyright: Copyright: 2011 The WebM project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/vp9/common/{vp9_implicit_segmentation.c,vp9_mvref_common.c,vp9_mvref_common.h,vp9_pred_common.c,vp9_pred_common.h,vp9_seg_common.h,vp9_tapify.py}
+Copyright: Copyright: 2012 The WebM project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/vp9/common/{vp9_convolve.c,vp9_convolve.h}
+Copyright: Copyright: 2013 The WebM project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/vp9/common/{vp9_maskingmv.c}
+Copyright: Copyright: : Your notice:
+License: UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/vp9/common/generic/{vp9_systemdependent.c}
+Copyright: Copyright: 2010 The WebM project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/vp9/common/ppc/{vp9_loopfilter_altivec.c,vp9_systemdependent.c}
+Copyright: Copyright: 2010 The WebM project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/vp9/common/x86/*
+Copyright: Copyright: 2010 The WebM project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/vp9/common/x86/*
+Copyright: Copyright: 2012 The WebM project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/vp9/decoder/*
+Copyright: Copyright: 2010 The WebM project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/vp9/decoder/*
+Copyright: Copyright: 2011 The WebM project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/vp9/decoder/x86/*
+Copyright: Copyright: 2010 The WebM project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/vp9/decoder/x86/*
+Copyright: Copyright: 2012 The WebM project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/vp9/encoder/{vp9_bitstream.c,vp9_bitstream.h,vp9_block.h,vp9_boolhuff.c,vp9_boolhuff.h,vp9_dct.c,vp9_encodeframe.c,vp9_encodeframe.h,vp9_encodeintra.c,vp9_encodeintra.h,vp9_encodemb.c,vp9_encodemb.h,vp9_encodemv.c,vp9_encodemv.h,vp9_firstpass.c,vp9_firstpass.h,vp9_mbgraph.c,vp9_mbgraph.h,vp9_mcomp.c,vp9_mcomp.h,vp9_modecosts.c,vp9_modecosts.h,vp9_onyx_if.c,vp9_onyx_int.h,vp9_picklpf.c,vp9_picklpf.h,vp9_psnr.c,vp9_psnr.h,vp9_quantize.c,vp9_quantize.h,vp9_ratectrl.c,vp9_ratectrl.h,vp9_rdopt.c,vp9_rdopt.h,vp9_sad_c.c,vp9_segmentation.h,vp9_ssim.c,vp9_temporal_filter.c,vp9_temporal_filter.h,vp9_tokenize.c,vp9_tokenize.h,vp9_treewriter.c,vp9_treewriter.h,vp9_variance.h,vp9_variance_c.c}
+Copyright: Copyright: 2010 The WebM project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/vp9/encoder/{vp9_asm_enc_offsets.c,vp9_lookahead.c,vp9_lookahead.h}
+Copyright: Copyright: 2011 The WebM project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/vp9/encoder/{vp9_segmentation.c}
+Copyright: Copyright: 2012 The WebM project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/vp9/encoder/ppc/{vp9_csystemdependent.c}
+Copyright: Copyright: 2010 The WebM project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/vp9/encoder/x86/*
+Copyright: Copyright: 2010 The WebM project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/vp9/encoder/x86/*
+Copyright: Copyright: 2012 The WebM project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/vpx/{vp8.h,vp8cx.h,vp8dx.h,vpx_codec.h,vpx_codec_impl_bottom.h,vpx_codec_impl_top.h,vpx_decoder.h,vpx_encoder.h,vpx_image.h,vpx_integer.h}
+Copyright: Copyright: 2010 The WebM project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/vpx/internal/{vpx_codec_internal.h}
+Copyright: Copyright: 2010 The WebM project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/vpx/src/{vpx_codec.c,vpx_decoder.c,vpx_encoder.c,vpx_image.c}
+Copyright: Copyright: 2010 The WebM project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/vpx_ports/{arm.h,arm_cpudetect.c,config.h,mem.h,mem_ops.h,mem_ops_aligned.h,vpx_timer.h,x86.h,x86_cpuid.c}
+Copyright: Copyright: 2010 The WebM project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/vpx_ports/{asm_offsets.h,vpx_once.h}
+Copyright: Copyright: 2011 The WebM project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/vpx_ports/{emmintrin_compat.h}
+Copyright: Copyright: 2012 The WebM project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/vpx_scale/{vpx_scale_rtcd.sh}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/vpx_scale/*
+Copyright: Copyright: 2010 The WebM project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/vpx_scale/*
+Copyright: Copyright: 2011 The WebM project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/vpx_scale/arm/neon/{yv12extend_arm.c}
+Copyright: Copyright: 2010 The WebM project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/vpx_scale/generic/{gen_scalers.c,vpx_scale.c,yv12config.c,yv12extend.c}
+Copyright: Copyright: 2010 The WebM project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libvpx/source/libvpx/vpx_scale/win32/{scaleopt.c}
+Copyright: Copyright: 2010 The WebM project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/libxml/src/{acconfig.h,check-relaxng-test-suite.py,check-relaxng-test-suite2.py,check-xinclude-test-suite.py,check-xml-test-suite.py,check-xsddata-test-suite.py,dbgen.pl,dbgenattr.pl,gentest.py,nanoftp.c,testThreads.c,testThreadsWin32.c,testdso.c,xmlmemory.c,xmlwriter.c}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/libxml/src/*
+Copyright: Copyright: IS_BLANK_CH / ((( == 0x9) || ( == 0xa)) || \ / ( == 0x20) / for the status of this software / == 0xd)):
+License: UNKNOWN
+
+Files: src/third_party/libxml/src/*
+Copyright: Copyright: for the status of this software:
+License: UNKNOWN
+
+Files: src/third_party/libxml/src/include/{win32config.h,wsockcompat.h}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/libxml/src/include/libxml/{DOCBparser.h,HTMLparser.h,HTMLtree.h,SAX.h,SAX2.h,c14n.h,catalog.h,debugXML.h,dict.h,encoding.h,entities.h,hash.h,list.h,nanoftp.h,nanohttp.h,parser.h,parserInternals.h,pattern.h,relaxng.h,schemasInternals.h,schematron.h,threads.h,tree.h,uri.h,valid.h,xinclude.h,xlink.h,xmlIO.h,xmlautomata.h,xmlerror.h,xmlexports.h,xmlmemory.h,xmlmodule.h,xmlreader.h,xmlregexp.h,xmlsave.h,xmlschemas.h,xmlschemastypes.h,xmlstring.h,xmlwriter.h,xpath.h,xpathInternals.h,xpointer.h}
+Copyright: Copyright: for the status of this software:
+License: UNKNOWN
+
+Files: src/third_party/libxml/win32/{config.h}
 Copyright: UNKNOWN:
 License: *No copyright* UNKNOWN
 
@@ -204,6 +1117,14 @@ License: *No copyright* UNKNOWN
 
 Files: src/third_party/modp_b64/{modp_b64.h}
 Copyright: Copyright: &copy; 2005, 2006, Nick Galbreath -- nickg [at] modp [dot] com:
+License: UNKNOWN
+
+Files: src/third_party/molokocacao/{NSBezierPath+MCAdditions.h,NSBezierPath+MCAdditions.m}
+Copyright: Copyright: 2008 MolokoCacao. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/mtpd/source/{assert_matching_file_types.cc,build_config.h,daemon.cc,daemon.h,device_event_delegate.h,device_manager.cc,device_manager.h,device_manager_unittest.cc,file_entry.cc,file_entry.h,main.cc,mtpd_server_impl.cc,mtpd_server_impl.h,mtpd_testrunner.cc,service_constants.h,storage_info.cc,storage_info.h,string_helpers.cc,string_helpers.h}
+Copyright: Copyright: 2012 The Chromium OS Authors. All rights reserved:
 License: UNKNOWN
 
 Files: src/third_party/npapi/npspy/{analyze_streams.py}
@@ -218,87 +1139,1555 @@ Files: src/third_party/npapi/npspy/include/{setup.h}
 Copyright: UNKNOWN:
 License: *No copyright* UNKNOWN
 
-Files: src/third_party/npapi/npspy/windows/{resource.h,setupexe.cpp}
+Files: src/third_party/npapi/npspy/windows/{setupexe.cpp}
 Copyright: UNKNOWN:
 License: *No copyright* UNKNOWN
 
-Files: src/third_party/ots/tools/{ttf-checksum.py}
-Copyright: UNKNOWN:
-License: *No copyright* UNKNOWN
-
-Files: src/third_party/protobuf2/{config.h}
-Copyright: UNKNOWN:
-License: *No copyright* UNKNOWN
-
-Files: src/third_party/tcmalloc/chromium/src/{config_linux.h,config_win.h}
-Copyright: UNKNOWN:
-License: *No copyright* UNKNOWN
-
-Files: src/third_party/tcmalloc/chromium/src/base/{vdso_support.h}
-Copyright: Copyright: 2008 Google Inc. All Rights Reserved:
+Files: src/third_party/ocmock/OCMock/{OCMock.h,OCMockObject.h}
+Copyright: Copyright: 2004-2008 by Mulle Kybernetik. See License file for details:
 License: UNKNOWN
 
-Files: src/third_party/tcmalloc/chromium/src/tests/{page_heap_test.cc,profile-handler_unittest.cc,raw_printer_test.cc,stack_trace_table_test.cc}
-Copyright: Copyright: 2009 Google Inc. All Rights Reserved:
+Files: src/third_party/ocmock/OCMock/{OCMockObject.m}
+Copyright: Copyright: 2004-2009 by Mulle Kybernetik. See License file for details:
 License: UNKNOWN
 
-Files: src/third_party/tcmalloc/chromium/src/windows/{config.h}
-Copyright: UNKNOWN:
-License: *No copyright* UNKNOWN
-
-Files: src/third_party/tcmalloc/vendor/{autogen.sh}
-Copyright: UNKNOWN:
-License: *No copyright* UNKNOWN
-
-Files: src/third_party/tcmalloc/vendor/packages/{deb.sh,rpm.sh}
-Copyright: UNKNOWN:
-License: *No copyright* UNKNOWN
-
-Files: src/third_party/tcmalloc/vendor/src/base/{vdso_support.h}
-Copyright: Copyright: 2008 Google Inc. All Rights Reserved:
+Files: src/third_party/ocmock/OCMock/{OCMockRecorder.h}
+Copyright: Copyright: 2004-2010 by Mulle Kybernetik. See License file for details:
 License: UNKNOWN
 
-Files: src/third_party/tcmalloc/vendor/src/tests/{page_heap_test.cc,profile-handler_unittest.cc,raw_printer_test.cc,stack_trace_table_test.cc}
-Copyright: Copyright: 2009 Google Inc. All Rights Reserved:
+Files: src/third_party/ocmock/OCMock/{OCMockRecorder.m}
+Copyright: Copyright: 2004-2011 by Mulle Kybernetik. See License file for details:
 License: UNKNOWN
 
-Files: src/third_party/tcmalloc/vendor/src/windows/{config.h}
+Files: src/third_party/ocmock/OCMock/{OCClassMockObject.h,OCClassMockObject.m,OCProtocolMockObject.h,OCProtocolMockObject.m}
+Copyright: Copyright: 2005-2008 by Mulle Kybernetik. See License file for details:
+License: UNKNOWN
+
+Files: src/third_party/ocmock/OCMock/{NSInvocation+OCMAdditions.h,NSInvocation+OCMAdditions.m}
+Copyright: Copyright: 2006-2009 by Mulle Kybernetik. See License file for details:
+License: UNKNOWN
+
+Files: src/third_party/ocmock/OCMock/{OCMConstraint.h,OCMConstraint.m}
+Copyright: Copyright: 2007-2010 by Mulle Kybernetik. See License file for details:
+License: UNKNOWN
+
+Files: src/third_party/ocmock/OCMock/{NSMethodSignature+OCMAdditions.h,NSMethodSignature+OCMAdditions.m,NSNotificationCenter+OCMAdditions.h,NSNotificationCenter+OCMAdditions.m,OCMBoxedReturnValueProvider.h,OCMBoxedReturnValueProvider.m,OCMExceptionReturnValueProvider.h,OCMExceptionReturnValueProvider.m,OCMIndirectReturnValueProvider.h,OCMIndirectReturnValueProvider.m,OCMNotificationPoster.h,OCMNotificationPoster.m,OCMObserverRecorder.h,OCMObserverRecorder.m,OCMPassByRefSetter.h,OCMPassByRefSetter.m,OCMReturnValueProvider.h,OCMReturnValueProvider.m,OCObserverMockObject.h,OCObserverMockObject.m,OCPartialMockObject.h,OCPartialMockObject.m,OCPartialMockRecorder.h}
+Copyright: Copyright: 2009 by Mulle Kybernetik. See License file for details:
+License: UNKNOWN
+
+Files: src/third_party/ocmock/OCMock/{OCMArg.h,OCMArg.m,OCPartialMockRecorder.m}
+Copyright: Copyright: 2009-2010 by Mulle Kybernetik. See License file for details:
+License: UNKNOWN
+
+Files: src/third_party/ocmock/OCMock/{OCMBlockCaller.h,OCMBlockCaller.m,OCMRealObjectForwarder.h,OCMRealObjectForwarder.m}
+Copyright: Copyright: 2010 by Mulle Kybernetik. See License file for details:
+License: UNKNOWN
+
+Files: src/third_party/pexpect/{FSM.py}
 Copyright: UNKNOWN:
 License: *No copyright* UNKNOWN
 
-Files: src/tools/dromaeo_benchmark_runner/{dromaeo_benchmark_runner.py}
-Copyright: Copyright: 2009 Google Inc. All Rights Reserved:
+Files: src/third_party/pexpect/{ANSI.py,fdpexpect.py,pexpect.py,pxssh.py,screen.py}
+Copyright: Copyright: 2012, Noah Spurrier <noah@noah.org>:
 License: UNKNOWN
 
-Files: src/tools/grit/grit/node/custom/{__init__.py}
-Copyright: Copyright: 2004 Google Inc:
-License: UNKNOWN
-
-Files: src/tools/measure_page_load_time/ie_bho/{resource.h}
+Files: src/third_party/ply/{__init__.py}
 Copyright: UNKNOWN:
 License: *No copyright* UNKNOWN
 
-Files: src/tools/memory_watcher/scripts/{finditem.pl,memprof.pl,memtrace.pl,summary.pl}
-Copyright: UNKNOWN:
-License: *No copyright* UNKNOWN
-
-Files: src/tools/python/google/{__init__.py}
-Copyright: UNKNOWN:
-License: *No copyright* UNKNOWN
-
-Files: src/v8/src/third_party/dtoa/{dtoa.c}
-Copyright: Copyright: 1991, 2000, 2001 by Lucent Technologies:
+Files: src/third_party/pymock/{mock.py}
+Copyright: Copyright: 2007-2012 Michael Foord & the mock team:
 License: UNKNOWN
 
-Files: src/webkit/database/{quota_table_unittest.cc}
-Copyright: Copyright: 2009 The Chromium Authos. All rights reserved:
+Files: src/third_party/re2/{testinstall.cc}
+Copyright: Copyright: 2008 The RE2 Authors. All Rights Reserved:
 License: UNKNOWN
 
-Files: src/webkit/tools/npapi_layout_test_plugin/{main.cpp,resource.h}
+Files: src/third_party/re2/re2/{stringpiece.h}
+Copyright: Copyright: 2001-2010 The RE2 Authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/re2/re2/{re2.cc,re2.h}
+Copyright: Copyright: 2003-2009 The RE2 Authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/re2/re2/{parse.cc,regexp.cc,regexp.h,simplify.cc,tostring.cc,walker-inl.h}
+Copyright: Copyright: 2006 The RE2 Authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/re2/re2/{nfa.cc}
+Copyright: Copyright: 2006-2007 The RE2 Authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/re2/re2/{compile.cc,prog.cc,prog.h}
+Copyright: Copyright: 2007 The RE2 Authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/re2/re2/{bitstate.cc,dfa.cc,make_perl_groups.pl,mimics_pcre.cc,onepass.cc,unicode.py,unicode_casefold.h,unicode_groups.h}
+Copyright: Copyright: 2008 The RE2 Authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/re2/re2/{filtered_re2.cc,filtered_re2.h,prefilter.cc,prefilter.h,prefilter_tree.cc,prefilter_tree.h}
+Copyright: Copyright: 2009 The RE2 Authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/re2/re2/{set.cc,set.h,variadic_function.h}
+Copyright: Copyright: 2010 The RE2 Authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/re2/re2/testing/{re2_test.cc}
+Copyright: Copyright: 2002-2009 The RE2 Authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/re2/re2/testing/{re2_arg_test.cc}
+Copyright: Copyright: 2005 The RE2 Authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/re2/re2/testing/{charclass_test.cc,dump.cc,parse_test.cc,regexp_test.cc,simplify_test.cc}
+Copyright: Copyright: 2006 The RE2 Authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/re2/re2/testing/{search_test.cc}
+Copyright: Copyright: 2006-2007 The RE2 Authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/re2/re2/testing/{dfa_test.cc,possible_match_test.cc,regexp_benchmark.cc}
+Copyright: Copyright: 2006-2008 The RE2 Authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/re2/re2/testing/{compile_test.cc}
+Copyright: Copyright: 2007 The RE2 Authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/re2/re2/testing/{backtrack.cc,exhaustive1_test.cc,exhaustive2_test.cc,exhaustive3_test.cc,exhaustive_test.cc,exhaustive_tester.cc,mimics_pcre_test.cc,random_test.cc,regexp_generator.cc,regexp_generator.h,string_generator.cc,string_generator.h,string_generator_test.cc,tester.cc,tester.h,unicode_test.py}
+Copyright: Copyright: 2008 The RE2 Authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/re2/re2/testing/{exhaustive_tester.h,filtered_re2_test.cc,null_walker.cc,required_prefix_test.cc}
+Copyright: Copyright: 2009 The RE2 Authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/re2/re2/testing/{set_test.cc}
+Copyright: Copyright: 2010 The RE2 Authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/re2/util/{hash.cc}
 Copyright: UNKNOWN:
 License: *No copyright* UNKNOWN
 
-Files: src/webkit/tools/pepper_test_plugin/{main.cc}
+Files: src/third_party/re2/util/{arena.cc,arena.h}
+Copyright: Copyright: 2000 The RE2 Authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/re2/util/{stringprintf.cc}
+Copyright: Copyright: 2002 The RE2 Authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/re2/util/{rune.cc,utf.h}
+Copyright: Copyright: 2002 by Lucent Technologies:
+License: UNKNOWN
+
+Files: src/third_party/re2/util/{pcre.cc}
+Copyright: Copyright: 2003-2009 Google Inc. All rights reserved:
+License: UNKNOWN
+
+Files: src/third_party/re2/util/{pcre.h}
+Copyright: Copyright: 2003-2010 Google Inc. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/re2/util/{stringpiece.cc}
+Copyright: Copyright: 2004 The RE2 Authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/re2/util/{random.cc,random.h}
+Copyright: Copyright: 2005-2009 The RE2 Authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/re2/util/{sparse_array.h,sparse_array_test.cc,sparse_set.h}
+Copyright: Copyright: 2006 The RE2 Authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/re2/util/{atomicops.h}
+Copyright: Copyright: 2006-2008 The RE2 Authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/re2/util/{mutex.h}
+Copyright: Copyright: 2007 The RE2 Authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/re2/util/{benchmark.cc,benchmark.h,flags.h,logging.h,test.cc,test.h,thread.cc,thread.h,util.h,valgrind.cc}
+Copyright: Copyright: 2009 The RE2 Authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/re2/util/{strutil.cc}
+Copyright: Copyright: { / 1999-2005 The RE2 Authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/scons-2.0.1/engine/SCons/{Action.py,Builder.py,dblite.py}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/scons-2.0.1/engine/SCons/compat/{_scons_sets.py}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/scons-2.0.1/engine/SCons/compat/{_scons_subprocess.py}
+Copyright: Copyright: 2003-2005 by Peter Astrand <astrand@lysator.liu.se>:
+License: UNKNOWN
+
+Files: src/third_party/sfntly/cpp/src/test/tinyxml/{tinystr.cpp,tinystr.h,tinyxml.cpp,tinyxml.h,tinyxmlparser.cpp}
+Copyright: UNKNOWN:
+License: *No copyright* zlib/libpng
+
+Files: src/third_party/simplejson/{__init__.py,_speedups.c,decoder.py,encoder.py,ordered_dict.py,scanner.py,tool.py}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/snappy/src/{autogen.sh}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/snappy/src/testdata/{fields.c}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/speex/include/speex/{speex_types.h}
+Copyright: Copyright: 1994-2002 *:
+License: UNKNOWN
+
+Files: src/third_party/webdriver/pylib/selenium/webdriver/common/{proxy.py}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/webdriver/pylib/selenium/webdriver/common/{keys.py}
+Copyright: Copyright: 2008-2009 Google Inc / 2008-2009 WebDriver committers:
+License: UNKNOWN
+
+Files: src/third_party/webdriver/pylib/test/selenium/{test_prompts.py}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/webdriver/pylib/test/selenium/common/{utils.py}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/webdriver/pylib/test/selenium/webdriver/common/{click_tests.py,cookie_tests.py}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/webdriver/test_data/{Page.aspx.cs,Redirect.aspx.cs,transformable.xsl}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/webrtc/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/*
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/build/{merge_libs.py}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/build/{adb_shell.sh,generate_asm_header.py,no_op.cc,version.py}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/build/{ios-webrtc.sh}
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/common_audio/{audio_util.cc,audio_util_unittest.cc}
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/common_audio/include/{audio_util.h}
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/common_audio/resampler/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/common_audio/resampler/*
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/common_audio/resampler/include/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/common_audio/resampler/include/*
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/common_audio/signal_processing/{spl_sqrt_floor.c}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/webrtc/common_audio/signal_processing/{auto_corr_to_refl_coef.c,complex_fft.c,copy_set_operations.c,division_operations.c,energy.c,filter_ar.c,filter_ma_fast_q12.c,get_hanning_window.c,get_scaling_square.c,levinson_durbin.c,lpc_to_refl_coef.c,randomization_functions.c,refl_coef_to_lpc.c,resample.c,resample_48khz.c,resample_by_2.c,resample_by_2_internal.c,resample_by_2_internal.h,resample_fractional.c,spl_sqrt.c,spl_version.c,splitting_filter.c,sqrt_of_one_minus_x_squared.c,webrtc_fft_t_1024_8.c,webrtc_fft_t_rad.c}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/common_audio/signal_processing/{auto_correlation.c,complex_bit_reverse.c,cross_correlation.c,dot_product_with_scale.c,downsample_fast.c,filter_ar_fast_q12.c,ilbc_specific_functions.c,min_max_operations.c,real_fft.c,real_fft_unittest.cc,signal_processing_unittest.cc,spl_init.c,vector_scaling_operations.c}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/common_audio/signal_processing/{min_max_operations_mips.c,resample_by_2_mips.c}
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/common_audio/signal_processing/include/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/common_audio/signal_processing/include/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/common_audio/vad/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/common_audio/vad/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/common_audio/vad/include/{webrtc_vad.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/common_video/{i420_video_frame.cc,i420_video_frame_unittest.cc,plane.cc,plane.h,plane_unittest.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/common_video/interface/{i420_video_frame.h,video_image.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/common_video/jpeg/{data_manager.cc,data_manager.h,jpeg.cc,jpeg_unittest.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/common_video/jpeg/include/{jpeg.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/common_video/libyuv/{libyuv_unittest.cc,scaler.cc,scaler_unittest.cc,webrtc_libyuv.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/common_video/libyuv/include/{scaler.h,webrtc_libyuv.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/{module_common_types_unittest.cc}
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/cng/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/cng/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/cng/include/{webrtc_cng.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/cng/test/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/cng/test/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/g711/{g711.h}
+Copyright: Copyright: 2001 Steve Underwood:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/g711/{g711.c}
+Copyright: Copyright: 2006 Steve Underwood:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/g711/{g711_interface.c}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/g711/include/{g711_interface.h}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/g711/test/{testG711.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/g722/{g722_decode.c}
+Copyright: Copyright: 2005 Steve Underwood / CMU 1993:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/g722/{g722_enc_dec.h,g722_encode.c}
+Copyright: Copyright: 2005 Steve Underwood / CMU 1993 *****:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/g722/{g722_interface.c}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/g722/include/{g722_interface.h}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/g722/test/{testG722.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/ilbc/{complexityMeasures.m}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/ilbc/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/ilbc/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/ilbc/interface/{ilbc.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/ilbc/test/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/ilbc/test/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/isac/fix/interface/{isacfix.h}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/isac/fix/source/{arith_routines.c,arith_routines_hist.c,arith_routines_logist.c,arith_routins.h,bandwidth_estimator.c,bandwidth_estimator.h,decode.c,decode_bwe.c,decode_plc.c,encode.c,entropy_coding.c,entropy_coding.h,fft.c,fft.h,filters.c,initialize.c,lattice.c,lattice_c.c,lpc_tables.c,lpc_tables.h,pitch_estimator.c,pitch_gain_tables.c,pitch_gain_tables.h,pitch_lag_tables.c,pitch_lag_tables.h,settings.h,spectrum_ar_model_tables.c,spectrum_ar_model_tables.h,structs.h,transform.c}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/isac/fix/source/{codec.h,filterbank_internal.h,filterbank_tables.c,filterbank_tables.h,filterbanks.c,filterbanks_unittest.cc,filters_unittest.cc,isacfix.c,lpc_masking_model.c,lpc_masking_model.h,lpc_masking_model_unittest.cc,pitch_estimator.h,pitch_filter_c.c,transform.h,transform_unittest.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/isac/fix/source/{entropy_coding_neon.c}
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/isac/fix/test/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/isac/fix/test/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/isac/main/interface/{isac.h}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/isac/main/source/{fft.c}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/isac/main/source/{arith_routines.c,arith_routines.h,arith_routines_hist.c,arith_routines_logist.c,bandwidth_estimator.h,crc.c,crc.h,decode_bwe.c,encode_lpc_swb.c,encode_lpc_swb.h,fft.h,filter_functions.c,filterbank_tables.c,filterbank_tables.h,filterbanks.c,intialize.c,lattice.c,lpc_analysis.c,lpc_analysis.h,lpc_gain_swb_tables.c,lpc_gain_swb_tables.h,lpc_shape_swb12_tables.c,lpc_shape_swb12_tables.h,lpc_shape_swb16_tables.c,lpc_shape_swb16_tables.h,os_specific_inline.h,pitch_estimator.c,pitch_estimator.h,pitch_gain_tables.c,pitch_gain_tables.h,pitch_lag_tables.c,pitch_lag_tables.h,spectrum_ar_model_tables.c,spectrum_ar_model_tables.h,transform.c}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/isac/main/source/{bandwidth_estimator.c,codec.h,decode.c,encode.c,entropy_coding.c,entropy_coding.h,isac.c,lpc_tables.c,lpc_tables.h,settings.h,structs.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/isac/main/source/{isac_unittest.cc}
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/isac/main/test/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/isac/main/test/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/isac/main/test/ReleaseTest-API/{ReleaseTest-API.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/isac/main/test/SwitchingSampRate/{SwitchingSampRate.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/isac/main/util/{utility.c,utility.h}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/opus/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/opus/*
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/opus/interface/{opus_interface.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/pcm16b/{pcm16b.c}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/codecs/pcm16b/include/{pcm16b.h}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/main/interface/{audio_coding_module.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/main/source/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/main/source/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/main/test/{ACMTest.cc,ACMTest.h,SpatialAudio.h,TestFEC.h,TestVADDTX.h,TimedTrace.cc,TimedTrace.h,utility.cc,utility.h}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/main/test/{APITest.cc,APITest.h,Channel.cc,Channel.h,EncodeDecodeTest.cc,EncodeDecodeTest.h,PCMFile.cc,PCMFile.h,RTPFile.cc,RTPFile.h,SpatialAudio.cc,TestAllCodecs.cc,TestAllCodecs.h,TestFEC.cc,TestStereo.cc,TestStereo.h,TestVADDTX.cc,Tester.cc,TwoWayCommunication.cc,TwoWayCommunication.h,dual_stream_unittest.cc,iSACTest.cc,iSACTest.h,opus_test.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/main/test/{delay_test.cc,initial_delay_unittest.cc,opus_test.cc}
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/neteq/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/neteq/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/neteq/interface/{webrtc_neteq.h,webrtc_neteq_help_macros.h,webrtc_neteq_internal.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/neteq/test/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/neteq/test/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/neteq/test/delay_tool/{parse_delay_file.m,plot_neteq_delay.m}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/neteq4/{neteq_unittest.cc,random_vector.cc,rtcp.cc,rtcp.h}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/neteq4/{accelerate.cc,accelerate.h,audio_decoder.cc,audio_decoder_impl.cc,audio_decoder_impl.h,audio_decoder_unittest.cc,audio_multi_vector.cc,audio_multi_vector.h,audio_multi_vector_unittest.cc,audio_vector.cc,audio_vector.h,audio_vector_unittest.cc,background_noise.cc,background_noise.h,background_noise_unittest.cc,buffer_level_filter.cc,buffer_level_filter.h,buffer_level_filter_unittest.cc,comfort_noise.cc,comfort_noise.h,comfort_noise_unittest.cc,decision_logic_unittest.cc,decoder_database.cc,decoder_database.h,decoder_database_unittest.cc,defines.h,delay_manager.cc,delay_manager.h,delay_manager_unittest.cc,delay_peak_detector.cc,delay_peak_detector.h,delay_peak_detector_unittest.cc,dsp_helper.cc,dsp_helper.h,dsp_helper_unittest.cc,dtmf_buffer.cc,dtmf_buffer.h,dtmf_buffer_unittest.cc,dtmf_tone_generator.cc,dtmf_tone_generator.h,dtmf_tone_generator_unittest.cc,expand.cc,expand.h,expand_unittest.cc,merge.cc,merge.h,merge_unittest.cc,neteq.cc,neteq_impl.cc,neteq_impl.h,neteq_impl_unittest.cc,normal.cc,normal.h,normal_unittest.cc,packet.h,packet_buffer.cc,packet_buffer.h,packet_buffer_unittest.cc,payload_splitter.cc,payload_splitter.h,payload_splitter_unittest.cc,preemptive_expand.cc,preemptive_expand.h,random_vector.h,random_vector_unittest.cc,sync_buffer.cc,sync_buffer.h,sync_buffer_unittest.cc,time_stretch.cc,time_stretch.h,time_stretch_unittest.cc,timestamp_scaler.cc,timestamp_scaler.h,timestamp_scaler_unittest.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/neteq4/{decision_logic.cc,decision_logic.h,decision_logic_fax.cc,decision_logic_fax.h,decision_logic_normal.cc,decision_logic_normal.h,neteq_external_decoder_unittest.cc,neteq_stereo_unittest.cc,post_decode_vad.cc,post_decode_vad.h,post_decode_vad_unittest.cc,statistics_calculator.cc,statistics_calculator.h}
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/neteq4/interface/{audio_decoder.h,neteq.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/neteq4/mock/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/neteq4/mock/*
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/neteq4/test/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/neteq4/test/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/neteq4/test/delay_tool/{parse_delay_file.m,plot_neteq_delay.m}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/neteq4/tools/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_coding/neteq4/tools/*
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_conference_mixer/interface/{audio_conference_mixer.h,audio_conference_mixer_defines.h}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_conference_mixer/source/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_conference_mixer/source/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_conference_mixer/test/FunctionTest/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_conference_mixer/test/FunctionTest/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_device/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_device/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_device/android/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_device/android/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_device/android/org/webrtc/voiceengine/{WebRTCAudioDevice.java}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_device/dummy/{audio_device_dummy.h,audio_device_utility_dummy.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_device/include/{audio_device_defines.h}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_device/include/{audio_device.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_device/include/{fake_audio_device.h}
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_device/ios/{audio_device_ios.cc,audio_device_ios.h,audio_device_utility_ios.cc,audio_device_utility_ios.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_device/linux/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_device/linux/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_device/mac/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_device/mac/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_device/main/interface/{audio_device.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_device/test/{audio_device_test_api.cc,audio_device_test_defines.h,audio_device_test_func.cc,func_test_manager.cc,func_test_manager.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_device/test/android/audio_device_android_test/jni/{audio_device_android_test.cc}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_device/test/android/audio_device_android_test/src/org/webrtc/voiceengine/{AudioDeviceAndroid.java}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_device/test/android/audio_device_android_test/src/org/webrtc/voiceengine/test/{AudioDeviceAndroidTest.java}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_device/win/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_device/win/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_processing/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_processing/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_processing/aec/{aec_core_sse2.c,aec_rdft.h,aec_rdft_sse2.c}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_processing/aec/{aec_core.c,aec_core.h,aec_resampler.c,aec_resampler.h,echo_cancellation.c,echo_cancellation_internal.h,system_delay_unittest.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_processing/aec/{aec_core_internal.h,echo_cancellation_unittest.cc}
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_processing/aec/{aec_rdft.c}
+Copyright: Copyright: Takuya OOURA, 1996-2001:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_processing/aec/include/{echo_cancellation.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_processing/aecm/{aecm_core.c,aecm_core.h,aecm_core_neon.c,aecm_core_neon_offsets.c,aecm_defines.h,echo_control_mobile.c}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_processing/aecm/include/{echo_control_mobile.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_processing/agc/{digital_agc.h}
+Copyright: Copyright: + ((B)>>16)*(A) + ( ((0x0000FFFF & (B))*(A)) >> 16 )) / 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_processing/agc/{analog_agc.h,digital_agc.c}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_processing/agc/{analog_agc.c}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_processing/agc/include/{gain_control.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_processing/include/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_processing/include/*
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_processing/ns/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_processing/ns/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_processing/ns/include/{noise_suppression.h,noise_suppression_x.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_processing/test/{apmtest.m}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_processing/test/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_processing/test/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_processing/utility/{fft4g.h,ring_buffer.c,ring_buffer.h}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_processing/utility/{delay_estimator.c,delay_estimator.h,delay_estimator_internal.h,delay_estimator_unittest.cc,delay_estimator_wrapper.c,delay_estimator_wrapper.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_processing/utility/{ring_buffer_unittest.cc}
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/audio_processing/utility/{fft4g.c}
+Copyright: Copyright: Takuya OOURA, 1996-2001:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/bitrate_controller/{bitrate_controller_impl.cc,bitrate_controller_impl.h,bitrate_controller_unittest.cc,send_side_bandwidth_estimation.cc,send_side_bandwidth_estimation.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/bitrate_controller/include/{bitrate_controller.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/desktop_capture/{desktop_capturer.h,desktop_frame.cc,desktop_frame.h,desktop_frame_win.cc,desktop_frame_win.h,desktop_geometry.cc,desktop_geometry.h,desktop_region.cc,desktop_region.h,shared_memory.cc,shared_memory.h,window_capturer.h,window_capturer_linux.cc,window_capturer_mac.cc,window_capturer_unittest.cc,window_capturer_win.cc}
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/interface/{module.h,module_common_types.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/media_file/interface/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/media_file/interface/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/media_file/source/{avi_file.cc,avi_file.h,media_file_impl.cc,media_file_impl.h,media_file_unittest.cc,media_file_utility.cc,media_file_utility.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/pacing/{paced_sender.cc,paced_sender_unittest.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/pacing/include/{paced_sender.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/pacing/include/mock/{mock_paced_sender.h}
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/remote_bitrate_estimator/{bitrate_estimator.cc,bitrate_estimator.h,bitrate_estimator_unittest.cc,overuse_detector.cc,overuse_detector.h,remote_bitrate_estimator_multi_stream.cc,remote_bitrate_estimator_single_stream.cc,remote_bitrate_estimator_unittest.cc,remote_bitrate_estimator_unittest_helper.cc,remote_bitrate_estimator_unittest_helper.h,remote_rate_control.cc,remote_rate_control.h,rtp_to_ntp.cc,rtp_to_ntp_unittest.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/remote_bitrate_estimator/include/{bwe_defines.h,remote_bitrate_estimator.h,rtp_to_ntp.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/remote_bitrate_estimator/include/mock/{mock_remote_bitrate_observer.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/rtp_rtcp/interface/{rtp_rtcp.h,rtp_rtcp_defines.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/rtp_rtcp/mocks/{mock_rtp_rtcp.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/rtp_rtcp/source/{dtmf_queue.cc,dtmf_queue.h,rtp_format_vp8.cc,rtp_format_vp8.h,rtp_format_vp8_test_helper.h,rtp_utility_unittest.cc,ssrc_database.cc,ssrc_database.h,video_codec_information.h,vp8_partition_aggregator.h,vp8_partition_aggregator_unittest.cc}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/rtp_rtcp/source/{bitrate.cc,bitrate.h,fec_private_tables_bursty.h,fec_private_tables_random.h,fec_test_helper.cc,fec_test_helper.h,forward_error_correction.cc,forward_error_correction.h,forward_error_correction_internal.cc,forward_error_correction_internal.h,producer_fec.cc,producer_fec.h,producer_fec_unittest.cc,receiver_fec.cc,receiver_fec.h,receiver_fec_unittest.cc,rtcp_format_remb_unittest.cc,rtcp_receiver.cc,rtcp_receiver.h,rtcp_receiver_help.cc,rtcp_receiver_help.h,rtcp_receiver_unittest.cc,rtcp_sender.cc,rtcp_sender.h,rtcp_sender_unittest.cc,rtcp_utility.cc,rtcp_utility.h,rtp_fec_unittest.cc,rtp_format_vp8_test_helper.cc,rtp_format_vp8_unittest.cc,rtp_header_extension.cc,rtp_header_extension.h,rtp_header_extension_unittest.cc,rtp_packet_history.cc,rtp_packet_history.h,rtp_packet_history_unittest.cc,rtp_receiver.cc,rtp_receiver.h,rtp_receiver_audio.cc,rtp_receiver_audio.h,rtp_receiver_strategy.cc,rtp_receiver_strategy.h,rtp_receiver_video.cc,rtp_receiver_video.h,rtp_rtcp_config.h,rtp_rtcp_impl.cc,rtp_rtcp_impl.h,rtp_sender.cc,rtp_sender.h,rtp_sender_audio.cc,rtp_sender_audio.h,rtp_sender_unittest.cc,rtp_sender_video.cc,rtp_sender_video.h,rtp_utility.cc,rtp_utility.h,tmmbr_help.cc,tmmbr_help.h,vp8_partition_aggregator.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/rtp_rtcp/source/{nack_rtx_unittest.cc,rtp_format_video_generic.h,rtp_payload_registry.cc,rtp_payload_registry.h,rtp_payload_registry_unittest.cc}
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/rtp_rtcp/source/H264/{bitstream_builder.cc,bitstream_builder.h,bitstream_parser.cc,bitstream_parser.h,h264_information.cc,h264_information.h,rtp_sender_h264.cc,rtp_sender_h264.h}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/rtp_rtcp/source/mock/{mock_rtp_payload_strategy.h,mock_rtp_receiver_video.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/rtp_rtcp/test/BWEStandAlone/{BWEConvergenceTest.cc,BWEConvergenceTest.h,BWEStabilityTest.cc,BWEStabilityTest.h,BWEStandAlone.cc,BWETestBase.cc,BWETestBase.h,BWETester.cc,BWETwoWayLimitFinding.cc,BWETwoWayLimitFinding.h,MatlabPlot.cc,MatlabPlot.h,TestLoadGenerator.cc,TestLoadGenerator.h,TestSenderReceiver.cc,TestSenderReceiver.h}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/rtp_rtcp/test/bitstreamTest/{bitstreamTest.cc}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/rtp_rtcp/test/testAPI/{test_api.cc,test_api.h,test_api_audio.cc,test_api_rtcp.cc,test_api_video.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/rtp_rtcp/test/testFec/{average_residual_loss_xor_codes.h,test_fec.cc,test_packet_masks_metrics.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/rtp_rtcp/test/testH263Parser/{testH263Parser.cc}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/rtp_rtcp/test/testRateControl/{testRateControl.cc}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/rtp_rtcp/test/testTMMBR/{testTMMBR.cc}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/utility/interface/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/utility/interface/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/utility/source/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/utility/source/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/utility/test/{testAPI.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_capture/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_capture/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_capture/android/{device_info_android.cc,device_info_android.h,video_capture_android.cc,video_capture_android.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_capture/android/java/org/webrtc/videoengine/{CaptureCapabilityAndroid.java,VideoCaptureAndroid.java,VideoCaptureDeviceInfoAndroid.java}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_capture/external/{device_info_external.cc,video_capture_external.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_capture/include/{video_capture.h,video_capture_defines.h,video_capture_factory.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_capture/linux/{device_info_linux.cc,device_info_linux.h,video_capture_linux.cc,video_capture_linux.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_capture/mac/qtkit/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_capture/mac/qtkit/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_capture/mac/quicktime/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_capture/mac/quicktime/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_capture/test/{video_capture_unittest.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_capture/windows/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_capture/windows/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_coding/codecs/i420/main/interface/{i420.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_coding/codecs/i420/main/source/{i420.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_coding/codecs/interface/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_coding/codecs/interface/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_coding/codecs/interface/mock/{mock_video_codec_interface.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_coding/codecs/test/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_coding/codecs/test/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_coding/codecs/test/mock/{mock_packet_manipulator.h}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_coding/codecs/test_framework/{exportfig.m,plotBenchmark.m}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_coding/codecs/test_framework/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_coding/codecs/test_framework/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_coding/codecs/tools/{video_quality_measurement.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_coding/codecs/vp8/{default_temporal_layers_unittest.cc,reference_picture_selection.cc,reference_picture_selection.h,reference_picture_selection_unittest.cc,temporal_layers.h}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_coding/codecs/vp8/{vp8_impl.cc,vp8_impl.h,vp8_sequence_coder.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_coding/codecs/vp8/{default_temporal_layers.cc,default_temporal_layers.h}
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_coding/codecs/vp8/include/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_coding/codecs/vp8/include/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_coding/codecs/vp8/test/{vp8_impl_unittest.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_coding/main/interface/{video_coding.h,video_coding_defines.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_coding/main/interface/mock/{mock_vcm_callbacks.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_coding/main/source/{codec_timer.cc,codec_timer.h,decoding_state.cc,decoding_state.h,decoding_state_unittest.cc,encoded_frame.h,er_tables_xor.h,fec_tables_xor.h,inter_frame_delay.cc,inter_frame_delay.h,internal_defines.h,jitter_buffer_common.h,jitter_buffer_unittest.cc,jitter_estimator.cc,jitter_estimator.h,nack_fec_tables.h,packet.cc,packet.h,receiver.h,rtt_filter.cc,rtt_filter.h,session_info.h,timestamp_extrapolator.cc,timestamp_extrapolator.h,timestamp_map.cc,timestamp_map.h,timing.cc,timing.h,timing_unittest.cc}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_coding/main/source/{codec_database.cc,codec_database.h,content_metrics_processing.cc,content_metrics_processing.h,encoded_frame.cc,frame_buffer.cc,frame_buffer.h,generic_decoder.cc,generic_decoder.h,generic_encoder.cc,generic_encoder.h,jitter_buffer.cc,jitter_buffer.h,media_opt_util.cc,media_opt_util.h,media_optimization.cc,media_optimization.h,qm_select.cc,qm_select.h,qm_select_data.h,qm_select_unittest.cc,receiver.cc,session_info.cc,session_info_unittest.cc,video_coding_impl.cc,video_coding_impl.h,video_coding_impl_unittest.cc,video_coding_robustness_unittest.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_coding/main/source/{receiver_unittest.cc,stream_generator.cc,stream_generator.h}
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_coding/main/test/{plotJitterEstimate.m,plotReceiveTrace.m,plotTimingTest.m,subfigure.m}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_coding/main/test/{codec_database_test.h,jitter_estimate_test.cc,jitter_estimate_test.h,quality_modes_test.h,release_test.cc,release_test.h,release_test_pt2.cc,test_macros.h,test_util.cc,tester_main.cc,video_source.cc}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_coding/main/test/{codec_database_test.cc,decode_from_storage_test.cc,generic_codec_test.cc,generic_codec_test.h,media_opt_test.cc,media_opt_test.h,mt_rx_tx_test.cc,mt_test_common.cc,mt_test_common.h,normal_test.cc,normal_test.h,quality_modes_test.cc,receiver_tests.h,rtp_player.cc,rtp_player.h,test_callbacks.cc,test_callbacks.h,test_util.h,video_rtp_play.cc,video_rtp_play_mt.cc,video_source.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_coding/main/test/{pcap_file_reader.cc,pcap_file_reader.h,pcap_file_reader_unittest.cc,rtp_file_reader.cc,rtp_file_reader.h,rtp_file_reader_unittest.cc,vcm_payload_sink_factory.cc,vcm_payload_sink_factory.h}
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_coding/utility/{exp_filter.cc,frame_dropper.cc}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_coding/utility/include/{exp_filter.h,frame_dropper.h}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_coding/utility/include/mock/{mock_frame_dropper.h}
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_processing/main/interface/{video_processing.h,video_processing_defines.h}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_processing/main/source/{color_enhancement_private.h}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_processing/main/source/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_processing/main/source/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_processing/main/test/unit_test/{createTable.m,readYUV420file.m,writeYUV420file.m}
+Copyright: UNKNOWN:
+License: *No copyright* UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_processing/main/test/unit_test/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_processing/main/test/unit_test/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_render/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_render/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_render/android/{video_render_android_impl.cc,video_render_android_impl.h,video_render_android_native_opengl2.cc,video_render_android_native_opengl2.h,video_render_android_surface_view.cc,video_render_android_surface_view.h,video_render_opengles20.cc,video_render_opengles20.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_render/android/java/org/webrtc/videoengine/{ViEAndroidGLES20.java,ViERenderer.java,ViESurfaceRenderer.java}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_render/external/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_render/external/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_render/include/{video_render.h,video_render_defines.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_render/linux/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_render/linux/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_render/mac/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_render/mac/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_render/test/testAPI/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_render/test/testAPI/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_render/windows/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/modules/video_render/windows/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/system_wrappers/interface/{scoped_ptr.h}
+Copyright: Copyright: 2001, 2002 Peter Dimov / Greg Colvin and Beman Dawes 1998, 1999:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/system_wrappers/interface/{aligned_malloc.h,condition_variable_wrapper.h,constructor_magic.h,cpu_features_wrapper.h,cpu_info.h,critical_section_wrapper.h,data_log.h,data_log_c.h,data_log_impl.h,event_wrapper.h,file_wrapper.h,list_wrapper.h,map_wrapper.h,rw_lock_wrapper.h,sort.h,thread_wrapper.h}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/system_wrappers/interface/{asm_defines.h,atomic32.h,compile_assert.h,event_tracer.h,logging.h,ref_count.h,sleep.h,static_instance.h,tick_util.h,trace.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/system_wrappers/interface/{clock.h,fix_interlocked_exchange_pointer_win.h,scoped_refptr.h,stringize_macros.h}
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/system_wrappers/source/{aligned_malloc.cc,condition_variable.cc,condition_variable_posix.cc,condition_variable_posix.h,cpu_features.cc,cpu_info.cc,critical_section.cc,critical_section_posix.h,critical_section_win.cc,critical_section_win.h,data_log.cc,data_log_c.cc,data_log_c_helpers_unittest.c,data_log_c_helpers_unittest.h,data_log_helpers_unittest.cc,data_log_no_op.cc,data_log_unittest.cc,data_log_unittest_disabled.cc,event.cc,event_posix.cc,event_posix.h,event_win.h,file_impl.h,list_no_stl.cc,list_no_stl.h,list_stl.cc,list_stl.h,list_unittest.cc,map.cc,map_no_stl.cc,map_no_stl.h,map_unittest.cc,rw_lock_generic.cc,rw_lock_generic.h,rw_lock_posix.cc,rw_lock_posix.h,thread.cc,thread_win.cc,thread_win.h,trace_impl_no_op.cc,trace_posix.h,trace_win.h}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/system_wrappers/source/{aligned_malloc_unittest.cc,atomic32_mac.cc,atomic32_posix.cc,atomic32_win.cc,clock_unittest.cc,condition_variable_unittest.cc,cpu_features_android.c,critical_section_posix.cc,critical_section_unittest.cc,event_tracer.cc,event_tracer_unittest.cc,event_win.cc,file_impl.cc,logging.cc,logging_no_op.cc,logging_unittest.cc,rw_lock.cc,rw_lock_win.cc,rw_lock_win.h,sleep.cc,sort.cc,thread_posix.cc,thread_posix.h,thread_posix_unittest.cc,thread_unittest.cc,tick_util.cc,trace_impl.cc,trace_impl.h,trace_posix.cc,trace_win.cc,unittest_utilities.h,unittest_utilities_unittest.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/system_wrappers/source/{clock.cc,condition_variable_event_win.h,condition_variable_native_win.cc,condition_variable_native_win.h,stringize_macros_unittest.cc}
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/system_wrappers/source/{set_thread_name_win.h}
+Copyright: Copyright: law / license to reproduce its / Grant - Subject to the terms of this license, including the / If you distribute any portion of the software, you must retain all:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/system_wrappers/source/{condition_variable_event_win.cc}
+Copyright: Copyright: statement needs to be provided if you just ship binary / 1993-2009, all rights reserved. Since DOC / statement along with any code built using DOC software that you:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/system_wrappers/source/android/{cpu-features.c,cpu-features.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/system_wrappers/source/spreadsortlib/{constants.hpp}
+Copyright: Copyright: notices in the Software and this entire statement, including / HOLDERS OR ANYONE DISTRIBUTING THE SOFTWARE BE LIABLE:
+License: BSL (v1) GENERATED FILE
+
+Files: src/third_party/webrtc/system_wrappers/source/spreadsortlib/{spreadsort.hpp}
+Copyright: Copyright: Steven J. Ross 2001 - 2009:
+License: BSL (v1.0)
+
+Files: src/third_party/webrtc/system_wrappers/test/TestSort/{TestSort.cc}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/system_wrappers/test/list/{list.cc}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/system_wrappers/test/map/{map.cc}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/test/{run_all_unittests.cc,test_suite.cc,test_suite.h}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/test/{buildbot_tests.py}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/test/{fake_common.h}
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/test/channel_transport/{traffic_control_win.cc,traffic_control_win.h,udp_socket_manager_posix.cc,udp_socket_manager_posix.h,udp_socket_manager_wrapper.h,udp_socket_posix.h}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/test/channel_transport/{udp_socket2_manager_win.cc,udp_socket2_manager_win.h,udp_socket2_win.cc,udp_socket2_win.h,udp_socket_manager_unittest.cc,udp_socket_manager_wrapper.cc,udp_socket_posix.cc,udp_socket_wrapper.cc,udp_socket_wrapper.h,udp_socket_wrapper_unittest.cc,udp_transport.h,udp_transport_impl.cc,udp_transport_impl.h,udp_transport_unittest.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/test/channel_transport/{channel_transport.cc}
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/test/channel_transport/include/{channel_transport.h}
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/test/libtest/helpers/{bit_flip_encryption.cc,random_encryption.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/test/libtest/include/{bit_flip_encryption.h,random_encryption.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/test/testsupport/{fileutils.h,frame_reader.cc,frame_reader.h,frame_reader_unittest.cc,frame_writer.cc,frame_writer_unittest.cc,packet_reader.cc,packet_reader.h}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/test/testsupport/{fileutils.cc,fileutils_unittest.cc,frame_writer.h,gtest_disable.h,gtest_prod_util.h,packet_reader_unittest.cc,perf_test.cc,perf_test.h,perf_test_unittest.cc,unittest_utils.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/test/testsupport/{trace_to_stderr.cc,trace_to_stderr.h}
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/test/testsupport/mac/{run_threaded_main_mac.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/test/testsupport/metrics/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/test/testsupport/metrics/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/test/testsupport/mock/{mock_frame_reader.h,mock_frame_writer.h}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/tools/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/tools/*
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/tools/barcode_tools/{barcode_decoder.py,build_zxing.py,helper_functions.py,yuv_cropper.py}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/tools/converter/{converter.cc,converter.h,rgba_to_i420_converter.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/tools/force_mic_volume_max/{force_mic_volume_max.cc}
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/tools/frame_analyzer/{frame_analyzer.cc,video_quality_analysis.cc,video_quality_analysis.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/tools/frame_editing/{frame_editing.cc,frame_editing_lib.cc,frame_editing_lib.h,frame_editing_unittest.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/tools/psnr_ssim_analyzer/{psnr_ssim_analyzer.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/video_engine/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/video_engine/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/video_engine/include/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/video_engine/include/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/video_engine/internal/{video_call.cc,video_call.h,video_engine.cc,video_receive_stream.cc,video_receive_stream.h,video_send_stream.cc,video_send_stream.h}
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/video_engine/new_include/{common.h,video_engine.h,video_receive_stream.h,video_send_stream.h}
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/video_engine/test/{loopback.cc}
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/video_engine/test/android/{build_demo.py}
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/video_engine/test/android/jni/{android_media_codec_decoder.cc,android_media_codec_decoder.h,vie_android_java_api.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/video_engine/test/android/src/org/webrtc/videoengine/{ViEMediaCodecDecoder.java}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/video_engine/test/android/src/org/webrtc/videoengineapp/{IViEAndroidCallback.java,ViEAndroidJavaAPI.java,WebRTCDemo.java}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/video_engine/test/auto_test/android/jni/{vie_autotest_jni.cc}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/video_engine/test/auto_test/android/src/org/webrtc/vieautotest/{ViEAutotest.java}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/video_engine/test/auto_test/automated/{legacy_fixture.cc,legacy_fixture.h,two_windows_fixture.cc,two_windows_fixture.h,vie_api_integration_test.cc,vie_extended_integration_test.cc,vie_rtp_fuzz_test.cc,vie_standard_integration_test.cc,vie_video_verification_test.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/video_engine/test/auto_test/interface/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/video_engine/test/auto_test/interface/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/video_engine/test/auto_test/primitives/{base_primitives.cc,base_primitives.h,choice_helpers.cc,choice_helpers.h,choice_helpers_unittest.cc,fake_stdin.cc,fake_stdin.h,framedrop_primitives.cc,framedrop_primitives.h,framedrop_primitives_unittest.cc,general_primitives.cc,general_primitives.h,input_helpers.cc,input_helpers.h,input_helpers_unittest.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/video_engine/test/auto_test/source/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/video_engine/test/auto_test/source/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/video_engine/test/common/{direct_transport.h,generate_ssrcs.h,vcm_capturer.cc,vcm_capturer.h,video_capturer.cc,video_capturer.h,video_renderer.cc,video_renderer.h}
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/video_engine/test/common/gl/{gl_renderer.cc,gl_renderer.h}
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/video_engine/test/common/linux/{glx_renderer.cc,glx_renderer.h,xv_renderer.cc,xv_renderer.h}
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/video_engine/test/libvietest/helpers/{vie_fake_camera.cc,vie_file_capture_device.cc,vie_to_file_renderer.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/video_engine/test/libvietest/include/{fake_network_pipe.h,tb_I420_codec.h,tb_capture_device.h,tb_external_transport.h,tb_interfaces.h,tb_video_channel.h,vie_external_render_filter.h,vie_fake_camera.h,vie_file_capture_device.h,vie_to_file_renderer.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/video_engine/test/libvietest/testbed/{fake_network_pipe.cc,fake_network_pipe_unittest.cc,tb_I420_codec.cc,tb_capture_device.cc,tb_external_transport.cc,tb_interfaces.cc,tb_video_channel.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/voice_engine/{channel_manager.cc,channel_manager.h,channel_manager_base.h,channel_unittest.cc,dtmf_inband.h,dtmf_inband_queue.h,level_indicator.h,statistics.h}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/voice_engine/{channel.cc,channel.h,channel_manager_base.cc,dtmf_inband.cc,dtmf_inband_queue.cc,level_indicator.cc,monitor_module.cc,monitor_module.h,output_mixer.cc,output_mixer.h,output_mixer_internal.cc,output_mixer_internal.h,output_mixer_unittest.cc,shared_data.cc,shared_data.h,statistics.cc,transmit_mixer.cc,transmit_mixer.h,transmit_mixer_unittest.cc,utility.cc,utility.h,voe_audio_processing_impl.cc,voe_audio_processing_impl.h,voe_audio_processing_unittest.cc,voe_base_impl.cc,voe_base_impl.h,voe_call_report_impl.cc,voe_call_report_impl.h,voe_codec_impl.cc,voe_codec_impl.h,voe_codec_unittest.cc,voe_dtmf_impl.cc,voe_dtmf_impl.h,voe_encryption_impl.cc,voe_encryption_impl.h,voe_external_media_impl.cc,voe_external_media_impl.h,voe_file_impl.cc,voe_file_impl.h,voe_hardware_impl.cc,voe_hardware_impl.h,voe_neteq_stats_impl.cc,voe_neteq_stats_impl.h,voe_network_impl.cc,voe_network_impl.h,voe_rtp_rtcp_impl.cc,voe_rtp_rtcp_impl.h,voe_video_sync_impl.cc,voe_video_sync_impl.h,voe_volume_control_impl.cc,voe_volume_control_impl.h,voice_engine_defines.h,voice_engine_impl.cc,voice_engine_impl.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/voice_engine/{voe_base_unittest.cc}
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/voice_engine/include/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/voice_engine/include/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/voice_engine/include/mock/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/voice_engine/include/mock/*
+Copyright: Copyright: 2013 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/voice_engine/test/android/android_test/jni/{android_test.cc}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/voice_engine/test/android/android_test/src/org/webrtc/voiceengine/test/{AndroidTest.java}
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/voice_engine/test/auto_test/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/voice_engine/test/auto_test/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/voice_engine/test/auto_test/extended/{agc_config_test.cc,ec_metrics_test.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/voice_engine/test/auto_test/fakes/{fake_external_transport.cc,fake_external_transport.h,fake_media_process.h}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/voice_engine/test/auto_test/fixtures/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/voice_engine/test/auto_test/fixtures/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/voice_engine/test/auto_test/fuzz/{rtp_fuzz_test.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/voice_engine/test/auto_test/standard/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/voice_engine/test/auto_test/standard/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/voice_engine/test/cmd_test/{voe_cmd_test.cc}
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/voice_engine/test/win_test/*
+Copyright: Copyright: 2011 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/third_party/webrtc/voice_engine/test/win_test/*
+Copyright: Copyright: 2012 The WebRTC project authors. All Rights Reserved:
+License: UNKNOWN
+
+Files: src/v8/src/third_party/vtune/{ittnotify_config.h,ittnotify_types.h,jitprofiling.cc,jitprofiling.h,v8-vtune.h,vtune-jit.cc,vtune-jit.h}
+Copyright: Copyright: 2005-2012 Intel Corporation. All rights reserved / HOLDERS AND CONTRIBUTORS:
+License: BSD (3 clause) GPL (v2)
+
+Files: src/v8/tools/testrunner/server/{daemon.py}
 Copyright: UNKNOWN:
 License: *No copyright* UNKNOWN
 

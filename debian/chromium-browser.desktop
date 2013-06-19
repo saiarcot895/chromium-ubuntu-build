@@ -167,7 +167,7 @@ Comment[vi]=Truy cập Internet
 Comment[zh_CN]=访问互联网
 Comment[zh_HK]=連線到網際網路
 Comment[zh_TW]=連線到網際網路
-Exec=/usr/bin/chromium-browser %U
+Exec=chromium-browser %U
 Terminal=false
 X-MultipleArgs=false
 Type=Application
@@ -179,7 +179,7 @@ StartupNotify=true
 X-Ayatana-Desktop-Shortcuts=NewWindow;Incognito;TempProfile
 X-AppInstall-Package=chromium-browser
 
-[NewWindow Shortcut Group]
+[Desktop Action NewWindow]
 Name=Open a New Window
 Name[ast]=Abrir una Ventana Nueva
 Name[bg]=Отваряне на Нов прозорец
@@ -219,7 +219,7 @@ Name[zh_CN]=打开新窗口
 Name[zh_TW]=開啟新視窗
 Exec=chromium-browser
 
-[Incognito Shortcut Group]
+[Desktop Action Incognito]
 Name=Open a New Window in incognito mode
 Name[ast]=Abrir una ventana nueva en mou incógnitu
 Name[bg]=Отваряне на нов прозорец в режим \"инкогнито\"
@@ -257,7 +257,7 @@ Name[zh_CN]=以隐身模式打开新窗口
 Name[zh_TW]=以匿名模式開啟新視窗
 Exec=chromium-browser --incognito
 
-[TempProfile Shortcut Group]
+[Desktop Action TempProfile]
 Name=Open a New Window with a temporary profile
 Name[ast]=Abrir una ventana nueva con perfil temporal
 Name[bg]=Отваряне на Нов прозорец с временен профил

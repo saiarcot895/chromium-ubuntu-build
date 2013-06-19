@@ -6,7 +6,7 @@ format-flag.patch
 search-credit.patch
 chromium_useragent.patch
 #disable_dlog_and_dcheck_in_release_builds.patch
-webkit_rev_parser.patch
+#webkit_rev_parser.patch
 dlopen_sonamed_gl.patch
 arm.patch
 arm-neon.patch

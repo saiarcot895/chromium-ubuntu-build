@@ -1,3 +1,14 @@
+chromium-browser (29.0.1541.2-0ubuntu0ppa1~saucy1) saucy; urgency=low
+
+  * New upstream version 29.0.1541.2
+  * Updated patches
+  * Dropped webkit_rev_parser.patch as it no longer seems relevant
+  * Hopefully updated copyrights
+  * Removed a fixed path that was still in chromium-browser.desktop
+  * Use bundled libraries
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 19 Jun 2013 12:51:23 -0500
+
 chromium-browser (29.0.1521.3-0ubuntu0ppa3~saucy1) saucy; urgency=low
 
   * Added exclusion for chromium-browser-sandbox from dh_fixperms in the

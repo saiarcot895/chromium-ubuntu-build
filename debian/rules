@@ -24,9 +24,9 @@ LIB_DIR        := usr/lib/$(DEBIAN_NAME)
 DEB_BUILDDIR   := $(SRC_DIR)
 
 WANT_DEBUG       := 0
-WANT_SYSTEM_LIBS ?= 1
+# Ubuntu Security Team wants to use bundled libraries
+WANT_SYSTEM_LIBS ?= 0
 WANT_SHARED_LIBS ?= 0
-USE_SYSTEM_V8    ?= 0
 VERBOSE          := 1
 PROCESSORS       ?= $(shell grep -ic ^processor /proc/cpuinfo)
 ifeq (0,$(PROCESSORS))
@@ -240,8 +240,6 @@ USE_SYSTEM_WEBP = 0
 USE_SYSTEM_MINIZIP = 0
 USE_SYSTEM_LIBSRTP = 0
 USE_SYSTEM_HARFBUZZ = $(shell (dpkg --get-selections | grep -q libharfbuzz-dev && echo 1 || echo 0))
-# For some reason, libusb-1.0-0-dev is marked as missing even when installed
-USE_SYSTEM_LIBUSB = 1
 # Missing function reference
 USE_SYSTEM_LIBVPX = 0
 
@@ -265,7 +263,7 @@ SYSTEM_LIBS = \
 	-Duse_system_libevent=1 \
 	-Duse_system_libjpeg=1 \
 	-Duse_system_libpng=0 \
-	-Duse_system_libusb=$(USE_SYSTEM_LIBUSB) \
+	-Duse_system_libusb=1 \
 	-Duse_system_libvpx=$(USE_SYSTEM_LIBVPX) \
 	-Duse_system_libwebp=$(USE_SYSTEM_WEBP) \
 	-Duse_system_libxml=1 \
@@ -297,10 +295,10 @@ GYP_DEFINES += \
 DEB_FIXPERMS_EXCLUDE := $(DEBIAN_NAME)-sandbox
 
 ifneq (,$(GOOGLEAPI_APIKEY_$(DISTRIBUTION)))
-GYP_DEFINES += \
-	google_api_key='$(GOOGLEAPI_APIKEY_$(DISTRIBUTION))' \
-	google_default_client_id='$(GOOGLEAPI_CLIENTID_$(DISTRIBUTION))' \
-	google_default_client_secret='$(GOOGLEAPI_CLIENTSECRET_$(DISTRIBUTION))'
+GYP_PARAMS += \
+	-Dgoogle_api_key='$(GOOGLEAPI_APIKEY_$(DISTRIBUTION))' \
+	-Dgoogle_default_client_id='$(GOOGLEAPI_CLIENTID_$(DISTRIBUTION))' \
+	-Dgoogle_default_client_secret='$(GOOGLEAPI_CLIENTSECRET_$(DISTRIBUTION))'
 else
 $(warning Google API info is not set in build variables GOOGLEAPI_APIKEY_$(DISTRIBUTION) GOOGLEAPI_CLIENTID_$(DISTRIBUTION) GOOGLEAPI_CLIENTSECRET_$(DISTRIBUTION))
 endif
@@ -320,7 +318,7 @@ clean:
 		build-stamp-ffmpeg-std build-stamp-ffmpeg-extra \
 		configure-stamp-ffmpeg-std configure-stamp-ffmpeg-extra
 	rm -f $(subst_files)
-	rm -rf $(DEB_TAR_SRCDIR)/out $(DEB_TAR_SRCDIR)/third_party/ffmpeg/yasm $(DEB_TAR_SRCDIR)/third_party/ffmpeg/out
+	rm -rf $(DEB_TAR_SRCDIR)/out $(FFMPEG_SRC_DIR)/yasm $(FFMPEG_SRC_DIR)/out $(FFMPEG_SRC_DIR)/*.mk
 	find $(DEB_TAR_SRCDIR) \( -name \*.pyc -o -name \*.pyo -name \*.o \) -delete
 	find $(DEB_TAR_SRCDIR) -regex '.*/\([^/]*\)/\1[^/]*\.\(Makefile\|\(target\|host\)\.mk\)' -delete
 	sed -i 's,/etc/$(DEBIAN_NAME)/policies,/etc/chromium/policies,' \
@@ -389,8 +387,7 @@ binary-arch: build install
 binary: binary-indep binary-arch
 
 configure-stamp-ffmpeg-%:
-	rm -rf $(FFMPEG_SRC_DIR)/*.mk $(FFMPEG_SRC_DIR)/out
-	cd $(SRC_DIR) && GYP_DEFINES="$(GYP_DEFINES)" $(CROSS_BUILD) GYP_GENERATORS=make build/gyp_chromium --depth=../src $(FFMPEG_DIR)/ffmpeg.gyp
+	cd $(SRC_DIR) && GYP_DEFINES="$(GYP_DEFINES)" $(CROSS_BUILD) GYP_GENERATORS=make build/gyp_chromium --depth=../src $(FFMPEG_DIR)/ffmpeg.gyp $(GYP_PARAMS)
 	touch $@
 
 build-stamp-ffmpeg-%: GYP_DEFINES += $(FFMPEG_MT_$(subst std,STD,$(subst extra,EXTRA,$*))_GYP_DEFINES) $(FFMPEG_MT_GYP_DEFINES)
@@ -487,9 +484,6 @@ endif
 ###############################################################################################
 
 # Tarball (get-packaged-orig-source)
-GCLIENT_URL  := http://src.chromium.org/svn/trunk/tools/depot_tools
-#CHROMIUM_URL := http://src.chromium.org/svn/trunk/src
-CHROMIUM_RLZ := https://src.chromium.org/chrome/releases
 
 get-orig-source:
 	$(warning $@ is deprecated. Use param/rule "get-packaged-orig-source" or a recent "bzr builddeb".)

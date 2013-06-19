@@ -5,8 +5,8 @@ Description: dlopen the sonamed libs directly, like it has already been done
 
 Index: dev.saucy/src/ui/gl/gl_implementation_x11.cc
 ===================================================================
---- dev.saucy.orig/src/ui/gl/gl_implementation_x11.cc	2013-05-30 16:49:17.049666654 -0500
-+++ dev.saucy/src/ui/gl/gl_implementation_x11.cc	2013-05-30 16:49:17.041666362 -0500
+--- dev.saucy.orig/src/ui/gl/gl_implementation_x11.cc	2013-06-19 12:40:24.505980069 -0500
++++ dev.saucy/src/ui/gl/gl_implementation_x11.cc	2013-06-19 12:40:24.501979928 -0500
 @@ -79,7 +79,7 @@
        }
  
