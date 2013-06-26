@@ -152,7 +152,7 @@ Index: dev.saucy/src/chrome/common/extensions/api/tld.json
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
 +++ dev.saucy/src/chrome/common/extensions/api/tld.json	2013-06-26 07:30:34.580095824 -0500
-@@ -0,0 +1,54 @@
+@@ -0,0 +1,55 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.
@@ -161,6 +161,7 @@ Index: dev.saucy/src/chrome/common/extensions/api/tld.json
 +  {
 +    "namespace": "tld",
 +    "nodoc": "true",
++    "description": "Return information about the URI.",
 +    "types": [],
 +    "functions": [
 +      {
