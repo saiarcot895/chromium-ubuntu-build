@@ -4,6 +4,9 @@ chromium-browser (29.0.1547.0-0ubuntu0ppa1~saucy1) saucy; urgency=low
   * Updated chromium-browser.desktop to use new standard keys
   * Use NEON instructions on ARM, optionally
   * Don't copy resources folder or .stamp files to final deb
+  * Drop two unneeded patches
+  * Add author tag to three patches
+  * Updated patches
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 26 Jun 2013 07:43:20 -0500
 

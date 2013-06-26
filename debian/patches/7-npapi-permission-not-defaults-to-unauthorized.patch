@@ -1,8 +1,8 @@
 Index: dev.saucy/src/chrome/browser/browser_resources.grd
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/browser_resources.grd	2013-06-19 12:42:36.286606746 -0500
-+++ dev.saucy/src/chrome/browser/browser_resources.grd	2013-06-19 12:42:36.226604640 -0500
-@@ -203,6 +203,7 @@
+--- dev.saucy.orig/src/chrome/browser/browser_resources.grd	2013-06-26 07:37:58.991693939 -0500
++++ dev.saucy/src/chrome/browser/browser_resources.grd	2013-06-26 07:37:58.967693080 -0500
+@@ -197,6 +197,7 @@
          </if>
          <if expr="not pp_ifdef('chromeos')">
            <include name="IDR_PLUGIN_DB_JSON" file="resources\plugin_metadata\plugins_linux.json" type="BINDATA" />
@@ -12,8 +12,8 @@ Index: dev.saucy/src/chrome/browser/browser_resources.grd
        <include name="IDR_POLICY_CSS" file="resources\policy.css" type="BINDATA"/>
 Index: dev.saucy/src/chrome/browser/plugins/plugin_finder.cc
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/plugins/plugin_finder.cc	2013-06-19 12:42:36.286606746 -0500
-+++ dev.saucy/src/chrome/browser/plugins/plugin_finder.cc	2013-06-19 12:42:36.258605764 -0500
+--- dev.saucy.orig/src/chrome/browser/plugins/plugin_finder.cc	2013-06-26 07:37:58.991693939 -0500
++++ dev.saucy/src/chrome/browser/plugins/plugin_finder.cc	2013-06-26 07:37:58.979693510 -0500
 @@ -134,6 +134,29 @@
    return plugin;
  }
@@ -117,8 +117,8 @@ Index: dev.saucy/src/chrome/browser/plugins/plugin_finder.cc
  
 Index: dev.saucy/src/chrome/browser/plugins/plugin_finder.h
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/plugins/plugin_finder.h	2013-06-19 12:42:36.286606746 -0500
-+++ dev.saucy/src/chrome/browser/plugins/plugin_finder.h	2013-06-19 12:42:36.262605903 -0500
+--- dev.saucy.orig/src/chrome/browser/plugins/plugin_finder.h	2013-06-26 07:37:58.991693939 -0500
++++ dev.saucy/src/chrome/browser/plugins/plugin_finder.h	2013-06-26 07:37:58.983693653 -0500
 @@ -80,6 +80,15 @@
    // Returns NULL if the plug-in list couldn't be parsed.
    static base::DictionaryValue* LoadBuiltInPluginList();
@@ -138,7 +138,7 @@ Index: dev.saucy/src/chrome/browser/plugins/plugin_finder.h
 Index: dev.saucy/src/chrome/browser/resources/plugin_metadata/plugins_ubuntu_linux.json
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.saucy/src/chrome/browser/resources/plugin_metadata/plugins_ubuntu_linux.json	2013-06-19 12:42:36.278606466 -0500
++++ dev.saucy/src/chrome/browser/resources/plugin_metadata/plugins_ubuntu_linux.json	2013-06-26 07:37:58.987693796 -0500
 @@ -0,0 +1,18 @@
 +{
 +  "libunity_npapi_plugin.so": {

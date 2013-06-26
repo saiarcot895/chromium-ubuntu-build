@@ -7,13 +7,11 @@ search-credit.patch
 chromium_useragent.patch
 #disable_dlog_and_dcheck_in_release_builds.patch
 #webkit_rev_parser.patch
-dlopen_sonamed_gl.patch
 arm.patch
 arm-neon.patch
 #struct-siginfo.patch
 #grd_parse_fix.patch
 ffmpeg-gyp-config.patch
-#ld-memory-32bit.patch
 ###: start lp:unity-chromium-extension
 1-infobars.patch
 2-get-domain-tld.patch
