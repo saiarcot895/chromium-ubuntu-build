@@ -92,13 +92,13 @@ GYP_DEFINES += \
 	$(NULL)
  endif
  ifeq (armhf,$(DEB_HOST_ARCH))
-GYP_DEFINES += -DUSE_EABI_HARDFLOAT 
+GYP_PARAMS += -DUSE_EABI_HARDFLOAT
+GYP_DEFINES += arm_neon_optional=1
 GYP_DEFINES += \
 	v8_use_arm_eabi_hardfloat=true \
-	arm_fpu=vfpv3-d16 \
+	arm_fpu=neon \
 	arm_float_abi=hard \
 	arm_thumb=1 \
-	arm_neon=0 \
 	$(NULL)
   ifneq (,$(filter 10.10% 11.04% 11.10% 12.04% 12.10% 13.04% 13.10%,$(UBUNTU_DIST))$(filter unstable development,$(DEBIAN_DIST)))
 GYP_DEFINES += \
@@ -175,6 +175,7 @@ INSTALL_EXCLUDE_DIRS = \
 	DumpRenderTree_resources \
 	lib.target \
 	locales \
+	resources \
 	$(NULL)
 
 INSTALL_EXCLUDE_FILES = \
@@ -200,6 +201,7 @@ INSTALL_EXCLUDE_FILES = \
 	xdisplaycheck \
 	libTestRunner.so \
 	libchromedriver2.so \
+	*.stamp \
 	$(NULL)
 
 # FFmpeg-mt

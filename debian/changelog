@@ -2,6 +2,8 @@ chromium-browser (29.0.1547.0-0ubuntu0ppa1~saucy1) saucy; urgency=low
 
   * New upstream version 29.0.1547.0
   * Updated chromium-browser.desktop to use new standard keys
+  * Use NEON instructions on ARM, optionally
+  * Don't copy resources folder or .stamp files to final deb
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 26 Jun 2013 07:43:20 -0500
 
