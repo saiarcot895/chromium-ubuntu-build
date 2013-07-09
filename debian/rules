@@ -150,7 +150,6 @@ ifeq (1,$(WANT_SHARED_LIBS))
 GYP_DEFINES += library=shared_library
 endif
 
-CC_VERSION   := $(shell gcc -dumpversion | cut -d. -f-2)
 CC := gcc
 CXX := g++
 
@@ -320,7 +319,7 @@ clean:
 		build-stamp-ffmpeg-std build-stamp-ffmpeg-extra \
 		configure-stamp-ffmpeg-std configure-stamp-ffmpeg-extra
 	rm -f $(subst_files)
-	rm -rf $(DEB_TAR_SRCDIR)/out $(FFMPEG_SRC_DIR)/yasm $(FFMPEG_SRC_DIR)/out $(FFMPEG_SRC_DIR)/*.mk
+	rm -rf $(DEB_TAR_SRCDIR)/out $(DEB_TAR_SRCDIR)/third_party/ffmpeg/yasm $(DEB_TAR_SRCDIR)/third_party/ffmpeg/out $(DEB_TAR_SRCDIR)/third_party/ffmpeg/*.mk
 	find $(DEB_TAR_SRCDIR) \( -name \*.pyc -o -name \*.pyo -name \*.o \) -delete
 	find $(DEB_TAR_SRCDIR) -regex '.*/\([^/]*\)/\1[^/]*\.\(Makefile\|\(target\|host\)\.mk\)' -delete
 	sed -i 's,/etc/$(DEBIAN_NAME)/policies,/etc/chromium/policies,' \
@@ -464,6 +463,7 @@ endif
 	dh_strip --package=$(DEBIAN_NAME) --dbg-package=$(DEBIAN_NAME)-dbg
 	dh_strip --package=chromium-codecs-ffmpeg --dbg-package=chromium-codecs-ffmpeg-dbg
 	dh_strip --package=chromium-codecs-ffmpeg-extra --dbg-package=chromium-codecs-ffmpeg-extra-dbg
+	dh_strip --package=chromium-chromedriver --dbg-package=chromium-chromedriver-dbg
 
 # Compare
 PKG_DIRS = $(addprefix debian/,$(shell grep ^Package debian/control | cut -d' ' -f2))

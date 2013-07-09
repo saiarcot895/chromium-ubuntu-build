@@ -1,0 +1,32 @@
+Description: Replace the global-menu-bar container with an invisible box that's
+  packed into the layout.
+Author: William Hua <attente@canonical.com>
+
+Index: dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.cc
+===================================================================
+--- dev.saucy.orig/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-07-09 17:02:00.226197516 -0500
++++ dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-07-09 17:02:00.214197097 -0500
+@@ -1592,7 +1592,9 @@
+   // GtkMenuBar it sees into the global menu bar. (It doesn't seem to check the
+   // visibility of the GtkMenuBar, so we can just permanently hide it.)
+   global_menu_bar_.reset(new GlobalMenuBar(browser_.get()));
+-  gtk_container_add(GTK_CONTAINER(window_vbox_), global_menu_bar_->widget());
++  gtk_box_pack_start(GTK_BOX(window_vbox_), global_menu_bar_->widget(), FALSE,
++                     FALSE, 0);
++  gtk_widget_show(global_menu_bar_->widget());
+ 
+   // The window container draws the custom browser frame.
+   window_container_ = gtk_alignment_new(0.0, 0.0, 1.0, 1.0);
+Index: dev.saucy/src/chrome/browser/ui/gtk/global_menu_bar.cc
+===================================================================
+--- dev.saucy.orig/src/chrome/browser/ui/gtk/global_menu_bar.cc	2013-07-09 17:02:00.226197516 -0500
++++ dev.saucy/src/chrome/browser/ui/gtk/global_menu_bar.cc	2013-07-09 17:02:00.218197237 -0500
+@@ -154,7 +154,7 @@
+   // The global menu bar should never actually be shown in the app; it should
+   // instead remain in our widget hierarchy simply to be noticed by third party
+   // components.
+-  gtk_widget_set_no_show_all(menu_bar_.get(), TRUE);
++  gtk_widget_set_size_request(menu_bar_.get(), 0, 0);
+ 
+   // Set a nice name so it shows up in gtkparasite and others.
+   gtk_widget_set_name(menu_bar_.get(), "chrome-hidden-global-menubar");

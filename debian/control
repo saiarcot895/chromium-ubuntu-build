@@ -57,7 +57,7 @@ Architecture: any
 Pre-Depends: dpkg (>= 1.15.6)
 Depends: ${shlibs:Depends}, ${misc:Depends},
 	xdg-utils,
-	chromium-codecs-ffmpeg (>= 0.6) | chromium-codecs-ffmpeg-extra (>= 0.6)
+	chromium-codecs-ffmpeg-extra (>= 0.6) | chromium-codecs-ffmpeg (>= 0.6)
 Recommends: chromium-browser-l10n
 Provides: www-browser, chromium-browser-inspector
 Replaces: chromium-browser-inspector
@@ -105,6 +105,15 @@ Description: ChromeDriver
  .
  This package contains ChromeDriver, a standalone server which implements
  WebDriver's wire protocol.
+
+Package: chromium-chromedriver-dbg
+Architecture: any
+Section: debug
+Priority: extra
+Pre-Depends: dpkg (>= 1.15.6)
+Depends: ${shlibs:Depends}, ${misc:Depends}, chromium-chromedriver (= ${binary:Version})
+Description: chromium-chromedriver debug symbols
+ Debug symbols for the ChromeDriver
 
 Package: chromium-codecs-ffmpeg
 Architecture: any
