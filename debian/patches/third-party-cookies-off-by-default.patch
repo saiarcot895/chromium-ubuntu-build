@@ -3,8 +3,8 @@ Author: Chad Miller <chad.miller@canonical.com>
 
 Index: dev.saucy/src/chrome/browser/content_settings/cookie_settings.cc
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/content_settings/cookie_settings.cc	2013-07-09 17:02:00.926221884 -0500
-+++ dev.saucy/src/chrome/browser/content_settings/cookie_settings.cc	2013-07-09 17:02:00.918221606 -0500
+--- dev.saucy.orig/src/chrome/browser/content_settings/cookie_settings.cc	2013-07-12 13:12:51.796908907 -0500
++++ dev.saucy/src/chrome/browser/content_settings/cookie_settings.cc	2013-07-12 13:12:51.788908628 -0500
 @@ -70,7 +70,7 @@
      user_prefs::PrefRegistrySyncable* registry) {
    registry->RegisterBooleanPref(
