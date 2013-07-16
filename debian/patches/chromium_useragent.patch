@@ -3,8 +3,8 @@ Author: Chad Miller <chad.miller@canonical.com>
 
 Index: dev.saucy/src/webkit/common/user_agent/user_agent_util.cc
 ===================================================================
---- dev.saucy.orig/src/webkit/common/user_agent/user_agent_util.cc	2013-07-12 13:12:53.048952597 -0500
-+++ dev.saucy/src/webkit/common/user_agent/user_agent_util.cc	2013-07-12 13:12:53.040952317 -0500
+--- dev.saucy.orig/src/webkit/common/user_agent/user_agent_util.cc	2013-07-16 10:56:30.889619139 -0500
++++ dev.saucy/src/webkit/common/user_agent/user_agent_util.cc	2013-07-16 10:56:30.885618998 -0500
 @@ -180,13 +180,21 @@
    // Derived from Safari's UA string.
    // This is done to expose our product name in a manner that is maximally
