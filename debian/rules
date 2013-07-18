@@ -22,9 +22,18 @@ DEB_TAR_SRCDIR := src
 SRC_DIR        := $(CURDIR)/$(DEB_TAR_SRCDIR)
 LIB_DIR        := usr/lib/$(DEBIAN_NAME)
 DEB_BUILDDIR   := $(SRC_DIR)
+FFMPEG_DIR     := third_party/ffmpeg
+FFMPEG_SRC_DIR := $(SRC_DIR)/$(FFMPEG_DIR)
 
 WANT_DEBUG       := 0
-# Ubuntu Security Team wants to use bundled libraries
+
+# System libs off. Rationalle: We usually want to use as many system libraries
+# as possible, as a security measure. If there's a security problem in one, the
+# security team can replace it in the distro and everything magically starts
+# working. Chromium is an exception. It moves quickly emough that testing that
+# system libraries actually work is too hard, and upstream does a pretty good
+# job of fixing known security problems soon.  As long as we keep the package
+# fresh, no system libs is the smarter move.
 WANT_SYSTEM_LIBS ?= 0
 WANT_SHARED_LIBS ?= 0
 VERBOSE          := 1
@@ -201,6 +210,10 @@ INSTALL_EXCLUDE_FILES = \
 	libTestRunner.so \
 	libchromedriver2.so \
 	*.stamp \
+	AHEM____.TTF \
+	fonts.conf \
+	libTestNetscapePlugIn.so \
+	ImageDiff \
 	$(NULL)
 
 # FFmpeg-mt
@@ -285,6 +298,7 @@ BUILD_TARGETS += \
 	chrome \
 	chrome_sandbox \
 	chromedriver2 \
+	base_unittests \
 	$(NULL)
 
 GYP_DEFINES += \
@@ -319,13 +333,25 @@ clean:
 		build-stamp-ffmpeg-std build-stamp-ffmpeg-extra \
 		configure-stamp-ffmpeg-std configure-stamp-ffmpeg-extra
 	rm -f $(subst_files)
-	rm -rf $(DEB_TAR_SRCDIR)/out $(DEB_TAR_SRCDIR)/third_party/ffmpeg/yasm $(DEB_TAR_SRCDIR)/third_party/ffmpeg/out $(DEB_TAR_SRCDIR)/third_party/ffmpeg/*.mk
+	rm -rf $(DEB_TAR_SRCDIR)/out $(FFMPEG_SRC_DIR)/yasm $(FFMPEG_SRC_DIR)/out $(FFMPEG_SRC_DIR)/*.mk
 	find $(DEB_TAR_SRCDIR) \( -name \*.pyc -o -name \*.pyo -name \*.o \) -delete
 	find $(DEB_TAR_SRCDIR) -regex '.*/\([^/]*\)/\1[^/]*\.\(Makefile\|\(target\|host\)\.mk\)' -delete
 	sed -i 's,/etc/$(DEBIAN_NAME)/policies,/etc/chromium/policies,' \
 		$(DEB_TAR_SRCDIR)/chrome/common/chrome_paths.cc
 	
 	dh_clean
+
+tests: build-stamp
+tests: TEMPFILE=$(shell mktemp)
+tests:
+	# disabled: SecurityTest exhausts memory to fail
+	# disabled: PowerMonitorTest doesn't mock power enough, I think
+	# disabled: FileUtilTest fails because of fakeroot interaction
+	cd $(SRC_DIR); ./out/$(BUILD_TYPE)/base_unittests --gtest_filter=-SecurityTest.NewOverflow:PowerMonitorTest.\*:FileUtilTest.ChangeFilePermissionsAndRead:FileUtilTest.ChangeFilePermissionsAndWrite:FileUtilTest.ChangeDirectoryPermissionsAndEnumerate |tee $(TEMPFILE) |cat -n
+#	cd $(SRC_DIR); ./out/$(BUILD_TYPE)/browser_tests | tee -a $(TEMPFILE) | cat -n
+	echo "If more than 15 tests fail, then we interpret that as too poor quality to continue."
+	sed -e 1,/FAILED.\*tests,\ listed\ below/d $(TEMPFILE) |grep -c \\\[\ \ FAILED\ \ \\\] |xargs test 15 -gt
+	echo "Unit tests are good enough."
 
 configure: configure-stamp
 configure-stamp: GYP_ENV = GYP_GENERATORS=make
@@ -356,7 +382,7 @@ endif
 	echo "$(DEBIAN_REVISION)" > $(SRC_DIR)/build/LASTCHANGE.in
 	touch $@
 
-build: build-stamp build-stamp-ffmpeg-std build-stamp-ffmpeg-extra
+build: build-stamp tests build-stamp-ffmpeg-std build-stamp-ffmpeg-extra
 	touch $@
 
 build-stamp: configure-stamp
@@ -394,8 +420,6 @@ configure-stamp-ffmpeg-%:
 	touch $@
 
 build-stamp-ffmpeg-%: GYP_DEFINES += $(FFMPEG_MT_$(subst std,STD,$(subst extra,EXTRA,$*))_GYP_DEFINES) $(FFMPEG_MT_GYP_DEFINES)
-build-stamp-ffmpeg-%: FFMPEG_DIR = third_party/ffmpeg
-build-stamp-ffmpeg-%: FFMPEG_SRC_DIR = $(SRC_DIR)/$(FFMPEG_DIR)
 build-stamp-ffmpeg-%: configure-stamp-ffmpeg-%
 	cd $(FFMPEG_SRC_DIR) ; $(MAKE) -f ffmpeg.Makefile $(BUILD_ARGS) $(CROSS_BUILD)
 	mkdir debian/tmp-$*
@@ -466,7 +490,7 @@ endif
 	dh_strip --package=chromium-chromedriver --dbg-package=chromium-chromedriver-dbg
 
 # Compare
-PKG_DIRS = $(addprefix debian/,$(shell grep ^Package debian/control | cut -d' ' -f2))
+PKG_DIRS = $(addprefix debian/,$(shell dh_listpackages))
 
 binary-predeb/$(DEBIAN_NAME):
 ifneq (,$(findstring Ubuntu,$(DEBIAN_DIST)))
