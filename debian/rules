@@ -297,7 +297,6 @@ endif
 BUILD_TARGETS += \
 	chrome \
 	chrome_sandbox \
-	chromedriver2 \
 	base_unittests \
 	$(NULL)
 
@@ -476,7 +475,7 @@ endif
 	mv debian/$(DEBIAN_NAME)-l10n/$(LIB_DIR)/locales/en-US.pak debian/$(DEBIAN_NAME)/$(LIB_DIR)/locales
 	# chromedriver
 	dh_installdirs --package=$(DEBIAN_DRIVER_NAME) $(LIB_DIR)
-	cp -a $(SRC_DIR)/out/$(BUILD_TYPE)/libchromedriver2.so debian/$(DEBIAN_DRIVER_NAME)/$(LIB_DIR)
+#	cp -a $(SRC_DIR)/out/$(BUILD_TYPE)/libchromedriver2.so debian/$(DEBIAN_DRIVER_NAME)/$(LIB_DIR)
 	
 	dh_installdirs --package=chromium-codecs-ffmpeg $(LIB_DIR)
 	cp debian/tmp-std/libffmpegsumo.so debian/chromium-codecs-ffmpeg/$(LIB_DIR)
@@ -487,7 +486,7 @@ endif
 	dh_strip --package=$(DEBIAN_NAME) --dbg-package=$(DEBIAN_NAME)-dbg
 	dh_strip --package=chromium-codecs-ffmpeg --dbg-package=chromium-codecs-ffmpeg-dbg
 	dh_strip --package=chromium-codecs-ffmpeg-extra --dbg-package=chromium-codecs-ffmpeg-extra-dbg
-	dh_strip --package=chromium-chromedriver --dbg-package=chromium-chromedriver-dbg
+#	dh_strip --package=chromium-chromedriver --dbg-package=chromium-chromedriver-dbg
 
 # Compare
 PKG_DIRS = $(addprefix debian/,$(shell dh_listpackages))
