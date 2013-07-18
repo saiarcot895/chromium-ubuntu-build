@@ -1,3 +1,10 @@
+chromium-browser (30.0.1566.2-0ubuntu0~ppa1~saucy1) saucy; urgency=low
+
+  * New upstream version 30.0.1566.2
+  * Add lintian_overrides
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 17 Jul 2013 22:01:15 -0500
+
 chromium-browser (29.0.1547.22-0ubuntu0ppa1~saucy1) saucy; urgency=low
 
   * New upstream version 29.0.1547.22
