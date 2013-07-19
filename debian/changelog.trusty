@@ -1,3 +1,9 @@
+chromium-browser (30.0.1568.0-0ubuntu1~ppa2~saucy1) saucy; urgency=low
+
+  * Actually add build target for chromedriver
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 19 Jul 2013 15:20:20 -0500
+
 chromium-browser (30.0.1568.0-0ubuntu1~ppa1~saucy1) saucy; urgency=low
 
   * New upstream version 30.0.1568.0

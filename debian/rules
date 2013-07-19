@@ -298,6 +298,7 @@ endif
 BUILD_TARGETS += \
 	chrome \
 	chrome_sandbox \
+	chromedriver \
 	base_unittests \
 	$(NULL)
 
