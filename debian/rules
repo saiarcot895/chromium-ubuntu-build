@@ -36,8 +36,7 @@ WANT_DEBUG       := 0
 # fresh, no system libs is the smarter move.
 WANT_SYSTEM_LIBS ?= 0
 WANT_SHARED_LIBS ?= 0
-#VERBOSE          := 1
-VERBOSE          := 0
+VERBOSE          := 1
 PROCESSORS       ?= $(shell grep -ic ^processor /proc/cpuinfo)
 ifeq (0,$(PROCESSORS))
 PROCESSORS := 1
@@ -69,7 +68,7 @@ WANT_LP_TRANSLATIONS ?= 0
 ##
 
 # Always add debug symbols, and strip them when we don't want them.
-#GYP_DEFINES += release_extra_cflags="-g"
+GYP_DEFINES += release_extra_cflags="-g"
 
 # Don't fail on compilation warnings
 GYP_DEFINES += werror=$(NULL)
@@ -146,7 +145,7 @@ BUILD_TYPE := Debug
 else
 BUILD_TYPE := Release
 # Add symbols
-#BUILD_ARGS += SYMBOLS=1
+BUILD_ARGS += SYMBOLS=1
 endif
 BUILD_ARGS += BUILDTYPE=$(BUILD_TYPE)
 
