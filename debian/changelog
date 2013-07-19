@@ -1,3 +1,10 @@
+chromium-browser (30.0.1566.2-0ubuntu0~ppa4~saucy1) saucy; urgency=low
+
+  * Mkdir a folder in the chromedriver package so that the build won't
+    fail
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 18 Jul 2013 20:19:12 -0500
+
 chromium-browser (30.0.1566.2-0ubuntu0~ppa3~saucy1) saucy; urgency=low
 
   * Correct debian/patches/2-get-domain-tld.patch to reflect new

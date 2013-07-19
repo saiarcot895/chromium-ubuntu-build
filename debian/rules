@@ -476,6 +476,7 @@ endif
 	# chromedriver
 	dh_installdirs --package=$(DEBIAN_DRIVER_NAME) $(LIB_DIR)
 #	cp -a $(SRC_DIR)/out/$(BUILD_TYPE)/libchromedriver2.so debian/$(DEBIAN_DRIVER_NAME)/$(LIB_DIR)
+	mkdir debian/$(DEBIAN_DRIVER_NAME)/$(LIB_DIR)
 	
 	dh_installdirs --package=chromium-codecs-ffmpeg $(LIB_DIR)
 	cp debian/tmp-std/libffmpegsumo.so debian/chromium-codecs-ffmpeg/$(LIB_DIR)
