@@ -36,7 +36,8 @@ WANT_DEBUG       := 0
 # fresh, no system libs is the smarter move.
 WANT_SYSTEM_LIBS ?= 0
 WANT_SHARED_LIBS ?= 0
-VERBOSE          := 1
+#VERBOSE          := 1
+VERBOSE          := 0
 PROCESSORS       ?= $(shell grep -ic ^processor /proc/cpuinfo)
 ifeq (0,$(PROCESSORS))
 PROCESSORS := 1
@@ -68,7 +69,7 @@ WANT_LP_TRANSLATIONS ?= 0
 ##
 
 # Always add debug symbols, and strip them when we don't want them.
-GYP_DEFINES += release_extra_cflags="-g"
+#GYP_DEFINES += release_extra_cflags="-g"
 
 # Don't fail on compilation warnings
 GYP_DEFINES += werror=$(NULL)
@@ -145,7 +146,7 @@ BUILD_TYPE := Debug
 else
 BUILD_TYPE := Release
 # Add symbols
-BUILD_ARGS += SYMBOLS=1
+#BUILD_ARGS += SYMBOLS=1
 endif
 BUILD_ARGS += BUILDTYPE=$(BUILD_TYPE)
 
@@ -475,8 +476,7 @@ endif
 	mv debian/$(DEBIAN_NAME)-l10n/$(LIB_DIR)/locales/en-US.pak debian/$(DEBIAN_NAME)/$(LIB_DIR)/locales
 	# chromedriver
 	dh_installdirs --package=$(DEBIAN_DRIVER_NAME) $(LIB_DIR)
-#	cp -a $(SRC_DIR)/out/$(BUILD_TYPE)/libchromedriver2.so debian/$(DEBIAN_DRIVER_NAME)/$(LIB_DIR)
-	mkdir debian/$(DEBIAN_DRIVER_NAME)/$(LIB_DIR)
+	cp -a $(SRC_DIR)/out/$(BUILD_TYPE)/chromedriver debian/$(DEBIAN_DRIVER_NAME)/$(LIB_DIR)
 	
 	dh_installdirs --package=chromium-codecs-ffmpeg $(LIB_DIR)
 	cp debian/tmp-std/libffmpegsumo.so debian/chromium-codecs-ffmpeg/$(LIB_DIR)
@@ -487,7 +487,7 @@ endif
 	dh_strip --package=$(DEBIAN_NAME) --dbg-package=$(DEBIAN_NAME)-dbg
 	dh_strip --package=chromium-codecs-ffmpeg --dbg-package=chromium-codecs-ffmpeg-dbg
 	dh_strip --package=chromium-codecs-ffmpeg-extra --dbg-package=chromium-codecs-ffmpeg-extra-dbg
-#	dh_strip --package=chromium-chromedriver --dbg-package=chromium-chromedriver-dbg
+	dh_strip --package=$(DEBIAN_DRIVER_NAME) --dbg-package=$(DEBIAN_DRIVER_NAME)-dbg
 
 # Compare
 PKG_DIRS = $(addprefix debian/,$(shell dh_listpackages))

@@ -1,3 +1,10 @@
+chromium-browser (30.0.1568.0-0ubuntu1~ppa1~saucy1) saucy; urgency=low
+
+  * New upstream version 30.0.1568.0
+  * Build chromedriver instead of chromedriver2
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 19 Jul 2013 12:26:10 -0500
+
 chromium-browser (30.0.1566.2-0ubuntu0~ppa4~saucy1) saucy; urgency=low
 
   * Mkdir a folder in the chromedriver package so that the build won't
