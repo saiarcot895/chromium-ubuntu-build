@@ -208,12 +208,14 @@ INSTALL_EXCLUDE_FILES = \
 	libvpx_obj_int_extract \
 	xdisplaycheck \
 	libTestRunner.so \
-	libchromedriver2.so \
+	chromedriver \
 	*.stamp \
 	AHEM____.TTF \
 	fonts.conf \
 	libTestNetscapePlugIn.so \
 	ImageDiff \
+	base_unittests \
+	base_unittests.log \
 	$(NULL)
 
 # FFmpeg-mt
@@ -299,6 +301,8 @@ BUILD_TARGETS += \
 	chrome_sandbox \
 	chromedriver \
 	base_unittests \
+	reliability_tests \
+	automated_ui_tests \
 	$(NULL)
 
 GYP_DEFINES += \
@@ -348,7 +352,8 @@ tests:
 	# disabled: PowerMonitorTest doesn't mock power enough, I think
 	# disabled: FileUtilTest fails because of fakeroot interaction
 	cd $(SRC_DIR); ./out/$(BUILD_TYPE)/base_unittests --gtest_filter=-SecurityTest.NewOverflow:PowerMonitorTest.\*:FileUtilTest.ChangeFilePermissionsAndRead:FileUtilTest.ChangeFilePermissionsAndWrite:FileUtilTest.ChangeDirectoryPermissionsAndEnumerate |tee $(TEMPFILE) |cat -n
-#	cd $(SRC_DIR); ./out/$(BUILD_TYPE)/browser_tests | tee -a $(TEMPFILE) | cat -n
+#	cd $(SRC_DIR); ./out/$(BUILD_TYPE)/automated_ui_tests | tee -a $(TEMPFILE) | cat -n
+#	cd $(SRC_DIR); ./out/$(BUILD_TYPE)/reliability_tests | tee -a $(TEMPFILE) | cat -n
 	echo "If more than 15 tests fail, then we interpret that as too poor quality to continue."
 	sed -e 1,/FAILED.\*tests,\ listed\ below/d $(TEMPFILE) |grep -c \\\[\ \ FAILED\ \ \\\] |xargs test 15 -gt
 	echo "Unit tests are good enough."
