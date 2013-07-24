@@ -2,6 +2,7 @@ chromium-browser (30.0.1573.2-0ubuntu1~ppa1~saucy1) saucy; urgency=low
 
   * New upstream version 30.0.1573.2
   * Build automated_ui_tests and reliability_tests
+  * Updated patches
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 24 Jul 2013 16:38:15 -0500
 
