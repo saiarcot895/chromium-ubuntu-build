@@ -216,6 +216,10 @@ INSTALL_EXCLUDE_FILES = \
 	ImageDiff \
 	base_unittests \
 	base_unittests.log \
+	automated_unittests \
+	automated_unittests.log \
+	reliability_unittests \
+	reliability_unittests.log \
 	$(NULL)
 
 # FFmpeg-mt
@@ -295,7 +299,7 @@ SYSTEM_LIBS = \
 	$(NULL)
 endif
 
-# Build chrome and chrome_sandbox, and chromedriver2
+# Build chrome and chrome_sandbox, and chromedriver
 BUILD_TARGETS += \
 	chrome \
 	chrome_sandbox \
@@ -346,7 +350,7 @@ clean:
 	dh_clean
 
 tests: build-stamp
-tests: TEMPFILE=$(shell mktemp)
+tests: TEMPFILE:=$(shell mktemp)
 tests:
 	# disabled: SecurityTest exhausts memory to fail
 	# disabled: PowerMonitorTest doesn't mock power enough, I think
