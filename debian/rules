@@ -216,10 +216,10 @@ INSTALL_EXCLUDE_FILES = \
 	ImageDiff \
 	base_unittests \
 	base_unittests.log \
-	automated_unittests \
-	automated_unittests.log \
-	reliability_unittests \
-	reliability_unittests.log \
+	automated_ui_tests \
+	automated_ui_tests.log \
+	reliability_tests \
+	reliability_tests.log \
 	$(NULL)
 
 # FFmpeg-mt

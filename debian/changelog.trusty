@@ -1,3 +1,9 @@
+chromium-browser (30.0.1573.2-0ubuntu1~ppa4~saucy1) saucy; urgency=low
+
+  * Correct names of test files to exclude
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 28 Jul 2013 13:20:01 -0500
+
 chromium-browser (30.0.1573.2-0ubuntu1~ppa2~saucy1) saucy; urgency=low
 
   * Exclude automated_ui_tests and reliability_tests from being copied
