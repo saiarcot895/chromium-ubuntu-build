@@ -1,3 +1,10 @@
+chromium-browser (30.0.1581.2-0ubuntu1~ppa1~saucy1) saucy; urgency=low
+
+  * New upstream version 30.0.1581.2
+  * Updated patches
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 31 Jul 2013 08:00:17 -0500
+
 chromium-browser (30.0.1573.2-0ubuntu1~ppa4~saucy1) saucy; urgency=low
 
   * Correct names of test files to exclude
