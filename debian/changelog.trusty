@@ -8,6 +8,12 @@ chromium-browser (30.0.1588.0-0ubuntu1~ppa1~saucy1) saucy; urgency=low
   * Use upstream's linux_dump_symbols to get debug symbols
   * Disable two more tests that require fakeroot
   * ExcludelibTestNetscapePlugIn.so in the plugins folder
+  * Remove 1-infobars.patch as EXPERIMENTAL_INFOBARS has moved to
+    INFOBARS (r214692)
+  * Updated 2-get-domain-tld.patch to no longer use permission_set.cc
+    and instead use _api_features.json and _permission_features.json
+    (r215161)
+  * Refreshed patches
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 08 Aug 2013 18:02:27 -0500
 

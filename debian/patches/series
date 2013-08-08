@@ -14,7 +14,6 @@ arm-neon.patch
 #grd_parse_fix.patch
 ffmpeg-gyp-config.patch
 ###: start lp:unity-chromium-extension
-1-infobars.patch
 2-get-domain-tld.patch
 3-chrome-xid.patch
 4-chromeless-window-launch-option.patch

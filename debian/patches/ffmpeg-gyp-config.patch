@@ -2,9 +2,9 @@ Bug-Chromium: https://code.google.com/p/chromium/issues/detail?id=159349
                                                                        
 Index: dev.saucy/src/third_party/ffmpeg/ffmpeg.gyp
 ===================================================================
---- dev.saucy.orig/src/third_party/ffmpeg/ffmpeg.gyp	2013-07-31 07:55:03.653416980 -0500
-+++ dev.saucy/src/third_party/ffmpeg/ffmpeg.gyp	2013-07-31 07:55:03.649416817 -0500
-@@ -431,6 +431,9 @@
+--- dev.saucy.orig/src/third_party/ffmpeg/ffmpeg.gyp	2013-08-08 12:10:56.039050052 -0500
++++ dev.saucy/src/third_party/ffmpeg/ffmpeg.gyp	2013-08-08 12:10:56.035049898 -0500
+@@ -436,6 +436,9 @@
    'targets': [
      {
        'target_name': 'ffmpeg',
@@ -14,7 +14,7 @@ Index: dev.saucy/src/third_party/ffmpeg/ffmpeg.gyp
        'sources': [
          # Files needed for stub generation rules.
          '<@(sig_files)',
-@@ -518,6 +521,7 @@
+@@ -523,6 +526,7 @@
            ],
            'type': '<(component)',
            'include_dirs': [
@@ -22,7 +22,7 @@ Index: dev.saucy/src/third_party/ffmpeg/ffmpeg.gyp
              '<(output_root)',
              '../..',  # The chromium 'src' directory.
              '<(platform_config_root)',
-@@ -640,6 +644,10 @@
+@@ -645,6 +649,10 @@
          ],
          'yasm_output_path': '<(shared_generated_dir)/yasm'
        },

@@ -3,8 +3,8 @@ Author: Chad Miller <chad.miller@canonical.com>
 
 Index: dev.saucy/src/chrome/browser/search_engines/prepopulated_engines.json
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/search_engines/prepopulated_engines.json	2013-07-31 07:55:01.733338997 -0500
-+++ dev.saucy/src/chrome/browser/search_engines/prepopulated_engines.json	2013-07-31 07:55:01.721338510 -0500
+--- dev.saucy.orig/src/chrome/browser/search_engines/prepopulated_engines.json	2013-08-08 12:10:53.950969517 -0500
++++ dev.saucy/src/chrome/browser/search_engines/prepopulated_engines.json	2013-08-08 12:10:53.942969208 -0500
 @@ -847,9 +847,9 @@
        "name": "Google",
        "keyword": "google.com",
@@ -16,5 +16,5 @@ Index: dev.saucy/src/chrome/browser/search_engines/prepopulated_engines.json
 +      "suggest_url": "{google:baseSuggestURL}search?{google:searchFieldtrialParameter}client=ubuntu&channel=cs&q={searchTerms}&{google:cursorPosition}{google:zeroPrefixUrl}sugkey={google:suggestAPIKeyParameter}",
 +      "instant_url": "{google:baseURL}webhp?sourceid=chrome-instant&client=ubuntu&channel=cs&{google:RLZ}{google:instantEnabledParameter}{google:instantExtendedEnabledParameter}{google:ntpIsThemedParameter}{google:omniboxStartMarginParameter}ie={inputEncoding}",
        "image_url": "{google:baseURL}searchbyimage/upload",
-       "image_url_post_params": "image_content={google:imageThumbnail},image_url={google:imageURL},sbisrc={google:imageSearchSource}",
+       "image_url_post_params": "encoded_image={google:imageThumbnail},image_url={google:imageURL},sbisrc={google:imageSearchSource}",
        "alternate_urls": [

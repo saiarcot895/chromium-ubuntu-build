@@ -4,8 +4,8 @@ Author: William Hua <attente@canonical.com>
 
 Index: dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.cc
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-07-31 07:54:59.329241256 -0500
-+++ dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-07-31 07:54:59.313240605 -0500
+--- dev.saucy.orig/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-08-08 12:10:51.834887895 -0500
++++ dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-08-08 12:10:51.782885889 -0500
 @@ -1595,7 +1595,9 @@
    // GtkMenuBar it sees into the global menu bar. (It doesn't seem to check the
    // visibility of the GtkMenuBar, so we can just permanently hide it.)
@@ -19,14 +19,14 @@ Index: dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.cc
    window_container_ = gtk_alignment_new(0.0, 0.0, 1.0, 1.0);
 Index: dev.saucy/src/chrome/browser/ui/gtk/global_menu_bar.cc
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/ui/gtk/global_menu_bar.cc	2013-07-31 07:54:59.329241256 -0500
-+++ dev.saucy/src/chrome/browser/ui/gtk/global_menu_bar.cc	2013-07-31 07:54:59.313240605 -0500
-@@ -154,7 +154,7 @@
-   // The global menu bar should never actually be shown in the app; it should
+--- dev.saucy.orig/src/chrome/browser/ui/gtk/global_menu_bar.cc	2013-08-08 12:10:51.834887895 -0500
++++ dev.saucy/src/chrome/browser/ui/gtk/global_menu_bar.cc	2013-08-08 12:10:51.794886353 -0500
+@@ -155,7 +155,7 @@
    // instead remain in our widget hierarchy simply to be noticed by third party
    // components.
--  gtk_widget_set_no_show_all(menu_bar_.get(), TRUE);
-+  gtk_widget_set_size_request(menu_bar_.get(), 0, 0);
+   g_object_ref_sink(menu_bar_);
+-  gtk_widget_set_no_show_all(menu_bar_, TRUE);
++  gtk_widget_set_size_request(menu_bar_, 0, 0);
  
    // Set a nice name so it shows up in gtkparasite and others.
-   gtk_widget_set_name(menu_bar_.get(), "chrome-hidden-global-menubar");
+   gtk_widget_set_name(menu_bar_, "chrome-hidden-global-menubar");

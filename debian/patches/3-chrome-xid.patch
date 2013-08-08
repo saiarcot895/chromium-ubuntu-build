@@ -1,7 +1,7 @@
 Index: dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.cc
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-07-31 07:55:05.209480127 -0500
-+++ dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-07-31 07:55:05.201479802 -0500
+--- dev.saucy.orig/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-08-08 12:30:46.148204001 -0500
++++ dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-08-08 12:30:46.140203702 -0500
 @@ -142,6 +142,12 @@
  // gtk_window_get_position() after the last GTK configure-event signal.
  const int kDebounceTimeoutMilliseconds = 100;
