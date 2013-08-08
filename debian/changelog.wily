@@ -1,3 +1,16 @@
+chromium-browser (30.0.1588.0-0ubuntu1~ppa1~saucy1) saucy; urgency=low
+
+  * New upstream version 30.0.1588.0
+  * Add code to get Launchpad translations, but don't use it yet
+  * Add some missing variables to be calculated
+  * Enable hardening on all builds, since the exclusion applies to EOL
+    distros or distros for which this is not built
+  * Use upstream's linux_dump_symbols to get debug symbols
+  * Disable two more tests that require fakeroot
+  * ExcludelibTestNetscapePlugIn.so in the plugins folder
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 08 Aug 2013 18:02:27 -0500
+
 chromium-browser (30.0.1581.2-0ubuntu1~ppa1~saucy1) saucy; urgency=low
 
   * New upstream version 30.0.1581.2
