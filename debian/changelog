@@ -1,3 +1,11 @@
+chromium-browser (30.0.1588.0-0ubuntu1~ppa2~saucy1) saucy; urgency=low
+
+  * Change binutils-gold to binutils, as it is no longer provided on
+    Saucy
+  * Add -fuse-ld=gold switch to g++ and gcc commands to use gold linker.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 09 Aug 2013 10:15:09 -0500
+
 chromium-browser (30.0.1588.0-0ubuntu1~ppa1~saucy1) saucy; urgency=low
 
   * New upstream version 30.0.1588.0

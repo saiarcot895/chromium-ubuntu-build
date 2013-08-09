@@ -155,8 +155,8 @@ ifeq (1,$(WANT_SHARED_LIBS))
 GYP_DEFINES += library=shared_library
 endif
 
-CC := gcc
-CXX := g++
+CC := gcc -fuse-ld=gold
+CXX := g++ -fuse-ld=gold
 
 subst_files = \
 	debian/$(DEBIAN_NAME).sh \
@@ -329,7 +329,7 @@ DEB_MAKE_ENVVARS += CXX=$(DEB_HOST_GNU_TYPE)-$(CXX)
 else
 CROSS_BUILD = 
 endif
-BUILD_ARGS += CC_host=$(CC) CXX_host=$(CXX) 
+BUILD_ARGS += CC_host="$(CC)" CXX_host="$(CXX)"
 
 clean:
 	rm -rf debian/*-stamp debian/stamp-* debian/tmp-*
