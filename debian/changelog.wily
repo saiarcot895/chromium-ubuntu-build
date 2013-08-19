@@ -1,3 +1,10 @@
+chromium-browser (30.0.1599.10-0ubuntu1~ppa2~saucy1) saucy; urgency=low
+
+  * Correct 2-get-domain-tld.patch to reflect the move from
+    googleurl/src to url
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 19 Aug 2013 16:40:09 -0400
+
 chromium-browser (30.0.1599.10-0ubuntu1~ppa1~saucy1) saucy; urgency=low
 
   * New upstream version 30.0.1599.10
