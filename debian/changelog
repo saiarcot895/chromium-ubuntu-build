@@ -1,3 +1,11 @@
+chromium-browser (30.0.1599.14-0ubuntu1~ppa1~saucy1) saucy; urgency=low
+
+  * New upstream version 30.0.1599.14
+  * Use CHROME_DEVEL_SANDBOX to specify path to sandbox, since Chromium
+    now looks for chrome-sandbox by default
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 21 Aug 2013 07:19:27 -0400
+
 chromium-browser (30.0.1599.10-0ubuntu1~ppa2~saucy1) saucy; urgency=low
 
   * Correct 2-get-domain-tld.patch to reflect the move from

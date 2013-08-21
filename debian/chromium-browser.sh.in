@@ -41,6 +41,10 @@ fi
 # default CHROMIUM_FLAGS (from /etc/$APPNAME/default)
 CHROMIUM_FLAGS=${CHROMIUM_USER_FLAGS:-"$CHROMIUM_FLAGS"}
 
+# Specify the path to the sandbox, since Chromium now looks for
+# chrome-sandbox in its directory by default
+CHROME_DEVEL_SANDBOX=$LIBDIR/chromium-browser-sandbox
+
 # FFmpeg needs to know where its libs are located
 if [ "Z$LD_LIBRARY_PATH" != Z ] ; then
   LD_LIBRARY_PATH=$LIBDIR:$LD_LIBRARY_PATH
