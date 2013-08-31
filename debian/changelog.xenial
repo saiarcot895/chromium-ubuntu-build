@@ -1,3 +1,10 @@
+chromium-browser (31.0.1612.0-0ubuntu1~ppa1~saucy1) saucy; urgency=low
+
+  * New upstream version 31.0.1612.0
+  * Keep sandbox name as chrome_sandbox
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 31 Aug 2013 09:30:48 -0400
+
 chromium-browser (30.0.1599.14-0ubuntu1~ppa1~saucy1) saucy; urgency=low
 
   * New upstream version 30.0.1599.14
