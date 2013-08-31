@@ -1,8 +1,8 @@
 Index: dev.saucy/src/chrome/browser/browser_resources.grd
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/browser_resources.grd	2013-08-20 23:33:48.454887709 -0400
-+++ dev.saucy/src/chrome/browser/browser_resources.grd	2013-08-20 23:33:48.434887019 -0400
-@@ -192,6 +192,7 @@
+--- dev.saucy.orig/src/chrome/browser/browser_resources.grd	2013-08-29 17:13:23.590361430 -0400
++++ dev.saucy/src/chrome/browser/browser_resources.grd	2013-08-29 17:13:23.574359227 -0400
+@@ -197,6 +197,7 @@
          </if>
          <if expr="not pp_ifdef('chromeos')">
            <include name="IDR_PLUGIN_DB_JSON" file="resources\plugin_metadata\plugins_linux.json" type="BINDATA" />
@@ -12,8 +12,8 @@ Index: dev.saucy/src/chrome/browser/browser_resources.grd
        <if expr="is_android">
 Index: dev.saucy/src/chrome/browser/plugins/plugin_finder.cc
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/plugins/plugin_finder.cc	2013-08-20 23:33:48.454887709 -0400
-+++ dev.saucy/src/chrome/browser/plugins/plugin_finder.cc	2013-08-20 23:33:48.434887019 -0400
+--- dev.saucy.orig/src/chrome/browser/plugins/plugin_finder.cc	2013-08-29 17:13:23.590361430 -0400
++++ dev.saucy/src/chrome/browser/plugins/plugin_finder.cc	2013-08-29 17:13:23.582360329 -0400
 @@ -134,6 +134,29 @@
    return plugin;
  }
@@ -117,8 +117,8 @@ Index: dev.saucy/src/chrome/browser/plugins/plugin_finder.cc
  
 Index: dev.saucy/src/chrome/browser/plugins/plugin_finder.h
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/plugins/plugin_finder.h	2013-08-20 23:33:48.454887709 -0400
-+++ dev.saucy/src/chrome/browser/plugins/plugin_finder.h	2013-08-20 23:33:48.434887019 -0400
+--- dev.saucy.orig/src/chrome/browser/plugins/plugin_finder.h	2013-08-29 17:13:23.590361430 -0400
++++ dev.saucy/src/chrome/browser/plugins/plugin_finder.h	2013-08-29 17:13:23.586360880 -0400
 @@ -80,6 +80,15 @@
    // Returns NULL if the plug-in list couldn't be parsed.
    static base::DictionaryValue* LoadBuiltInPluginList();
@@ -138,7 +138,7 @@ Index: dev.saucy/src/chrome/browser/plugins/plugin_finder.h
 Index: dev.saucy/src/chrome/browser/resources/plugin_metadata/plugins_ubuntu_linux.json
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.saucy/src/chrome/browser/resources/plugin_metadata/plugins_ubuntu_linux.json	2013-08-20 23:33:48.438887157 -0400
++++ dev.saucy/src/chrome/browser/resources/plugin_metadata/plugins_ubuntu_linux.json	2013-08-29 17:13:23.586360880 -0400
 @@ -0,0 +1,18 @@
 +{
 +  "libunity_npapi_plugin.so": {

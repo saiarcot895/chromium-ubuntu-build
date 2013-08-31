@@ -1,8 +1,8 @@
 Index: dev.saucy/src/chrome/app/generated_resources.grd
 ===================================================================
---- dev.saucy.orig/src/chrome/app/generated_resources.grd	2013-08-20 23:33:46.778829892 -0400
-+++ dev.saucy/src/chrome/app/generated_resources.grd	2013-08-20 23:33:46.658825753 -0400
-@@ -11527,6 +11527,9 @@
+--- dev.saucy.orig/src/chrome/app/generated_resources.grd	2013-08-29 17:13:22.958274382 -0400
++++ dev.saucy/src/chrome/app/generated_resources.grd	2013-08-29 17:13:22.778249541 -0400
+@@ -11553,6 +11553,9 @@
        <message name="IDS_OPTIONS_ADVANCED_SECTION_TITLE_CONTENT">
          Web content
        </message>
@@ -12,7 +12,7 @@ Index: dev.saucy/src/chrome/app/generated_resources.grd
        <message name="IDS_OPTIONS_ADVANCED_SECTION_TITLE_SECURITY">
          HTTPS/SSL
        </message>
-@@ -14178,6 +14181,35 @@
+@@ -14208,6 +14211,35 @@
        </message>
      </if>
  
@@ -50,8 +50,8 @@ Index: dev.saucy/src/chrome/app/generated_resources.grd
        Edit user
 Index: dev.saucy/src/chrome/browser/resources/options/options.html
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/resources/options/options.html	2013-08-20 23:33:46.778829892 -0400
-+++ dev.saucy/src/chrome/browser/resources/options/options.html	2013-08-20 23:33:46.666826029 -0400
+--- dev.saucy.orig/src/chrome/browser/resources/options/options.html	2013-08-29 17:13:22.958274382 -0400
++++ dev.saucy/src/chrome/browser/resources/options/options.html	2013-08-29 17:13:22.818255061 -0400
 @@ -23,6 +23,7 @@
  <link rel="stylesheet" href="clear_browser_data_overlay.css">
  <link rel="stylesheet" href="content_settings.css">
@@ -78,9 +78,9 @@ Index: dev.saucy/src/chrome/browser/resources/options/options.html
    <include src="managed_user_learn_more.html">
 Index: dev.saucy/src/chrome/browser/resources/options/browser_options.js
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/resources/options/browser_options.js	2013-08-20 23:33:46.778829892 -0400
-+++ dev.saucy/src/chrome/browser/resources/options/browser_options.js	2013-08-20 23:33:46.698827132 -0400
-@@ -364,6 +364,23 @@
+--- dev.saucy.orig/src/chrome/browser/resources/options/browser_options.js	2013-08-29 17:13:22.958274382 -0400
++++ dev.saucy/src/chrome/browser/resources/options/browser_options.js	2013-08-29 17:13:22.826256165 -0400
+@@ -358,6 +358,23 @@
              [String(event.target.options[event.target.selectedIndex].value)]);
        };
  
@@ -104,7 +104,7 @@ Index: dev.saucy/src/chrome/browser/resources/options/browser_options.js
        // Languages section.
        var showLanguageOptions = function(event) {
          OptionsPage.navigateToPage('languages');
-@@ -1154,6 +1171,24 @@
+@@ -1140,6 +1157,24 @@
      },
  
      /**
@@ -129,7 +129,7 @@ Index: dev.saucy/src/chrome/browser/resources/options/browser_options.js
       * Set the checked state of the metrics reporting checkbox.
       * @private
       */
-@@ -1455,6 +1490,7 @@
+@@ -1441,6 +1476,7 @@
    //Forward public APIs to private implementations.
    [
      'addBluetoothDevice',
@@ -137,7 +137,7 @@ Index: dev.saucy/src/chrome/browser/resources/options/browser_options.js
      'enableFactoryResetSection',
      'getCurrentProfile',
      'getStartStopSyncButton',
-@@ -1468,6 +1504,7 @@
+@@ -1454,6 +1490,7 @@
      'setFontSize',
      'setNativeThemeButtonEnabled',
      'setHighContrastCheckboxState',
@@ -147,8 +147,8 @@ Index: dev.saucy/src/chrome/browser/resources/options/browser_options.js
      'setPasswordGenerationSettingVisibility',
 Index: dev.saucy/src/chrome/browser/resources/options/options.js
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/resources/options/options.js	2013-08-20 23:33:46.778829892 -0400
-+++ dev.saucy/src/chrome/browser/resources/options/options.js	2013-08-20 23:33:46.726828098 -0400
+--- dev.saucy.orig/src/chrome/browser/resources/options/options.js	2013-08-29 17:13:22.958274382 -0400
++++ dev.saucy/src/chrome/browser/resources/options/options.js	2013-08-29 17:13:22.846258925 -0400
 @@ -14,6 +14,8 @@
      options.contentSettings.ContentSettingsExceptionsArea;
  var ContentSettings = options.ContentSettings;
@@ -174,8 +174,8 @@ Index: dev.saucy/src/chrome/browser/resources/options/options.js
                                  ContentSettings.getInstance(),
 Index: dev.saucy/src/chrome/browser/resources/options/options_bundle.js
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/resources/options/options_bundle.js	2013-08-20 23:33:46.778829892 -0400
-+++ dev.saucy/src/chrome/browser/resources/options/options_bundle.js	2013-08-20 23:33:46.738828512 -0400
+--- dev.saucy.orig/src/chrome/browser/resources/options/options_bundle.js	2013-08-29 17:13:22.958274382 -0400
++++ dev.saucy/src/chrome/browser/resources/options/options_bundle.js	2013-08-29 17:13:22.862261133 -0400
 @@ -76,6 +76,8 @@
  <include src="content_settings_ui.js"></include>
  <include src="cookies_list.js"></include>
@@ -187,8 +187,8 @@ Index: dev.saucy/src/chrome/browser/resources/options/options_bundle.js
  <if expr="pp_ifdef('enable_google_now')">
 Index: dev.saucy/src/chrome/browser/resources/options/browser_options.html
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/resources/options/browser_options.html	2013-08-20 23:33:46.778829892 -0400
-+++ dev.saucy/src/chrome/browser/resources/options/browser_options.html	2013-08-20 23:33:46.738828512 -0400
+--- dev.saucy.orig/src/chrome/browser/resources/options/browser_options.html	2013-08-29 17:13:22.958274382 -0400
++++ dev.saucy/src/chrome/browser/resources/options/browser_options.html	2013-08-29 17:13:22.874262789 -0400
 @@ -358,6 +358,22 @@
      </div>
    </section>
@@ -214,8 +214,8 @@ Index: dev.saucy/src/chrome/browser/resources/options/browser_options.html
      <div class="checkbox">
 Index: dev.saucy/src/chrome/browser/ui/webui/options/options_ui.cc
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/ui/webui/options/options_ui.cc	2013-08-20 23:33:46.778829892 -0400
-+++ dev.saucy/src/chrome/browser/ui/webui/options/options_ui.cc	2013-08-20 23:33:46.750828926 -0400
+--- dev.saucy.orig/src/chrome/browser/ui/webui/options/options_ui.cc	2013-08-29 17:13:22.958274382 -0400
++++ dev.saucy/src/chrome/browser/ui/webui/options/options_ui.cc	2013-08-29 17:13:22.930270518 -0400
 @@ -92,6 +92,10 @@
  #include "chrome/browser/ui/webui/options/geolocation_options_handler.h"
  #endif
@@ -240,8 +240,8 @@ Index: dev.saucy/src/chrome/browser/ui/webui/options/options_ui.cc
    AddOptionsPageUIHandler(localized_strings, new GeolocationOptionsHandler());
 Index: dev.saucy/src/chrome/browser/ui/webui/options/browser_options_handler.cc
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/ui/webui/options/browser_options_handler.cc	2013-08-20 23:33:46.778829892 -0400
-+++ dev.saucy/src/chrome/browser/ui/webui/options/browser_options_handler.cc	2013-08-20 23:33:46.758829202 -0400
+--- dev.saucy.orig/src/chrome/browser/ui/webui/options/browser_options_handler.cc	2013-08-29 17:13:22.958274382 -0400
++++ dev.saucy/src/chrome/browser/ui/webui/options/browser_options_handler.cc	2013-08-29 17:13:22.938271621 -0400
 @@ -221,6 +221,8 @@
      { "currentUserOnly", IDS_OPTIONS_CURRENT_USER_ONLY },
      { "advancedSectionTitleContent",
@@ -273,9 +273,9 @@ Index: dev.saucy/src/chrome/browser/ui/webui/options/browser_options_handler.cc
  #endif
 Index: dev.saucy/src/chrome/chrome_browser_ui.gypi
 ===================================================================
---- dev.saucy.orig/src/chrome/chrome_browser_ui.gypi	2013-08-20 23:33:46.778829892 -0400
-+++ dev.saucy/src/chrome/chrome_browser_ui.gypi	2013-08-20 23:33:46.762829340 -0400
-@@ -2252,6 +2252,8 @@
+--- dev.saucy.orig/src/chrome/chrome_browser_ui.gypi	2013-08-29 17:13:22.958274382 -0400
++++ dev.saucy/src/chrome/chrome_browser_ui.gypi	2013-08-29 17:13:22.950273278 -0400
+@@ -2254,6 +2254,8 @@
          'browser/ui/webui/options/cookies_view_handler.h',
          'browser/ui/webui/options/core_options_handler.cc',
          'browser/ui/webui/options/core_options_handler.h',
@@ -287,7 +287,7 @@ Index: dev.saucy/src/chrome/chrome_browser_ui.gypi
 Index: dev.saucy/src/chrome/browser/resources/options/desktop_integration_overlay.html
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.saucy/src/chrome/browser/resources/options/desktop_integration_overlay.html	2013-08-20 23:33:46.762829340 -0400
++++ dev.saucy/src/chrome/browser/resources/options/desktop_integration_overlay.html	2013-08-29 17:13:22.950273278 -0400
 @@ -0,0 +1,26 @@
 +<div id="desktop-integration-area" class="page" hidden>
 +
@@ -318,7 +318,7 @@ Index: dev.saucy/src/chrome/browser/resources/options/desktop_integration_overla
 Index: dev.saucy/src/chrome/browser/resources/options/desktop_integration_add_website_overlay.js
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.saucy/src/chrome/browser/resources/options/desktop_integration_add_website_overlay.js	2013-08-20 23:33:46.762829340 -0400
++++ dev.saucy/src/chrome/browser/resources/options/desktop_integration_add_website_overlay.js	2013-08-29 17:13:22.950273278 -0400
 @@ -0,0 +1,47 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -370,7 +370,7 @@ Index: dev.saucy/src/chrome/browser/resources/options/desktop_integration_add_we
 Index: dev.saucy/src/chrome/browser/resources/options/desktop_integration_overlay.js
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.saucy/src/chrome/browser/resources/options/desktop_integration_overlay.js	2013-08-20 23:33:46.766829478 -0400
++++ dev.saucy/src/chrome/browser/resources/options/desktop_integration_overlay.js	2013-08-29 17:13:22.954273830 -0400
 @@ -0,0 +1,203 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -578,7 +578,7 @@ Index: dev.saucy/src/chrome/browser/resources/options/desktop_integration_overla
 Index: dev.saucy/src/chrome/browser/resources/options/desktop_integration_overlay.css
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.saucy/src/chrome/browser/resources/options/desktop_integration_overlay.css	2013-08-20 23:33:46.766829478 -0400
++++ dev.saucy/src/chrome/browser/resources/options/desktop_integration_overlay.css	2013-08-29 17:13:22.954273830 -0400
 @@ -0,0 +1,71 @@
 +/* Copyright (c) 2012 The Chromium Authors. All rights reserved.
 + * Use of this source code is governed by a BSD-style license that can be
@@ -654,7 +654,7 @@ Index: dev.saucy/src/chrome/browser/resources/options/desktop_integration_overla
 Index: dev.saucy/src/chrome/browser/resources/options/desktop_integration_add_website_overlay.html
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.saucy/src/chrome/browser/resources/options/desktop_integration_add_website_overlay.html	2013-08-20 23:33:46.766829478 -0400
++++ dev.saucy/src/chrome/browser/resources/options/desktop_integration_add_website_overlay.html	2013-08-29 17:13:22.954273830 -0400
 @@ -0,0 +1,16 @@
 +<div id="add-desktop-integration-website-overlay-page" class="page" hidden>
 +  <div class="close-button"></div>
@@ -675,7 +675,7 @@ Index: dev.saucy/src/chrome/browser/resources/options/desktop_integration_add_we
 Index: dev.saucy/src/chrome/browser/ui/webui/options/desktop_integration_settings_handler.cc
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.saucy/src/chrome/browser/ui/webui/options/desktop_integration_settings_handler.cc	2013-08-20 23:33:46.766829478 -0400
++++ dev.saucy/src/chrome/browser/ui/webui/options/desktop_integration_settings_handler.cc	2013-08-29 17:13:22.954273830 -0400
 @@ -0,0 +1,262 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -942,7 +942,7 @@ Index: dev.saucy/src/chrome/browser/ui/webui/options/desktop_integration_setting
 Index: dev.saucy/src/chrome/browser/ui/webui/options/desktop_integration_settings_handler.h
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.saucy/src/chrome/browser/ui/webui/options/desktop_integration_settings_handler.h	2013-08-20 23:33:46.766829478 -0400
++++ dev.saucy/src/chrome/browser/ui/webui/options/desktop_integration_settings_handler.h	2013-08-29 17:13:22.954273830 -0400
 @@ -0,0 +1,76 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be

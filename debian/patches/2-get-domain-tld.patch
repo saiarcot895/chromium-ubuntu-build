@@ -1,7 +1,7 @@
 Index: dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.cc
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.cc	2013-08-20 23:33:44.622755517 -0400
++++ dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.cc	2013-08-30 09:39:54.438315035 -0400
 @@ -0,0 +1,87 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -93,7 +93,7 @@ Index: dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.cc
 Index: dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.h
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.h	2013-08-20 23:33:44.622755517 -0400
++++ dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.h	2013-08-30 09:39:54.438315035 -0400
 @@ -0,0 +1,28 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -125,10 +125,10 @@ Index: dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.h
 +
 Index: dev.saucy/src/chrome/chrome_browser_extensions.gypi
 ===================================================================
---- dev.saucy.orig/src/chrome/chrome_browser_extensions.gypi	2013-08-20 23:33:44.678757449 -0400
-+++ dev.saucy/src/chrome/chrome_browser_extensions.gypi	2013-08-20 23:33:44.630755793 -0400
-@@ -508,6 +508,8 @@
-         'browser/extensions/api/tabs/windows_event_router.h',
+--- dev.saucy.orig/src/chrome/chrome_browser_extensions.gypi	2013-08-30 09:39:54.474315996 -0400
++++ dev.saucy/src/chrome/chrome_browser_extensions.gypi	2013-08-30 09:39:54.442315142 -0400
+@@ -524,6 +524,8 @@
+         'browser/extensions/api/tabs/windows_util.h',
          'browser/extensions/api/test/test_api.cc',
          'browser/extensions/api/test/test_api.h',
 +        'browser/extensions/api/tld/tld_api.cc',
@@ -138,9 +138,9 @@ Index: dev.saucy/src/chrome/chrome_browser_extensions.gypi
          'browser/extensions/api/usb/usb_api.cc',
 Index: dev.saucy/src/chrome/common/extensions/api/api.gyp
 ===================================================================
---- dev.saucy.orig/src/chrome/common/extensions/api/api.gyp	2013-08-20 23:33:44.678757449 -0400
-+++ dev.saucy/src/chrome/common/extensions/api/api.gyp	2013-08-20 23:33:44.630755793 -0400
-@@ -99,6 +99,7 @@
+--- dev.saucy.orig/src/chrome/common/extensions/api/api.gyp	2013-08-30 09:39:54.474315996 -0400
++++ dev.saucy/src/chrome/common/extensions/api/api.gyp	2013-08-30 09:39:54.442315142 -0400
+@@ -102,6 +102,7 @@
            'tabs.json',
            'terminal_private.json',
            'test.json',
@@ -151,7 +151,7 @@ Index: dev.saucy/src/chrome/common/extensions/api/api.gyp
 Index: dev.saucy/src/chrome/common/extensions/api/tld.json
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.saucy/src/chrome/common/extensions/api/tld.json	2013-08-20 23:33:44.630755793 -0400
++++ dev.saucy/src/chrome/common/extensions/api/tld.json	2013-08-30 09:39:54.446315248 -0400
 @@ -0,0 +1,55 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -210,9 +210,9 @@ Index: dev.saucy/src/chrome/common/extensions/api/tld.json
 +
 Index: dev.saucy/src/chrome/common/extensions/api/_api_features.json
 ===================================================================
---- dev.saucy.orig/src/chrome/common/extensions/api/_api_features.json	2013-08-20 23:33:44.678757449 -0400
-+++ dev.saucy/src/chrome/common/extensions/api/_api_features.json	2013-08-20 23:33:44.646756345 -0400
-@@ -521,6 +521,10 @@
+--- dev.saucy.orig/src/chrome/common/extensions/api/_api_features.json	2013-08-30 09:39:54.474315996 -0400
++++ dev.saucy/src/chrome/common/extensions/api/_api_features.json	2013-08-30 09:39:54.446315248 -0400
+@@ -537,6 +537,10 @@
      "extension_types": "all",
      "contexts": ["blessed_extension", "unblessed_extension", "content_script"]
    },
@@ -225,9 +225,9 @@ Index: dev.saucy/src/chrome/common/extensions/api/_api_features.json
      "contexts": ["blessed_extension"]
 Index: dev.saucy/src/chrome/common/extensions/api/_permission_features.json
 ===================================================================
---- dev.saucy.orig/src/chrome/common/extensions/api/_permission_features.json	2013-08-20 23:33:44.678757449 -0400
-+++ dev.saucy/src/chrome/common/extensions/api/_permission_features.json	2013-08-20 23:33:44.662756897 -0400
-@@ -607,6 +607,10 @@
+--- dev.saucy.orig/src/chrome/common/extensions/api/_permission_features.json	2013-08-30 09:39:54.474315996 -0400
++++ dev.saucy/src/chrome/common/extensions/api/_permission_features.json	2013-08-30 09:39:54.462315676 -0400
+@@ -629,6 +629,10 @@
        "okddffdblfhhnmhodogpojmfkjmhinfp"   // HTerm dev
      ]
    },
@@ -240,8 +240,8 @@ Index: dev.saucy/src/chrome/common/extensions/api/_permission_features.json
      "extension_types": ["extension", "packaged_app"]
 Index: dev.saucy/src/chrome/browser/extensions/extension_function_histogram_value.h
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-08-20 23:33:44.678757449 -0400
-+++ dev.saucy/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-08-20 23:33:44.666757035 -0400
+--- dev.saucy.orig/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-08-30 09:39:54.474315996 -0400
++++ dev.saucy/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-08-30 19:58:32.000000000 -0400
 @@ -491,6 +491,8 @@
    SYNCFILESYSTEM_GETCONFLICTRESOLUTIONPOLICY,
    NETWORKINGPRIVATE_SETPROPERTIES,
@@ -251,3 +251,18 @@ Index: dev.saucy/src/chrome/browser/extensions/extension_function_histogram_valu
    POWER_REQUESTKEEPAWAKE,
    POWER_RELEASEKEEPAWAKE,
    WALLPAPERPRIVATE_SETCUSTOMWALLPAPERLAYOUT,
+Index: dev.saucy/src/chrome/common/extensions/api/_manifest_features.json
+===================================================================
+--- dev.saucy.orig/src/chrome/common/extensions/api/_manifest_features.json	2013-08-29 20:49:17.000000000 -0400
++++ dev.saucy/src/chrome/common/extensions/api/_manifest_features.json	2013-08-30 19:59:30.128672712 -0400
+@@ -345,6 +345,10 @@
+     "channel": "stable",
+     "extension_types": ["theme"]
+   },
++  "tld": {
++    "channel": "stable",
++    "extension_types": ["extension", "packaged_app", "platform_app"]
++  },
+   "tts_engine": {
+     "channel": "stable",
+     "extension_types": ["extension", "packaged_app"]
