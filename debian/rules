@@ -153,8 +153,8 @@ ifeq (1,$(WANT_SHARED_LIBS))
 GYP_DEFINES += library=shared_library
 endif
 
-CC := gcc -fuse-ld=gold
-CXX := g++ -fuse-ld=gold
+CC := gcc -fuse-ld=gold -Wl,-no-keep-memory
+CXX := g++ -fuse-ld=gold -Wl,-no-keep-memory
 
 subst_files = \
 	debian/$(DEBIAN_NAME).sh \
@@ -460,7 +460,8 @@ install: build
 	dh_installdirs --package=$(DEBIAN_NAME) usr/share/icons/hicolor/scalable/apps
 	cp -a debian/chromium-browser.svg debian/$(DEBIAN_NAME)/usr/share/icons/hicolor/scalable/apps
 	
-	chmod 4755 debian/$(DEBIAN_NAME)/$(LIB_DIR)/chrome_sandbox
+	mv debian/$(DEBIAN_NAME)/$(LIB_DIR)/chrome_sandbox debian/$(DEBIAN_NAME)/$(LIB_DIR)/chrome-sandbox
+	chmod 4755 debian/$(DEBIAN_NAME)/$(LIB_DIR)/chrome-sandbox
 	# NaCL may be blacklisted, so only include it when it's been built
 ifeq (,$(filter disable_nacl=1,$(GYP_DEFINES)))
 	cp -a $(SRC_DIR)/out/$(BUILD_TYPE)/libppGoogleNaClPluginChrome.so debian/$(DEBIAN_NAME)/$(LIB_DIR)/

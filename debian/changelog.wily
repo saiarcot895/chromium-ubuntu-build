@@ -1,3 +1,12 @@
+chromium-browser (31.0.1612.0-0ubuntu1~ppa2~saucy1) saucy; urgency=low
+
+  * Add -Wl,-no-keep-memory option in an attempt to reduce memory usage
+    to prevent OOM error
+  * Move chrome_sandbox to chrome-sandbox, since that's the path
+    Chromium actually reads
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 05 Sep 2013 10:57:35 -0400
+
 chromium-browser (31.0.1612.0-0ubuntu1~ppa1~saucy1) saucy; urgency=low
 
   * New upstream version 31.0.1612.0
