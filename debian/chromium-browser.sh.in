@@ -6,6 +6,29 @@
 #  Fabien Tassin <fta@sofaraway.org>
 # License: GPLv2 or later
 
+PLUGIN_PARAMETERS=""
+
+discover_registration () {
+	local FILE_NAME
+	local PLUGIN_NAME
+	local VERSION
+	local VISIBLE_VERSION
+	local DESCRIPTION
+	local MIME_TYPES
+
+	registration_file=$1
+	option_prefix=$2
+
+	test -f "${registration_file}" || return 1
+	. "${registration_file}" 
+
+	test "$VERSION" || return 2
+	test "$FILE_NAME" || return 3
+
+	PLUGIN_PARAMETERS="--${option_prefix}-path=${FILE_NAME} --${option_prefix}-version=${VERSION%%-*} ${PLUGIN_PARAMETERS}"
+	return 0
+}
+
 # Explicitly set the PATH to that of ENV_SUPATH in /etc/login.defs and unset
 # various other variables. (LP: #1045986). This can be removed once AppArmor
 # supports environment filtering (LP: #1045985)
@@ -103,6 +126,10 @@ while [ $# -gt 0 ]; do
       break ;;
   esac
 done
+
+discover_registration ${LIBDIR}/pepper/pepper-flash.info ppapi-flash && echo "Pepper Flash detected."
+
+CHROMIUM_FLAGS="${CHROMIUM_FLAGS} ${PLUGIN_PARAMETERS}"
 
 if [ $want_temp_profile -eq 1 ] ; then
   TEMP_PROFILE=`mktemp -d`
