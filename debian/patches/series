@@ -6,15 +6,15 @@ format-flag.patch
 #safe-browsing-sigbus.patch
 search-credit.patch
 chromium_useragent.patch
-#disable_dlog_and_dcheck_in_release_builds.patch
-#webkit_rev_parser.patch
+linker-asneeded-bug.patch
 arm.patch
 arm-neon.patch
 #struct-siginfo.patch
 #grd_parse_fix.patch
 ffmpeg-gyp-config.patch
+additional-search-engines.patch
 ###: start lp:unity-chromium-extension
-2-get-domain-tld.patch
+#2-get-domain-tld.patch
 3-chrome-xid.patch
 4-chromeless-window-launch-option.patch
 5-desktop-integration-settings.patch

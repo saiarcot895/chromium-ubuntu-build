@@ -2,6 +2,9 @@ chromium-browser (31.0.1622.0-0ubuntu1~ppa1~saucy1) saucy; urgency=low
 
   * New upstream version 31.0.1622.0
   * Include command-line parameters for registered plugins.
+  * Disable 2-get-domain-tld.patch (at least temporarily) to prevent
+    problems with extensions.
+  * Refreshed patches
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 06 Sep 2013 18:43:50 -0400
 
