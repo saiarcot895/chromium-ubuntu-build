@@ -6,7 +6,8 @@ format-flag.patch
 #safe-browsing-sigbus.patch
 search-credit.patch
 chromium_useragent.patch
-linker-asneeded-bug.patch
+#linker-asneeded-bug.patch
+linker-oom-bug.patch
 arm.patch
 arm-neon.patch
 #struct-siginfo.patch

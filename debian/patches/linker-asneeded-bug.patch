@@ -1,0 +1,37 @@
+Description: Avoid a linker bug where symbols are not found.
+ > /usr/bin/ld.bfd.real: out/Release/obj.target/net/libnet.so: undefined reference to symbol 'SSL_ForceHandshake'
+ > out/Release/obj.target/net/third_party/nss/libcrssl.so: error adding symbols: DSO missing from command line
+
+Index: dev.saucy/src/build/common.gypi
+===================================================================
+--- dev.saucy.orig/src/build/common.gypi	2013-09-12 17:37:54.230649735 -0400
++++ dev.saucy/src/build/common.gypi	2013-09-12 17:37:54.214650799 -0400
+@@ -2858,7 +2858,7 @@
+                   '-Wl,--as-needed',
+                 ],
+               }],
+-              ['OS=="linux" and target_arch=="ia32"', {
++              ['OS=="linux"', {
+                 'ldflags': [
+                   '-Wl,--no-as-needed',
+                 ],
+@@ -2894,7 +2894,6 @@
+               # Specifically tell the linker to perform optimizations.
+               # See http://lwn.net/Articles/192624/ .
+               '-Wl,-O1',
+-              '-Wl,--as-needed',
+             ],
+             'conditions' : [
+               ['no_gc_sections==0', {
+@@ -2942,6 +2941,11 @@
+                   '-fno-asynchronous-unwind-tables',
+                 ],
+               }],
++              ['OS=="linux"', {
++                'ldflags': [
++                  '-Wl,--no-as-needed',
++                ],
++              }],
+             ],
+           },
+         },

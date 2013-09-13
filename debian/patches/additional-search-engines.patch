@@ -1,0 +1,104 @@
+Index: dev.saucy/src/chrome/browser/search_engines/prepopulated_engines.json
+===================================================================
+--- dev.saucy.orig/src/chrome/browser/search_engines/prepopulated_engines.json	2013-09-12 17:40:19.021919568 -0400
++++ dev.saucy/src/chrome/browser/search_engines/prepopulated_engines.json	2013-09-12 17:40:18.785920671 -0400
+@@ -13,6 +13,7 @@
+ //    40, 41, 42, 46, 47, 48, 49, 51, 52, 59, 71, 72, 82, 84, 86, 88, 89, 91+
+ //
+ // IDs > 1000 are reserved for distribution custom engines.
++// 1001: DuckDuckGo
+ //
+ // NOTES:
+ //   - CHANGE THE ABOVE NUMBERS IF YOU ADD A NEW ENGINE; ID conflicts = bad!
+@@ -22,7 +23,7 @@
+   "int_variables": {
+     // The following id is for UMA stats only. Please update it if you add new
+     // engines outside the current range or it will not be counted in stats.
+-    "kMaxPrepopulatedEngineID": 90,
++    "kMaxPrepopulatedEngineID": 1001,
+ 
+     // Increment this if you change the data in ways that mean users with
+     // existing data should get a new version.
+@@ -482,6 +483,16 @@
+       "id": 68
+     },
+ 
++    "duckduckgo": {
++      "name": "DuckDuckGo",
++      "keyword": "duckduckgo.com",
++      "favicon_url": "https://duckduckgo.com/favicon.ico",
++      "search_url": "https://duckduckgo.com/?q={searchTerms}&t=canonical",
++      "suggest_url": "https://duckduckgo.com/ac/?q={searchTerms}&type=list",
++      "type": "SEARCH_ENGINE_DUCKDUCKGO",
++      "id": 1001
++    },
++
+     "google": {
+       "name": "Google",
+       "keyword": "google.com",
+Index: dev.saucy/src/chrome/browser/search_engines/search_engine_type.h
+===================================================================
+--- dev.saucy.orig/src/chrome/browser/search_engines/search_engine_type.h	2013-09-12 17:40:19.021919568 -0400
++++ dev.saucy/src/chrome/browser/search_engines/search_engine_type.h	2013-09-12 17:40:18.817920521 -0400
+@@ -22,6 +22,7 @@
+   SEARCH_ENGINE_DAUM,
+   SEARCH_ENGINE_DELFI,
+   SEARCH_ENGINE_DELTA,
++  SEARCH_ENGINE_DUCKDUCKGO,
+   SEARCH_ENGINE_FUNMOODS,
+   SEARCH_ENGINE_GOO,
+   SEARCH_ENGINE_GOOGLE,
+Index: dev.saucy/src/chrome/browser/search_engines/template_url_prepopulate_data.cc
+===================================================================
+--- dev.saucy.orig/src/chrome/browser/search_engines/template_url_prepopulate_data.cc	2013-09-12 17:40:19.021919568 -0400
++++ dev.saucy/src/chrome/browser/search_engines/template_url_prepopulate_data.cc	2013-09-12 17:40:19.017919586 -0400
+@@ -55,7 +55,7 @@
+ 
+ // Default (for countries with no better engine set)
+ const PrepopulatedEngine* engines_default[] =
+-    { &google, &bing, &yahoo, };
++    { &google, &bing, &yahoo, &duckduckgo, };
+ 
+ // United Arab Emirates
+ const PrepopulatedEngine* engines_AE[] =
+@@ -147,7 +147,7 @@
+ 
+ // Germany
+ const PrepopulatedEngine* engines_DE[] =
+-    { &google, &bing_de_DE, &yahoo_de };
++    { &google, &bing_de_DE, &yahoo_de, &duckduckgo, };
+ 
+ // Denmark
+ const PrepopulatedEngine* engines_DK[] =
+@@ -187,11 +187,11 @@
+ 
+ // France
+ const PrepopulatedEngine* engines_FR[] =
+-    { &google, &bing_fr_FR, &yahoo_fr, };
++    { &google, &bing_fr_FR, &yahoo_fr, &duckduckgo, };
+ 
+ // United Kingdom
+ const PrepopulatedEngine* engines_GB[] =
+-    { &google, &bing_en_GB, &yahoo_uk, &ask_uk, };
++    { &google, &bing_en_GB, &yahoo_uk, &ask_uk, &duckduckgo, };
+ 
+ // Greece
+ const PrepopulatedEngine* engines_GR[] =
+@@ -459,7 +459,7 @@
+ 
+ // United States
+ const PrepopulatedEngine* engines_US[] =
+-    { &google, &bing_en_US, &yahoo, &aol, &ask, };
++    { &google, &bing_en_US, &yahoo, &aol, &ask, &duckduckgo, };
+ 
+ // Uruguay
+ const PrepopulatedEngine* engines_UY[] =
+@@ -497,7 +497,7 @@
+   &bing_fr_FR,   &bing_it_IT,   &bing_ja_JP,   &bing_lv_LV,   &bing_nb_NO,
+   &bing_nl_BE,   &bing_pl_PL,   &bing_pt_BR,   &bing_pt_PT,   &bing_ru_RU,
+   &bing_sv_SE,   &bing_tr_TR,   &bing_zh_HK,   &bing_zh_TW,   &daum,
+-  &google,       &kvasir,       &mail_ru,      &najdi,        &nate,
++  &duckduckgo, &google, &kvasir, &mail_ru,     &najdi,        &nate,
+   &naver,        &onet,         &seznam,       &sogou,        &soso,
+   &vinden,       &virgilio,     &yahoo,        &yahoo_ar,     &yahoo_at,
+   &yahoo_au,     &yahoo_be,     &yahoo_br,     &yahoo_ca,     &yahoo_ch,

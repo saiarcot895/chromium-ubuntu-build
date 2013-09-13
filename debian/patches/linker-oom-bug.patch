@@ -1,0 +1,13 @@
+Index: dev.saucy/src/build/common.gypi
+===================================================================
+--- dev.saucy.orig/src/build/common.gypi	2013-09-13 07:15:42.162046609 -0400
++++ dev.saucy/src/build/common.gypi	2013-09-13 07:17:30.002847483 -0400
+@@ -3390,7 +3390,7 @@
+           ['linux_dump_symbols==1', {
+             'cflags': [ '-g' ],
+             'conditions': [
+-              ['target_arch=="ia32" and OS!="android"', {
++              ['OS!="android"', {
+                 'target_conditions': [
+                   ['_toolset=="target"', {
+                     'ldflags': [

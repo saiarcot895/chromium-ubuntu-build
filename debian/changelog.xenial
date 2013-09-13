@@ -1,3 +1,11 @@
+chromium-browser (31.0.1626.0-0ubuntu1~ppa2~saucy1) saucy; urgency=low
+
+  * Disabled linker-asneeded-bug.patch in an attempt to prevent OOM
+    error
+  * Added linker-oom-bug.patch to add --no-keep-memory switch to linker
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 13 Sep 2013 08:52:43 -0400
+
 chromium-browser (31.0.1626.0-0ubuntu1~ppa1~saucy1) saucy; urgency=low
 
   * New upstream version 31.0.1626.0
