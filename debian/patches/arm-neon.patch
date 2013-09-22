@@ -6,8 +6,8 @@ Bug-Ubuntu: 1084852
 
 Index: dev.saucy/src/third_party/webrtc/modules/audio_coding/codecs/isac/fix/source/isacfix.gypi
 ===================================================================
---- dev.saucy.orig/src/third_party/webrtc/modules/audio_coding/codecs/isac/fix/source/isacfix.gypi	2013-09-12 17:40:15.289938756 -0400
-+++ dev.saucy/src/third_party/webrtc/modules/audio_coding/codecs/isac/fix/source/isacfix.gypi	2013-09-12 17:40:15.133939640 -0400
+--- dev.saucy.orig/src/third_party/webrtc/modules/audio_coding/codecs/isac/fix/source/isacfix.gypi	2013-09-21 22:13:17.814821961 -0400
++++ dev.saucy/src/third_party/webrtc/modules/audio_coding/codecs/isac/fix/source/isacfix.gypi	2013-09-21 22:13:17.794822632 -0400
 @@ -72,7 +72,7 @@
              'WEBRTC_LINUX',
            ],
@@ -19,8 +19,8 @@ Index: dev.saucy/src/third_party/webrtc/modules/audio_coding/codecs/isac/fix/sou
              'lattice_armv7.S',
 Index: dev.saucy/src/third_party/webrtc/system_wrappers/source/cpu_features.cc
 ===================================================================
---- dev.saucy.orig/src/third_party/webrtc/system_wrappers/source/cpu_features.cc	2013-09-12 17:40:15.289938756 -0400
-+++ dev.saucy/src/third_party/webrtc/system_wrappers/source/cpu_features.cc	2013-09-12 17:40:15.229939096 -0400
+--- dev.saucy.orig/src/third_party/webrtc/system_wrappers/source/cpu_features.cc	2013-09-21 22:13:17.814821961 -0400
++++ dev.saucy/src/third_party/webrtc/system_wrappers/source/cpu_features.cc	2013-09-21 22:13:17.810822096 -0400
 @@ -18,6 +18,47 @@
  
  #include "webrtc/typedefs.h"
