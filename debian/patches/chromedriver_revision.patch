@@ -1,13 +1,15 @@
 Index: dev.saucy/src/chrome/test/chromedriver/embed_version_in_cpp.py
 ===================================================================
---- dev.saucy.orig/src/chrome/test/chromedriver/embed_version_in_cpp.py	2013-09-21 16:33:47.000000000 -0400
-+++ dev.saucy/src/chrome/test/chromedriver/embed_version_in_cpp.py	2013-09-22 07:53:02.704574361 -0400
-@@ -25,7 +25,7 @@
+--- dev.saucy.orig/src/chrome/test/chromedriver/embed_version_in_cpp.py	2013-09-22 15:08:22.216949434 -0400
++++ dev.saucy/src/chrome/test/chromedriver/embed_version_in_cpp.py	2013-09-22 15:12:01.896623433 -0400
+@@ -25,7 +25,9 @@
    options, args = parser.parse_args()
  
    version = open(options.version_file, 'r').read().strip()
 -  revision = lastchange.FetchVersionInfo(None).revision.strip()
-+  revision = open(os.path.join(chrome_paths.GetSrc(), 'build', 'util', 'LASTCHANGE'), 'r').seek(11).read().strip()
++  lastchangeFile = open(os.path.join(chrome_paths.GetSrc(), 'build', 'util', 'LASTCHANGE'), 'r')
++  lastchangeFile.seek(11)
++  revision = lastchangeFile.read().strip()
    global_string_map = {
        'kChromeDriverVersion': version + '.' + revision
    }

@@ -1,3 +1,9 @@
+chromium-browser (31.0.1636.0-0ubuntu1~ppa4~saucy1) saucy; urgency=low
+
+  * chromedriver_revision.patch: Fix syntax
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 22 Sep 2013 15:14:42 -0400
+
 chromium-browser (31.0.1636.0-0ubuntu1~ppa3~saucy1) saucy; urgency=low
 
   * chromedriver_revision.patch: Fix path to the LASTCHANGE file
