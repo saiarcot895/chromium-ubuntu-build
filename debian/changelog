@@ -1,3 +1,10 @@
+chromium-browser (31.0.1636.0-0ubuntu1~ppa2~saucy1) saucy; urgency=low
+
+  * Add chromedriver_revision.patch to change the location chromedriver
+    gets its revision number
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 22 Sep 2013 08:01:33 -0400
+
 chromium-browser (31.0.1636.0-0ubuntu1~ppa1~saucy1) saucy; urgency=low
 
   * New upstream version 31.0.1636.0

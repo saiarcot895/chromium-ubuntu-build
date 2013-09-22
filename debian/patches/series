@@ -6,6 +6,7 @@ format-flag.patch
 #safe-browsing-sigbus.patch
 search-credit.patch
 chromium_useragent.patch
+chromedriver_revision.patch
 extensions-directory.patch
 #linker-asneeded-bug.patch
 linker-oom-bug.patch
