@@ -7,7 +7,7 @@ Index: dev.saucy/src/chrome/test/chromedriver/embed_version_in_cpp.py
  
    version = open(options.version_file, 'r').read().strip()
 -  revision = lastchange.FetchVersionInfo(None).revision.strip()
-+  revision = open('build/util/LASTCHANGE', 'r').seek(11).read().strip()
++  revision = open(os.path.join(chrome_paths.GetSrc(), 'build', 'util', 'LASTCHANGE'), 'r').seek(11).read().strip()
    global_string_map = {
        'kChromeDriverVersion': version + '.' + revision
    }
