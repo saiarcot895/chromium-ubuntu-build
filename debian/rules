@@ -212,8 +212,6 @@ INSTALL_EXCLUDE_FILES = \
 	base_unittests.log \
 	automated_ui_tests \
 	automated_ui_tests.log \
-	reliability_tests \
-	reliability_tests.log \
 	$(NULL)
 
 # FFmpeg-mt
@@ -299,8 +297,6 @@ BUILD_TARGETS += \
 	chrome_sandbox \
 	chromedriver \
 	base_unittests \
-	reliability_tests \
-	automated_ui_tests \
 	$(NULL)
 
 GYP_DEFINES += \
