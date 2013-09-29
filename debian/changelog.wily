@@ -1,3 +1,10 @@
+chromium-browser (31.0.1650.4-0ubuntu1~ppa1~saucy1) saucy; urgency=low
+
+  * New upstream version 31.0.1650.4
+  * Refreshed patches
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 29 Sep 2013 09:02:27 -0400
+
 chromium-browser (31.0.1636.0-0ubuntu1~ppa4~saucy1) saucy; urgency=low
 
   * chromedriver_revision.patch: Fix syntax
