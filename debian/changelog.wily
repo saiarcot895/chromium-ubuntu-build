@@ -1,3 +1,10 @@
+chromium-browser (31.0.1650.8-0ubuntu1~ppa1~saucy1) saucy; urgency=low
+
+  * New upstream version 31.0.1650.8
+  * Refreshed patches
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 03 Oct 2013 20:22:16 -0400
+
 chromium-browser (31.0.1650.4-0ubuntu1~ppa2~saucy1) saucy; urgency=low
 
   * Don't build reliability_tests, as it has been removed

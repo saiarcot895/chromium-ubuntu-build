@@ -2,8 +2,8 @@ Bug-Chromium: https://code.google.com/p/chromium/issues/detail?id=159349
                                                                        
 Index: dev.saucy/src/third_party/ffmpeg/ffmpeg.gyp
 ===================================================================
---- dev.saucy.orig/src/third_party/ffmpeg/ffmpeg.gyp	2013-09-29 08:50:37.960234122 -0400
-+++ dev.saucy/src/third_party/ffmpeg/ffmpeg.gyp	2013-09-29 08:50:37.940233401 -0400
+--- dev.saucy.orig/src/third_party/ffmpeg/ffmpeg.gyp	2013-10-03 20:19:35.643186179 -0400
++++ dev.saucy/src/third_party/ffmpeg/ffmpeg.gyp	2013-10-03 20:19:35.639186039 -0400
 @@ -436,6 +436,9 @@
    'targets': [
      {
