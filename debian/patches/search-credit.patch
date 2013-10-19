@@ -3,16 +3,16 @@ Author: Chad Miller <chad.miller@canonical.com>
 
 Index: dev.saucy/src/chrome/browser/search_engines/prepopulated_engines.json
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/search_engines/prepopulated_engines.json	2013-10-03 20:19:32.031060299 -0400
-+++ dev.saucy/src/chrome/browser/search_engines/prepopulated_engines.json	2013-10-03 20:19:32.019059882 -0400
+--- dev.saucy.orig/src/chrome/browser/search_engines/prepopulated_engines.json	2013-10-19 11:56:35.995636365 -0400
++++ dev.saucy/src/chrome/browser/search_engines/prepopulated_engines.json	2013-10-19 11:56:35.987636052 -0400
 @@ -486,9 +486,9 @@
        "name": "Google",
        "keyword": "google.com",
        "favicon_url": "http://www.google.com/favicon.ico",
--      "search_url": "{google:baseURL}search?q={searchTerms}&{google:RLZ}{google:originalQueryForSuggestion}{google:assistedQueryStats}{google:searchFieldtrialParameter}{google:searchClient}{google:sourceId}{google:instantExtendedEnabledParameter}{google:omniboxStartMarginParameter}ie={inputEncoding}",
+-      "search_url": "{google:baseURL}search?q={searchTerms}&{google:RLZ}{google:originalQueryForSuggestion}{google:assistedQueryStats}{google:searchFieldtrialParameter}{google:bookmarkBarPinned}{google:searchClient}{google:sourceId}{google:instantExtendedEnabledParameter}{google:omniboxStartMarginParameter}ie={inputEncoding}",
 -      "suggest_url": "{google:baseSuggestURL}search?{google:searchFieldtrialParameter}client={google:suggestClient}&q={searchTerms}&{google:cursorPosition}{google:zeroPrefixUrl}{google:pageClassification}sugkey={google:suggestAPIKeyParameter}",
 -      "instant_url": "{google:baseURL}webhp?sourceid=chrome-instant&{google:RLZ}{google:instantEnabledParameter}{google:instantExtendedEnabledParameter}{google:ntpIsThemedParameter}{google:omniboxStartMarginParameter}ie={inputEncoding}",
-+      "search_url": "{google:baseURL}search?q={searchTerms}&client=ubuntu&channel=cs&{google:RLZ}{google:originalQueryForSuggestion}{google:assistedQueryStats}{google:searchFieldtrialParameter}{google:searchClient}{google:sourceId}{google:instantExtendedEnabledParameter}{google:omniboxStartMarginParameter}ie={inputEncoding}",
++      "search_url": "{google:baseURL}search?q={searchTerms}&client=ubuntu&channel=cs&{google:RLZ}{google:originalQueryForSuggestion}{google:assistedQueryStats}{google:searchFieldtrialParameter}{google:bookmarkBarPinned}{google:searchClient}{google:sourceId}{google:instantExtendedEnabledParameter}{google:omniboxStartMarginParameter}ie={inputEncoding}",
 +      "suggest_url": "{google:baseSuggestURL}search?{google:searchFieldtrialParameter}client=ubuntu&channel=cs&q={searchTerms}&{google:cursorPosition}{google:zeroPrefixUrl}{google:pageClassification}sugkey={google:suggestAPIKeyParameter}",
 +      "instant_url": "{google:baseURL}webhp?sourceid=chrome-instant&client=ubuntu&channel=cs&{google:RLZ}{google:instantEnabledParameter}{google:instantExtendedEnabledParameter}{google:ntpIsThemedParameter}{google:omniboxStartMarginParameter}ie={inputEncoding}",
        "image_url": "{google:baseURL}searchbyimage/upload",

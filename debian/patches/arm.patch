@@ -1,7 +1,7 @@
 Index: dev.saucy/src/ui/base/resource/data_pack.cc
 ===================================================================
---- dev.saucy.orig/src/ui/base/resource/data_pack.cc	2013-10-03 20:19:34.415143382 -0400
-+++ dev.saucy/src/ui/base/resource/data_pack.cc	2013-10-03 20:19:34.407143103 -0400
+--- dev.saucy.orig/src/ui/base/resource/data_pack.cc	2013-10-19 11:58:45.176449670 -0400
++++ dev.saucy/src/ui/base/resource/data_pack.cc	2013-10-19 11:58:45.164449238 -0400
 @@ -147,9 +147,11 @@
    // 2) Verify the entries are within the appropriate bounds. There's an extra
    // entry after the last item which gives us the length of the last item.

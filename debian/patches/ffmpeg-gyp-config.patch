@@ -2,9 +2,20 @@ Bug-Chromium: https://code.google.com/p/chromium/issues/detail?id=159349
                                                                        
 Index: dev.saucy/src/third_party/ffmpeg/ffmpeg.gyp
 ===================================================================
---- dev.saucy.orig/src/third_party/ffmpeg/ffmpeg.gyp	2013-10-03 20:19:35.643186179 -0400
-+++ dev.saucy/src/third_party/ffmpeg/ffmpeg.gyp	2013-10-03 20:19:35.639186039 -0400
-@@ -436,6 +436,9 @@
+--- dev.saucy.orig/src/third_party/ffmpeg/ffmpeg.gyp	2013-10-19 14:55:03.295138953 -0400
++++ dev.saucy/src/third_party/ffmpeg/ffmpeg.gyp	2013-10-19 14:55:03.275138210 -0400
+@@ -125,6 +125,10 @@
+             ],
+             'yasm_output_path': '<(shared_generated_dir)/yasm'
+           },
++          'include_dirs': [
++            '<(platform_config_root)',
++            '.',
++          ],
+         },
+       ] # targets
+     }], # arch != arm
+@@ -493,6 +497,9 @@
    'targets': [
      {
        'target_name': 'ffmpeg',
@@ -14,7 +25,7 @@ Index: dev.saucy/src/third_party/ffmpeg/ffmpeg.gyp
        'sources': [
          # Files needed for stub generation rules.
          '<@(sig_files)',
-@@ -523,6 +526,7 @@
+@@ -580,6 +587,7 @@
            ],
            'type': '<(component)',
            'include_dirs': [
@@ -22,14 +33,3 @@ Index: dev.saucy/src/third_party/ffmpeg/ffmpeg.gyp
              '<(output_root)',
              '../..',  # The chromium 'src' directory.
              '<(platform_config_root)',
-@@ -645,6 +649,10 @@
-         ],
-         'yasm_output_path': '<(shared_generated_dir)/yasm'
-       },
-+      'include_dirs': [
-+        '<(platform_config_root)',
-+        '.',
-+      ],
-     },
-   ],  # targets
- }

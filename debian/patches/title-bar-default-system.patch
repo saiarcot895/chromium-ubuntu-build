@@ -3,9 +3,9 @@ Description: Never default to using the custom title bar. Chromium should
 
 Index: dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.cc
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-10-03 20:19:30.571009420 -0400
-+++ dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-10-03 20:19:30.567009280 -0400
-@@ -2406,6 +2406,8 @@
+--- dev.saucy.orig/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-10-19 11:55:22.732779083 -0400
++++ dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-10-19 11:55:22.704777991 -0400
+@@ -2405,6 +2405,8 @@
    // WM, but at least some of the WMs in the latter group don't set it.
    // Instead, we default to using system decorations for all WMs and
    // special-case the ones where the custom frame should be used.
