@@ -1,3 +1,10 @@
+chromium-browser (32.0.1671.3-0ubuntu1~ppa2~saucy1) saucy; urgency=low
+
+  * Possible fix to chrome.extension error, and so re-enabling 4-
+    chromeless-window-launch-option.patch
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 20 Oct 2013 12:42:29 -0400
+
 chromium-browser (32.0.1671.3-0ubuntu1~ppa1~saucy1) saucy; urgency=low
 
   * New upstream version 32.0.1671.3
