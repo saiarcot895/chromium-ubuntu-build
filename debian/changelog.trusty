@@ -1,3 +1,10 @@
+chromium-browser (32.0.1678.0-0ubuntu1~ppa1~saucy1) saucy; urgency=low
+
+  * New upstream version 32.0.1678.0
+  * Refreshed patches
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 25 Oct 2013 21:14:38 -0400
+
 chromium-browser (32.0.1671.3-0ubuntu1~ppa2~saucy1) saucy; urgency=low
 
   * Possible fix to chrome.extension error, and so re-enabling 4-

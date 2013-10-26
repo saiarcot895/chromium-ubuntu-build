@@ -1,8 +1,8 @@
 Index: dev.saucy/src/build/common.gypi
 ===================================================================
---- dev.saucy.orig/src/build/common.gypi	2013-10-19 11:58:44.464424049 -0400
-+++ dev.saucy/src/build/common.gypi	2013-10-19 11:58:44.444423330 -0400
-@@ -3393,7 +3393,7 @@
+--- dev.saucy.orig/src/build/common.gypi	2013-10-25 21:02:34.993257316 -0400
++++ dev.saucy/src/build/common.gypi	2013-10-25 21:02:34.973256558 -0400
+@@ -3381,7 +3381,7 @@
            ['linux_dump_symbols==1', {
              'cflags': [ '-g' ],
              'conditions': [

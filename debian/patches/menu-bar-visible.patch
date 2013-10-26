@@ -4,9 +4,9 @@ Author: William Hua <attente@canonical.com>
 
 Index: dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.cc
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-10-19 11:55:21.804742927 -0400
-+++ dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-10-19 11:55:21.760741212 -0400
-@@ -1609,7 +1609,9 @@
+--- dev.saucy.orig/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-10-25 21:02:28.673017836 -0400
++++ dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-10-25 21:02:28.605015260 -0400
+@@ -1599,7 +1599,9 @@
    // GtkMenuBar it sees into the global menu bar. (It doesn't seem to check the
    // visibility of the GtkMenuBar, so we can just permanently hide it.)
    global_menu_bar_.reset(new GlobalMenuBar(browser_.get()));
@@ -19,9 +19,9 @@ Index: dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.cc
    window_container_ = gtk_alignment_new(0.0, 0.0, 1.0, 1.0);
 Index: dev.saucy/src/chrome/browser/ui/gtk/global_menu_bar.cc
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/ui/gtk/global_menu_bar.cc	2013-10-19 11:55:21.804742927 -0400
-+++ dev.saucy/src/chrome/browser/ui/gtk/global_menu_bar.cc	2013-10-19 11:55:21.796742615 -0400
-@@ -157,7 +157,7 @@
+--- dev.saucy.orig/src/chrome/browser/ui/gtk/global_menu_bar.cc	2013-10-25 21:02:28.673017836 -0400
++++ dev.saucy/src/chrome/browser/ui/gtk/global_menu_bar.cc	2013-10-25 21:02:28.633016321 -0400
+@@ -158,7 +158,7 @@
    // instead remain in our widget hierarchy simply to be noticed by third party
    // components.
    g_object_ref_sink(menu_bar_);
