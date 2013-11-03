@@ -2,8 +2,8 @@ Bug-Chromium: https://code.google.com/p/chromium/issues/detail?id=159349
                                                                        
 Index: dev.saucy/src/third_party/ffmpeg/ffmpeg.gyp
 ===================================================================
---- dev.saucy.orig/src/third_party/ffmpeg/ffmpeg.gyp	2013-10-25 21:02:37.177340068 -0400
-+++ dev.saucy/src/third_party/ffmpeg/ffmpeg.gyp	2013-10-25 21:02:37.165339613 -0400
+--- dev.saucy.orig/src/third_party/ffmpeg/ffmpeg.gyp	2013-11-02 21:29:52.968810409 -0400
++++ dev.saucy/src/third_party/ffmpeg/ffmpeg.gyp	2013-11-02 21:29:52.964810266 -0400
 @@ -132,6 +132,10 @@
              ],
              'yasm_output_path': '<(shared_generated_dir)/yasm'

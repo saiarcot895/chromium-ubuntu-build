@@ -1,7 +1,7 @@
 Index: dev.saucy/src/chrome/browser/extensions/api/module/module.cc
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/extensions/api/module/module.cc	2013-10-25 21:11:45.294033246 -0400
-+++ dev.saucy/src/chrome/browser/extensions/api/module/module.cc	2013-10-25 21:11:45.218030387 -0400
+--- dev.saucy.orig/src/chrome/browser/extensions/api/module/module.cc	2013-11-02 21:29:55.484900023 -0400
++++ dev.saucy/src/chrome/browser/extensions/api/module/module.cc	2013-11-02 21:29:55.016883354 -0400
 @@ -8,10 +8,29 @@
  
  #include "base/values.h"
@@ -32,7 +32,7 @@ Index: dev.saucy/src/chrome/browser/extensions/api/module/module.cc
  
  namespace extensions {
  
-@@ -66,4 +85,36 @@
+@@ -64,4 +83,36 @@
    return true;
  }
  
@@ -71,9 +71,9 @@ Index: dev.saucy/src/chrome/browser/extensions/api/module/module.cc
  }  // namespace extensions
 Index: dev.saucy/src/chrome/browser/extensions/api/module/module.h
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/extensions/api/module/module.h	2013-10-25 21:11:45.294033246 -0400
-+++ dev.saucy/src/chrome/browser/extensions/api/module/module.h	2013-10-25 21:11:45.218030387 -0400
-@@ -53,6 +53,13 @@
+--- dev.saucy.orig/src/chrome/browser/extensions/api/module/module.h	2013-11-02 21:29:55.484900023 -0400
++++ dev.saucy/src/chrome/browser/extensions/api/module/module.h	2013-11-02 21:29:55.020883497 -0400
+@@ -54,6 +54,13 @@
    virtual bool RunImpl() OVERRIDE;
  };
  
@@ -89,8 +89,8 @@ Index: dev.saucy/src/chrome/browser/extensions/api/module/module.h
  #endif  // CHROME_BROWSER_EXTENSIONS_API_MODULE_MODULE_H_
 Index: dev.saucy/src/chrome/browser/extensions/extension_function_histogram_value.h
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-10-25 21:11:45.294033246 -0400
-+++ dev.saucy/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-10-25 21:11:45.230030839 -0400
+--- dev.saucy.orig/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-11-02 21:29:55.484900023 -0400
++++ dev.saucy/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-11-02 21:29:55.068885206 -0400
 @@ -391,6 +391,7 @@
    SYSTEMINDICATOR_DISABLE,
    SCRIPTBADGE_SETPOPUP,
@@ -101,8 +101,8 @@ Index: dev.saucy/src/chrome/browser/extensions/extension_function_histogram_valu
    TABS_DETECTLANGUAGE,
 Index: dev.saucy/src/chrome/browser/sessions/session_service.cc
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/sessions/session_service.cc	2013-10-25 21:11:45.294033246 -0400
-+++ dev.saucy/src/chrome/browser/sessions/session_service.cc	2013-10-25 21:11:45.230030839 -0400
+--- dev.saucy.orig/src/chrome/browser/sessions/session_service.cc	2013-11-02 21:29:55.484900023 -0400
++++ dev.saucy/src/chrome/browser/sessions/session_service.cc	2013-11-02 21:29:55.096886203 -0400
 @@ -1561,7 +1561,8 @@
  bool SessionService::ShouldTrackBrowser(Browser* browser) const {
    AppType app_type = browser->is_app() ? TYPE_APP : TYPE_NORMAL;
@@ -115,9 +115,9 @@ Index: dev.saucy/src/chrome/browser/sessions/session_service.cc
  bool SessionService::should_track_changes_for_browser_type(Browser::Type type,
 Index: dev.saucy/src/chrome/browser/ui/browser.cc
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/ui/browser.cc	2013-10-25 21:11:45.294033246 -0400
-+++ dev.saucy/src/chrome/browser/ui/browser.cc	2013-10-25 21:11:45.234030989 -0400
-@@ -246,6 +246,7 @@
+--- dev.saucy.orig/src/chrome/browser/ui/browser.cc	2013-11-02 21:29:55.484900023 -0400
++++ dev.saucy/src/chrome/browser/ui/browser.cc	2013-11-02 21:29:55.164888626 -0400
+@@ -248,6 +248,7 @@
      : type(TYPE_TABBED),
        profile(profile),
        host_desktop_type(host_desktop_type),
@@ -125,7 +125,7 @@ Index: dev.saucy/src/chrome/browser/ui/browser.cc
        app_type(APP_TYPE_HOST),
        initial_show_state(ui::SHOW_STATE_DEFAULT),
        is_session_restore(false),
-@@ -258,6 +259,7 @@
+@@ -260,6 +261,7 @@
      : type(type),
        profile(profile),
        host_desktop_type(host_desktop_type),
@@ -133,7 +133,7 @@ Index: dev.saucy/src/chrome/browser/ui/browser.cc
        app_type(APP_TYPE_HOST),
        initial_show_state(ui::SHOW_STATE_DEFAULT),
        is_session_restore(false),
-@@ -265,6 +267,14 @@
+@@ -267,6 +269,14 @@
  }
  
  // static
@@ -148,7 +148,7 @@ Index: dev.saucy/src/chrome/browser/ui/browser.cc
  Browser::CreateParams Browser::CreateParams::CreateForApp(
      Type type,
      const std::string& app_name,
-@@ -328,6 +338,7 @@
+@@ -330,6 +340,7 @@
        tab_strip_model_(new TabStripModel(tab_strip_model_delegate_.get(),
                                           params.profile)),
        app_name_(params.app_name),
@@ -156,7 +156,7 @@ Index: dev.saucy/src/chrome/browser/ui/browser.cc
        app_type_(params.app_type),
        cancel_download_confirmation_state_(NOT_PROMPTED),
        override_bounds_(params.initial_bounds),
-@@ -523,6 +534,10 @@
+@@ -526,6 +537,10 @@
    return find_bar_controller_.get() != NULL;
  }
  
@@ -167,7 +167,7 @@ Index: dev.saucy/src/chrome/browser/ui/browser.cc
  bool Browser::is_app() const {
    return !app_name_.empty();
  }
-@@ -568,7 +583,7 @@
+@@ -571,7 +586,7 @@
      return title;
  #endif
    // Don't append the app name to window titles on app frames and app popups
@@ -176,7 +176,7 @@ Index: dev.saucy/src/chrome/browser/ui/browser.cc
        title :
        l10n_util::GetStringFUTF16(IDS_BROWSER_WINDOW_TITLE_FORMAT, title);
  }
-@@ -655,7 +670,8 @@
+@@ -658,7 +673,8 @@
      tab_restore_service->BrowserClosing(tab_restore_service_delegate());
  #endif
  
@@ -186,7 +186,7 @@ Index: dev.saucy/src/chrome/browser/ui/browser.cc
      tab_restore_service->BrowserClosing(tab_restore_service_delegate());
  
    // TODO(sky): convert session/tab restore to use notification.
-@@ -2138,21 +2154,22 @@
+@@ -2143,21 +2159,22 @@
  
    unsigned int features = FEATURE_INFOBAR | FEATURE_DOWNLOADSHELF;
  
@@ -215,9 +215,9 @@ Index: dev.saucy/src/chrome/browser/ui/browser.cc
    return !!(features & feature);
 Index: dev.saucy/src/chrome/browser/ui/browser.h
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/ui/browser.h	2013-10-25 21:11:45.294033246 -0400
-+++ dev.saucy/src/chrome/browser/ui/browser.h	2013-10-25 21:11:45.234030989 -0400
-@@ -160,6 +160,11 @@
+--- dev.saucy.orig/src/chrome/browser/ui/browser.h	2013-11-02 21:29:55.484900023 -0400
++++ dev.saucy/src/chrome/browser/ui/browser.h	2013-11-02 21:29:55.240891333 -0400
+@@ -161,6 +161,11 @@
                                       Profile* profile,
                                       chrome::HostDesktopType host_desktop_type);
  
@@ -229,7 +229,7 @@ Index: dev.saucy/src/chrome/browser/ui/browser.h
      static CreateParams CreateForDevTools(
          Profile* profile,
          chrome::HostDesktopType host_desktop_type);
-@@ -182,6 +187,9 @@
+@@ -183,6 +188,9 @@
      // Type of app (host or child). See description of AppType.
      AppType app_type;
  
@@ -239,7 +239,7 @@ Index: dev.saucy/src/chrome/browser/ui/browser.h
      // The bounds of the window to open.
      gfx::Rect initial_bounds;
  
-@@ -466,6 +474,7 @@
+@@ -467,6 +475,7 @@
    bool is_type_tabbed() const { return type_ == TYPE_TABBED; }
    bool is_type_popup() const { return type_ == TYPE_POPUP; }
  
@@ -247,7 +247,7 @@ Index: dev.saucy/src/chrome/browser/ui/browser.h
    bool is_app() const;
    bool is_devtools() const;
  
-@@ -832,6 +841,8 @@
+@@ -830,6 +839,8 @@
    // 2) we launch an undocked devtool window.
    std::string app_name_;
  
@@ -258,8 +258,8 @@ Index: dev.saucy/src/chrome/browser/ui/browser.h
  
 Index: dev.saucy/src/chrome/browser/ui/browser_command_controller.cc
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/ui/browser_command_controller.cc	2013-10-25 21:11:45.294033246 -0400
-+++ dev.saucy/src/chrome/browser/ui/browser_command_controller.cc	2013-10-25 21:11:45.246031440 -0400
+--- dev.saucy.orig/src/chrome/browser/ui/browser_command_controller.cc	2013-11-02 21:29:55.484900023 -0400
++++ dev.saucy/src/chrome/browser/ui/browser_command_controller.cc	2013-11-02 21:29:55.268892330 -0400
 @@ -4,6 +4,7 @@
  
  #include "chrome/browser/ui/browser_command_controller.h"
@@ -276,7 +276,7 @@ Index: dev.saucy/src/chrome/browser/ui/browser_command_controller.cc
  #include "chrome/common/content_restriction.h"
  #include "chrome/common/pref_names.h"
  #include "chrome/common/profiling.h"
-@@ -836,7 +838,8 @@
+@@ -839,7 +841,8 @@
  
  bool BrowserCommandController::IsShowingMainUI() {
    bool should_hide_ui = window() && window()->ShouldHideUIForFullscreen();
@@ -286,7 +286,7 @@ Index: dev.saucy/src/chrome/browser/ui/browser_command_controller.cc
  }
  
  void BrowserCommandController::InitCommandState() {
-@@ -851,9 +854,10 @@
+@@ -854,9 +857,10 @@
  
    // Window management commands
    command_updater_.UpdateCommandEnabled(IDC_CLOSE_WINDOW, true);
@@ -299,7 +299,7 @@ Index: dev.saucy/src/chrome/browser/ui/browser_command_controller.cc
    command_updater_.UpdateCommandEnabled(IDC_RESTORE_TAB, false);
  #if defined(OS_WIN) && defined(USE_ASH)
    if (browser_->host_desktop_type() != chrome::HOST_DESKTOP_TYPE_ASH)
-@@ -923,20 +927,23 @@
+@@ -926,20 +930,23 @@
    command_updater_.UpdateCommandEnabled(IDC_ZOOM_MINUS, true);
  
    // Show various bits of UI
@@ -327,7 +327,7 @@ Index: dev.saucy/src/chrome/browser/ui/browser_command_controller.cc
  
    UpdateShowSyncState(true);
  
-@@ -944,7 +951,9 @@
+@@ -947,7 +954,9 @@
    bool normal_window = browser_->is_type_tabbed();
  
    // Navigation commands
@@ -338,7 +338,7 @@ Index: dev.saucy/src/chrome/browser/ui/browser_command_controller.cc
  
    // Window management commands
    command_updater_.UpdateCommandEnabled(IDC_SELECT_NEXT_TAB, normal_window);
-@@ -972,7 +981,9 @@
+@@ -975,7 +984,9 @@
    command_updater_.UpdateCommandEnabled(IDC_TABPOSE, normal_window);
  
    // Show various bits of UI
@@ -349,7 +349,7 @@ Index: dev.saucy/src/chrome/browser/ui/browser_command_controller.cc
  
    // The upgrade entry and the view incompatibility entry should always be
    // enabled. Whether they are visible is a separate matter determined on menu
-@@ -996,15 +1007,18 @@
+@@ -999,15 +1010,18 @@
  // static
  void BrowserCommandController::UpdateSharedCommandsForIncognitoAvailability(
      CommandUpdater* command_updater,
@@ -371,7 +371,7 @@ Index: dev.saucy/src/chrome/browser/ui/browser_command_controller.cc
  
    // Bookmark manager and settings page/subpages are forced to open in normal
    // mode. For this reason we disable these commands when incognito is forced.
-@@ -1012,7 +1026,8 @@
+@@ -1015,7 +1029,8 @@
        incognito_availability != IncognitoModePrefs::FORCED;
    command_updater->UpdateCommandEnabled(
        IDC_SHOW_BOOKMARK_MANAGER,
@@ -381,7 +381,7 @@ Index: dev.saucy/src/chrome/browser/ui/browser_command_controller.cc
    ExtensionService* extension_service = profile->GetExtensionService();
    bool enable_extensions =
        extension_service && extension_service->extensions_enabled();
-@@ -1025,7 +1040,10 @@
+@@ -1028,7 +1043,10 @@
  }
  
  void BrowserCommandController::UpdateCommandsForIncognitoAvailability() {
@@ -393,7 +393,7 @@ Index: dev.saucy/src/chrome/browser/ui/browser_command_controller.cc
  
    if (!IsShowingMainUI()) {
      command_updater_.UpdateCommandEnabled(IDC_IMPORT_SETTINGS, false);
-@@ -1050,17 +1068,20 @@
+@@ -1053,17 +1071,20 @@
  
    // Window management commands
    command_updater_.UpdateCommandEnabled(IDC_DUPLICATE_TAB,
@@ -418,7 +418,7 @@ Index: dev.saucy/src/chrome/browser/ui/browser_command_controller.cc
      command_updater_.UpdateCommandEnabled(IDC_OPEN_FILE, false);
  
    // Changing the encoding is not possible on Chrome-internal webpages.
-@@ -1076,7 +1097,8 @@
+@@ -1079,7 +1100,8 @@
  #if !defined(OS_MACOSX)
    command_updater_.UpdateCommandEnabled(
        IDC_CREATE_SHORTCUTS,
@@ -428,7 +428,7 @@ Index: dev.saucy/src/chrome/browser/ui/browser_command_controller.cc
  #endif
  
    command_updater_.UpdateCommandEnabled(
-@@ -1117,24 +1139,38 @@
+@@ -1120,24 +1142,38 @@
  }
  
  void BrowserCommandController::UpdateCommandsForBookmarkEditing() {
@@ -472,7 +472,7 @@ Index: dev.saucy/src/chrome/browser/ui/browser_command_controller.cc
  }
  
  void BrowserCommandController::UpdateCommandsForFullscreenMode() {
-@@ -1198,7 +1234,8 @@
+@@ -1201,7 +1237,8 @@
  #endif
  
    // Disable explicit fullscreen toggling when in metro snap mode.
@@ -482,7 +482,7 @@ Index: dev.saucy/src/chrome/browser/ui/browser_command_controller.cc
  #if defined(OS_MACOSX)
    // The Mac implementation doesn't support switching to fullscreen while
    // a tab modal dialog is displayed.
-@@ -1261,13 +1298,14 @@
+@@ -1264,13 +1301,14 @@
  
  // static
  void BrowserCommandController::UpdateOpenFileState(
@@ -501,8 +501,8 @@ Index: dev.saucy/src/chrome/browser/ui/browser_command_controller.cc
  void BrowserCommandController::UpdateReloadStopState(bool is_loading,
 Index: dev.saucy/src/chrome/browser/ui/browser_command_controller.h
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/ui/browser_command_controller.h	2013-10-25 21:11:45.294033246 -0400
-+++ dev.saucy/src/chrome/browser/ui/browser_command_controller.h	2013-10-25 21:11:45.246031440 -0400
+--- dev.saucy.orig/src/chrome/browser/ui/browser_command_controller.h	2013-11-02 21:29:55.484900023 -0400
++++ dev.saucy/src/chrome/browser/ui/browser_command_controller.h	2013-11-02 21:29:55.276892615 -0400
 @@ -68,13 +68,15 @@
    // outside code.
  
@@ -523,9 +523,9 @@ Index: dev.saucy/src/chrome/browser/ui/browser_command_controller.h
    class InterstitialObserver;
 Index: dev.saucy/src/chrome/browser/ui/browser_commands.cc
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/ui/browser_commands.cc	2013-10-25 21:11:45.294033246 -0400
-+++ dev.saucy/src/chrome/browser/ui/browser_commands.cc	2013-10-25 21:11:45.246031440 -0400
-@@ -471,6 +471,9 @@
+--- dev.saucy.orig/src/chrome/browser/ui/browser_commands.cc	2013-11-02 21:29:55.484900023 -0400
++++ dev.saucy/src/chrome/browser/ui/browser_commands.cc	2013-11-02 21:29:55.288893043 -0400
+@@ -473,6 +473,9 @@
  }
  
  void NewTab(Browser* browser) {
@@ -535,7 +535,7 @@ Index: dev.saucy/src/chrome/browser/ui/browser_commands.cc
    content::RecordAction(UserMetricsAction("NewTab"));
    // TODO(asvitkine): This is invoked programmatically from several places.
    // Audit the code and change it so that the histogram only gets collected for
-@@ -504,7 +507,7 @@
+@@ -506,7 +509,7 @@
    content::RecordAction(UserMetricsAction("RestoreTab"));
    TabRestoreService* service =
        TabRestoreServiceFactory::GetForProfile(browser->profile());
@@ -546,8 +546,8 @@ Index: dev.saucy/src/chrome/browser/ui/browser_commands.cc
  }
 Index: dev.saucy/src/chrome/browser/ui/browser_finder.cc
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/ui/browser_finder.cc	2013-10-25 21:11:45.294033246 -0400
-+++ dev.saucy/src/chrome/browser/ui/browser_finder.cc	2013-10-25 21:11:45.246031440 -0400
+--- dev.saucy.orig/src/chrome/browser/ui/browser_finder.cc	2013-11-02 21:29:55.484900023 -0400
++++ dev.saucy/src/chrome/browser/ui/browser_finder.cc	2013-11-02 21:29:55.296893327 -0400
 @@ -24,6 +24,7 @@
  const int kMatchOriginalProfile         = 1 << 0;
  const int kMatchCanSupportWindowFeature = 1 << 1;
@@ -580,8 +580,8 @@ Index: dev.saucy/src/chrome/browser/ui/browser_finder.cc
    if (match_original_profiles)
 Index: dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.cc
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-10-25 21:11:45.294033246 -0400
-+++ dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-10-25 21:11:45.250031590 -0400
+--- dev.saucy.orig/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-11-02 21:29:55.484900023 -0400
++++ dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-11-02 21:29:55.308893755 -0400
 @@ -306,6 +306,13 @@
      gtk_window_util::SetWindowCustomClass(window_,
          std::string(gdk_get_program_class()) + " (" + user_data_dir + ")");
@@ -605,7 +605,7 @@ Index: dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.cc
      GetLocationBar()->FocusLocation(select_all);
  }
  
-@@ -1272,6 +1279,20 @@
+@@ -1277,6 +1284,20 @@
    gtk_util::SetWindowIcon(window_, browser_->profile());
  }
  
@@ -626,7 +626,7 @@ Index: dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.cc
  void BrowserWindowGtk::TabDetachedAt(WebContents* contents, int index) {
    // We use index here rather than comparing |contents| because by this time
    // the model has already removed |contents| from its list, so
-@@ -1282,6 +1303,23 @@
+@@ -1287,6 +1308,23 @@
      UpdateDevToolsForContents(NULL);
    }
    contents_container_->DetachTab(contents);
@@ -650,7 +650,7 @@ Index: dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.cc
  }
  
  void BrowserWindowGtk::ActiveWindowChanged(GdkWindow* active_window) {
-@@ -2186,8 +2224,12 @@
+@@ -2191,8 +2229,12 @@
  }
  
  void BrowserWindowGtk::ShowSupportedWindowFeatures() {
@@ -665,7 +665,7 @@ Index: dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.cc
  
    if (IsToolbarSupported()) {
      toolbar_->Show();
-@@ -2200,8 +2242,12 @@
+@@ -2205,8 +2247,12 @@
  }
  
  void BrowserWindowGtk::HideUnsupportedWindowFeatures() {
@@ -680,7 +680,7 @@ Index: dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.cc
  
    if (!IsToolbarSupported())
      toolbar_->Hide();
-@@ -2241,7 +2287,8 @@
+@@ -2246,7 +2292,8 @@
  
  bool BrowserWindowGtk::UseCustomFrame() const {
    // We don't use the custom frame for app mode windows or app window popups.
@@ -692,9 +692,9 @@ Index: dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.cc
  void BrowserWindowGtk::PlaceBookmarkBar(bool is_floating) {
 Index: dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.h
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/ui/gtk/browser_window_gtk.h	2013-10-25 21:11:45.294033246 -0400
-+++ dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.h	2013-10-25 21:11:45.250031590 -0400
-@@ -188,6 +188,13 @@
+--- dev.saucy.orig/src/chrome/browser/ui/gtk/browser_window_gtk.h	2013-11-02 21:29:55.484900023 -0400
++++ dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.h	2013-11-02 21:29:55.340894895 -0400
+@@ -191,6 +191,13 @@
    virtual void TabDetachedAt(content::WebContents* contents,
                               int index) OVERRIDE;
  
@@ -708,7 +708,7 @@ Index: dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.h
    // Overridden from ActiveWindowWatcherXObserver.
    virtual void ActiveWindowChanged(GdkWindow* active_window) OVERRIDE;
  
-@@ -331,6 +338,9 @@
+@@ -334,6 +341,9 @@
    // ctrl-l, etc.).
    void ConnectAccelerators();
  
@@ -720,8 +720,8 @@ Index: dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.h
    bool UsingCustomPopupFrame() const;
 Index: dev.saucy/src/chrome/browser/ui/gtk/global_menu_bar.cc
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/ui/gtk/global_menu_bar.cc	2013-10-25 21:11:45.294033246 -0400
-+++ dev.saucy/src/chrome/browser/ui/gtk/global_menu_bar.cc	2013-10-25 21:11:45.258031892 -0400
+--- dev.saucy.orig/src/chrome/browser/ui/gtk/global_menu_bar.cc	2013-11-02 21:29:55.484900023 -0400
++++ dev.saucy/src/chrome/browser/ui/gtk/global_menu_bar.cc	2013-11-02 21:29:55.340894895 -0400
 @@ -25,35 +25,43 @@
  #include "ui/base/accelerators/platform_accelerator_gtk.h"
  #include "ui/base/l10n/l10n_util.h"
@@ -913,8 +913,8 @@ Index: dev.saucy/src/chrome/browser/ui/gtk/global_menu_bar.cc
          id_to_menu_item, menu);
 Index: dev.saucy/src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc	2013-10-25 21:11:45.294033246 -0400
-+++ dev.saucy/src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc	2013-10-25 21:11:45.258031892 -0400
+--- dev.saucy.orig/src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc	2013-11-02 21:29:55.484900023 -0400
++++ dev.saucy/src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc	2013-11-02 21:29:55.352895322 -0400
 @@ -783,9 +783,12 @@
    g_signal_connect(tabstrip_.get(), "drag-data-received",
                     G_CALLBACK(OnDragDataReceivedThunk), this);
@@ -979,9 +979,9 @@ Index: dev.saucy/src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc
    SkBitmap background = theme_service_->GetImageNamed(
 Index: dev.saucy/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc	2013-10-25 21:11:45.294033246 -0400
-+++ dev.saucy/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc	2013-10-25 21:11:45.262032042 -0400
-@@ -445,6 +445,16 @@
+--- dev.saucy.orig/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc	2013-11-02 21:29:55.484900023 -0400
++++ dev.saucy/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc	2013-11-02 21:29:55.372896035 -0400
+@@ -447,6 +447,16 @@
    }
  }
  
@@ -998,7 +998,7 @@ Index: dev.saucy/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc
  bool StartupBrowserCreatorImpl::IsAppLaunch(std::string* app_url,
                                              std::string* app_id) {
    if (command_line_.HasSwitch(switches::kApp)) {
-@@ -589,6 +599,12 @@
+@@ -591,6 +601,12 @@
    }
  #endif
  
@@ -1011,7 +1011,7 @@ Index: dev.saucy/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc
    if (process_startup && ProcessStartupURLs(urls_to_open, desktop_type)) {
      // ProcessStartupURLs processed the urls, nothing else to do.
      return;
-@@ -734,7 +750,8 @@
+@@ -736,7 +752,8 @@
    // mode. Also, no pages should be opened automatically if the session
    // crashed. Otherwise it might trigger another crash, locking the user out of
    // chrome. The crash infobar is shown in this case.
@@ -1021,7 +1021,7 @@ Index: dev.saucy/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc
                                                   profile_->GetPrefs()) &&
        !HasPendingUncleanExit(profile_)) {
      tabs = PinnedTabCodec::ReadPinnedTabs(profile_);
-@@ -813,6 +830,10 @@
+@@ -815,6 +832,10 @@
    if (!profile_ && browser)
      profile_ = browser->profile();
  
@@ -1032,7 +1032,7 @@ Index: dev.saucy/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc
    if (!browser || !browser->is_type_tabbed()) {
      browser = new Browser(Browser::CreateParams(profile_, desktop_type));
    } else {
-@@ -888,6 +909,11 @@
+@@ -890,6 +911,11 @@
    if (!browser || !profile_ || browser->tab_strip_model()->count() == 0)
      return;
  
@@ -1046,8 +1046,8 @@ Index: dev.saucy/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc
  
 Index: dev.saucy/src/chrome/browser/ui/startup/startup_browser_creator_impl.h
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/ui/startup/startup_browser_creator_impl.h	2013-10-25 21:11:45.294033246 -0400
-+++ dev.saucy/src/chrome/browser/ui/startup/startup_browser_creator_impl.h	2013-10-25 21:11:45.262032042 -0400
+--- dev.saucy.orig/src/chrome/browser/ui/startup/startup_browser_creator_impl.h	2013-11-02 21:29:55.484900023 -0400
++++ dev.saucy/src/chrome/browser/ui/startup/startup_browser_creator_impl.h	2013-11-02 21:29:55.372896035 -0400
 @@ -83,6 +83,11 @@
    FRIEND_TEST_ALL_PREFIXES(BrowserTest, RestorePinnedTabs);
    FRIEND_TEST_ALL_PREFIXES(BrowserTest, AppIdSwitch);
@@ -1062,9 +1062,9 @@ Index: dev.saucy/src/chrome/browser/ui/startup/startup_browser_creator_impl.h
  
 Index: dev.saucy/src/chrome/common/chrome_switches.cc
 ===================================================================
---- dev.saucy.orig/src/chrome/common/chrome_switches.cc	2013-10-25 21:11:45.294033246 -0400
-+++ dev.saucy/src/chrome/common/chrome_switches.cc	2013-10-25 21:11:45.262032042 -0400
-@@ -165,6 +165,9 @@
+--- dev.saucy.orig/src/chrome/common/chrome_switches.cc	2013-11-02 21:29:55.484900023 -0400
++++ dev.saucy/src/chrome/common/chrome_switches.cc	2013-11-02 21:29:55.412897459 -0400
+@@ -162,6 +162,9 @@
  // as a dependent process of the Chrome Frame plugin.
  const char kChromeFrame[]                   = "chrome-frame";
  
@@ -1076,9 +1076,9 @@ Index: dev.saucy/src/chrome/common/chrome_switches.cc
  const char kChromeVersion[]                 = "chrome-version";
 Index: dev.saucy/src/chrome/common/chrome_switches.h
 ===================================================================
---- dev.saucy.orig/src/chrome/common/chrome_switches.h	2013-10-25 21:11:45.294033246 -0400
-+++ dev.saucy/src/chrome/common/chrome_switches.h	2013-10-25 21:11:45.262032042 -0400
-@@ -61,6 +61,7 @@
+--- dev.saucy.orig/src/chrome/common/chrome_switches.h	2013-11-02 21:29:55.484900023 -0400
++++ dev.saucy/src/chrome/common/chrome_switches.h	2013-11-02 21:29:55.420897744 -0400
+@@ -60,6 +60,7 @@
  extern const char kCheckForUpdateIntervalSec[];
  extern const char kCheckCloudPrintConnectorPolicy[];
  extern const char kChromeFrame[];
@@ -1088,8 +1088,8 @@ Index: dev.saucy/src/chrome/common/chrome_switches.h
  extern const char kClearTokenService[];
 Index: dev.saucy/src/chrome/common/extensions/api/extension.json
 ===================================================================
---- dev.saucy.orig/src/chrome/common/extensions/api/extension.json	2013-10-25 21:11:45.294033246 -0400
-+++ dev.saucy/src/chrome/common/extensions/api/extension.json	2013-10-25 21:11:45.266032193 -0400
+--- dev.saucy.orig/src/chrome/common/extensions/api/extension.json	2013-11-02 21:29:55.484900023 -0400
++++ dev.saucy/src/chrome/common/extensions/api/extension.json	2013-11-02 21:29:55.480899881 -0400
 @@ -138,6 +138,33 @@
          }
        },

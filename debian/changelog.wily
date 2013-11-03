@@ -1,3 +1,10 @@
+chromium-browser (32.0.1685.0-0ubuntu1~ppa1~saucy1) saucy; urgency=low
+
+  * New upstream version 32.0.1685.0
+  * Refreshed patches
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 02 Nov 2013 21:32:18 -0400
+
 chromium-browser (32.0.1678.0-0ubuntu1~ppa1~saucy1) saucy; urgency=low
 
   * New upstream version 32.0.1678.0
