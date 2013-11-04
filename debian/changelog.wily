@@ -1,3 +1,9 @@
+chromium-browser (32.0.1685.0-0ubuntu1~ppa3~saucy1) saucy; urgency=low
+
+  * Updated 5-desktop-integration-settings.patch
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 04 Nov 2013 13:52:14 -0500
+
 chromium-browser (32.0.1685.0-0ubuntu1~ppa2~saucy1) saucy; urgency=low
 
   * Updated 4-chromeless-window-launch-option.patch
