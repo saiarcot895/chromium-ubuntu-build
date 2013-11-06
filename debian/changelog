@@ -1,3 +1,9 @@
+chromium-browser (32.0.1685.0-0ubuntu1~ppa5~saucy1) saucy; urgency=low
+
+  * Yet another fix for 4-chromeless-window-launch-option.patch
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 06 Nov 2013 13:22:36 -0500
+
 chromium-browser (32.0.1685.0-0ubuntu1~ppa4~saucy1) saucy; urgency=low
 
   * Another fix for 4-chromeless-window-launch-option.patch

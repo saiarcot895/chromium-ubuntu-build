@@ -77,7 +77,7 @@ Index: dev.saucy/src/chrome/browser/extensions/api/module/module.h
    virtual bool RunImpl() OVERRIDE;
  };
  
-+class ExtensionIsChromelessWindowFunction : public SyncExtensionFunction {
++class ExtensionIsChromelessWindowFunction : public ChromeSyncExtensionFunction {
 + protected:
 +  virtual bool RunImpl() OVERRIDE;
 +  DECLARE_EXTENSION_FUNCTION("extension.isChromelessWindow",
