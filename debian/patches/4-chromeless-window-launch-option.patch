@@ -51,7 +51,7 @@ Index: dev.saucy/src/chrome/browser/extensions/api/module/module.cc
 +  else {
 +    Browser* browser = NULL;
 +    if (!ExtensionTabUtil::GetTabById(tab_id,
-+                                      profile(),
++                                      GetProfile(),
 +                                      NULL,
 +                                      &browser,
 +                                      NULL,
