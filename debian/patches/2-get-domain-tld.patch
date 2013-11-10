@@ -113,7 +113,7 @@ Index: dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.h
 +
 +class TldGetBaseDomainFunction : public SyncExtensionFunction {
 + public:
-+  DECLARE_EXTENSION_FUNCTION("tld.getBaseDomain", TLD_GETBASEDOMAIN);
++  DECLARE_EXTENSION_FUNCTION("tld.getBaseDomain", TLD_GET_BASE_DOMAIN);
 + protected:
 +  virtual ~TldGetBaseDomainFunction() {}
 +  virtual bool RunImpl() OVERRIDE;
@@ -121,7 +121,7 @@ Index: dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.h
 +
 +class TldGetPublicSuffixFunction : public SyncExtensionFunction {
 + public:
-+  DECLARE_EXTENSION_FUNCTION("tld.getPublicSuffix", TLD_GETPUBLICSUFFIX);
++  DECLARE_EXTENSION_FUNCTION("tld.getPublicSuffix", TLD_GET_PUBLIC_SUFFIX);
 + protected:
 +  virtual ~TldGetPublicSuffixFunction() {}
 +  virtual bool RunImpl() OVERRIDE;

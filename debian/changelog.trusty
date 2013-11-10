@@ -1,3 +1,9 @@
+chromium-browser (32.0.1700.6-0ubuntu1~ppa3~trusty1) trusty; urgency=low
+
+  * Corrected typos in 2-get-domain-tld.patch
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 09 Nov 2013 20:31:53 -0500
+
 chromium-browser (32.0.1700.6-0ubuntu1~ppa2~trusty1) trusty; urgency=low
 
   * Add libdrm-dev to Build-Depends
