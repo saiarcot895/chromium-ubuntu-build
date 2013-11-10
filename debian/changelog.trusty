@@ -1,3 +1,12 @@
+chromium-browser (32.0.1700.6-0ubuntu1~ppa1~trusty1) trusty; urgency=low
+
+  * New upstream version 32.0.1700.6
+  * debian/rules, debian/control: Use standard hardening flags, not
+    hardening-wrapper
+  * debian/control: Drop unused build-deps
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 09 Nov 2013 19:21:51 -0500
+
 chromium-browser (32.0.1685.0-0ubuntu1~ppa5~saucy1) saucy; urgency=low
 
   * Yet another fix for 4-chromeless-window-launch-option.patch

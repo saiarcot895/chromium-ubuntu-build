@@ -54,9 +54,6 @@ ifeq (0,$(PROCESSORS))
 PROCESSORS := 1
 endif
 
-# Always enable hardening.
-export DEB_BUILD_HARDENING=1
-
 # Disable SSE2 and enable sandbox
 GYP_DEFINES += disable_sse2=1
 
@@ -64,7 +61,7 @@ GYP_DEFINES += disable_sse2=1
 GYP_DEFINES += use_third_party_translations=1
 
 # Always add debug symbols, and strip them when we don't want them.
-GYP_DEFINES += release_extra_cflags="-g"
+#GYP_DEFINES += release_extra_cflags="-g"
 
 # Don't fail on compilation warnings
 GYP_DEFINES += werror=$(NULL)
@@ -82,14 +79,18 @@ GYP_DEFINES += linux_use_gold_binary=0 linux_use_gold_flags=0
 # enable features that we want.
 GYP_DEFINES += enable_webrtc=1
 
+# elimiate DCHECK and DLOG function calls, to save ~9MB off binary
+#GYP_DEFINES += logging_like_official_build=1
+
 # Intentional configuration, not bug work-arounds.
 ifeq (arm,$(DEB_HOST_ARCH_CPU))
+
 GYP_DEFINES += \
-	target_arch=arm \
 	arm_neon=0 \
-	disable_nacl=1 \
+	target_arch=arm \
 	use_cups=1 \
 	$(NULL)
+
  ifeq (armel,$(DEB_HOST_ARCH))
 GYP_DEFINES += \
 	v8_use_arm_eabi_hardfloat=false \
@@ -99,9 +100,11 @@ GYP_DEFINES += \
 	$(NULL)
  endif
  ifeq (armhf,$(DEB_HOST_ARCH))
-GYP_PARAMS += -DUSE_EABI_HARDFLOAT
+GYP_PARAMS += -DUSE_EABI_HARDFLOAT 
+# ARN Neon optional flag is off because it causes build errors, AND testing
+# /proc/cpuinfo contents can't work with a sandbox anyway.
 GYP_DEFINES += \
-    arm_neon_optional=1 \
+	arm_neon_optional=0 \
 	v8_use_arm_eabi_hardfloat=true \
 	arm_fpu=vfpv3-d16 \
 	arm_float_abi=hard \
@@ -110,22 +113,22 @@ GYP_DEFINES += \
 	$(NULL)
  endif
 endif
-
 ifeq (amd64,$(DEB_HOST_ARCH))
 GYP_DEFINES += target_arch=x64
 endif
-
 ifeq (i386,$(DEB_HOST_ARCH))
 GYP_DEFINES += target_arch=ia32
 endif
 
-#ifeq (32,$(DEB_BUILD_ARCH_BITS))
-#$(warning Since this machine's word size is too small for linking full binary now, we're dynamically linking at run time instead, at a cost of some startup time.)
+# Do this for every architecture. More than 4GB of memory is too much to expect
+# of builders.
 #COMPONENT_SHARED_LIB_BUILD := 1
-#endif
 
 ifeq (1,$(COMPONENT_SHARED_LIB_BUILD))
 GYP_DEFINES += component=shared_library
+
+# SEGV on component builds, 2013-05
+GYP_DEFINES += linux_use_tcmalloc=0
 endif
 
 # Webkit library is enormous. Exclude for now.
@@ -206,12 +209,9 @@ INSTALL_EXCLUDE_FILES = \
 	*.stamp \
 	AHEM____.TTF \
 	fonts.conf \
+	libTestNetscapePlugIn.so \
 	plugins/libTestNetscapePlugIn.so \
 	ImageDiff \
-	base_unittests \
-	base_unittests.log \
-	automated_ui_tests \
-	automated_ui_tests.log \
 	$(NULL)
 
 # FFmpeg-mt
@@ -232,7 +232,7 @@ FFMPEG_MT_STD_GYP_DEFINES   = $(NULL)
 FFMPEG_MT_EXTRA_GYP_DEFINES = ffmpeg_branding=Chrome
 
 # Precise and earlier don't set some settings.
-ifeq (,$(filter 12.04%,$(DEBIAN_DIST)))
+ifeq (,$(filter 12.04%,$(UBUNTU_DIST)))
 # enable compile-time dependency on gnome-keyring
 GYP_DEFINES += use_gnome_keyring=1 linux_link_gnome_keyring=1
 # controlling the use of GConf (the classic GNOME configuration
@@ -240,7 +240,6 @@ GYP_DEFINES += use_gnome_keyring=1 linux_link_gnome_keyring=1
 GYP_DEFINES += use_gconf=1 use_gio=1
 endif
 
-#USE_SYSTEM_SQLITE := $(shell pkg-config 'sqlite3 >= 3.6.1' && echo 1 || echo 0)
 # undefined reference to 'chromium_sqlite3_initialize_unix_sqlite3_file'
 USE_SYSTEM_SQLITE := 0
 
@@ -441,7 +440,7 @@ install: build
 	# as chromium dereferences all symlinks before starting its children
 	# making the Gnome System Monitor confused with icons
 	mv debian/$(DEBIAN_NAME)/$(LIB_DIR)/chrome debian/$(DEBIAN_NAME)/$(LIB_DIR)/$(DEBIAN_NAME)
-	# Manpage
+	# Manpage is for wrong program name, and it's in a weird place.  Use and destroy.
 	mv debian/$(DEBIAN_NAME)/$(LIB_DIR)/chrome.1 debian/$(DEBIAN_NAME)/$(LIB_DIR)/$(DEBIAN_NAME).1
 	dh_installman --package=$(DEBIAN_NAME) debian/$(DEBIAN_NAME)/$(LIB_DIR)/$(DEBIAN_NAME).1
 	rm -f debian/$(DEBIAN_NAME)/$(LIB_DIR)/$(DEBIAN_NAME).1
@@ -456,8 +455,10 @@ install: build
 	dh_installdirs --package=$(DEBIAN_NAME) usr/share/icons/hicolor/scalable/apps
 	cp -a debian/chromium-browser.svg debian/$(DEBIAN_NAME)/usr/share/icons/hicolor/scalable/apps
 	
+	# "you have to change the underscore from the build target into a hyphen".
 	mv debian/$(DEBIAN_NAME)/$(LIB_DIR)/chrome_sandbox debian/$(DEBIAN_NAME)/$(LIB_DIR)/chrome-sandbox
 	chmod 4755 debian/$(DEBIAN_NAME)/$(LIB_DIR)/chrome-sandbox
+	
 	# NaCL may be blacklisted, so only include it when it's been built
 ifeq (,$(filter disable_nacl=1,$(GYP_DEFINES)))
 	cp -a $(SRC_DIR)/out/$(BUILD_TYPE)/libppGoogleNaClPluginChrome.so debian/$(DEBIAN_NAME)/$(LIB_DIR)/
