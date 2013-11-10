@@ -26,7 +26,8 @@ Build-Depends: debhelper (>= 8.0.0),
 		libgtk2.0-dev,
 		libudev-dev,
 		libgnome-keyring-dev,
-		libgconf2-dev
+		libgconf2-dev,
+		libdrm-dev
 Standards-Version: 3.9.3
 
 Package: chromium-browser
