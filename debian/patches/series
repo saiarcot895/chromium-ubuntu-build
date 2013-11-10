@@ -12,7 +12,6 @@ arm-neon.patch
 ffmpeg-gyp-config.patch
 additional-search-engines.patch
 ###: start lp:unity-chromium-extension
-cr30-sandbox-async-signal-safe.patch
 2-get-domain-tld.patch
 3-chrome-xid.patch
 4-chromeless-window-launch-option.patch

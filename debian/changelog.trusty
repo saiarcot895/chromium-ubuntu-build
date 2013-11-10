@@ -1,3 +1,10 @@
+chromium-browser (32.0.1700.6-0ubuntu1~ppa5~trusty1) trusty; urgency=low
+
+  * Remove cr30-sandbox-async-signal-safe.patch, as it was already added
+    upstream
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 10 Nov 2013 09:30:09 -0500
+
 chromium-browser (32.0.1700.6-0ubuntu1~ppa4~trusty1) trusty; urgency=low
 
   * Add libcap-dev dependency
