@@ -1,9 +1,9 @@
 Bug-Chromium: https://code.google.com/p/chromium/issues/detail?id=159349
                                                                        
-Index: dev.saucy/src/third_party/ffmpeg/ffmpeg.gyp
+Index: dev.trusty/src/third_party/ffmpeg/ffmpeg.gyp
 ===================================================================
---- dev.saucy.orig/src/third_party/ffmpeg/ffmpeg.gyp	2013-11-03 07:15:43.543381144 -0500
-+++ dev.saucy/src/third_party/ffmpeg/ffmpeg.gyp	2013-11-03 07:15:43.531380846 -0500
+--- dev.trusty.orig/src/third_party/ffmpeg/ffmpeg.gyp	2013-11-09 13:55:31.558241960 -0500
++++ dev.trusty/src/third_party/ffmpeg/ffmpeg.gyp	2013-11-09 13:55:31.482239231 -0500
 @@ -132,6 +132,10 @@
              ],
              'yasm_output_path': '<(shared_generated_dir)/yasm'
@@ -33,3 +33,21 @@ Index: dev.saucy/src/third_party/ffmpeg/ffmpeg.gyp
              '<(output_root)',
              '../..',  # The chromium 'src' directory.
              '<(platform_config_root)',
+Index: dev.trusty/src/third_party/icu/icu.gyp
+===================================================================
+--- dev.trusty.orig/src/third_party/icu/icu.gyp	2013-11-09 13:55:31.558241960 -0500
++++ dev.trusty/src/third_party/icu/icu.gyp	2013-11-09 13:55:31.550241673 -0500
+@@ -31,8 +31,11 @@
+          target_arch=="mipsel")', {
+         'target_conditions': [
+           ['_toolset=="host"', {
+-            'cflags': [ '-m32' ],
+-            'ldflags': [ '-m32' ],
++            'variables': {
++              'm32flag': '<!((echo | $(echo ${CXX_host:-$(which g++)}) -m32 -E - > /dev/null 2>&1) && echo "-m32" || true)',
++            },
++            'cflags': [ '<(m32flag)' ],
++            'ldflags': [ '<(m32flag)' ],
+             'asflags': [ '-32' ],
+             'xcode_settings': {
+               'ARCHS': [ 'i386' ],

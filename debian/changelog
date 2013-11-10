@@ -4,6 +4,12 @@ chromium-browser (32.0.1700.6-0ubuntu1~ppa1~trusty1) trusty; urgency=low
   * debian/rules, debian/control: Use standard hardening flags, not
     hardening-wrapper
   * debian/control: Drop unused build-deps
+  * debian/patches/cr30-sandbox-async-signal-safe.patch: Backport to
+    make SIGSYS handler in sandbox safe and never call itself. (LP:
+    #1195797)
+  * Update and correct 4-chromeless-window-launch-option.patch to match
+    main version
+  * Refreshed patches
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 09 Nov 2013 19:21:51 -0500
 

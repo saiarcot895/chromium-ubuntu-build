@@ -1,7 +1,7 @@
 Index: dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.cc
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.cc	2013-09-06 07:47:38.053234667 -0400
++++ dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.cc	2013-11-09 13:10:56.338455340 -0500
 @@ -0,0 +1,91 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -97,7 +97,7 @@ Index: dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.cc
 Index: dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.h
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.h	2013-09-06 07:47:38.053234667 -0400
++++ dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.h	2013-11-09 13:10:56.338455340 -0500
 @@ -0,0 +1,32 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -131,35 +131,22 @@ Index: dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.h
 +
 +#endif  // CHROME_BROWSER_EXTENSIONS_API_TLD_TLD_API_H_
 +
-Index: dev.saucy/src/chrome/chrome_browser_extensions.gypi
-===================================================================
---- dev.saucy.orig/src/chrome/chrome_browser_extensions.gypi	2013-09-06 07:47:38.081235591 -0400
-+++ dev.saucy/src/chrome/chrome_browser_extensions.gypi	2013-09-06 07:47:38.057234799 -0400
-@@ -524,6 +524,8 @@
-         'browser/extensions/api/tabs/windows_util.h',
-         'browser/extensions/api/test/test_api.cc',
-         'browser/extensions/api/test/test_api.h',
-+        'browser/extensions/api/tld/tld_api.cc',
-+        'browser/extensions/api/tld/tld_api.h',
-         'browser/extensions/api/top_sites/top_sites_api.cc',
-         'browser/extensions/api/top_sites/top_sites_api.h',
-         'browser/extensions/api/usb/usb_api.cc',
 Index: dev.saucy/src/chrome/common/extensions/api/api.gyp
 ===================================================================
---- dev.saucy.orig/src/chrome/common/extensions/api/api.gyp	2013-09-06 07:47:38.081235591 -0400
-+++ dev.saucy/src/chrome/common/extensions/api/api.gyp	2013-09-06 07:47:38.057234799 -0400
-@@ -102,6 +102,7 @@
-           'tabs.json',
-           'terminal_private.json',
-           'test.json',
-+          'tld.json',
-           'top_sites.json',
-           'usb.idl',
-           'wallpaper_private.json',
+--- dev.saucy.orig/src/chrome/common/extensions/api/api.gyp	2013-11-09 13:10:56.370456498 -0500
++++ dev.saucy/src/chrome/common/extensions/api/api.gyp	2013-11-09 13:10:56.338455340 -0500
+@@ -113,6 +113,7 @@
+               'tabs.json',
+               'terminal_private.json',
+               'test.json',
++              'tld.json',
+               'usb.idl',
+               'virtual_keyboard_private.json',
+               'web_navigation.json',
 Index: dev.saucy/src/chrome/common/extensions/api/tld.json
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.saucy/src/chrome/common/extensions/api/tld.json	2013-09-06 07:47:38.057234799 -0400
++++ dev.saucy/src/chrome/common/extensions/api/tld.json	2013-11-09 13:10:56.338455340 -0500
 @@ -0,0 +1,55 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -169,7 +156,7 @@ Index: dev.saucy/src/chrome/common/extensions/api/tld.json
 +  {
 +    "namespace": "tld",
 +    "nodoc": "true",
-+    "description": "Return information about the URI.",
++    "description": "Use the <code>chrome.infobars</code> API to add a horizontal panel just above a tab's contents. See the screenshot below.",
 +    "types": [],
 +    "functions": [
 +      {
@@ -218,9 +205,9 @@ Index: dev.saucy/src/chrome/common/extensions/api/tld.json
 +
 Index: dev.saucy/src/chrome/common/extensions/api/_api_features.json
 ===================================================================
---- dev.saucy.orig/src/chrome/common/extensions/api/_api_features.json	2013-09-06 07:47:38.081235591 -0400
-+++ dev.saucy/src/chrome/common/extensions/api/_api_features.json	2013-09-06 07:47:38.061234931 -0400
-@@ -537,6 +537,10 @@
+--- dev.saucy.orig/src/chrome/common/extensions/api/_api_features.json	2013-11-09 13:10:56.370456498 -0500
++++ dev.saucy/src/chrome/common/extensions/api/_api_features.json	2013-11-09 13:10:56.342455485 -0500
+@@ -620,6 +620,10 @@
      "extension_types": "all",
      "contexts": ["blessed_extension", "unblessed_extension", "content_script"]
    },
@@ -233,9 +220,9 @@ Index: dev.saucy/src/chrome/common/extensions/api/_api_features.json
      "contexts": ["blessed_extension"]
 Index: dev.saucy/src/chrome/common/extensions/api/_permission_features.json
 ===================================================================
---- dev.saucy.orig/src/chrome/common/extensions/api/_permission_features.json	2013-09-06 07:47:38.081235591 -0400
-+++ dev.saucy/src/chrome/common/extensions/api/_permission_features.json	2013-09-06 07:47:38.061234931 -0400
-@@ -629,6 +629,10 @@
+--- dev.saucy.orig/src/chrome/common/extensions/api/_permission_features.json	2013-11-09 13:10:56.370456498 -0500
++++ dev.saucy/src/chrome/common/extensions/api/_permission_features.json	2013-11-09 13:10:56.342455485 -0500
+@@ -726,6 +726,10 @@
        "okddffdblfhhnmhodogpojmfkjmhinfp"   // HTerm dev
      ]
    },
@@ -245,32 +232,92 @@ Index: dev.saucy/src/chrome/common/extensions/api/_permission_features.json
 +  },
    "topSites": {
      "channel": "stable",
-     "extension_types": ["extension", "packaged_app"]
+     "extension_types": ["extension", "legacy_packaged_app"]
 Index: dev.saucy/src/chrome/browser/extensions/extension_function_histogram_value.h
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-09-06 07:47:38.081235591 -0400
-+++ dev.saucy/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-09-06 07:47:38.061234931 -0400
-@@ -491,6 +491,8 @@
-   SYNCFILESYSTEM_GETCONFLICTRESOLUTIONPOLICY,
-   NETWORKINGPRIVATE_SETPROPERTIES,
-   NETWORKINGPRIVATE_GETSTATE,
-+  TLD_GETBASEDOMAIN,
-+  TLD_GETPUBLICSUFFIX,
-   POWER_REQUESTKEEPAWAKE,
-   POWER_RELEASEKEEPAWAKE,
-   WALLPAPERPRIVATE_SETCUSTOMWALLPAPERLAYOUT,
+--- dev.saucy.orig/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-11-09 13:10:56.370456498 -0500
++++ dev.saucy/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-11-09 13:10:56.342455485 -0500
+@@ -556,6 +556,8 @@
+   DIAGNOSTICS_SENDPACKET,
+   METRICSPRIVATE_GETFIELDTRIAL,
+   FILEBROWSERPRIVATE_ZOOM,
++  TLD_GET_BASE_DOMAIN,
++  TLD_GET_PUBLIC_SUFFIX,
+   WEBVIEW_GO,
+   WEBSTOREPRIVATE_ISININCOGNITOMODEFUNCTION,
+   FILEBROWSERPRIVATE_REQUESTACCESSTOKEN,
+Index: dev.saucy/src/chrome/browser/extensions/extension_function_registry.cc
+===================================================================
+--- dev.saucy.orig/src/chrome/browser/extensions/extension_function_registry.cc	2013-11-09 13:10:56.370456498 -0500
++++ dev.saucy/src/chrome/browser/extensions/extension_function_registry.cc	2013-11-09 13:10:56.354455919 -0500
+@@ -8,6 +8,7 @@
+ #include "chrome/browser/extensions/api/preference/chrome_direct_setting.h"
+ #include "chrome/browser/extensions/api/preference/preference_api.h"
+ #include "chrome/browser/extensions/api/runtime/runtime_api.h"
++#include "chrome/browser/extensions/api/tld/tld_api.h"
+ #include "chrome/browser/extensions/api/web_request/web_request_api.h"
+ #include "chrome/common/extensions/api/generated_api.h"
+ 
+@@ -54,6 +55,10 @@
+   RegisterFunction<extensions::ExperimentalIdentityGetAuthTokenFunction>();
+   RegisterFunction<extensions::ExperimentalIdentityLaunchWebAuthFlowFunction>();
+ 
++  // TLD.
++  RegisterFunction<TldGetBaseDomainFunction>();
++  RegisterFunction<TldGetPublicSuffix>();
++
+   // Generated APIs
+   extensions::api::GeneratedFunctionRegistry::RegisterAll(this);
+ #endif  // defined(ENABLE_EXTENSIONS)
+Index: dev.saucy/src/chrome/chrome_browser_extensions.gypi
+===================================================================
+--- dev.saucy.orig/src/chrome/chrome_browser_extensions.gypi	2013-11-09 13:10:56.370456498 -0500
++++ dev.saucy/src/chrome/chrome_browser_extensions.gypi	2013-11-09 13:10:56.354455919 -0500
+@@ -578,6 +578,8 @@
+         'browser/extensions/api/tabs/windows_util.h',
+         'browser/extensions/api/test/test_api.cc',
+         'browser/extensions/api/test/test_api.h',
++        'browser/extensions/api/tld/tld_api.cc',
++        'browser/extensions/api/tld/tld_api.h',
+         'browser/extensions/api/top_sites/top_sites_api.cc',
+         'browser/extensions/api/top_sites/top_sites_api.h',
+         'browser/extensions/api/usb/usb_api.cc',
 Index: dev.saucy/src/chrome/common/extensions/api/_manifest_features.json
 ===================================================================
---- dev.saucy.orig/src/chrome/common/extensions/api/_manifest_features.json	2013-09-06 07:47:38.081235591 -0400
-+++ dev.saucy/src/chrome/common/extensions/api/_manifest_features.json	2013-09-06 07:47:38.069235196 -0400
-@@ -345,6 +345,10 @@
+--- dev.saucy.orig/src/chrome/common/extensions/api/_manifest_features.json	2013-11-09 13:10:56.370456498 -0500
++++ dev.saucy/src/chrome/common/extensions/api/_manifest_features.json	2013-11-09 13:10:56.354455919 -0500
+@@ -379,6 +379,10 @@
      "channel": "stable",
      "extension_types": ["theme"]
    },
 +  "tld": {
 +    "channel": "stable",
-+    "extension_types": ["extension", "packaged_app", "platform_app"]
++    "extension_types": ["blessed_extension"]
 +  },
    "tts_engine": {
      "channel": "stable",
-     "extension_types": ["extension", "packaged_app"]
+     "extension_types": ["extension", "legacy_packaged_app"]
+Index: dev.saucy/src/chrome/common/extensions/api/extension_api.cc
+===================================================================
+--- dev.saucy.orig/src/chrome/common/extensions/api/extension_api.cc	2013-11-09 13:10:56.370456498 -0500
++++ dev.saucy/src/chrome/common/extensions/api/extension_api.cc	2013-11-09 13:10:56.354455919 -0500
+@@ -255,6 +255,7 @@
+       IDR_EXTENSION_API_JSON_STREAMSPRIVATE);
+   RegisterSchemaResource("ttsEngine", IDR_EXTENSION_API_JSON_TTSENGINE);
+   RegisterSchemaResource("tts", IDR_EXTENSION_API_JSON_TTS);
++  RegisterSchemaResource("tld", IDR_EXTENSION_API_JSON_TLD);
+   RegisterSchemaResource("types", IDR_EXTENSION_API_JSON_TYPES);
+   RegisterSchemaResource("types.private", IDR_EXTENSION_API_JSON_TYPES_PRIVATE);
+   RegisterSchemaResource("webRequestInternal",
+Index: dev.saucy/src/chrome/common/extensions_api_resources.grd
+===================================================================
+--- dev.saucy.orig/src/chrome/common/extensions_api_resources.grd	2013-11-09 13:10:56.370456498 -0500
++++ dev.saucy/src/chrome/common/extensions_api_resources.grd	2013-11-09 13:10:56.362456208 -0500
+@@ -28,6 +28,7 @@
+       <include name="IDR_EXTENSION_API_JSON_RUNTIME" file="extensions\api\runtime.json" type="BINDATA" />
+       <include name="IDR_EXTENSION_API_JSON_SCRIPTBADGE" file="extensions\api\script_badge.json" type="BINDATA" />
+       <include name="IDR_EXTENSION_API_JSON_TTS" file="extensions\api\tts.json" type="BINDATA" />
++      <include name="IDR_EXTENSION_API_JSON_TLD" file="extensions\api\tld.json" type="BINDATA" />
+       <include name="IDR_EXTENSION_API_JSON_TTSENGINE" file="extensions\api\tts_engine.json" type="BINDATA" />
+       <include name="IDR_EXTENSION_API_JSON_TYPES" file="extensions\api\types.json" type="BINDATA" />
+       <include name="IDR_EXTENSION_API_JSON_TYPES_PRIVATE" file="extensions\api\types_private.json" type="BINDATA" />

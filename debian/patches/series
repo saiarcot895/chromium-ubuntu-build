@@ -1,22 +1,19 @@
-# system_v8.patch
 menu-bar-visible.patch
 title-bar-default-system.patch
 third-party-cookies-off-by-default.patch
 format-flag.patch
-#safe-browsing-sigbus.patch
 search-credit.patch
 chromium_useragent.patch
 chromedriver_revision.patch
 extensions-directory.patch
 #linker-asneeded-bug.patch
-linker-oom-bug.patch
 arm.patch
 arm-neon.patch
-#grd_parse_fix.patch
 ffmpeg-gyp-config.patch
 additional-search-engines.patch
 ###: start lp:unity-chromium-extension
-#2-get-domain-tld.patch
+cr30-sandbox-async-signal-safe.patch
+2-get-domain-tld.patch
 3-chrome-xid.patch
 4-chromeless-window-launch-option.patch
 5-desktop-integration-settings.patch

@@ -4,9 +4,9 @@ Author: Chad Miller <chad.miller@canonical.com>
 
 Index: dev.saucy/src/build/common.gypi
 ===================================================================
---- dev.saucy.orig/src/build/common.gypi	2013-11-03 07:15:37.571233304 -0500
-+++ dev.saucy/src/build/common.gypi	2013-11-03 07:15:37.563233106 -0500
-@@ -2374,9 +2374,6 @@
+--- dev.saucy.orig/src/build/common.gypi	2013-11-09 12:53:52.385462913 -0500
++++ dev.saucy/src/build/common.gypi	2013-11-09 12:53:52.361462062 -0500
+@@ -2399,9 +2399,6 @@
                '-Wno-deprecated',
              ],
              'cflags': [
