@@ -1,3 +1,9 @@
+chromium-browser (32.0.1700.6-0ubuntu1~ppa4~trusty1) trusty; urgency=low
+
+  * Add libcap-dev dependency
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 10 Nov 2013 07:52:56 -0500
+
 chromium-browser (32.0.1700.6-0ubuntu1~ppa3~trusty1) trusty; urgency=low
 
   * Corrected typos in 2-get-domain-tld.patch

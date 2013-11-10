@@ -27,6 +27,7 @@ Build-Depends: debhelper (>= 8.0.0),
 		libudev-dev,
 		libgnome-keyring-dev,
 		libgconf2-dev,
+		libcap-dev,
 		libdrm-dev
 Standards-Version: 3.9.3
 
