@@ -122,7 +122,7 @@ endif
 
 # Do this for every architecture. More than 4GB of memory is too much to expect
 # of builders.
-#COMPONENT_SHARED_LIB_BUILD := 1
+COMPONENT_SHARED_LIB_BUILD := 1
 
 ifeq (1,$(COMPONENT_SHARED_LIB_BUILD))
 GYP_DEFINES += component=shared_library
@@ -428,7 +428,17 @@ install: build
 	# Tar up out except INSTALL_EXCLUDE_DIRS, extract it, and then remove INSTALL_EXCLUDE_FILES
 	( cd $(SRC_DIR)/out/$(BUILD_TYPE) && tar $(foreach excl,$(INSTALL_EXCLUDE_DIRS),--exclude=$(excl)) -cf - . ) | \
 	( cd debian/$(DEBIAN_NAME)/$(LIB_DIR) && tar xvf - )
-	cd debian/$(DEBIAN_NAME)/$(LIB_DIR) && rm -f $(INSTALL_EXCLUDE_FILES)
+ifeq (1,$(COMPONENT_SHARED_LIB_BUILD))
+	mkdir -p debian/$(DEBIAN_NAME)/$(LIB_DIR)/libs
+	( cd $(SRC_DIR)/out/$(BUILD_TYPE)/lib.target && tar cf - . ) | ( cd debian/$(DEBIAN_NAME)/$(LIB_DIR)/libs && tar xf - )
+endif
+	cd debian/$(DEBIAN_NAME)/$(LIB_DIR) && rm -fv $(INSTALL_EXCLUDE_FILES)
+ifeq (1,$(COMPONENT_SHARED_LIB_BUILD))
+	# Set the directory for looking up component libraries.
+	find debian/$(DEBIAN_NAME)/$(LIB_DIR)/$(DEBIAN_NAME)/libs             -type f -name \*.so             -execdir chrpath --replace "\$$ORIGIN" {} \;
+	find debian/$(DEBIAN_NAME)/$(LIB_DIR)/$(DEBIAN_NAME)      -maxdepth 1 -type f -name \*.so             -execdir chrpath --replace "\$$ORIGIN/libs" {} \;
+endif
+	find debian/$(DEBIAN_NAME)/$(LIB_DIR)/$(DEBIAN_NAME)      -maxdepth 1 -type f             -executable -execdir chrpath --replace "\$$ORIGIN/libs" {} \;
 	# Launcher script
 	dh_installdirs --package=$(DEBIAN_NAME) usr/bin
 	cp -a debian/$(DEBIAN_NAME).sh debian/$(DEBIAN_NAME)/usr/bin/$(DEBIAN_NAME)
@@ -436,14 +446,17 @@ install: build
 	# Preferences
 	dh_installdirs --package=$(DEBIAN_NAME) etc/$(DEBIAN_NAME)
 	cp -a debian/$(DEBIAN_NAME).default debian/$(DEBIAN_NAME)/etc/$(DEBIAN_NAME)/default
+	
 	# Rename the binary from chrome to $(DEBIAN_NAME), this is required
 	# as chromium dereferences all symlinks before starting its children
 	# making the Gnome System Monitor confused with icons
 	mv debian/$(DEBIAN_NAME)/$(LIB_DIR)/chrome debian/$(DEBIAN_NAME)/$(LIB_DIR)/$(DEBIAN_NAME)
+	
 	# Manpage is for wrong program name, and it's in a weird place.  Use and destroy.
 	mv debian/$(DEBIAN_NAME)/$(LIB_DIR)/chrome.1 debian/$(DEBIAN_NAME)/$(LIB_DIR)/$(DEBIAN_NAME).1
 	dh_installman --package=$(DEBIAN_NAME) debian/$(DEBIAN_NAME)/$(LIB_DIR)/$(DEBIAN_NAME).1
 	rm -f debian/$(DEBIAN_NAME)/$(LIB_DIR)/$(DEBIAN_NAME).1
+	
 	# Icons
 	dh_installdirs --package=$(DEBIAN_NAME) usr/share/pixmaps
 	cp -a $(DEB_TAR_SRCDIR)/chrome/app/theme/chromium/product_logo_48.png debian/$(DEBIAN_NAME)/usr/share/pixmaps/$(DEBIAN_NAME).png
@@ -456,6 +469,7 @@ install: build
 	cp -a debian/chromium-browser.svg debian/$(DEBIAN_NAME)/usr/share/icons/hicolor/scalable/apps
 	
 	# "you have to change the underscore from the build target into a hyphen".
+	# https://code.google.com/p/chromium/wiki/LinuxSUIDSandbox
 	mv debian/$(DEBIAN_NAME)/$(LIB_DIR)/chrome_sandbox debian/$(DEBIAN_NAME)/$(LIB_DIR)/chrome-sandbox
 	chmod 4755 debian/$(DEBIAN_NAME)/$(LIB_DIR)/chrome-sandbox
 	

@@ -1,3 +1,11 @@
+chromium-browser (33.0.1707.0-0ubuntu1~ppa1~trusty1) trusty; urgency=low
+
+  * New upstream version 33.0.1707.0
+  * debian/rules, debian/control: Start having component builds, as
+    memory requirements are high
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 14 Nov 2013 10:11:45 -0500
+
 chromium-browser (32.0.1700.6-0ubuntu1~ppa5~trusty1) trusty; urgency=low
 
   * Remove cr30-sandbox-async-signal-safe.patch, as it was already added
