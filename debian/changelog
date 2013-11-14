@@ -1,3 +1,9 @@
+chromium-browser (33.0.1707.0-0ubuntu1~ppa2~trusty1) trusty; urgency=low
+
+  * Bug fix on my part
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 14 Nov 2013 13:26:48 -0500
+
 chromium-browser (33.0.1707.0-0ubuntu1~ppa1~trusty1) trusty; urgency=low
 
   * New upstream version 33.0.1707.0
