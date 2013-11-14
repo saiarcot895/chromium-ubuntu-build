@@ -1,8 +1,8 @@
-Index: dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.cc
+Index: beta.trusty/src/chrome/browser/extensions/api/tld/tld_api.cc
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.cc	2013-11-09 13:10:56.338455340 -0500
-@@ -0,0 +1,91 @@
++++ beta.trusty/src/chrome/browser/extensions/api/tld/tld_api.cc	2013-11-13 07:23:34.125322060 -0500
+@@ -0,0 +1,87 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.
@@ -18,8 +18,6 @@ Index: dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.cc
 +#include "url/url_parse.h"
 +#include "url/url_util.h"
 +#include "net/base/registry_controlled_domains/registry_controlled_domain.h"
-+
-+namespace extensions {
 +
 +namespace {
 +const char kInvalidUriError[] = "Invalid or unsupported URI";
@@ -53,7 +51,7 @@ Index: dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.cc
 +}
 +
 +
-+bool TldGetPublicSuffixFunction::RunImpl() {
++bool TldGetPublicSuffix::RunImpl() {
 +  EXTENSION_FUNCTION_VALIDATE(args_->GetSize() == 2);
 +
 +  std::string uri;
@@ -92,13 +90,11 @@ Index: dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.cc
 +  return true;
 +}
 +
-+}
-+
-Index: dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.h
+Index: beta.trusty/src/chrome/browser/extensions/api/tld/tld_api.h
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.h	2013-11-09 13:10:56.338455340 -0500
-@@ -0,0 +1,32 @@
++++ beta.trusty/src/chrome/browser/extensions/api/tld/tld_api.h	2013-11-13 07:23:34.129321996 -0500
+@@ -0,0 +1,28 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.
@@ -109,8 +105,6 @@ Index: dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.h
 +
 +#include "chrome/browser/extensions/extension_function.h"
 +
-+namespace extensions {
-+
 +class TldGetBaseDomainFunction : public SyncExtensionFunction {
 + public:
 +  DECLARE_EXTENSION_FUNCTION("tld.getBaseDomain", TLD_GET_BASE_DOMAIN);
@@ -119,22 +113,20 @@ Index: dev.saucy/src/chrome/browser/extensions/api/tld/tld_api.h
 +  virtual bool RunImpl() OVERRIDE;
 +};
 +
-+class TldGetPublicSuffixFunction : public SyncExtensionFunction {
++class TldGetPublicSuffix : public SyncExtensionFunction {
 + public:
 +  DECLARE_EXTENSION_FUNCTION("tld.getPublicSuffix", TLD_GET_PUBLIC_SUFFIX);
 + protected:
-+  virtual ~TldGetPublicSuffixFunction() {}
++  virtual ~TldGetPublicSuffix() {}
 +  virtual bool RunImpl() OVERRIDE;
 +};
 +
-+}
-+
 +#endif  // CHROME_BROWSER_EXTENSIONS_API_TLD_TLD_API_H_
 +
-Index: dev.saucy/src/chrome/common/extensions/api/api.gyp
+Index: beta.trusty/src/chrome/common/extensions/api/api.gyp
 ===================================================================
---- dev.saucy.orig/src/chrome/common/extensions/api/api.gyp	2013-11-09 13:10:56.370456498 -0500
-+++ dev.saucy/src/chrome/common/extensions/api/api.gyp	2013-11-09 13:10:56.338455340 -0500
+--- beta.trusty.orig/src/chrome/common/extensions/api/api.gyp	2013-11-13 07:23:34.477316394 -0500
++++ beta.trusty/src/chrome/common/extensions/api/api.gyp	2013-11-13 07:23:34.237320257 -0500
 @@ -113,6 +113,7 @@
                'tabs.json',
                'terminal_private.json',
@@ -143,10 +135,10 @@ Index: dev.saucy/src/chrome/common/extensions/api/api.gyp
                'usb.idl',
                'virtual_keyboard_private.json',
                'web_navigation.json',
-Index: dev.saucy/src/chrome/common/extensions/api/tld.json
+Index: beta.trusty/src/chrome/common/extensions/api/tld.json
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.saucy/src/chrome/common/extensions/api/tld.json	2013-11-09 13:10:56.338455340 -0500
++++ beta.trusty/src/chrome/common/extensions/api/tld.json	2013-11-13 07:23:34.249320063 -0500
 @@ -0,0 +1,55 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -203,10 +195,10 @@ Index: dev.saucy/src/chrome/common/extensions/api/tld.json
 +
 +]
 +
-Index: dev.saucy/src/chrome/common/extensions/api/_api_features.json
+Index: beta.trusty/src/chrome/common/extensions/api/_api_features.json
 ===================================================================
---- dev.saucy.orig/src/chrome/common/extensions/api/_api_features.json	2013-11-09 13:10:56.370456498 -0500
-+++ dev.saucy/src/chrome/common/extensions/api/_api_features.json	2013-11-09 13:10:56.342455485 -0500
+--- beta.trusty.orig/src/chrome/common/extensions/api/_api_features.json	2013-11-13 07:23:34.477316394 -0500
++++ beta.trusty/src/chrome/common/extensions/api/_api_features.json	2013-11-13 07:23:34.273319677 -0500
 @@ -620,6 +620,10 @@
      "extension_types": "all",
      "contexts": ["blessed_extension", "unblessed_extension", "content_script"]
@@ -218,10 +210,10 @@ Index: dev.saucy/src/chrome/common/extensions/api/_api_features.json
    "topSites": {
      "dependencies": ["permission:topSites"],
      "contexts": ["blessed_extension"]
-Index: dev.saucy/src/chrome/common/extensions/api/_permission_features.json
+Index: beta.trusty/src/chrome/common/extensions/api/_permission_features.json
 ===================================================================
---- dev.saucy.orig/src/chrome/common/extensions/api/_permission_features.json	2013-11-09 13:10:56.370456498 -0500
-+++ dev.saucy/src/chrome/common/extensions/api/_permission_features.json	2013-11-09 13:10:56.342455485 -0500
+--- beta.trusty.orig/src/chrome/common/extensions/api/_permission_features.json	2013-11-13 07:23:34.477316394 -0500
++++ beta.trusty/src/chrome/common/extensions/api/_permission_features.json	2013-11-13 07:23:34.297319291 -0500
 @@ -726,6 +726,10 @@
        "okddffdblfhhnmhodogpojmfkjmhinfp"   // HTerm dev
      ]
@@ -233,10 +225,10 @@ Index: dev.saucy/src/chrome/common/extensions/api/_permission_features.json
    "topSites": {
      "channel": "stable",
      "extension_types": ["extension", "legacy_packaged_app"]
-Index: dev.saucy/src/chrome/browser/extensions/extension_function_histogram_value.h
+Index: beta.trusty/src/chrome/browser/extensions/extension_function_histogram_value.h
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-11-09 13:10:56.370456498 -0500
-+++ dev.saucy/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-11-09 13:10:56.342455485 -0500
+--- beta.trusty.orig/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-11-13 07:23:34.477316394 -0500
++++ beta.trusty/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-11-13 07:23:34.365318197 -0500
 @@ -556,6 +556,8 @@
    DIAGNOSTICS_SENDPACKET,
    METRICSPRIVATE_GETFIELDTRIAL,
@@ -246,10 +238,10 @@ Index: dev.saucy/src/chrome/browser/extensions/extension_function_histogram_valu
    WEBVIEW_GO,
    WEBSTOREPRIVATE_ISININCOGNITOMODEFUNCTION,
    FILEBROWSERPRIVATE_REQUESTACCESSTOKEN,
-Index: dev.saucy/src/chrome/browser/extensions/extension_function_registry.cc
+Index: beta.trusty/src/chrome/browser/extensions/extension_function_registry.cc
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/extensions/extension_function_registry.cc	2013-11-09 13:10:56.370456498 -0500
-+++ dev.saucy/src/chrome/browser/extensions/extension_function_registry.cc	2013-11-09 13:10:56.354455919 -0500
+--- beta.trusty.orig/src/chrome/browser/extensions/extension_function_registry.cc	2013-11-13 07:23:34.477316394 -0500
++++ beta.trusty/src/chrome/browser/extensions/extension_function_registry.cc	2013-11-13 07:23:34.389317810 -0500
 @@ -8,6 +8,7 @@
  #include "chrome/browser/extensions/api/preference/chrome_direct_setting.h"
  #include "chrome/browser/extensions/api/preference/preference_api.h"
@@ -269,10 +261,10 @@ Index: dev.saucy/src/chrome/browser/extensions/extension_function_registry.cc
    // Generated APIs
    extensions::api::GeneratedFunctionRegistry::RegisterAll(this);
  #endif  // defined(ENABLE_EXTENSIONS)
-Index: dev.saucy/src/chrome/chrome_browser_extensions.gypi
+Index: beta.trusty/src/chrome/chrome_browser_extensions.gypi
 ===================================================================
---- dev.saucy.orig/src/chrome/chrome_browser_extensions.gypi	2013-11-09 13:10:56.370456498 -0500
-+++ dev.saucy/src/chrome/chrome_browser_extensions.gypi	2013-11-09 13:10:56.354455919 -0500
+--- beta.trusty.orig/src/chrome/chrome_browser_extensions.gypi	2013-11-13 07:23:34.477316394 -0500
++++ beta.trusty/src/chrome/chrome_browser_extensions.gypi	2013-11-13 07:23:34.421317295 -0500
 @@ -578,6 +578,8 @@
          'browser/extensions/api/tabs/windows_util.h',
          'browser/extensions/api/test/test_api.cc',
@@ -282,10 +274,10 @@ Index: dev.saucy/src/chrome/chrome_browser_extensions.gypi
          'browser/extensions/api/top_sites/top_sites_api.cc',
          'browser/extensions/api/top_sites/top_sites_api.h',
          'browser/extensions/api/usb/usb_api.cc',
-Index: dev.saucy/src/chrome/common/extensions/api/_manifest_features.json
+Index: beta.trusty/src/chrome/common/extensions/api/_manifest_features.json
 ===================================================================
---- dev.saucy.orig/src/chrome/common/extensions/api/_manifest_features.json	2013-11-09 13:10:56.370456498 -0500
-+++ dev.saucy/src/chrome/common/extensions/api/_manifest_features.json	2013-11-09 13:10:56.354455919 -0500
+--- beta.trusty.orig/src/chrome/common/extensions/api/_manifest_features.json	2013-11-13 07:23:34.477316394 -0500
++++ beta.trusty/src/chrome/common/extensions/api/_manifest_features.json	2013-11-13 07:23:34.445316909 -0500
 @@ -379,6 +379,10 @@
      "channel": "stable",
      "extension_types": ["theme"]
@@ -297,10 +289,10 @@ Index: dev.saucy/src/chrome/common/extensions/api/_manifest_features.json
    "tts_engine": {
      "channel": "stable",
      "extension_types": ["extension", "legacy_packaged_app"]
-Index: dev.saucy/src/chrome/common/extensions/api/extension_api.cc
+Index: beta.trusty/src/chrome/common/extensions/api/extension_api.cc
 ===================================================================
---- dev.saucy.orig/src/chrome/common/extensions/api/extension_api.cc	2013-11-09 13:10:56.370456498 -0500
-+++ dev.saucy/src/chrome/common/extensions/api/extension_api.cc	2013-11-09 13:10:56.354455919 -0500
+--- beta.trusty.orig/src/chrome/common/extensions/api/extension_api.cc	2013-11-13 07:23:34.477316394 -0500
++++ beta.trusty/src/chrome/common/extensions/api/extension_api.cc	2013-11-13 07:23:34.453316780 -0500
 @@ -255,6 +255,7 @@
        IDR_EXTENSION_API_JSON_STREAMSPRIVATE);
    RegisterSchemaResource("ttsEngine", IDR_EXTENSION_API_JSON_TTSENGINE);
@@ -309,10 +301,10 @@ Index: dev.saucy/src/chrome/common/extensions/api/extension_api.cc
    RegisterSchemaResource("types", IDR_EXTENSION_API_JSON_TYPES);
    RegisterSchemaResource("types.private", IDR_EXTENSION_API_JSON_TYPES_PRIVATE);
    RegisterSchemaResource("webRequestInternal",
-Index: dev.saucy/src/chrome/common/extensions_api_resources.grd
+Index: beta.trusty/src/chrome/common/extensions_api_resources.grd
 ===================================================================
---- dev.saucy.orig/src/chrome/common/extensions_api_resources.grd	2013-11-09 13:10:56.370456498 -0500
-+++ dev.saucy/src/chrome/common/extensions_api_resources.grd	2013-11-09 13:10:56.362456208 -0500
+--- beta.trusty.orig/src/chrome/common/extensions_api_resources.grd	2013-11-13 07:23:34.477316394 -0500
++++ beta.trusty/src/chrome/common/extensions_api_resources.grd	2013-11-13 07:23:34.473316458 -0500
 @@ -28,6 +28,7 @@
        <include name="IDR_EXTENSION_API_JSON_RUNTIME" file="extensions\api\runtime.json" type="BINDATA" />
        <include name="IDR_EXTENSION_API_JSON_SCRIPTBADGE" file="extensions\api\script_badge.json" type="BINDATA" />

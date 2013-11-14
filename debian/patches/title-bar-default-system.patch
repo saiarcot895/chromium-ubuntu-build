@@ -1,10 +1,10 @@
 Description: Never default to using the custom title bar. Chromium should
   integrate, not be a special little snowflake.
 
-Index: dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.cc
+Index: dev.trusty/src/chrome/browser/ui/gtk/browser_window_gtk.cc
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-11-09 12:53:50.977413032 -0500
-+++ dev.saucy/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-11-09 12:53:50.957412324 -0500
+--- dev.trusty.orig/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-11-14 10:06:44.682127500 -0500
++++ dev.trusty/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-11-14 10:06:44.666126900 -0500
 @@ -2403,6 +2403,8 @@
    // WM, but at least some of the WMs in the latter group don't set it.
    // Instead, we default to using system decorations for all WMs and

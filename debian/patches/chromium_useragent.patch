@@ -1,10 +1,10 @@
 Description: Add "Chromium" and "Ubuntu" to the user-agent text.
 Author: Chad Miller <chad.miller@canonical.com>
 
-Index: dev.saucy/src/webkit/common/user_agent/user_agent_util.cc
+Index: dev.trusty/src/webkit/common/user_agent/user_agent_util.cc
 ===================================================================
---- dev.saucy.orig/src/webkit/common/user_agent/user_agent_util.cc	2013-11-09 12:57:15.956736746 -0500
-+++ dev.saucy/src/webkit/common/user_agent/user_agent_util.cc	2013-11-09 12:57:15.948736456 -0500
+--- dev.trusty.orig/src/webkit/common/user_agent/user_agent_util.cc	2013-11-14 10:06:47.946249953 -0500
++++ dev.trusty/src/webkit/common/user_agent/user_agent_util.cc	2013-11-14 10:06:47.926249203 -0500
 @@ -180,13 +180,21 @@
    // Derived from Safari's UA string.
    // This is done to expose our product name in a manner that is maximally

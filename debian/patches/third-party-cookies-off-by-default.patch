@@ -1,10 +1,10 @@
 Description: Make default of third-party cookies the most secure for users.
 Author: Chad Miller <chad.miller@canonical.com>
 
-Index: dev.saucy/src/chrome/browser/content_settings/cookie_settings.cc
+Index: dev.trusty/src/chrome/browser/content_settings/cookie_settings.cc
 ===================================================================
---- dev.saucy.orig/src/chrome/browser/content_settings/cookie_settings.cc	2013-11-09 12:53:51.709438964 -0500
-+++ dev.saucy/src/chrome/browser/content_settings/cookie_settings.cc	2013-11-09 12:53:51.701438681 -0500
+--- dev.trusty.orig/src/chrome/browser/content_settings/cookie_settings.cc	2013-11-14 10:06:45.470157063 -0500
++++ dev.trusty/src/chrome/browser/content_settings/cookie_settings.cc	2013-11-14 10:06:45.462156763 -0500
 @@ -70,7 +70,7 @@
      user_prefs::PrefRegistrySyncable* registry) {
    registry->RegisterBooleanPref(

@@ -3,6 +3,9 @@ chromium-browser (33.0.1707.0-0ubuntu1~ppa1~trusty1) trusty; urgency=low
   * New upstream version 33.0.1707.0
   * debian/rules, debian/control: Start having component builds, as
     memory requirements are high
+  * Disable 2-get-domain-tld.patch temporarily at least due to build
+    failures
+  * Refreshed patches
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 14 Nov 2013 10:11:45 -0500
 

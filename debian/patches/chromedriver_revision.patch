@@ -1,7 +1,7 @@
-Index: dev.saucy/src/chrome/test/chromedriver/embed_version_in_cpp.py
+Index: dev.trusty/src/chrome/test/chromedriver/embed_version_in_cpp.py
 ===================================================================
---- dev.saucy.orig/src/chrome/test/chromedriver/embed_version_in_cpp.py	2013-11-09 12:57:16.636761419 -0500
-+++ dev.saucy/src/chrome/test/chromedriver/embed_version_in_cpp.py	2013-11-09 12:57:16.616760693 -0500
+--- dev.trusty.orig/src/chrome/test/chromedriver/embed_version_in_cpp.py	2013-11-14 10:06:48.718278915 -0500
++++ dev.trusty/src/chrome/test/chromedriver/embed_version_in_cpp.py	2013-11-14 10:06:48.702278315 -0500
 @@ -25,7 +25,9 @@
    options, args = parser.parse_args()
  
