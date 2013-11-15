@@ -1,3 +1,9 @@
+chromium-browser (33.0.1707.0-0ubuntu1~ppa4~trusty1) trusty; urgency=low
+
+  * Enable linker-asneeded-bug.patch
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 15 Nov 2013 11:21:07 -0500
+
 chromium-browser (33.0.1707.0-0ubuntu1~ppa3~trusty1) trusty; urgency=low
 
   * Disable Aura due to problems with 4-chromeless-window-launch-

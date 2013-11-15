@@ -6,7 +6,7 @@ search-credit.patch
 chromium_useragent.patch
 chromedriver_revision.patch
 extensions-directory.patch
-#linker-asneeded-bug.patch
+linker-asneeded-bug.patch
 arm.patch
 arm-neon.patch
 ffmpeg-gyp-config.patch
