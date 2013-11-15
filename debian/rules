@@ -134,6 +134,11 @@ endif
 # Webkit library is enormous. Exclude for now.
 GYP_DEFINES += remove_webcore_debug_symbols=1
 
+# Aura has become default in Chromium 33, but that causes problems for
+# 4-chromeless-window-launch-option.patch, which has an ifdef for TOOLKIT_GTK.
+# As a temporary measure, disable Aura
+GYP_DEFINES += use_aura=0
+
 # Don't let dh_installinit install *.default in /etc/default
 DEB_DH_INSTALLINIT_ARGS += --noscripts --onlyscripts
 
