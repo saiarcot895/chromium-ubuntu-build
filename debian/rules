@@ -134,11 +134,6 @@ endif
 # Webkit library is enormous. Exclude for now.
 GYP_DEFINES += remove_webcore_debug_symbols=1
 
-# Aura has become default in Chromium 33, but that causes problems for
-# 4-chromeless-window-launch-option.patch, which has an ifdef for TOOLKIT_GTK.
-# As a temporary measure, disable Aura
-GYP_DEFINES += use_aura=0
-
 # Don't let dh_installinit install *.default in /etc/default
 DEB_DH_INSTALLINIT_ARGS += --noscripts --onlyscripts
 
@@ -440,10 +435,10 @@ endif
 	cd debian/$(DEBIAN_NAME)/$(LIB_DIR) && rm -fv $(INSTALL_EXCLUDE_FILES)
 ifeq (1,$(COMPONENT_SHARED_LIB_BUILD))
 	# Set the directory for looking up component libraries.
-	find debian/$(DEBIAN_NAME)/$(LIB_DIR)/$(DEBIAN_NAME)/libs             -type f -name \*.so             -execdir chrpath --replace "\$$ORIGIN" {} \;
-	find debian/$(DEBIAN_NAME)/$(LIB_DIR)/$(DEBIAN_NAME)      -maxdepth 1 -type f -name \*.so             -execdir chrpath --replace "\$$ORIGIN/libs" {} \;
+	find debian/$(DEBIAN_NAME)/$(LIB_DIR)/libs             -type f -name \*.so             -execdir chrpath --replace "\$$ORIGIN" {} \;
+	find debian/$(DEBIAN_NAME)/$(LIB_DIR)      -maxdepth 1 -type f -name \*.so             -execdir chrpath --replace "\$$ORIGIN/libs" {} \;
 endif
-	find debian/$(DEBIAN_NAME)/$(LIB_DIR)/$(DEBIAN_NAME)      -maxdepth 1 -type f             -executable -execdir chrpath --replace "\$$ORIGIN/libs" {} \;
+	find debian/$(DEBIAN_NAME)/$(LIB_DIR)      -maxdepth 1 -type f             -executable -execdir chrpath --replace "\$$ORIGIN/libs" {} \;
 	# Launcher script
 	dh_installdirs --package=$(DEBIAN_NAME) usr/bin
 	cp -a debian/$(DEBIAN_NAME).sh debian/$(DEBIAN_NAME)/usr/bin/$(DEBIAN_NAME)

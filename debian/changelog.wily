@@ -1,3 +1,11 @@
+chromium-browser (33.0.1707.0-0ubuntu1~ppa5~trusty1) trusty; urgency=low
+
+  * Re-enable Aura, and remove the conditional code that was causing the
+    compile error
+  * Correct path error in debian/rules
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 15 Nov 2013 19:45:54 -0500
+
 chromium-browser (33.0.1707.0-0ubuntu1~ppa4~trusty1) trusty; urgency=low
 
   * Enable linker-asneeded-bug.patch
