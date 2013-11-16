@@ -1,3 +1,9 @@
+chromium-browser (33.0.1707.0-0ubuntu1~ppa6~trusty1) trusty; urgency=low
+
+  * Fix include for gdk in 4-chromeless-window-launch-option.patch
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 16 Nov 2013 08:47:32 -0500
+
 chromium-browser (33.0.1707.0-0ubuntu1~ppa5~trusty1) trusty; urgency=low
 
   * Re-enable Aura, and remove the conditional code that was causing the

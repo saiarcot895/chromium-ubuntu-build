@@ -14,8 +14,8 @@ Index: dev.trusty/src/chrome/browser/extensions/api/module/module.cc
  #include "chrome/browser/profiles/profile.h"
 +#include "chrome/common/chrome_switches.h"
 +
-+#include <gdk/gdk.h>
-+#include <gdk/gdkx.h>
++#include <gtk-2.0/gdk/gdk.h>
++#include <gtk-2.0/gdk/gdkx.h>
 +
 +namespace {
 +
