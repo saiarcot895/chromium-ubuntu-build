@@ -1,3 +1,12 @@
+chromium-browser (33.0.1711.3-0ubuntu1~ppa1~trusty1) trusty; urgency=low
+
+  * New upstream version 33.0.1711.3
+  * Remove gdk includes in 4-chromeless-window-launch-option.patch; this
+    will cause build failures when Aura is re-enabled.
+  * Refreshed patches
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 20 Nov 2013 15:54:45 -0500
+
 chromium-browser (33.0.1707.0-0ubuntu1~ppa6~trusty1) trusty; urgency=low
 
   * Fix include for gdk in 4-chromeless-window-launch-option.patch

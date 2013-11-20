@@ -4,9 +4,9 @@ Author: Chad Miller <chad.miller@canonical.com>
 
 Index: dev.trusty/src/build/common.gypi
 ===================================================================
---- dev.trusty.orig/src/build/common.gypi	2013-11-14 10:06:46.382191277 -0500
-+++ dev.trusty/src/build/common.gypi	2013-11-14 10:06:46.354190227 -0500
-@@ -2412,9 +2412,6 @@
+--- dev.trusty.orig/src/build/common.gypi	2013-11-20 08:52:08.236004820 -0500
++++ dev.trusty/src/build/common.gypi	2013-11-20 08:52:08.228004529 -0500
+@@ -2407,9 +2407,6 @@
                '-Wno-deprecated',
              ],
              'cflags': [

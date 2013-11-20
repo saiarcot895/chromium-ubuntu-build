@@ -4,8 +4,8 @@ Author: Chad Miller <chad.miller@canonical.com>
 
 Index: dev.trusty/src/chrome/common/chrome_paths.cc
 ===================================================================
---- dev.trusty.orig/src/chrome/common/chrome_paths.cc	2013-11-14 10:06:49.478307427 -0500
-+++ dev.trusty/src/chrome/common/chrome_paths.cc	2013-11-14 10:06:49.462306827 -0500
+--- dev.trusty.orig/src/chrome/common/chrome_paths.cc	2013-11-20 08:52:09.708058547 -0500
++++ dev.trusty/src/chrome/common/chrome_paths.cc	2013-11-20 08:52:09.700058257 -0500
 @@ -95,6 +95,8 @@
  #else
      FILE_PATH_LITERAL("/usr/share/chromium/extensions");
