@@ -4,8 +4,8 @@ Description: Avoid a linker bug where symbols are not found.
 
 Index: dev.trusty/src/build/common.gypi
 ===================================================================
---- dev.trusty.orig/src/build/common.gypi	2013-11-20 08:52:10.064071543 -0500
-+++ dev.trusty/src/build/common.gypi	2013-11-20 08:52:10.056071251 -0500
+--- dev.trusty.orig/src/build/common.gypi	2013-11-23 16:48:38.873410884 -0500
++++ dev.trusty/src/build/common.gypi	2013-11-23 16:48:38.853410148 -0500
 @@ -2908,7 +2908,7 @@
                    '-Wl,--as-needed',
                  ],
