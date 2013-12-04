@@ -167,7 +167,8 @@ ifneq (1,$(PROCESSORS))
 BUILD_ARGS += -j$(PROCESSORS)
 endif
 
-INSTALL_EXCLUDE_DIRS = \
+# Literal paths to remove
+INSTALL_EXCLUDE_PATHS = \
 	obj \
 	obj.target \
 	obj.host \
@@ -181,9 +182,6 @@ INSTALL_EXCLUDE_DIRS = \
 	lib.target \
 	locales \
 	resources \
-	$(NULL)
-
-INSTALL_EXCLUDE_FILES = \
 	chrome-wrapper \
 	product_logo_48.png \
 	libnpapi_layout_test_plugin.so \
@@ -294,8 +292,7 @@ endif
 BUILD_TARGETS += \
 	chrome \
 	chrome_sandbox \
-	chromedriver \
-	base_unittests \
+	chromedriver2_server \
 	$(NULL)
 
 GYP_DEFINES += \
@@ -338,17 +335,8 @@ clean:
 	dh_clean
 
 tests: build-stamp
-tests: TEMPFILE:=$(shell mktemp)
 tests:
-	# disabled: SecurityTest exhausts memory to fail
-	# disabled: PowerMonitorTest doesn't mock power enough, I think
-	# disabled: FileUtilTest fails because of fakeroot interaction
-	# disabled: ReadOnlyFileUtilTest.ContentsEqual fakeroot
-	# disabled: ReadOnlyFileUtilTest.TextContentsEqual fakeroot
-	cd $(SRC_DIR); ./out/$(BUILD_TYPE)/base_unittests --gtest_filter=-SecurityTest.NewOverflow:PowerMonitorTest.\*:FileUtilTest.ChangeFilePermissionsAndRead:FileUtilTest.ChangeFilePermissionsAndWrite:FileUtilTest.ChangeDirectoryPermissionsAndEnumerate:ReadOnlyFileUtilTest.ContentsEqual:ReadOnlyFileUtilTest.TextContentsEqual: |tee $(TEMPFILE) |cat -n
-	echo "If more than 15 tests fail, then we interpret that as too poor quality to continue."
-	sed -e 1,/FAILED.\*tests,\ listed\ below/d $(TEMPFILE) |grep -c \\\[\ \ FAILED\ \ \\\] |xargs test 15 -gt
-	echo "Unit tests are good enough."
+	#
 
 configure: configure-stamp
 configure-stamp: GYP_ENV = GYP_GENERATORS=make
@@ -425,14 +413,12 @@ install: build
 	dh_prep
 	
 	dh_installdirs --package=$(DEBIAN_NAME) $(LIB_DIR)
-	# Tar up out except INSTALL_EXCLUDE_DIRS, extract it, and then remove INSTALL_EXCLUDE_FILES
-	( cd $(SRC_DIR)/out/$(BUILD_TYPE) && tar $(foreach excl,$(INSTALL_EXCLUDE_DIRS),--exclude=$(excl)) -cf - . ) | \
-	( cd debian/$(DEBIAN_NAME)/$(LIB_DIR) && tar xvf - )
+	cp -r $(SRC_DIR)/out/$(BUILD_TYPE)/* debian/$(DEBIAN_NAME)/$(LIB_DIR)
 ifeq (1,$(COMPONENT_SHARED_LIB_BUILD))
 	mkdir -p debian/$(DEBIAN_NAME)/$(LIB_DIR)/libs
-	( cd $(SRC_DIR)/out/$(BUILD_TYPE)/lib.target && tar cf - . ) | ( cd debian/$(DEBIAN_NAME)/$(LIB_DIR)/libs && tar xf - )
+	cp -r $(SRC_DIR)/out/$(BUILD_TYPE)/lib.target/* debian/$(DEBIAN_NAME)/$(LIB_DIR)/libs
 endif
-	cd debian/$(DEBIAN_NAME)/$(LIB_DIR) && rm -fv $(INSTALL_EXCLUDE_FILES)
+	cd debian/$(DEBIAN_NAME)/$(LIB_DIR) && rm -rfv $(INSTALL_EXCLUDE_PATHS)
 ifeq (1,$(COMPONENT_SHARED_LIB_BUILD))
 	# Set the directory for looking up component libraries.
 	find debian/$(DEBIAN_NAME)/$(LIB_DIR)/libs             -type f -name \*.so             -execdir chrpath --replace "\$$ORIGIN" {} \;
@@ -485,7 +471,7 @@ endif
 	mv debian/$(DEBIAN_NAME)-l10n/$(LIB_DIR)/locales/en-US.pak debian/$(DEBIAN_NAME)/$(LIB_DIR)/locales
 	# chromedriver
 	dh_installdirs --package=$(DEBIAN_DRIVER_NAME) $(LIB_DIR)
-	cp -a $(SRC_DIR)/out/$(BUILD_TYPE)/chromedriver debian/$(DEBIAN_DRIVER_NAME)/$(LIB_DIR)
+	cp -a $(SRC_DIR)/out/$(BUILD_TYPE)/chromedriver2_server debian/$(DEBIAN_DRIVER_NAME)/$(LIB_DIR)
 	
 	dh_installdirs --package=chromium-codecs-ffmpeg $(LIB_DIR)
 	cp debian/tmp-std/libffmpegsumo.so debian/chromium-codecs-ffmpeg/$(LIB_DIR)

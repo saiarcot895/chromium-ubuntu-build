@@ -1,3 +1,13 @@
+chromium-browser (33.0.1726.0-0ubuntu1~ppa1~trusty1) trusty; urgency=low
+
+  * New upstream version 33.0.1726.0
+  * debian/rules: Don't build any tests
+  * debian/rules: Refactor copying the files to reduce CPU time and
+    remove all files/folders after copying.
+  * debian/rules: Build chromedriver2_server instead of chromedriver
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 04 Dec 2013 16:33:46 -0500
+
 chromium-browser (33.0.1712.4-0ubuntu1~ppa1~trusty1) trusty; urgency=low
 
   * New upstream version 33.0.1712.4
