@@ -292,7 +292,7 @@ endif
 BUILD_TARGETS += \
 	chrome \
 	chrome_sandbox \
-	chromedriver2_server \
+	chromedriver \
 	$(NULL)
 
 GYP_DEFINES += \
@@ -471,7 +471,7 @@ endif
 	mv debian/$(DEBIAN_NAME)-l10n/$(LIB_DIR)/locales/en-US.pak debian/$(DEBIAN_NAME)/$(LIB_DIR)/locales
 	# chromedriver
 	dh_installdirs --package=$(DEBIAN_DRIVER_NAME) $(LIB_DIR)
-	cp -a $(SRC_DIR)/out/$(BUILD_TYPE)/chromedriver2_server debian/$(DEBIAN_DRIVER_NAME)/$(LIB_DIR)
+	cp -a $(SRC_DIR)/out/$(BUILD_TYPE)/chromedriver debian/$(DEBIAN_DRIVER_NAME)/$(LIB_DIR)
 	
 	dh_installdirs --package=chromium-codecs-ffmpeg $(LIB_DIR)
 	cp debian/tmp-std/libffmpegsumo.so debian/chromium-codecs-ffmpeg/$(LIB_DIR)
