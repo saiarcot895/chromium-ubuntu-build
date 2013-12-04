@@ -40,6 +40,7 @@ RELATED_PACKAGES = [
     'libgtk2.0-0',
     'nspluginwrapper',
     # various plugins
+    'pepflashplugin-nonfree',
     'flashplugin-installer',
     'rhythmbox-plugins',
     'totem-mozilla',
@@ -247,6 +248,13 @@ def add_info(report, ui = None, userdir = None):
     report['DiskUsage'] = str(script.communicate()[0]) + "\n\nInodes:\n"
     script = subprocess.Popen([ 'df', '-ih' ], stdout=subprocess.PIPE)
     report['DiskUsage'] += str(script.communicate()[0])
+    script = subprocess.Popen([ 'dmesg', '-k' ], stdout=subprocess.PIPE)
+    kernel_messages = list()
+    for line in script.communicate()[0].split("\n"):  # to str. Size bounded by dmesg buffer.
+        if "chrom" in line.lower():
+            kernel_messages.append(line + "\n")
+    if kernel_messages:
+        report['DmesgChromium'] = "".join(kernel_messages)
 
 ## DEBUGING ##
 if __name__ == '__main__':
