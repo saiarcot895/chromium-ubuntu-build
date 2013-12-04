@@ -5,6 +5,7 @@ chromium-browser (33.0.1726.0-0ubuntu1~ppa1~trusty1) trusty; urgency=low
   * debian/rules: Refactor copying the files to reduce CPU time and
     remove all files/folders after copying.
   * debian/rules: Build chromedriver2_server instead of chromedriver
+  * debian/control: No longer specify minimum libnss3-dev version
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 04 Dec 2013 16:33:46 -0500
 
