@@ -1,7 +1,7 @@
 Index: dev.trusty/src/chrome/browser/ui/gtk/browser_window_gtk.cc
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-11-23 16:48:42.405540817 -0500
-+++ dev.trusty/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-11-23 16:48:42.389540228 -0500
+--- dev.trusty.orig/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-12-04 15:15:50.029032937 -0500
++++ dev.trusty/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-12-04 15:15:50.021033430 -0500
 @@ -141,6 +141,12 @@
  // gtk_window_get_position() after the last GTK configure-event signal.
  const int kDebounceTimeoutMilliseconds = 100;

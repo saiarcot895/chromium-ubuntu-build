@@ -10,6 +10,7 @@ chromium-browser (33.0.1726.0-0ubuntu1~ppa1~trusty1) trusty; urgency=low
     dmesg
   * debian/apport/chromium-browser.py: Add pepflashplugin-nonfree
     package in list of related packages
+  * Refreshed patches
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 04 Dec 2013 16:33:46 -0500
 

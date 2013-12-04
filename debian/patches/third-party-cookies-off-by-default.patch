@@ -3,8 +3,8 @@ Author: Chad Miller <chad.miller@canonical.com>
 
 Index: dev.trusty/src/chrome/browser/content_settings/cookie_settings.cc
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/content_settings/cookie_settings.cc	2013-11-23 16:48:34.525250925 -0500
-+++ dev.trusty/src/chrome/browser/content_settings/cookie_settings.cc	2013-11-23 16:48:34.513250484 -0500
+--- dev.trusty.orig/src/chrome/browser/content_settings/cookie_settings.cc	2013-12-04 15:12:48.245691924 -0500
++++ dev.trusty/src/chrome/browser/content_settings/cookie_settings.cc	2013-12-04 15:12:48.241692192 -0500
 @@ -70,7 +70,7 @@
      user_prefs::PrefRegistrySyncable* registry) {
    registry->RegisterBooleanPref(

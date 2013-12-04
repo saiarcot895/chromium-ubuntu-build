@@ -1,7 +1,7 @@
 Index: dev.trusty/src/chrome/browser/extensions/api/module/module.cc
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/extensions/api/module/module.cc	2013-11-23 16:48:43.361575985 -0500
-+++ dev.trusty/src/chrome/browser/extensions/api/module/module.cc	2013-11-23 16:48:43.085565832 -0500
+--- dev.trusty.orig/src/chrome/browser/extensions/api/module/module.cc	2013-12-04 15:18:46.606751460 -0500
++++ dev.trusty/src/chrome/browser/extensions/api/module/module.cc	2013-12-04 15:18:46.506752935 -0500
 @@ -8,10 +8,20 @@
  
  #include "base/values.h"
@@ -62,8 +62,8 @@ Index: dev.trusty/src/chrome/browser/extensions/api/module/module.cc
  }  // namespace extensions
 Index: dev.trusty/src/chrome/browser/extensions/api/module/module.h
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/extensions/api/module/module.h	2013-11-23 16:48:43.361575985 -0500
-+++ dev.trusty/src/chrome/browser/extensions/api/module/module.h	2013-11-23 16:48:43.085565832 -0500
+--- dev.trusty.orig/src/chrome/browser/extensions/api/module/module.h	2013-12-04 15:18:46.606751460 -0500
++++ dev.trusty/src/chrome/browser/extensions/api/module/module.h	2013-12-04 15:18:46.506752935 -0500
 @@ -54,6 +54,18 @@
    virtual bool RunImpl() OVERRIDE;
  };
@@ -85,8 +85,8 @@ Index: dev.trusty/src/chrome/browser/extensions/api/module/module.h
  #endif  // CHROME_BROWSER_EXTENSIONS_API_MODULE_MODULE_H_
 Index: dev.trusty/src/chrome/browser/extensions/extension_function_histogram_value.h
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-11-23 16:48:43.361575985 -0500
-+++ dev.trusty/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-11-23 16:48:43.109566715 -0500
+--- dev.trusty.orig/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-12-04 15:18:46.606751460 -0500
++++ dev.trusty/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-12-04 15:18:46.534752522 -0500
 @@ -391,6 +391,7 @@
    SYSTEMINDICATOR_DISABLE,
    SCRIPTBADGE_SETPOPUP,
@@ -97,8 +97,8 @@ Index: dev.trusty/src/chrome/browser/extensions/extension_function_histogram_val
    TABS_DETECTLANGUAGE,
 Index: dev.trusty/src/chrome/browser/sessions/session_service.cc
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/sessions/session_service.cc	2013-11-23 16:48:43.361575985 -0500
-+++ dev.trusty/src/chrome/browser/sessions/session_service.cc	2013-11-23 16:48:43.161568628 -0500
+--- dev.trusty.orig/src/chrome/browser/sessions/session_service.cc	2013-12-04 15:18:46.606751460 -0500
++++ dev.trusty/src/chrome/browser/sessions/session_service.cc	2013-12-04 15:18:46.534752522 -0500
 @@ -1556,7 +1556,8 @@
  bool SessionService::ShouldTrackBrowser(Browser* browser) const {
    AppType app_type = browser->is_app() ? TYPE_APP : TYPE_NORMAL;
@@ -111,9 +111,9 @@ Index: dev.trusty/src/chrome/browser/sessions/session_service.cc
  bool SessionService::should_track_changes_for_browser_type(Browser::Type type,
 Index: dev.trusty/src/chrome/browser/ui/browser.cc
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/ui/browser.cc	2013-11-23 16:48:43.361575985 -0500
-+++ dev.trusty/src/chrome/browser/ui/browser.cc	2013-11-23 16:48:43.213570541 -0500
-@@ -246,6 +246,7 @@
+--- dev.trusty.orig/src/chrome/browser/ui/browser.cc	2013-12-04 15:18:46.606751460 -0500
++++ dev.trusty/src/chrome/browser/ui/browser.cc	2013-12-04 15:18:46.538752464 -0500
+@@ -247,6 +247,7 @@
      : type(TYPE_TABBED),
        profile(profile),
        host_desktop_type(host_desktop_type),
@@ -121,7 +121,7 @@ Index: dev.trusty/src/chrome/browser/ui/browser.cc
        app_type(APP_TYPE_HOST),
        initial_show_state(ui::SHOW_STATE_DEFAULT),
        is_session_restore(false),
-@@ -258,6 +259,7 @@
+@@ -259,6 +260,7 @@
      : type(type),
        profile(profile),
        host_desktop_type(host_desktop_type),
@@ -129,7 +129,7 @@ Index: dev.trusty/src/chrome/browser/ui/browser.cc
        app_type(APP_TYPE_HOST),
        initial_show_state(ui::SHOW_STATE_DEFAULT),
        is_session_restore(false),
-@@ -265,6 +267,16 @@
+@@ -266,6 +268,16 @@
  }
  
  // static
@@ -146,7 +146,7 @@ Index: dev.trusty/src/chrome/browser/ui/browser.cc
  Browser::CreateParams Browser::CreateParams::CreateForApp(
      Type type,
      const std::string& app_name,
-@@ -328,6 +340,7 @@
+@@ -329,6 +341,7 @@
        tab_strip_model_(new TabStripModel(tab_strip_model_delegate_.get(),
                                           params.profile)),
        app_name_(params.app_name),
@@ -154,7 +154,7 @@ Index: dev.trusty/src/chrome/browser/ui/browser.cc
        app_type_(params.app_type),
        cancel_download_confirmation_state_(NOT_PROMPTED),
        override_bounds_(params.initial_bounds),
-@@ -517,6 +530,10 @@
+@@ -526,6 +539,10 @@
    return find_bar_controller_.get() != NULL;
  }
  
@@ -165,7 +165,7 @@ Index: dev.trusty/src/chrome/browser/ui/browser.cc
  bool Browser::is_app() const {
    return !app_name_.empty();
  }
-@@ -562,7 +579,7 @@
+@@ -571,7 +588,7 @@
      return title;
  #endif
    // Don't append the app name to window titles on app frames and app popups
@@ -174,7 +174,7 @@ Index: dev.trusty/src/chrome/browser/ui/browser.cc
        title :
        l10n_util::GetStringFUTF16(IDS_BROWSER_WINDOW_TITLE_FORMAT, title);
  }
-@@ -649,7 +666,8 @@
+@@ -658,7 +675,8 @@
      tab_restore_service->BrowserClosing(tab_restore_service_delegate());
  #endif
  
@@ -184,7 +184,7 @@ Index: dev.trusty/src/chrome/browser/ui/browser.cc
      tab_restore_service->BrowserClosing(tab_restore_service_delegate());
  
    // TODO(sky): convert session/tab restore to use notification.
-@@ -2145,21 +2163,22 @@
+@@ -2156,21 +2174,22 @@
  
    unsigned int features = FEATURE_INFOBAR | FEATURE_DOWNLOADSHELF;
  
@@ -213,8 +213,8 @@ Index: dev.trusty/src/chrome/browser/ui/browser.cc
    return !!(features & feature);
 Index: dev.trusty/src/chrome/browser/ui/browser.h
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/ui/browser.h	2013-11-23 16:48:43.361575985 -0500
-+++ dev.trusty/src/chrome/browser/ui/browser.h	2013-11-23 16:48:43.269572600 -0500
+--- dev.trusty.orig/src/chrome/browser/ui/browser.h	2013-12-04 15:18:46.606751460 -0500
++++ dev.trusty/src/chrome/browser/ui/browser.h	2013-12-04 15:18:46.538752464 -0500
 @@ -161,6 +161,11 @@
                                       Profile* profile,
                                       chrome::HostDesktopType host_desktop_type);
@@ -245,7 +245,7 @@ Index: dev.trusty/src/chrome/browser/ui/browser.h
    bool is_app() const;
    bool is_devtools() const;
  
-@@ -833,6 +842,8 @@
+@@ -835,6 +844,8 @@
    // 2) we launch an undocked devtool window.
    std::string app_name_;
  
@@ -256,25 +256,9 @@ Index: dev.trusty/src/chrome/browser/ui/browser.h
  
 Index: dev.trusty/src/chrome/browser/ui/browser_command_controller.cc
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/ui/browser_command_controller.cc	2013-11-23 16:48:43.361575985 -0500
-+++ dev.trusty/src/chrome/browser/ui/browser_command_controller.cc	2013-11-23 16:48:43.269572600 -0500
-@@ -4,6 +4,7 @@
- 
- #include "chrome/browser/ui/browser_command_controller.h"
- 
-+#include "base/command_line.h"
- #include "base/prefs/pref_service.h"
- #include "chrome/app/chrome_command_ids.h"
- #include "chrome/browser/browser_process.h"
-@@ -29,6 +30,7 @@
- #include "chrome/browser/ui/tabs/tab_strip_model.h"
- #include "chrome/browser/ui/tabs/tab_strip_model_utils.h"
- #include "chrome/browser/ui/webui/inspect_ui.h"
-+#include "chrome/common/chrome_switches.h"
- #include "chrome/common/content_restriction.h"
- #include "chrome/common/pref_names.h"
- #include "chrome/common/profiling.h"
-@@ -846,7 +848,8 @@
+--- dev.trusty.orig/src/chrome/browser/ui/browser_command_controller.cc	2013-12-04 15:18:46.606751460 -0500
++++ dev.trusty/src/chrome/browser/ui/browser_command_controller.cc	2013-12-04 15:18:46.546752347 -0500
+@@ -851,7 +851,8 @@
  
  bool BrowserCommandController::IsShowingMainUI() {
    bool should_hide_ui = window() && window()->ShouldHideUIForFullscreen();
@@ -284,7 +268,7 @@ Index: dev.trusty/src/chrome/browser/ui/browser_command_controller.cc
  }
  
  void BrowserCommandController::InitCommandState() {
-@@ -861,9 +864,11 @@
+@@ -866,9 +867,11 @@
  
    // Window management commands
    command_updater_.UpdateCommandEnabled(IDC_CLOSE_WINDOW, true);
@@ -298,7 +282,7 @@ Index: dev.trusty/src/chrome/browser/ui/browser_command_controller.cc
    command_updater_.UpdateCommandEnabled(IDC_RESTORE_TAB, false);
  #if defined(OS_WIN) && defined(USE_ASH)
    if (browser_->host_desktop_type() != chrome::HOST_DESKTOP_TYPE_ASH)
-@@ -933,20 +938,23 @@
+@@ -938,20 +941,23 @@
    command_updater_.UpdateCommandEnabled(IDC_ZOOM_MINUS, true);
  
    // Show various bits of UI
@@ -326,7 +310,7 @@ Index: dev.trusty/src/chrome/browser/ui/browser_command_controller.cc
  
    UpdateShowSyncState(true);
  
-@@ -954,7 +962,9 @@
+@@ -959,7 +965,9 @@
    bool normal_window = browser_->is_type_tabbed();
  
    // Navigation commands
@@ -337,7 +321,7 @@ Index: dev.trusty/src/chrome/browser/ui/browser_command_controller.cc
  
    // Window management commands
    command_updater_.UpdateCommandEnabled(IDC_SELECT_NEXT_TAB, normal_window);
-@@ -988,7 +998,9 @@
+@@ -993,7 +1001,9 @@
    command_updater_.UpdateCommandEnabled(IDC_TABPOSE, normal_window);
  
    // Show various bits of UI
@@ -348,7 +332,7 @@ Index: dev.trusty/src/chrome/browser/ui/browser_command_controller.cc
  
    // The upgrade entry and the view incompatibility entry should always be
    // enabled. Whether they are visible is a separate matter determined on menu
-@@ -1012,15 +1024,18 @@
+@@ -1017,15 +1027,18 @@
  // static
  void BrowserCommandController::UpdateSharedCommandsForIncognitoAvailability(
      CommandUpdater* command_updater,
@@ -370,7 +354,7 @@ Index: dev.trusty/src/chrome/browser/ui/browser_command_controller.cc
  
    // Bookmark manager and settings page/subpages are forced to open in normal
    // mode. For this reason we disable these commands when incognito is forced.
-@@ -1028,7 +1043,8 @@
+@@ -1033,7 +1046,8 @@
        incognito_availability != IncognitoModePrefs::FORCED;
    command_updater->UpdateCommandEnabled(
        IDC_SHOW_BOOKMARK_MANAGER,
@@ -380,7 +364,7 @@ Index: dev.trusty/src/chrome/browser/ui/browser_command_controller.cc
    ExtensionService* extension_service = profile->GetExtensionService();
    bool enable_extensions =
        extension_service && extension_service->extensions_enabled();
-@@ -1041,7 +1057,10 @@
+@@ -1046,7 +1060,10 @@
  }
  
  void BrowserCommandController::UpdateCommandsForIncognitoAvailability() {
@@ -392,7 +376,7 @@ Index: dev.trusty/src/chrome/browser/ui/browser_command_controller.cc
  
    if (!IsShowingMainUI()) {
      command_updater_.UpdateCommandEnabled(IDC_IMPORT_SETTINGS, false);
-@@ -1066,17 +1085,20 @@
+@@ -1071,17 +1088,20 @@
  
    // Window management commands
    command_updater_.UpdateCommandEnabled(IDC_DUPLICATE_TAB,
@@ -417,17 +401,22 @@ Index: dev.trusty/src/chrome/browser/ui/browser_command_controller.cc
      command_updater_.UpdateCommandEnabled(IDC_OPEN_FILE, false);
  
    // Changing the encoding is not possible on Chrome-internal webpages.
-@@ -1092,7 +1114,8 @@
+@@ -1097,10 +1117,12 @@
  #if !defined(OS_MACOSX)
    command_updater_.UpdateCommandEnabled(
        IDC_CREATE_SHORTCUTS,
 -      CanCreateApplicationShortcuts(browser_));
 +      CanCreateApplicationShortcuts(browser_)
 +          && !browser_->is_chromeless_mode());
+   command_updater_.UpdateCommandEnabled(
+       IDC_CREATE_HOSTED_APP,
+-      CanCreateApplicationShortcuts(browser_));
++      CanCreateApplicationShortcuts(browser_)
++          && !browser_->is_chromeless_mode());
  #endif
  
    command_updater_.UpdateCommandEnabled(
-@@ -1133,24 +1156,38 @@
+@@ -1141,24 +1163,38 @@
  }
  
  void BrowserCommandController::UpdateCommandsForBookmarkEditing() {
@@ -471,7 +460,7 @@ Index: dev.trusty/src/chrome/browser/ui/browser_command_controller.cc
  }
  
  void BrowserCommandController::UpdateCommandsForFullscreenMode() {
-@@ -1277,13 +1314,14 @@
+@@ -1285,13 +1321,14 @@
  
  // static
  void BrowserCommandController::UpdateOpenFileState(
@@ -490,8 +479,8 @@ Index: dev.trusty/src/chrome/browser/ui/browser_command_controller.cc
  void BrowserCommandController::UpdateReloadStopState(bool is_loading,
 Index: dev.trusty/src/chrome/browser/ui/browser_command_controller.h
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/ui/browser_command_controller.h	2013-11-23 16:48:43.361575985 -0500
-+++ dev.trusty/src/chrome/browser/ui/browser_command_controller.h	2013-11-23 16:48:43.269572600 -0500
+--- dev.trusty.orig/src/chrome/browser/ui/browser_command_controller.h	2013-12-04 15:18:46.606751460 -0500
++++ dev.trusty/src/chrome/browser/ui/browser_command_controller.h	2013-12-04 15:18:46.546752347 -0500
 @@ -68,13 +68,15 @@
    // outside code.
  
@@ -512,9 +501,9 @@ Index: dev.trusty/src/chrome/browser/ui/browser_command_controller.h
    class InterstitialObserver;
 Index: dev.trusty/src/chrome/browser/ui/browser_commands.cc
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/ui/browser_commands.cc	2013-11-23 16:48:43.361575985 -0500
-+++ dev.trusty/src/chrome/browser/ui/browser_commands.cc	2013-11-23 16:48:43.281573042 -0500
-@@ -476,6 +476,9 @@
+--- dev.trusty.orig/src/chrome/browser/ui/browser_commands.cc	2013-12-04 15:18:46.606751460 -0500
++++ dev.trusty/src/chrome/browser/ui/browser_commands.cc	2013-12-04 15:18:46.546752347 -0500
+@@ -475,6 +475,9 @@
  }
  
  void NewTab(Browser* browser) {
@@ -524,7 +513,7 @@ Index: dev.trusty/src/chrome/browser/ui/browser_commands.cc
    content::RecordAction(UserMetricsAction("NewTab"));
    // TODO(asvitkine): This is invoked programmatically from several places.
    // Audit the code and change it so that the histogram only gets collected for
-@@ -509,7 +512,7 @@
+@@ -508,7 +511,7 @@
    content::RecordAction(UserMetricsAction("RestoreTab"));
    TabRestoreService* service =
        TabRestoreServiceFactory::GetForProfile(browser->profile());
@@ -535,8 +524,8 @@ Index: dev.trusty/src/chrome/browser/ui/browser_commands.cc
  }
 Index: dev.trusty/src/chrome/browser/ui/browser_finder.cc
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/ui/browser_finder.cc	2013-11-23 16:48:43.361575985 -0500
-+++ dev.trusty/src/chrome/browser/ui/browser_finder.cc	2013-11-23 16:48:43.281573042 -0500
+--- dev.trusty.orig/src/chrome/browser/ui/browser_finder.cc	2013-12-04 15:18:46.606751460 -0500
++++ dev.trusty/src/chrome/browser/ui/browser_finder.cc	2013-12-04 15:18:46.546752347 -0500
 @@ -24,6 +24,7 @@
  const int kMatchOriginalProfile         = 1 << 0;
  const int kMatchCanSupportWindowFeature = 1 << 1;
@@ -569,8 +558,8 @@ Index: dev.trusty/src/chrome/browser/ui/browser_finder.cc
    if (match_original_profiles)
 Index: dev.trusty/src/chrome/browser/ui/gtk/browser_window_gtk.cc
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-11-23 16:48:43.361575985 -0500
-+++ dev.trusty/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-11-23 16:48:43.285573189 -0500
+--- dev.trusty.orig/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-12-04 15:18:46.606751460 -0500
++++ dev.trusty/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2013-12-04 15:18:46.558752168 -0500
 @@ -306,6 +306,13 @@
      gtk_window_util::SetWindowCustomClass(window_,
          std::string(gdk_get_program_class()) + " (" + user_data_dir + ")");
@@ -585,7 +574,7 @@ Index: dev.trusty/src/chrome/browser/ui/gtk/browser_window_gtk.cc
  
    // For popups, we initialize widgets then set the window geometry, because
    // popups need the widgets inited before they can set the window size
-@@ -975,7 +982,7 @@
+@@ -979,7 +986,7 @@
  }
  
  void BrowserWindowGtk::SetFocusToLocationBar(bool select_all) {
@@ -594,7 +583,7 @@ Index: dev.trusty/src/chrome/browser/ui/gtk/browser_window_gtk.cc
      GetLocationBar()->FocusLocation(select_all);
  }
  
-@@ -1277,6 +1284,20 @@
+@@ -1281,6 +1288,20 @@
    gtk_util::SetWindowIcon(window_, browser_->profile());
  }
  
@@ -615,7 +604,7 @@ Index: dev.trusty/src/chrome/browser/ui/gtk/browser_window_gtk.cc
  void BrowserWindowGtk::TabDetachedAt(WebContents* contents, int index) {
    // We use index here rather than comparing |contents| because by this time
    // the model has already removed |contents| from its list, so
-@@ -1287,6 +1308,23 @@
+@@ -1291,6 +1312,23 @@
      UpdateDevToolsForContents(NULL);
    }
    contents_container_->DetachTab(contents);
@@ -639,7 +628,7 @@ Index: dev.trusty/src/chrome/browser/ui/gtk/browser_window_gtk.cc
  }
  
  void BrowserWindowGtk::ActiveWindowChanged(GdkWindow* active_window) {
-@@ -2191,8 +2229,12 @@
+@@ -2195,8 +2233,12 @@
  }
  
  void BrowserWindowGtk::ShowSupportedWindowFeatures() {
@@ -654,7 +643,7 @@ Index: dev.trusty/src/chrome/browser/ui/gtk/browser_window_gtk.cc
  
    if (IsToolbarSupported()) {
      toolbar_->Show();
-@@ -2205,8 +2247,12 @@
+@@ -2209,8 +2251,12 @@
  }
  
  void BrowserWindowGtk::HideUnsupportedWindowFeatures() {
@@ -669,7 +658,7 @@ Index: dev.trusty/src/chrome/browser/ui/gtk/browser_window_gtk.cc
  
    if (!IsToolbarSupported())
      toolbar_->Hide();
-@@ -2246,7 +2292,8 @@
+@@ -2250,7 +2296,8 @@
  
  bool BrowserWindowGtk::UseCustomFrame() const {
    // We don't use the custom frame for app mode windows or app window popups.
@@ -681,9 +670,9 @@ Index: dev.trusty/src/chrome/browser/ui/gtk/browser_window_gtk.cc
  void BrowserWindowGtk::PlaceBookmarkBar(bool is_floating) {
 Index: dev.trusty/src/chrome/browser/ui/gtk/browser_window_gtk.h
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/ui/gtk/browser_window_gtk.h	2013-11-23 16:48:43.361575985 -0500
-+++ dev.trusty/src/chrome/browser/ui/gtk/browser_window_gtk.h	2013-11-23 16:48:43.285573189 -0500
-@@ -191,6 +191,13 @@
+--- dev.trusty.orig/src/chrome/browser/ui/gtk/browser_window_gtk.h	2013-12-04 15:18:46.606751460 -0500
++++ dev.trusty/src/chrome/browser/ui/gtk/browser_window_gtk.h	2013-12-04 15:18:46.558752168 -0500
+@@ -192,6 +192,13 @@
    virtual void TabDetachedAt(content::WebContents* contents,
                               int index) OVERRIDE;
  
@@ -697,7 +686,7 @@ Index: dev.trusty/src/chrome/browser/ui/gtk/browser_window_gtk.h
    // Overridden from ActiveWindowWatcherXObserver.
    virtual void ActiveWindowChanged(GdkWindow* active_window) OVERRIDE;
  
-@@ -334,6 +341,9 @@
+@@ -335,6 +342,9 @@
    // ctrl-l, etc.).
    void ConnectAccelerators();
  
@@ -709,8 +698,8 @@ Index: dev.trusty/src/chrome/browser/ui/gtk/browser_window_gtk.h
    bool UsingCustomPopupFrame() const;
 Index: dev.trusty/src/chrome/browser/ui/gtk/global_menu_bar.cc
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/ui/gtk/global_menu_bar.cc	2013-11-23 16:48:43.361575985 -0500
-+++ dev.trusty/src/chrome/browser/ui/gtk/global_menu_bar.cc	2013-11-23 16:48:43.297573631 -0500
+--- dev.trusty.orig/src/chrome/browser/ui/gtk/global_menu_bar.cc	2013-12-04 15:18:46.606751460 -0500
++++ dev.trusty/src/chrome/browser/ui/gtk/global_menu_bar.cc	2013-12-04 15:18:46.558752168 -0500
 @@ -25,35 +25,43 @@
  #include "ui/base/accelerators/platform_accelerator_gtk.h"
  #include "ui/base/l10n/l10n_util.h"
@@ -902,8 +891,8 @@ Index: dev.trusty/src/chrome/browser/ui/gtk/global_menu_bar.cc
          id_to_menu_item, menu);
 Index: dev.trusty/src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc	2013-11-23 16:48:43.361575985 -0500
-+++ dev.trusty/src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc	2013-11-23 16:48:43.301573777 -0500
+--- dev.trusty.orig/src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc	2013-12-04 15:18:46.606751460 -0500
++++ dev.trusty/src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc	2013-12-04 15:18:46.566752052 -0500
 @@ -783,9 +783,12 @@
    g_signal_connect(tabstrip_.get(), "drag-data-received",
                     G_CALLBACK(OnDragDataReceivedThunk), this);
@@ -968,9 +957,9 @@ Index: dev.trusty/src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc
    SkBitmap background = theme_service_->GetImageNamed(
 Index: dev.trusty/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc	2013-11-23 16:48:43.361575985 -0500
-+++ dev.trusty/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc	2013-11-23 16:48:43.313574219 -0500
-@@ -394,6 +394,12 @@
+--- dev.trusty.orig/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc	2013-12-04 15:18:46.606751460 -0500
++++ dev.trusty/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc	2013-12-04 15:18:46.570751993 -0500
+@@ -397,6 +397,12 @@
    } else {
      RecordLaunchModeHistogram(urls_to_open.empty() ?
                                LM_TO_BE_DECIDED : LM_WITH_URLS);
@@ -983,7 +972,7 @@ Index: dev.trusty/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc
  
      ProcessLaunchURLs(process_startup, urls_to_open, desktop_type);
  
-@@ -448,6 +454,16 @@
+@@ -451,6 +457,16 @@
    }
  }
  
@@ -1000,7 +989,7 @@ Index: dev.trusty/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc
  bool StartupBrowserCreatorImpl::IsAppLaunch(std::string* app_url,
                                              std::string* app_id) {
    if (command_line_.HasSwitch(switches::kApp)) {
-@@ -738,7 +754,8 @@
+@@ -741,7 +757,8 @@
    // mode. Also, no pages should be opened automatically if the session
    // crashed. Otherwise it might trigger another crash, locking the user out of
    // chrome. The crash infobar is shown in this case.
@@ -1010,7 +999,7 @@ Index: dev.trusty/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc
                                                   profile_->GetPrefs()) &&
        !HasPendingUncleanExit(profile_)) {
      tabs = PinnedTabCodec::ReadPinnedTabs(profile_);
-@@ -817,6 +834,10 @@
+@@ -820,6 +837,10 @@
    if (!profile_ && browser)
      profile_ = browser->profile();
  
@@ -1021,7 +1010,7 @@ Index: dev.trusty/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc
    if (!browser || !browser->is_type_tabbed()) {
      browser = new Browser(Browser::CreateParams(profile_, desktop_type));
    } else {
-@@ -892,6 +913,11 @@
+@@ -895,6 +916,11 @@
    if (!browser || !profile_ || browser->tab_strip_model()->count() == 0)
      return;
  
@@ -1035,8 +1024,8 @@ Index: dev.trusty/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc
  
 Index: dev.trusty/src/chrome/browser/ui/startup/startup_browser_creator_impl.h
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/ui/startup/startup_browser_creator_impl.h	2013-11-23 16:48:43.361575985 -0500
-+++ dev.trusty/src/chrome/browser/ui/startup/startup_browser_creator_impl.h	2013-11-23 16:48:43.313574219 -0500
+--- dev.trusty.orig/src/chrome/browser/ui/startup/startup_browser_creator_impl.h	2013-12-04 15:18:46.606751460 -0500
++++ dev.trusty/src/chrome/browser/ui/startup/startup_browser_creator_impl.h	2013-12-04 15:18:46.570751993 -0500
 @@ -83,6 +83,11 @@
    FRIEND_TEST_ALL_PREFIXES(BrowserTest, RestorePinnedTabs);
    FRIEND_TEST_ALL_PREFIXES(BrowserTest, AppIdSwitch);
@@ -1051,9 +1040,9 @@ Index: dev.trusty/src/chrome/browser/ui/startup/startup_browser_creator_impl.h
  
 Index: dev.trusty/src/chrome/common/chrome_switches.cc
 ===================================================================
---- dev.trusty.orig/src/chrome/common/chrome_switches.cc	2013-11-23 16:48:43.361575985 -0500
-+++ dev.trusty/src/chrome/common/chrome_switches.cc	2013-11-23 16:48:43.329574808 -0500
-@@ -159,6 +159,9 @@
+--- dev.trusty.orig/src/chrome/common/chrome_switches.cc	2013-12-04 15:18:46.606751460 -0500
++++ dev.trusty/src/chrome/common/chrome_switches.cc	2013-12-04 15:18:46.570751993 -0500
+@@ -170,6 +170,9 @@
  // as a dependent process of the Chrome Frame plugin.
  const char kChromeFrame[]                   = "chrome-frame";
  
@@ -1065,9 +1054,9 @@ Index: dev.trusty/src/chrome/common/chrome_switches.cc
  const char kChromeVersion[]                 = "chrome-version";
 Index: dev.trusty/src/chrome/common/chrome_switches.h
 ===================================================================
---- dev.trusty.orig/src/chrome/common/chrome_switches.h	2013-11-23 16:48:43.361575985 -0500
-+++ dev.trusty/src/chrome/common/chrome_switches.h	2013-11-23 16:48:43.341575249 -0500
-@@ -59,6 +59,7 @@
+--- dev.trusty.orig/src/chrome/common/chrome_switches.h	2013-12-04 15:18:46.606751460 -0500
++++ dev.trusty/src/chrome/common/chrome_switches.h	2013-12-04 15:18:46.578751874 -0500
+@@ -60,6 +60,7 @@
  extern const char kCheckForUpdateIntervalSec[];
  extern const char kCheckCloudPrintConnectorPolicy[];
  extern const char kChromeFrame[];
@@ -1077,8 +1066,8 @@ Index: dev.trusty/src/chrome/common/chrome_switches.h
  extern const char kClearTokenService[];
 Index: dev.trusty/src/chrome/common/extensions/api/extension.json
 ===================================================================
---- dev.trusty.orig/src/chrome/common/extensions/api/extension.json	2013-11-23 16:48:43.361575985 -0500
-+++ dev.trusty/src/chrome/common/extensions/api/extension.json	2013-11-23 16:48:43.349575544 -0500
+--- dev.trusty.orig/src/chrome/common/extensions/api/extension.json	2013-12-04 15:18:46.606751460 -0500
++++ dev.trusty/src/chrome/common/extensions/api/extension.json	2013-12-04 15:18:46.582751814 -0500
 @@ -138,6 +138,33 @@
          }
        },
