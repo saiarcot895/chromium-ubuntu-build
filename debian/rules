@@ -24,6 +24,7 @@ LIB_DIR        := usr/lib/$(DEBIAN_NAME)
 DEB_BUILDDIR   := $(SRC_DIR)
 FFMPEG_DIR     := third_party/ffmpeg
 FFMPEG_SRC_DIR := $(SRC_DIR)/$(FFMPEG_DIR)
+NINJA          := ninja
 
 # Whitelist LP provided new langs only in release builds, PPAs ship them all
 WANT_ONLY_WHITELISTED_NEW_LANGS ?= 0
@@ -144,11 +145,12 @@ BUILD_TYPE := Release
 # Add symbols
 GYP_DEFINES += linux_dump_symbols=1
 endif
-BUILD_ARGS += BUILDTYPE=$(BUILD_TYPE)
+BUILD_ARGS += -C src/out/$(BUILD_TYPE)
 
 # Verbose?
 ifeq (1,$(VERBOSE))
-BUILD_ARGS += V=1
+#BUILD_ARGS += V=1
+BUILD_ARGS += -v
 endif
 
 # Shared libraries
@@ -164,7 +166,7 @@ subst_files = \
 	$(NULL)
 
 ifneq (1,$(PROCESSORS))
-BUILD_ARGS += -j$(PROCESSORS)
+#BUILD_ARGS += -j$(PROCESSORS)
 endif
 
 # Literal paths to remove
@@ -318,7 +320,8 @@ DEB_MAKE_ENVVARS += CXX=$(DEB_HOST_GNU_TYPE)-$(CXX)
 else
 CROSS_BUILD = 
 endif
-BUILD_ARGS += CC_host="$(CC)" CXX_host="$(CXX)"
+#BUILD_ARGS += CC_host="$(CC)" CXX_host="$(CXX)"
+COMPILER = CC="$(CC)" CXX="$(CXX)"
 
 clean:
 	rm -rf debian/*-stamp debian/stamp-* debian/tmp-*
@@ -339,7 +342,7 @@ tests:
 	#
 
 configure: configure-stamp
-configure-stamp: GYP_ENV = GYP_GENERATORS=make
+configure-stamp: GYP_ENV = GYP_GENERATORS=ninja
 configure-stamp: GYP_ENV += GYP_DEFINES="$(GYP_DEFINES) $(BROWSER_GYP_DEFINES)"
 configure-stamp:
 	dh_testdir
@@ -367,7 +370,8 @@ build: build-stamp tests build-stamp-ffmpeg-std build-stamp-ffmpeg-extra
 	touch $@
 
 build-stamp: configure-stamp
-	$(MAKE) -C $(SRC_DIR) $(BUILD_ARGS) $(BUILD_TARGETS)
+	#$(MAKE) -C $(SRC_DIR) $(BUILD_ARGS) $(BUILD_TARGETS)
+	$(COMPILER) $(NINJA) $(BUILD_ARGS) $(BUILD_TARGETS)
 	touch $@
 
 binary-indep: build install
@@ -402,7 +406,8 @@ configure-stamp-ffmpeg-%:
 
 build-stamp-ffmpeg-%: GYP_DEFINES += $(FFMPEG_MT_$(subst std,STD,$(subst extra,EXTRA,$*))_GYP_DEFINES) $(FFMPEG_MT_GYP_DEFINES)
 build-stamp-ffmpeg-%: configure-stamp-ffmpeg-%
-	cd $(FFMPEG_SRC_DIR) ; $(MAKE) -f ffmpeg.Makefile $(BUILD_ARGS) $(CROSS_BUILD)
+	#cd $(FFMPEG_SRC_DIR) ; $(MAKE) -f ffmpeg.Makefile $(BUILD_ARGS) $(CROSS_BUILD)
+	cd $(FFMPEG_SRC_DIR) ; $(NINJA) $(BUILD_ARGS) $(CROSS_BUILD)
 	mkdir debian/tmp-$*
 	cp $(FFMPEG_SRC_DIR)/out/$(BUILD_TYPE)/libffmpegsumo.so $(CURDIR)/debian/tmp-$*
 	touch $@

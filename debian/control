@@ -6,6 +6,7 @@ XSBC-Original-Maintainer: Fabien Tassin <fta@ubuntu.com>
 Homepage: http://code.google.com/chromium/
 Build-Depends: debhelper (>= 8.0.0),
 		pkg-config,
+		ninja-build,
 		lsb-release,
 		python,
 		bison,
