@@ -421,7 +421,7 @@ install: build
 	cp -r $(SRC_DIR)/out/$(BUILD_TYPE)/* debian/$(DEBIAN_NAME)/$(LIB_DIR)
 ifeq (1,$(COMPONENT_SHARED_LIB_BUILD))
 	mkdir -p debian/$(DEBIAN_NAME)/$(LIB_DIR)/libs
-	cp -r $(SRC_DIR)/out/$(BUILD_TYPE)/lib.target/* debian/$(DEBIAN_NAME)/$(LIB_DIR)/libs
+	cp -r $(SRC_DIR)/out/$(BUILD_TYPE)/lib/*.so debian/$(DEBIAN_NAME)/$(LIB_DIR)/libs
 endif
 	cd debian/$(DEBIAN_NAME)/$(LIB_DIR) && rm -rfv $(INSTALL_EXCLUDE_PATHS)
 ifeq (1,$(COMPONENT_SHARED_LIB_BUILD))

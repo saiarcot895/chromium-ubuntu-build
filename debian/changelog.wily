@@ -1,3 +1,9 @@
+chromium-browser (33.0.1726.0-0ubuntu1~ppa5~trusty1) trusty; urgency=low
+
+  * Correct directory for the Chromium libs
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 07 Dec 2013 12:42:54 -0500
+
 chromium-browser (33.0.1726.0-0ubuntu1~ppa4~trusty1) trusty; urgency=low
 
   * Change ffmpeg from make to ninja
