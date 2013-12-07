@@ -1,3 +1,10 @@
+chromium-browser (33.0.1729.3-0ubuntu1~ppa1~trusty1) trusty; urgency=low
+
+  * New upstream version 33.0.1729.3
+  * Refreshed patches
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 07 Dec 2013 14:44:54 -0500
+
 chromium-browser (33.0.1726.0-0ubuntu1~ppa5~trusty1) trusty; urgency=low
 
   * Correct directory for the Chromium libs
