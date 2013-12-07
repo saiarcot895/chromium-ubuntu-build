@@ -401,15 +401,15 @@ binary-arch: build install
 binary: binary-indep binary-arch
 
 configure-stamp-ffmpeg-%:
-	cd $(SRC_DIR) && GYP_DEFINES="$(GYP_DEFINES)" $(CROSS_BUILD) GYP_GENERATORS=make build/gyp_chromium --depth=../src $(FFMPEG_DIR)/ffmpeg.gyp $(GYP_PARAMS)
+	cd $(SRC_DIR) && GYP_DEFINES="$(GYP_DEFINES)" $(CROSS_BUILD) GYP_GENERATORS=ninja build/gyp_chromium --depth=../src $(FFMPEG_DIR)/ffmpeg.gyp $(GYP_PARAMS)
 	touch $@
 
 build-stamp-ffmpeg-%: GYP_DEFINES += $(FFMPEG_MT_$(subst std,STD,$(subst extra,EXTRA,$*))_GYP_DEFINES) $(FFMPEG_MT_GYP_DEFINES)
 build-stamp-ffmpeg-%: configure-stamp-ffmpeg-%
 	#cd $(FFMPEG_SRC_DIR) ; $(MAKE) -f ffmpeg.Makefile $(BUILD_ARGS) $(CROSS_BUILD)
-	cd $(FFMPEG_SRC_DIR) ; $(NINJA) $(BUILD_ARGS) $(CROSS_BUILD)
+	$(NINJA) $(BUILD_ARGS) $(CROSS_BUILD)
 	mkdir debian/tmp-$*
-	cp $(FFMPEG_SRC_DIR)/out/$(BUILD_TYPE)/libffmpegsumo.so $(CURDIR)/debian/tmp-$*
+	cp $(SRC_DIR)/out/$(BUILD_TYPE)/libffmpegsumo.so $(CURDIR)/debian/tmp-$*
 	touch $@
 
 install: build
