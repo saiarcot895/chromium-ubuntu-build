@@ -1,3 +1,9 @@
+chromium-browser (33.0.1729.3-0ubuntu1~ppa4~trusty1) trusty; urgency=low
+
+  * Adjust for i386
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 08 Dec 2013 13:57:48 -0500
+
 chromium-browser (33.0.1729.3-0ubuntu1~ppa2~trusty1) trusty; urgency=low
 
   * Build gn from the source code, and then use that to build Chromium

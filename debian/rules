@@ -361,6 +361,9 @@ configure-stamp-gn:
 build-stamp-gn: configure-stamp-gn
 	$(COMPILER) $(NINJA) -C src/out/Release $(GN_BUILD_ARGS) gn
 	cp src/out/Release/gn src/tools/gn/bin/linux
+ifeq (i386,$(DEB_HOST_ARCH))
+	mv src/tools/gn/bin/linux/gn src/tools/gn/bin/linux/gn32
+endif
 	rm -rf src/out
 	touch $@
 
