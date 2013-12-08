@@ -1,0 +1,15 @@
+Index: dev.trusty/src/build/gyp_chromium
+===================================================================
+--- dev.trusty.orig/src/build/gyp_chromium	2013-12-08 09:29:16.680693231 -0500
++++ dev.trusty/src/build/gyp_chromium	2013-12-08 09:29:23.004915702 -0500
+@@ -221,8 +221,8 @@
+ 
+   supplemental_includes = GetSupplementalFiles()
+ 
+-  if not RunGN(supplemental_includes):
+-    sys.exit(1)
++#  if not RunGN(supplemental_includes):
++#    sys.exit(1)
+ 
+   args.extend(
+       ['-I' + i for i in additional_include_files(supplemental_includes, args)])

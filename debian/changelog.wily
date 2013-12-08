@@ -1,3 +1,10 @@
+chromium-browser (33.0.1729.3-0ubuntu1~ppa2~trusty1) trusty; urgency=low
+
+  * Build gn from the source code, and then use that to build Chromium
+    (it's a little messy)
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 08 Dec 2013 12:38:42 -0500
+
 chromium-browser (33.0.1729.3-0ubuntu1~ppa1~trusty1) trusty; urgency=low
 
   * New upstream version 33.0.1729.3

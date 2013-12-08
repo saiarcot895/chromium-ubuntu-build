@@ -151,6 +151,7 @@ BUILD_ARGS += -C src/out/$(BUILD_TYPE)
 ifeq (1,$(VERBOSE))
 #BUILD_ARGS += V=1
 BUILD_ARGS += -v
+GN_BUILD_ARGS += -v
 endif
 
 # Shared libraries
@@ -327,9 +328,10 @@ clean:
 	rm -rf debian/*-stamp debian/stamp-* debian/tmp-*
 	rm -f build configure-stamp build-stamp \
 		build-stamp-ffmpeg-std build-stamp-ffmpeg-extra \
-		configure-stamp-ffmpeg-std configure-stamp-ffmpeg-extra
+		configure-stamp-ffmpeg-std configure-stamp-ffmpeg-extra \
+		configure-stamp-gn build-stamp-gn
 	rm -f $(subst_files)
-	rm -rf $(DEB_TAR_SRCDIR)/out $(FFMPEG_SRC_DIR)/yasm $(FFMPEG_SRC_DIR)/out $(FFMPEG_SRC_DIR)/*.mk
+	rm -rf $(DEB_TAR_SRCDIR)/out $(FFMPEG_SRC_DIR)/yasm $(FFMPEG_SRC_DIR)/out $(FFMPEG_SRC_DIR)/*.mk $(DEB_TAR_SRCDIR)/tools/gn/bin/linux/gn
 	find $(DEB_TAR_SRCDIR) \( -name \*.pyc -o -name \*.pyo -name \*.o \) -delete
 	find $(DEB_TAR_SRCDIR) -regex '.*/\([^/]*\)/\1[^/]*\.\(Makefile\|\(target\|host\)\.mk\)' -delete
 	sed -i 's,/etc/$(DEBIAN_NAME)/policies,/etc/chromium/policies,' \
@@ -341,7 +343,29 @@ tests: build-stamp
 tests:
 	#
 
+configure-stamp-gn: GYP_ENV = GYP_GENERATORS=ninja
+configure-stamp-gn: GYP_ENV += GYP_DEFINES="werror= linux_use_gold_binary=0 linux_use_gold_flags=0"
+configure-stamp-gn:
+	if [ ! -d src ]; then \
+		mv $(DEBIAN_NAME)-$(DEBIAN_UPSTREAM_VERSION)/src .; \
+		rm -r $(DEBIAN_NAME)-$(DEBIAN_UPSTREAM_VERSION); \
+	fi
+	
+	patch -p 1 -i debian/patches/disable_gn.patch
+	
+	cd $(SRC_DIR) && $(GYP_ENV) $(CROSS_BUILD) python build/gyp_chromium tools/gn/gn.gyp $(GYP_PARAMS)
+	
+	patch -p 1 -R -i debian/patches/disable_gn.patch
+	touch $@
+
+build-stamp-gn: configure-stamp-gn
+	$(COMPILER) $(NINJA) -C src/out/Release $(GN_BUILD_ARGS) gn
+	cp src/out/Release/gn src/tools/gn/bin/linux
+	rm -rf src/out
+	touch $@
+
 configure: configure-stamp
+configure-stamp: build-stamp-gn
 configure-stamp: GYP_ENV = GYP_GENERATORS=ninja
 configure-stamp: GYP_ENV += GYP_DEFINES="$(GYP_DEFINES) $(BROWSER_GYP_DEFINES)"
 configure-stamp:
@@ -400,7 +424,7 @@ binary-arch: build install
 
 binary: binary-indep binary-arch
 
-configure-stamp-ffmpeg-%:
+configure-stamp-ffmpeg-%: build-stamp-gn
 	cd $(SRC_DIR) && GYP_DEFINES="$(GYP_DEFINES)" $(CROSS_BUILD) GYP_GENERATORS=ninja build/gyp_chromium --depth=../src $(FFMPEG_DIR)/ffmpeg.gyp $(GYP_PARAMS)
 	touch $@
 
