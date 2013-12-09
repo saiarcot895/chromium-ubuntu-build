@@ -1,3 +1,11 @@
+chromium-browser (33.0.1729.3-0ubuntu1~ppa5~trusty1) trusty; urgency=low
+
+  * Exclude the gen and lib folders, and exclude the codec file and a
+    few other build files from the main package
+  * Add comments for the gn targets
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 08 Dec 2013 23:03:47 -0500
+
 chromium-browser (33.0.1729.3-0ubuntu1~ppa4~trusty1) trusty; urgency=low
 
   * Adjust for i386

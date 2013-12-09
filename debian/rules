@@ -167,6 +167,7 @@ subst_files = \
 	$(NULL)
 
 ifneq (1,$(PROCESSORS))
+# Ninja automatically uses all available CPUs
 #BUILD_ARGS += -j$(PROCESSORS)
 endif
 
@@ -175,6 +176,8 @@ INSTALL_EXCLUDE_PATHS = \
 	obj \
 	obj.target \
 	obj.host \
+	gen \
+	build.ninja \
 	.deps \
 	calendar_app \
 	docs_app \
@@ -182,6 +185,7 @@ INSTALL_EXCLUDE_PATHS = \
 	pyproto \
 	pseudo_locales \
 	DumpRenderTree_resources \
+	lib \
 	lib.target \
 	locales \
 	resources \
@@ -208,11 +212,13 @@ INSTALL_EXCLUDE_PATHS = \
 	libTestRunner.so \
 	chromedriver \
 	*.stamp \
+	*.TOC \
 	AHEM____.TTF \
 	fonts.conf \
 	libTestNetscapePlugIn.so \
 	plugins/libTestNetscapePlugIn.so \
 	ImageDiff \
+	libffmpegsumo.so \
 	$(NULL)
 
 # FFmpeg-mt
@@ -343,6 +349,9 @@ tests: build-stamp
 tests:
 	#
 
+# By default, Chromium expects a binary file that generates the build files. Fortunately,
+# the source files for gn (the binary) are present in the source tree. This section
+# disables the default behavior, falls back to gyp, builds gn, and use that as the binary.
 configure-stamp-gn: GYP_ENV = GYP_GENERATORS=ninja
 configure-stamp-gn: GYP_ENV += GYP_DEFINES="werror= linux_use_gold_binary=0 linux_use_gold_flags=0"
 configure-stamp-gn:
@@ -351,19 +360,24 @@ configure-stamp-gn:
 		rm -r $(DEBIAN_NAME)-$(DEBIAN_UPSTREAM_VERSION); \
 	fi
 	
+	# Disable default behavior of using gn
 	patch -p 1 -i debian/patches/disable_gn.patch
 	
 	cd $(SRC_DIR) && $(GYP_ENV) $(CROSS_BUILD) python build/gyp_chromium tools/gn/gn.gyp $(GYP_PARAMS)
 	
+	# Re-enable behavior of using gn
 	patch -p 1 -R -i debian/patches/disable_gn.patch
 	touch $@
 
 build-stamp-gn: configure-stamp-gn
 	$(COMPILER) $(NINJA) -C src/out/Release $(GN_BUILD_ARGS) gn
+	
+	# Copy the binary to the location expected by the build system
 	cp src/out/Release/gn src/tools/gn/bin/linux
 ifeq (i386,$(DEB_HOST_ARCH))
 	mv src/tools/gn/bin/linux/gn src/tools/gn/bin/linux/gn32
 endif
+	
 	rm -rf src/out
 	touch $@
 
