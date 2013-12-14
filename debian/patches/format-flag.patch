@@ -4,9 +4,9 @@ Author: Chad Miller <chad.miller@canonical.com>
 
 Index: dev.trusty/src/build/common.gypi
 ===================================================================
---- dev.trusty.orig/src/build/common.gypi	2013-12-07 14:42:30.218391619 -0500
-+++ dev.trusty/src/build/common.gypi	2013-12-07 14:42:30.210391440 -0500
-@@ -2475,9 +2475,6 @@
+--- dev.trusty.orig/src/build/common.gypi	2013-12-13 22:17:21.780863425 -0600
++++ dev.trusty/src/build/common.gypi	2013-12-13 22:17:21.752862427 -0600
+@@ -2482,9 +2482,6 @@
                '-Wno-deprecated',
              ],
              'cflags': [
@@ -15,4 +15,4 @@ Index: dev.trusty/src/build/common.gypi
 -              '-Wno-format',
              ],
              'cflags_cc!': [
-               # TODO(fischman): remove this.
+               # Necessary because llvm.org/PR10448 is WONTFIX (crbug.com/90453).
