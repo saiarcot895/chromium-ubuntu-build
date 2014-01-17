@@ -1,22 +1,18 @@
-Index: beta.trusty/src/chrome/browser/extensions/api/tld/tld_api.cc
+Index: dev.trusty/src/chrome/browser/extensions/api/tld/tld_api.cc
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ beta.trusty/src/chrome/browser/extensions/api/tld/tld_api.cc	2013-11-13 07:23:34.125322060 -0500
-@@ -0,0 +1,87 @@
++++ dev.trusty/src/chrome/browser/extensions/api/tld/tld_api.cc	2014-01-16 19:26:43.467092729 -0500
+@@ -0,0 +1,90 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.
 +
 +#include "chrome/browser/extensions/api/tld/tld_api.h"
 +
-+#include "base/time/time.h"
 +#include "base/values.h"
 +#include "chrome/browser/extensions/extension_service.h"
-+#include "chrome/common/extensions/extension.h"
++#include "extensions/common/extension.h"
 +#include "chrome/common/extensions/extension_constants.h"
-+#include "url/gurl.h"
-+#include "url/url_parse.h"
-+#include "url/url_util.h"
 +#include "net/base/registry_controlled_domains/registry_controlled_domain.h"
 +
 +namespace {
@@ -42,8 +38,10 @@ Index: beta.trusty/src/chrome/browser/extensions/api/tld/tld_api.cc
 +    return false;
 +  }
 +
++  using namespace net::registry_controlled_domains;
++
 +  std::string tld =
-+      net::registry_controlled_domains::GetDomainAndRegistry(url, net::registry_controlled_domains::INCLUDE_PRIVATE_REGISTRIES);
++    GetDomainAndRegistry(url, INCLUDE_PRIVATE_REGISTRIES);
 +
 +  SetResult(Value::CreateStringValue(tld));
 +
@@ -68,14 +66,18 @@ Index: beta.trusty/src/chrome/browser/extensions/api/tld/tld_api.cc
 +
 +  std::string suffix;
 +
++  using namespace net::registry_controlled_domains;
++
 +  size_t reg_len =
-+      net::registry_controlled_domains::GetRegistryLength(url, net::registry_controlled_domains::INCLUDE_UNKNOWN_REGISTRIES, net::registry_controlled_domains::INCLUDE_PRIVATE_REGISTRIES);
++    GetRegistryLength(url,
++		      EXCLUDE_UNKNOWN_REGISTRIES,
++		      INCLUDE_PRIVATE_REGISTRIES);
 +
 +  if (std::string::npos == reg_len || 0 == reg_len)
 +    return false;
 +
 +  std::string tld =
-+      net::registry_controlled_domains::GetDomainAndRegistry(url, net::registry_controlled_domains::INCLUDE_PRIVATE_REGISTRIES);
++      GetDomainAndRegistry(url, INCLUDE_PRIVATE_REGISTRIES);
 +
 +  if (!tld.empty () && tld.size() > reg_len)
 +    suffix = tld.substr(tld.size() - reg_len - 1, reg_len);
@@ -90,10 +92,11 @@ Index: beta.trusty/src/chrome/browser/extensions/api/tld/tld_api.cc
 +  return true;
 +}
 +
-Index: beta.trusty/src/chrome/browser/extensions/api/tld/tld_api.h
++
+Index: dev.trusty/src/chrome/browser/extensions/api/tld/tld_api.h
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ beta.trusty/src/chrome/browser/extensions/api/tld/tld_api.h	2013-11-13 07:23:34.129321996 -0500
++++ dev.trusty/src/chrome/browser/extensions/api/tld/tld_api.h	2014-01-16 19:26:43.471092882 -0500
 @@ -0,0 +1,28 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -103,11 +106,11 @@ Index: beta.trusty/src/chrome/browser/extensions/api/tld/tld_api.h
 +#define CHROME_BROWSER_EXTENSIONS_API_TLD_TLD_API_H_
 +#pragma once
 +
-+#include "chrome/browser/extensions/extension_function.h"
++#include "extensions/browser/extension_function.h"
 +
 +class TldGetBaseDomainFunction : public SyncExtensionFunction {
 + public:
-+  DECLARE_EXTENSION_FUNCTION("tld.getBaseDomain", TLD_GET_BASE_DOMAIN);
++  DECLARE_EXTENSION_FUNCTION("tld.getBaseDomain",TLD_GET_BASE_DOMAIN);
 + protected:
 +  virtual ~TldGetBaseDomainFunction() {}
 +  virtual bool RunImpl() OVERRIDE;
@@ -115,7 +118,7 @@ Index: beta.trusty/src/chrome/browser/extensions/api/tld/tld_api.h
 +
 +class TldGetPublicSuffix : public SyncExtensionFunction {
 + public:
-+  DECLARE_EXTENSION_FUNCTION("tld.getPublicSuffix", TLD_GET_PUBLIC_SUFFIX);
++  DECLARE_EXTENSION_FUNCTION("tld.getPublicSuffix",TLD_GET_PUBLIC_SUFFIX);
 + protected:
 +  virtual ~TldGetPublicSuffix() {}
 +  virtual bool RunImpl() OVERRIDE;
@@ -123,23 +126,87 @@ Index: beta.trusty/src/chrome/browser/extensions/api/tld/tld_api.h
 +
 +#endif  // CHROME_BROWSER_EXTENSIONS_API_TLD_TLD_API_H_
 +
-Index: beta.trusty/src/chrome/common/extensions/api/api.gyp
+Index: dev.trusty/src/chrome/browser/extensions/extension_function_histogram_value.h
 ===================================================================
---- beta.trusty.orig/src/chrome/common/extensions/api/api.gyp	2013-11-13 07:23:34.477316394 -0500
-+++ beta.trusty/src/chrome/common/extensions/api/api.gyp	2013-11-13 07:23:34.237320257 -0500
-@@ -113,6 +113,7 @@
-               'tabs.json',
-               'terminal_private.json',
-               'test.json',
-+              'tld.json',
-               'usb.idl',
-               'virtual_keyboard_private.json',
-               'web_navigation.json',
-Index: beta.trusty/src/chrome/common/extensions/api/tld.json
+--- dev.trusty.orig/src/chrome/browser/extensions/extension_function_histogram_value.h	2014-01-16 19:26:43.775104549 -0500
++++ dev.trusty/src/chrome/browser/extensions/extension_function_histogram_value.h	2014-01-16 19:26:43.535095339 -0500
+@@ -556,6 +556,8 @@
+   DIAGNOSTICS_SENDPACKET,
+   METRICSPRIVATE_GETFIELDTRIAL,
+   FILEBROWSERPRIVATE_ZOOM,
++  TLD_GET_BASE_DOMAIN,
++  TLD_GET_PUBLIC_SUFFIX,
+   WEBVIEW_GO,
+   WEBSTOREPRIVATE_ISININCOGNITOMODEFUNCTION,
+   FILEBROWSERPRIVATE_REQUESTACCESSTOKEN,
+Index: dev.trusty/src/chrome/browser/extensions/extension_function_registry.cc
+===================================================================
+--- dev.trusty.orig/src/chrome/browser/extensions/extension_function_registry.cc	2014-01-16 19:26:43.775104549 -0500
++++ dev.trusty/src/chrome/browser/extensions/extension_function_registry.cc	2014-01-16 19:26:43.555096106 -0500
+@@ -7,6 +7,7 @@
+ #include "chrome/browser/extensions/api/preference/chrome_direct_setting.h"
+ #include "chrome/browser/extensions/api/preference/preference_api.h"
+ #include "chrome/browser/extensions/api/runtime/runtime_api.h"
++#include "chrome/browser/extensions/api/tld/tld_api.h"
+ #include "chrome/browser/extensions/api/web_request/web_request_api.h"
+ #include "chrome/common/extensions/api/generated_api.h"
+ 
+@@ -49,6 +50,10 @@
+   RegisterFunction<extensions::RuntimeRequestUpdateCheckFunction>();
+   RegisterFunction<extensions::RuntimeRestartFunction>();
+ 
++  // TLD.
++  RegisterFunction<TldGetBaseDomainFunction>();
++  RegisterFunction<TldGetPublicSuffix>();
++
+   // Generated APIs
+   extensions::api::GeneratedFunctionRegistry::RegisterAll(this);
+ #endif  // defined(ENABLE_EXTENSIONS)
+Index: dev.trusty/src/chrome/chrome_browser_extensions.gypi
+===================================================================
+--- dev.trusty.orig/src/chrome/chrome_browser_extensions.gypi	2014-01-16 19:26:43.775104549 -0500
++++ dev.trusty/src/chrome/chrome_browser_extensions.gypi	2014-01-16 19:26:43.587097334 -0500
+@@ -596,6 +596,8 @@
+         'browser/extensions/api/tabs/windows_util.h',
+         'browser/extensions/api/test/test_api.cc',
+         'browser/extensions/api/test/test_api.h',
++        'browser/extensions/api/tld/tld_api.cc',
++        'browser/extensions/api/tld/tld_api.h',
+         'browser/extensions/api/top_sites/top_sites_api.cc',
+         'browser/extensions/api/top_sites/top_sites_api.h',
+         'browser/extensions/api/usb/usb_api.cc',
+Index: dev.trusty/src/chrome/common/extensions/api/_api_features.json
+===================================================================
+--- dev.trusty.orig/src/chrome/common/extensions/api/_api_features.json	2014-01-16 19:26:43.775104549 -0500
++++ dev.trusty/src/chrome/common/extensions/api/_api_features.json	2014-01-16 19:26:43.651099790 -0500
+@@ -661,6 +661,10 @@
+     "dependencies": ["permission:ttsEngine"],
+     "contexts": ["blessed_extension"]
+   },
++  "tld": {
++    "channel": "stable",
++    "contexts": ["blessed_extension"]
++  },
+   "types": {
+     "channel": "stable",
+     "extension_types": ["extension", "legacy_packaged_app", "platform_app"],
+Index: dev.trusty/src/extensions/common/extension_api.cc
+===================================================================
+--- dev.trusty.orig/src/extensions/common/extension_api.cc	2014-01-16 19:26:43.775104549 -0500
++++ dev.trusty/src/extensions/common/extension_api.cc	2014-01-16 19:26:43.715102247 -0500
+@@ -253,6 +253,7 @@
+       IDR_EXTENSION_API_JSON_STREAMSPRIVATE);
+   RegisterSchemaResource("ttsEngine", IDR_EXTENSION_API_JSON_TTSENGINE);
+   RegisterSchemaResource("tts", IDR_EXTENSION_API_JSON_TTS);
++  RegisterSchemaResource("tld", IDR_EXTENSION_API_JSON_TLD);
+   RegisterSchemaResource("types", IDR_EXTENSION_API_JSON_TYPES);
+   RegisterSchemaResource("types.private", IDR_EXTENSION_API_JSON_TYPES_PRIVATE);
+   RegisterSchemaResource("webRequestInternal",
+Index: dev.trusty/src/chrome/common/extensions/api/tld.json
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ beta.trusty/src/chrome/common/extensions/api/tld.json	2013-11-13 07:23:34.249320063 -0500
-@@ -0,0 +1,55 @@
++++ dev.trusty/src/chrome/common/extensions/api/tld.json	2014-01-16 19:26:43.727102707 -0500
+@@ -0,0 +1,57 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.
@@ -149,6 +216,9 @@ Index: beta.trusty/src/chrome/common/extensions/api/tld.json
 +    "namespace": "tld",
 +    "nodoc": "true",
 +    "description": "Use the <code>chrome.infobars</code> API to add a horizontal panel just above a tab's contents. See the screenshot below.",
++    "compiler_options": {
++      "implemented_in": "chrome/browser/extensions/api/tld/tld_api.h"
++    },
 +    "types": [],
 +    "functions": [
 +      {
@@ -194,118 +264,11 @@ Index: beta.trusty/src/chrome/common/extensions/api/tld.json
 +  }
 +
 +]
-+
-Index: beta.trusty/src/chrome/common/extensions/api/_api_features.json
+Index: dev.trusty/src/chrome/common/extensions_api_resources.grd
 ===================================================================
---- beta.trusty.orig/src/chrome/common/extensions/api/_api_features.json	2013-11-13 07:23:34.477316394 -0500
-+++ beta.trusty/src/chrome/common/extensions/api/_api_features.json	2013-11-13 07:23:34.273319677 -0500
-@@ -620,6 +620,10 @@
-     "extension_types": "all",
-     "contexts": ["blessed_extension", "unblessed_extension", "content_script"]
-   },
-+  "tld": {
-+    "dependencies": ["permission:tld"],
-+    "contexts": ["blessed_extension"]
-+  },
-   "topSites": {
-     "dependencies": ["permission:topSites"],
-     "contexts": ["blessed_extension"]
-Index: beta.trusty/src/chrome/common/extensions/api/_permission_features.json
-===================================================================
---- beta.trusty.orig/src/chrome/common/extensions/api/_permission_features.json	2013-11-13 07:23:34.477316394 -0500
-+++ beta.trusty/src/chrome/common/extensions/api/_permission_features.json	2013-11-13 07:23:34.297319291 -0500
-@@ -726,6 +726,10 @@
-       "okddffdblfhhnmhodogpojmfkjmhinfp"   // HTerm dev
-     ]
-   },
-+  "tld": {
-+    "channel": "stable",
-+    "extension_types": ["extension", "packaged_app", "platform_app"]
-+  },
-   "topSites": {
-     "channel": "stable",
-     "extension_types": ["extension", "legacy_packaged_app"]
-Index: beta.trusty/src/chrome/browser/extensions/extension_function_histogram_value.h
-===================================================================
---- beta.trusty.orig/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-11-13 07:23:34.477316394 -0500
-+++ beta.trusty/src/chrome/browser/extensions/extension_function_histogram_value.h	2013-11-13 07:23:34.365318197 -0500
-@@ -556,6 +556,8 @@
-   DIAGNOSTICS_SENDPACKET,
-   METRICSPRIVATE_GETFIELDTRIAL,
-   FILEBROWSERPRIVATE_ZOOM,
-+  TLD_GET_BASE_DOMAIN,
-+  TLD_GET_PUBLIC_SUFFIX,
-   WEBVIEW_GO,
-   WEBSTOREPRIVATE_ISININCOGNITOMODEFUNCTION,
-   FILEBROWSERPRIVATE_REQUESTACCESSTOKEN,
-Index: beta.trusty/src/chrome/browser/extensions/extension_function_registry.cc
-===================================================================
---- beta.trusty.orig/src/chrome/browser/extensions/extension_function_registry.cc	2013-11-13 07:23:34.477316394 -0500
-+++ beta.trusty/src/chrome/browser/extensions/extension_function_registry.cc	2013-11-13 07:23:34.389317810 -0500
-@@ -8,6 +8,7 @@
- #include "chrome/browser/extensions/api/preference/chrome_direct_setting.h"
- #include "chrome/browser/extensions/api/preference/preference_api.h"
- #include "chrome/browser/extensions/api/runtime/runtime_api.h"
-+#include "chrome/browser/extensions/api/tld/tld_api.h"
- #include "chrome/browser/extensions/api/web_request/web_request_api.h"
- #include "chrome/common/extensions/api/generated_api.h"
- 
-@@ -54,6 +55,10 @@
-   RegisterFunction<extensions::ExperimentalIdentityGetAuthTokenFunction>();
-   RegisterFunction<extensions::ExperimentalIdentityLaunchWebAuthFlowFunction>();
- 
-+  // TLD.
-+  RegisterFunction<TldGetBaseDomainFunction>();
-+  RegisterFunction<TldGetPublicSuffix>();
-+
-   // Generated APIs
-   extensions::api::GeneratedFunctionRegistry::RegisterAll(this);
- #endif  // defined(ENABLE_EXTENSIONS)
-Index: beta.trusty/src/chrome/chrome_browser_extensions.gypi
-===================================================================
---- beta.trusty.orig/src/chrome/chrome_browser_extensions.gypi	2013-11-13 07:23:34.477316394 -0500
-+++ beta.trusty/src/chrome/chrome_browser_extensions.gypi	2013-11-13 07:23:34.421317295 -0500
-@@ -578,6 +578,8 @@
-         'browser/extensions/api/tabs/windows_util.h',
-         'browser/extensions/api/test/test_api.cc',
-         'browser/extensions/api/test/test_api.h',
-+        'browser/extensions/api/tld/tld_api.cc',
-+        'browser/extensions/api/tld/tld_api.h',
-         'browser/extensions/api/top_sites/top_sites_api.cc',
-         'browser/extensions/api/top_sites/top_sites_api.h',
-         'browser/extensions/api/usb/usb_api.cc',
-Index: beta.trusty/src/chrome/common/extensions/api/_manifest_features.json
-===================================================================
---- beta.trusty.orig/src/chrome/common/extensions/api/_manifest_features.json	2013-11-13 07:23:34.477316394 -0500
-+++ beta.trusty/src/chrome/common/extensions/api/_manifest_features.json	2013-11-13 07:23:34.445316909 -0500
-@@ -379,6 +379,10 @@
-     "channel": "stable",
-     "extension_types": ["theme"]
-   },
-+  "tld": {
-+    "channel": "stable",
-+    "extension_types": ["blessed_extension"]
-+  },
-   "tts_engine": {
-     "channel": "stable",
-     "extension_types": ["extension", "legacy_packaged_app"]
-Index: beta.trusty/src/chrome/common/extensions/api/extension_api.cc
-===================================================================
---- beta.trusty.orig/src/chrome/common/extensions/api/extension_api.cc	2013-11-13 07:23:34.477316394 -0500
-+++ beta.trusty/src/chrome/common/extensions/api/extension_api.cc	2013-11-13 07:23:34.453316780 -0500
-@@ -255,6 +255,7 @@
-       IDR_EXTENSION_API_JSON_STREAMSPRIVATE);
-   RegisterSchemaResource("ttsEngine", IDR_EXTENSION_API_JSON_TTSENGINE);
-   RegisterSchemaResource("tts", IDR_EXTENSION_API_JSON_TTS);
-+  RegisterSchemaResource("tld", IDR_EXTENSION_API_JSON_TLD);
-   RegisterSchemaResource("types", IDR_EXTENSION_API_JSON_TYPES);
-   RegisterSchemaResource("types.private", IDR_EXTENSION_API_JSON_TYPES_PRIVATE);
-   RegisterSchemaResource("webRequestInternal",
-Index: beta.trusty/src/chrome/common/extensions_api_resources.grd
-===================================================================
---- beta.trusty.orig/src/chrome/common/extensions_api_resources.grd	2013-11-13 07:23:34.477316394 -0500
-+++ beta.trusty/src/chrome/common/extensions_api_resources.grd	2013-11-13 07:23:34.473316458 -0500
-@@ -28,6 +28,7 @@
+--- dev.trusty.orig/src/chrome/common/extensions_api_resources.grd	2014-01-16 19:26:43.775104549 -0500
++++ dev.trusty/src/chrome/common/extensions_api_resources.grd	2014-01-16 19:26:43.747103474 -0500
+@@ -27,6 +27,7 @@
        <include name="IDR_EXTENSION_API_JSON_RUNTIME" file="extensions\api\runtime.json" type="BINDATA" />
        <include name="IDR_EXTENSION_API_JSON_SCRIPTBADGE" file="extensions\api\script_badge.json" type="BINDATA" />
        <include name="IDR_EXTENSION_API_JSON_TTS" file="extensions\api\tts.json" type="BINDATA" />
