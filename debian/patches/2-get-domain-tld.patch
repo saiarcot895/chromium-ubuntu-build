@@ -43,7 +43,7 @@ Index: dev.trusty/src/chrome/browser/extensions/api/tld/tld_api.cc
 +  std::string tld =
 +    GetDomainAndRegistry(url, INCLUDE_PRIVATE_REGISTRIES);
 +
-+  SetResult(Value::CreateStringValue(tld));
++  SetResult(new base::StringValue(tld));
 +
 +  return true;
 +}
@@ -87,7 +87,7 @@ Index: dev.trusty/src/chrome/browser/extensions/api/tld/tld_api.cc
 +  // * http://co.uk/file.html
 +  // * http://<IP address>/file.html
 +  // which are described by GetRegistryLength to return 0 (i.e. a valid value).
-+  SetResult(Value::CreateStringValue(suffix));
++  SetResult(new base::StringValue(suffix));
 +
 +  return true;
 +}
