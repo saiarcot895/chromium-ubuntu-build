@@ -56,7 +56,7 @@ Index: dev.trusty/src/chrome/browser/extensions/api/module/module.cc
 +    is_chromeless = browser->is_chromeless_mode();
 +  }
 +
-+  SetResult(Value::CreateBooleanValue(is_chromeless));
++  SetResult(new base::FundamentalValue(is_chromeless));
 +
 +  return true;
 +}
