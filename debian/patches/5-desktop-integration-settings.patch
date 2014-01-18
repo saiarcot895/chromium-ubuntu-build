@@ -732,7 +732,7 @@ Index: dev.trusty/src/chrome/browser/ui/webui/options/desktop_integration_settin
 +/////////////////////////////////////////////////////////////////////////////
 +// OptionsPageUIHandler implementation:
 +void DesktopIntegrationSettingsHandler::GetLocalizedValues(
-+    DictionaryValue* localized_strings) {
++    base::DictionaryValue* localized_strings) {
 +  DCHECK(localized_strings);
 +
 +  static OptionsStringResource resources[] = {
@@ -873,7 +873,7 @@ Index: dev.trusty/src/chrome/browser/ui/webui/options/desktop_integration_settin
 +  if (all_domains) { 
 +    web_ui()->CallJavascriptFunction(
 +        "DesktopIntegrationOverlay.setIntegratedWebsites",
-+        StringValue(all_domains));
++        base::StringValue(all_domains));
 +  }
 +}
 +
