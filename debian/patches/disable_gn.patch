@@ -2,7 +2,7 @@ Index: dev.trusty/src/build/gyp_chromium
 ===================================================================
 --- dev.trusty.orig/src/build/gyp_chromium	2013-12-08 09:29:16.680693231 -0500
 +++ dev.trusty/src/build/gyp_chromium	2013-12-08 09:29:23.004915702 -0500
-@@ -370,8 +370,8 @@
+@@ -418,8 +418,8 @@
      args.append('--check')
  
    supplemental_includes = GetSupplementalFiles()
