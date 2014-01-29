@@ -1,3 +1,10 @@
+chromium-browser (34.0.1809.0-0ubuntu1~ppa2~trusty1) trusty; urgency=low
+
+  * patches/build-fix.patch: Move the depot_tools import lines to code
+    sections where this module is required to get around a build error
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 29 Jan 2014 12:46:02 -0500
+
 chromium-browser (34.0.1809.0-0ubuntu1~ppa1~trusty1) trusty; urgency=low
 
   * New upstream version 34.0.1809.0

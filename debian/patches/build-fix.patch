@@ -1,0 +1,42 @@
+Index: dev.trusty/src/tools/gn/secondary/skia/BUILD.gn
+===================================================================
+--- dev.trusty.orig/src/tools/gn/secondary/skia/BUILD.gn	2014-01-29 12:11:56.058107428 -0500
++++ dev.trusty/src/tools/gn/secondary/skia/BUILD.gn	2014-01-29 12:11:56.038106734 -0500
+@@ -1232,7 +1232,7 @@
+     }
+ 
+     if (skia_support_pdf) {
+-      deps += "//third_party/sfntly"
++      deps += [ "//third_party/sfntly" ]
+     }
+   }
+ }
+Index: dev.trusty/src/build/gyp_chromium
+===================================================================
+--- dev.trusty.orig/src/build/gyp_chromium	2014-01-29 08:38:39.047654491 -0500
++++ dev.trusty/src/build/gyp_chromium	2014-01-29 12:12:28.587235507 -0500
+@@ -38,8 +38,6 @@
+ sys.path.insert(1, os.path.join(chrome_src, 'third_party', 'WebKit',
+     'Source', 'build', 'scripts'))
+ 
+-import find_depot_tools
+-
+ # On Windows, Psyco shortens warm runs of build/gyp_chromium by about
+ # 20 seconds on a z600 machine with 12 GB of RAM, from 90 down to 70
+ # seconds.  Conversely, memory usage of build/gyp_chromium with Psyco
+@@ -332,6 +330,7 @@
+   # TODO(bradnelson): take this out once this issue is fixed:
+   #    http://code.google.com/p/gyp/issues/detail?id=177
+   if sys.platform == 'cygwin':
++    import find_depot_tools
+     depot_tools_path = find_depot_tools.add_depot_tools_to_path()
+     python_dir = sorted(glob.glob(os.path.join(depot_tools_path,
+                                                'python2*_bin')))[-1]
+@@ -394,6 +393,7 @@
+   # by depot_tools, then use it.
+   if (sys.platform in ('win32', 'cygwin') and
+       os.environ.get('GYP_GENERATORS') == 'ninja'):
++    import find_depot_tools
+     depot_tools_path = find_depot_tools.add_depot_tools_to_path()
+     toolchain = os.path.normpath(os.path.join(
+         depot_tools_path, 'win_toolchain', 'vs2013_files'))
