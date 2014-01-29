@@ -4,8 +4,8 @@ Author: William Hua <attente@canonical.com>
 
 Index: dev.trusty/src/chrome/browser/ui/gtk/browser_window_gtk.cc
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2014-01-21 21:21:01.331265747 -0500
-+++ dev.trusty/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2014-01-21 21:21:01.263263235 -0500
+--- dev.trusty.orig/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2014-01-29 08:35:48.373482587 -0500
++++ dev.trusty/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2014-01-29 08:35:48.317480771 -0500
 @@ -1604,7 +1604,9 @@
    // GtkMenuBar it sees into the global menu bar. (It doesn't seem to check the
    // visibility of the GtkMenuBar, so we can just permanently hide it.)
@@ -19,8 +19,8 @@ Index: dev.trusty/src/chrome/browser/ui/gtk/browser_window_gtk.cc
    window_container_ = gtk_alignment_new(0.0, 0.0, 1.0, 1.0);
 Index: dev.trusty/src/chrome/browser/ui/gtk/global_menu_bar.cc
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/ui/gtk/global_menu_bar.cc	2014-01-21 21:21:01.331265747 -0500
-+++ dev.trusty/src/chrome/browser/ui/gtk/global_menu_bar.cc	2014-01-21 21:21:01.307264860 -0500
+--- dev.trusty.orig/src/chrome/browser/ui/gtk/global_menu_bar.cc	2014-01-29 08:35:48.373482587 -0500
++++ dev.trusty/src/chrome/browser/ui/gtk/global_menu_bar.cc	2014-01-29 08:35:48.349481809 -0500
 @@ -158,7 +158,7 @@
    // instead remain in our widget hierarchy simply to be noticed by third party
    // components.

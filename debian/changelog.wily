@@ -1,3 +1,13 @@
+chromium-browser (34.0.1809.0-0ubuntu1~ppa1~trusty1) trusty; urgency=low
+
+  * New upstream version 34.0.1809.0
+  * Aura has been enabled by default
+  * patches/build-fix.patch: Add temporary patch to get around gn build
+    error; has been fixed upstream
+  * Refreshed patches
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 29 Jan 2014 11:32:36 -0500
+
 chromium-browser (34.0.1797.2-0ubuntu1~ppa1~trusty1) trusty; urgency=low
 
   * New upstream version 34.0.1797.2
