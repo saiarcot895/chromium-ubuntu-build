@@ -1,7 +1,7 @@
 Index: dev.trusty/src/chrome/browser/extensions/api/tld/tld_api.cc
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.trusty/src/chrome/browser/extensions/api/tld/tld_api.cc	2014-01-29 08:35:55.209704233 -0500
++++ dev.trusty/src/chrome/browser/extensions/api/tld/tld_api.cc	2014-02-05 23:42:11.665519686 -0500
 @@ -0,0 +1,90 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -96,7 +96,7 @@ Index: dev.trusty/src/chrome/browser/extensions/api/tld/tld_api.cc
 Index: dev.trusty/src/chrome/browser/extensions/api/tld/tld_api.h
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.trusty/src/chrome/browser/extensions/api/tld/tld_api.h	2014-01-29 08:35:55.209704233 -0500
++++ dev.trusty/src/chrome/browser/extensions/api/tld/tld_api.h	2014-02-05 23:42:11.665519686 -0500
 @@ -0,0 +1,28 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -128,8 +128,8 @@ Index: dev.trusty/src/chrome/browser/extensions/api/tld/tld_api.h
 +
 Index: dev.trusty/src/chrome/browser/extensions/extension_function_histogram_value.h
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/extensions/extension_function_histogram_value.h	2014-01-29 08:35:55.377709682 -0500
-+++ dev.trusty/src/chrome/browser/extensions/extension_function_histogram_value.h	2014-01-29 08:35:55.257705791 -0500
+--- dev.trusty.orig/src/chrome/browser/extensions/extension_function_histogram_value.h	2014-02-05 23:42:11.933529793 -0500
++++ dev.trusty/src/chrome/browser/extensions/extension_function_histogram_value.h	2014-02-05 23:42:11.701521044 -0500
 @@ -556,6 +556,8 @@
    DIAGNOSTICS_SENDPACKET,
    METRICSPRIVATE_GETFIELDTRIAL,
@@ -141,8 +141,8 @@ Index: dev.trusty/src/chrome/browser/extensions/extension_function_histogram_val
    FILEBROWSERPRIVATE_REQUESTACCESSTOKEN,
 Index: dev.trusty/src/chrome/browser/extensions/extension_function_registry.cc
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/extensions/extension_function_registry.cc	2014-01-29 08:35:55.377709682 -0500
-+++ dev.trusty/src/chrome/browser/extensions/extension_function_registry.cc	2014-01-29 08:35:55.285706699 -0500
+--- dev.trusty.orig/src/chrome/browser/extensions/extension_function_registry.cc	2014-02-05 23:42:11.933529793 -0500
++++ dev.trusty/src/chrome/browser/extensions/extension_function_registry.cc	2014-02-05 23:42:11.721521798 -0500
 @@ -7,6 +7,7 @@
  #include "chrome/browser/extensions/api/preference/chrome_direct_setting.h"
  #include "chrome/browser/extensions/api/preference/preference_api.h"
@@ -164,9 +164,9 @@ Index: dev.trusty/src/chrome/browser/extensions/extension_function_registry.cc
  #endif  // defined(ENABLE_EXTENSIONS)
 Index: dev.trusty/src/chrome/chrome_browser_extensions.gypi
 ===================================================================
---- dev.trusty.orig/src/chrome/chrome_browser_extensions.gypi	2014-01-29 08:35:55.377709682 -0500
-+++ dev.trusty/src/chrome/chrome_browser_extensions.gypi	2014-01-29 08:35:55.297707087 -0500
-@@ -596,6 +596,8 @@
+--- dev.trusty.orig/src/chrome/chrome_browser_extensions.gypi	2014-02-05 23:42:11.933529793 -0500
++++ dev.trusty/src/chrome/chrome_browser_extensions.gypi	2014-02-05 23:42:11.761523307 -0500
+@@ -603,6 +603,8 @@
          'browser/extensions/api/tabs/windows_util.h',
          'browser/extensions/api/test/test_api.cc',
          'browser/extensions/api/test/test_api.h',
@@ -177,9 +177,9 @@ Index: dev.trusty/src/chrome/chrome_browser_extensions.gypi
          'browser/extensions/api/usb/usb_api.cc',
 Index: dev.trusty/src/chrome/common/extensions/api/_api_features.json
 ===================================================================
---- dev.trusty.orig/src/chrome/common/extensions/api/_api_features.json	2014-01-29 08:35:55.377709682 -0500
-+++ dev.trusty/src/chrome/common/extensions/api/_api_features.json	2014-01-29 08:35:55.305707348 -0500
-@@ -699,6 +699,10 @@
+--- dev.trusty.orig/src/chrome/common/extensions/api/_api_features.json	2014-02-05 23:42:11.933529793 -0500
++++ dev.trusty/src/chrome/common/extensions/api/_api_features.json	2014-02-05 23:42:11.857526927 -0500
+@@ -707,6 +707,10 @@
      "dependencies": ["permission:ttsEngine"],
      "contexts": ["blessed_extension"]
    },
@@ -192,8 +192,8 @@ Index: dev.trusty/src/chrome/common/extensions/api/_api_features.json
      "extension_types": ["extension", "legacy_packaged_app", "platform_app"],
 Index: dev.trusty/src/extensions/common/extension_api.cc
 ===================================================================
---- dev.trusty.orig/src/extensions/common/extension_api.cc	2014-01-29 08:35:55.377709682 -0500
-+++ dev.trusty/src/extensions/common/extension_api.cc	2014-01-29 08:35:55.361709163 -0500
+--- dev.trusty.orig/src/extensions/common/extension_api.cc	2014-02-05 23:42:11.933529793 -0500
++++ dev.trusty/src/extensions/common/extension_api.cc	2014-02-05 23:42:11.905528737 -0500
 @@ -253,6 +253,7 @@
        IDR_EXTENSION_API_JSON_STREAMSPRIVATE);
    RegisterSchemaResource("ttsEngine", IDR_EXTENSION_API_JSON_TTSENGINE);
@@ -205,7 +205,7 @@ Index: dev.trusty/src/extensions/common/extension_api.cc
 Index: dev.trusty/src/chrome/common/extensions/api/tld.json
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.trusty/src/chrome/common/extensions/api/tld.json	2014-01-29 08:35:55.361709163 -0500
++++ dev.trusty/src/chrome/common/extensions/api/tld.json	2014-02-05 23:42:11.905528737 -0500
 @@ -0,0 +1,57 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -266,8 +266,8 @@ Index: dev.trusty/src/chrome/common/extensions/api/tld.json
 +]
 Index: dev.trusty/src/chrome/common/extensions_api_resources.grd
 ===================================================================
---- dev.trusty.orig/src/chrome/common/extensions_api_resources.grd	2014-01-29 08:35:55.377709682 -0500
-+++ dev.trusty/src/chrome/common/extensions_api_resources.grd	2014-01-29 08:35:55.373709553 -0500
+--- dev.trusty.orig/src/chrome/common/extensions_api_resources.grd	2014-02-05 23:42:11.933529793 -0500
++++ dev.trusty/src/chrome/common/extensions_api_resources.grd	2014-02-05 23:42:11.929529642 -0500
 @@ -26,6 +26,7 @@
        <include name="IDR_EXTENSION_API_JSON_RUNTIME" file="extensions\api\runtime.json" type="BINDATA" />
        <include name="IDR_EXTENSION_API_JSON_SCRIPTBADGE" file="extensions\api\script_badge.json" type="BINDATA" />

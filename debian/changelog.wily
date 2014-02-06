@@ -1,3 +1,10 @@
+chromium-browser (34.0.1820.2-0ubuntu1~ppa1~trusty1) trusty; urgency=low
+
+  * New upstream version 34.0.1820.2
+  * Refreshed patches
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 05 Feb 2014 23:45:28 -0500
+
 chromium-browser (34.0.1809.0-0ubuntu1~ppa2~trusty1) trusty; urgency=low
 
   * patches/build-fix.patch: Move the depot_tools import lines to code

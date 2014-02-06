@@ -3,8 +3,8 @@ Author: Chad Miller <chad.miller@canonical.com>
 
 Index: dev.trusty/src/chrome/browser/search_engines/prepopulated_engines.json
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/search_engines/prepopulated_engines.json	2014-01-29 08:35:50.313545482 -0500
-+++ dev.trusty/src/chrome/browser/search_engines/prepopulated_engines.json	2014-01-29 08:35:50.301545091 -0500
+--- dev.trusty.orig/src/chrome/browser/search_engines/prepopulated_engines.json	2014-02-05 23:42:04.913265031 -0500
++++ dev.trusty/src/chrome/browser/search_engines/prepopulated_engines.json	2014-02-05 23:42:04.905264730 -0500
 @@ -486,9 +486,9 @@
        "name": "Google",
        "keyword": "google.com",
