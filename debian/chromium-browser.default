@@ -2,4 +2,4 @@
 # /usr/bin/chromium-browser
 
 # Options to pass to chromium-browser
-CHROMIUM_FLAGS="--use-system-title-bar"
+CHROMIUM_FLAGS=""

@@ -3,8 +3,8 @@ Description: Never default to using the custom title bar. Chromium should
 
 Index: dev.trusty/src/chrome/browser/ui/gtk/browser_window_gtk.cc
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2014-02-12 16:31:40.733934071 -0500
-+++ dev.trusty/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2014-02-12 16:31:40.713933253 -0500
+--- dev.trusty.orig/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2014-02-23 21:33:37.440893996 -0500
++++ dev.trusty/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2014-02-23 21:33:37.436893856 -0500
 @@ -2366,6 +2366,8 @@
    // WM, but at least some of the WMs in the latter group don't set it.
    // Instead, we default to using system decorations for all WMs and

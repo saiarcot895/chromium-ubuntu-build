@@ -1,7 +1,7 @@
 Index: dev.trusty/src/build/gyp_chromium
 ===================================================================
---- dev.trusty.orig/src/build/gyp_chromium	2014-02-12 16:52:26.789087369 -0500
-+++ dev.trusty/src/build/gyp_chromium	2014-02-12 16:52:26.785087268 -0500
+--- dev.trusty.orig/src/build/gyp_chromium	2014-02-23 21:47:45.178813386 -0500
++++ dev.trusty/src/build/gyp_chromium	2014-02-23 21:47:45.162812824 -0500
 @@ -39,8 +39,6 @@
  sys.path.insert(1, os.path.join(chrome_src, 'third_party', 'WebKit',
      'Source', 'build', 'scripts'))
@@ -19,10 +19,10 @@ Index: dev.trusty/src/build/gyp_chromium
      depot_tools_path = find_depot_tools.add_depot_tools_to_path()
      python_dir = sorted(glob.glob(os.path.join(depot_tools_path,
                                                 'python2*_bin')))[-1]
-@@ -439,6 +438,7 @@
+@@ -438,6 +437,7 @@
+   # depot_tools, then use it.
    vs2013_runtime_dll_dirs = None
-   if (sys.platform in ('win32', 'cygwin') and
-       os.environ.get('GYP_GENERATORS') == 'ninja'):
+   if sys.platform in ('win32', 'cygwin'):
 +    import find_depot_tools
      depot_tools_path = find_depot_tools.add_depot_tools_to_path()
      toolchain = os.path.normpath(os.path.join(
