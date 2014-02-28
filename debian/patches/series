@@ -1,5 +1,5 @@
 menu-bar-visible.patch
-title-bar-default-system.patch
+#title-bar-default-system.patch
 third-party-cookies-off-by-default.patch
 format-flag.patch
 search-credit.patch
@@ -19,4 +19,3 @@ additional-search-engines.patch
 6-passwordless-install-support.patch
 7-npapi-permission-not-defaults-to-unauthorized.patch
 ###: end lp:unity-chromium-extension
-build-fix.patch

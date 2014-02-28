@@ -2,8 +2,8 @@ Bug-Chromium: https://code.google.com/p/chromium/issues/detail?id=159349
                                                                        
 Index: dev.trusty/src/third_party/ffmpeg/ffmpeg.gyp
 ===================================================================
---- dev.trusty.orig/src/third_party/ffmpeg/ffmpeg.gyp	2014-02-23 21:33:43.601111721 -0500
-+++ dev.trusty/src/third_party/ffmpeg/ffmpeg.gyp	2014-02-23 21:33:43.557110166 -0500
+--- dev.trusty.orig/src/third_party/ffmpeg/ffmpeg.gyp	2014-02-28 12:42:32.276925811 -0500
++++ dev.trusty/src/third_party/ffmpeg/ffmpeg.gyp	2014-02-28 12:42:32.232923955 -0500
 @@ -140,6 +140,10 @@
              ],
              'yasm_output_path': '<(shared_generated_dir)/yasm'
@@ -35,8 +35,8 @@ Index: dev.trusty/src/third_party/ffmpeg/ffmpeg.gyp
              '<(platform_config_root)',
 Index: dev.trusty/src/third_party/icu/icu.gyp
 ===================================================================
---- dev.trusty.orig/src/third_party/icu/icu.gyp	2014-02-23 21:33:43.601111721 -0500
-+++ dev.trusty/src/third_party/icu/icu.gyp	2014-02-23 21:33:43.585111156 -0500
+--- dev.trusty.orig/src/third_party/icu/icu.gyp	2014-02-28 12:42:32.276925811 -0500
++++ dev.trusty/src/third_party/icu/icu.gyp	2014-02-28 12:42:32.268925473 -0500
 @@ -34,8 +34,11 @@
           target_arch=="mipsel")', {
          'target_conditions': [

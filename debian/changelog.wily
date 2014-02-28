@@ -1,3 +1,13 @@
+chromium-browser (35.0.1862.2-0ubuntu1~ppa1~trusty1) trusty; urgency=low
+
+  * New upstream version 35.0.1862.2
+  * Disabled title-bar-default-system.patch, since Chromium is now on
+    Aura
+  * Removed build-fix.patch, merged upstream
+  * Refreshed patches
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 28 Feb 2014 13:20:51 -0500
+
 chromium-browser (34.0.1847.3-0ubuntu1~ppa1~trusty1) trusty; urgency=low
 
   * New upstream version 34.0.1847.3
