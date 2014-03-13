@@ -1,7 +1,7 @@
 Index: dev.trusty/src/chrome/browser/browser_resources.grd
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/browser_resources.grd	2014-03-05 08:20:31.185821406 -0500
-+++ dev.trusty/src/chrome/browser/browser_resources.grd	2014-03-05 08:20:31.145819895 -0500
+--- dev.trusty.orig/src/chrome/browser/browser_resources.grd	2014-03-13 17:07:48.405251885 -0400
++++ dev.trusty/src/chrome/browser/browser_resources.grd	2014-03-13 17:07:48.325249036 -0400
 @@ -230,6 +230,7 @@
        </if>
        <if expr="desktop_linux">
@@ -12,8 +12,8 @@ Index: dev.trusty/src/chrome/browser/browser_resources.grd
          <include name="IDR_POLICY_CSS" file="resources\policy_android.css" type="BINDATA"/>
 Index: dev.trusty/src/chrome/browser/plugins/plugin_finder.cc
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/plugins/plugin_finder.cc	2014-03-05 08:20:31.185821406 -0500
-+++ dev.trusty/src/chrome/browser/plugins/plugin_finder.cc	2014-03-05 08:20:31.173820953 -0500
+--- dev.trusty.orig/src/chrome/browser/plugins/plugin_finder.cc	2014-03-13 17:07:48.405251885 -0400
++++ dev.trusty/src/chrome/browser/plugins/plugin_finder.cc	2014-03-13 17:07:48.369250603 -0400
 @@ -128,6 +128,29 @@
    return plugin;
  }
@@ -117,8 +117,8 @@ Index: dev.trusty/src/chrome/browser/plugins/plugin_finder.cc
  
 Index: dev.trusty/src/chrome/browser/plugins/plugin_finder.h
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/plugins/plugin_finder.h	2014-03-05 08:20:31.185821406 -0500
-+++ dev.trusty/src/chrome/browser/plugins/plugin_finder.h	2014-03-05 08:20:31.177821104 -0500
+--- dev.trusty.orig/src/chrome/browser/plugins/plugin_finder.h	2014-03-13 17:07:48.405251885 -0400
++++ dev.trusty/src/chrome/browser/plugins/plugin_finder.h	2014-03-13 17:07:48.381251030 -0400
 @@ -80,6 +80,15 @@
    // Returns NULL if the plug-in list couldn't be parsed.
    static base::DictionaryValue* LoadBuiltInPluginList();
@@ -138,7 +138,7 @@ Index: dev.trusty/src/chrome/browser/plugins/plugin_finder.h
 Index: dev.trusty/src/chrome/browser/resources/plugin_metadata/plugins_ubuntu_linux.json
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.trusty/src/chrome/browser/resources/plugin_metadata/plugins_ubuntu_linux.json	2014-03-05 08:20:31.177821104 -0500
++++ dev.trusty/src/chrome/browser/resources/plugin_metadata/plugins_ubuntu_linux.json	2014-03-13 17:07:48.397251600 -0400
 @@ -0,0 +1,18 @@
 +{
 +  "libunity_npapi_plugin.so": {

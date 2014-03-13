@@ -1,3 +1,11 @@
+chromium-browser (35.0.1883.0-0ubuntu1~ppa1~trusty1) trusty; urgency=low
+
+  * New upstream version 35.0.1883.0
+  * Gn has been disabled
+  * Refreshed patches
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 13 Mar 2014 17:19:33 -0400
+
 chromium-browser (35.0.1870.2-0ubuntu1~ppa1~trusty1) trusty; urgency=low
 
   * New upstream version 35.0.1870.2
