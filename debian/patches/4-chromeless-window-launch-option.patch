@@ -1,7 +1,7 @@
 Index: dev.trusty/src/chrome/browser/extensions/api/module/module.cc
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/extensions/api/module/module.cc	2014-03-13 17:07:44.101098634 -0400
-+++ dev.trusty/src/chrome/browser/extensions/api/module/module.cc	2014-03-13 17:07:43.973094076 -0400
+--- dev.trusty.orig/src/chrome/browser/extensions/api/module/module.cc	2014-03-19 14:33:33.504008265 -0500
++++ dev.trusty/src/chrome/browser/extensions/api/module/module.cc	2014-03-19 14:33:33.308000873 -0500
 @@ -7,13 +7,23 @@
  #include <string>
  
@@ -65,8 +65,8 @@ Index: dev.trusty/src/chrome/browser/extensions/api/module/module.cc
  }  // namespace extensions
 Index: dev.trusty/src/chrome/browser/extensions/api/module/module.h
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/extensions/api/module/module.h	2014-03-13 17:07:44.101098634 -0400
-+++ dev.trusty/src/chrome/browser/extensions/api/module/module.h	2014-03-13 17:07:43.981094361 -0400
+--- dev.trusty.orig/src/chrome/browser/extensions/api/module/module.h	2014-03-19 14:33:33.504008265 -0500
++++ dev.trusty/src/chrome/browser/extensions/api/module/module.h	2014-03-19 14:33:33.308000873 -0500
 @@ -54,6 +54,18 @@
    virtual bool RunImpl() OVERRIDE;
  };
@@ -88,8 +88,8 @@ Index: dev.trusty/src/chrome/browser/extensions/api/module/module.h
  #endif  // CHROME_BROWSER_EXTENSIONS_API_MODULE_MODULE_H_
 Index: dev.trusty/src/extensions/browser/extension_function_histogram_value.h
 ===================================================================
---- dev.trusty.orig/src/extensions/browser/extension_function_histogram_value.h	2014-03-13 17:07:44.101098634 -0400
-+++ dev.trusty/src/extensions/browser/extension_function_histogram_value.h	2014-03-13 17:07:43.981094361 -0400
+--- dev.trusty.orig/src/extensions/browser/extension_function_histogram_value.h	2014-03-19 14:33:33.504008265 -0500
++++ dev.trusty/src/extensions/browser/extension_function_histogram_value.h	2014-03-19 14:33:33.308000873 -0500
 @@ -390,6 +390,7 @@
    SYSTEMINDICATOR_DISABLE,
    DELETED_SCRIPTBADGE_SETPOPUP,
@@ -100,8 +100,8 @@ Index: dev.trusty/src/extensions/browser/extension_function_histogram_value.h
    TABS_DETECTLANGUAGE,
 Index: dev.trusty/src/chrome/browser/sessions/session_service.cc
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/sessions/session_service.cc	2014-03-13 17:07:44.101098634 -0400
-+++ dev.trusty/src/chrome/browser/sessions/session_service.cc	2014-03-13 17:07:43.993094788 -0400
+--- dev.trusty.orig/src/chrome/browser/sessions/session_service.cc	2014-03-19 14:33:33.504008265 -0500
++++ dev.trusty/src/chrome/browser/sessions/session_service.cc	2014-03-19 14:33:33.324001476 -0500
 @@ -1552,7 +1552,8 @@
  bool SessionService::ShouldTrackBrowser(Browser* browser) const {
    AppType app_type = browser->is_app() ? TYPE_APP : TYPE_NORMAL;
@@ -114,8 +114,8 @@ Index: dev.trusty/src/chrome/browser/sessions/session_service.cc
  bool SessionService::should_track_changes_for_browser_type(Browser::Type type,
 Index: dev.trusty/src/chrome/browser/ui/browser.cc
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/ui/browser.cc	2014-03-13 17:07:44.101098634 -0400
-+++ dev.trusty/src/chrome/browser/ui/browser.cc	2014-03-13 17:07:44.009095358 -0400
+--- dev.trusty.orig/src/chrome/browser/ui/browser.cc	2014-03-19 14:33:33.504008265 -0500
++++ dev.trusty/src/chrome/browser/ui/browser.cc	2014-03-19 14:33:33.344002231 -0500
 @@ -252,6 +252,7 @@
      : type(TYPE_TABBED),
        profile(profile),
@@ -187,7 +187,7 @@ Index: dev.trusty/src/chrome/browser/ui/browser.cc
      tab_restore_service->BrowserClosing(tab_restore_service_delegate());
  
    // TODO(sky): convert session/tab restore to use notification.
-@@ -2194,17 +2212,17 @@
+@@ -2185,17 +2203,17 @@
  
    unsigned int features = FEATURE_INFOBAR | FEATURE_DOWNLOADSHELF;
  
@@ -208,7 +208,7 @@ Index: dev.trusty/src/chrome/browser/ui/browser.cc
        features |= FEATURE_TOOLBAR;
  
      ExtensionService* service =
-@@ -2218,7 +2236,8 @@
+@@ -2209,7 +2227,8 @@
                        app_name() != DevToolsWindow::kDevToolsApp &&
                        (!extension || !extension->is_legacy_packaged_app()) &&
                        CommandLine::ForCurrentProcess()->HasSwitch(
@@ -220,8 +220,8 @@ Index: dev.trusty/src/chrome/browser/ui/browser.cc
    }
 Index: dev.trusty/src/chrome/browser/ui/browser.h
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/ui/browser.h	2014-03-13 17:07:44.101098634 -0400
-+++ dev.trusty/src/chrome/browser/ui/browser.h	2014-03-13 17:07:44.025095928 -0400
+--- dev.trusty.orig/src/chrome/browser/ui/browser.h	2014-03-19 14:33:33.504008265 -0500
++++ dev.trusty/src/chrome/browser/ui/browser.h	2014-03-19 14:33:33.368003136 -0500
 @@ -162,6 +162,11 @@
                                       Profile* profile,
                                       chrome::HostDesktopType host_desktop_type);
@@ -252,7 +252,7 @@ Index: dev.trusty/src/chrome/browser/ui/browser.h
    bool is_app() const;
    bool is_devtools() const;
  
-@@ -824,6 +833,8 @@
+@@ -823,6 +832,8 @@
    // 2) we launch an undocked devtool window.
    std::string app_name_;
  
@@ -263,8 +263,8 @@ Index: dev.trusty/src/chrome/browser/ui/browser.h
  
 Index: dev.trusty/src/chrome/browser/ui/browser_command_controller.cc
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/ui/browser_command_controller.cc	2014-03-13 17:07:44.101098634 -0400
-+++ dev.trusty/src/chrome/browser/ui/browser_command_controller.cc	2014-03-13 17:07:44.033096212 -0400
+--- dev.trusty.orig/src/chrome/browser/ui/browser_command_controller.cc	2014-03-19 14:33:33.504008265 -0500
++++ dev.trusty/src/chrome/browser/ui/browser_command_controller.cc	2014-03-19 14:33:33.400004343 -0500
 @@ -862,7 +862,8 @@
  
  bool BrowserCommandController::IsShowingMainUI() {
@@ -485,8 +485,8 @@ Index: dev.trusty/src/chrome/browser/ui/browser_command_controller.cc
  void BrowserCommandController::UpdateReloadStopState(bool is_loading,
 Index: dev.trusty/src/chrome/browser/ui/browser_command_controller.h
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/ui/browser_command_controller.h	2014-03-13 17:07:44.101098634 -0400
-+++ dev.trusty/src/chrome/browser/ui/browser_command_controller.h	2014-03-13 17:07:44.045096640 -0400
+--- dev.trusty.orig/src/chrome/browser/ui/browser_command_controller.h	2014-03-19 14:33:33.504008265 -0500
++++ dev.trusty/src/chrome/browser/ui/browser_command_controller.h	2014-03-19 14:33:33.412004796 -0500
 @@ -68,13 +68,15 @@
    // outside code.
  
@@ -507,8 +507,8 @@ Index: dev.trusty/src/chrome/browser/ui/browser_command_controller.h
    class InterstitialObserver;
 Index: dev.trusty/src/chrome/browser/ui/browser_commands.cc
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/ui/browser_commands.cc	2014-03-13 17:07:44.101098634 -0400
-+++ dev.trusty/src/chrome/browser/ui/browser_commands.cc	2014-03-13 17:07:44.049096782 -0400
+--- dev.trusty.orig/src/chrome/browser/ui/browser_commands.cc	2014-03-19 14:33:33.504008265 -0500
++++ dev.trusty/src/chrome/browser/ui/browser_commands.cc	2014-03-19 14:33:33.424005248 -0500
 @@ -553,6 +553,9 @@
  }
  
@@ -530,8 +530,8 @@ Index: dev.trusty/src/chrome/browser/ui/browser_commands.cc
  }
 Index: dev.trusty/src/chrome/browser/ui/browser_finder.cc
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/ui/browser_finder.cc	2014-03-13 17:07:44.101098634 -0400
-+++ dev.trusty/src/chrome/browser/ui/browser_finder.cc	2014-03-13 17:07:44.049096782 -0400
+--- dev.trusty.orig/src/chrome/browser/ui/browser_finder.cc	2014-03-19 14:33:33.504008265 -0500
++++ dev.trusty/src/chrome/browser/ui/browser_finder.cc	2014-03-19 14:33:33.432005549 -0500
 @@ -24,6 +24,7 @@
  const int kMatchOriginalProfile         = 1 << 0;
  const int kMatchCanSupportWindowFeature = 1 << 1;
@@ -564,8 +564,8 @@ Index: dev.trusty/src/chrome/browser/ui/browser_finder.cc
    if (match_original_profiles)
 Index: dev.trusty/src/chrome/browser/ui/gtk/browser_window_gtk.cc
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2014-03-13 17:07:44.101098634 -0400
-+++ dev.trusty/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2014-03-13 17:07:44.053096925 -0400
+--- dev.trusty.orig/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2014-03-19 14:33:33.504008265 -0500
++++ dev.trusty/src/chrome/browser/ui/gtk/browser_window_gtk.cc	2014-03-19 14:33:33.432005549 -0500
 @@ -304,6 +304,13 @@
      gtk_window_util::SetWindowCustomClass(window_,
          std::string(gdk_get_program_class()) + " (" + user_data_dir + ")");
@@ -676,8 +676,8 @@ Index: dev.trusty/src/chrome/browser/ui/gtk/browser_window_gtk.cc
  void BrowserWindowGtk::PlaceBookmarkBar(bool is_floating) {
 Index: dev.trusty/src/chrome/browser/ui/gtk/browser_window_gtk.h
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/ui/gtk/browser_window_gtk.h	2014-03-13 17:07:44.101098634 -0400
-+++ dev.trusty/src/chrome/browser/ui/gtk/browser_window_gtk.h	2014-03-13 17:07:44.053096925 -0400
+--- dev.trusty.orig/src/chrome/browser/ui/gtk/browser_window_gtk.h	2014-03-19 14:33:33.504008265 -0500
++++ dev.trusty/src/chrome/browser/ui/gtk/browser_window_gtk.h	2014-03-19 14:33:33.444006002 -0500
 @@ -203,6 +203,13 @@
    virtual void TabDetachedAt(content::WebContents* contents,
                               int index) OVERRIDE;
@@ -704,8 +704,8 @@ Index: dev.trusty/src/chrome/browser/ui/gtk/browser_window_gtk.h
    bool UsingCustomPopupFrame() const;
 Index: dev.trusty/src/chrome/browser/ui/gtk/global_menu_bar.cc
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/ui/gtk/global_menu_bar.cc	2014-03-13 17:07:44.101098634 -0400
-+++ dev.trusty/src/chrome/browser/ui/gtk/global_menu_bar.cc	2014-03-13 17:07:44.065097352 -0400
+--- dev.trusty.orig/src/chrome/browser/ui/gtk/global_menu_bar.cc	2014-03-19 14:33:33.504008265 -0500
++++ dev.trusty/src/chrome/browser/ui/gtk/global_menu_bar.cc	2014-03-19 14:33:33.460006606 -0500
 @@ -25,35 +25,43 @@
  #include "ui/base/accelerators/platform_accelerator_gtk.h"
  #include "ui/base/l10n/l10n_util.h"
@@ -897,8 +897,8 @@ Index: dev.trusty/src/chrome/browser/ui/gtk/global_menu_bar.cc
          id_to_menu_item, menu);
 Index: dev.trusty/src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc	2014-03-13 17:07:44.101098634 -0400
-+++ dev.trusty/src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc	2014-03-13 17:07:44.069097495 -0400
+--- dev.trusty.orig/src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc	2014-03-19 14:33:33.504008265 -0500
++++ dev.trusty/src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc	2014-03-19 14:33:33.472007058 -0500
 @@ -784,9 +784,12 @@
    g_signal_connect(tabstrip_.get(), "drag-data-received",
                     G_CALLBACK(OnDragDataReceivedThunk), this);
@@ -963,8 +963,8 @@ Index: dev.trusty/src/chrome/browser/ui/gtk/tabs/tab_strip_gtk.cc
    SkBitmap background = theme_service_->GetImageNamed(
 Index: dev.trusty/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc	2014-03-13 17:07:44.101098634 -0400
-+++ dev.trusty/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc	2014-03-13 17:07:44.069097495 -0400
+--- dev.trusty.orig/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc	2014-03-19 14:33:33.504008265 -0500
++++ dev.trusty/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc	2014-03-19 14:33:33.484007511 -0500
 @@ -407,6 +407,12 @@
    } else {
      RecordLaunchModeHistogram(urls_to_open.empty() ?
@@ -1030,8 +1030,8 @@ Index: dev.trusty/src/chrome/browser/ui/startup/startup_browser_creator_impl.cc
  
 Index: dev.trusty/src/chrome/browser/ui/startup/startup_browser_creator_impl.h
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/ui/startup/startup_browser_creator_impl.h	2014-03-13 17:07:44.101098634 -0400
-+++ dev.trusty/src/chrome/browser/ui/startup/startup_browser_creator_impl.h	2014-03-13 17:07:44.069097495 -0400
+--- dev.trusty.orig/src/chrome/browser/ui/startup/startup_browser_creator_impl.h	2014-03-19 14:33:33.504008265 -0500
++++ dev.trusty/src/chrome/browser/ui/startup/startup_browser_creator_impl.h	2014-03-19 14:33:33.484007511 -0500
 @@ -83,6 +83,11 @@
    FRIEND_TEST_ALL_PREFIXES(BrowserTest, RestorePinnedTabs);
    FRIEND_TEST_ALL_PREFIXES(BrowserTest, AppIdSwitch);
@@ -1046,8 +1046,8 @@ Index: dev.trusty/src/chrome/browser/ui/startup/startup_browser_creator_impl.h
  
 Index: dev.trusty/src/chrome/common/chrome_switches.cc
 ===================================================================
---- dev.trusty.orig/src/chrome/common/chrome_switches.cc	2014-03-13 17:07:44.101098634 -0400
-+++ dev.trusty/src/chrome/common/chrome_switches.cc	2014-03-13 17:07:44.073097637 -0400
+--- dev.trusty.orig/src/chrome/common/chrome_switches.cc	2014-03-19 14:33:33.504008265 -0500
++++ dev.trusty/src/chrome/common/chrome_switches.cc	2014-03-19 14:33:33.488007661 -0500
 @@ -156,6 +156,9 @@
  const char kCheckCloudPrintConnectorPolicy[] =
      "check-cloud-print-connector-policy";
@@ -1060,8 +1060,8 @@ Index: dev.trusty/src/chrome/common/chrome_switches.cc
  
 Index: dev.trusty/src/chrome/common/chrome_switches.h
 ===================================================================
---- dev.trusty.orig/src/chrome/common/chrome_switches.h	2014-03-13 17:07:44.101098634 -0400
-+++ dev.trusty/src/chrome/common/chrome_switches.h	2014-03-13 17:07:44.073097637 -0400
+--- dev.trusty.orig/src/chrome/common/chrome_switches.h	2014-03-19 14:33:33.504008265 -0500
++++ dev.trusty/src/chrome/common/chrome_switches.h	2014-03-19 14:33:33.488007661 -0500
 @@ -57,6 +57,7 @@
  extern const char kCertificateTransparencyLog[];
  extern const char kCheckForUpdateIntervalSec[];
@@ -1069,11 +1069,11 @@ Index: dev.trusty/src/chrome/common/chrome_switches.h
 +extern const char kChromeless[];
  extern const char kCipherSuiteBlacklist[];
  extern const char kClearTokenService[];
- extern const char kCloudPrintDeleteFile[];
+ extern const char kCloudPrintFile[];
 Index: dev.trusty/src/chrome/common/extensions/api/extension.json
 ===================================================================
---- dev.trusty.orig/src/chrome/common/extensions/api/extension.json	2014-03-13 17:07:44.101098634 -0400
-+++ dev.trusty/src/chrome/common/extensions/api/extension.json	2014-03-13 17:07:44.073097637 -0400
+--- dev.trusty.orig/src/chrome/common/extensions/api/extension.json	2014-03-19 14:33:33.504008265 -0500
++++ dev.trusty/src/chrome/common/extensions/api/extension.json	2014-03-19 14:33:33.500008114 -0500
 @@ -138,6 +138,33 @@
          }
        },
