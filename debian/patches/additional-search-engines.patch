@@ -1,7 +1,7 @@
 Index: dev.trusty/src/chrome/browser/search_engines/prepopulated_engines.json
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/search_engines/prepopulated_engines.json	2014-03-19 14:33:30.887909608 -0500
-+++ dev.trusty/src/chrome/browser/search_engines/prepopulated_engines.json	2014-03-19 14:33:30.847908099 -0500
+--- dev.trusty.orig/src/chrome/browser/search_engines/prepopulated_engines.json	2014-03-26 20:03:44.698555698 -0400
++++ dev.trusty/src/chrome/browser/search_engines/prepopulated_engines.json	2014-03-26 20:03:44.522549164 -0400
 @@ -13,6 +13,7 @@
  //    40, 41, 42, 46, 47, 48, 49, 51, 52, 59, 71, 72, 82, 84, 86, 88, 89, 91+
  //
@@ -38,8 +38,8 @@ Index: dev.trusty/src/chrome/browser/search_engines/prepopulated_engines.json
        "keyword": "google.com",
 Index: dev.trusty/src/chrome/browser/search_engines/search_engine_type.h
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/search_engines/search_engine_type.h	2014-03-19 14:33:30.887909608 -0500
-+++ dev.trusty/src/chrome/browser/search_engines/search_engine_type.h	2014-03-19 14:33:30.859908552 -0500
+--- dev.trusty.orig/src/chrome/browser/search_engines/search_engine_type.h	2014-03-26 20:03:44.698555698 -0400
++++ dev.trusty/src/chrome/browser/search_engines/search_engine_type.h	2014-03-26 20:03:44.594551837 -0400
 @@ -22,6 +22,7 @@
    SEARCH_ENGINE_DAUM,
    SEARCH_ENGINE_DELFI,
@@ -50,8 +50,8 @@ Index: dev.trusty/src/chrome/browser/search_engines/search_engine_type.h
    SEARCH_ENGINE_GOOGLE,
 Index: dev.trusty/src/chrome/browser/search_engines/template_url_prepopulate_data.cc
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/search_engines/template_url_prepopulate_data.cc	2014-03-19 14:33:30.887909608 -0500
-+++ dev.trusty/src/chrome/browser/search_engines/template_url_prepopulate_data.cc	2014-03-19 14:33:30.871909004 -0500
+--- dev.trusty.orig/src/chrome/browser/search_engines/template_url_prepopulate_data.cc	2014-03-26 20:03:44.698555698 -0400
++++ dev.trusty/src/chrome/browser/search_engines/template_url_prepopulate_data.cc	2014-03-26 20:03:44.690555401 -0400
 @@ -52,7 +52,7 @@
  
  // Default (for countries with no better engine set)

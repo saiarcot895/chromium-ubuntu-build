@@ -3,8 +3,8 @@ Author: Chad Miller <chad.miller@canonical.com>
 
 Index: dev.trusty/src/content/common/user_agent.cc
 ===================================================================
---- dev.trusty.orig/src/content/common/user_agent.cc	2014-03-19 14:33:25.471705353 -0500
-+++ dev.trusty/src/content/common/user_agent.cc	2014-03-19 14:33:25.355700979 -0500
+--- dev.trusty.orig/src/content/common/user_agent.cc	2014-03-26 20:03:37.178276537 -0400
++++ dev.trusty/src/content/common/user_agent.cc	2014-03-26 20:03:37.142275201 -0400
 @@ -181,13 +181,21 @@
    // Derived from Safari's UA string.
    // This is done to expose our product name in a manner that is maximally
