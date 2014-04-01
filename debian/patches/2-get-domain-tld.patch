@@ -1,7 +1,7 @@
 Index: dev.trusty/src/chrome/browser/extensions/api/tld/tld_api.cc
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.trusty/src/chrome/browser/extensions/api/tld/tld_api.cc	2014-03-29 23:18:21.542751325 -0400
++++ dev.trusty/src/chrome/browser/extensions/api/tld/tld_api.cc	2014-04-01 08:26:29.179438696 -0400
 @@ -0,0 +1,90 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -96,7 +96,7 @@ Index: dev.trusty/src/chrome/browser/extensions/api/tld/tld_api.cc
 Index: dev.trusty/src/chrome/browser/extensions/api/tld/tld_api.h
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.trusty/src/chrome/browser/extensions/api/tld/tld_api.h	2014-03-29 23:18:21.542751325 -0400
++++ dev.trusty/src/chrome/browser/extensions/api/tld/tld_api.h	2014-04-01 08:26:29.179438696 -0400
 @@ -0,0 +1,28 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -128,8 +128,8 @@ Index: dev.trusty/src/chrome/browser/extensions/api/tld/tld_api.h
 +
 Index: dev.trusty/src/extensions/browser/extension_function_histogram_value.h
 ===================================================================
---- dev.trusty.orig/src/extensions/browser/extension_function_histogram_value.h	2014-03-29 23:18:21.982767281 -0400
-+++ dev.trusty/src/extensions/browser/extension_function_histogram_value.h	2014-03-29 23:18:21.666755822 -0400
+--- dev.trusty.orig/src/extensions/browser/extension_function_histogram_value.h	2014-04-01 08:26:29.219440128 -0400
++++ dev.trusty/src/extensions/browser/extension_function_histogram_value.h	2014-04-01 08:26:29.179438696 -0400
 @@ -555,6 +555,8 @@
    DIAGNOSTICS_SENDPACKET,
    METRICSPRIVATE_GETFIELDTRIAL,
@@ -141,19 +141,19 @@ Index: dev.trusty/src/extensions/browser/extension_function_histogram_value.h
    FILEBROWSERPRIVATE_REQUESTACCESSTOKEN,
 Index: dev.trusty/src/chrome/browser/extensions/chrome_extensions_browser_client.cc
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/extensions/chrome_extensions_browser_client.cc	2014-03-29 23:18:21.982767281 -0400
-+++ dev.trusty/src/chrome/browser/extensions/chrome_extensions_browser_client.cc	2014-03-29 23:18:21.730758142 -0400
-@@ -12,6 +12,7 @@
+--- dev.trusty.orig/src/chrome/browser/extensions/chrome_extensions_browser_client.cc	2014-04-01 08:26:29.219440128 -0400
++++ dev.trusty/src/chrome/browser/extensions/chrome_extensions_browser_client.cc	2014-04-01 08:26:29.183438839 -0400
+@@ -11,6 +11,7 @@
+ #include "chrome/browser/extensions/activity_log/activity_log.h"
  #include "chrome/browser/extensions/api/preference/chrome_direct_setting.h"
  #include "chrome/browser/extensions/api/preference/preference_api.h"
- #include "chrome/browser/extensions/api/runtime/runtime_api.h"
 +#include "chrome/browser/extensions/api/tld/tld_api.h"
  #include "chrome/browser/extensions/api/web_request/web_request_api.h"
  #include "chrome/browser/extensions/chrome_app_sorting.h"
  #include "chrome/browser/extensions/chrome_extension_host_delegate.h"
-@@ -236,6 +237,10 @@
-   registry->RegisterFunction<extensions::RuntimeRequestUpdateCheckFunction>();
-   registry->RegisterFunction<extensions::RuntimeRestartFunction>();
+@@ -228,6 +229,10 @@
+   registry->RegisterFunction<
+       extensions::chromedirectsetting::ClearDirectSettingFunction>();
  
 +  // TLD.
 +  registry->RegisterFunction<TldGetBaseDomainFunction>();
@@ -164,9 +164,9 @@ Index: dev.trusty/src/chrome/browser/extensions/chrome_extensions_browser_client
    extensions::api::GeneratedFunctionRegistry::RegisterAll(registry);
 Index: dev.trusty/src/chrome/chrome_browser_extensions.gypi
 ===================================================================
---- dev.trusty.orig/src/chrome/chrome_browser_extensions.gypi	2014-03-29 23:18:21.982767281 -0400
-+++ dev.trusty/src/chrome/chrome_browser_extensions.gypi	2014-03-29 23:18:21.758759158 -0400
-@@ -556,6 +556,8 @@
+--- dev.trusty.orig/src/chrome/chrome_browser_extensions.gypi	2014-04-01 08:26:29.219440128 -0400
++++ dev.trusty/src/chrome/chrome_browser_extensions.gypi	2014-04-01 08:26:29.183438839 -0400
+@@ -558,6 +558,8 @@
          'browser/extensions/api/tabs/windows_util.h',
          'browser/extensions/api/test/test_api.cc',
          'browser/extensions/api/test/test_api.h',
@@ -177,9 +177,9 @@ Index: dev.trusty/src/chrome/chrome_browser_extensions.gypi
          'browser/extensions/api/usb/usb_api.cc',
 Index: dev.trusty/src/chrome/common/extensions/api/_api_features.json
 ===================================================================
---- dev.trusty.orig/src/chrome/common/extensions/api/_api_features.json	2014-03-29 23:18:21.982767281 -0400
-+++ dev.trusty/src/chrome/common/extensions/api/_api_features.json	2014-03-29 23:18:21.854762639 -0400
-@@ -706,6 +706,10 @@
+--- dev.trusty.orig/src/chrome/common/extensions/api/_api_features.json	2014-04-01 08:26:29.219440128 -0400
++++ dev.trusty/src/chrome/common/extensions/api/_api_features.json	2014-04-01 08:26:29.183438839 -0400
+@@ -715,6 +715,10 @@
      "dependencies": ["permission:ttsEngine"],
      "contexts": ["blessed_extension"]
    },
@@ -192,9 +192,9 @@ Index: dev.trusty/src/chrome/common/extensions/api/_api_features.json
      "extension_types": ["extension", "legacy_packaged_app", "platform_app"],
 Index: dev.trusty/src/extensions/common/extension_api.cc
 ===================================================================
---- dev.trusty.orig/src/extensions/common/extension_api.cc	2014-03-29 23:18:21.982767281 -0400
-+++ dev.trusty/src/extensions/common/extension_api.cc	2014-03-29 23:18:21.942765830 -0400
-@@ -251,6 +251,7 @@
+--- dev.trusty.orig/src/extensions/common/extension_api.cc	2014-04-01 08:26:29.219440128 -0400
++++ dev.trusty/src/extensions/common/extension_api.cc	2014-04-01 08:26:29.187438982 -0400
+@@ -249,6 +249,7 @@
    RegisterSchemaResource("scriptBadge", IDR_EXTENSION_API_JSON_SCRIPTBADGE);
    RegisterSchemaResource("ttsEngine", IDR_EXTENSION_API_JSON_TTSENGINE);
    RegisterSchemaResource("tts", IDR_EXTENSION_API_JSON_TTS);
@@ -205,7 +205,7 @@ Index: dev.trusty/src/extensions/common/extension_api.cc
 Index: dev.trusty/src/chrome/common/extensions/api/tld.json
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.trusty/src/chrome/common/extensions/api/tld.json	2014-03-29 23:18:21.958766410 -0400
++++ dev.trusty/src/chrome/common/extensions/api/tld.json	2014-04-01 08:26:29.187438982 -0400
 @@ -0,0 +1,57 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -266,10 +266,10 @@ Index: dev.trusty/src/chrome/common/extensions/api/tld.json
 +]
 Index: dev.trusty/src/chrome/common/extensions_api_resources.grd
 ===================================================================
---- dev.trusty.orig/src/chrome/common/extensions_api_resources.grd	2014-03-29 23:18:21.982767281 -0400
-+++ dev.trusty/src/chrome/common/extensions_api_resources.grd	2014-03-29 23:18:21.978767135 -0400
-@@ -26,6 +26,7 @@
-       <include name="IDR_EXTENSION_API_JSON_RUNTIME" file="extensions\api\runtime.json" type="BINDATA" />
+--- dev.trusty.orig/src/chrome/common/extensions_api_resources.grd	2014-04-01 08:26:29.219440128 -0400
++++ dev.trusty/src/chrome/common/extensions_api_resources.grd	2014-04-01 08:26:29.187438982 -0400
+@@ -22,6 +22,7 @@
+       <include name="IDR_EXTENSION_API_JSON_PROXY" file="extensions\api\proxy.json" type="BINDATA" />
        <include name="IDR_EXTENSION_API_JSON_SCRIPTBADGE" file="extensions\api\script_badge.json" type="BINDATA" />
        <include name="IDR_EXTENSION_API_JSON_TTS" file="extensions\api\tts.json" type="BINDATA" />
 +      <include name="IDR_EXTENSION_API_JSON_TLD" file="extensions\api\tld.json" type="BINDATA" />

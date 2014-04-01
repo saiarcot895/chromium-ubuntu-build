@@ -30,9 +30,9 @@ Build-Depends: debhelper (>= 8.0.0),
 		libgconf2-dev,
 		libcap-dev,
 		libdrm-dev,
+		libharfbuzz-dev | libpango1.0-dev (<< 1.31.0),
+		libicu-dev | libpango1.0-dev (<< 1.31.0),
 		libpango1.0-dev,
-		libpango1.0-dev (<< 1.31.0) | libharfbuzz-dev,
-		libpango1.0-dev (<< 1.31.0) | libicu-dev,
 		chrpath
 Standards-Version: 3.9.3
 

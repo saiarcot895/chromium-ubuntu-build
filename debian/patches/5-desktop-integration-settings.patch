@@ -1,7 +1,7 @@
 Index: dev.trusty/src/chrome/app/generated_resources.grd
 ===================================================================
---- dev.trusty.orig/src/chrome/app/generated_resources.grd	2014-03-29 23:18:25.794905510 -0400
-+++ dev.trusty/src/chrome/app/generated_resources.grd	2014-03-29 23:18:25.514895358 -0400
+--- dev.trusty.orig/src/chrome/app/generated_resources.grd	2014-04-01 08:26:32.615561720 -0400
++++ dev.trusty/src/chrome/app/generated_resources.grd	2014-04-01 08:26:32.483556995 -0400
 @@ -12210,6 +12210,9 @@
        <message name="IDS_OPTIONS_ADVANCED_SECTION_TITLE_CONTENT">
          Web content
@@ -50,8 +50,8 @@ Index: dev.trusty/src/chrome/app/generated_resources.grd
        <!-- Manage Profile Dialog -->
 Index: dev.trusty/src/chrome/browser/resources/options/options.html
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/resources/options/options.html	2014-03-29 23:18:25.794905510 -0400
-+++ dev.trusty/src/chrome/browser/resources/options/options.html	2014-03-29 23:18:25.586897968 -0400
+--- dev.trusty.orig/src/chrome/browser/resources/options/options.html	2014-04-01 08:26:32.615561720 -0400
++++ dev.trusty/src/chrome/browser/resources/options/options.html	2014-04-01 08:26:32.511557997 -0400
 @@ -24,6 +24,7 @@
  <link rel="stylesheet" href="content_settings.css">
  <link rel="stylesheet" href="controlled_setting.css">
@@ -78,9 +78,9 @@ Index: dev.trusty/src/chrome/browser/resources/options/options.html
    <include src="managed_user_import.html">
 Index: dev.trusty/src/chrome/browser/resources/options/browser_options.js
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/resources/options/browser_options.js	2014-03-29 23:18:25.794905510 -0400
-+++ dev.trusty/src/chrome/browser/resources/options/browser_options.js	2014-03-29 23:18:25.594898259 -0400
-@@ -421,6 +421,23 @@
+--- dev.trusty.orig/src/chrome/browser/resources/options/browser_options.js	2014-04-01 08:26:32.615561720 -0400
++++ dev.trusty/src/chrome/browser/resources/options/browser_options.js	2014-04-01 08:26:32.523558427 -0400
+@@ -418,6 +418,23 @@
              [String(event.target.options[event.target.selectedIndex].value)]);
        };
  
@@ -104,7 +104,7 @@ Index: dev.trusty/src/chrome/browser/resources/options/browser_options.js
        // Languages section.
        var showLanguageOptions = function(event) {
          OptionsPage.navigateToPage('languages');
-@@ -1364,6 +1381,24 @@
+@@ -1360,6 +1377,24 @@
      },
  
      /**
@@ -129,7 +129,7 @@ Index: dev.trusty/src/chrome/browser/resources/options/browser_options.js
       * Set the checked state of the metrics reporting checkbox.
       * @private
       */
-@@ -1674,6 +1709,7 @@
+@@ -1670,6 +1705,7 @@
    //Forward public APIs to private implementations.
    [
      'addBluetoothDevice',
@@ -137,7 +137,7 @@ Index: dev.trusty/src/chrome/browser/resources/options/browser_options.js
      'enableCertificateButton',
      'enableFactoryResetSection',
      'getCurrentProfile',
-@@ -1690,6 +1726,7 @@
+@@ -1686,6 +1722,7 @@
      'setFontSize',
      'setNativeThemeButtonEnabled',
      'setHighContrastCheckboxState',
@@ -147,8 +147,8 @@ Index: dev.trusty/src/chrome/browser/resources/options/browser_options.js
      'setProfilesInfo',
 Index: dev.trusty/src/chrome/browser/resources/options/options.js
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/resources/options/options.js	2014-03-29 23:18:25.794905510 -0400
-+++ dev.trusty/src/chrome/browser/resources/options/options.js	2014-03-29 23:18:25.602898548 -0400
+--- dev.trusty.orig/src/chrome/browser/resources/options/options.js	2014-04-01 08:26:32.615561720 -0400
++++ dev.trusty/src/chrome/browser/resources/options/options.js	2014-04-01 08:26:32.547559286 -0400
 @@ -15,6 +15,8 @@
      options.contentSettings.ContentSettingsExceptionsArea;
  var ContentSettings = options.ContentSettings;
@@ -174,8 +174,8 @@ Index: dev.trusty/src/chrome/browser/resources/options/options.js
                                  ContentSettings.getInstance(),
 Index: dev.trusty/src/chrome/browser/resources/options/options_bundle.js
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/resources/options/options_bundle.js	2014-03-29 23:18:25.794905510 -0400
-+++ dev.trusty/src/chrome/browser/resources/options/options_bundle.js	2014-03-29 23:18:25.618899128 -0400
+--- dev.trusty.orig/src/chrome/browser/resources/options/options_bundle.js	2014-04-01 08:26:32.615561720 -0400
++++ dev.trusty/src/chrome/browser/resources/options/options_bundle.js	2014-04-01 08:26:32.555559573 -0400
 @@ -78,6 +78,8 @@
  <include src="content_settings_ui.js"></include>
  <include src="cookies_list.js"></include>
@@ -187,8 +187,8 @@ Index: dev.trusty/src/chrome/browser/resources/options/options_bundle.js
  <if expr="enable_google_now">
 Index: dev.trusty/src/chrome/browser/resources/options/browser_options.html
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/resources/options/browser_options.html	2014-03-29 23:18:25.794905510 -0400
-+++ dev.trusty/src/chrome/browser/resources/options/browser_options.html	2014-03-29 23:18:25.618899128 -0400
+--- dev.trusty.orig/src/chrome/browser/resources/options/browser_options.html	2014-04-01 08:26:32.615561720 -0400
++++ dev.trusty/src/chrome/browser/resources/options/browser_options.html	2014-04-01 08:26:32.567560003 -0400
 @@ -419,6 +419,22 @@
      </div>
    </section>
@@ -214,8 +214,8 @@ Index: dev.trusty/src/chrome/browser/resources/options/browser_options.html
      <div class="checkbox">
 Index: dev.trusty/src/chrome/browser/ui/webui/options/options_ui.cc
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/ui/webui/options/options_ui.cc	2014-03-29 23:18:25.794905510 -0400
-+++ dev.trusty/src/chrome/browser/ui/webui/options/options_ui.cc	2014-03-29 23:18:25.702902175 -0400
+--- dev.trusty.orig/src/chrome/browser/ui/webui/options/options_ui.cc	2014-04-01 08:26:32.615561720 -0400
++++ dev.trusty/src/chrome/browser/ui/webui/options/options_ui.cc	2014-04-01 08:26:32.579560431 -0400
 @@ -94,6 +94,10 @@
  #include "chrome/browser/ui/webui/options/geolocation_options_handler.h"
  #endif
@@ -240,8 +240,8 @@ Index: dev.trusty/src/chrome/browser/ui/webui/options/options_ui.cc
    AddOptionsPageUIHandler(localized_strings, new GeolocationOptionsHandler());
 Index: dev.trusty/src/chrome/browser/ui/webui/options/browser_options_handler.cc
 ===================================================================
---- dev.trusty.orig/src/chrome/browser/ui/webui/options/browser_options_handler.cc	2014-03-29 23:18:25.794905510 -0400
-+++ dev.trusty/src/chrome/browser/ui/webui/options/browser_options_handler.cc	2014-03-29 23:18:25.730903190 -0400
+--- dev.trusty.orig/src/chrome/browser/ui/webui/options/browser_options_handler.cc	2014-04-01 08:26:32.615561720 -0400
++++ dev.trusty/src/chrome/browser/ui/webui/options/browser_options_handler.cc	2014-04-01 08:26:32.583560575 -0400
 @@ -194,6 +194,8 @@
      { "currentUserOnly", IDS_OPTIONS_CURRENT_USER_ONLY },
      { "advancedSectionTitleContent",
@@ -273,8 +273,8 @@ Index: dev.trusty/src/chrome/browser/ui/webui/options/browser_options_handler.cc
  #endif
 Index: dev.trusty/src/chrome/chrome_browser_ui.gypi
 ===================================================================
---- dev.trusty.orig/src/chrome/chrome_browser_ui.gypi	2014-03-29 23:18:25.794905510 -0400
-+++ dev.trusty/src/chrome/chrome_browser_ui.gypi	2014-03-29 23:18:25.778904930 -0400
+--- dev.trusty.orig/src/chrome/chrome_browser_ui.gypi	2014-04-01 08:26:32.615561720 -0400
++++ dev.trusty/src/chrome/chrome_browser_ui.gypi	2014-04-01 08:26:32.603561291 -0400
 @@ -2530,6 +2530,8 @@
          'browser/ui/webui/options/core_options_handler.h',
          'browser/ui/webui/options/create_profile_handler.cc',
@@ -287,7 +287,7 @@ Index: dev.trusty/src/chrome/chrome_browser_ui.gypi
 Index: dev.trusty/src/chrome/browser/resources/options/desktop_integration_overlay.html
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.trusty/src/chrome/browser/resources/options/desktop_integration_overlay.html	2014-03-29 23:18:25.782905075 -0400
++++ dev.trusty/src/chrome/browser/resources/options/desktop_integration_overlay.html	2014-04-01 08:26:32.603561291 -0400
 @@ -0,0 +1,26 @@
 +<div id="desktop-integration-area" class="page" hidden>
 +
@@ -318,7 +318,7 @@ Index: dev.trusty/src/chrome/browser/resources/options/desktop_integration_overl
 Index: dev.trusty/src/chrome/browser/resources/options/desktop_integration_add_website_overlay.js
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.trusty/src/chrome/browser/resources/options/desktop_integration_add_website_overlay.js	2014-03-29 23:18:25.782905075 -0400
++++ dev.trusty/src/chrome/browser/resources/options/desktop_integration_add_website_overlay.js	2014-04-01 08:26:32.603561291 -0400
 @@ -0,0 +1,47 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -370,7 +370,7 @@ Index: dev.trusty/src/chrome/browser/resources/options/desktop_integration_add_w
 Index: dev.trusty/src/chrome/browser/resources/options/desktop_integration_overlay.js
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.trusty/src/chrome/browser/resources/options/desktop_integration_overlay.js	2014-03-29 23:18:25.782905075 -0400
++++ dev.trusty/src/chrome/browser/resources/options/desktop_integration_overlay.js	2014-04-01 08:26:32.603561291 -0400
 @@ -0,0 +1,203 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -578,7 +578,7 @@ Index: dev.trusty/src/chrome/browser/resources/options/desktop_integration_overl
 Index: dev.trusty/src/chrome/browser/resources/options/desktop_integration_overlay.css
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.trusty/src/chrome/browser/resources/options/desktop_integration_overlay.css	2014-03-29 23:18:25.782905075 -0400
++++ dev.trusty/src/chrome/browser/resources/options/desktop_integration_overlay.css	2014-04-01 08:26:32.603561291 -0400
 @@ -0,0 +1,71 @@
 +/* Copyright (c) 2012 The Chromium Authors. All rights reserved.
 + * Use of this source code is governed by a BSD-style license that can be
@@ -654,7 +654,7 @@ Index: dev.trusty/src/chrome/browser/resources/options/desktop_integration_overl
 Index: dev.trusty/src/chrome/browser/resources/options/desktop_integration_add_website_overlay.html
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.trusty/src/chrome/browser/resources/options/desktop_integration_add_website_overlay.html	2014-03-29 23:18:25.782905075 -0400
++++ dev.trusty/src/chrome/browser/resources/options/desktop_integration_add_website_overlay.html	2014-04-01 08:26:32.603561291 -0400
 @@ -0,0 +1,16 @@
 +<div id="add-desktop-integration-website-overlay-page" class="page" hidden>
 +  <div class="close-button"></div>
@@ -675,7 +675,7 @@ Index: dev.trusty/src/chrome/browser/resources/options/desktop_integration_add_w
 Index: dev.trusty/src/chrome/browser/ui/webui/options/desktop_integration_settings_handler.cc
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.trusty/src/chrome/browser/ui/webui/options/desktop_integration_settings_handler.cc	2014-03-29 23:18:25.786905221 -0400
++++ dev.trusty/src/chrome/browser/ui/webui/options/desktop_integration_settings_handler.cc	2014-04-01 08:26:32.607561434 -0400
 @@ -0,0 +1,262 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -942,7 +942,7 @@ Index: dev.trusty/src/chrome/browser/ui/webui/options/desktop_integration_settin
 Index: dev.trusty/src/chrome/browser/ui/webui/options/desktop_integration_settings_handler.h
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.trusty/src/chrome/browser/ui/webui/options/desktop_integration_settings_handler.h	2014-03-29 23:18:25.786905221 -0400
++++ dev.trusty/src/chrome/browser/ui/webui/options/desktop_integration_settings_handler.h	2014-04-01 08:26:32.607561434 -0400
 @@ -0,0 +1,76 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
