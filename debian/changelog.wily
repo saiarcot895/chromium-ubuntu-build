@@ -1,3 +1,9 @@
+chromium-browser (36.0.1941.0-0ubuntu1~ppa4~trusty1) trusty; urgency=medium
+
+  * Syntax error in 4-chromeless-window-launch-option.patch
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 17 Apr 2014 08:42:47 -0400
+
 chromium-browser (36.0.1941.0-0ubuntu1~ppa3~trusty1) trusty; urgency=medium
 
   * Re-try adding libexif-dev dependency

@@ -191,7 +191,7 @@ Index: dev.trusty/src/chrome/browser/ui/browser.cc
        !CommandLine::ForCurrentProcess()->HasSwitch(
 -          switches::kEnableStreamlinedHostedApps)) {
 +          switches::kEnableStreamlinedHostedApps) ||
-+          is_chromeless_mode())
++          is_chromeless_mode()) {
      return false;
    }
  
