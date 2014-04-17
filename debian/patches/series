@@ -1,4 +1,4 @@
-menu-bar-visible.patch
+#menu-bar-visible.patch
 #title-bar-default-system.patch
 third-party-cookies-off-by-default.patch
 format-flag.patch
@@ -13,7 +13,7 @@ ffmpeg-gyp-config.patch
 additional-search-engines.patch
 ###: start lp:unity-chromium-extension
 2-get-domain-tld.patch
-3-chrome-xid.patch
+#3-chrome-xid.patch
 4-chromeless-window-launch-option.patch
 5-desktop-integration-settings.patch
 6-passwordless-install-support.patch
