@@ -33,6 +33,7 @@ Build-Depends: debhelper (>= 8.0.0),
 		libharfbuzz-dev | libpango1.0-dev (<< 1.31.0),
 		libicu-dev | libpango1.0-dev (<< 1.31.0),
 		libpango1.0-dev,
+		libexif-dev,
 		chrpath
 Standards-Version: 3.9.3
 
