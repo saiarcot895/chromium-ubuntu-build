@@ -1,3 +1,19 @@
+chromium-browser (36.0.1951.5-0ubuntu1~ppa1~trusty1) trusty; urgency=medium
+
+  * New upstream version 36.0.1951.5
+  * Use the official Chromium tarball as is (no repackaging), and move
+    its contents into the current directory so there is one less
+    directory to deal with
+  * Replace nearly all instances of src with DEB_TAR_SRCDIR
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 25 Apr 2014 12:36:20 -0400
+
+chromium-browser (36.0.1951.5-0ubuntu1~ppa1~trusty1) trusty; urgency=medium
+
+  * New upstream version 36.0.1951.5
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 25 Apr 2014 11:55:12 -0400
+
 chromium-browser (36.0.1941.0-0ubuntu1~ppa4~trusty1) trusty; urgency=medium
 
   * Syntax error in 4-chromeless-window-launch-option.patch
