@@ -1,0 +1,20 @@
+Description: Redirect flash warnings to our wiki, where we can manage users'
+  experience, instead of handing them off to people who don't care about them.
+Author: Chad MILLER <chad.miller@canonical.com>
+
+
+Index: dev.trusty/chrome/browser/resources/plugin_metadata/plugins_linux.json
+===================================================================
+--- dev.trusty.orig/chrome/browser/resources/plugin_metadata/plugins_linux.json	2014-04-25 09:33:54.914632787 -0400
++++ dev.trusty/chrome/browser/resources/plugin_metadata/plugins_linux.json	2014-04-25 09:33:54.886631848 -0400
+@@ -87,8 +87,8 @@
+     ],
+     "lang": "en-US",
+     "name": "Adobe Flash Player",
+-    "help_url": "https://support.google.com/chrome/?p=plugin_flash",
+-    "url": "http://get.adobe.com/flashplayer/",
++    "help_url": "https://wiki.ubuntu.com/Chromium/Getting-Flash#help",
++    "url": "https://wiki.ubuntu.com/Chromium/Getting-Flash",
+     "displayurl": true,
+     "group_name_matcher": "*Shockwave Flash*"
+   },

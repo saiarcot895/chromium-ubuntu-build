@@ -1,10 +1,10 @@
 Bug-Chromium: https://code.google.com/p/chromium/issues/detail?id=159349
                                                                        
-Index: dev.trusty/src/third_party/ffmpeg/ffmpeg.gyp
+Index: dev.trusty/third_party/ffmpeg/ffmpeg.gyp
 ===================================================================
---- dev.trusty.orig/src/third_party/ffmpeg/ffmpeg.gyp	2014-04-16 17:48:30.524916970 -0400
-+++ dev.trusty/src/third_party/ffmpeg/ffmpeg.gyp	2014-04-16 17:48:30.472915080 -0400
-@@ -148,6 +148,10 @@
+--- dev.trusty.orig/third_party/ffmpeg/ffmpeg.gyp	2014-04-25 07:55:00.729671690 -0400
++++ dev.trusty/third_party/ffmpeg/ffmpeg.gyp	2014-04-25 07:55:00.713671114 -0400
+@@ -138,6 +138,10 @@
              ],
              'yasm_output_path': '<(shared_generated_dir)/yasm'
            },
@@ -15,7 +15,7 @@ Index: dev.trusty/src/third_party/ffmpeg/ffmpeg.gyp
          },
        ] # targets
      }], # arch != arm
-@@ -516,6 +520,9 @@
+@@ -441,6 +445,9 @@
    'targets': [
      {
        'target_name': 'ffmpeg',
@@ -25,7 +25,7 @@ Index: dev.trusty/src/third_party/ffmpeg/ffmpeg.gyp
        'sources': [
          # Files needed for stub generation rules.
          '<@(sig_files)',
-@@ -603,6 +610,7 @@
+@@ -528,6 +535,7 @@
            ],
            'type': '<(component)',
            'include_dirs': [
@@ -33,10 +33,10 @@ Index: dev.trusty/src/third_party/ffmpeg/ffmpeg.gyp
              '<(output_root)',
              '../..',  # The chromium 'src' directory.
              '<(platform_config_root)',
-Index: dev.trusty/src/third_party/icu/icu.gyp
+Index: dev.trusty/third_party/icu/icu.gyp
 ===================================================================
---- dev.trusty.orig/src/third_party/icu/icu.gyp	2014-04-16 17:48:30.524916970 -0400
-+++ dev.trusty/src/third_party/icu/icu.gyp	2014-04-16 17:48:30.520916824 -0400
+--- dev.trusty.orig/third_party/icu/icu.gyp	2014-04-25 07:55:00.729671690 -0400
++++ dev.trusty/third_party/icu/icu.gyp	2014-04-25 07:55:00.713671114 -0400
 @@ -34,8 +34,11 @@
           target_arch=="mipsel")', {
          'target_conditions': [

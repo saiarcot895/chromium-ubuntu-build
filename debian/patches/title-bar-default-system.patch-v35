@@ -1,0 +1,15 @@
+Description: Never default to using the custom title bar. Chromium should
+  integrate, not be a special little snowflake.
+
+Index: dev.trusty/ui/base/x/x11_util.cc
+===================================================================
+--- dev.trusty.orig/ui/base/x/x11_util.cc	2014-04-25 07:54:53.861424198 -0400
++++ dev.trusty/ui/base/x/x11_util.cc	2014-04-25 07:54:53.817422613 -0400
+@@ -929,6 +929,7 @@
+   // Instead, we default to using system decorations for all WMs and
+   // special-case the ones where the custom frame should be used.
+   ui::WindowManagerName wm_type = GuessWindowManager();
++  return false;
+   return (wm_type == WM_BLACKBOX ||
+           wm_type == WM_COMPIZ ||
+           wm_type == WM_ENLIGHTENMENT ||

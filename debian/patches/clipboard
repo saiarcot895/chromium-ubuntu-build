@@ -1,0 +1,53 @@
+Index: beta.trusty/ui/views/controls/textfield/textfield.cc
+===================================================================
+--- beta.trusty.orig/ui/views/controls/textfield/textfield.cc	2014-04-19 11:07:12.954175967 -0400
++++ beta.trusty/ui/views/controls/textfield/textfield.cc	2014-04-19 11:07:12.926174939 -0400
+@@ -250,6 +250,7 @@
+       text_input_type_(ui::TEXT_INPUT_TYPE_TEXT),
+       skip_input_method_cancel_composition_(false),
+       cursor_visible_(false),
++      performing_user_action_(false),
+       drop_cursor_visible_(false),
+       initiating_drag_(false),
+       aggregated_clicks_(0),
+@@ -1548,6 +1549,9 @@
+ }
+ 
+ void Textfield::OnBeforeUserAction() {
++  DCHECK(!performing_user_action_);
++  performing_user_action_ = true;
++
+   if (controller_)
+     controller_->OnBeforeUserAction(this);
+ }
+@@ -1555,6 +1559,8 @@
+ void Textfield::OnAfterUserAction() {
+   if (controller_)
+     controller_->OnAfterUserAction(this);
++  DCHECK(performing_user_action_);
++  performing_user_action_ = false;
+ }
+ 
+ bool Textfield::Cut() {
+@@ -1648,7 +1654,7 @@
+ 
+ void Textfield::UpdateSelectionClipboard() const {
+ #if defined(OS_LINUX) && !defined(OS_CHROMEOS)
+-  if (HasSelection()) {
++  if (performing_user_action_ && HasSelection()) {
+     ui::ScopedClipboardWriter(
+         ui::Clipboard::GetForCurrentThread(),
+         ui::CLIPBOARD_TYPE_SELECTION).WriteText(GetSelectedText());
+Index: beta.trusty/ui/views/controls/textfield/textfield.h
+===================================================================
+--- beta.trusty.orig/ui/views/controls/textfield/textfield.h	2014-04-19 11:07:12.954175967 -0400
++++ beta.trusty/ui/views/controls/textfield/textfield.h	2014-04-19 11:07:12.926174939 -0400
+@@ -400,6 +400,8 @@
+   base::TimeDelta password_reveal_duration_;
+   base::OneShotTimer<Textfield> password_reveal_timer_;
+ 
++  bool performing_user_action_;
++
+   // True if InputMethod::CancelComposition() should not be called.
+   bool skip_input_method_cancel_composition_;
+ 

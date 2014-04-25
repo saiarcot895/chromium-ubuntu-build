@@ -2,11 +2,11 @@ Description: Avoid a linker bug where symbols are not found.
  > /usr/bin/ld.bfd.real: out/Release/obj.target/net/libnet.so: undefined reference to symbol 'SSL_ForceHandshake'
  > out/Release/obj.target/net/third_party/nss/libcrssl.so: error adding symbols: DSO missing from command line
 
-Index: dev.trusty/src/build/common.gypi
+Index: dev.trusty/build/common.gypi
 ===================================================================
---- dev.trusty.orig/src/build/common.gypi	2014-04-16 17:48:28.328837137 -0400
-+++ dev.trusty/src/build/common.gypi	2014-04-16 17:48:28.304836264 -0400
-@@ -3190,7 +3190,7 @@
+--- dev.trusty.orig/build/common.gypi	2014-04-25 07:54:58.753600483 -0400
++++ dev.trusty/build/common.gypi	2014-04-25 07:54:58.721599330 -0400
+@@ -3188,7 +3188,7 @@
                    '-Wl,--as-needed',
                  ],
                }],
@@ -15,7 +15,7 @@ Index: dev.trusty/src/build/common.gypi
                  'ldflags': [
                    '-Wl,--no-as-needed',
                  ],
-@@ -3237,7 +3237,6 @@
+@@ -3235,7 +3235,6 @@
                # Specifically tell the linker to perform optimizations.
                # See http://lwn.net/Articles/192624/ .
                '-Wl,-O1',
@@ -23,7 +23,7 @@ Index: dev.trusty/src/build/common.gypi
              ],
              'conditions' : [
                ['no_gc_sections==0', {
-@@ -3281,6 +3280,11 @@
+@@ -3279,6 +3278,11 @@
                }, {
                  'cflags': ['-fno-unwind-tables', '-fno-asynchronous-unwind-tables'],
                }],

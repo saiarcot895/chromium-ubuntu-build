@@ -5,6 +5,14 @@ chromium-browser (36.0.1951.5-0ubuntu1~ppa1~trusty1) trusty; urgency=medium
     its contents into the current directory so there is one less
     directory to deal with
   * Replace nearly all instances of src with DEB_TAR_SRCDIR
+  * Added the following patches: touch-v35, breakpad, display-scaling-
+    default-value, display-scaling-report-hardware-info, flash-
+    redirection, gsettings-display-scaling, title-bar-default-
+    system.patch-v35
+  * Disabled gsettings-display-scaling, display-scaling-default-value,
+    and display-scaling-report-hardware-info for Precise and Quantal due
+    to linking errors
+  * Refreshed patches
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 25 Apr 2014 12:36:20 -0400
 

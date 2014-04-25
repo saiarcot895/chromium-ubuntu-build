@@ -4,10 +4,10 @@ Author: Chad Miller <chad.miller@canonical.com>
 Bug-Chromium: 154107
 Bug-Ubuntu: 1084852
 
-Index: dev.trusty/src/third_party/webrtc/modules/audio_coding/codecs/isac/fix/source/isacfix.gypi
+Index: dev.trusty/third_party/webrtc/modules/audio_coding/codecs/isac/fix/source/isacfix.gypi
 ===================================================================
---- dev.trusty.orig/src/third_party/webrtc/modules/audio_coding/codecs/isac/fix/source/isacfix.gypi	2014-04-16 17:48:29.720887741 -0400
-+++ dev.trusty/src/third_party/webrtc/modules/audio_coding/codecs/isac/fix/source/isacfix.gypi	2014-04-16 17:48:29.668885851 -0400
+--- dev.trusty.orig/third_party/webrtc/modules/audio_coding/codecs/isac/fix/source/isacfix.gypi	2014-04-25 07:54:59.949643582 -0400
++++ dev.trusty/third_party/webrtc/modules/audio_coding/codecs/isac/fix/source/isacfix.gypi	2014-04-25 07:54:59.913642285 -0400
 @@ -74,7 +74,7 @@
              'WEBRTC_LINUX',
            ],
@@ -17,10 +17,10 @@ Index: dev.trusty/src/third_party/webrtc/modules/audio_coding/codecs/isac/fix/so
            'dependencies': [ 'isac_neon', ],
            'sources': [
              'lattice_armv7.S',
-Index: dev.trusty/src/third_party/webrtc/system_wrappers/source/cpu_features.cc
+Index: dev.trusty/third_party/webrtc/system_wrappers/source/cpu_features.cc
 ===================================================================
---- dev.trusty.orig/src/third_party/webrtc/system_wrappers/source/cpu_features.cc	2014-04-16 17:48:29.720887741 -0400
-+++ dev.trusty/src/third_party/webrtc/system_wrappers/source/cpu_features.cc	2014-04-16 17:48:29.716887596 -0400
+--- dev.trusty.orig/third_party/webrtc/system_wrappers/source/cpu_features.cc	2014-04-25 07:54:59.949643582 -0400
++++ dev.trusty/third_party/webrtc/system_wrappers/source/cpu_features.cc	2014-04-25 07:54:59.925642717 -0400
 @@ -18,6 +18,47 @@
  
  #include "webrtc/typedefs.h"

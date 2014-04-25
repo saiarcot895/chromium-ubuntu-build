@@ -1,0 +1,23 @@
+Description: Set default scaling to be 1:1, instead of using the hardware's
+  reporting to define scaling by default.  This is because hardware lies.  Lots
+  of it does.
+Author: Chad MILLER <chad.miller@canonical.com>
+Forwarded: not-needed
+
+Index: dev.trusty/ui/views/widget/desktop_aura/desktop_screen_x11.cc
+===================================================================
+--- dev.trusty.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-04-25 09:15:05.208598383 -0400
++++ dev.trusty/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-04-25 09:15:05.200598092 -0400
+@@ -428,8 +428,10 @@
+       int density_indicator = 0;
+ #ifdef USE_GLIB
+       if (display_scales != NULL) {
+-        (void) g_variant_lookup(display_scales, output_info->name, "i",
+-                                &density_indicator);
++        if (! g_variant_lookup(display_scales, output_info->name, "i",
++                                &density_indicator)) {
++          density_indicator = 8;  // default scale is 1
++        }
+         DCHECK_LE(0, density_indicator);
+         DVLOG(1) << "Got density indictor " << density_indicator << " from display_scales for " << output_info->name;
+       }

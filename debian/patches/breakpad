@@ -1,0 +1,12 @@
+
+Index: dev.trusty/tools/find_depot_tools.py
+===================================================================
+--- dev.trusty.orig/tools/find_depot_tools.py	2014-04-25 07:55:02.037718825 -0400
++++ dev.trusty/tools/find_depot_tools.py	2014-04-25 07:55:02.025718392 -0400
+@@ -40,6 +40,3 @@
+   return None
+ 
+ add_depot_tools_to_path()
+-
+-# pylint: disable=W0611
+-import breakpad
