@@ -3,9 +3,9 @@ Description: Never default to using the custom title bar. Chromium should
 
 Index: dev.trusty/ui/base/x/x11_util.cc
 ===================================================================
---- dev.trusty.orig/ui/base/x/x11_util.cc	2014-04-25 07:54:53.861424198 -0400
-+++ dev.trusty/ui/base/x/x11_util.cc	2014-04-25 07:54:53.817422613 -0400
-@@ -929,6 +929,7 @@
+--- dev.trusty.orig/ui/base/x/x11_util.cc	2014-05-01 09:26:57.413073697 -0400
++++ dev.trusty/ui/base/x/x11_util.cc	2014-05-01 09:26:57.381072542 -0400
+@@ -925,6 +925,7 @@
    // Instead, we default to using system decorations for all WMs and
    // special-case the ones where the custom frame should be used.
    ui::WindowManagerName wm_type = GuessWindowManager();
