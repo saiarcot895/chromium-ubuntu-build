@@ -1,7 +1,7 @@
 Index: dev.trusty/chrome/test/chromedriver/embed_version_in_cpp.py
 ===================================================================
---- dev.trusty.orig/chrome/test/chromedriver/embed_version_in_cpp.py	2014-05-01 09:26:59.329142923 -0400
-+++ dev.trusty/chrome/test/chromedriver/embed_version_in_cpp.py	2014-05-01 09:26:59.325142779 -0400
+--- dev.trusty.orig/chrome/test/chromedriver/embed_version_in_cpp.py	2014-05-07 19:27:20.355310011 -0500
++++ dev.trusty/chrome/test/chromedriver/embed_version_in_cpp.py	2014-05-07 19:27:20.351310011 -0500
 @@ -25,7 +25,9 @@
    options, args = parser.parse_args()
  

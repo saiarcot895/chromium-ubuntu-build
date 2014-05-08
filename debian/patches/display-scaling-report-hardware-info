@@ -4,9 +4,9 @@ Forwarded: not-needed
 
 Index: dev.trusty/ui/views/widget/desktop_aura/desktop_screen_x11.cc
 ===================================================================
---- dev.trusty.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-05-01 09:27:02.453255793 -0400
-+++ dev.trusty/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-05-01 09:27:02.449255649 -0400
-@@ -442,13 +442,16 @@
+--- dev.trusty.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-05-07 19:27:24.191309850 -0500
++++ dev.trusty/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-05-07 19:27:24.183309850 -0500
+@@ -395,13 +395,16 @@
        if (density_indicator != 0) {
          // n/8 is actual scaling factor.  Zero means discover from hardware.
          device_scale_factor = float(density_indicator / 8.0);

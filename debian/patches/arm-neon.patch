@@ -6,8 +6,8 @@ Bug-Ubuntu: 1084852
 
 Index: dev.trusty/third_party/webrtc/modules/audio_coding/codecs/isac/fix/source/isacfix.gypi
 ===================================================================
---- dev.trusty.orig/third_party/webrtc/modules/audio_coding/codecs/isac/fix/source/isacfix.gypi	2014-05-01 09:27:00.261176596 -0400
-+++ dev.trusty/third_party/webrtc/modules/audio_coding/codecs/isac/fix/source/isacfix.gypi	2014-05-01 09:27:00.249176163 -0400
+--- dev.trusty.orig/third_party/webrtc/modules/audio_coding/codecs/isac/fix/source/isacfix.gypi	2014-05-07 19:27:21.703309954 -0500
++++ dev.trusty/third_party/webrtc/modules/audio_coding/codecs/isac/fix/source/isacfix.gypi	2014-05-07 19:27:21.675309955 -0500
 @@ -74,7 +74,7 @@
              'WEBRTC_LINUX',
            ],
@@ -19,8 +19,8 @@ Index: dev.trusty/third_party/webrtc/modules/audio_coding/codecs/isac/fix/source
              'lattice_armv7.S',
 Index: dev.trusty/third_party/webrtc/system_wrappers/source/cpu_features.cc
 ===================================================================
---- dev.trusty.orig/third_party/webrtc/system_wrappers/source/cpu_features.cc	2014-05-01 09:27:00.261176596 -0400
-+++ dev.trusty/third_party/webrtc/system_wrappers/source/cpu_features.cc	2014-05-01 09:27:00.257176452 -0400
+--- dev.trusty.orig/third_party/webrtc/system_wrappers/source/cpu_features.cc	2014-05-07 19:27:21.703309954 -0500
++++ dev.trusty/third_party/webrtc/system_wrappers/source/cpu_features.cc	2014-05-07 19:27:21.695309955 -0500
 @@ -18,6 +18,47 @@
  
  #include "webrtc/typedefs.h"
