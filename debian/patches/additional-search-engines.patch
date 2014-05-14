@@ -1,16 +1,16 @@
 Index: dev.trusty/chrome/browser/search_engines/prepopulated_engines.json
 ===================================================================
---- dev.trusty.orig/chrome/browser/search_engines/prepopulated_engines.json	2014-05-07 19:27:22.463309922 -0500
-+++ dev.trusty/chrome/browser/search_engines/prepopulated_engines.json	2014-05-07 19:27:22.439309923 -0500
-@@ -13,6 +13,7 @@
- //    40, 41, 42, 46, 47, 48, 49, 51, 52, 59, 71, 72, 82, 84, 86, 88, 89, 91+
+--- dev.trusty.orig/chrome/browser/search_engines/prepopulated_engines.json	2014-05-14 12:37:28.999804697 -0400
++++ dev.trusty/chrome/browser/search_engines/prepopulated_engines.json	2014-05-14 12:37:28.995804697 -0400
+@@ -14,6 +14,7 @@
+ //    88, 89, 91+
  //
  // IDs > 1000 are reserved for distribution custom engines.
 +// 1001: DuckDuckGo
  //
  // NOTES:
  //   - CHANGE THE ABOVE NUMBERS IF YOU ADD A NEW ENGINE; ID conflicts = bad!
-@@ -22,7 +23,7 @@
+@@ -23,7 +24,7 @@
    "int_variables": {
      // The following id is for UMA stats only. Please update it if you add new
      // engines outside the current range or it will not be counted in stats.
@@ -38,8 +38,8 @@ Index: dev.trusty/chrome/browser/search_engines/prepopulated_engines.json
        "keyword": "google.com",
 Index: dev.trusty/chrome/browser/search_engines/search_engine_type.h
 ===================================================================
---- dev.trusty.orig/chrome/browser/search_engines/search_engine_type.h	2014-05-07 19:27:22.463309922 -0500
-+++ dev.trusty/chrome/browser/search_engines/search_engine_type.h	2014-05-07 19:27:22.439309923 -0500
+--- dev.trusty.orig/chrome/browser/search_engines/search_engine_type.h	2014-05-14 12:37:28.999804697 -0400
++++ dev.trusty/chrome/browser/search_engines/search_engine_type.h	2014-05-14 12:37:28.995804697 -0400
 @@ -22,6 +22,7 @@
    SEARCH_ENGINE_DAUM,
    SEARCH_ENGINE_DELFI,
@@ -50,8 +50,8 @@ Index: dev.trusty/chrome/browser/search_engines/search_engine_type.h
    SEARCH_ENGINE_GOOGLE,
 Index: dev.trusty/chrome/browser/search_engines/template_url_prepopulate_data.cc
 ===================================================================
---- dev.trusty.orig/chrome/browser/search_engines/template_url_prepopulate_data.cc	2014-05-07 19:27:22.463309922 -0500
-+++ dev.trusty/chrome/browser/search_engines/template_url_prepopulate_data.cc	2014-05-07 19:27:22.455309923 -0500
+--- dev.trusty.orig/chrome/browser/search_engines/template_url_prepopulate_data.cc	2014-05-14 12:37:28.999804697 -0400
++++ dev.trusty/chrome/browser/search_engines/template_url_prepopulate_data.cc	2014-05-14 12:37:28.995804697 -0400
 @@ -52,7 +52,7 @@
  
  // Default (for countries with no better engine set)
@@ -97,8 +97,8 @@ Index: dev.trusty/chrome/browser/search_engines/template_url_prepopulate_data.cc
    &bing_fr_FR,   &bing_it_IT,   &bing_ja_JP,   &bing_lv_LV,   &bing_nb_NO,
    &bing_nl_BE,   &bing_pl_PL,   &bing_pt_BR,   &bing_pt_PT,   &bing_ru_RU,
    &bing_sv_SE,   &bing_tr_TR,   &bing_zh_HK,   &bing_zh_TW,   &daum,
--  &google,       &kvasir,       &mail_ru,      &najdi,        &nate,
-+  &duckduckgo, &google, &kvasir, &mail_ru,     &najdi,        &nate,
-   &naver,        &onet,         &seznam,       &sogou,        &soso,
-   &vinden,       &virgilio,     &yahoo,        &yahoo_ar,     &yahoo_at,
-   &yahoo_au,     &yahoo_be,     &yahoo_br,     &yahoo_ca,     &yahoo_ch,
+-  &google,       &kvasir,       &mail_ru,      &najdi,        &naver,
++  &duckduckgo, &google, &kvasir, &mail_ru,     &najdi,        &naver,
+   &onet,         &seznam,       &sogou,        &vinden,       &virgilio,
+   &yahoo,        &yahoo_ar,     &yahoo_at,     &yahoo_au,     &yahoo_br,
+   &yahoo_ca,     &yahoo_ch,     &yahoo_cl,     &yahoo_co,     &yahoo_de,

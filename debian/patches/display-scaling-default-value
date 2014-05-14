@@ -6,8 +6,8 @@ Forwarded: not-needed
 
 Index: dev.trusty/ui/views/widget/desktop_aura/desktop_screen_x11.cc
 ===================================================================
---- dev.trusty.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-05-07 19:27:23.839309865 -0500
-+++ dev.trusty/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-05-07 19:27:23.831309865 -0500
+--- dev.trusty.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-05-14 12:37:31.863804695 -0400
++++ dev.trusty/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-05-14 12:37:31.860804695 -0400
 @@ -381,8 +381,10 @@
        int density_indicator = 0;
  #ifdef USE_GLIB
