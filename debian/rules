@@ -133,7 +133,7 @@ ifeq (1,$(COMPONENT_SHARED_LIB_BUILD))
 GYP_DEFINES += component=shared_library
 
 # SEGV on component builds, 2013-05
-GYP_DEFINES += linux_use_tcmalloc=0
+GYP_DEFINES += use_allocator=none
 endif
 
 # Webkit library is enormous. Exclude for now.
