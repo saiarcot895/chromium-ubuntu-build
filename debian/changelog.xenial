@@ -1,3 +1,9 @@
+chromium-browser (37.0.2008.2-0ubuntu1~ppa3~trusty1) trusty; urgency=medium
+
+  * Try again
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 24 May 2014 14:30:11 -0400
+
 chromium-browser (37.0.2008.2-0ubuntu1~ppa2~trusty1) trusty; urgency=medium
 
   * Added missing libssl-dev dependency
