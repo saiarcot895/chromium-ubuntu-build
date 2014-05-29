@@ -4,8 +4,8 @@ Forwarded: yes
 
 Index: dev.trusty/ui/views/widget/desktop_aura/desktop_screen_x11.cc
 ===================================================================
---- dev.trusty.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-05-24 07:46:40.070186807 -0400
-+++ dev.trusty/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-05-24 07:46:40.067186808 -0400
+--- dev.trusty.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-05-29 14:45:01.314853175 -0400
++++ dev.trusty/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-05-29 14:45:01.310853175 -0400
 @@ -7,7 +7,12 @@
  #include <X11/extensions/Xrandr.h>
  #include <X11/Xlib.h>
@@ -20,7 +20,7 @@ Index: dev.trusty/ui/views/widget/desktop_aura/desktop_screen_x11.cc
  #undef RootWindow
  
  #include "base/debug/trace_event.h"
-@@ -313,6 +318,29 @@
+@@ -329,6 +334,29 @@
      return GetFallbackDisplayList();
    }
  
@@ -50,7 +50,7 @@ Index: dev.trusty/ui/views/widget/desktop_aura/desktop_screen_x11.cc
    bool has_work_area = false;
    gfx::Rect work_area;
    std::vector<int> value;
-@@ -349,7 +377,27 @@
+@@ -365,7 +393,27 @@
        gfx::Rect crtc_bounds(crtc->x, crtc->y, crtc->width, crtc->height);
        gfx::Display display(display_id, crtc_bounds);
  
@@ -79,7 +79,7 @@ Index: dev.trusty/ui/views/widget/desktop_aura/desktop_screen_x11.cc
          if (i == 0 && !ui::IsDisplaySizeBlackListed(
              gfx::Size(output_info->mm_width, output_info->mm_height))) {
            // As per display scale factor is not supported right now,
-@@ -358,6 +406,7 @@
+@@ -374,6 +422,7 @@
                                                       output_info->mm_width);
            DCHECK_LE(1.0f, device_scale_factor);
          }
