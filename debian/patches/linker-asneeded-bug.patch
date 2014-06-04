@@ -4,9 +4,9 @@ Description: Avoid a linker bug where symbols are not found.
 
 Index: dev.trusty/build/common.gypi
 ===================================================================
---- dev.trusty.orig/build/common.gypi	2014-05-29 14:44:57.387853177 -0400
-+++ dev.trusty/build/common.gypi	2014-05-29 14:44:57.385853177 -0400
-@@ -3321,7 +3321,7 @@
+--- dev.trusty.orig/build/common.gypi	2014-06-04 07:24:50.997494076 -0400
++++ dev.trusty/build/common.gypi	2014-06-04 07:24:50.995494076 -0400
+@@ -3323,7 +3323,7 @@
                    '-Wl,--as-needed',
                  ],
                }],
@@ -15,7 +15,7 @@ Index: dev.trusty/build/common.gypi
                  'ldflags': [
                    '-Wl,--no-as-needed',
                  ],
-@@ -3369,7 +3369,6 @@
+@@ -3371,7 +3371,6 @@
                # Specifically tell the linker to perform optimizations.
                # See http://lwn.net/Articles/192624/ .
                '-Wl,-O1',
@@ -23,7 +23,7 @@ Index: dev.trusty/build/common.gypi
              ],
              'conditions' : [
                ['no_gc_sections==0', {
-@@ -3413,6 +3412,11 @@
+@@ -3415,6 +3414,11 @@
                }, {
                  'cflags': ['-fno-unwind-tables', '-fno-asynchronous-unwind-tables'],
                }],
