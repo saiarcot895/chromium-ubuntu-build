@@ -1,7 +1,7 @@
 Index: dev.trusty/ui/base/resource/data_pack.cc
 ===================================================================
---- dev.trusty.orig/ui/base/resource/data_pack.cc	2014-06-04 07:24:51.626494074 -0400
-+++ dev.trusty/ui/base/resource/data_pack.cc	2014-06-04 07:24:51.624494074 -0400
+--- dev.trusty.orig/ui/base/resource/data_pack.cc	2014-06-24 15:54:21.518224011 -0400
++++ dev.trusty/ui/base/resource/data_pack.cc	2014-06-24 15:54:21.515224011 -0400
 @@ -148,9 +148,11 @@
    // 2) Verify the entries are within the appropriate bounds. There's an extra
    // entry after the last item which gives us the length of the last item.

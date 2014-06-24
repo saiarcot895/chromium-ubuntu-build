@@ -4,8 +4,8 @@ Forwarded: yes
 
 Index: dev.trusty/ui/events/x/touch_factory_x11.cc
 ===================================================================
---- dev.trusty.orig/ui/events/x/touch_factory_x11.cc	2014-06-04 07:24:55.309494072 -0400
-+++ dev.trusty/ui/events/x/touch_factory_x11.cc	2014-06-04 07:24:55.307494072 -0400
+--- dev.trusty.orig/ui/events/x/touch_factory_x11.cc	2014-06-24 15:54:25.530224007 -0400
++++ dev.trusty/ui/events/x/touch_factory_x11.cc	2014-06-24 15:54:25.528224007 -0400
 @@ -153,8 +153,12 @@
            XITouchClassInfo* tci =
                reinterpret_cast<XITouchClassInfo*>(xiclassinfo);

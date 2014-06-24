@@ -1,20 +1,20 @@
 Description: Add Ubuntu id into search queries to get credit.
 Author: Chad Miller <chad.miller@canonical.com>
 
-Index: dev.trusty/chrome/browser/search_engines/prepopulated_engines.json
+Index: dev.trusty/components/search_engines/prepopulated_engines.json
 ===================================================================
---- dev.trusty.orig/chrome/browser/search_engines/prepopulated_engines.json	2014-06-04 07:24:48.662494077 -0400
-+++ dev.trusty/chrome/browser/search_engines/prepopulated_engines.json	2014-06-04 07:24:48.660494077 -0400
+--- dev.trusty.orig/components/search_engines/prepopulated_engines.json	2014-06-24 15:54:18.568224015 -0400
++++ dev.trusty/components/search_engines/prepopulated_engines.json	2014-06-24 15:54:18.565224015 -0400
 @@ -525,9 +525,9 @@
        "name": "Google",
        "keyword": "google.com",
        "favicon_url": "http://www.google.com/favicon.ico",
--      "search_url": "{google:baseURL}search?q={searchTerms}&{google:RLZ}{google:originalQueryForSuggestion}{google:assistedQueryStats}{google:searchFieldtrialParameter}{google:bookmarkBarPinned}{google:searchClient}{google:sourceId}{google:instantExtendedEnabledParameter}{google:omniboxStartMarginParameter}ie={inputEncoding}",
--      "suggest_url": "{google:baseSuggestURL}search?{google:searchFieldtrialParameter}client={google:suggestClient}&gs_ri={google:suggestRid}&xssi=t&q={searchTerms}&{google:cursorPosition}{google:currentPageUrl}{google:pageClassification}{google:searchVersion}{google:sessionToken}sugkey={google:suggestAPIKeyParameter}",
+-      "search_url": "{google:baseURL}search?q={searchTerms}&{google:RLZ}{google:originalQueryForSuggestion}{google:assistedQueryStats}{google:searchFieldtrialParameter}{google:bookmarkBarPinned}{google:searchClient}{google:sourceId}{google:instantExtendedEnabledParameter}{google:omniboxStartMarginParameter}{google:contextualSearchVersion}ie={inputEncoding}",
+-      "suggest_url": "{google:baseSuggestURL}search?{google:searchFieldtrialParameter}client={google:suggestClient}&gs_ri={google:suggestRid}&xssi=t&q={searchTerms}&{google:inputType}{google:cursorPosition}{google:currentPageUrl}{google:pageClassification}{google:searchVersion}{google:sessionToken}sugkey={google:suggestAPIKeyParameter}",
 -      "instant_url": "{google:baseURL}webhp?sourceid=chrome-instant&{google:RLZ}{google:forceInstantResults}{google:instantExtendedEnabledParameter}{google:ntpIsThemedParameter}{google:omniboxStartMarginParameter}ie={inputEncoding}",
-+      "search_url": "{google:baseURL}search?q={searchTerms}&client=ubuntu&channel=cs&{google:RLZ}{google:originalQueryForSuggestion}{google:assistedQueryStats}{google:searchFieldtrialParameter}{google:bookmarkBarPinned}{google:searchClient}{google:sourceId}{google:instantExtendedEnabledParameter}{google:omniboxStartMarginParameter}ie={inputEncoding}",
-+      "suggest_url": "{google:baseSuggestURL}search?{google:searchFieldtrialParameter}client=ubuntu&channel=cs&gs_ri={google:suggestRid}&xssi=t&q={searchTerms}&{google:cursorPosition}{google:currentPageUrl}{google:pageClassification}{google:searchVersion}{google:sessionToken}sugkey={google:suggestAPIKeyParameter}",
++      "search_url": "{google:baseURL}search?q={searchTerms}&client=ubuntu&channel=cs&{google:RLZ}{google:originalQueryForSuggestion}{google:assistedQueryStats}{google:searchFieldtrialParameter}{google:bookmarkBarPinned}{google:searchClient}{google:sourceId}{google:instantExtendedEnabledParameter}{google:omniboxStartMarginParameter}{google:contextualSearchVersion}ie={inputEncoding}",
++      "suggest_url": "{google:baseSuggestURL}search?{google:searchFieldtrialParameter}client=ubuntu&channel=cs&gs_ri={google:suggestRid}&xssi=t&q={searchTerms}&{google:inputType}{google:cursorPosition}{google:currentPageUrl}{google:pageClassification}{google:searchVersion}{google:sessionToken}sugkey={google:suggestAPIKeyParameter}",
 +      "instant_url": "{google:baseURL}webhp?sourceid=chrome-instant&client=ubuntu&channel=cs&{google:RLZ}{google:forceInstantResults}{google:instantExtendedEnabledParameter}{google:ntpIsThemedParameter}{google:omniboxStartMarginParameter}ie={inputEncoding}",
        "image_url": "{google:baseURL}searchbyimage/upload",
        "new_tab_url": "{google:baseURL}_/chrome/newtab?{google:RLZ}{google:instantExtendedEnabledParameter}{google:ntpIsThemedParameter}ie={inputEncoding}",
-       "image_url_post_params": "encoded_image={google:imageThumbnail},image_url={google:imageURL},sbisrc={google:imageSearchSource},original_width={google:imageOriginalWidth},original_height={google:imageOriginalHeight}",
+       "contextual_search_url": "{google:baseURL}_/contextualsearch?{google:contextualSearchVersion}{google:contextualSearchContextData}",

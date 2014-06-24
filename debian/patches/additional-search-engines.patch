@@ -1,7 +1,7 @@
-Index: dev.trusty/chrome/browser/search_engines/prepopulated_engines.json
+Index: dev.trusty/components/search_engines/prepopulated_engines.json
 ===================================================================
---- dev.trusty.orig/chrome/browser/search_engines/prepopulated_engines.json	2014-06-04 07:24:53.400494075 -0400
-+++ dev.trusty/chrome/browser/search_engines/prepopulated_engines.json	2014-06-04 07:24:53.398494075 -0400
+--- dev.trusty.orig/components/search_engines/prepopulated_engines.json	2014-06-24 15:54:23.618224009 -0400
++++ dev.trusty/components/search_engines/prepopulated_engines.json	2014-06-24 15:54:23.615224009 -0400
 @@ -14,6 +14,7 @@
  //    88, 89, 91+
  //
@@ -36,10 +36,10 @@ Index: dev.trusty/chrome/browser/search_engines/prepopulated_engines.json
      "google": {
        "name": "Google",
        "keyword": "google.com",
-Index: dev.trusty/chrome/browser/search_engines/search_engine_type.h
+Index: dev.trusty/components/search_engines/search_engine_type.h
 ===================================================================
---- dev.trusty.orig/chrome/browser/search_engines/search_engine_type.h	2014-06-04 07:24:53.400494075 -0400
-+++ dev.trusty/chrome/browser/search_engines/search_engine_type.h	2014-06-04 07:24:53.398494075 -0400
+--- dev.trusty.orig/components/search_engines/search_engine_type.h	2014-06-24 15:54:23.618224009 -0400
++++ dev.trusty/components/search_engines/search_engine_type.h	2014-06-24 15:54:23.615224009 -0400
 @@ -22,6 +22,7 @@
    SEARCH_ENGINE_DAUM,
    SEARCH_ENGINE_DELFI,
@@ -50,9 +50,9 @@ Index: dev.trusty/chrome/browser/search_engines/search_engine_type.h
    SEARCH_ENGINE_GOOGLE,
 Index: dev.trusty/chrome/browser/search_engines/template_url_prepopulate_data.cc
 ===================================================================
---- dev.trusty.orig/chrome/browser/search_engines/template_url_prepopulate_data.cc	2014-06-04 07:24:53.400494075 -0400
-+++ dev.trusty/chrome/browser/search_engines/template_url_prepopulate_data.cc	2014-06-04 07:24:53.398494075 -0400
-@@ -52,7 +52,7 @@
+--- dev.trusty.orig/chrome/browser/search_engines/template_url_prepopulate_data.cc	2014-06-24 15:54:23.618224009 -0400
++++ dev.trusty/chrome/browser/search_engines/template_url_prepopulate_data.cc	2014-06-24 15:54:23.616224009 -0400
+@@ -49,7 +49,7 @@
  
  // Default (for countries with no better engine set)
  const PrepopulatedEngine* engines_default[] =
@@ -61,7 +61,7 @@ Index: dev.trusty/chrome/browser/search_engines/template_url_prepopulate_data.cc
  
  // United Arab Emirates
  const PrepopulatedEngine* engines_AE[] =
-@@ -144,7 +144,7 @@
+@@ -141,7 +141,7 @@
  
  // Germany
  const PrepopulatedEngine* engines_DE[] =
@@ -70,7 +70,7 @@ Index: dev.trusty/chrome/browser/search_engines/template_url_prepopulate_data.cc
  
  // Denmark
  const PrepopulatedEngine* engines_DK[] =
-@@ -184,11 +184,11 @@
+@@ -181,11 +181,11 @@
  
  // France
  const PrepopulatedEngine* engines_FR[] =
@@ -84,7 +84,7 @@ Index: dev.trusty/chrome/browser/search_engines/template_url_prepopulate_data.cc
  
  // Greece
  const PrepopulatedEngine* engines_GR[] =
-@@ -456,7 +456,7 @@
+@@ -453,7 +453,7 @@
  
  // United States
  const PrepopulatedEngine* engines_US[] =
@@ -93,7 +93,7 @@ Index: dev.trusty/chrome/browser/search_engines/template_url_prepopulate_data.cc
  
  // Uruguay
  const PrepopulatedEngine* engines_UY[] =
-@@ -494,7 +494,7 @@
+@@ -491,7 +491,7 @@
    &bing_fr_FR,   &bing_it_IT,   &bing_ja_JP,   &bing_lv_LV,   &bing_nb_NO,
    &bing_nl_BE,   &bing_pl_PL,   &bing_pt_BR,   &bing_pt_PT,   &bing_ru_RU,
    &bing_sv_SE,   &bing_tr_TR,   &bing_zh_HK,   &bing_zh_TW,   &daum,
