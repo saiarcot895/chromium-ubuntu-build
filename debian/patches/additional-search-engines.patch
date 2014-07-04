@@ -1,7 +1,7 @@
 Index: dev.trusty/components/search_engines/prepopulated_engines.json
 ===================================================================
---- dev.trusty.orig/components/search_engines/prepopulated_engines.json	2014-06-24 15:54:23.618224009 -0400
-+++ dev.trusty/components/search_engines/prepopulated_engines.json	2014-06-24 15:54:23.615224009 -0400
+--- dev.trusty.orig/components/search_engines/prepopulated_engines.json	2014-07-04 08:23:32.915312906 -0400
++++ dev.trusty/components/search_engines/prepopulated_engines.json	2014-07-04 08:23:32.911312906 -0400
 @@ -14,6 +14,7 @@
  //    88, 89, 91+
  //
@@ -38,8 +38,8 @@ Index: dev.trusty/components/search_engines/prepopulated_engines.json
        "keyword": "google.com",
 Index: dev.trusty/components/search_engines/search_engine_type.h
 ===================================================================
---- dev.trusty.orig/components/search_engines/search_engine_type.h	2014-06-24 15:54:23.618224009 -0400
-+++ dev.trusty/components/search_engines/search_engine_type.h	2014-06-24 15:54:23.615224009 -0400
+--- dev.trusty.orig/components/search_engines/search_engine_type.h	2014-07-04 08:23:32.915312906 -0400
++++ dev.trusty/components/search_engines/search_engine_type.h	2014-07-04 08:23:32.911312906 -0400
 @@ -22,6 +22,7 @@
    SEARCH_ENGINE_DAUM,
    SEARCH_ENGINE_DELFI,
@@ -50,8 +50,8 @@ Index: dev.trusty/components/search_engines/search_engine_type.h
    SEARCH_ENGINE_GOOGLE,
 Index: dev.trusty/chrome/browser/search_engines/template_url_prepopulate_data.cc
 ===================================================================
---- dev.trusty.orig/chrome/browser/search_engines/template_url_prepopulate_data.cc	2014-06-24 15:54:23.618224009 -0400
-+++ dev.trusty/chrome/browser/search_engines/template_url_prepopulate_data.cc	2014-06-24 15:54:23.616224009 -0400
+--- dev.trusty.orig/chrome/browser/search_engines/template_url_prepopulate_data.cc	2014-07-04 08:23:32.915312906 -0400
++++ dev.trusty/chrome/browser/search_engines/template_url_prepopulate_data.cc	2014-07-04 08:23:32.912312906 -0400
 @@ -49,7 +49,7 @@
  
  // Default (for countries with no better engine set)

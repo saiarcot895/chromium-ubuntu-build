@@ -26,3 +26,4 @@ display-scaling-default-value
 display-scaling-report-hardware-info
 flash-redirection
 #clipboard
+angle-fix.patch

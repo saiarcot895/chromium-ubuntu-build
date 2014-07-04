@@ -1,8 +1,8 @@
 
 Index: dev.trusty/tools/find_depot_tools.py
 ===================================================================
---- dev.trusty.orig/tools/find_depot_tools.py	2014-06-24 15:54:24.242224008 -0400
-+++ dev.trusty/tools/find_depot_tools.py	2014-06-24 15:54:24.240224008 -0400
+--- dev.trusty.orig/tools/find_depot_tools.py	2014-07-04 08:23:33.809312905 -0400
++++ dev.trusty/tools/find_depot_tools.py	2014-07-04 08:23:33.806312905 -0400
 @@ -40,6 +40,3 @@
    return None
  

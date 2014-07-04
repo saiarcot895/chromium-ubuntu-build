@@ -4,8 +4,8 @@ Forwarded: yes
 
 Index: dev.trusty/ui/views/widget/desktop_aura/desktop_screen_x11.cc
 ===================================================================
---- dev.trusty.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-06-24 15:54:24.828224008 -0400
-+++ dev.trusty/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-06-24 15:54:24.825224008 -0400
+--- dev.trusty.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-07-04 08:23:34.484312904 -0400
++++ dev.trusty/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-07-04 08:23:34.482312904 -0400
 @@ -7,7 +7,12 @@
  #include <X11/extensions/Xrandr.h>
  #include <X11/Xlib.h>
