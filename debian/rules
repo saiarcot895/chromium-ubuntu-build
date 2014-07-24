@@ -443,6 +443,10 @@ ifeq (1,$(WANT_SYSTEM_LIBS))
 	cd $(SRC_DIR) && python build/linux/unbundle/replace_gyp_files.py $(SYSTEM_LIBS)
 endif
 	cd $(SRC_DIR) && $(GYP_ENV) $(CROSS_BUILD) python build/gyp_chromium build/all.gyp $(GYP_PARAMS)
+
+	mkdir -p third_party/llvm-build/Release+Asserts/bin
+	ln -s /usr/bin/clang /usr/bin/clang++ /usr/bin/llvm-clang third_party/llvm-build/Release+Asserts/bin/
+
 	touch $@
 
 build-stamp: configure-stamp

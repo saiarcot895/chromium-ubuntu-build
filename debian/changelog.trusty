@@ -1,3 +1,9 @@
+chromium-browser (38.0.2101.0-0ubuntu1~ppa2~trusty1) trusty; urgency=low
+
+  * Add symlinks to clang binaries in the expected location
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 24 Jul 2014 17:15:38 -0400
+
 chromium-browser (38.0.2101.0-0ubuntu1~ppa1~trusty1) trusty; urgency=low
 
   * New upstream version 38.0.2101.0
