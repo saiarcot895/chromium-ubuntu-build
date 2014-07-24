@@ -1,20 +1,29 @@
 Description: Add Ubuntu id into search queries to get credit.
 Author: Chad Miller <chad.miller@canonical.com>
 
-Index: dev.trusty/components/search_engines/prepopulated_engines.json
+Index: dev.utopic/components/search_engines/prepopulated_engines.json
 ===================================================================
---- dev.trusty.orig/components/search_engines/prepopulated_engines.json	2014-07-04 08:23:27.973312911 -0400
-+++ dev.trusty/components/search_engines/prepopulated_engines.json	2014-07-04 08:23:27.970312911 -0400
-@@ -525,9 +525,9 @@
-       "name": "Google",
-       "keyword": "google.com",
-       "favicon_url": "http://www.google.com/favicon.ico",
--      "search_url": "{google:baseURL}search?q={searchTerms}&{google:RLZ}{google:originalQueryForSuggestion}{google:assistedQueryStats}{google:searchFieldtrialParameter}{google:bookmarkBarPinned}{google:searchClient}{google:sourceId}{google:instantExtendedEnabledParameter}{google:omniboxStartMarginParameter}{google:contextualSearchVersion}ie={inputEncoding}",
--      "suggest_url": "{google:baseSuggestURL}search?{google:searchFieldtrialParameter}client={google:suggestClient}&gs_ri={google:suggestRid}&xssi=t&q={searchTerms}&{google:inputType}{google:cursorPosition}{google:currentPageUrl}{google:pageClassification}{google:searchVersion}{google:sessionToken}sugkey={google:suggestAPIKeyParameter}",
--      "instant_url": "{google:baseURL}webhp?sourceid=chrome-instant&{google:RLZ}{google:forceInstantResults}{google:instantExtendedEnabledParameter}{google:ntpIsThemedParameter}{google:omniboxStartMarginParameter}ie={inputEncoding}",
-+      "search_url": "{google:baseURL}search?q={searchTerms}&client=ubuntu&channel=cs&{google:RLZ}{google:originalQueryForSuggestion}{google:assistedQueryStats}{google:searchFieldtrialParameter}{google:bookmarkBarPinned}{google:searchClient}{google:sourceId}{google:instantExtendedEnabledParameter}{google:omniboxStartMarginParameter}{google:contextualSearchVersion}ie={inputEncoding}",
-+      "suggest_url": "{google:baseSuggestURL}search?{google:searchFieldtrialParameter}client=ubuntu&channel=cs&gs_ri={google:suggestRid}&xssi=t&q={searchTerms}&{google:inputType}{google:cursorPosition}{google:currentPageUrl}{google:pageClassification}{google:searchVersion}{google:sessionToken}sugkey={google:suggestAPIKeyParameter}",
-+      "instant_url": "{google:baseURL}webhp?sourceid=chrome-instant&client=ubuntu&channel=cs&{google:RLZ}{google:forceInstantResults}{google:instantExtendedEnabledParameter}{google:ntpIsThemedParameter}{google:omniboxStartMarginParameter}ie={inputEncoding}",
-       "image_url": "{google:baseURL}searchbyimage/upload",
-       "new_tab_url": "{google:baseURL}_/chrome/newtab?{google:RLZ}{google:instantExtendedEnabledParameter}{google:ntpIsThemedParameter}ie={inputEncoding}",
-       "contextual_search_url": "{google:baseURL}_/contextualsearch?{google:contextualSearchVersion}{google:contextualSearchContextData}",
+--- dev.utopic.orig/components/search_engines/prepopulated_engines.json	2014-07-24 09:02:49.618429237 -0400
++++ dev.utopic/components/search_engines/prepopulated_engines.json	2014-07-24 09:02:49.615429237 -0400
+@@ -79,7 +79,7 @@
+       "name": "\u767e\u5ea6",
+       "keyword": "baidu.com",
+       "favicon_url": "http://www.baidu.com/favicon.ico",
+-      "search_url": "http://www.baidu.com/#ie={inputEncoding}&wd={searchTerms}",
++      "search_url": "http://www.baidu.com/#ie={inputEncoding}&tn=ubuntuu_cb&wd={searchTerms}",
+       "type": "SEARCH_ENGINE_BAIDU",
+       "id": 21
+     },
+Index: dev.utopic/components/search_engines/template_url.cc
+===================================================================
+--- dev.utopic.orig/components/search_engines/template_url.cc	2014-07-24 09:02:49.618429237 -0400
++++ dev.utopic/components/search_engines/template_url.cc	2014-07-24 09:02:49.616429237 -0400
+@@ -1018,7 +1018,7 @@
+ 
+       case GOOGLE_SEARCH_CLIENT: {
+         DCHECK(!i->is_post_param);
+-        std::string client = search_terms_data.GetSearchClient();
++        std::string client = "ubuntu-browser";
+         if (!client.empty())
+           HandleReplacement("client", client, *i, &url);
+         break;

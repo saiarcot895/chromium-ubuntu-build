@@ -1,7 +1,7 @@
-Index: dev.trusty/components/search_engines/prepopulated_engines.json
+Index: dev.utopic/components/search_engines/prepopulated_engines.json
 ===================================================================
---- dev.trusty.orig/components/search_engines/prepopulated_engines.json	2014-07-04 08:23:32.915312906 -0400
-+++ dev.trusty/components/search_engines/prepopulated_engines.json	2014-07-04 08:23:32.911312906 -0400
+--- dev.utopic.orig/components/search_engines/prepopulated_engines.json	2014-07-24 09:31:35.516427359 -0400
++++ dev.utopic/components/search_engines/prepopulated_engines.json	2014-07-24 09:31:35.513427359 -0400
 @@ -14,6 +14,7 @@
  //    88, 89, 91+
  //
@@ -10,7 +10,7 @@ Index: dev.trusty/components/search_engines/prepopulated_engines.json
  //
  // NOTES:
  //   - CHANGE THE ABOVE NUMBERS IF YOU ADD A NEW ENGINE; ID conflicts = bad!
-@@ -23,7 +24,7 @@
+@@ -26,7 +27,7 @@
    "int_variables": {
      // The following id is for UMA stats only. Please update it if you add new
      // engines outside the current range or it will not be counted in stats.
@@ -19,7 +19,7 @@ Index: dev.trusty/components/search_engines/prepopulated_engines.json
  
      // Increment this if you change the data in ways that mean users with
      // existing data should get a new version.
-@@ -521,6 +522,16 @@
+@@ -524,6 +525,16 @@
        "id": 68
      },
  
@@ -36,10 +36,10 @@ Index: dev.trusty/components/search_engines/prepopulated_engines.json
      "google": {
        "name": "Google",
        "keyword": "google.com",
-Index: dev.trusty/components/search_engines/search_engine_type.h
+Index: dev.utopic/components/search_engines/search_engine_type.h
 ===================================================================
---- dev.trusty.orig/components/search_engines/search_engine_type.h	2014-07-04 08:23:32.915312906 -0400
-+++ dev.trusty/components/search_engines/search_engine_type.h	2014-07-04 08:23:32.911312906 -0400
+--- dev.utopic.orig/components/search_engines/search_engine_type.h	2014-07-24 09:31:35.516427359 -0400
++++ dev.utopic/components/search_engines/search_engine_type.h	2014-07-24 09:31:35.514427359 -0400
 @@ -22,6 +22,7 @@
    SEARCH_ENGINE_DAUM,
    SEARCH_ENGINE_DELFI,
@@ -48,11 +48,11 @@ Index: dev.trusty/components/search_engines/search_engine_type.h
    SEARCH_ENGINE_FUNMOODS,
    SEARCH_ENGINE_GOO,
    SEARCH_ENGINE_GOOGLE,
-Index: dev.trusty/chrome/browser/search_engines/template_url_prepopulate_data.cc
+Index: dev.utopic/components/search_engines/template_url_prepopulate_data.cc
 ===================================================================
---- dev.trusty.orig/chrome/browser/search_engines/template_url_prepopulate_data.cc	2014-07-04 08:23:32.915312906 -0400
-+++ dev.trusty/chrome/browser/search_engines/template_url_prepopulate_data.cc	2014-07-04 08:23:32.912312906 -0400
-@@ -49,7 +49,7 @@
+--- dev.utopic.orig/components/search_engines/template_url_prepopulate_data.cc	2014-07-24 09:31:35.516427359 -0400
++++ dev.utopic/components/search_engines/template_url_prepopulate_data.cc	2014-07-24 09:31:35.514427359 -0400
+@@ -45,7 +45,7 @@
  
  // Default (for countries with no better engine set)
  const PrepopulatedEngine* engines_default[] =
@@ -61,7 +61,7 @@ Index: dev.trusty/chrome/browser/search_engines/template_url_prepopulate_data.cc
  
  // United Arab Emirates
  const PrepopulatedEngine* engines_AE[] =
-@@ -141,7 +141,7 @@
+@@ -137,7 +137,7 @@
  
  // Germany
  const PrepopulatedEngine* engines_DE[] =
@@ -70,7 +70,7 @@ Index: dev.trusty/chrome/browser/search_engines/template_url_prepopulate_data.cc
  
  // Denmark
  const PrepopulatedEngine* engines_DK[] =
-@@ -181,11 +181,11 @@
+@@ -177,11 +177,11 @@
  
  // France
  const PrepopulatedEngine* engines_FR[] =
@@ -84,7 +84,7 @@ Index: dev.trusty/chrome/browser/search_engines/template_url_prepopulate_data.cc
  
  // Greece
  const PrepopulatedEngine* engines_GR[] =
-@@ -453,7 +453,7 @@
+@@ -449,7 +449,7 @@
  
  // United States
  const PrepopulatedEngine* engines_US[] =
@@ -93,7 +93,7 @@ Index: dev.trusty/chrome/browser/search_engines/template_url_prepopulate_data.cc
  
  // Uruguay
  const PrepopulatedEngine* engines_UY[] =
-@@ -491,7 +491,7 @@
+@@ -487,7 +487,7 @@
    &bing_fr_FR,   &bing_it_IT,   &bing_ja_JP,   &bing_lv_LV,   &bing_nb_NO,
    &bing_nl_BE,   &bing_pl_PL,   &bing_pt_BR,   &bing_pt_PT,   &bing_ru_RU,
    &bing_sv_SE,   &bing_tr_TR,   &bing_zh_HK,   &bing_zh_TW,   &daum,

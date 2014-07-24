@@ -2,10 +2,8 @@ Description: Read display scaling from gsettings.
 Author: Chad MILLER <chad.miller@canonical.com>
 Forwarded: yes
 
-Index: dev.trusty/ui/views/widget/desktop_aura/desktop_screen_x11.cc
-===================================================================
---- dev.trusty.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-07-04 08:23:34.484312904 -0400
-+++ dev.trusty/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-07-04 08:23:34.482312904 -0400
+--- a/ui/views/widget/desktop_aura/desktop_screen_x11.cc
++++ b/ui/views/widget/desktop_aura/desktop_screen_x11.cc
 @@ -7,7 +7,12 @@
  #include <X11/extensions/Xrandr.h>
  #include <X11/Xlib.h>
@@ -20,7 +18,7 @@ Index: dev.trusty/ui/views/widget/desktop_aura/desktop_screen_x11.cc
  #undef RootWindow
  
  #include "base/debug/trace_event.h"
-@@ -330,6 +335,29 @@
+@@ -351,6 +356,29 @@ std::vector<gfx::Display> DesktopScreenX
      return GetFallbackDisplayList();
    }
  
@@ -50,7 +48,7 @@ Index: dev.trusty/ui/views/widget/desktop_aura/desktop_screen_x11.cc
    bool has_work_area = false;
    gfx::Rect work_area;
    std::vector<int> value;
-@@ -366,7 +394,27 @@
+@@ -387,7 +415,27 @@ std::vector<gfx::Display> DesktopScreenX
        gfx::Rect crtc_bounds(crtc->x, crtc->y, crtc->width, crtc->height);
        gfx::Display display(display_id, crtc_bounds);
  
@@ -76,10 +74,10 @@ Index: dev.trusty/ui/views/widget/desktop_aura/desktop_screen_x11.cc
 +        display.SetScaleAndBounds(device_scale_factor, crtc_bounds);
 +      } else if (!gfx::Display::HasForceDeviceScaleFactor()) {
 +
-         if (i == 0 && !ui::IsDisplaySizeBlackListed(
-             gfx::Size(output_info->mm_width, output_info->mm_height))) {
+         if (i == 0 && !ui::IsXDisplaySizeBlackListed(output_info->mm_width,
+                                                      output_info->mm_height)) {
            // As per display scale factor is not supported right now,
-@@ -375,6 +423,7 @@
+@@ -396,6 +444,7 @@ std::vector<gfx::Display> DesktopScreenX
                                                       output_info->mm_width);
            DCHECK_LE(1.0f, device_scale_factor);
          }

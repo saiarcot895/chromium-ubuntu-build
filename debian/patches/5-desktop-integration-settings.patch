@@ -1,86 +1,83 @@
-Index: beta.trusty/chrome/app/generated_resources.grd
+Index: dev.utopic/chrome/app/generated_resources.grd
 ===================================================================
---- beta.trusty.orig/chrome/app/generated_resources.grd	2014-04-19 10:50:24.424793132 -0400
-+++ beta.trusty/chrome/app/generated_resources.grd	2014-04-19 10:50:24.344790131 -0400
-@@ -12210,6 +12210,9 @@
-       <message name="IDS_OPTIONS_ADVANCED_SECTION_TITLE_CONTENT">
-         Web content
+--- dev.utopic.orig/chrome/app/generated_resources.grd	2014-07-24 09:33:43.626427220 -0400
++++ dev.utopic/chrome/app/generated_resources.grd	2014-07-24 09:33:43.620427220 -0400
+@@ -7710,6 +7710,35 @@
+         Reload
+       </message>
+ 
++      <!-- Desktop integration -->
++      <message name="IDS_PROMPT_INTEGRATION_ENABLE_BUTTON_LABEL" desc="The text to be displayed on the checkbox that enables desktop integration.">
++        Notify me when the website I am visiting can run as an application
++      </message>
++      <message name="IDS_DESKTOP_INTEGRATION_NOTE_DESCRIPTION" desc="The text to be displayed below the Exceptions button in the Integrated Websites section.">
++        Websites which have been installed can be removed, like any other application, using Ubuntu Software Center.
++      </message>
++      <message name="IDS_DESKTOP_INTEGRATION_SETTINGS_EXCEPTIONS_BUTTON_LABEL" desc="The text to be displayed on the button that drives integration exceptions.">
++        Exceptions...
++      </message>
++      <message name="IDS_DESKTOP_INTEGRATION_SETTINGS_OVERLAY_TITLE" desc="Title for the desktop integration overlay.">
++        Integration prompt exceptions
++      </message>
++      <message name="IDS_DESKTOP_INTEGRATION_SETTINGS_OVERLAY_DESCRIPTION" desc="Description for the desktop integration overlay.">
++        These websites won't prompt to be installed:
++      </message>
++      <message name="IDS_OPTIONS_SETTINGS_INTEGRATION_WEBSITE_ADD_BUTTON"
++               desc="The label for the add button for adding a integration websites">
++        Add
++      </message>
++      <message name="IDS_OPTIONS_SETTINGS_INTEGRATION_WEBSITE_ADD_TEXT"
++               desc="The description text for the add overlay for adding a integration websites">
++        Website domain name (e.g. www.html5rocks.com)
++      </message>
++      <message name="IDS_OPTIONS_SETTINGS_INTEGRATION_WEBSITE_ADD_TITLE"
++               desc="Title for add overlay for adding a integration websites">
++        Add Integrated Website
++      </message>
++
+       <!-- Mac and ChromeOS users do not close their browser. Mac users quit it and ChromeOS users log out. -->
+       <if expr="not is_macosx and not chromeos">
+         <message name="IDS_COOKIES_CLEAR_WHEN_CLOSE_CHKBOX" desc="A checkbox in the Content Settings dialog for removing all cookies on when browser is closed.">
+@@ -11898,6 +11927,9 @@
+       <message name="IDS_OPTIONS_ADVANCED_SECTION_TITLE_CERTIFICATES">
+         HTTPS/SSL
        </message>
 +      <message name="IDS_OPTIONS_ADVANCED_SECTION_TITLE_INTEGRATION">
 +        Installed Websites
 +      </message>
-       <message name="IDS_OPTIONS_ADVANCED_SECTION_TITLE_SECURITY">
-         HTTPS/SSL
+       <message name="IDS_OPTIONS_ADVANCED_SECTION_TITLE_NETWORK">
+         Network
        </message>
-@@ -13831,6 +13834,35 @@
-       permanently store data on your device.
-     </message>
- 
-+    <!-- Desktop integration -->
-+    <message name="IDS_PROMPT_INTEGRATION_ENABLE_BUTTON_LABEL" desc="The text to be displayed on the checkbox that enables desktop integration.">
-+      Notify me when the website I am visiting can run as an application
-+    </message>
-+    <message name="IDS_DESKTOP_INTEGRATION_NOTE_DESCRIPTION" desc="The text to be displayed below the Exceptions button in the Integrated Websites section.">
-+      Websites which have been installed can be removed, like any other application, using Ubuntu Software Center.
-+    </message>
-+    <message name="IDS_DESKTOP_INTEGRATION_SETTINGS_EXCEPTIONS_BUTTON_LABEL" desc="The text to be displayed on the button that drives integration exceptions.">
-+      Exceptions...
-+    </message>
-+    <message name="IDS_DESKTOP_INTEGRATION_SETTINGS_OVERLAY_TITLE" desc="Title for the desktop integration overlay.">
-+      Integration prompt exceptions
-+    </message>
-+    <message name="IDS_DESKTOP_INTEGRATION_SETTINGS_OVERLAY_DESCRIPTION" desc="Description for the desktop integration overlay.">
-+      These websites won't prompt to be installed:
-+    </message>
-+    <message name="IDS_OPTIONS_SETTINGS_INTEGRATION_WEBSITE_ADD_BUTTON"
-+             desc="The label for the add button for adding a integration websites">
-+      Add
-+    </message>
-+    <message name="IDS_OPTIONS_SETTINGS_INTEGRATION_WEBSITE_ADD_TEXT"
-+             desc="The description text for the add overlay for adding a integration websites">
-+      Website domain name (e.g. www.html5rocks.com)
-+    </message>
-+    <message name="IDS_OPTIONS_SETTINGS_INTEGRATION_WEBSITE_ADD_TITLE"
-+             desc="Title for add overlay for adding a integration websites">
-+      Add Integrated Website
-+    </message>
+Index: dev.utopic/chrome/browser/resources/options/browser_options.html
+===================================================================
+--- dev.utopic.orig/chrome/browser/resources/options/browser_options.html	2014-07-24 09:33:43.626427220 -0400
++++ dev.utopic/chrome/browser/resources/options/browser_options.html	2014-07-24 09:33:43.620427220 -0400
+@@ -453,6 +453,20 @@
+     </div>
+   </section>
+ </if>  <!-- chromeos -->
 +
-     <!-- Android does not support multiple profiles and managed users -->
-     <if expr="not is_android">
-       <!-- Manage Profile Dialog -->
-Index: beta.trusty/chrome/browser/resources/options/options.html
++  <section id="desktop-integration-section">
++    <h3 i18n-content="advancedSectionTitleIntegration"></h3>
++    <div class="checkbox">
++      <label>
++        <input id="promptIntegrationForAnyWebsite"
++            metric="Options_PromptIntegration" type="checkbox">
++        <span i18n-content="promptIntegrationEnableIntegration"></span>
++      </label>
++    </div>
++    <button id="desktop-integration-button"
++        i18n-content="desktopIntegrationExceptionsSettingsButton"></button>
++  </section>
++
+   <section id="passwords-and-autofill-section">
+     <h3 i18n-content="passwordsAndAutofillGroupName"></h3>
+     <div class="checkbox">
+Index: dev.utopic/chrome/browser/resources/options/browser_options.js
 ===================================================================
---- beta.trusty.orig/chrome/browser/resources/options/options.html	2014-04-19 10:50:24.424793132 -0400
-+++ beta.trusty/chrome/browser/resources/options/options.html	2014-04-19 10:50:24.344790131 -0400
-@@ -24,6 +24,7 @@
- <link rel="stylesheet" href="content_settings.css">
- <link rel="stylesheet" href="controlled_setting.css">
- <link rel="stylesheet" href="cookies_view.css">
-+<link rel="stylesheet" href="desktop_integration_overlay.css">
- <link rel="stylesheet" href="do_not_track_confirm_overlay.css">
- <link rel="stylesheet" href="font_settings.css">
- <link rel="stylesheet" href="handler_options.css">
-@@ -111,6 +112,7 @@
-   <include src="home_page_overlay.html">
-   <include src="hotword_confirm_overlay.html">
-   <include src="import_data_overlay.html">
-+  <include src="desktop_integration_overlay.html">
-   <include src="language_options.html">
-   <include src="manage_profile_overlay.html">
-   <include src="managed_user_create_confirm.html">
-@@ -140,6 +142,7 @@
-   <include src="autofill_edit_creditcard_overlay.html">
-   <include src="content_settings_exceptions_area.html">
-   <include src="cookies_view.html">
-+  <include src="desktop_integration_add_website_overlay.html">
-   <include src="handler_options.html">
-   <include src="language_add_language_overlay.html">
-   <include src="managed_user_import.html">
-Index: beta.trusty/chrome/browser/resources/options/browser_options.js
-===================================================================
---- beta.trusty.orig/chrome/browser/resources/options/browser_options.js	2014-04-19 10:50:24.424793132 -0400
-+++ beta.trusty/chrome/browser/resources/options/browser_options.js	2014-04-19 10:50:24.364790881 -0400
-@@ -413,6 +413,23 @@
+--- dev.utopic.orig/chrome/browser/resources/options/browser_options.js	2014-07-24 09:33:43.626427220 -0400
++++ dev.utopic/chrome/browser/resources/options/browser_options.js	2014-07-24 09:33:43.621427220 -0400
+@@ -462,6 +462,23 @@
              [String(event.target.options[event.target.selectedIndex].value)]);
        };
  
@@ -104,7 +101,7 @@ Index: beta.trusty/chrome/browser/resources/options/browser_options.js
        // Languages section.
        var showLanguageOptions = function(event) {
          OptionsPage.navigateToPage('languages');
-@@ -1373,6 +1390,24 @@
+@@ -1431,6 +1448,24 @@
      },
  
      /**
@@ -129,15 +126,15 @@ Index: beta.trusty/chrome/browser/resources/options/browser_options.js
       * Set the checked state of the metrics reporting checkbox.
       * @private
       */
-@@ -1774,6 +1809,7 @@
-   //Forward public APIs to private implementations.
+@@ -1817,6 +1852,7 @@
    [
      'addBluetoothDevice',
+     'deleteCurrentProfile',
 +    'disableDesktopIntegration',
      'enableCertificateButton',
      'enableFactoryResetSection',
      'getCurrentProfile',
-@@ -1790,6 +1826,7 @@
+@@ -1834,6 +1870,7 @@
      'setFontSize',
      'setNativeThemeButtonEnabled',
      'setHighContrastCheckboxState',
@@ -145,180 +142,31 @@ Index: beta.trusty/chrome/browser/resources/options/browser_options.js
      'setMetricsReportingCheckboxState',
      'setMetricsReportingSettingVisibility',
      'setProfilesInfo',
-Index: beta.trusty/chrome/browser/resources/options/options.js
-===================================================================
---- beta.trusty.orig/chrome/browser/resources/options/options.js	2014-04-19 10:50:24.424793132 -0400
-+++ beta.trusty/chrome/browser/resources/options/options.js	2014-04-19 10:50:24.372791182 -0400
-@@ -15,6 +15,8 @@
-     options.contentSettings.ContentSettingsExceptionsArea;
- var ContentSettings = options.ContentSettings;
- var CookiesView = options.CookiesView;
-+var DesktopIntegrationOverlay = options.DesktopIntegrationOverlay;
-+var AddDesktopIntegrationWebsiteOverlay = options.AddDesktopIntegrationWebsiteOverlay;
- var CreateProfileOverlay = options.CreateProfileOverlay;
- var EditDictionaryOverlay = cr.IsMac ? null : options.EditDictionaryOverlay;
- var FactoryResetOverlay = options.FactoryResetOverlay;
-@@ -134,6 +136,13 @@
-   OptionsPage.registerOverlay(FontSettings.getInstance(),
-                               BrowserOptions.getInstance(),
-                               [$('fontSettingsCustomizeFontsButton')]);
-+  if (cr.isLinux && !cr.isChromeos) {
-+    OptionsPage.registerOverlay(AddDesktopIntegrationWebsiteOverlay.getInstance(),
-+                                DesktopIntegrationOverlay.getInstance());
-+    OptionsPage.registerOverlay(DesktopIntegrationOverlay.getInstance(),
-+                                BrowserOptions.getInstance(),
-+                                [$('desktop-integration-button')]);
-+  }
-   if (HandlerOptions && $('manage-handlers-button')) {
-     OptionsPage.registerOverlay(HandlerOptions.getInstance(),
-                                 ContentSettings.getInstance(),
-Index: beta.trusty/chrome/browser/resources/options/options_bundle.js
-===================================================================
---- beta.trusty.orig/chrome/browser/resources/options/options_bundle.js	2014-04-19 10:50:24.424793132 -0400
-+++ beta.trusty/chrome/browser/resources/options/options_bundle.js	2014-04-19 10:50:24.372791182 -0400
-@@ -78,6 +78,8 @@
- <include src="content_settings_ui.js"></include>
- <include src="cookies_list.js"></include>
- <include src="cookies_view.js"></include>
-+<include src="desktop_integration_add_website_overlay.js"></include>
-+<include src="desktop_integration_overlay.js"></include>
- <include src="factory_reset_overlay.js"></include>
- <include src="font_settings.js"></include>
- <if expr="enable_google_now">
-Index: beta.trusty/chrome/browser/resources/options/browser_options.html
-===================================================================
---- beta.trusty.orig/chrome/browser/resources/options/browser_options.html	2014-04-19 10:50:24.424793132 -0400
-+++ beta.trusty/chrome/browser/resources/options/browser_options.html	2014-04-19 10:50:24.376791331 -0400
-@@ -420,6 +420,22 @@
-     </div>
-   </section>
- </if>  <!-- chromeos -->
-+
-+<if expr="is_linux and not chromeos">
-+  <section id="desktop-integration-section">
-+    <h3 i18n-content="advancedSectionTitleIntegration"></h3>
-+    <div class="checkbox">
-+      <label>
-+        <input id="promptIntegrationForAnyWebsite"
-+            metric="Options_PromptIntegration" type="checkbox">
-+        <span i18n-content="promptIntegrationEnableIntegration"></span>
-+      </label>
-+    </div>
-+    <button id="desktop-integration-button"
-+        i18n-content="desktopIntegrationExceptionsSettingsButton"></button>
-+  </section>
-+</if>
-+
-   <section id="passwords-and-autofill-section">
-     <h3 i18n-content="passwordsAndAutofillGroupName"></h3>
-     <div class="checkbox">
-Index: beta.trusty/chrome/browser/ui/webui/options/options_ui.cc
-===================================================================
---- beta.trusty.orig/chrome/browser/ui/webui/options/options_ui.cc	2014-04-19 10:50:24.424793132 -0400
-+++ beta.trusty/chrome/browser/ui/webui/options/options_ui.cc	2014-04-19 10:50:24.376791331 -0400
-@@ -94,6 +94,10 @@
- #include "chrome/browser/ui/webui/options/geolocation_options_handler.h"
- #endif
- 
-+#if defined(OS_LINUX)
-+#include "chrome/browser/ui/webui/options/desktop_integration_settings_handler.h"
-+#endif
-+
- using content::RenderViewHost;
- 
- namespace {
-@@ -267,6 +271,10 @@
-   AddOptionsPageUIHandler(localized_strings, new ContentSettingsHandler());
-   AddOptionsPageUIHandler(localized_strings, new CookiesViewHandler());
-   AddOptionsPageUIHandler(localized_strings, new CreateProfileHandler());
-+#if defined(OS_LINUX)
-+  AddOptionsPageUIHandler(localized_strings,
-+                          new DesktopIntegrationSettingsHandler());
-+#endif
-   AddOptionsPageUIHandler(localized_strings, new FontSettingsHandler());
- #if defined(ENABLE_GOOGLE_NOW)
-   AddOptionsPageUIHandler(localized_strings, new GeolocationOptionsHandler());
-Index: beta.trusty/chrome/browser/ui/webui/options/browser_options_handler.cc
-===================================================================
---- beta.trusty.orig/chrome/browser/ui/webui/options/browser_options_handler.cc	2014-04-19 10:50:24.424793132 -0400
-+++ beta.trusty/chrome/browser/ui/webui/options/browser_options_handler.cc	2014-04-19 10:50:24.392791931 -0400
-@@ -195,6 +195,8 @@
-     { "currentUserOnly", IDS_OPTIONS_CURRENT_USER_ONLY },
-     { "advancedSectionTitleContent",
-       IDS_OPTIONS_ADVANCED_SECTION_TITLE_CONTENT },
-+    { "advancedSectionTitleIntegration",
-+      IDS_OPTIONS_ADVANCED_SECTION_TITLE_INTEGRATION },
-     { "advancedSectionTitleLanguages",
-       IDS_OPTIONS_ADVANCED_SECTION_TITLE_LANGUAGES },
-     { "advancedSectionTitleNetwork",
-@@ -214,6 +216,10 @@
-     { "defaultFontSizeLabel", IDS_OPTIONS_DEFAULT_FONT_SIZE_LABEL },
-     { "defaultSearchManageEngines", IDS_OPTIONS_DEFAULTSEARCH_MANAGE_ENGINES },
-     { "defaultZoomFactorLabel", IDS_OPTIONS_DEFAULT_ZOOM_LEVEL_LABEL },
-+    { "desktopIntegrationExceptionsSettingsButton",
-+      IDS_DESKTOP_INTEGRATION_SETTINGS_EXCEPTIONS_BUTTON_LABEL },
-+    { "desktopIntegrationNoteSettingsContent",
-+      IDS_DESKTOP_INTEGRATION_NOTE_DESCRIPTION },
- #if defined(OS_CHROMEOS)
-     { "disableGData", IDS_OPTIONS_DISABLE_GDATA },
- #endif
-@@ -286,6 +292,8 @@
-     { "profilesManage", IDS_PROFILES_MANAGE_BUTTON_LABEL },
-     { "profilesSupervisedDashboardTip",
-       IDS_PROFILES_SUPERVISED_USER_DASHBOARD_TIP },
-+    { "promptIntegrationEnableIntegration",
-+      IDS_PROMPT_INTEGRATION_ENABLE_BUTTON_LABEL },
- #if defined(ENABLE_SETTINGS_APP)
-     { "profilesAppListSwitch", IDS_SETTINGS_APP_PROFILES_SWITCH_BUTTON_LABEL },
- #endif
-Index: beta.trusty/chrome/chrome_browser_ui.gypi
-===================================================================
---- beta.trusty.orig/chrome/chrome_browser_ui.gypi	2014-04-19 10:50:24.424793132 -0400
-+++ beta.trusty/chrome/chrome_browser_ui.gypi	2014-04-19 10:50:24.396792081 -0400
-@@ -2532,6 +2532,8 @@
-         'browser/ui/webui/options/core_options_handler.h',
-         'browser/ui/webui/options/create_profile_handler.cc',
-         'browser/ui/webui/options/create_profile_handler.h',
-+        'browser/ui/webui/options/desktop_integration_settings_handler.cc',
-+        'browser/ui/webui/options/desktop_integration_settings_handler.h',
-         'browser/ui/webui/options/font_settings_handler.cc',
-         'browser/ui/webui/options/font_settings_handler.h',
-         'browser/ui/webui/options/font_settings_utils.h',
-Index: beta.trusty/chrome/browser/resources/options/desktop_integration_overlay.html
+Index: dev.utopic/chrome/browser/resources/options/desktop_integration_add_website_overlay.html
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ beta.trusty/chrome/browser/resources/options/desktop_integration_overlay.html	2014-04-19 10:50:24.396792081 -0400
-@@ -0,0 +1,26 @@
-+<div id="desktop-integration-area" class="page" hidden>
-+
++++ dev.utopic/chrome/browser/resources/options/desktop_integration_add_website_overlay.html	2014-07-24 09:33:43.621427220 -0400
+@@ -0,0 +1,16 @@
++<div id="add-desktop-integration-website-overlay-page" class="page" hidden>
 +  <div class="close-button"></div>
-+  <h1 i18n-content="desktopIntegrationPage"></h1>
-+  
-+  <span i18n-content="desktopIntegrationInfoText"></span>
-+ 
++  <h1 i18n-content="add_desktop_website_title"></h1>
++
 +  <div class="content-area">
-+    <list id="domains-list"></list>
-+
-+    <div class="desktop-integration-lower-left">
-+      <button id="desktop-integration-add-button"
-+              i18n-content="add_button"></button>
-+    </div>
++    <span i18n-content="add_desktop_website_input_label"></span>
++    <input id="integration-domain-url-field" type="url" data-type="url"
++           class="weakrtl favicon-cell hbox stretch">
 +  </div>
 +
-+  <div class="action-area">
-+    <div class="button-strip">
-+      <button id="desktop-integrations-overlay-confirm"
-+          i18n-content="ok">
-+      </button>
-+    </div>
++  <div class="action-area button-strip">
++    <button id="add-integration-website-overlay-cancel-button" i18n-content="cancel">
++    </button>
++    <button id="add-integration-website-overlay-ok-button" i18n-content="ok"></button>
 +  </div>
-+
 +</div>
-+
-Index: beta.trusty/chrome/browser/resources/options/desktop_integration_add_website_overlay.js
+Index: dev.utopic/chrome/browser/resources/options/desktop_integration_add_website_overlay.js
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ beta.trusty/chrome/browser/resources/options/desktop_integration_add_website_overlay.js	2014-04-19 10:50:24.400792231 -0400
++++ dev.utopic/chrome/browser/resources/options/desktop_integration_add_website_overlay.js	2014-07-24 09:33:43.621427220 -0400
 @@ -0,0 +1,47 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -367,10 +215,117 @@ Index: beta.trusty/chrome/browser/resources/options/desktop_integration_add_webs
 +    AddDesktopIntegrationWebsiteOverlay: AddDesktopIntegrationWebsiteOverlay
 +  };
 +});
-Index: beta.trusty/chrome/browser/resources/options/desktop_integration_overlay.js
+Index: dev.utopic/chrome/browser/resources/options/desktop_integration_overlay.css
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ beta.trusty/chrome/browser/resources/options/desktop_integration_overlay.js	2014-04-19 10:50:24.400792231 -0400
++++ dev.utopic/chrome/browser/resources/options/desktop_integration_overlay.css	2014-07-24 09:33:43.621427220 -0400
+@@ -0,0 +1,71 @@
++/* Copyright (c) 2012 The Chromium Authors. All rights reserved.
++ * Use of this source code is governed by a BSD-style license that can be
++ * found in the LICENSE file. */
++
++#desktop-integration-options {
++  min-width: 550px;
++}
++
++#desktop-integration-options list {
++  min-height: 172px;
++}
++
++.desktop-integration-list-item {
++  -webkit-box-flex: 1;
++  -webkit-padding-start: 8px;
++  overflow: hidden;
++  text-overflow: ellipsis;
++}
++
++.desktop-integration-lower-left button {
++  min-width: 70px;
++}
++
++.desktop-integration-lower-left {
++  -webkit-box-flex: 0;
++  -webkit-padding-start: 12px;
++  padding-bottom: 10px;
++}
++
++#desktop-integration-column-headers {
++  -webkit-margin-start: 17px;
++  display: -webkit-box;
++  margin-top: 17px;
++}
++
++#desktop-integration-column-headers > div {
++  font-weight: bold;
++}
++
++#desktop-integration-pattern-column {
++  -webkit-box-flex: 1;
++}
++
++#desktop-integration-behavior-column {
++  width: 145px;
++}
++
++#desktop-integration-area list {
++  margin-bottom: 10px;
++  margin-top: 4px;
++}
++
++#domains-list {
++  -webkit-box-flex: 1;
++  outline: none;
++  padding: 1px 0 0;
++  width: 100%;
++}
++
++#domains-list .domain-name {
++  -webkit-box-flex: 1;
++  overflow: hidden;
++  text-overflow: ellipsis;
++  white-space: nowrap;
++}
++
++#domains-list li {
++  -webkit-padding-start: 12px;
++  padding-bottom: 2px;
++  padding-top: 2px;
++}
+Index: dev.utopic/chrome/browser/resources/options/desktop_integration_overlay.html
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ dev.utopic/chrome/browser/resources/options/desktop_integration_overlay.html	2014-07-24 09:33:43.621427220 -0400
+@@ -0,0 +1,26 @@
++<div id="desktop-integration-area" class="page" hidden>
++
++  <div class="close-button"></div>
++  <h1 i18n-content="desktopIntegrationPage"></h1>
++  
++  <span i18n-content="desktopIntegrationInfoText"></span>
++ 
++  <div class="content-area">
++    <list id="domains-list"></list>
++
++    <div class="desktop-integration-lower-left">
++      <button id="desktop-integration-add-button"
++              i18n-content="add_button"></button>
++    </div>
++  </div>
++
++  <div class="action-area">
++    <div class="button-strip">
++      <button id="desktop-integrations-overlay-confirm"
++          i18n-content="ok">
++      </button>
++    </div>
++  </div>
++
++</div>
++
+Index: dev.utopic/chrome/browser/resources/options/desktop_integration_overlay.js
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ dev.utopic/chrome/browser/resources/options/desktop_integration_overlay.js	2014-07-24 09:33:43.621427220 -0400
 @@ -0,0 +1,203 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -575,107 +530,111 @@ Index: beta.trusty/chrome/browser/resources/options/desktop_integration_overlay.
 +  };
 +});
 +
-Index: beta.trusty/chrome/browser/resources/options/desktop_integration_overlay.css
+Index: dev.utopic/chrome/browser/resources/options/options.html
+===================================================================
+--- dev.utopic.orig/chrome/browser/resources/options/options.html	2014-07-24 09:33:43.626427220 -0400
++++ dev.utopic/chrome/browser/resources/options/options.html	2014-07-24 09:33:43.621427220 -0400
+@@ -24,6 +24,7 @@
+ <link rel="stylesheet" href="content_settings.css">
+ <link rel="stylesheet" href="controlled_setting.css">
+ <link rel="stylesheet" href="cookies_view.css">
++<link rel="stylesheet" href="desktop_integration_overlay.css">
+ <link rel="stylesheet" href="do_not_track_confirm_overlay.css">
+ <link rel="stylesheet" href="font_settings.css">
+ <link rel="stylesheet" href="handler_options.css">
+@@ -114,6 +115,7 @@
+   <include src="home_page_overlay.html">
+   <include src="hotword_confirm_overlay.html">
+   <include src="import_data_overlay.html">
++  <include src="desktop_integration_overlay.html">
+   <include src="language_options.html">
+   <include src="manage_profile_overlay.html">
+   <include src="managed_user_create_confirm.html">
+@@ -145,6 +147,7 @@
+   <include src="autofill_edit_creditcard_overlay.html">
+   <include src="content_settings_exceptions_area.html">
+   <include src="cookies_view.html">
++  <include src="desktop_integration_add_website_overlay.html">
+   <include src="handler_options.html">
+   <include src="language_add_language_overlay.html">
+   <include src="managed_user_import.html">
+Index: dev.utopic/chrome/browser/resources/options/options.js
+===================================================================
+--- dev.utopic.orig/chrome/browser/resources/options/options.js	2014-07-24 09:33:43.626427220 -0400
++++ dev.utopic/chrome/browser/resources/options/options.js	2014-07-24 09:33:43.622427220 -0400
+@@ -15,6 +15,8 @@
+     options.contentSettings.ContentSettingsExceptionsArea;
+ var ContentSettings = options.ContentSettings;
+ var CookiesView = options.CookiesView;
++var DesktopIntegrationOverlay = options.DesktopIntegrationOverlay;
++var AddDesktopIntegrationWebsiteOverlay = options.AddDesktopIntegrationWebsiteOverlay;
+ var CreateProfileOverlay = options.CreateProfileOverlay;
+ var EditDictionaryOverlay = cr.IsMac ? null : options.EditDictionaryOverlay;
+ var FactoryResetOverlay = options.FactoryResetOverlay;
+@@ -131,6 +133,13 @@
+   OptionsPage.registerOverlay(FontSettings.getInstance(),
+                               BrowserOptions.getInstance(),
+                               [$('fontSettingsCustomizeFontsButton')]);
++  if (cr.isLinux && !cr.isChromeos) {
++    OptionsPage.registerOverlay(AddDesktopIntegrationWebsiteOverlay.getInstance(),
++                                DesktopIntegrationOverlay.getInstance());
++    OptionsPage.registerOverlay(DesktopIntegrationOverlay.getInstance(),
++                                BrowserOptions.getInstance(),
++                                [$('desktop-integration-button')]);
++  }
+   if (HandlerOptions && $('manage-handlers-button')) {
+     OptionsPage.registerOverlay(HandlerOptions.getInstance(),
+                                 ContentSettings.getInstance(),
+Index: dev.utopic/chrome/browser/resources/options/options_bundle.js
+===================================================================
+--- dev.utopic.orig/chrome/browser/resources/options/options_bundle.js	2014-07-24 09:33:43.626427220 -0400
++++ dev.utopic/chrome/browser/resources/options/options_bundle.js	2014-07-24 09:33:43.622427220 -0400
+@@ -81,6 +81,8 @@
+ <include src="content_settings_ui.js"></include>
+ <include src="cookies_list.js"></include>
+ <include src="cookies_view.js"></include>
++<include src="desktop_integration_add_website_overlay.js"></include>
++<include src="desktop_integration_overlay.js"></include>
+ <include src="factory_reset_overlay.js"></include>
+ <include src="font_settings.js"></include>
+ <if expr="enable_google_now">
+Index: dev.utopic/chrome/browser/ui/webui/options/browser_options_handler.cc
+===================================================================
+--- dev.utopic.orig/chrome/browser/ui/webui/options/browser_options_handler.cc	2014-07-24 09:33:43.626427220 -0400
++++ dev.utopic/chrome/browser/ui/webui/options/browser_options_handler.cc	2014-07-24 09:33:43.622427220 -0400
+@@ -203,6 +203,8 @@
+       IDS_OPTIONS_ADVANCED_SECTION_TITLE_CERTIFICATES },
+     { "advancedSectionTitleContent",
+       IDS_OPTIONS_ADVANCED_SECTION_TITLE_CONTENT },
++    { "advancedSectionTitleIntegration",
++      IDS_OPTIONS_ADVANCED_SECTION_TITLE_INTEGRATION },
+     { "advancedSectionTitleLanguages",
+       IDS_OPTIONS_ADVANCED_SECTION_TITLE_LANGUAGES },
+     { "advancedSectionTitleNetwork",
+@@ -220,6 +222,10 @@
+     { "defaultFontSizeLabel", IDS_OPTIONS_DEFAULT_FONT_SIZE_LABEL },
+     { "defaultSearchManageEngines", IDS_OPTIONS_DEFAULTSEARCH_MANAGE_ENGINES },
+     { "defaultZoomFactorLabel", IDS_OPTIONS_DEFAULT_ZOOM_LEVEL_LABEL },
++    { "desktopIntegrationExceptionsSettingsButton",
++      IDS_DESKTOP_INTEGRATION_SETTINGS_EXCEPTIONS_BUTTON_LABEL },
++    { "desktopIntegrationNoteSettingsContent",
++      IDS_DESKTOP_INTEGRATION_NOTE_DESCRIPTION },
+ #if defined(OS_CHROMEOS)
+     { "disableGData", IDS_OPTIONS_DISABLE_GDATA },
+ #endif
+@@ -292,6 +298,8 @@
+     { "profilesManage", IDS_PROFILES_MANAGE_BUTTON_LABEL },
+     { "profilesSupervisedDashboardTip",
+       IDS_PROFILES_SUPERVISED_USER_DASHBOARD_TIP },
++    { "promptIntegrationEnableIntegration",
++      IDS_PROMPT_INTEGRATION_ENABLE_BUTTON_LABEL },
+ #if defined(ENABLE_SETTINGS_APP)
+     { "profilesAppListSwitch", IDS_SETTINGS_APP_PROFILES_SWITCH_BUTTON_LABEL },
+ #endif
+Index: dev.utopic/chrome/browser/ui/webui/options/desktop_integration_settings_handler.cc
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ beta.trusty/chrome/browser/resources/options/desktop_integration_overlay.css	2014-04-19 10:50:24.400792231 -0400
-@@ -0,0 +1,71 @@
-+/* Copyright (c) 2012 The Chromium Authors. All rights reserved.
-+ * Use of this source code is governed by a BSD-style license that can be
-+ * found in the LICENSE file. */
-+
-+#desktop-integration-options {
-+  min-width: 550px;
-+}
-+
-+#desktop-integration-options list {
-+  min-height: 172px;
-+}
-+
-+.desktop-integration-list-item {
-+  -webkit-box-flex: 1;
-+  -webkit-padding-start: 8px;
-+  overflow: hidden;
-+  text-overflow: ellipsis;
-+}
-+
-+.desktop-integration-lower-left button {
-+  min-width: 70px;
-+}
-+
-+.desktop-integration-lower-left {
-+  -webkit-box-flex: 0;
-+  -webkit-padding-start: 12px;
-+  padding-bottom: 10px;
-+}
-+
-+#desktop-integration-column-headers {
-+  -webkit-margin-start: 17px;
-+  display: -webkit-box;
-+  margin-top: 17px;
-+}
-+
-+#desktop-integration-column-headers > div {
-+  font-weight: bold;
-+}
-+
-+#desktop-integration-pattern-column {
-+  -webkit-box-flex: 1;
-+}
-+
-+#desktop-integration-behavior-column {
-+  width: 145px;
-+}
-+
-+#desktop-integration-area list {
-+  margin-bottom: 10px;
-+  margin-top: 4px;
-+}
-+
-+#domains-list {
-+  -webkit-box-flex: 1;
-+  outline: none;
-+  padding: 1px 0 0;
-+  width: 100%;
-+}
-+
-+#domains-list .domain-name {
-+  -webkit-box-flex: 1;
-+  overflow: hidden;
-+  text-overflow: ellipsis;
-+  white-space: nowrap;
-+}
-+
-+#domains-list li {
-+  -webkit-padding-start: 12px;
-+  padding-bottom: 2px;
-+  padding-top: 2px;
-+}
-Index: beta.trusty/chrome/browser/resources/options/desktop_integration_add_website_overlay.html
-===================================================================
---- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ beta.trusty/chrome/browser/resources/options/desktop_integration_add_website_overlay.html	2014-04-19 10:50:24.400792231 -0400
-@@ -0,0 +1,16 @@
-+<div id="add-desktop-integration-website-overlay-page" class="page" hidden>
-+  <div class="close-button"></div>
-+  <h1 i18n-content="add_desktop_website_title"></h1>
-+
-+  <div class="content-area">
-+    <span i18n-content="add_desktop_website_input_label"></span>
-+    <input id="integration-domain-url-field" type="url" data-type="url"
-+           class="weakrtl favicon-cell hbox stretch">
-+  </div>
-+
-+  <div class="action-area button-strip">
-+    <button id="add-integration-website-overlay-cancel-button" i18n-content="cancel">
-+    </button>
-+    <button id="add-integration-website-overlay-ok-button" i18n-content="ok"></button>
-+  </div>
-+</div>
-Index: beta.trusty/chrome/browser/ui/webui/options/desktop_integration_settings_handler.cc
-===================================================================
---- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ beta.trusty/chrome/browser/ui/webui/options/desktop_integration_settings_handler.cc	2014-04-19 10:50:24.404792382 -0400
++++ dev.utopic/chrome/browser/ui/webui/options/desktop_integration_settings_handler.cc	2014-07-24 09:33:43.623427220 -0400
 @@ -0,0 +1,262 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -939,10 +898,10 @@ Index: beta.trusty/chrome/browser/ui/webui/options/desktop_integration_settings_
 +}
 +
 +}  // namespace options
-Index: beta.trusty/chrome/browser/ui/webui/options/desktop_integration_settings_handler.h
+Index: dev.utopic/chrome/browser/ui/webui/options/desktop_integration_settings_handler.h
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ beta.trusty/chrome/browser/ui/webui/options/desktop_integration_settings_handler.h	2014-04-19 10:50:24.404792382 -0400
++++ dev.utopic/chrome/browser/ui/webui/options/desktop_integration_settings_handler.h	2014-07-24 09:33:43.623427220 -0400
 @@ -0,0 +1,76 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -1020,3 +979,42 @@ Index: beta.trusty/chrome/browser/ui/webui/options/desktop_integration_settings_
 +}  // namespace options
 +
 +#endif  // CHROME_BROWSER_UI_WEBUI_OPTIONS_DESKTOP_INTEGRATION_SETTINGS_HANDLER2_H_
+Index: dev.utopic/chrome/browser/ui/webui/options/options_ui.cc
+===================================================================
+--- dev.utopic.orig/chrome/browser/ui/webui/options/options_ui.cc	2014-07-24 09:33:43.626427220 -0400
++++ dev.utopic/chrome/browser/ui/webui/options/options_ui.cc	2014-07-24 09:33:43.623427220 -0400
+@@ -96,6 +96,10 @@
+ #include "chrome/browser/ui/webui/options/geolocation_options_handler.h"
+ #endif
+ 
++#if defined(OS_LINUX)
++#include "chrome/browser/ui/webui/options/desktop_integration_settings_handler.h"
++#endif
++
+ using content::RenderViewHost;
+ 
+ namespace {
+@@ -269,6 +273,10 @@
+   AddOptionsPageUIHandler(localized_strings, new ContentSettingsHandler());
+   AddOptionsPageUIHandler(localized_strings, new CookiesViewHandler());
+   AddOptionsPageUIHandler(localized_strings, new CreateProfileHandler());
++#if defined(OS_LINUX)
++  AddOptionsPageUIHandler(localized_strings,
++                          new DesktopIntegrationSettingsHandler());
++#endif
+   AddOptionsPageUIHandler(localized_strings, new FontSettingsHandler());
+ #if defined(ENABLE_GOOGLE_NOW)
+   AddOptionsPageUIHandler(localized_strings, new GeolocationOptionsHandler());
+Index: dev.utopic/chrome/chrome_browser_ui.gypi
+===================================================================
+--- dev.utopic.orig/chrome/chrome_browser_ui.gypi	2014-07-24 09:33:43.626427220 -0400
++++ dev.utopic/chrome/chrome_browser_ui.gypi	2014-07-24 09:33:43.623427220 -0400
+@@ -1707,6 +1707,8 @@
+       'browser/ui/webui/options/core_options_handler.h',
+       'browser/ui/webui/options/create_profile_handler.cc',
+       'browser/ui/webui/options/create_profile_handler.h',
++      'browser/ui/webui/options/desktop_integration_settings_handler.cc',
++      'browser/ui/webui/options/desktop_integration_settings_handler.h',
+       'browser/ui/webui/options/font_settings_handler.cc',
+       'browser/ui/webui/options/font_settings_handler.h',
+       'browser/ui/webui/options/font_settings_utils.h',

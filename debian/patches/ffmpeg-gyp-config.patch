@@ -1,9 +1,9 @@
 Bug-Chromium: https://code.google.com/p/chromium/issues/detail?id=159349
                                                                        
-Index: dev.trusty/third_party/ffmpeg/ffmpeg.gyp
+Index: dev.utopic/third_party/ffmpeg/ffmpeg.gyp
 ===================================================================
---- dev.trusty.orig/third_party/ffmpeg/ffmpeg.gyp	2014-07-04 08:23:32.205312906 -0400
-+++ dev.trusty/third_party/ffmpeg/ffmpeg.gyp	2014-07-04 08:23:32.176312906 -0400
+--- dev.utopic.orig/third_party/ffmpeg/ffmpeg.gyp	2014-07-24 09:30:56.218427401 -0400
++++ dev.utopic/third_party/ffmpeg/ffmpeg.gyp	2014-07-24 09:30:56.215427401 -0400
 @@ -136,6 +136,10 @@
              ],
              'yasm_output_path': '<(shared_generated_dir)/yasm'
@@ -33,11 +33,11 @@ Index: dev.trusty/third_party/ffmpeg/ffmpeg.gyp
              '<(output_root)',
              '../..',  # The chromium 'src' directory.
              '<(platform_config_root)',
-Index: dev.trusty/third_party/icu/icu.gyp
+Index: dev.utopic/third_party/icu/icu.gyp
 ===================================================================
---- dev.trusty.orig/third_party/icu/icu.gyp	2014-07-04 08:23:32.205312906 -0400
-+++ dev.trusty/third_party/icu/icu.gyp	2014-07-04 08:23:32.177312906 -0400
-@@ -34,8 +34,11 @@
+--- dev.utopic.orig/third_party/icu/icu.gyp	2014-07-24 09:30:56.218427401 -0400
++++ dev.utopic/third_party/icu/icu.gyp	2014-07-24 09:30:56.216427401 -0400
+@@ -38,8 +38,11 @@
           target_arch=="mipsel")', {
          'target_conditions': [
            ['_toolset=="host"', {

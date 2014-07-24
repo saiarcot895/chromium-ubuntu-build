@@ -2,11 +2,9 @@ Description: Replace the global-menu-bar container with an invisible box that's
   packed into the layout.
 Author: William Hua <attente@canonical.com>
 
-Index: beta.trusty/chrome/browser/ui/gtk/browser_window_gtk.cc
-===================================================================
---- beta.trusty.orig/chrome/browser/ui/gtk/browser_window_gtk.cc	2014-04-24 08:13:35.042269652 -0400
-+++ beta.trusty/chrome/browser/ui/gtk/browser_window_gtk.cc	2014-04-24 08:13:35.022268925 -0400
-@@ -1626,7 +1626,9 @@
+--- a/chrome/browser/ui/gtk/browser_window_gtk.cc
++++ b/chrome/browser/ui/gtk/browser_window_gtk.cc
+@@ -1626,7 +1626,9 @@ void BrowserWindowGtk::InitWidgets() {
    // GtkMenuBar it sees into the global menu bar. (It doesn't seem to check the
    // visibility of the GtkMenuBar, so we can just permanently hide it.)
    global_menu_bar_.reset(new GlobalMenuBar(browser_.get()));
@@ -17,11 +15,9 @@ Index: beta.trusty/chrome/browser/ui/gtk/browser_window_gtk.cc
  
    // The window container draws the custom browser frame.
    window_container_ = gtk_alignment_new(0.0, 0.0, 1.0, 1.0);
-Index: beta.trusty/chrome/browser/ui/gtk/global_menu_bar.cc
-===================================================================
---- beta.trusty.orig/chrome/browser/ui/gtk/global_menu_bar.cc	2014-04-24 08:13:35.042269652 -0400
-+++ beta.trusty/chrome/browser/ui/gtk/global_menu_bar.cc	2014-04-24 08:13:35.026269071 -0400
-@@ -158,7 +158,7 @@
+--- a/chrome/browser/ui/gtk/global_menu_bar.cc
++++ b/chrome/browser/ui/gtk/global_menu_bar.cc
+@@ -158,7 +158,7 @@ GlobalMenuBar::GlobalMenuBar(Browser* br
    // instead remain in our widget hierarchy simply to be noticed by third party
    // components.
    g_object_ref_sink(menu_bar_);

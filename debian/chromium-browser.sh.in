@@ -47,10 +47,14 @@ if grep -E -w ^flags\\s\*:.\*sse /proc/cpuinfo >/dev/null; then
 fi
 export CPU_FEATURES_TESTED=1
 
-APPNAME=chromium-browser
+readonly APPNAME=chromium-browser
 LIBDIR=/usr/lib/chromium-browser
 GDB=/usr/bin/gdb
-BUILD_DIST="@BUILD_DIST@"
+readonly BUILD_DIST="@BUILD_DIST@"
+readonly UPSTREAM_VERSION="@UPSTREAM_VERSION@"
+if test -x "${LIBDIR}/${UPSTREAM_VERSION}"/chromium-browser; then
+        LIBDIR="${LIBDIR}/${UPSTREAM_VERSION}"
+fi
 
 usage () {
   echo "$APPNAME [-h|--help] [-g|--debug] [--temp-profile] [options] [URL]"

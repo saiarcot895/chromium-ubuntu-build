@@ -4,12 +4,14 @@ Description: Set default scaling to be 1:1, instead of using the hardware's
 Author: Chad MILLER <chad.miller@canonical.com>
 Forwarded: not-needed
 
-Index: dev.trusty/ui/views/widget/desktop_aura/desktop_screen_x11.cc
-===================================================================
---- dev.trusty.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-07-04 08:23:35.680312903 -0400
-+++ dev.trusty/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-07-04 08:23:35.678312903 -0400
-@@ -398,8 +398,10 @@
-       int density_indicator = 0;
+--- a/ui/views/widget/desktop_aura/desktop_screen_x11.cc
++++ b/ui/views/widget/desktop_aura/desktop_screen_x11.cc
+@@ -416,11 +416,13 @@ std::vector<gfx::Display> DesktopScreenX
+       gfx::Display display(display_id, crtc_bounds);
+ 
+       // An integer that forces discrete steps.
+-      int density_indicator = 0;
++      int density_indicator = 8;
  #ifdef USE_GLIB
        if (display_scales != NULL) {
 -        (void) g_variant_lookup(display_scales, output_info->name, "i",

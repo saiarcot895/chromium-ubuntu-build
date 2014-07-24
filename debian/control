@@ -2,9 +2,10 @@ Source: chromium-browser
 Section: web
 Priority: optional
 Maintainer: Saikrishna Arcot <saiarcot895@gmail.com>
-XSBC-Original-Maintainer: Fabien Tassin <fta@ubuntu.com>
+XSBC-Original-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
 Homepage: http://code.google.com/chromium/
-Build-Depends: debhelper (>= 8.0.0),
+Build-Depends: debhelper (>= 9),
+		dh-buildinfo,
 		pkg-config,
 		ninja-build (>= 1.3.4),
 		lsb-release,
@@ -35,16 +36,21 @@ Build-Depends: debhelper (>= 8.0.0),
 		libpango1.0-dev,
 		libexif-dev,
 		libssl-dev,
+		libkrb5-dev,
+		clang,
 		chrpath
-Standards-Version: 3.9.3
+Standards-Version: 3.9.5
 
 Package: chromium-browser
-Architecture: any
+Architecture: armhf armel i386 amd64
 Pre-Depends: dpkg (>= 1.15.6)
 Depends: ${shlibs:Depends}, ${misc:Depends},
+	libnss3,
 	xdg-utils,
 	chromium-codecs-ffmpeg-extra (>= 0.6) | chromium-codecs-ffmpeg (>= 0.6)
 Recommends: chromium-browser-l10n
+Suggests: webaccounts-chromium-extension,
+	unity-chromium-extension
 Provides: www-browser, chromium-browser-inspector
 Replaces: chromium-browser-inspector
 Conflicts: chromium-browser-inspector
@@ -59,7 +65,7 @@ Description: Chromium browser
  This package contains the Chromium browser
 
 Package: chromium-browser-dbg
-Architecture: any
+Architecture: armhf armel i386 amd64
 Priority: extra
 Section: debug
 Pre-Depends: dpkg (>= 1.15.6)
@@ -82,7 +88,7 @@ Description: chromium-browser language packages
  vi, zh-CN, zh-TW
 
 Package: chromium-chromedriver
-Architecture: any
+Architecture: armhf armel i386 amd64
 Pre-Depends: dpkg (>= 1.15.6)
 Depends: ${shlibs:Depends}, ${misc:Depends}, chromium-browser (= ${binary:Version})
 Description: ChromeDriver
@@ -93,7 +99,7 @@ Description: ChromeDriver
  WebDriver's wire protocol.
 
 Package: chromium-chromedriver-dbg
-Architecture: any
+Architecture: armhf armel i386 amd64
 Section: debug
 Priority: extra
 Pre-Depends: dpkg (>= 1.15.6)
@@ -102,7 +108,7 @@ Description: chromium-chromedriver debug symbols
  Debug symbols for the ChromeDriver
 
 Package: chromium-codecs-ffmpeg
-Architecture: any
+Architecture: armhf armel i386 amd64
 Pre-Depends: dpkg (>= 1.15.6)
 Depends: ${shlibs:Depends}, ${misc:Depends}, chromium-browser (>= 4.0.203.0~)
 Conflicts: chromium-codecs-ffmpeg-extra
@@ -116,7 +122,7 @@ Description: Free ffmpeg codecs for the Chromium Browser
  included. See chromium-codecs-ffmpeg-extra for additional codecs
 
 Package: chromium-codecs-ffmpeg-dbg
-Architecture: any
+Architecture: armhf armel i386 amd64
 Section: debug
 Priority: extra
 Pre-Depends: dpkg (>= 1.15.6)
@@ -127,7 +133,7 @@ Description: chromium-codecs-ffmpeg debug symbols
  Debug symbols for the free ffmpeg-mt codecs
 
 Package: chromium-codecs-ffmpeg-extra
-Architecture: any
+Architecture: armhf armel i386 amd64
 Pre-Depends: dpkg (>= 1.15.6)
 Depends: ${shlibs:Depends}, ${misc:Depends}, chromium-browser (>= 4.0.203.0~)
 Conflicts: chromium-codecs-ffmpeg
@@ -142,7 +148,7 @@ Description: Extra ffmpeg codecs for the Chromium Browser
  See chromium-codecs-ffmpeg if you prefer only the patent-free codecs
 
 Package: chromium-codecs-ffmpeg-extra-dbg
-Architecture: any
+Architecture: armhf armel i386 amd64
 Section: debug
 Priority: extra
 Pre-Depends: dpkg (>= 1.15.6)

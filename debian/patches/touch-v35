@@ -2,10 +2,10 @@ Description: Add touchscreen support for other xi2 devices.
 Author: Chad MILLER <chad.miller@canonical.com>
 Forwarded: yes
 
-Index: dev.trusty/ui/events/x/touch_factory_x11.cc
+Index: dev.utopic/ui/events/x/touch_factory_x11.cc
 ===================================================================
---- dev.trusty.orig/ui/events/x/touch_factory_x11.cc	2014-07-04 08:23:35.007312903 -0400
-+++ dev.trusty/ui/events/x/touch_factory_x11.cc	2014-07-04 08:23:35.004312903 -0400
+--- dev.utopic.orig/ui/events/x/touch_factory_x11.cc	2014-07-24 09:33:46.827427216 -0400
++++ dev.utopic/ui/events/x/touch_factory_x11.cc	2014-07-24 09:33:46.824427216 -0400
 @@ -153,8 +153,12 @@
            XITouchClassInfo* tci =
                reinterpret_cast<XITouchClassInfo*>(xiclassinfo);
