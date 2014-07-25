@@ -80,6 +80,9 @@ GYP_DEFINES += linux_use_gold_binary=0 linux_use_gold_flags=0
 # enable features that we want.
 GYP_DEFINES += enable_webrtc=1
 
+# Don't use cland
+GYP_DEFINES += clang=0
+
 # elimiate DCHECK and DLOG function calls, to save ~9MB off binary
 #GYP_DEFINES += logging_like_official_build=1
 
@@ -443,9 +446,6 @@ ifeq (1,$(WANT_SYSTEM_LIBS))
 	cd $(SRC_DIR) && python build/linux/unbundle/replace_gyp_files.py $(SYSTEM_LIBS)
 endif
 	cd $(SRC_DIR) && $(GYP_ENV) $(CROSS_BUILD) python build/gyp_chromium build/all.gyp $(GYP_PARAMS)
-
-	mkdir -p third_party/llvm-build/Release+Asserts/bin
-	ln -s /usr/bin/clang /usr/bin/clang++ /usr/bin/llvm-clang third_party/llvm-build/Release+Asserts/bin/
 
 	touch $@
 
