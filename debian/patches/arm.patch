@@ -1,7 +1,7 @@
 Index: dev.utopic/third_party/skia/gyp/skia_lib.gyp
 ===================================================================
---- dev.utopic.orig/third_party/skia/gyp/skia_lib.gyp	2014-07-24 09:30:55.004427403 -0400
-+++ dev.utopic/third_party/skia/gyp/skia_lib.gyp	2014-07-24 09:30:54.927427403 -0400
+--- dev.utopic.orig/third_party/skia/gyp/skia_lib.gyp	2014-08-06 12:47:15.043817072 -0400
++++ dev.utopic/third_party/skia/gyp/skia_lib.gyp	2014-08-06 12:47:15.041817072 -0400
 @@ -10,6 +10,7 @@
        'ports.gyp:ports',
        'sfnt.gyp:sfnt',
@@ -21,9 +21,9 @@ Index: dev.utopic/third_party/skia/gyp/skia_lib.gyp
          ],
 Index: dev.utopic/ui/base/resource/data_pack.cc
 ===================================================================
---- dev.utopic.orig/ui/base/resource/data_pack.cc	2014-07-24 09:30:55.004427403 -0400
-+++ dev.utopic/ui/base/resource/data_pack.cc	2014-07-24 09:30:54.928427403 -0400
-@@ -148,9 +148,11 @@
+--- dev.utopic.orig/ui/base/resource/data_pack.cc	2014-08-06 12:47:15.043817072 -0400
++++ dev.utopic/ui/base/resource/data_pack.cc	2014-08-06 12:47:15.041817072 -0400
+@@ -155,9 +155,11 @@
    // 2) Verify the entries are within the appropriate bounds. There's an extra
    // entry after the last item which gives us the length of the last item.
    for (size_t i = 0; i < resource_count_ + 1; ++i) {

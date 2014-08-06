@@ -4,9 +4,9 @@ Description: Avoid a linker bug where symbols are not found.
 
 Index: dev.utopic/build/common.gypi
 ===================================================================
---- dev.utopic.orig/build/common.gypi	2014-07-24 09:02:51.908429235 -0400
-+++ dev.utopic/build/common.gypi	2014-07-24 09:02:51.906429235 -0400
-@@ -3463,7 +3463,7 @@
+--- dev.utopic.orig/build/common.gypi	2014-08-06 12:47:14.613817072 -0400
++++ dev.utopic/build/common.gypi	2014-08-06 12:47:14.612817072 -0400
+@@ -3488,7 +3488,7 @@
                    '-fomit-frame-pointer',
                  ],
                }],
@@ -15,7 +15,7 @@ Index: dev.utopic/build/common.gypi
                  'ldflags': [
                    '-Wl,--no-as-needed',
                  ],
-@@ -3510,7 +3510,6 @@
+@@ -3535,7 +3535,6 @@
                # Specifically tell the linker to perform optimizations.
                # See http://lwn.net/Articles/192624/ .
                '-Wl,-O1',
@@ -23,7 +23,7 @@ Index: dev.utopic/build/common.gypi
              ],
              'conditions' : [
                ['no_gc_sections==0', {
-@@ -3562,6 +3561,11 @@
+@@ -3587,6 +3586,11 @@
                }, {
                  'cflags': ['-fno-unwind-tables', '-fno-asynchronous-unwind-tables'],
                }],

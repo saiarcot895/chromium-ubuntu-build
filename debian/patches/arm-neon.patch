@@ -6,8 +6,8 @@ Bug-Ubuntu: 1084852
 
 Index: dev.utopic/third_party/webrtc/system_wrappers/source/cpu_features.cc
 ===================================================================
---- dev.utopic.orig/third_party/webrtc/system_wrappers/source/cpu_features.cc	2014-07-24 09:30:55.621427403 -0400
-+++ dev.utopic/third_party/webrtc/system_wrappers/source/cpu_features.cc	2014-07-24 09:30:55.619427403 -0400
+--- dev.utopic.orig/third_party/webrtc/system_wrappers/source/cpu_features.cc	2014-08-06 12:47:15.508817072 -0400
++++ dev.utopic/third_party/webrtc/system_wrappers/source/cpu_features.cc	2014-08-06 12:47:15.507817072 -0400
 @@ -18,6 +18,47 @@
  
  #include "webrtc/typedefs.h"

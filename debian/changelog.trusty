@@ -1,3 +1,10 @@
+chromium-browser (38.0.2114.2-0ubuntu1~ppa1~trusty1) trusty; urgency=low
+
+  * New upstream version 38.0.2114.2
+  * Refreshed patches
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 06 Aug 2014 13:07:44 -0400
+
 chromium-browser (38.0.2101.0-0ubuntu1~ppa3~trusty1) trusty; urgency=low
 
   * Don't use clang; instead, use GCC 4.8+
