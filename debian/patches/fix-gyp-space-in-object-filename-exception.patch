@@ -1,0 +1,16 @@
+# Description: This fixes an exception caused by RULE_INPUT_PATH usage
+#  in mojom_bindings_generator.gypi
+# Author: Chris Coulson <chris.coulson@canonical.com>
+
+--- a/tools/gyp/pylib/gyp/generator/make.py
++++ b/tools/gyp/pylib/gyp/generator/make.py
+@@ -1184,7 +1184,9 @@ $(obj).$(TOOLSET)/$(TARGET)/%%.o: $(obj)
+     objs = map(self.Objectify, map(self.Absolutify, map(Target, compilable)))
+     self.WriteList(objs, 'OBJS')
+ 
++    variables_with_spaces = re.compile(r'\$\([^ ]* \$<\)')
+     for obj in objs:
++      obj = re.sub(variables_with_spaces, '', obj)
+       assert ' ' not in obj, (
+           "Spaces in object filenames not supported (%s)"  % obj)
+     self.WriteLn('# Add to the list of files we specially track '

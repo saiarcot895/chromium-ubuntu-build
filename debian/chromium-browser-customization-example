@@ -1,0 +1,16 @@
+##   Register plugins this way.  The two parameters are yours to fill.
+
+#discover_registration /path/to/plugin/plugin.info library-name
+
+##   A way to influence the running. This is read-write for you. Please
+##   Append only.
+
+#CHROMIUM_FLAGS="${CHROMIUM_FLAGS} --option=value"
+
+##   Read-only variables guaranteed to be set, with example values.
+
+#APPNAME='chromium-browser'
+#BUILD_DIST='Ubuntu 14.04'
+#DESKTOP_SESSION='ubuntu'
+#LIBDIR='/usr/lib/chromium-browser'
+#UPSTREAM_VERSION='34.0.1847.131'

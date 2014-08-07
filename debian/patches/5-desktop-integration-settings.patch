@@ -94,7 +94,7 @@ Index: dev.utopic/chrome/browser/resources/options/browser_options.js
 +        };
 +        updateButtonState();
 +        $('desktop-integration-button').onclick = function(event) {
-+          OptionsPage.navigateToPage('desktopIntegrationOverlay');
++          PageManager.showPageByName('desktopIntegrationOverlay');
 +        };
 +      }
 +
@@ -167,7 +167,7 @@ Index: dev.utopic/chrome/browser/resources/options/desktop_integration_add_websi
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
 +++ dev.utopic/chrome/browser/resources/options/desktop_integration_add_website_overlay.js	2014-08-06 12:55:51.699816695 -0400
-@@ -0,0 +1,47 @@
+@@ -0,0 +1,48 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.
@@ -176,22 +176,23 @@ Index: dev.utopic/chrome/browser/resources/options/desktop_integration_add_websi
 +// AddDesktopIntegrationWebsiteOverlay class:
 +
 +cr.define('options', function() {
-+  /** @const */ var OptionsPage = options.OptionsPage;
++  /** @const */ var Page = cr.ui.pageManager.Page;
++  /** @const */ var PageManager = cr.ui.pageManager.PageManager;
 +
 +  /**
 +   * @constructor
 +   */
 +  function AddDesktopIntegrationWebsiteOverlay() {
-+    OptionsPage.call(this, 'addDesktopIntegrationWebsite',
-+                     loadTimeData.getString('add_button'),
-+                     'add-desktop-integration-website-overlay-page');
++    Page.call(this, 'addDesktopIntegrationWebsite',
++              loadTimeData.getString('add_button'),
++              'add-desktop-integration-website-overlay-page');
 +  }
 +
 +  cr.addSingletonGetter(AddDesktopIntegrationWebsiteOverlay);
 +
 +  AddDesktopIntegrationWebsiteOverlay.prototype = {
-+    // Inherit AddDesktopIntegrationWebsiteOverlay from OptionsPage.
-+    __proto__: OptionsPage.prototype,
++    // Inherit AddDesktopIntegrationWebsiteOverlay from Page.
++    __proto__: Page.prototype,
 +
 +    /**
 +     * Initializes AddDesktopIntegrationWebsiteOverlay page.
@@ -199,14 +200,14 @@ Index: dev.utopic/chrome/browser/resources/options/desktop_integration_add_websi
 +     */
 +    initializePage: function() {
 +      // Call base class implementation to starts preference initialization.
-+      OptionsPage.prototype.initializePage.call(this);
++      Page.prototype.initializePage.call(this);
 +      
 +      // Cleanup any previously entered text.
 +      $('integration-domain-url-field').value = '';
 +
 +      // Set up the cancel button.
 +      $('add-integration-website-overlay-cancel-button').onclick = function(e) {
-+        OptionsPage.closeOverlay();
++        PageManager.closeOverlay();
 +      };
 +    },
 +  };
@@ -326,7 +327,7 @@ Index: dev.utopic/chrome/browser/resources/options/desktop_integration_overlay.j
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
 +++ dev.utopic/chrome/browser/resources/options/desktop_integration_overlay.js	2014-08-06 12:55:51.699816695 -0400
-@@ -0,0 +1,203 @@
+@@ -0,0 +1,204 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.
@@ -462,7 +463,8 @@ Index: dev.utopic/chrome/browser/resources/options/desktop_integration_overlay.j
 +    },
 +  };
 +
-+  var OptionsPage = options.OptionsPage;
++  var Page = cr.ui.pagemanager.Page;
++  var PageManager = cr.ui.pagemanager.PageManager;
 +
 +  /**
 +   * DesktopIntegrationOverlay class
@@ -470,7 +472,7 @@ Index: dev.utopic/chrome/browser/resources/options/desktop_integration_overlay.j
 +   * @class
 +   */
 +  function DesktopIntegrationOverlay() {
-+    OptionsPage.call(this, 'desktopIntegrationOverlay',
++    Page.call(this, 'desktopIntegrationOverlay',
 +                     loadTimeData.getString('desktopIntegrationPage'),
 +                     'desktop-integration-area');
 +  }
@@ -478,22 +480,22 @@ Index: dev.utopic/chrome/browser/resources/options/desktop_integration_overlay.j
 +  cr.addSingletonGetter(DesktopIntegrationOverlay);
 +
 +  DesktopIntegrationOverlay.prototype = {
-+    __proto__: OptionsPage.prototype,
++    __proto__: Page.prototype,
 +
 +    /**
 +     * Initialize the page.
 +     */
 +    initializePage: function() {
-+      OptionsPage.prototype.initializePage.call(this);
++      Page.prototype.initializePage.call(this);
 +
 +      var integrationList = $('domains-list');
 +      IntegratedWebsitesList.decorate(integrationList);
 +      $('desktop-integrations-overlay-confirm').onclick =
-+          OptionsPage.closeOverlay.bind(OptionsPage);
++          PageManager.closeOverlay.bind(PageManager);
 +
 +      // Set up add button.
 +      $('desktop-integration-add-button').onclick = function(e) {
-+        OptionsPage.navigateToPage('addDesktopIntegrationWebsite');
++        PageManager.showPageByName('addDesktopIntegrationWebsite');
 +      };
 +
 +      // Listen to add website dialog ok button.
