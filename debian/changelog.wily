@@ -1,3 +1,9 @@
+chromium-browser (38.0.2114.2-0ubuntu1~ppa3~utopic1) utopic; urgency=low
+
+  * Fixed Settings page (again)
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 07 Aug 2014 18:54:21 -0400
+
 chromium-browser (38.0.2114.2-0ubuntu1~ppa2~utopic1) utopic; urgency=low
 
   * Fixed Settings page due to changes in revision 286820

@@ -463,8 +463,8 @@ Index: dev.utopic/chrome/browser/resources/options/desktop_integration_overlay.j
 +    },
 +  };
 +
-+  var Page = cr.ui.pagemanager.Page;
-+  var PageManager = cr.ui.pagemanager.PageManager;
++  var Page = cr.ui.pageManager.Page;
++  var PageManager = cr.ui.pageManager.PageManager;
 +
 +  /**
 +   * DesktopIntegrationOverlay class
