@@ -252,7 +252,7 @@ endif
 
 # Build chrome and chrome_sandbox, and chromedriver
 BUILD_TARGETS += \
-	webkit_strings \
+	content_strings \
 	chrome \
 	chrome_sandbox \
 	chromedriver \
