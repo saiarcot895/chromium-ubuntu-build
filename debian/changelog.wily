@@ -1,3 +1,10 @@
+chromium-browser (38.0.2121.3-0ubuntu1~ppa1~utopic1) utopic; urgency=low
+
+  * New upstream version 38.0.2121.3
+  * Refreshed patches
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 14 Aug 2014 09:29:26 -0400
+
 chromium-browser (38.0.2114.2-0ubuntu1~ppa3~utopic1) utopic; urgency=low
 
   * Fixed Settings page (again)
