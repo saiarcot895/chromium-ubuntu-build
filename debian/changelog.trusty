@@ -1,3 +1,9 @@
+chromium-browser (38.0.2121.3-0ubuntu1~ppa3~trusty1) trusty; urgency=low
+
+  * Don't build content_strings.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 14 Aug 2014 14:06:27 -0400
+
 chromium-browser (38.0.2121.3-0ubuntu1~ppa2~trusty1) trusty; urgency=low
 
   * Change webkit_strings build target to content_strings
