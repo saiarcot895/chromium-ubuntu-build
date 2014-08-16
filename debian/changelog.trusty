@@ -1,3 +1,10 @@
+chromium-browser (38.0.2121.3-0ubuntu1~ppa4~trusty1) trusty; urgency=low
+
+  * Disable third-party translations temporarily, and build
+    content_strings
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 15 Aug 2014 22:37:50 -0400
+
 chromium-browser (38.0.2121.3-0ubuntu1~ppa3~trusty1) trusty; urgency=low
 
   * Don't build content_strings.
