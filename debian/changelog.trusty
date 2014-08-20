@@ -1,3 +1,10 @@
+chromium-browser (38.0.2125.0-0ubuntu1~ppa1~trusty1) trusty; urgency=low
+
+  * New upstream version 38.0.2125.0
+  * Refreshed patches
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 20 Aug 2014 08:47:14 -0400
+
 chromium-browser (38.0.2121.3-0ubuntu1~ppa4~trusty1) trusty; urgency=low
 
   * Disable third-party translations temporarily, and build

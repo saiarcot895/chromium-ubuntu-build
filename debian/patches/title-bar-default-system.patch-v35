@@ -3,8 +3,8 @@ Description: Never default to using the custom title bar. Chromium should
 
 Index: dev.utopic/ui/base/x/x11_util.cc
 ===================================================================
---- dev.utopic.orig/ui/base/x/x11_util.cc	2014-08-14 09:23:20.966321502 -0400
-+++ dev.utopic/ui/base/x/x11_util.cc	2014-08-14 09:23:20.135321502 -0400
+--- dev.utopic.orig/ui/base/x/x11_util.cc	2014-08-20 08:05:13.866510954 -0400
++++ dev.utopic/ui/base/x/x11_util.cc	2014-08-20 08:05:13.861510954 -0400
 @@ -971,6 +971,7 @@
    // Instead, we default to using system decorations for all WMs and
    // special-case the ones where the custom frame should be used.
