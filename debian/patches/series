@@ -28,3 +28,4 @@ flash-redirection
 notifications-nicer
 #mir-support
 #angle-fix.patch
+enable_vaapi_on_linux.diff

@@ -2,8 +2,8 @@ Bug-Chromium: https://code.google.com/p/chromium/issues/detail?id=159349
                                                                        
 Index: dev.utopic/third_party/ffmpeg/ffmpeg.gyp
 ===================================================================
---- dev.utopic.orig/third_party/ffmpeg/ffmpeg.gyp	2014-08-20 08:05:20.958510740 -0400
-+++ dev.utopic/third_party/ffmpeg/ffmpeg.gyp	2014-08-20 08:05:20.955510740 -0400
+--- dev.utopic.orig/third_party/ffmpeg/ffmpeg.gyp	2014-09-02 12:36:45.426823290 -0400
++++ dev.utopic/third_party/ffmpeg/ffmpeg.gyp	2014-09-02 12:36:45.424823290 -0400
 @@ -136,6 +136,10 @@
              ],
              'yasm_output_path': '<(shared_generated_dir)/yasm'
@@ -15,7 +15,7 @@ Index: dev.utopic/third_party/ffmpeg/ffmpeg.gyp
          },
        ] # targets
      }], # arch != arm
-@@ -418,6 +422,9 @@
+@@ -429,6 +433,9 @@
    'targets': [
      {
        'target_name': 'ffmpeg',
@@ -25,7 +25,7 @@ Index: dev.utopic/third_party/ffmpeg/ffmpeg.gyp
        'sources': [
          # Files needed for stub generation rules.
          '<@(sig_files)',
-@@ -505,6 +512,7 @@
+@@ -516,6 +523,7 @@
            ],
            'type': '<(component)',
            'include_dirs': [
@@ -35,8 +35,8 @@ Index: dev.utopic/third_party/ffmpeg/ffmpeg.gyp
              '<(platform_config_root)',
 Index: dev.utopic/third_party/icu/icu.gyp
 ===================================================================
---- dev.utopic.orig/third_party/icu/icu.gyp	2014-08-20 08:05:20.958510740 -0400
-+++ dev.utopic/third_party/icu/icu.gyp	2014-08-20 08:05:20.955510740 -0400
+--- dev.utopic.orig/third_party/icu/icu.gyp	2014-09-02 12:36:45.426823290 -0400
++++ dev.utopic/third_party/icu/icu.gyp	2014-09-02 12:36:45.424823290 -0400
 @@ -38,8 +38,11 @@
           target_arch=="mipsel")', {
          'target_conditions': [
