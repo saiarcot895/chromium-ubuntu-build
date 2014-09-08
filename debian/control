@@ -37,6 +37,7 @@ Build-Depends: debhelper (>= 9),
 		libexif-dev,
 		libssl-dev,
 		libkrb5-dev,
+		libva-dev,
 		chrpath
 Standards-Version: 3.9.5
 

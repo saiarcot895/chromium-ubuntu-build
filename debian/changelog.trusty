@@ -1,3 +1,12 @@
+chromium-browser (39.0.2145.4-0ubuntu1~ppa1~trusty1) trusty; urgency=low
+
+  * New upstream version 39.0.2145.4
+  * Re-enable debug builds
+  * Add VAAPI (hardware video decoding) support
+  * Refreshed patches
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 08 Sep 2014 19:47:43 -0400
+
 chromium-browser (39.0.2138.3-0ubuntu1~ppa1~trusty1) trusty; urgency=low
 
   * New upstream version 39.0.2138.3
