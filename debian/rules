@@ -59,7 +59,7 @@ endif
 GYP_PARAMS := --depth=$(CURDIR)
 
 # Build the launchpad translations (already landed upstream)
-GYP_DEFINES += use_third_party_translations=1
+#GYP_DEFINES += use_third_party_translations=1
 
 # Always add debug symbols, and strip them when we don't want them.
 GYP_DEFINES += release_extra_cflags="-g"

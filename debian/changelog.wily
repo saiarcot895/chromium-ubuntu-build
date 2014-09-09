@@ -1,3 +1,9 @@
+chromium-browser (39.0.2145.4-0ubuntu1~ppa2~utopic1) utopic; urgency=low
+
+  * Disable third-party translations
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 08 Sep 2014 20:05:01 -0400
+
 chromium-browser (39.0.2145.4-0ubuntu1~ppa1~utopic1) utopic; urgency=low
 
   * New upstream version 39.0.2145.4
