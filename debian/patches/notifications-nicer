@@ -1,7 +1,7 @@
 Index: dev.utopic/chrome/browser/background/background_mode_manager.cc
 ===================================================================
---- dev.utopic.orig/chrome/browser/background/background_mode_manager.cc	2014-09-08 19:47:18.910758348 -0400
-+++ dev.utopic/chrome/browser/background/background_mode_manager.cc	2014-09-08 19:47:18.836758348 -0400
+--- dev.utopic.orig/chrome/browser/background/background_mode_manager.cc	2014-09-17 11:29:36.416374082 -0400
++++ dev.utopic/chrome/browser/background/background_mode_manager.cc	2014-09-17 11:29:36.414374082 -0400
 @@ -279,7 +279,7 @@
    registry->RegisterBooleanPref(prefs::kChromeCreatedLoginItem, false);
    registry->RegisterBooleanPref(prefs::kMigratedLoginItemPref, false);

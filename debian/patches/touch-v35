@@ -4,9 +4,9 @@ Forwarded: yes
 
 Index: dev.utopic/ui/events/x/touch_factory_x11.cc
 ===================================================================
---- dev.utopic.orig/ui/events/x/touch_factory_x11.cc	2014-09-08 19:47:17.623758348 -0400
-+++ dev.utopic/ui/events/x/touch_factory_x11.cc	2014-09-08 19:47:17.621758348 -0400
-@@ -154,8 +154,12 @@
+--- dev.utopic.orig/ui/events/x/touch_factory_x11.cc	2014-09-17 11:29:35.420374084 -0400
++++ dev.utopic/ui/events/x/touch_factory_x11.cc	2014-09-17 11:29:35.419374084 -0400
+@@ -157,8 +157,12 @@
            XITouchClassInfo* tci =
                reinterpret_cast<XITouchClassInfo*>(xiclassinfo);
            // Only care direct touch device (such as touch screen) right now
