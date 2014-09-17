@@ -1,3 +1,9 @@
+chromium-browser (39.0.2159.4-0ubuntu1~ppa2~trusty1) trusty; urgency=low
+
+  * Fix 5-desktop-integration-settings.patch
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 17 Sep 2014 14:44:50 -0400
+
 chromium-browser (39.0.2159.4-0ubuntu1~ppa1~trusty1) trusty; urgency=low
 
   * New upstream version 39.0.2159.4
