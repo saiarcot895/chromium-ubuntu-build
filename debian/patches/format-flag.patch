@@ -4,9 +4,9 @@ Author: Chad Miller <chad.miller@canonical.com>
 
 Index: dev.utopic/build/common.gypi
 ===================================================================
---- dev.utopic.orig/build/common.gypi	2014-09-17 11:29:28.213374092 -0400
-+++ dev.utopic/build/common.gypi	2014-09-17 11:29:28.212374092 -0400
-@@ -3003,9 +3003,6 @@
+--- dev.utopic.orig/build/common.gypi	2014-09-27 08:08:07.743231989 -0400
++++ dev.utopic/build/common.gypi	2014-09-27 08:08:07.741231989 -0400
+@@ -3005,9 +3005,6 @@
                '-Wno-deprecated',
              ],
              'cflags': [
