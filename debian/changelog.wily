@@ -1,3 +1,11 @@
+chromium-browser (39.0.2171.7-0ubuntu1~ppa1~utopic1) utopic; urgency=low
+
+  * New upstream version 39.0.2171.7
+  * Added full support for hardware decoding
+  * Refreshed patches
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 04 Oct 2014 15:02:21 -0400
+
 chromium-browser (39.0.2166.2-0ubuntu1~ppa1~utopic1) utopic; urgency=low
 
   * New upstream version 39.0.2166.2

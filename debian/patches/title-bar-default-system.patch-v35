@@ -3,13 +3,13 @@ Description: Never default to using the custom title bar. Chromium should
 
 Index: dev.utopic/ui/base/x/x11_util.cc
 ===================================================================
---- dev.utopic.orig/ui/base/x/x11_util.cc	2014-09-27 08:08:06.974231990 -0400
-+++ dev.utopic/ui/base/x/x11_util.cc	2014-09-27 08:08:06.970231990 -0400
-@@ -1003,6 +1003,7 @@
-   // Instead, we default to using system decorations for all WMs and
-   // special-case the ones where the custom frame should be used.
-   ui::WindowManagerName wm_type = GuessWindowManager();
+--- dev.utopic.orig/ui/base/x/x11_util.cc	2014-10-04 15:01:30.506417168 -0400
++++ dev.utopic/ui/base/x/x11_util.cc	2014-10-04 15:01:30.502417227 -0400
+@@ -1025,6 +1025,7 @@
+   // Also disable custom frames for (at-least-partially-)EWMH-supporting tiling
+   // window managers.
+   ui::WindowManagerName wm = GuessWindowManager();
 +  return false;
-   return (wm_type == WM_BLACKBOX ||
-           wm_type == WM_COMPIZ ||
-           wm_type == WM_ENLIGHTENMENT ||
+   if (wm == WM_AWESOME ||
+       wm == WM_I3 ||
+       wm == WM_ION3 ||
