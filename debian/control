@@ -47,6 +47,8 @@ Pre-Depends: dpkg (>= 1.15.6)
 Depends: ${shlibs:Depends}, ${misc:Depends},
 	libnss3,
 	xdg-utils,
+	libva1,
+	libva-x11-1,
 	chromium-codecs-ffmpeg-extra (>= 0.6) | chromium-codecs-ffmpeg (>= 0.6)
 Recommends: chromium-browser-l10n
 Suggests: webaccounts-chromium-extension,

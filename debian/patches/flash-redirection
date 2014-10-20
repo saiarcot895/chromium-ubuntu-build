@@ -5,8 +5,8 @@ Author: Chad MILLER <chad.miller@canonical.com>
 
 Index: dev.utopic/chrome/browser/resources/plugin_metadata/plugins_linux.json
 ===================================================================
---- dev.utopic.orig/chrome/browser/resources/plugin_metadata/plugins_linux.json	2014-10-04 15:01:43.491233222 -0400
-+++ dev.utopic/chrome/browser/resources/plugin_metadata/plugins_linux.json	2014-10-04 15:01:43.488233266 -0400
+--- dev.utopic.orig/chrome/browser/resources/plugin_metadata/plugins_linux.json	2014-10-20 11:52:57.140751144 -0400
++++ dev.utopic/chrome/browser/resources/plugin_metadata/plugins_linux.json	2014-10-20 11:52:57.137751186 -0400
 @@ -87,8 +87,8 @@
      ],
      "lang": "en-US",
