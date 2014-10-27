@@ -1,8 +1,8 @@
 Index: dev.utopic/chrome/app/generated_resources.grd
 ===================================================================
---- dev.utopic.orig/chrome/app/generated_resources.grd	2014-10-20 11:52:53.208804949 -0400
-+++ dev.utopic/chrome/app/generated_resources.grd	2014-10-20 11:52:53.201805044 -0400
-@@ -7773,6 +7773,35 @@
+--- dev.utopic.orig/chrome/app/generated_resources.grd	2014-10-26 22:33:17.000655587 -0400
++++ dev.utopic/chrome/app/generated_resources.grd	2014-10-26 22:33:16.994655695 -0400
+@@ -7758,6 +7758,35 @@
          Reload
        </message>
  
@@ -38,7 +38,7 @@ Index: dev.utopic/chrome/app/generated_resources.grd
        <!-- Mac and Chrome OS users do not close their browser. Mac users quit it and Chrome OS users log out. -->
        <if expr="not is_macosx and not chromeos">
          <message name="IDS_COOKIES_CLEAR_WHEN_CLOSE_CHKBOX" desc="A checkbox in the Content Settings dialog for removing all cookies on when browser is closed.">
-@@ -11930,6 +11959,9 @@
+@@ -11916,6 +11945,9 @@
        <message name="IDS_OPTIONS_ADVANCED_SECTION_TITLE_CERTIFICATES">
          HTTPS/SSL
        </message>
@@ -50,8 +50,8 @@ Index: dev.utopic/chrome/app/generated_resources.grd
        </message>
 Index: dev.utopic/chrome/browser/resources/options/browser_options.html
 ===================================================================
---- dev.utopic.orig/chrome/browser/resources/options/browser_options.html	2014-10-20 11:52:53.208804949 -0400
-+++ dev.utopic/chrome/browser/resources/options/browser_options.html	2014-10-20 11:52:53.201805044 -0400
+--- dev.utopic.orig/chrome/browser/resources/options/browser_options.html	2014-10-26 22:33:17.000655587 -0400
++++ dev.utopic/chrome/browser/resources/options/browser_options.html	2014-10-26 22:33:16.995655677 -0400
 @@ -467,6 +467,20 @@
      </div>
    </section>
@@ -75,8 +75,8 @@ Index: dev.utopic/chrome/browser/resources/options/browser_options.html
      <div class="checkbox controlled-setting-with-label">
 Index: dev.utopic/chrome/browser/resources/options/browser_options.js
 ===================================================================
---- dev.utopic.orig/chrome/browser/resources/options/browser_options.js	2014-10-20 11:52:53.208804949 -0400
-+++ dev.utopic/chrome/browser/resources/options/browser_options.js	2014-10-20 11:52:53.202805030 -0400
+--- dev.utopic.orig/chrome/browser/resources/options/browser_options.js	2014-10-26 22:33:17.000655587 -0400
++++ dev.utopic/chrome/browser/resources/options/browser_options.js	2014-10-26 22:33:16.996655659 -0400
 @@ -558,6 +558,23 @@
              [String(event.target.options[event.target.selectedIndex].value)]);
        };
@@ -145,7 +145,7 @@ Index: dev.utopic/chrome/browser/resources/options/browser_options.js
 Index: dev.utopic/chrome/browser/resources/options/desktop_integration_add_website_overlay.html
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.utopic/chrome/browser/resources/options/desktop_integration_add_website_overlay.html	2014-10-20 11:52:53.202805030 -0400
++++ dev.utopic/chrome/browser/resources/options/desktop_integration_add_website_overlay.html	2014-10-26 22:33:16.996655659 -0400
 @@ -0,0 +1,16 @@
 +<div id="add-desktop-integration-website-overlay-page" class="page" hidden>
 +  <div class="close-button"></div>
@@ -166,7 +166,7 @@ Index: dev.utopic/chrome/browser/resources/options/desktop_integration_add_websi
 Index: dev.utopic/chrome/browser/resources/options/desktop_integration_add_website_overlay.js
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.utopic/chrome/browser/resources/options/desktop_integration_add_website_overlay.js	2014-10-20 11:52:53.202805030 -0400
++++ dev.utopic/chrome/browser/resources/options/desktop_integration_add_website_overlay.js	2014-10-26 22:33:16.996655659 -0400
 @@ -0,0 +1,48 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -219,7 +219,7 @@ Index: dev.utopic/chrome/browser/resources/options/desktop_integration_add_websi
 Index: dev.utopic/chrome/browser/resources/options/desktop_integration_overlay.css
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.utopic/chrome/browser/resources/options/desktop_integration_overlay.css	2014-10-20 11:52:53.202805030 -0400
++++ dev.utopic/chrome/browser/resources/options/desktop_integration_overlay.css	2014-10-26 22:33:16.996655659 -0400
 @@ -0,0 +1,71 @@
 +/* Copyright (c) 2012 The Chromium Authors. All rights reserved.
 + * Use of this source code is governed by a BSD-style license that can be
@@ -295,7 +295,7 @@ Index: dev.utopic/chrome/browser/resources/options/desktop_integration_overlay.c
 Index: dev.utopic/chrome/browser/resources/options/desktop_integration_overlay.html
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.utopic/chrome/browser/resources/options/desktop_integration_overlay.html	2014-10-20 11:52:53.202805030 -0400
++++ dev.utopic/chrome/browser/resources/options/desktop_integration_overlay.html	2014-10-26 22:33:16.996655659 -0400
 @@ -0,0 +1,26 @@
 +<div id="desktop-integration-area" class="page" hidden>
 +
@@ -326,7 +326,7 @@ Index: dev.utopic/chrome/browser/resources/options/desktop_integration_overlay.h
 Index: dev.utopic/chrome/browser/resources/options/desktop_integration_overlay.js
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.utopic/chrome/browser/resources/options/desktop_integration_overlay.js	2014-10-20 11:52:53.202805030 -0400
++++ dev.utopic/chrome/browser/resources/options/desktop_integration_overlay.js	2014-10-26 22:33:16.996655659 -0400
 @@ -0,0 +1,204 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -534,8 +534,8 @@ Index: dev.utopic/chrome/browser/resources/options/desktop_integration_overlay.j
 +
 Index: dev.utopic/chrome/browser/resources/options/options.html
 ===================================================================
---- dev.utopic.orig/chrome/browser/resources/options/options.html	2014-10-20 11:52:53.208804949 -0400
-+++ dev.utopic/chrome/browser/resources/options/options.html	2014-10-20 11:52:53.203805016 -0400
+--- dev.utopic.orig/chrome/browser/resources/options/options.html	2014-10-26 22:33:17.000655587 -0400
++++ dev.utopic/chrome/browser/resources/options/options.html	2014-10-26 22:33:16.996655659 -0400
 @@ -24,6 +24,7 @@
  <link rel="stylesheet" href="content_settings.css">
  <link rel="stylesheet" href="controlled_setting.css">
@@ -562,8 +562,8 @@ Index: dev.utopic/chrome/browser/resources/options/options.html
    <include src="supervised_user_import.html">
 Index: dev.utopic/chrome/browser/resources/options/options.js
 ===================================================================
---- dev.utopic.orig/chrome/browser/resources/options/options.js	2014-10-20 11:52:53.208804949 -0400
-+++ dev.utopic/chrome/browser/resources/options/options.js	2014-10-20 11:52:53.203805016 -0400
+--- dev.utopic.orig/chrome/browser/resources/options/options.js	2014-10-26 22:33:17.000655587 -0400
++++ dev.utopic/chrome/browser/resources/options/options.js	2014-10-26 22:33:16.997655641 -0400
 @@ -15,6 +15,8 @@
      options.contentSettings.ContentSettingsExceptionsArea;
  var ContentSettings = options.ContentSettings;
@@ -589,8 +589,8 @@ Index: dev.utopic/chrome/browser/resources/options/options.js
                                  ContentSettings.getInstance(),
 Index: dev.utopic/chrome/browser/resources/options/options_bundle.js
 ===================================================================
---- dev.utopic.orig/chrome/browser/resources/options/options_bundle.js	2014-10-20 11:52:53.208804949 -0400
-+++ dev.utopic/chrome/browser/resources/options/options_bundle.js	2014-10-20 11:52:53.203805016 -0400
+--- dev.utopic.orig/chrome/browser/resources/options/options_bundle.js	2014-10-26 22:33:17.000655587 -0400
++++ dev.utopic/chrome/browser/resources/options/options_bundle.js	2014-10-26 22:33:16.997655641 -0400
 @@ -79,6 +79,8 @@
  <include src="content_settings_ui.js">
  <include src="cookies_list.js">
@@ -602,8 +602,8 @@ Index: dev.utopic/chrome/browser/resources/options/options_bundle.js
  <include src="font_settings.js">
 Index: dev.utopic/chrome/browser/ui/webui/options/browser_options_handler.cc
 ===================================================================
---- dev.utopic.orig/chrome/browser/ui/webui/options/browser_options_handler.cc	2014-10-20 11:52:53.208804949 -0400
-+++ dev.utopic/chrome/browser/ui/webui/options/browser_options_handler.cc	2014-10-20 11:52:53.203805016 -0400
+--- dev.utopic.orig/chrome/browser/ui/webui/options/browser_options_handler.cc	2014-10-26 22:33:17.000655587 -0400
++++ dev.utopic/chrome/browser/ui/webui/options/browser_options_handler.cc	2014-10-26 22:33:16.997655641 -0400
 @@ -207,6 +207,8 @@
        IDS_OPTIONS_ADVANCED_SECTION_TITLE_CERTIFICATES },
      { "advancedSectionTitleContent",
@@ -636,7 +636,7 @@ Index: dev.utopic/chrome/browser/ui/webui/options/browser_options_handler.cc
 Index: dev.utopic/chrome/browser/ui/webui/options/desktop_integration_settings_handler.cc
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.utopic/chrome/browser/ui/webui/options/desktop_integration_settings_handler.cc	2014-10-20 11:52:53.204805002 -0400
++++ dev.utopic/chrome/browser/ui/webui/options/desktop_integration_settings_handler.cc	2014-10-26 22:33:16.997655641 -0400
 @@ -0,0 +1,262 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -903,7 +903,7 @@ Index: dev.utopic/chrome/browser/ui/webui/options/desktop_integration_settings_h
 Index: dev.utopic/chrome/browser/ui/webui/options/desktop_integration_settings_handler.h
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.utopic/chrome/browser/ui/webui/options/desktop_integration_settings_handler.h	2014-10-20 11:52:53.204805002 -0400
++++ dev.utopic/chrome/browser/ui/webui/options/desktop_integration_settings_handler.h	2014-10-26 22:33:16.998655623 -0400
 @@ -0,0 +1,76 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -983,8 +983,8 @@ Index: dev.utopic/chrome/browser/ui/webui/options/desktop_integration_settings_h
 +#endif  // CHROME_BROWSER_UI_WEBUI_OPTIONS_DESKTOP_INTEGRATION_SETTINGS_HANDLER2_H_
 Index: dev.utopic/chrome/browser/ui/webui/options/options_ui.cc
 ===================================================================
---- dev.utopic.orig/chrome/browser/ui/webui/options/options_ui.cc	2014-10-20 11:52:53.208804949 -0400
-+++ dev.utopic/chrome/browser/ui/webui/options/options_ui.cc	2014-10-20 11:52:53.204805002 -0400
+--- dev.utopic.orig/chrome/browser/ui/webui/options/options_ui.cc	2014-10-26 22:33:17.000655587 -0400
++++ dev.utopic/chrome/browser/ui/webui/options/options_ui.cc	2014-10-26 22:33:16.998655623 -0400
 @@ -106,6 +106,10 @@
  #include "chrome/browser/ui/webui/options/geolocation_options_handler.h"
  #endif
@@ -1009,9 +1009,9 @@ Index: dev.utopic/chrome/browser/ui/webui/options/options_ui.cc
  #if defined(ENABLE_GOOGLE_NOW)
 Index: dev.utopic/chrome/chrome_browser_ui.gypi
 ===================================================================
---- dev.utopic.orig/chrome/chrome_browser_ui.gypi	2014-10-20 11:52:53.208804949 -0400
-+++ dev.utopic/chrome/chrome_browser_ui.gypi	2014-10-20 11:52:53.205804988 -0400
-@@ -1705,6 +1705,8 @@
+--- dev.utopic.orig/chrome/chrome_browser_ui.gypi	2014-10-26 22:33:17.000655587 -0400
++++ dev.utopic/chrome/chrome_browser_ui.gypi	2014-10-26 22:33:16.998655623 -0400
+@@ -1711,6 +1711,8 @@
        'browser/ui/webui/options/core_options_handler.h',
        'browser/ui/webui/options/create_profile_handler.cc',
        'browser/ui/webui/options/create_profile_handler.h',

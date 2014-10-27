@@ -1,7 +1,7 @@
 Index: dev.utopic/content/common/gpu/media/gpu_video_decode_accelerator.cc
 ===================================================================
---- dev.utopic.orig/content/common/gpu/media/gpu_video_decode_accelerator.cc	2014-10-20 11:52:58.523732209 -0400
-+++ dev.utopic/content/common/gpu/media/gpu_video_decode_accelerator.cc	2014-10-20 11:52:58.516732306 -0400
+--- dev.utopic.orig/content/common/gpu/media/gpu_video_decode_accelerator.cc	2014-10-26 22:33:22.407558019 -0400
++++ dev.utopic/content/common/gpu/media/gpu_video_decode_accelerator.cc	2014-10-26 22:33:22.399558163 -0400
 @@ -31,7 +31,7 @@
  #elif defined(OS_CHROMEOS) && defined(ARCH_CPU_ARMEL) && defined(USE_X11)
  #include "content/common/gpu/media/v4l2_video_decode_accelerator.h"
@@ -22,8 +22,8 @@ Index: dev.utopic/content/common/gpu/media/gpu_video_decode_accelerator.cc
                 "DesktopGL (GLX).";
 Index: dev.utopic/content/content_common.gypi
 ===================================================================
---- dev.utopic.orig/content/content_common.gypi	2014-10-20 11:52:58.523732209 -0400
-+++ dev.utopic/content/content_common.gypi	2014-10-20 11:52:58.517732293 -0400
+--- dev.utopic.orig/content/content_common.gypi	2014-10-26 22:33:22.407558019 -0400
++++ dev.utopic/content/content_common.gypi	2014-10-26 22:33:22.399558163 -0400
 @@ -774,7 +774,7 @@
          '<(DEPTH)/third_party/khronos',
        ],
@@ -35,8 +35,8 @@ Index: dev.utopic/content/content_common.gypi
          '../third_party/libyuv/libyuv.gyp:libyuv',
 Index: dev.utopic/content/content_gpu.gypi
 ===================================================================
---- dev.utopic.orig/content/content_gpu.gypi	2014-10-20 11:52:58.523732209 -0400
-+++ dev.utopic/content/content_gpu.gypi	2014-10-20 11:52:58.517732293 -0400
+--- dev.utopic.orig/content/content_gpu.gypi	2014-10-26 22:33:22.407558019 -0400
++++ dev.utopic/content/content_gpu.gypi	2014-10-26 22:33:22.400558145 -0400
 @@ -40,7 +40,7 @@
          ],
        },
@@ -48,9 +48,9 @@ Index: dev.utopic/content/content_gpu.gypi
        ],
 Index: dev.utopic/content/content_tests.gypi
 ===================================================================
---- dev.utopic.orig/content/content_tests.gypi	2014-10-20 11:52:58.523732209 -0400
-+++ dev.utopic/content/content_tests.gypi	2014-10-20 11:52:58.518732279 -0400
-@@ -1527,7 +1527,7 @@
+--- dev.utopic.orig/content/content_tests.gypi	2014-10-26 22:33:22.407558019 -0400
++++ dev.utopic/content/content_tests.gypi	2014-10-26 22:33:22.401558127 -0400
+@@ -1529,7 +1529,7 @@
            },
          ]
      }],
@@ -61,8 +61,8 @@ Index: dev.utopic/content/content_tests.gypi
              'target_name': 'vaapi_h264_decoder_unittest',
 Index: dev.utopic/content/public/common/content_switches.cc
 ===================================================================
---- dev.utopic.orig/content/public/common/content_switches.cc	2014-10-20 11:52:58.523732209 -0400
-+++ dev.utopic/content/public/common/content_switches.cc	2014-10-20 11:52:58.520732251 -0400
+--- dev.utopic.orig/content/public/common/content_switches.cc	2014-10-26 22:33:22.407558019 -0400
++++ dev.utopic/content/public/common/content_switches.cc	2014-10-26 22:33:22.403558091 -0400
 @@ -919,7 +919,7 @@
  // Disable web audio API.
  const char kDisableWebAudio[]               = "disable-webaudio";
@@ -74,8 +74,8 @@ Index: dev.utopic/content/public/common/content_switches.cc
  
 Index: dev.utopic/content/public/common/content_switches.h
 ===================================================================
---- dev.utopic.orig/content/public/common/content_switches.h	2014-10-20 11:52:58.523732209 -0400
-+++ dev.utopic/content/public/common/content_switches.h	2014-10-20 11:52:58.520732251 -0400
+--- dev.utopic.orig/content/public/common/content_switches.h	2014-10-26 22:33:22.407558019 -0400
++++ dev.utopic/content/public/common/content_switches.h	2014-10-26 22:33:22.403558091 -0400
 @@ -264,7 +264,7 @@
  
  CONTENT_EXPORT extern const char kDisableWebAudio[];
@@ -87,8 +87,8 @@ Index: dev.utopic/content/public/common/content_switches.h
  #endif
 Index: dev.utopic/media/media.gyp
 ===================================================================
---- dev.utopic.orig/media/media.gyp	2014-10-20 11:52:58.523732209 -0400
-+++ dev.utopic/media/media.gyp	2014-10-20 11:52:58.520732251 -0400
+--- dev.utopic.orig/media/media.gyp	2014-10-26 22:33:22.407558019 -0400
++++ dev.utopic/media/media.gyp	2014-10-26 22:33:22.403558091 -0400
 @@ -665,7 +665,7 @@
            ],
          }],
@@ -100,8 +100,8 @@ Index: dev.utopic/media/media.gyp
              'filters/h264_bitstream_buffer.h',
 Index: dev.utopic/gpu/config/software_rendering_list_json.cc
 ===================================================================
---- dev.utopic.orig/gpu/config/software_rendering_list_json.cc	2014-10-20 11:52:58.523732209 -0400
-+++ dev.utopic/gpu/config/software_rendering_list_json.cc	2014-10-20 11:52:58.520732251 -0400
+--- dev.utopic.orig/gpu/config/software_rendering_list_json.cc	2014-10-26 22:33:22.407558019 -0400
++++ dev.utopic/gpu/config/software_rendering_list_json.cc	2014-10-26 22:33:22.404558073 -0400
 @@ -508,8 +508,8 @@
      },
      {
@@ -127,8 +127,8 @@ Index: dev.utopic/gpu/config/software_rendering_list_json.cc
        "features": [
 Index: dev.utopic/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 ===================================================================
---- dev.utopic.orig/content/common/sandbox_linux/bpf_gpu_policy_linux.cc	2014-10-20 11:52:58.523732209 -0400
-+++ dev.utopic/content/common/sandbox_linux/bpf_gpu_policy_linux.cc	2014-10-20 11:52:58.521732237 -0400
+--- dev.utopic.orig/content/common/sandbox_linux/bpf_gpu_policy_linux.cc	2014-10-26 22:33:22.407558019 -0400
++++ dev.utopic/content/common/sandbox_linux/bpf_gpu_policy_linux.cc	2014-10-26 22:33:22.404558073 -0400
 @@ -21,6 +21,8 @@
  #include "base/logging.h"
  #include "base/memory/scoped_ptr.h"

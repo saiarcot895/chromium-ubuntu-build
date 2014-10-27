@@ -2,8 +2,8 @@ Bug-Chromium: https://code.google.com/p/chromium/issues/detail?id=159349
                                                                        
 Index: dev.utopic/third_party/ffmpeg/ffmpeg.gyp
 ===================================================================
---- dev.utopic.orig/third_party/ffmpeg/ffmpeg.gyp	2014-10-20 11:48:26.985728665 -0400
-+++ dev.utopic/third_party/ffmpeg/ffmpeg.gyp	2014-10-20 11:48:26.946729234 -0400
+--- dev.utopic.orig/third_party/ffmpeg/ffmpeg.gyp	2014-10-26 22:33:15.713678895 -0400
++++ dev.utopic/third_party/ffmpeg/ffmpeg.gyp	2014-10-26 22:33:15.710678950 -0400
 @@ -136,6 +136,10 @@
              ],
              'yasm_output_path': '<(shared_generated_dir)/yasm'
@@ -35,9 +35,9 @@ Index: dev.utopic/third_party/ffmpeg/ffmpeg.gyp
              '<(platform_config_root)',
 Index: dev.utopic/third_party/icu/icu.gyp
 ===================================================================
---- dev.utopic.orig/third_party/icu/icu.gyp	2014-10-20 11:48:26.985728665 -0400
-+++ dev.utopic/third_party/icu/icu.gyp	2014-10-20 11:48:26.946729234 -0400
-@@ -38,8 +38,11 @@
+--- dev.utopic.orig/third_party/icu/icu.gyp	2014-10-26 22:33:15.713678895 -0400
++++ dev.utopic/third_party/icu/icu.gyp	2014-10-26 22:33:15.711678931 -0400
+@@ -40,8 +40,11 @@
           target_arch=="mipsel")', {
          'target_conditions': [
            ['_toolset=="host"', {

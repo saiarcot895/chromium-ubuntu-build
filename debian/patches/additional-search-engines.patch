@@ -1,7 +1,7 @@
 Index: dev.utopic/components/search_engines/prepopulated_engines.json
 ===================================================================
---- dev.utopic.orig/components/search_engines/prepopulated_engines.json	2014-10-20 11:48:27.595719763 -0400
-+++ dev.utopic/components/search_engines/prepopulated_engines.json	2014-10-20 11:48:27.592719805 -0400
+--- dev.utopic.orig/components/search_engines/prepopulated_engines.json	2014-10-26 22:33:16.357667229 -0400
++++ dev.utopic/components/search_engines/prepopulated_engines.json	2014-10-26 22:33:16.354667283 -0400
 @@ -14,6 +14,7 @@
  //    88, 89, 91+
  //
@@ -38,8 +38,8 @@ Index: dev.utopic/components/search_engines/prepopulated_engines.json
        "keyword": "google.com",
 Index: dev.utopic/components/search_engines/search_engine_type.h
 ===================================================================
---- dev.utopic.orig/components/search_engines/search_engine_type.h	2014-10-20 11:48:27.595719763 -0400
-+++ dev.utopic/components/search_engines/search_engine_type.h	2014-10-20 11:48:27.593719791 -0400
+--- dev.utopic.orig/components/search_engines/search_engine_type.h	2014-10-26 22:33:16.357667229 -0400
++++ dev.utopic/components/search_engines/search_engine_type.h	2014-10-26 22:33:16.354667283 -0400
 @@ -22,6 +22,7 @@
    SEARCH_ENGINE_DAUM,
    SEARCH_ENGINE_DELFI,
@@ -50,8 +50,8 @@ Index: dev.utopic/components/search_engines/search_engine_type.h
    SEARCH_ENGINE_GOOGLE,
 Index: dev.utopic/components/search_engines/template_url_prepopulate_data.cc
 ===================================================================
---- dev.utopic.orig/components/search_engines/template_url_prepopulate_data.cc	2014-10-20 11:48:27.595719763 -0400
-+++ dev.utopic/components/search_engines/template_url_prepopulate_data.cc	2014-10-20 11:48:27.593719791 -0400
+--- dev.utopic.orig/components/search_engines/template_url_prepopulate_data.cc	2014-10-26 22:33:16.357667229 -0400
++++ dev.utopic/components/search_engines/template_url_prepopulate_data.cc	2014-10-26 22:33:16.354667283 -0400
 @@ -45,7 +45,7 @@
  
  // Default (for countries with no better engine set)
