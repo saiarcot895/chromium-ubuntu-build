@@ -165,9 +165,6 @@ ifeq (1,$(WANT_SHARED_LIBS))
 GYP_DEFINES += library=shared_library
 endif
 
-CC := gcc -fuse-ld=gold
-CXX := g++ -fuse-ld=gold
-
 subst_files = \
 	debian/$(DEBIAN_NAME).sh \
 	$(NULL)
@@ -226,7 +223,7 @@ ifneq ($(DEB_HOST_ARCH),$(DEB_BUILD_ARCH))
 $(note Cross compiling for $(DEB_HOST_ARCH), from this $(DEB_BUILD_ARCH))
 CROSS_BUILD = PKG_CONFIG_PATH=/usr/lib/$(DEB_HOST_MULTIARCH)/pkgconfig:/usr/$(DEB_HOST_MULTIARCH)/lib/pkgconfig CXX=$(DEB_HOST_GNU_TYPE)-$(CXX)
 else
-ifeq (,$(filter 12.04%,$(UBUNTU_DIST)))
+ifneq (,$(filter 12.04%,$(UBUNTU_DIST)))
 CROSS_BUILD = CC=$(shell which clang-3.6 clang-3.5 clang-3.4 clang |head -1) CXX=$(shell which clang++-3.6 clang++-3.5 clang++-3.4 clang++ |head -1)
 else
 CROSS_BUILD = CC=$$(which gcc-4.8 gcc |head -1) CXX=$$(which g++-4.8 g++ |head -1)
