@@ -1,8 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 
 # Chromium launcher
 
 # Authors:
+#  Chad Miller <chad.miller@canonical.com>
 #  Fabien Tassin <fta@sofaraway.org>
 # License: GPLv2 or later
 
@@ -25,6 +26,8 @@ discover_registration () {
 	test "$VERSION" || return 2
 	test "$FILE_NAME" || return 3
 
+	echo "$PLUGIN_PARAMETERS" |grep -- "--${option_prefix}-path=" >/dev/null && return 4
+
 	PLUGIN_PARAMETERS="--${option_prefix}-path=${FILE_NAME} --${option_prefix}-version=${VERSION%%-*} ${PLUGIN_PARAMETERS}"
 	return 0
 }
@@ -40,10 +43,10 @@ export GLOBIGNORE=
 export BASH_XTRACEFD=
 
 if grep -E -w ^Features\\s\*:.\*neon /proc/cpuinfo >/dev/null; then
-        export CPU_FEATURE_NEON=1
+	export CPU_FEATURE_NEON=1
 fi
 if grep -E -w ^flags\\s\*:.\*sse /proc/cpuinfo >/dev/null; then
-        export CPU_FEATURE_SSE=1
+	export CPU_FEATURE_SSE=1
 fi
 export CPU_FEATURES_TESTED=1
 
@@ -53,15 +56,17 @@ GDB=/usr/bin/gdb
 readonly BUILD_DIST="@BUILD_DIST@"
 readonly UPSTREAM_VERSION="@UPSTREAM_VERSION@"
 if test -x "${LIBDIR}/${UPSTREAM_VERSION}"/chromium-browser; then
-        LIBDIR="${LIBDIR}/${UPSTREAM_VERSION}"
+	LIBDIR="${LIBDIR}/${UPSTREAM_VERSION}"
 fi
+readonly LIBDIR
 
 usage () {
-  echo "$APPNAME [-h|--help] [-g|--debug] [--temp-profile] [options] [URL]"
+  echo "$APPNAME [-h|--help] [-g|--debug] [--temp-profile] [--no-touch-pinch] [options] [URL]"
   echo
   echo "        -g or --debug           Start within $GDB"
   echo "        -h or --help            This help screen"
   echo "        --temp-profile          Start with a new and temporary profile"
+  echo "        --no-touch-pinch        Disable pinch gestures."
   echo
   echo " Other supported options are:"
   MANWIDTH=80 man chromium-browser | sed -e '1,/OPTIONS/d; /ENVIRONMENT/,$d'
@@ -72,15 +77,27 @@ if [ -f /etc/$APPNAME/default ] ; then
   . /etc/$APPNAME/default
 fi
 
+
+while read f; do
+	. "$f"
+done < <(run-parts --list -- /etc/$APPNAME/customizations)
+test -f ~/.chromium-browser.init && . ~/.chromium-browser.init
+
 # Prefer user defined CHROMIUM_USER_FLAGS (fron env) over system
 # default CHROMIUM_FLAGS (from /etc/$APPNAME/default)
-CHROMIUM_FLAGS=${CHROMIUM_USER_FLAGS:-"$CHROMIUM_FLAGS"}
+if test -n "$CHROMIUM_USER_FLAGS"; then
+	echo "WARNING: \$CHROMIUM_USER_FLAGS is deprecated. Instead, update CHROMIUM_FLAGS in ~/.chromium-browser.init or place configuration for all sers in /etc/$APPNAME/customizations/ ."
+	echo "WARNING: Ignoring system flags because \$CHROMIUM_USER_FLAGS is set."
+	echo "CHROMIUM_FLAGS=${CHROMIUM_FLAGS}"
+	echo "CHROMIUM_USER_FLAGS=${CHROMIUM_USER_FLAGS}"
+	CHROMIUM_FLAGS=${CHROMIUM_USER_FLAGS}
+fi
 
 # FFmpeg needs to know where its libs are located
 if [ "Z$LD_LIBRARY_PATH" != Z ] ; then
-  LD_LIBRARY_PATH=$LIBDIR:$LD_LIBRARY_PATH
+  LD_LIBRARY_PATH=$LIBDIR:$LIBDIR/libs:$LD_LIBRARY_PATH
 else
-  LD_LIBRARY_PATH=$LIBDIR
+  LD_LIBRARY_PATH=$LIBDIR:$LIBDIR/libs
 fi
 
 export LD_LIBRARY_PATH
@@ -95,13 +112,18 @@ fi
 export CHROME_WRAPPER="`readlink -f "$0"`"
 export CHROME_DESKTOP=$APPNAME.desktop
 
-# lsb_release is slow so try to source the static file /etc/lsb-release
-# instead, and fallback to lsb_release if we didn't get the information we need
+# lsb_release is slow so try to source the static file /etc/lsb-release instead
 if [ -e /etc/lsb-release ] ; then
   . /etc/lsb-release
 fi
-DIST=${DISTRIB_ID:-"`lsb_release -si`"}
-RELEASE=${DISTRIB_RELEASE:-"`lsb_release -sr`"}
+# Fall back to lsb_release if we didn't get the information we need
+if test -z "${DISTRIB_ID:-}"; then
+	DIST=$(lsb_release -si)
+	RELEASE=$(lsb_release -sr)
+else
+	DIST=${DISTRIB_ID}
+	RELEASE=${DISTRIB_RELEASE}
+fi
 
 # Set CHROME_VERSION_EXTRA visible in the About dialog and in about:version
 if [ "$DIST $RELEASE" = "$BUILD_DIST" ] ; then
@@ -110,6 +132,7 @@ else
   export CHROME_VERSION_EXTRA="Built on $BUILD_DIST, running on $DIST $RELEASE"
 fi
 
+want_touch_pinch=1
 want_debug=0
 want_temp_profile=0
 while [ $# -gt 0 ]; do
@@ -119,6 +142,9 @@ while [ $# -gt 0 ]; do
       exit 0 ;;
     -g | --debug )
       want_debug=1
+      shift ;;
+    --no-touch-pinch )
+      want_touch_pinch=0
       shift ;;
     --temp-profile )
       want_temp_profile=1
@@ -138,6 +164,10 @@ CHROMIUM_FLAGS="${CHROMIUM_FLAGS} ${PLUGIN_PARAMETERS}"
 if [ $want_temp_profile -eq 1 ] ; then
   TEMP_PROFILE=`mktemp -d`
   CHROMIUM_FLAGS="$CHROMIUM_FLAGS --user-data-dir=$TEMP_PROFILE"
+fi
+
+if [ $want_touch_pinch -eq 1 ] ; then
+  CHROMIUM_FLAGS="$CHROMIUM_FLAGS --enable-pinch"
 fi
 
 if [ $want_debug -eq 1 ] ; then

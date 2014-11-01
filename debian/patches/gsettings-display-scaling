@@ -2,8 +2,10 @@ Description: Read display scaling from gsettings.
 Author: Chad MILLER <chad.miller@canonical.com>
 Forwarded: yes
 
---- a/ui/views/widget/desktop_aura/desktop_screen_x11.cc
-+++ b/ui/views/widget/desktop_aura/desktop_screen_x11.cc
+Index: dev.utopic/ui/views/widget/desktop_aura/desktop_screen_x11.cc
+===================================================================
+--- dev.utopic.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-11-01 09:22:14.699495308 -0400
++++ dev.utopic/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-11-01 09:22:14.697495338 -0400
 @@ -7,7 +7,12 @@
  #include <X11/extensions/Xrandr.h>
  #include <X11/Xlib.h>
@@ -18,7 +20,7 @@ Forwarded: yes
  #undef RootWindow
  
  #include "base/debug/trace_event.h"
-@@ -351,6 +356,29 @@ std::vector<gfx::Display> DesktopScreenX
+@@ -266,6 +271,29 @@
      return GetFallbackDisplayList();
    }
  
@@ -48,7 +50,7 @@ Forwarded: yes
    bool has_work_area = false;
    gfx::Rect work_area;
    std::vector<int> value;
-@@ -387,7 +415,27 @@ std::vector<gfx::Display> DesktopScreenX
+@@ -302,7 +330,26 @@
        gfx::Rect crtc_bounds(crtc->x, crtc->y, crtc->width, crtc->height);
        gfx::Display display(display_id, crtc_bounds);
  
@@ -73,11 +75,10 @@ Forwarded: yes
 +                 << device_scale_factor << " from gsettings.";
 +        display.SetScaleAndBounds(device_scale_factor, crtc_bounds);
 +      } else if (!gfx::Display::HasForceDeviceScaleFactor()) {
-+
-         if (i == 0 && !ui::IsXDisplaySizeBlackListed(output_info->mm_width,
-                                                      output_info->mm_height)) {
+         if (i == 0 && !ui::IsDisplaySizeBlackListed(
+             gfx::Size(output_info->mm_width, output_info->mm_height))) {
            // As per display scale factor is not supported right now,
-@@ -396,6 +444,7 @@ std::vector<gfx::Display> DesktopScreenX
+@@ -311,6 +358,7 @@
                                                       output_info->mm_width);
            DCHECK_LE(1.0f, device_scale_factor);
          }

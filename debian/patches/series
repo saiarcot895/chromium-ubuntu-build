@@ -9,23 +9,27 @@ extensions-directory.patch
 linker-asneeded-bug.patch
 arm.patch
 arm-neon.patch
-ffmpeg-gyp-config.patch
+#ffmpeg-gyp-config.patch
 additional-search-engines.patch
 ###: start lp:unity-chromium-extension
 #2-get-domain-tld.patch
-#3-chrome-xid.patch
+3-chrome-xid.patch
 #4-chromeless-window-launch-option.patch
 5-desktop-integration-settings.patch
 6-passwordless-install-support.patch
 7-npapi-permission-not-defaults-to-unauthorized.patch
 ###: end lp:unity-chromium-extension
 breakpad
-#gsettings-display-scaling
+gsettings-display-scaling
 touch-v35
-#display-scaling-default-value
-#display-scaling-report-hardware-info
+display-scaling-default-value
+display-scaling-report-hardware-info
 flash-redirection
 notifications-nicer
+disable-sse2
+#lp-translations-paths
 #mir-support
 #angle-fix.patch
+macro-templates-not-match
+use-system-clang
 enable_vaapi_on_linux.diff

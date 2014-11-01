@@ -1,38 +1,278 @@
-Index: beta.trusty/chrome/browser/ui/gtk/browser_window_gtk.cc
+Index: dev.utopic/chrome/browser/ui/views/frame/browser_frame.cc
 ===================================================================
---- beta.trusty.orig/chrome/browser/ui/gtk/browser_window_gtk.cc	2014-04-19 10:50:21.824695622 -0400
-+++ beta.trusty/chrome/browser/ui/gtk/browser_window_gtk.cc	2014-04-19 10:50:21.796694572 -0400
-@@ -141,6 +141,12 @@
- // gtk_window_get_position() after the last GTK configure-event signal.
- const int kDebounceTimeoutMilliseconds = 100;
+--- dev.utopic.orig/chrome/browser/ui/views/frame/browser_frame.cc	2014-11-01 09:20:58.406666936 -0400
++++ dev.utopic/chrome/browser/ui/views/frame/browser_frame.cc	2014-11-01 09:20:47.992826077 -0400
+@@ -35,6 +35,7 @@
+ #include "ui/gfx/screen.h"
+ #include "ui/views/controls/menu/menu_runner.h"
+ #include "ui/views/widget/native_widget.h"
++#include "ui/views/widget/native_widget_aura.h"
  
-+// A window property will be set to reflect the session_id of the
-+//  associated browser window. The session_id is unique among browsers
-+//  for a given session and actually corresponds to the window.id found
-+//  in the extensions api.
-+char kSessionIdPropertyName[] = "CHROMIUM_LINUX_SESSION_ID_PROPERTY";
+ #if defined(OS_LINUX) && !defined(OS_CHROMEOS)
+ #include "chrome/browser/shell_integration_linux.h"
+@@ -183,6 +184,12 @@
+   return browser_frame_view_;
+ }
+ 
++void BrowserFrame::SendSessionIdToWindow() {
++  const Browser& browser = *browser_view_->browser();
++  views::NativeWidget* a = native_browser_frame_->AsNativeWidget();
++  a->SetSessionID(browser.session_id().id());
++}
 +
- // Using gtk_window_get_position/size creates a race condition, so only use
- // this to get the initial bounds.  After window creation, we pick up the
- // normal bounds by connecting to the configure-event signal.
-@@ -313,6 +319,20 @@
-     InitWidgets();
-   }
+ bool BrowserFrame::UseCustomFrame() const {
+   return use_custom_frame_pref_.GetValue() &&
+       browser_view_->IsBrowserTypeNormal();
+Index: dev.utopic/chrome/browser/ui/views/frame/browser_frame.h
+===================================================================
+--- dev.utopic.orig/chrome/browser/ui/views/frame/browser_frame.h	2014-11-01 09:20:58.406666936 -0400
++++ dev.utopic/chrome/browser/ui/views/frame/browser_frame.h	2014-11-01 09:20:47.992826077 -0400
+@@ -86,6 +86,8 @@
+   void GetWindowPlacement(gfx::Rect* bounds,
+                           ui::WindowShowState* show_state) const;
  
-+  // Add a specific property to inform an interested third party
-+  //  of our session id. Interesting in the context of an extension
-+  //  where the session id corresponds to the window.id and is a way
-+  //  to uniquely identify a window based on that (from within a given
-+  //  extension).
-+  gulong session_id = browser_->session_id().id();
-+  gdk_property_change(GTK_WIDGET(window_)->window,
-+                      gdk_atom_intern(kSessionIdPropertyName, FALSE),
-+		      gdk_atom_intern("CARDINAL", FALSE),
-+		      32,
-+		      GDK_PROP_MODE_REPLACE,
-+		      (guchar *)&session_id,
-+		      1);
++  void SendSessionIdToWindow();
 +
-   ConnectAccelerators();
+   // Overridden from views::Widget:
+   virtual views::internal::RootView* CreateRootView() override;
+   virtual views::NonClientFrameView* CreateNonClientFrameView() override;
+Index: dev.utopic/chrome/browser/ui/views/frame/browser_view.cc
+===================================================================
+--- dev.utopic.orig/chrome/browser/ui/views/frame/browser_view.cc	2014-11-01 09:20:58.406666936 -0400
++++ dev.utopic/chrome/browser/ui/views/frame/browser_view.cc	2014-11-01 09:20:47.993826062 -0400
+@@ -632,6 +632,7 @@
+   force_location_bar_focus_ = false;
  
-   // Set the initial background color of widgets.
+   browser()->OnWindowDidShow();
++  frame_->SendSessionIdToWindow();
+ 
+   chrome::MaybeShowInvertBubbleView(this);
+ }
+Index: dev.utopic/ui/aura/client/aura_constants.cc
+===================================================================
+--- dev.utopic.orig/ui/aura/client/aura_constants.cc	2014-11-01 09:20:58.406666936 -0400
++++ dev.utopic/ui/aura/client/aura_constants.cc	2014-11-01 09:20:48.206822808 -0400
+@@ -8,6 +8,7 @@
+ #include "ui/gfx/rect.h"
+ 
+ DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, bool)
++DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, uint32)
+ DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, ui::ModalType)
+ DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, gfx::Rect*)
+ DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, ui::InputMethod*)
+@@ -35,6 +36,7 @@
+ DEFINE_WINDOW_PROPERTY_KEY(ui::InputMethod*, kRootWindowInputMethodKey, NULL);
+ DEFINE_WINDOW_PROPERTY_KEY(
+     ui::WindowShowState, kShowStateKey, ui::SHOW_STATE_DEFAULT);
++DEFINE_WINDOW_PROPERTY_KEY(uint32, kSessionIdKey, 0);
+ 
+ }  // namespace client
+ }  // namespace aura
+Index: dev.utopic/ui/aura/client/aura_constants.h
+===================================================================
+--- dev.utopic.orig/ui/aura/client/aura_constants.h	2014-11-01 09:20:58.406666936 -0400
++++ dev.utopic/ui/aura/client/aura_constants.h	2014-11-01 09:20:57.350683084 -0400
+@@ -65,6 +65,9 @@
+ AURA_EXPORT extern const WindowProperty<ui::WindowShowState>* const
+     kShowStateKey;
+ 
++AURA_EXPORT extern const WindowProperty<uint32>* const kSessionIdKey;
++
++
+ // Alphabetical sort.
+ 
+ }  // namespace client
+Index: dev.utopic/ui/aura/window_tree_host_x11.cc
+===================================================================
+--- dev.utopic.orig/ui/aura/window_tree_host_x11.cc	2014-11-01 09:20:58.406666936 -0400
++++ dev.utopic/ui/aura/window_tree_host_x11.cc	2014-11-01 09:20:58.192670208 -0400
+@@ -485,6 +485,26 @@
+   return xwindow_;
+ }
+ 
++#if 0
++void WindowTreeHostX11::SetSessionID(uint32 session_id) {
++  VLOG(1) << "BROKEN delete this session writer.";
++
++  if (session_id != 0) {
++    XChangeProperty(xdisplay_,
++                    xwindow_,
++                    atom_cache_.GetAtom("CHROMIUM_LINUX_SESSION_ID_PROPERTY"),
++                    XA_CARDINAL,
++                    32,
++                    PropModeReplace,
++                    reinterpret_cast<unsigned char*>(session_id),
++                    1);
++    VLOG(1) << " DID  set session_id as window property because we have a session " << session_id;
++  } else {
++    VLOG(1) << "can't set session_id as window property because we don't have a session yet.";
++  }
++}
++#endif
++
+ void WindowTreeHostX11::Show() {
+   if (!window_mapped_) {
+     // Before we map the window, set size hints. Otherwise, some window managers
+Index: dev.utopic/ui/aura/window_tree_host_x11.h
+===================================================================
+--- dev.utopic.orig/ui/aura/window_tree_host_x11.h	2014-11-01 09:20:58.406666936 -0400
++++ dev.utopic/ui/aura/window_tree_host_x11.h	2014-11-01 09:20:58.194670178 -0400
+@@ -41,6 +41,8 @@
+   virtual bool CanDispatchEvent(const ui::PlatformEvent& event) override;
+   virtual uint32_t DispatchEvent(const ui::PlatformEvent& event) override;
+ 
++//  void SetSessionID(uint32 s) OVERRIDE;
++
+   // WindowTreeHost:
+   virtual ui::EventSource* GetEventSource() override;
+   virtual gfx::AcceleratedWidget GetAcceleratedWidget() override;
+Index: dev.utopic/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
+===================================================================
+--- dev.utopic.orig/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc	2014-11-01 09:20:58.406666936 -0400
++++ dev.utopic/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc	2014-11-01 09:20:58.394667120 -0400
+@@ -597,6 +597,11 @@
+   drop_helper_->ResetTargetViewIfEquals(view);
+ }
+ 
++void DesktopNativeWidgetAura::SetSessionID(unsigned int sessionid) {
++  desktop_window_tree_host_->SetSessionID(sessionid);
++  VLOG(1) << "session id Sent to treehost";
++}
++
+ void DesktopNativeWidgetAura::SetNativeWindowProperty(const char* name,
+                                                       void* value) {
+   if (content_window_)
+Index: dev.utopic/ui/views/widget/desktop_aura/desktop_native_widget_aura.h
+===================================================================
+--- dev.utopic.orig/ui/views/widget/desktop_aura/desktop_native_widget_aura.h	2014-11-01 09:20:58.406666936 -0400
++++ dev.utopic/ui/views/widget/desktop_aura/desktop_native_widget_aura.h	2014-11-01 09:20:58.395667104 -0400
+@@ -93,6 +93,8 @@
+   // we are being activated/deactivated.
+   void HandleActivationChanged(bool active);
+ 
++  void SetSessionID(uint32 sessionid);
++
+  protected:
+   // Overridden from internal::NativeWidgetPrivate:
+   virtual void InitNativeWidget(const Widget::InitParams& params) override;
+Index: dev.utopic/ui/views/widget/desktop_aura/desktop_window_tree_host.h
+===================================================================
+--- dev.utopic.orig/ui/views/widget/desktop_aura/desktop_window_tree_host.h	2014-11-01 09:20:58.406666936 -0400
++++ dev.utopic/ui/views/widget/desktop_aura/desktop_window_tree_host.h	2014-11-01 09:20:58.396667088 -0400
+@@ -80,6 +80,8 @@
+ 
+   virtual bool IsVisible() const = 0;
+ 
++  virtual void SetSessionID(uint32 sessionid) = 0;
++
+   virtual void SetSize(const gfx::Size& size) = 0;
+   virtual void StackAtTop() = 0;
+   virtual void CenterWindow(const gfx::Size& size) = 0;
+Index: dev.utopic/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
+===================================================================
+--- dev.utopic.orig/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc	2014-11-01 09:20:58.406666936 -0400
++++ dev.utopic/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc	2014-11-01 09:20:58.397667072 -0400
+@@ -10,6 +10,8 @@
+ #include <X11/Xregion.h>
+ #include <X11/Xutil.h>
+ 
++#include <signal.h>
++
+ #include "base/basictypes.h"
+ #include "base/command_line.h"
+ #include "base/debug/trace_event.h"
+@@ -102,6 +104,7 @@
+   "_NET_WM_WINDOW_TYPE_NORMAL",
+   "_NET_WM_WINDOW_TYPE_NOTIFICATION",
+   "_NET_WM_WINDOW_TYPE_TOOLTIP",
++  "CHROMIUM_LINUX_SESSION_ID_PROPERTY",
+   "XdndActionAsk",
+   "XdndActionCopy"
+   "XdndActionLink",
+@@ -1353,6 +1356,22 @@
+   XSetWMNormalHints(xdisplay_, xwindow_, &hints);
+ }
+ 
++void DesktopWindowTreeHostX11::SetSessionID(uint32 session_id) {
++  if (session_id != 0) {
++    XChangeProperty(xdisplay_,
++                    xwindow_,
++                    atom_cache_.GetAtom("CHROMIUM_LINUX_SESSION_ID_PROPERTY"),
++                    XA_CARDINAL,
++                    32,
++                    PropModeReplace,
++                    reinterpret_cast<unsigned char*>(&session_id),
++                    1);
++    VLOG(1) << "Sent session id " << session_id << " to X window property";
++  } else {
++    VLOG(1) << "Session id is unlikely number.";
++  }
++}
++
+ void DesktopWindowTreeHostX11::UpdateWMUserTime(
+     const ui::PlatformEvent& event) {
+   if (!IsActive())
+Index: dev.utopic/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
+===================================================================
+--- dev.utopic.orig/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h	2014-11-01 09:20:58.406666936 -0400
++++ dev.utopic/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h	2014-11-01 09:20:58.398667057 -0400
+@@ -85,6 +85,8 @@
+   // Deallocates the internal list of open windows.
+   static void CleanUpWindowList();
+ 
++  void SetSessionID(uint32 sessionid);
++
+  protected:
+   // Overridden from DesktopWindowTreeHost:
+   virtual void Init(aura::Window* content_window,
+Index: dev.utopic/ui/views/widget/native_widget.h
+===================================================================
+--- dev.utopic.orig/ui/views/widget/native_widget.h	2014-11-01 09:20:58.406666936 -0400
++++ dev.utopic/ui/views/widget/native_widget.h	2014-11-01 09:20:58.399667043 -0400
+@@ -26,6 +26,8 @@
+  public:
+   virtual ~NativeWidget() {}
+ 
++  virtual void SetSessionID(uint32 sessionid) = 0;
++
+  private:
+   friend class Widget;
+ 
+Index: dev.utopic/ui/views/widget/native_widget_aura.cc
+===================================================================
+--- dev.utopic.orig/ui/views/widget/native_widget_aura.cc	2014-11-01 09:20:58.406666936 -0400
++++ dev.utopic/ui/views/widget/native_widget_aura.cc	2014-11-01 09:20:58.400667028 -0400
+@@ -59,6 +59,8 @@
+ #include "ui/views/widget/desktop_aura/desktop_window_tree_host.h"
+ #endif
+ 
++#include <signal.h>
++
+ namespace views {
+ 
+ namespace {
+@@ -342,6 +344,11 @@
+   window_->SetBounds(window_bounds);
+ }
+ 
++void NativeWidgetAura::SetSessionID(uint32 sessionid) {
++  VLOG(1) << "I have no idea.";
++  raise(SIGABRT);
++}
++
+ void NativeWidgetAura::GetWindowPlacement(
+     gfx::Rect* bounds,
+     ui::WindowShowState* show_state) const {
+Index: dev.utopic/ui/views/widget/native_widget_aura.h
+===================================================================
+--- dev.utopic.orig/ui/views/widget/native_widget_aura.h	2014-11-01 09:20:58.406666936 -0400
++++ dev.utopic/ui/views/widget/native_widget_aura.h	2014-11-01 09:20:58.401667013 -0400
+@@ -50,6 +50,8 @@
+       internal::NativeWidgetPrivate* native_widget,
+       aura::Window* window);
+ 
++  virtual void SetSessionID(uint32 sessionid) OVERRIDE;
++
+   // Overridden from internal::NativeWidgetPrivate:
+   virtual void InitNativeWidget(const Widget::InitParams& params) override;
+   virtual NonClientFrameView* CreateNonClientFrameView() override;

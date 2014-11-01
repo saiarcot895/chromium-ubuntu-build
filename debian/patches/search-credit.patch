@@ -3,8 +3,8 @@ Author: Chad Miller <chad.miller@canonical.com>
 
 Index: dev.utopic/components/search_engines/prepopulated_engines.json
 ===================================================================
---- dev.utopic.orig/components/search_engines/prepopulated_engines.json	2014-10-31 23:34:00.187181399 -0400
-+++ dev.utopic/components/search_engines/prepopulated_engines.json	2014-10-31 23:34:00.115182263 -0400
+--- dev.utopic.orig/components/search_engines/prepopulated_engines.json	2014-11-01 09:20:35.884010815 -0400
++++ dev.utopic/components/search_engines/prepopulated_engines.json	2014-11-01 09:20:35.840011485 -0400
 @@ -79,7 +79,7 @@
        "name": "\u767e\u5ea6",
        "keyword": "baidu.com",
@@ -16,8 +16,8 @@ Index: dev.utopic/components/search_engines/prepopulated_engines.json
      },
 Index: dev.utopic/components/search_engines/template_url.cc
 ===================================================================
---- dev.utopic.orig/components/search_engines/template_url.cc	2014-10-31 23:34:00.187181399 -0400
-+++ dev.utopic/components/search_engines/template_url.cc	2014-10-31 23:34:00.183181447 -0400
+--- dev.utopic.orig/components/search_engines/template_url.cc	2014-11-01 09:20:35.884010815 -0400
++++ dev.utopic/components/search_engines/template_url.cc	2014-11-01 09:20:35.841011470 -0400
 @@ -1038,7 +1038,7 @@
  
        case GOOGLE_SEARCH_CLIENT: {

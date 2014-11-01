@@ -2,9 +2,11 @@ Description: Log hardware reporting of screen size.
 Author: Chad MILLER <chad.miller@canonical.com>
 Forwarded: not-needed
 
---- a/ui/views/widget/desktop_aura/desktop_screen_x11.cc
-+++ b/ui/views/widget/desktop_aura/desktop_screen_x11.cc
-@@ -433,13 +433,16 @@ std::vector<gfx::Display> DesktopScreenX
+Index: dev.utopic/ui/views/widget/desktop_aura/desktop_screen_x11.cc
+===================================================================
+--- dev.utopic.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-11-01 09:22:16.705464395 -0400
++++ dev.utopic/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-11-01 09:22:16.701464455 -0400
+@@ -348,12 +348,15 @@
        if (density_indicator != 0) {
          // n/8 is actual scaling factor.  Zero means discover from hardware.
          device_scale_factor = float(density_indicator / 8.0);
@@ -13,9 +15,8 @@ Forwarded: not-needed
                   << device_scale_factor << " from gsettings.";
          display.SetScaleAndBounds(device_scale_factor, crtc_bounds);
        } else if (!gfx::Display::HasForceDeviceScaleFactor()) {
- 
-         if (i == 0 && !ui::IsXDisplaySizeBlackListed(output_info->mm_width,
-                                                      output_info->mm_height)) {
+         if (i == 0 && !ui::IsDisplaySizeBlackListed(
+             gfx::Size(output_info->mm_width, output_info->mm_height))) {
 +          VLOG(1) << "ouput display " << output_info->name << 
 +                     " claims size width=" << output_info->mm_width <<
 +                     "mm and height=" << output_info->mm_height;

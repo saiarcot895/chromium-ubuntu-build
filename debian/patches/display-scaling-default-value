@@ -4,9 +4,11 @@ Description: Set default scaling to be 1:1, instead of using the hardware's
 Author: Chad MILLER <chad.miller@canonical.com>
 Forwarded: not-needed
 
---- a/ui/views/widget/desktop_aura/desktop_screen_x11.cc
-+++ b/ui/views/widget/desktop_aura/desktop_screen_x11.cc
-@@ -416,11 +416,13 @@ std::vector<gfx::Display> DesktopScreenX
+Index: dev.utopic/ui/views/widget/desktop_aura/desktop_screen_x11.cc
+===================================================================
+--- dev.utopic.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-11-01 09:22:15.999475274 -0400
++++ dev.utopic/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-11-01 09:22:15.996475321 -0400
+@@ -331,11 +331,13 @@
        gfx::Display display(display_id, crtc_bounds);
  
        // An integer that forces discrete steps.

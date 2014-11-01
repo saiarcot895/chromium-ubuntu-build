@@ -1,0 +1,34 @@
+Description: Use the system clang instead of the one that is (not really)
+ inside the source tree.
+Author: Chad Miller <chad.miller@canonical.com>
+
+Index: dev.utopic/build/common.gypi
+===================================================================
+--- dev.utopic.orig/build/common.gypi	2014-11-01 09:22:21.162395692 -0400
++++ dev.utopic/build/common.gypi	2014-11-01 09:22:21.116396400 -0400
+@@ -2311,8 +2311,8 @@
+       }],
+ 
+       ['host_clang==1', {
+-        'host_cc': '<(make_clang_dir)/bin/clang',
+-        'host_cxx': '<(make_clang_dir)/bin/clang++',
++        'host_cc': 'clang',
++        'host_cxx': 'clang++',
+       }, {
+         'host_cc': '<!(which gcc)',
+         'host_cxx': '<!(which g++)',
+Index: dev.utopic/native_client/build/common.gypi
+===================================================================
+--- dev.utopic.orig/native_client/build/common.gypi	2014-11-01 09:22:21.162395692 -0400
++++ dev.utopic/native_client/build/common.gypi	2014-11-01 09:22:21.157395771 -0400
+@@ -541,8 +541,8 @@
+             ['chromium_mac_pch', {'GCC_PRECOMPILE_PREFIX_HEADER': 'YES'},
+                                  {'GCC_PRECOMPILE_PREFIX_HEADER': 'NO'}],
+             ['clang==1', {
+-              'CC': '$(SOURCE_ROOT)/<(clang_dir)/clang',
+-              'LDPLUSPLUS': '$(SOURCE_ROOT)/<(clang_dir)/clang++',
++              'CC': 'clang',
++              'LDPLUSPLUS': 'clang++',
+               'GCC_VERSION': 'com.apple.compilers.llvm.clang.1_0',
+               'WARNING_CFLAGS': [
+                 '-Wheader-hygiene',

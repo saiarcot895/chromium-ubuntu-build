@@ -4,8 +4,8 @@ Description: Avoid a linker bug where symbols are not found.
 
 Index: dev.utopic/build/common.gypi
 ===================================================================
---- dev.utopic.orig/build/common.gypi	2014-10-31 23:34:03.621140025 -0400
-+++ dev.utopic/build/common.gypi	2014-10-31 23:34:03.617140073 -0400
+--- dev.utopic.orig/build/common.gypi	2014-11-01 09:20:42.199914499 -0400
++++ dev.utopic/build/common.gypi	2014-11-01 09:20:42.195914560 -0400
 @@ -3564,7 +3564,7 @@
                    '-fomit-frame-pointer',
                  ],

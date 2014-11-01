@@ -1,0 +1,13 @@
+Index: dev.utopic/base/cpu.cc
+===================================================================
+--- dev.utopic.orig/base/cpu.cc	2014-11-01 09:22:20.213410323 -0400
++++ dev.utopic/base/cpu.cc	2014-11-01 09:22:20.210410368 -0400
+@@ -135,7 +135,7 @@
+         brand_.assign(line.substr(strlen(kModelNamePrefix)));
+       }
+ 
+-      for (size_t i = 0; i < arraysize(kUnsignedValues); i++) {
++      for (size_t i = 0; i < ARRAYSIZE_UNSAFE(kUnsignedValues); i++) {
+         const char *key = kUnsignedValues[i].key;
+         const size_t len = strlen(key);
+ 
