@@ -1,3 +1,10 @@
+chromium-browser (40.0.2202.3-0ubuntu1~ppa4~utopic1) utopic; urgency=low
+
+  * Fix another typo and set the clang variables correctly in
+    debian/rules
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 01 Nov 2014 10:33:28 -0400
+
 chromium-browser (40.0.2202.3-0ubuntu1~ppa3~utopic1) utopic; urgency=low
 
   * Fix a typo in debian/rules

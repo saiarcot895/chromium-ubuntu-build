@@ -230,8 +230,10 @@ CROSS_BUILD = CC=$$(which gcc-4.8 gcc |head -1) CXX=$$(which g++-4.8 g++ |head -
 endif
 endif
 
-ifeq (,$(filter 12.04%,$(UBUNTU_DIST)))
+ifneq (,$(filter 12.04%,$(UBUNTU_DIST)))
 GYP_DEFINES += clang=1 clang_use_chrome_plugins=0
+else
+GYP_DEFINES += clang=0
 endif
 
 ### Official interfaces.
