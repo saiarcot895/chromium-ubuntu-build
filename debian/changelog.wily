@@ -1,3 +1,9 @@
+chromium-browser (40.0.2202.3-0ubuntu1~ppa6~utopic1) utopic; urgency=low
+
+  * Correct #include in a patch.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 01 Nov 2014 17:46:55 -0400
+
 chromium-browser (40.0.2202.3-0ubuntu1~ppa5~utopic1) utopic; urgency=low
 
   * Replace OVERRIDE with override in patches, since C++11 is
