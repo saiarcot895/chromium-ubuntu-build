@@ -121,7 +121,7 @@ Index: dev.utopic/ui/aura/window_tree_host_x11.h
    virtual bool CanDispatchEvent(const ui::PlatformEvent& event) override;
    virtual uint32_t DispatchEvent(const ui::PlatformEvent& event) override;
  
-+//  void SetSessionID(uint32 s) OVERRIDE;
++//  void SetSessionID(uint32 s) override;
 +
    // WindowTreeHost:
    virtual ui::EventSource* GetEventSource() override;
@@ -271,7 +271,7 @@ Index: dev.utopic/ui/views/widget/native_widget_aura.h
        internal::NativeWidgetPrivate* native_widget,
        aura::Window* window);
  
-+  virtual void SetSessionID(uint32 sessionid) OVERRIDE;
++  virtual void SetSessionID(uint32 sessionid) override;
 +
    // Overridden from internal::NativeWidgetPrivate:
    virtual void InitNativeWidget(const Widget::InitParams& params) override;
