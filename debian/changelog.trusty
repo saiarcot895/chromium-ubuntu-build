@@ -1,3 +1,10 @@
+chromium-browser (40.0.2202.3-0ubuntu1~ppa1~trusty1) trusty; urgency=low
+
+  * New upstream version 40.0.2202.3
+  * Refreshed patches
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 31 Oct 2014 23:34:33 -0400
+
 chromium-browser (40.0.2194.2-0ubuntu1~ppa1~trusty1) trusty; urgency=low
 
   * New upstream version 40.0.2194.2

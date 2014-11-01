@@ -1,8 +1,8 @@
 
 Index: dev.utopic/tools/find_depot_tools.py
 ===================================================================
---- dev.utopic.orig/tools/find_depot_tools.py	2014-10-26 22:33:19.714606545 -0400
-+++ dev.utopic/tools/find_depot_tools.py	2014-10-26 22:33:19.712606581 -0400
+--- dev.utopic.orig/tools/find_depot_tools.py	2014-10-31 23:34:10.288058657 -0400
++++ dev.utopic/tools/find_depot_tools.py	2014-10-31 23:34:10.285058693 -0400
 @@ -40,6 +40,3 @@
    return None
  
