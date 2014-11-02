@@ -3,6 +3,7 @@
 /usr/share/apport/package-hooks/chromium-browser.py
 
 Copyright (c) 2010, Fabien Tassin <fta@sofaraway.org>
+Copyright (c) 2014, Canonical
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the
@@ -11,23 +12,16 @@ option) any later version.  See http://www.gnu.org/copyleft/gpl.html for
 the full text of the license.
 '''
 
+# pylint: disable=line-too-long, missing-docstring, invalid-name
+
 from __future__ import print_function
 import os, sys, getopt, codecs
 import time
-from stat import *
-import re
 import apport.hookutils
 import subprocess
-has_json = 1
-try:
-  import json
-except ImportError:
-  try:
-      import simplejson as json
-  except ImportError:
-      has_json = 0
+import json
 
-HOME    = os.getenv("HOME")
+HOME = os.getenv("HOME")
 PACKAGE = 'chromium-browser'
 RELATED_PACKAGES = [
     PACKAGE,
@@ -40,6 +34,8 @@ RELATED_PACKAGES = [
     'libgtk2.0-0',
     'nspluginwrapper',
     # various plugins
+    'chromiumflashplugin',
+    'pepperflashplugin-nonfree',
     'pepflashplugin-nonfree',
     'flashplugin-installer',
     'rhythmbox-plugins',
@@ -74,22 +70,15 @@ def gconf_values(report, keys):
             out = "**unset**\n"
         report['gconf-keys'] += key + " = " + out
 
-def get_user_profile_dir(report):
-    dir = HOME + "/.config/chromium/Default"
+def get_user_profile_dir():
+    profiledir = HOME + "/.config/chromium/Default"
     # see if report['ProcCmdline'] contains a --user-data-dir=xxx and use it if it still exists
-    return dir
+    return profiledir
 
-def user_prefs(report, file):
-    if has_json == 0:
-        report['ChromiumPrefs'] = "no json module found. Skipped"
-        return
-    try:
-        with open(file, 'r') as f:
-            entry = json.load(f)
-    except IOError:
-        report['ChromiumPrefs'] = "can't open profile " + file
-        return
-    report['ChromiumPrefs'] = '';
+def user_prefs(report, filename):
+    with open(filename, 'r') as f:
+        entry = json.load(f)
+    report['ChromiumPrefs'] = ''
 
     if 'browser' in entry and 'check_default_browser' in entry['browser']:
         report['ChromiumPrefs'] += "browser/check_default_browser = " + \
@@ -110,16 +99,13 @@ def user_prefs(report, file):
         for ext in list(entry['extensions']['settings'].keys()):
             report['ChromiumPrefs'] += " - '" + ext + "'\n"
             if 'manifest' in entry['extensions']['settings'][ext]:
-                for k in [ 'name', 'description', 'version', 'update_url' ]:
-                   report['ChromiumPrefs'] += "     manifest/%s = %s\n" % \
-                       (k, "'" + entry['extensions']['settings'][ext]['manifest'][k] + "'" \
-                            if k in entry['extensions']['settings'][ext]['manifest'] else "*undef*")
+                for k in ['name', 'description', 'version', 'update_url']:
+                    report['ChromiumPrefs'] += "     manifest/%s = %s\n" % (k, "'" + entry['extensions']['settings'][ext]['manifest'][k] + "'" if k in entry['extensions']['settings'][ext]['manifest'] else "*undef*")
             else:
                 report['ChromiumPrefs'] += "     manifest/* = *undef*\n"
-            for k in [ 'blacklist', 'state' ]:
+            for k in ['blacklist', 'state']:
                 if k in entry['extensions']['settings'][ext]:
-                  report['ChromiumPrefs'] += "     %s = %s\n" % \
-                      (k, repr(entry['extensions']['settings'][ext][k]))
+                    report['ChromiumPrefs'] += "     %s = %s\n" % (k, repr(entry['extensions']['settings'][ext][k]))
     else:
         report['ChromiumPrefs'] += " (no entry found in the Preferences file)"
 
@@ -150,26 +136,12 @@ def list_installed_plugins(report):
     report['InstalledPlugins'] = ''
     dirs = {}
 
-    def dcallback(arg, directory, files):
-        r = []
-        for file in files:
-            r.append(os.path.join(directory, file))
-        return r
-
-    for dir in ( HOME + "/.mozilla/plugins",
-                 "/usr/lib/browser-plugins",
-                 "/usr/lib/mozilla/plugins",
-                 "/usr/lib/firefox/plugins",
-                 "/usr/lib/xulrunner-addons/plugins",
-                 "/usr/lib64/browser-plugins",
-                 "/usr/lib64/mozilla/plugins",
-                 "/usr/lib64/firefox/plugins",
-                 "/usr/lib64/xulrunner-addons/plugins" ):
-        if os.path.exists(dir):
-            d = os.path.realpath(dir)
+    for plugindir in (HOME + "/.mozilla/plugins", "/usr/lib/browser-plugins", "/usr/lib/mozilla/plugins", "/usr/lib/firefox/plugins", "/usr/lib/xulrunner-addons/plugins", "/usr/lib64/browser-plugins", "/usr/lib64/mozilla/plugins", "/usr/lib64/firefox/plugins", "/usr/lib64/xulrunner-addons/plugins"):
+        if os.path.exists(plugindir):
+            d = os.path.realpath(plugindir)
             if d not in dirs:
                 dirs[d] = True
-                report['InstalledPlugins'] += dir + ":\n"
+                report['InstalledPlugins'] += plugindir + ":\n"
                 for ent in os.listdir(d):
                     filename = os.path.join(d, ent)
                     report['InstalledPlugins'] += "  => " + ent  + "\n"
@@ -188,14 +160,11 @@ def list_installed_plugins(report):
                         report['InstalledPlugins'] += "        (size: " + \
                             str(st.st_size) + " bytes, mtime: " + time.ctime(st.st_mtime) + ")\n"
                 report['InstalledPlugins'] += "\n"
-    
-def get_envs(envs):
-    s = ""
-    for env in envs:
-        s += env + " = " + str(os.getenv(env)) + "\n"
-    return s
 
-def add_info(report, ui = None, userdir = None):
+def get_envs(envs):
+    return "\n".join(os.getenv(envs)) + "\n"
+
+def add_info(report, userdir=None):
     apport.hookutils.attach_related_packages(report, RELATED_PACKAGES)
     installed_version(report, RELATED_PACKAGES)
 
@@ -204,16 +173,18 @@ def add_info(report, ui = None, userdir = None):
         report['ThirdParty'] = 'True'
         report['CrashDB'] = 'ubuntu'
 
+    for filename in os.listdir('/etc/chromium-browser/customizations'):
+        try:
+            with open(os.path.join('/etc/chromium-browser/customizations', filename)) as f:
+                report['etcconfig/c/'+filename] = "\n".join(f.readlines())
+        except IOError:
+            report['etcconfig/c/'+filename] = "# could not read"
+
     try:
-        fd = open('/etc/chromium-browser/default')
-        report['chromium-default'] = ""
-        for l in fd.readlines():
-            if re.match('^(#|$)', l):
-                continue
-            report['chromium-default'] += l
-        fd.close()
+        with open('/etc/chromium-browser/default') as f:
+            report['etcconfig/default'] = "\n".join(f.readlines())
     except IOError:
-        pass
+        report['etcconfig/default'] = "# could not read"
 
     try:
         report['user-desktop-file'] = \
@@ -221,46 +192,36 @@ def add_info(report, ui = None, userdir = None):
     except IOError:
         pass
 
-    gconf_values(report, [
-            '/desktop/gnome/applications/browser/exec',
-            '/desktop/gnome/url-handlers/https/command',
-            '/desktop/gnome/url-handlers/https/enabled',
-            '/desktop/gnome/url-handlers/http/command',
-            '/desktop/gnome/url-handlers/http/enabled',
-            '/desktop/gnome/session/required_components/windowmanager',
-            '/apps/metacity/general/compositing_manager',
-            '/desktop/gnome/interface/icon_theme',
-            '/desktop/gnome/interface/gtk_theme',
-            ])
-    user_dir = userdir if userdir is not None else get_user_profile_dir(report)
+    gconf_values(report, ['/desktop/gnome/applications/browser/exec', '/desktop/gnome/url-handlers/https/command', '/desktop/gnome/url-handlers/https/enabled', '/desktop/gnome/url-handlers/http/command', '/desktop/gnome/url-handlers/http/enabled', '/desktop/gnome/session/required_components/windowmanager', '/apps/metacity/general/compositing_manager', '/desktop/gnome/interface/icon_theme', '/desktop/gnome/interface/gtk_theme'])
+    user_dir = userdir if userdir is not None else get_user_profile_dir()
     user_prefs(report, user_dir + "/Preferences")
 
     list_installed_plugins(report)
 
     # DE
-    report['Desktop-Session'] = get_envs([ 'DESKTOP_SESSION', 'XDG_CONFIG_DIRS', 'XDG_DATA_DIRS' ])
+    report['Desktop-Session'] = get_envs(['DESKTOP_SESSION', 'XDG_CONFIG_DIRS', 'XDG_DATA_DIRS'])
 
     # Env
-    report['Env'] = get_envs([ 'MOZ_PLUGIN_PATH', 'LD_LIBRARY_PATH' ])
+    report['Env'] = get_envs(['MOZ_PLUGIN_PATH', 'LD_LIBRARY_PATH'])
 
     # Disk usage
-    script = subprocess.Popen([ 'df', '-Th' ], stdout=subprocess.PIPE)
+    script = subprocess.Popen(['df', '-Th'], stdout=subprocess.PIPE)
     report['DiskUsage'] = str(script.communicate()[0]) + "\n\nInodes:\n"
-    script = subprocess.Popen([ 'df', '-ih' ], stdout=subprocess.PIPE)
+    script = subprocess.Popen(['df', '-ih'], stdout=subprocess.PIPE)
     report['DiskUsage'] += str(script.communicate()[0])
-    script = subprocess.Popen([ 'dmesg', '-k' ], stdout=subprocess.PIPE)
+    script = subprocess.Popen(['dmesg', '-k'], stdout=subprocess.PIPE)
     kernel_messages = list()
-    for line in str(script.communicate()[0].split("\n")):  # to str. Size bounded by dmesg buffer.
+    for line in str(script.communicate()[0]).split("\n"):  # to str. Size bounded by dmesg buffer.
         if "chrom" in line.lower():
             kernel_messages.append(line + "\n")
     if kernel_messages:
         report['DmesgChromium'] = "".join(kernel_messages)
 
 ## DEBUGING ##
-if __name__ == '__main__':
+def main():
     sys.stdout = codecs.getwriter('utf8')(sys.stdout)
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "-u:", [ 'user-dir=' ])
+        opts, _ = getopt.getopt(sys.argv[1:], "-u:", ['user-dir='])
     except getopt.GetoptError as err:
         print(str(err))
         sys.exit(2)
@@ -270,9 +231,12 @@ if __name__ == '__main__':
         if o in ("-u", "--user-dir"):
             userdir = a
         else:
-          assert False, "unhandled option"
+            assert False, "unhandled option"
 
     report = {}
-    add_info(report, userdir = userdir)
+    add_info(report, userdir=userdir)
     for key in report:
         print('[%s]\n%s\n' % (key, report[key]))
+
+if __name__ == '__main__':
+    main()
