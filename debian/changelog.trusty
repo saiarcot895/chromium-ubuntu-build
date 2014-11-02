@@ -1,3 +1,9 @@
+chromium-browser (40.0.2202.3-0ubuntu1~ppa8~trusty1) trusty; urgency=low
+
+  * Correct the manpage installation
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 02 Nov 2014 17:02:09 -0500
+
 chromium-browser (40.0.2202.3-0ubuntu1~ppa7~trusty1) trusty; urgency=low
 
   * Add a target dependency

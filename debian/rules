@@ -275,9 +275,6 @@ override_dh_fixperms:
 override_dh_builddeb:
 	dh_builddeb -- -Zxz
 
-override_dh_installman:
-	# install does this
-
 override_dh_install-arch: local_install_arch compare-arch
 
 override_dh_install-indep: local_install_indep compare-indep
