@@ -282,6 +282,9 @@ override_dh_install-arch: local_install_arch compare-arch
 
 override_dh_install-indep: local_install_indep compare-indep
 
+override_dh_shlibdeps:
+	dh_shlibdeps -l$(CURDIR)/debian/chromium-browser/usr/lib/chromium-browser/libs/ |grep -v "dpkg-shlibdeps: warning: can't extract name and version from library name" || true
+
 local_install_arch: PKG_DIRS := $(addprefix debian/,$(shell dh_listpackages))
 local_install_arch: TRASH := .deps gen obj.host obj.target \*.lock obj build.\* .landmines mksnapshot.ia32 protoc pyproto re2c resources xdg-mime xdg-settings yasm \*.TOC \*.stamp product_logo_\*png gen\* lib\* .ninja\* chrome-wrapper \*.breakpad.\* java_mojo dump_syms
 local_install_arch: build
@@ -421,6 +424,7 @@ debian/chromium-browser.sh: debian/chromium-browser.sh.in
 configure: configure-stamp
 configure-stamp: GYP_ENV = GYP_GENERATORS=ninja
 configure-stamp: GYP_ENV += GYP_DEFINES="$(GYP_DEFINES) $(BROWSER_GYP_DEFINES)"
+configure-stamp: debian/chromium-browser.sh
 configure-stamp:
 	@set -eux
 	if [ -d chromium-$(DEBIAN_UPSTREAM_VERSION) ]; then \
