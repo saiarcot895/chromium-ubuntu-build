@@ -53,7 +53,8 @@ Depends: ${shlibs:Depends}, ${misc:Depends},
 	chromium-codecs-ffmpeg-extra (>= 0.6) | chromium-codecs-ffmpeg (>= 0.6)
 Recommends: chromium-browser-l10n
 Suggests: webaccounts-chromium-extension,
-	unity-chromium-extension
+	unity-chromium-extension,
+	chromiumflashplugin
 Provides: www-browser, chromium-browser-inspector
 Replaces: chromium-browser-inspector
 Conflicts: chromium-browser-inspector
