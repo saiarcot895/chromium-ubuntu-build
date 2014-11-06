@@ -3,8 +3,8 @@ Description: Never default to using the custom title bar. Chromium should
 
 Index: dev.utopic/ui/base/x/x11_util.cc
 ===================================================================
---- dev.utopic.orig/ui/base/x/x11_util.cc	2014-11-01 09:20:33.316049949 -0400
-+++ dev.utopic/ui/base/x/x11_util.cc	2014-11-01 09:20:33.310050039 -0400
+--- dev.utopic.orig/ui/base/x/x11_util.cc	2014-11-06 12:54:59.742821982 -0500
++++ dev.utopic/ui/base/x/x11_util.cc	2014-11-06 12:54:59.738822043 -0500
 @@ -1046,6 +1046,7 @@
    // Also disable custom frames for (at-least-partially-)EWMH-supporting tiling
    // window managers.

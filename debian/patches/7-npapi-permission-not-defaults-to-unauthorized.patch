@@ -1,7 +1,7 @@
 Index: dev.utopic/chrome/browser/browser_resources.grd
 ===================================================================
---- dev.utopic.orig/chrome/browser/browser_resources.grd	2014-11-01 09:22:13.369515801 -0400
-+++ dev.utopic/chrome/browser/browser_resources.grd	2014-11-01 09:22:13.305516788 -0400
+--- dev.utopic.orig/chrome/browser/browser_resources.grd	2014-11-06 12:55:10.886648175 -0500
++++ dev.utopic/chrome/browser/browser_resources.grd	2014-11-06 12:55:10.824649140 -0500
 @@ -243,6 +243,7 @@
        </if>
        <if expr="desktop_linux or (is_android and enable_plugins)">
@@ -12,8 +12,8 @@ Index: dev.utopic/chrome/browser/browser_resources.grd
          <include name="IDR_POLICY_CSS" file="resources\policy_android.css" type="BINDATA"/>
 Index: dev.utopic/chrome/browser/plugins/plugin_finder.cc
 ===================================================================
---- dev.utopic.orig/chrome/browser/plugins/plugin_finder.cc	2014-11-01 09:22:13.369515801 -0400
-+++ dev.utopic/chrome/browser/plugins/plugin_finder.cc	2014-11-01 09:22:13.340516247 -0400
+--- dev.utopic.orig/chrome/browser/plugins/plugin_finder.cc	2014-11-06 12:55:10.886648175 -0500
++++ dev.utopic/chrome/browser/plugins/plugin_finder.cc	2014-11-06 12:55:10.825649124 -0500
 @@ -128,6 +128,29 @@
    return plugin;
  }
@@ -117,8 +117,8 @@ Index: dev.utopic/chrome/browser/plugins/plugin_finder.cc
  
 Index: dev.utopic/chrome/browser/plugins/plugin_finder.h
 ===================================================================
---- dev.utopic.orig/chrome/browser/plugins/plugin_finder.h	2014-11-01 09:22:13.369515801 -0400
-+++ dev.utopic/chrome/browser/plugins/plugin_finder.h	2014-11-01 09:22:13.366515848 -0400
+--- dev.utopic.orig/chrome/browser/plugins/plugin_finder.h	2014-11-06 12:55:10.886648175 -0500
++++ dev.utopic/chrome/browser/plugins/plugin_finder.h	2014-11-06 12:55:10.826649109 -0500
 @@ -80,6 +80,15 @@
    // Returns NULL if the plug-in list couldn't be parsed.
    static base::DictionaryValue* LoadBuiltInPluginList();
@@ -138,7 +138,7 @@ Index: dev.utopic/chrome/browser/plugins/plugin_finder.h
 Index: dev.utopic/chrome/browser/resources/plugin_metadata/plugins_ubuntu_linux.json
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.utopic/chrome/browser/resources/plugin_metadata/plugins_ubuntu_linux.json	2014-11-01 09:22:13.367515833 -0400
++++ dev.utopic/chrome/browser/resources/plugin_metadata/plugins_ubuntu_linux.json	2014-11-06 12:55:10.826649109 -0500
 @@ -0,0 +1,18 @@
 +{
 +  "libunity_npapi_plugin.so": {

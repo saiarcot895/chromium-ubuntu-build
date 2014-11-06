@@ -1,3 +1,10 @@
+chromium-browser (40.0.2209.0-0ubuntu1~ppa1~trusty1) trusty; urgency=low
+
+  * New upstream version 40.0.2209.0
+  * Refreshed patches
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 06 Nov 2014 13:08:19 -0500
+
 chromium-browser (40.0.2202.3-0ubuntu1~ppa8~trusty1) trusty; urgency=low
 
   * Correct the manpage installation

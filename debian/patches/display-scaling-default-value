@@ -6,8 +6,8 @@ Forwarded: not-needed
 
 Index: dev.utopic/ui/views/widget/desktop_aura/desktop_screen_x11.cc
 ===================================================================
---- dev.utopic.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-11-01 09:22:15.999475274 -0400
-+++ dev.utopic/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-11-01 09:22:15.996475321 -0400
+--- dev.utopic.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-11-06 12:55:13.822602390 -0500
++++ dev.utopic/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-11-06 12:55:13.819602436 -0500
 @@ -331,11 +331,13 @@
        gfx::Display display(display_id, crtc_bounds);
  

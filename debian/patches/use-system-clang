@@ -4,9 +4,9 @@ Author: Chad Miller <chad.miller@canonical.com>
 
 Index: dev.utopic/build/common.gypi
 ===================================================================
---- dev.utopic.orig/build/common.gypi	2014-11-01 09:22:21.162395692 -0400
-+++ dev.utopic/build/common.gypi	2014-11-01 09:22:21.116396400 -0400
-@@ -2311,8 +2311,8 @@
+--- dev.utopic.orig/build/common.gypi	2014-11-06 12:55:19.012521461 -0500
++++ dev.utopic/build/common.gypi	2014-11-06 12:55:19.005521572 -0500
+@@ -2323,8 +2323,8 @@
        }],
  
        ['host_clang==1', {
@@ -19,8 +19,8 @@ Index: dev.utopic/build/common.gypi
          'host_cxx': '<!(which g++)',
 Index: dev.utopic/native_client/build/common.gypi
 ===================================================================
---- dev.utopic.orig/native_client/build/common.gypi	2014-11-01 09:22:21.162395692 -0400
-+++ dev.utopic/native_client/build/common.gypi	2014-11-01 09:22:21.157395771 -0400
+--- dev.utopic.orig/native_client/build/common.gypi	2014-11-06 12:55:19.012521461 -0500
++++ dev.utopic/native_client/build/common.gypi	2014-11-06 12:55:19.008521524 -0500
 @@ -541,8 +541,8 @@
              ['chromium_mac_pch', {'GCC_PRECOMPILE_PREFIX_HEADER': 'YES'},
                                   {'GCC_PRECOMPILE_PREFIX_HEADER': 'NO'}],

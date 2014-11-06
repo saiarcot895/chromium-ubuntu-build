@@ -256,7 +256,7 @@ get-packaged-orig-source:
 # Debian Policy §4.9
 get-orig-source:
 	@set -eux
-	ORIG_VERSION=$(shell wget -qO- "https://omahaproxy.appspot.com/all?os=linux&channel=dev" | grep linux | while IFS=, read col1 col2 col3 col4; do echo $$col3; done) $(MAKE) get-packaged-orig-source
+	ORIG_VERSION=$(shell wget -qO- "https://omahaproxy.appspot.com/all?os=linux&channel=dev" | grep linux | while IFS=, read col1 col2 col3 col4; do echo $$col3; done) debian/rules get-packaged-orig-source
 
 
 
@@ -335,9 +335,9 @@ endif
 	chmod 4755 debian/$(DEBIAN_NAME)/$(LIB_DIR)/chrome-sandbox
 	
 	# Manpage is for wrong program name, and it's in a weird place.  Use and destroy.
-	mv debian/$(DEBIAN_NAME)/$(LIB_DIR)/chrome.1 debian/$(DEBIAN_NAME)/$(LIB_DIR)/$(DEBIAN_NAME).1
-	dh_installman --package=$(DEBIAN_NAME) debian/$(DEBIAN_NAME)/$(LIB_DIR)/$(DEBIAN_NAME).1
-	rm -f debian/$(DEBIAN_NAME)/$(LIB_DIR)/$(DEBIAN_NAME).1
+	mkdir -p debian/chromium-browser/usr/share/man/man1
+	mv debian/chromium-browser/$(LIB_DIR)/chrome.1 debian/chromium-browser/usr/share/man/man1/$(DEBIAN_NAME).1
+	gzip -9 debian/chromium-browser/usr/share/man/man1/chromium-browser.1
 	
 	# NaCL may be blacklisted, so only include it when it's been built
 ifeq (,$(filter disable_nacl=1,$(GYP_DEFINES)))
