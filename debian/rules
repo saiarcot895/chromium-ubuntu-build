@@ -498,43 +498,46 @@ RENAMED_FILE += s,^usr/lib/chromium-browser/chrome_sandbox$$,usr/lib/chromium-br
 RENAMED_FILE += s,^usr/lib/chromium-browser/chrome$$,usr/lib/chromium-browser/chromium-browser,
 
 compare-indep: INDEP_MATCH = ^usr/lib/chromium-browser/.\*\(?\!\<pseudo-\)locales/.\*.pak$$
-compare-indep: PKG_DIRS := $(addprefix debian/,$(shell dh_listpackages -i))
-compare-indep: T := $(shell mktemp -d -t chromium-comparisons-XXXXXXX)
 compare-indep: SPACE := $(eval) $(eval)
 compare-indep:
-	find debian/tmp debian/tmp-extra debian/tmp-std -type f |cut -d/ -f3- >$(T)/unfiltered-built
-	grep -E \($(subst $(SPACE),\|,$(INDEP_MATCH))\) $(T)/unfiltered-built $(foreach expr,$(RENAMED_FILE), |sed -r -e $(expr))  |grep -v /en-US.pak |sort >$(T)/built
-	find $(PKG_DIRS) -type f |grep -v /DEBIAN |cut -d/ -f3- |grep -v ^usr/lib/debug/ |sort >$(T)/unfiltered-packaged
-	-grep -E \($(subst $(SPACE),\|,$(INDEP_MATCH))\) $(T)/unfiltered-packaged |grep -v /en-US.pak >$(T)/packaged
-	if ! diff -U0 $(T)/built $(T)/packaged; then \
-		echo " => Found indep differences, please investigate. $(T)/built $(T)/packaged" ; \
-		exit 1; \
-  	fi
-	rm -r $(T)
+	@set -eux; \
+	T=$$(mktemp -d -t chromium-comparisons-XXXXXXX); \
+	test "$${T}"; \
+	test -d $${T}; \
+	find debian/tmp debian/tmp-extra debian/tmp-std -type f |cut -d/ -f3- >$${T}/unfiltered-built; \
+	grep -E \($(subst $(SPACE),\|,$(INDEP_MATCH))\) $${T}/unfiltered-built $(foreach expr,$(RENAMED_FILE), |sed -r -e $(expr))  |grep -v /en-US.pak | LC_ALL=C sort >$${T}/built; \
+	dh_listpackages -i |while read pkgname; do find debian/$${pkgname} -type f; done |grep -v /DEBIAN |cut -d/ -f3- |grep -v ^usr/lib/debug/ | LC_ALL=C sort >$${T}/unfiltered-packaged; \
+	grep -E \($(subst $(SPACE),\|,$(INDEP_MATCH))\) $${T}/unfiltered-packaged |grep -v /en-US.pak >$${T}/packaged || true; \
+	if ! diff -U0 $${T}/built $${T}/packaged; then  \
+	  echo " => Found indep differences, please investigate. $${T}/built $${T}/packaged" ; \
+	  exit 1; \
+	fi; \
+	rm -r $${T}
 
 compare-arch: INDEP_MATCH = ^usr/lib/chromium-browser/.\*\locales/.\*.pak$$
 compare-arch: PKG_DIRS := $(addprefix debian/,$(shell dh_listpackages -a))
-compare-arch: T := $(shell mktemp -d -t chromium-comparisons-XXXXXXX)
 compare-arch: SPACE := $(eval) $(eval)
 compare-arch:
-	# Look for duplicates, fail if we find any
-	@DUPES=`find $(PKG_DIRS) -type f -print | grep -v /DEBIAN/ | cut -d/ -f3- | sort | uniq -c | grep -vE '^ *2 .*/libffmpegsumo.so$$' | grep -vE '^  *1 '` ; \
+	@set -eux; \
+	T=$$(mktemp -d -t chromium-comparisons-XXXXXXX);\
+	test "$${T}"; \
+	test -d $${T};\
+	DUPES=`find $(PKG_DIRS) -type f -print | grep -v /DEBIAN/ | cut -d/ -f3- | LC_ALL=C sort | uniq -c | grep -vE '^ *2 .*/libffmpegsumo.so$$' | grep -vE '^  *1 '` || true; \
 	if [ "Z$$DUPES" != Z ] ; then \
-		echo " => Found duplicates:\n $$DUPES" ; \
-		exit 1 ; \
-	fi
-	
-	find debian/tmp debian/tmp-extra debian/tmp-std -type f |cut -d/ -f3- >$(T)/unfiltered-built
-	grep -vE \($(subst $(SPACE),\|,$(BUILT_UNUSED_MATCH))\) $(T)/unfiltered-built $(foreach expr,$(RENAMED_FILE), |sed -r -e $(expr)) |grep -vE \($(subst $(SPACE),\|,$(INDEP_MATCH))\) |sort >$(T)/built
-	find $(PKG_DIRS) -type f |grep -v /DEBIAN |cut -d/ -f3- |grep -v ^usr/lib/debug/ |sort >$(T)/unfiltered-packaged
-	grep -vE \($(subst $(SPACE),\|,$(PACKAGED_NOT_FROM_TREE_MATCH))\) $(T)/unfiltered-packaged |grep -vE \($(subst $(SPACE),\|,$(INDEP_MATCH))\) >$(T)/packaged
-	if ! diff -U0 $(T)/built $(T)/packaged; then \
-		echo " => Found archdep differences, please investigate. $(T)/built $(T)/packaged" ; \
-		exit 1; \
-  	fi
-	for expr in $(BUILT_UNUSED_MATCH); do if ! grep -E $$expr $(T)/unfiltered-built >/dev/null; then echo "Warning: Unused built matcher: $$expr in $(T)/unfiltered-built "; fi; done
-	for expr in $(PACKAGED_NOT_FROM_TREE_MATCH); do if ! grep -E $$expr $(T)/unfiltered-packaged >/dev/null; then echo "Warning: Unused packaged matcher: $$expr"; fi; done
-	rm -r $(T)
+	  echo " => Found duplicates:\n $$DUPES" ; \
+	  exit 1 ; \
+	fi; \
+	find debian/tmp debian/tmp-extra debian/tmp-std -type f |cut -d/ -f3- >$${T}/unfiltered-built ;\
+	grep -vE \($(subst $(SPACE),\|,$(BUILT_UNUSED_MATCH))\) $${T}/unfiltered-built $(foreach expr,$(RENAMED_FILE), |sed -r -e $(expr)) |grep -vE \($(subst $(SPACE),\|,$(INDEP_MATCH))\) | LC_ALL=C sort >$${T}/built ;\
+	find $(PKG_DIRS) -type f |grep -v /DEBIAN |cut -d/ -f3- |grep -v ^usr/lib/debug/ | LC_ALL=C sort >$${T}/unfiltered-packaged ;\
+	grep -vE \($(subst $(SPACE),\|,$(PACKAGED_NOT_FROM_TREE_MATCH))\) $${T}/unfiltered-packaged |grep -vE \($(subst $(SPACE),\|,$(INDEP_MATCH))\) >$${T}/packaged ;\
+	if ! diff -U0 $${T}/built $${T}/packaged; then \
+	  echo " => Found archdep differences, please investigate. $${T}/built $${T}/packaged" ; \
+	  exit 1; \
+	fi; \
+	for expr in $(BUILT_UNUSED_MATCH); do if ! grep -E $$expr $${T}/unfiltered-built >/dev/null; then echo "Warning: Unused built matcher: $$expr in $${T}/unfiltered-built "; fi; done; \
+	for expr in $(PACKAGED_NOT_FROM_TREE_MATCH); do if ! grep -E $$expr $${T}/unfiltered-packaged >/dev/null; then echo "Warning: Unused packaged matcher: $$expr"; fi; done; \
+	rm -r $${T};
 
 ###############################################################################################
 # Translations
