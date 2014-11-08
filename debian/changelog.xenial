@@ -1,3 +1,9 @@
+chromium-browser (40.0.2209.0-0ubuntu1~ppa4~utopic1) utopic; urgency=low
+
+  * Fix installation files.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 07 Nov 2014 19:11:43 -0500
+
 chromium-browser (40.0.2209.0-0ubuntu1~ppa3~utopic1) utopic; urgency=low
 
   * Update compare-arch and compare-indep

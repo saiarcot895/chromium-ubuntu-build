@@ -283,7 +283,7 @@ override_dh_shlibdeps:
 	dh_shlibdeps -l$(CURDIR)/debian/chromium-browser/usr/lib/chromium-browser/libs/ |grep -v "dpkg-shlibdeps: warning: can't extract name and version from library name" || true
 
 local_install_arch: PKG_DIRS := $(addprefix debian/,$(shell dh_listpackages))
-local_install_arch: TRASH := .deps gen obj.host obj.target \*.lock obj build.\* .landmines mksnapshot.ia32 protoc pyproto re2c resources xdg-mime xdg-settings yasm \*.TOC \*.stamp product_logo_\*png gen\* lib/\* .ninja\* chrome-wrapper \*.breakpad.\* java_mojo dump_syms
+local_install_arch: TRASH := .deps gen obj.host obj.target \*.lock obj build.\* .landmines mksnapshot.ia32 protoc pyproto re2c resources xdg-mime xdg-settings yasm \*.TOC \*.stamp product_logo_\*png gen\* lib/\* libvpx_obj_int_extract libffmpegsumo.so .ninja\* chrome-wrapper \*.breakpad.\* java_mojo dump_syms
 local_install_arch: build
 	@set -eux
 	# Two stages: Install out of source tree. Copy to packaging.
