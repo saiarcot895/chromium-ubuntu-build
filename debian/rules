@@ -544,11 +544,11 @@ compare-arch:
 
 # New langs with enough coverage to land in official builds
 # (leave empty to accept all new lang)
-patch-translations: T := $(shell mktemp -d -t chromium-launchpad-translations-XXXXXXX --tmpdir=/run/shm)
+patch-translations: T := $(shell mktemp -d -t chromium-launchpad-translations-XXXXXXX)
 patch-translations: GRIT_WHITELISTED_LANGS ?= ca@valencia eu gl ug gd
 patch-translations: TRANSLATIONS_TOOLS_BRANCH  := http://bazaar.launchpad.net/~chromium-team/chromium-browser/chromium-translations-tools.head
 patch-translations: TRANSLATIONS_EXPORT_BRANCH := http://bazaar.launchpad.net/~chromium-team/chromium-browser/chromium-translations-exports.head
-patch-translations: GRIT_TEMPLATES := chrome/app/chromium_strings.grd chrome/app/generated_resources.grd chrome/policy/policy_templates.grd ui/strings/ui_strings.grd webkit/glue/resources/inspector_strings.grd
+patch-translations: GRIT_TEMPLATES := chrome/app/chromium_strings.grd chrome/app/generated_resources.grd components/policy/resources/policy_templates.grd ui/strings/ui_strings.grd
 patch-translations: OTHER_GRIT_TEMPLATES := ui/strings/app_locale_settings.grd chrome/app/resources/locale_settings.grd chrome/app/resources/locale_settings_linux.grd 
 patch-translations: MAPPED_GRIT_TEMPLATES := --map-template-names ui/strings/ui_strings.grd=ui/strings/app_strings.grd 
 patch-translations: GRIT_CONVERTER_FLAGS := --create-patches translations-patches --import-gettext ../translations-export --export-grit $(T)/translations-grit --build-gyp-file build/common.gypi --other-grd-files $(shell echo $(OTHER_GRIT_TEMPLATES) | tr ' ' ',') $(MAPPED_GRIT_TEMPLATES) 
@@ -565,7 +565,7 @@ patch-translations:
 	( cd $(DEB_TAR_SRCDIR); $(T)/translations-tools/chromium2pot.py $(GRIT_CONVERTER_FLAGS) $$(ls $(GRIT_TEMPLATES)); )
 	quilt delete "$(PATCH_FILE)" || true
 	quilt new "$(PATCH_FILE)"
-	( cd $${T}/translations-grit && find * -type f ) |while read updatedfile; do \
+	( cd $(T)/translations-grit && find * -type f ) |while read updatedfile; do \
 		quilt add -P "$(PATCH_FILE)" $(DEB_TAR_SRCDIR)/"$$updatedfile"; \
 		cp $(T)/translations-grit/"$$updatedfile" $(DEB_TAR_SRCDIR)/"$$updatedfile"; \
 	done;

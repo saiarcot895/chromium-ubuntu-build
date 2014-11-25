@@ -1,7 +1,7 @@
 Index: dev.utopic/base/cpu.cc
 ===================================================================
---- dev.utopic.orig/base/cpu.cc	2014-11-06 12:55:18.297532609 -0500
-+++ dev.utopic/base/cpu.cc	2014-11-06 12:55:18.294532657 -0500
+--- dev.utopic.orig/base/cpu.cc	2014-11-25 08:37:47.520554318 -0500
++++ dev.utopic/base/cpu.cc	2014-11-25 08:37:47.517554366 -0500
 @@ -135,7 +135,7 @@
          brand_.assign(line.substr(strlen(kModelNamePrefix)));
        }

@@ -4,8 +4,8 @@ Forwarded: not-needed
 
 Index: dev.utopic/ui/views/widget/desktop_aura/desktop_screen_x11.cc
 ===================================================================
---- dev.utopic.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-11-06 12:55:14.525591428 -0500
-+++ dev.utopic/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-11-06 12:55:14.522591473 -0500
+--- dev.utopic.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-11-25 08:37:44.514602602 -0500
++++ dev.utopic/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-11-25 08:37:44.511602650 -0500
 @@ -348,12 +348,15 @@
        if (density_indicator != 0) {
          // n/8 is actual scaling factor.  Zero means discover from hardware.

@@ -1,7 +1,7 @@
 Index: dev.utopic/third_party/skia/gyp/skia_lib.gyp
 ===================================================================
---- dev.utopic.orig/third_party/skia/gyp/skia_lib.gyp	2014-11-06 12:55:05.289735463 -0500
-+++ dev.utopic/third_party/skia/gyp/skia_lib.gyp	2014-11-06 12:55:05.286735508 -0500
+--- dev.utopic.orig/third_party/skia/gyp/skia_lib.gyp	2014-11-25 08:31:38.618745745 -0500
++++ dev.utopic/third_party/skia/gyp/skia_lib.gyp	2014-11-25 08:31:38.613745832 -0500
 @@ -10,6 +10,7 @@
        'ports.gyp:ports',
        'sfnt.gyp:sfnt',
@@ -21,8 +21,8 @@ Index: dev.utopic/third_party/skia/gyp/skia_lib.gyp
          ],
 Index: dev.utopic/ui/base/resource/data_pack.cc
 ===================================================================
---- dev.utopic.orig/ui/base/resource/data_pack.cc	2014-11-06 12:55:05.289735463 -0500
-+++ dev.utopic/ui/base/resource/data_pack.cc	2014-11-06 12:55:05.287735493 -0500
+--- dev.utopic.orig/ui/base/resource/data_pack.cc	2014-11-25 08:31:38.618745745 -0500
++++ dev.utopic/ui/base/resource/data_pack.cc	2014-11-25 08:31:38.613745832 -0500
 @@ -155,9 +155,11 @@
    // 2) Verify the entries are within the appropriate bounds. There's an extra
    // entry after the last item which gives us the length of the last item.
