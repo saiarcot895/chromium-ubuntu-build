@@ -1,7 +1,7 @@
-Index: dev.utopic/base/cpu.cc
+Index: dev.vivid/base/cpu.cc
 ===================================================================
---- dev.utopic.orig/base/cpu.cc	2014-11-25 08:37:47.520554318 -0500
-+++ dev.utopic/base/cpu.cc	2014-11-25 08:37:47.517554366 -0500
+--- dev.vivid.orig/base/cpu.cc	2014-12-04 09:12:14.450040759 -0500
++++ dev.vivid/base/cpu.cc	2014-12-04 09:12:14.448040792 -0500
 @@ -135,7 +135,7 @@
          brand_.assign(line.substr(strlen(kModelNamePrefix)));
        }

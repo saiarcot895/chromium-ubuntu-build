@@ -1,10 +1,10 @@
 Description: Never default to using the custom title bar. Chromium should
   integrate, not be a special little snowflake.
 
-Index: dev.utopic/ui/base/x/x11_util.cc
+Index: dev.vivid/ui/base/x/x11_util.cc
 ===================================================================
---- dev.utopic.orig/ui/base/x/x11_util.cc	2014-11-25 08:31:33.655831031 -0500
-+++ dev.utopic/ui/base/x/x11_util.cc	2014-11-25 08:31:33.626831530 -0500
+--- dev.vivid.orig/ui/base/x/x11_util.cc	2014-12-04 09:12:03.437225158 -0500
++++ dev.vivid/ui/base/x/x11_util.cc	2014-12-04 09:12:03.435225192 -0500
 @@ -1046,6 +1046,7 @@
    // Also disable custom frames for (at-least-partially-)EWMH-supporting tiling
    // window managers.

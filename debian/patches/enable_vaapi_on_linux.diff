@@ -1,7 +1,7 @@
-Index: dev.utopic/content/common/gpu/media/gpu_video_decode_accelerator.cc
+Index: dev.vivid/content/common/gpu/media/gpu_video_decode_accelerator.cc
 ===================================================================
---- dev.utopic.orig/content/common/gpu/media/gpu_video_decode_accelerator.cc	2014-11-25 08:37:48.919531828 -0500
-+++ dev.utopic/content/common/gpu/media/gpu_video_decode_accelerator.cc	2014-11-25 08:37:48.912531940 -0500
+--- dev.vivid.orig/content/common/gpu/media/gpu_video_decode_accelerator.cc	2014-12-04 09:12:15.436024170 -0500
++++ dev.vivid/content/common/gpu/media/gpu_video_decode_accelerator.cc	2014-12-04 09:12:15.432024237 -0500
 @@ -31,7 +31,7 @@
  #elif defined(OS_CHROMEOS) && defined(ARCH_CPU_ARMEL) && defined(USE_X11)
  #include "content/common/gpu/media/v4l2_video_decode_accelerator.h"
@@ -20,11 +20,11 @@ Index: dev.utopic/content/common/gpu/media/gpu_video_decode_accelerator.cc
    if (gfx::GetGLImplementation() != gfx::kGLImplementationDesktopGL) {
      VLOG(1) << "HW video decode acceleration not available without "
                 "DesktopGL (GLX).";
-Index: dev.utopic/content/content_common.gypi
+Index: dev.vivid/content/content_common.gypi
 ===================================================================
---- dev.utopic.orig/content/content_common.gypi	2014-11-25 08:37:48.919531828 -0500
-+++ dev.utopic/content/content_common.gypi	2014-11-25 08:37:48.913531924 -0500
-@@ -771,7 +771,7 @@
+--- dev.vivid.orig/content/content_common.gypi	2014-12-04 09:12:15.436024170 -0500
++++ dev.vivid/content/content_common.gypi	2014-12-04 09:12:15.433024221 -0500
+@@ -770,7 +770,7 @@
          '<(DEPTH)/third_party/khronos',
        ],
      }],
@@ -33,10 +33,10 @@ Index: dev.utopic/content/content_common.gypi
        'dependencies': [
          '../media/media.gyp:media',
          '../third_party/libyuv/libyuv.gyp:libyuv',
-Index: dev.utopic/content/content_gpu.gypi
+Index: dev.vivid/content/content_gpu.gypi
 ===================================================================
---- dev.utopic.orig/content/content_gpu.gypi	2014-11-25 08:37:48.919531828 -0500
-+++ dev.utopic/content/content_gpu.gypi	2014-11-25 08:37:48.913531924 -0500
+--- dev.vivid.orig/content/content_gpu.gypi	2014-12-04 09:12:15.436024170 -0500
++++ dev.vivid/content/content_gpu.gypi	2014-12-04 09:12:15.433024221 -0500
 @@ -39,7 +39,7 @@
          ],
        },
@@ -46,11 +46,11 @@ Index: dev.utopic/content/content_gpu.gypi
        'include_dirs': [
          '<(DEPTH)/third_party/libva',
        ],
-Index: dev.utopic/content/content_tests.gypi
+Index: dev.vivid/content/content_tests.gypi
 ===================================================================
---- dev.utopic.orig/content/content_tests.gypi	2014-11-25 08:37:48.919531828 -0500
-+++ dev.utopic/content/content_tests.gypi	2014-11-25 08:37:48.914531908 -0500
-@@ -1585,7 +1585,7 @@
+--- dev.vivid.orig/content/content_tests.gypi	2014-12-04 09:12:15.436024170 -0500
++++ dev.vivid/content/content_tests.gypi	2014-12-04 09:12:15.433024221 -0500
+@@ -1588,7 +1588,7 @@
            },
          ]
      }],
@@ -59,11 +59,11 @@ Index: dev.utopic/content/content_tests.gypi
        'targets': [
            {
              'target_name': 'vaapi_h264_decoder_unittest',
-Index: dev.utopic/content/public/common/content_switches.cc
+Index: dev.vivid/content/public/common/content_switches.cc
 ===================================================================
---- dev.utopic.orig/content/public/common/content_switches.cc	2014-11-25 08:37:48.919531828 -0500
-+++ dev.utopic/content/public/common/content_switches.cc	2014-11-25 08:37:48.915531892 -0500
-@@ -934,7 +934,7 @@
+--- dev.vivid.orig/content/public/common/content_switches.cc	2014-12-04 09:12:15.436024170 -0500
++++ dev.vivid/content/public/common/content_switches.cc	2014-12-04 09:12:15.433024221 -0500
+@@ -949,7 +949,7 @@
  // Disable web audio API.
  const char kDisableWebAudio[]               = "disable-webaudio";
  
@@ -72,11 +72,11 @@ Index: dev.utopic/content/public/common/content_switches.cc
  // Disables panel fitting (used for mirror mode).
  const char kDisablePanelFitting[]           = "disable-panel-fitting";
  
-Index: dev.utopic/content/public/common/content_switches.h
+Index: dev.vivid/content/public/common/content_switches.h
 ===================================================================
---- dev.utopic.orig/content/public/common/content_switches.h	2014-11-25 08:37:48.919531828 -0500
-+++ dev.utopic/content/public/common/content_switches.h	2014-11-25 08:37:48.915531892 -0500
-@@ -269,7 +269,7 @@
+--- dev.vivid.orig/content/public/common/content_switches.h	2014-12-04 09:12:15.436024170 -0500
++++ dev.vivid/content/public/common/content_switches.h	2014-12-04 09:12:15.434024204 -0500
+@@ -273,7 +273,7 @@
  
  CONTENT_EXPORT extern const char kDisableWebAudio[];
  
@@ -85,11 +85,11 @@ Index: dev.utopic/content/public/common/content_switches.h
  CONTENT_EXPORT extern const char kDisablePanelFitting[];
  CONTENT_EXPORT extern const char kDisableVaapiAcceleratedVideoEncode[];
  #endif
-Index: dev.utopic/media/media.gyp
+Index: dev.vivid/media/media.gyp
 ===================================================================
---- dev.utopic.orig/media/media.gyp	2014-11-25 08:37:48.919531828 -0500
-+++ dev.utopic/media/media.gyp	2014-11-25 08:37:48.916531876 -0500
-@@ -682,7 +682,7 @@
+--- dev.vivid.orig/media/media.gyp	2014-12-04 09:12:15.436024170 -0500
++++ dev.vivid/media/media.gyp	2014-12-04 09:12:15.434024204 -0500
+@@ -686,7 +686,7 @@
            ],
          }],
          # For VaapiVideoEncodeAccelerator.
@@ -98,10 +98,10 @@ Index: dev.utopic/media/media.gyp
            'sources': [
              'filters/h264_bitstream_buffer.cc',
              'filters/h264_bitstream_buffer.h',
-Index: dev.utopic/gpu/config/software_rendering_list_json.cc
+Index: dev.vivid/gpu/config/software_rendering_list_json.cc
 ===================================================================
---- dev.utopic.orig/gpu/config/software_rendering_list_json.cc	2014-11-25 08:37:48.919531828 -0500
-+++ dev.utopic/gpu/config/software_rendering_list_json.cc	2014-11-25 08:37:48.916531876 -0500
+--- dev.vivid.orig/gpu/config/software_rendering_list_json.cc	2014-12-04 09:12:15.436024170 -0500
++++ dev.vivid/gpu/config/software_rendering_list_json.cc	2014-12-04 09:12:15.434024204 -0500
 @@ -508,8 +508,8 @@
      },
      {
@@ -125,10 +125,10 @@ Index: dev.utopic/gpu/config/software_rendering_list_json.cc
          }
        ],
        "features": [
-Index: dev.utopic/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
+Index: dev.vivid/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 ===================================================================
---- dev.utopic.orig/content/common/sandbox_linux/bpf_gpu_policy_linux.cc	2014-11-25 08:37:48.919531828 -0500
-+++ dev.utopic/content/common/sandbox_linux/bpf_gpu_policy_linux.cc	2014-11-25 08:37:48.916531876 -0500
+--- dev.vivid.orig/content/common/sandbox_linux/bpf_gpu_policy_linux.cc	2014-12-04 09:12:15.436024170 -0500
++++ dev.vivid/content/common/sandbox_linux/bpf_gpu_policy_linux.cc	2014-12-04 09:12:15.434024204 -0500
 @@ -21,6 +21,8 @@
  #include "base/logging.h"
  #include "base/memory/scoped_ptr.h"
@@ -138,18 +138,18 @@ Index: dev.utopic/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  #include "content/common/sandbox_linux/sandbox_bpf_base_policy_linux.h"
  #include "content/common/sandbox_linux/sandbox_seccomp_bpf_linux.h"
  #include "content/common/set_process_title.h"
-@@ -30,6 +32,8 @@
- #include "sandbox/linux/seccomp-bpf-helpers/syscall_sets.h"
+@@ -31,6 +33,8 @@
  #include "sandbox/linux/services/linux_syscalls.h"
+ #include "sandbox/linux/syscall_broker/broker_file_permission.h"
  #include "sandbox/linux/syscall_broker/broker_process.h"
 +#include "third_party/libva/va/va.h"
 +#include "third_party/libva/va/va_x11.h"
  
+ using sandbox::arch_seccomp_data;
+ using sandbox::bpf_dsl::Allow;
+@@ -40,6 +44,14 @@
  using sandbox::syscall_broker::BrokerProcess;
  using sandbox::SyscallSets;
-@@ -38,6 +42,14 @@
- using sandbox::bpf_dsl::ResultExpr;
- using sandbox::bpf_dsl::Trap;
  
 +using content_common_gpu_media::kModuleVa;
 +using content_common_gpu_media::InitializeStubs;
@@ -162,7 +162,7 @@ Index: dev.utopic/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  namespace content {
  
  namespace {
-@@ -238,19 +250,38 @@
+@@ -239,19 +251,38 @@
      // Accelerated video dlopen()'s some shared objects
      // inside the sandbox, so preload them now.
      if (IsAcceleratedVideoEnabled()) {

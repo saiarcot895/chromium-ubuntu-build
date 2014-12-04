@@ -2,10 +2,10 @@ Description: Prefer a /usr/share directory named after the package if it
   exists.
 Author: Chad Miller <chad.miller@canonical.com>
 
-Index: dev.utopic/chrome/common/chrome_paths.cc
+Index: dev.vivid/chrome/common/chrome_paths.cc
 ===================================================================
---- dev.utopic.orig/chrome/common/chrome_paths.cc	2014-11-25 08:31:37.208769972 -0500
-+++ dev.utopic/chrome/common/chrome_paths.cc	2014-11-25 08:31:37.205770023 -0500
+--- dev.vivid.orig/chrome/common/chrome_paths.cc	2014-12-04 09:12:06.344176646 -0500
++++ dev.vivid/chrome/common/chrome_paths.cc	2014-12-04 09:12:06.342176680 -0500
 @@ -91,6 +91,8 @@
  #else
      FILE_PATH_LITERAL("/usr/share/chromium/extensions");

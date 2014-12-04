@@ -4,10 +4,10 @@ Description: Set default scaling to be 1:1, instead of using the hardware's
 Author: Chad MILLER <chad.miller@canonical.com>
 Forwarded: not-needed
 
-Index: dev.utopic/ui/views/widget/desktop_aura/desktop_screen_x11.cc
+Index: dev.vivid/ui/views/widget/desktop_aura/desktop_screen_x11.cc
 ===================================================================
---- dev.utopic.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-11-25 08:37:43.933611928 -0500
-+++ dev.utopic/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-11-25 08:37:43.930611976 -0500
+--- dev.vivid.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-12-04 09:12:11.851084424 -0500
++++ dev.vivid/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-12-04 09:12:11.850084441 -0500
 @@ -331,11 +331,13 @@
        gfx::Display display(display_id, crtc_bounds);
  

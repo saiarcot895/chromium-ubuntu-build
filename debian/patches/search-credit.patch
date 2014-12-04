@@ -1,10 +1,10 @@
 Description: Add Ubuntu id into search queries to get credit.
 Author: Chad Miller <chad.miller@canonical.com>
 
-Index: dev.utopic/components/search_engines/prepopulated_engines.json
+Index: dev.vivid/components/search_engines/prepopulated_engines.json
 ===================================================================
---- dev.utopic.orig/components/search_engines/prepopulated_engines.json	2014-11-25 08:31:35.007807794 -0500
-+++ dev.utopic/components/search_engines/prepopulated_engines.json	2014-11-25 08:31:35.003807863 -0500
+--- dev.vivid.orig/components/search_engines/prepopulated_engines.json	2014-12-04 09:12:04.952199893 -0500
++++ dev.vivid/components/search_engines/prepopulated_engines.json	2014-12-04 09:12:04.950199927 -0500
 @@ -79,7 +79,7 @@
        "name": "\u767e\u5ea6",
        "keyword": "baidu.com",
@@ -14,10 +14,10 @@ Index: dev.utopic/components/search_engines/prepopulated_engines.json
        "type": "SEARCH_ENGINE_BAIDU",
        "id": 21
      },
-Index: dev.utopic/components/search_engines/template_url.cc
+Index: dev.vivid/components/search_engines/template_url.cc
 ===================================================================
---- dev.utopic.orig/components/search_engines/template_url.cc	2014-11-25 08:31:35.007807794 -0500
-+++ dev.utopic/components/search_engines/template_url.cc	2014-11-25 08:31:35.003807863 -0500
+--- dev.vivid.orig/components/search_engines/template_url.cc	2014-12-04 09:12:04.952199893 -0500
++++ dev.vivid/components/search_engines/template_url.cc	2014-12-04 09:12:04.950199927 -0500
 @@ -1038,7 +1038,7 @@
  
        case GOOGLE_SEARCH_CLIENT: {

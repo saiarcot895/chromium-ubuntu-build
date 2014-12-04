@@ -2,11 +2,11 @@ Description: Use the system clang instead of the one that is (not really)
  inside the source tree.
 Author: Chad Miller <chad.miller@canonical.com>
 
-Index: dev.utopic/build/common.gypi
+Index: dev.vivid/build/common.gypi
 ===================================================================
---- dev.utopic.orig/build/common.gypi	2014-11-25 08:37:48.186543613 -0500
-+++ dev.utopic/build/common.gypi	2014-11-25 08:37:48.139544368 -0500
-@@ -2320,8 +2320,8 @@
+--- dev.vivid.orig/build/common.gypi	2014-12-04 09:12:14.939032534 -0500
++++ dev.vivid/build/common.gypi	2014-12-04 09:12:14.937032568 -0500
+@@ -2330,8 +2330,8 @@
        }],
  
        ['host_clang==1', {
@@ -17,11 +17,11 @@ Index: dev.utopic/build/common.gypi
        }, {
          'host_cc': '<!(which gcc)',
          'host_cxx': '<!(which g++)',
-Index: dev.utopic/native_client/build/common.gypi
+Index: dev.vivid/native_client/build/common.gypi
 ===================================================================
---- dev.utopic.orig/native_client/build/common.gypi	2014-11-25 08:37:48.186543613 -0500
-+++ dev.utopic/native_client/build/common.gypi	2014-11-25 08:37:48.183543662 -0500
-@@ -541,8 +541,8 @@
+--- dev.vivid.orig/native_client/build/common.gypi	2014-12-04 09:12:14.939032534 -0500
++++ dev.vivid/native_client/build/common.gypi	2014-12-04 09:12:14.937032568 -0500
+@@ -537,8 +537,8 @@
              ['chromium_mac_pch', {'GCC_PRECOMPILE_PREFIX_HEADER': 'YES'},
                                   {'GCC_PRECOMPILE_PREFIX_HEADER': 'NO'}],
              ['clang==1', {

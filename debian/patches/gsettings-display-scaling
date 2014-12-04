@@ -2,10 +2,10 @@ Description: Read display scaling from gsettings.
 Author: Chad MILLER <chad.miller@canonical.com>
 Forwarded: yes
 
-Index: dev.utopic/ui/views/widget/desktop_aura/desktop_screen_x11.cc
+Index: dev.vivid/ui/views/widget/desktop_aura/desktop_screen_x11.cc
 ===================================================================
---- dev.utopic.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-11-25 08:31:44.992636268 -0500
-+++ dev.utopic/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-11-25 08:31:44.989636319 -0500
+--- dev.vivid.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-12-04 09:12:10.950099542 -0500
++++ dev.vivid/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-12-04 09:12:10.948099575 -0500
 @@ -7,7 +7,12 @@
  #include <X11/extensions/Xrandr.h>
  #include <X11/Xlib.h>

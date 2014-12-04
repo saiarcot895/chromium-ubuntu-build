@@ -13,7 +13,7 @@ arm-neon.patch
 additional-search-engines.patch
 ###: start lp:unity-chromium-extension
 #2-get-domain-tld.patch
-3-chrome-xid.patch
+#3-chrome-xid.patch
 #4-chromeless-window-launch-option.patch
 5-desktop-integration-settings.patch
 6-passwordless-install-support.patch

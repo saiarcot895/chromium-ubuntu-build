@@ -2,10 +2,10 @@ Description: Log hardware reporting of screen size.
 Author: Chad MILLER <chad.miller@canonical.com>
 Forwarded: not-needed
 
-Index: dev.utopic/ui/views/widget/desktop_aura/desktop_screen_x11.cc
+Index: dev.vivid/ui/views/widget/desktop_aura/desktop_screen_x11.cc
 ===================================================================
---- dev.utopic.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-11-25 08:37:44.514602602 -0500
-+++ dev.utopic/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-11-25 08:37:44.511602650 -0500
+--- dev.vivid.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-12-04 09:12:12.339076232 -0500
++++ dev.vivid/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-12-04 09:12:12.337076266 -0500
 @@ -348,12 +348,15 @@
        if (density_indicator != 0) {
          // n/8 is actual scaling factor.  Zero means discover from hardware.

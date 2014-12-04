@@ -3,10 +3,10 @@ Description: Redirect flash warnings to our wiki, where we can manage users'
 Author: Chad MILLER <chad.miller@canonical.com>
 
 
-Index: dev.utopic/chrome/browser/resources/plugin_metadata/plugins_linux.json
+Index: dev.vivid/chrome/browser/resources/plugin_metadata/plugins_linux.json
 ===================================================================
---- dev.utopic.orig/chrome/browser/resources/plugin_metadata/plugins_linux.json	2014-11-25 08:37:45.147592440 -0500
-+++ dev.utopic/chrome/browser/resources/plugin_metadata/plugins_linux.json	2014-11-25 08:37:45.145592472 -0500
+--- dev.vivid.orig/chrome/browser/resources/plugin_metadata/plugins_linux.json	2014-12-04 09:12:12.752069297 -0500
++++ dev.vivid/chrome/browser/resources/plugin_metadata/plugins_linux.json	2014-12-04 09:12:12.750069331 -0500
 @@ -87,8 +87,8 @@
      ],
      "lang": "en-US",
