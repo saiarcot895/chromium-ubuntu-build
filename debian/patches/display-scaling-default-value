@@ -6,8 +6,8 @@ Forwarded: not-needed
 
 Index: dev.vivid/ui/views/widget/desktop_aura/desktop_screen_x11.cc
 ===================================================================
---- dev.vivid.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-12-04 09:12:11.851084424 -0500
-+++ dev.vivid/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-12-04 09:12:11.850084441 -0500
+--- dev.vivid.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-12-22 08:49:54.868548592 -0500
++++ dev.vivid/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-12-22 08:49:54.866548626 -0500
 @@ -331,11 +331,13 @@
        gfx::Display display(display_id, crtc_bounds);
  

@@ -1,8 +1,8 @@
 Index: dev.vivid/chrome/app/generated_resources.grd
 ===================================================================
---- dev.vivid.orig/chrome/app/generated_resources.grd	2014-12-04 09:12:08.738136606 -0500
-+++ dev.vivid/chrome/app/generated_resources.grd	2014-12-04 09:12:08.733136690 -0500
-@@ -7907,6 +7907,35 @@
+--- dev.vivid.orig/chrome/app/generated_resources.grd	2014-12-22 08:49:50.563621495 -0500
++++ dev.vivid/chrome/app/generated_resources.grd	2014-12-22 08:49:50.557621597 -0500
+@@ -7971,6 +7971,35 @@
          Reload
        </message>
  
@@ -38,7 +38,7 @@ Index: dev.vivid/chrome/app/generated_resources.grd
        <!-- Mac and Chrome OS users do not close their browser. Mac users quit it and Chrome OS users log out. -->
        <if expr="not is_macosx and not chromeos">
          <message name="IDS_COOKIES_CLEAR_WHEN_CLOSE_CHKBOX" desc="A checkbox in the Content Settings dialog for removing all cookies on when browser is closed.">
-@@ -12102,6 +12131,9 @@
+@@ -12166,6 +12195,9 @@
        <message name="IDS_OPTIONS_ADVANCED_SECTION_TITLE_CONTENT">
          Web content
        </message>
@@ -50,9 +50,9 @@ Index: dev.vivid/chrome/app/generated_resources.grd
        </message>
 Index: dev.vivid/chrome/browser/resources/options/browser_options.html
 ===================================================================
---- dev.vivid.orig/chrome/browser/resources/options/browser_options.html	2014-12-04 09:12:08.738136606 -0500
-+++ dev.vivid/chrome/browser/resources/options/browser_options.html	2014-12-04 09:12:08.734136674 -0500
-@@ -513,6 +513,20 @@
+--- dev.vivid.orig/chrome/browser/resources/options/browser_options.html	2014-12-22 08:49:50.563621495 -0500
++++ dev.vivid/chrome/browser/resources/options/browser_options.html	2014-12-22 08:49:50.558621580 -0500
+@@ -512,6 +512,20 @@
      </div>
    </section>
  </if>  <!-- chromeos -->
@@ -75,9 +75,9 @@ Index: dev.vivid/chrome/browser/resources/options/browser_options.html
      <div class="checkbox controlled-setting-with-label">
 Index: dev.vivid/chrome/browser/resources/options/browser_options.js
 ===================================================================
---- dev.vivid.orig/chrome/browser/resources/options/browser_options.js	2014-12-04 09:12:08.738136606 -0500
-+++ dev.vivid/chrome/browser/resources/options/browser_options.js	2014-12-04 09:12:08.734136674 -0500
-@@ -580,6 +580,23 @@
+--- dev.vivid.orig/chrome/browser/resources/options/browser_options.js	2014-12-22 08:49:50.563621495 -0500
++++ dev.vivid/chrome/browser/resources/options/browser_options.js	2014-12-22 08:49:50.559621563 -0500
+@@ -583,6 +583,23 @@
              [String(event.target.options[event.target.selectedIndex].value)]);
        };
  
@@ -101,7 +101,7 @@ Index: dev.vivid/chrome/browser/resources/options/browser_options.js
        // Languages section.
        var showLanguageOptions = function(event) {
          PageManager.showPageByName('languages');
-@@ -1637,6 +1654,24 @@
+@@ -1645,6 +1662,24 @@
      },
  
      /**
@@ -126,7 +126,7 @@ Index: dev.vivid/chrome/browser/resources/options/browser_options.js
       * Set the checked state of the metrics reporting checkbox.
       * @private
       */
-@@ -2092,6 +2127,7 @@
+@@ -2100,6 +2135,7 @@
    cr.makePublic(BrowserOptions, [
      'addBluetoothDevice',
      'deleteCurrentProfile',
@@ -134,18 +134,18 @@ Index: dev.vivid/chrome/browser/resources/options/browser_options.js
      'enableCertificateButton',
      'enableDisplayButton',
      'enableFactoryResetSection',
-@@ -2113,6 +2149,7 @@
+@@ -2121,6 +2157,7 @@
      'setNativeThemeButtonEnabled',
      'setNetworkPredictionValue',
      'setHighContrastCheckboxState',
 +    'setDesktopIntegrationIsAllowed',
+     'setAllHotwordSectionsVisible',
      'setMetricsReportingCheckboxState',
      'setMetricsReportingSettingVisibility',
-     'setProfilesInfo',
 Index: dev.vivid/chrome/browser/resources/options/desktop_integration_add_website_overlay.html
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.vivid/chrome/browser/resources/options/desktop_integration_add_website_overlay.html	2014-12-04 09:12:08.734136674 -0500
++++ dev.vivid/chrome/browser/resources/options/desktop_integration_add_website_overlay.html	2014-12-22 08:49:50.559621563 -0500
 @@ -0,0 +1,15 @@
 +<div id="add-desktop-integration-website-overlay-page" class="page" hidden>
 +  <div class="close-button"></div>
@@ -165,7 +165,7 @@ Index: dev.vivid/chrome/browser/resources/options/desktop_integration_add_websit
 Index: dev.vivid/chrome/browser/resources/options/desktop_integration_add_website_overlay.js
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.vivid/chrome/browser/resources/options/desktop_integration_add_website_overlay.js	2014-12-04 09:12:08.734136674 -0500
++++ dev.vivid/chrome/browser/resources/options/desktop_integration_add_website_overlay.js	2014-12-22 08:49:50.559621563 -0500
 @@ -0,0 +1,48 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -218,7 +218,7 @@ Index: dev.vivid/chrome/browser/resources/options/desktop_integration_add_websit
 Index: dev.vivid/chrome/browser/resources/options/desktop_integration_overlay.css
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.vivid/chrome/browser/resources/options/desktop_integration_overlay.css	2014-12-04 09:12:08.735136657 -0500
++++ dev.vivid/chrome/browser/resources/options/desktop_integration_overlay.css	2014-12-22 08:49:50.559621563 -0500
 @@ -0,0 +1,75 @@
 +/* Copyright (c) 2012 The Chromium Authors. All rights reserved.
 + * Use of this source code is governed by a BSD-style license that can be
@@ -298,7 +298,7 @@ Index: dev.vivid/chrome/browser/resources/options/desktop_integration_overlay.cs
 Index: dev.vivid/chrome/browser/resources/options/desktop_integration_overlay.html
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.vivid/chrome/browser/resources/options/desktop_integration_overlay.html	2014-12-04 09:12:08.735136657 -0500
++++ dev.vivid/chrome/browser/resources/options/desktop_integration_overlay.html	2014-12-22 08:49:50.559621563 -0500
 @@ -0,0 +1,26 @@
 +<div id="desktop-integration-area" class="page" hidden>
 +
@@ -329,7 +329,7 @@ Index: dev.vivid/chrome/browser/resources/options/desktop_integration_overlay.ht
 Index: dev.vivid/chrome/browser/resources/options/desktop_integration_overlay.js
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.vivid/chrome/browser/resources/options/desktop_integration_overlay.js	2014-12-04 09:12:08.735136657 -0500
++++ dev.vivid/chrome/browser/resources/options/desktop_integration_overlay.js	2014-12-22 08:49:50.559621563 -0500
 @@ -0,0 +1,207 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -540,17 +540,17 @@ Index: dev.vivid/chrome/browser/resources/options/desktop_integration_overlay.js
 +
 Index: dev.vivid/chrome/browser/resources/options/options.html
 ===================================================================
---- dev.vivid.orig/chrome/browser/resources/options/options.html	2014-12-04 09:12:08.738136606 -0500
-+++ dev.vivid/chrome/browser/resources/options/options.html	2014-12-04 09:12:08.735136657 -0500
+--- dev.vivid.orig/chrome/browser/resources/options/options.html	2014-12-22 08:49:50.563621495 -0500
++++ dev.vivid/chrome/browser/resources/options/options.html	2014-12-22 08:49:50.560621546 -0500
 @@ -24,6 +24,7 @@
+ <link rel="stylesheet" href="clear_browser_data_overlay.css">
  <link rel="stylesheet" href="content_settings.css">
- <link rel="stylesheet" href="controlled_setting.css">
  <link rel="stylesheet" href="cookies_view.css">
 +<link rel="stylesheet" href="desktop_integration_overlay.css">
  <link rel="stylesheet" href="do_not_track_confirm_overlay.css">
  <link rel="stylesheet" href="easy_unlock_turn_off_overlay.css">
  <link rel="stylesheet" href="font_settings.css">
-@@ -119,6 +120,7 @@
+@@ -120,6 +121,7 @@
    <include src="home_page_overlay.html">
    <include src="hotword_confirm_overlay.html">
    <include src="import_data_overlay.html">
@@ -558,7 +558,7 @@ Index: dev.vivid/chrome/browser/resources/options/options.html
    <include src="language_options.html">
    <include src="manage_profile_overlay.html">
    <include src="password_manager.html">
-@@ -151,6 +153,7 @@
+@@ -152,6 +154,7 @@
    <include src="autofill_edit_creditcard_overlay.html">
    <include src="content_settings_exceptions_area.html">
    <include src="cookies_view.html">
@@ -568,8 +568,8 @@ Index: dev.vivid/chrome/browser/resources/options/options.html
    <include src="supervised_user_import.html">
 Index: dev.vivid/chrome/browser/resources/options/options.js
 ===================================================================
---- dev.vivid.orig/chrome/browser/resources/options/options.js	2014-12-04 09:12:08.738136606 -0500
-+++ dev.vivid/chrome/browser/resources/options/options.js	2014-12-04 09:12:08.735136657 -0500
+--- dev.vivid.orig/chrome/browser/resources/options/options.js	2014-12-22 08:49:50.563621495 -0500
++++ dev.vivid/chrome/browser/resources/options/options.js	2014-12-22 08:49:50.560621546 -0500
 @@ -15,6 +15,8 @@
      options.contentSettings.ContentSettingsExceptionsArea;
  var ContentSettings = options.ContentSettings;
@@ -599,8 +599,8 @@ Index: dev.vivid/chrome/browser/resources/options/options.js
                                  ContentSettings.getInstance(),
 Index: dev.vivid/chrome/browser/resources/options/options_bundle.js
 ===================================================================
---- dev.vivid.orig/chrome/browser/resources/options/options_bundle.js	2014-12-04 09:12:08.738136606 -0500
-+++ dev.vivid/chrome/browser/resources/options/options_bundle.js	2014-12-04 09:12:08.735136657 -0500
+--- dev.vivid.orig/chrome/browser/resources/options/options_bundle.js	2014-12-22 08:49:50.563621495 -0500
++++ dev.vivid/chrome/browser/resources/options/options_bundle.js	2014-12-22 08:49:50.560621546 -0500
 @@ -81,6 +81,8 @@
  <include src="content_settings_ui.js">
  <include src="cookies_list.js">
@@ -612,9 +612,9 @@ Index: dev.vivid/chrome/browser/resources/options/options_bundle.js
  <include src="font_settings.js">
 Index: dev.vivid/chrome/browser/ui/webui/options/browser_options_handler.cc
 ===================================================================
---- dev.vivid.orig/chrome/browser/ui/webui/options/browser_options_handler.cc	2014-12-04 09:12:08.738136606 -0500
-+++ dev.vivid/chrome/browser/ui/webui/options/browser_options_handler.cc	2014-12-04 09:12:08.736136640 -0500
-@@ -218,6 +218,8 @@
+--- dev.vivid.orig/chrome/browser/ui/webui/options/browser_options_handler.cc	2014-12-22 08:49:50.563621495 -0500
++++ dev.vivid/chrome/browser/ui/webui/options/browser_options_handler.cc	2014-12-22 08:49:50.560621546 -0500
+@@ -219,6 +219,8 @@
        IDS_OPTIONS_ADVANCED_SECTION_TITLE_CERTIFICATES },
      { "advancedSectionTitleContent",
        IDS_OPTIONS_ADVANCED_SECTION_TITLE_CONTENT },
@@ -623,7 +623,7 @@ Index: dev.vivid/chrome/browser/ui/webui/options/browser_options_handler.cc
      { "advancedSectionTitleLanguages",
        IDS_OPTIONS_ADVANCED_SECTION_TITLE_LANGUAGES },
      { "advancedSectionTitleNetwork",
-@@ -235,6 +237,10 @@
+@@ -237,6 +239,10 @@
      { "defaultFontSizeLabel", IDS_OPTIONS_DEFAULT_FONT_SIZE_LABEL },
      { "defaultSearchManageEngines", IDS_OPTIONS_DEFAULTSEARCH_MANAGE_ENGINES },
      { "defaultZoomFactorLabel", IDS_OPTIONS_DEFAULT_ZOOM_LEVEL_LABEL },
@@ -634,7 +634,7 @@ Index: dev.vivid/chrome/browser/ui/webui/options/browser_options_handler.cc
  #if defined(OS_CHROMEOS)
      { "disableGData", IDS_OPTIONS_DISABLE_GDATA },
  #endif
-@@ -318,6 +324,8 @@
+@@ -320,6 +326,8 @@
      { "profilesManage", IDS_PROFILES_MANAGE_BUTTON_LABEL },
      { "profilesSupervisedDashboardTip",
        IDS_PROFILES_SUPERVISED_USER_DASHBOARD_TIP },
@@ -646,7 +646,7 @@ Index: dev.vivid/chrome/browser/ui/webui/options/browser_options_handler.cc
 Index: dev.vivid/chrome/browser/ui/webui/options/desktop_integration_settings_handler.cc
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.vivid/chrome/browser/ui/webui/options/desktop_integration_settings_handler.cc	2014-12-04 09:12:08.736136640 -0500
++++ dev.vivid/chrome/browser/ui/webui/options/desktop_integration_settings_handler.cc	2014-12-22 08:49:50.560621546 -0500
 @@ -0,0 +1,262 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -913,7 +913,7 @@ Index: dev.vivid/chrome/browser/ui/webui/options/desktop_integration_settings_ha
 Index: dev.vivid/chrome/browser/ui/webui/options/desktop_integration_settings_handler.h
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.vivid/chrome/browser/ui/webui/options/desktop_integration_settings_handler.h	2014-12-04 09:12:08.736136640 -0500
++++ dev.vivid/chrome/browser/ui/webui/options/desktop_integration_settings_handler.h	2014-12-22 08:49:50.561621529 -0500
 @@ -0,0 +1,76 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -993,8 +993,8 @@ Index: dev.vivid/chrome/browser/ui/webui/options/desktop_integration_settings_ha
 +#endif  // CHROME_BROWSER_UI_WEBUI_OPTIONS_DESKTOP_INTEGRATION_SETTINGS_HANDLER2_H_
 Index: dev.vivid/chrome/browser/ui/webui/options/options_ui.cc
 ===================================================================
---- dev.vivid.orig/chrome/browser/ui/webui/options/options_ui.cc	2014-12-04 09:12:08.738136606 -0500
-+++ dev.vivid/chrome/browser/ui/webui/options/options_ui.cc	2014-12-04 09:12:08.736136640 -0500
+--- dev.vivid.orig/chrome/browser/ui/webui/options/options_ui.cc	2014-12-22 08:49:50.563621495 -0500
++++ dev.vivid/chrome/browser/ui/webui/options/options_ui.cc	2014-12-22 08:49:50.561621529 -0500
 @@ -110,6 +110,10 @@
  #include "chrome/browser/ui/webui/options/geolocation_options_handler.h"
  #endif
@@ -1017,9 +1017,9 @@ Index: dev.vivid/chrome/browser/ui/webui/options/options_ui.cc
    AddOptionsPageUIHandler(localized_strings, new GeolocationOptionsHandler());
 Index: dev.vivid/chrome/chrome_browser_ui.gypi
 ===================================================================
---- dev.vivid.orig/chrome/chrome_browser_ui.gypi	2014-12-04 09:12:08.738136606 -0500
-+++ dev.vivid/chrome/chrome_browser_ui.gypi	2014-12-04 09:12:08.737136623 -0500
-@@ -1698,6 +1698,8 @@
+--- dev.vivid.orig/chrome/chrome_browser_ui.gypi	2014-12-22 08:49:50.563621495 -0500
++++ dev.vivid/chrome/chrome_browser_ui.gypi	2014-12-22 08:49:50.561621529 -0500
+@@ -1723,6 +1723,8 @@
        'browser/ui/webui/options/core_options_handler.h',
        'browser/ui/webui/options/create_profile_handler.cc',
        'browser/ui/webui/options/create_profile_handler.h',
@@ -1028,7 +1028,7 @@ Index: dev.vivid/chrome/chrome_browser_ui.gypi
        'browser/ui/webui/options/easy_unlock_handler.cc',
        'browser/ui/webui/options/easy_unlock_handler.h',
        'browser/ui/webui/options/font_settings_handler.cc',
-@@ -2831,6 +2833,7 @@
+@@ -2854,6 +2856,7 @@
            ],
          }],
          ['use_aura==1 and chromeos==0 and use_ozone==0 and OS=="linux"', {

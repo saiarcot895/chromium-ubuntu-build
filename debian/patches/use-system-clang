@@ -4,9 +4,9 @@ Author: Chad Miller <chad.miller@canonical.com>
 
 Index: dev.vivid/build/common.gypi
 ===================================================================
---- dev.vivid.orig/build/common.gypi	2014-12-04 09:12:14.939032534 -0500
-+++ dev.vivid/build/common.gypi	2014-12-04 09:12:14.937032568 -0500
-@@ -2330,8 +2330,8 @@
+--- dev.vivid.orig/build/common.gypi	2014-12-22 08:49:59.158476030 -0500
++++ dev.vivid/build/common.gypi	2014-12-22 08:49:59.156476064 -0500
+@@ -2334,8 +2334,8 @@
        }],
  
        ['host_clang==1', {
@@ -19,8 +19,8 @@ Index: dev.vivid/build/common.gypi
          'host_cxx': '<!(which g++)',
 Index: dev.vivid/native_client/build/common.gypi
 ===================================================================
---- dev.vivid.orig/native_client/build/common.gypi	2014-12-04 09:12:14.939032534 -0500
-+++ dev.vivid/native_client/build/common.gypi	2014-12-04 09:12:14.937032568 -0500
+--- dev.vivid.orig/native_client/build/common.gypi	2014-12-22 08:49:59.158476030 -0500
++++ dev.vivid/native_client/build/common.gypi	2014-12-22 08:49:59.156476064 -0500
 @@ -537,8 +537,8 @@
              ['chromium_mac_pch', {'GCC_PRECOMPILE_PREFIX_HEADER': 'YES'},
                                   {'GCC_PRECOMPILE_PREFIX_HEADER': 'NO'}],

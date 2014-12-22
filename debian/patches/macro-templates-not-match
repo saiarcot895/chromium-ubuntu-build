@@ -1,7 +1,7 @@
 Index: dev.vivid/base/cpu.cc
 ===================================================================
---- dev.vivid.orig/base/cpu.cc	2014-12-04 09:12:14.450040759 -0500
-+++ dev.vivid/base/cpu.cc	2014-12-04 09:12:14.448040792 -0500
+--- dev.vivid.orig/base/cpu.cc	2014-12-22 08:49:58.444488100 -0500
++++ dev.vivid/base/cpu.cc	2014-12-22 08:49:58.367489403 -0500
 @@ -135,7 +135,7 @@
          brand_.assign(line.substr(strlen(kModelNamePrefix)));
        }

@@ -4,8 +4,8 @@ Forwarded: not-needed
 
 Index: dev.vivid/ui/views/widget/desktop_aura/desktop_screen_x11.cc
 ===================================================================
---- dev.vivid.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-12-04 09:12:12.339076232 -0500
-+++ dev.vivid/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-12-04 09:12:12.337076266 -0500
+--- dev.vivid.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-12-22 08:49:55.466538474 -0500
++++ dev.vivid/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2014-12-22 08:49:55.463538523 -0500
 @@ -348,12 +348,15 @@
        if (density_indicator != 0) {
          // n/8 is actual scaling factor.  Zero means discover from hardware.
