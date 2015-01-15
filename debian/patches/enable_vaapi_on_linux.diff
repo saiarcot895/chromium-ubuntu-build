@@ -1,42 +1,42 @@
 Index: dev.vivid/content/common/gpu/media/gpu_video_decode_accelerator.cc
 ===================================================================
---- dev.vivid.orig/content/common/gpu/media/gpu_video_decode_accelerator.cc	2014-12-22 08:49:59.761465837 -0500
-+++ dev.vivid/content/common/gpu/media/gpu_video_decode_accelerator.cc	2014-12-22 08:49:59.757465903 -0500
-@@ -31,7 +31,7 @@
- #elif defined(OS_CHROMEOS) && defined(ARCH_CPU_ARMEL) && defined(USE_X11)
+--- dev.vivid.orig/content/common/gpu/media/gpu_video_decode_accelerator.cc	2015-01-15 09:16:22.763306042 -0500
++++ dev.vivid/content/common/gpu/media/gpu_video_decode_accelerator.cc	2015-01-15 09:16:22.757306136 -0500
+@@ -28,7 +28,7 @@
+ #include "content/common/gpu/media/dxva_video_decode_accelerator.h"
+ #elif defined(OS_MACOSX)
+ #include "content/common/gpu/media/vt_video_decode_accelerator.h"
+-#elif defined(OS_CHROMEOS)
++#elif (defined(OS_CHROMEOS) || defined(OS_LINUX)
+ #if defined(ARCH_CPU_ARMEL) || (defined(USE_OZONE) && defined(USE_V4L2_CODEC))
  #include "content/common/gpu/media/v4l2_video_decode_accelerator.h"
  #include "content/common/gpu/media/v4l2_video_device.h"
--#elif defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY) && defined(USE_X11)
-+#elif (defined(OS_CHROMEOS) || defined(OS_LINUX)) && defined(ARCH_CPU_X86_FAMILY) && defined(USE_X11)
- #include "content/common/gpu/media/vaapi_video_decode_accelerator.h"
- #include "ui/gl/gl_context_glx.h"
- #include "ui/gl/gl_implementation.h"
-@@ -272,7 +272,7 @@
-       make_context_current_,
-       device.Pass(),
-       io_message_loop_));
--#elif defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY) && defined(USE_X11)
-+#elif (defined(OS_CHROMEOS) || defined(OS_LINUX)) && defined(ARCH_CPU_X86_FAMILY) && defined(USE_X11)
-   if (gfx::GetGLImplementation() != gfx::kGLImplementationDesktopGL) {
-     VLOG(1) << "HW video decode acceleration not available without "
-                "DesktopGL (GLX).";
+@@ -317,7 +317,7 @@
+ scoped_ptr<media::VideoDecodeAccelerator>
+ GpuVideoDecodeAccelerator::CreateVaapiVDA() {
+   scoped_ptr<media::VideoDecodeAccelerator> decoder;
+-#if defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)
++#if (defined(OS_CHROMEOS) || defined(OS_LINUX) && defined(ARCH_CPU_X86_FAMILY)
+   decoder.reset(new VaapiVideoDecodeAccelerator(make_context_current_));
+ #endif
+   return decoder.Pass();
 Index: dev.vivid/content/content_common.gypi
 ===================================================================
---- dev.vivid.orig/content/content_common.gypi	2014-12-22 08:49:59.761465837 -0500
-+++ dev.vivid/content/content_common.gypi	2014-12-22 08:49:59.757465903 -0500
-@@ -778,7 +778,7 @@
-         '<(DEPTH)/third_party/khronos',
+--- dev.vivid.orig/content/content_common.gypi	2015-01-15 09:16:22.763306042 -0500
++++ dev.vivid/content/content_common.gypi	2015-01-15 09:16:22.758306120 -0500
+@@ -838,7 +838,7 @@
+         }],
        ],
      }],
--    ['target_arch != "arm" and chromeos == 1 and use_x11 == 1', {
-+    ['target_arch != "arm" and (chromeos == 1 or desktop_linux == 1) and use_x11 == 1', {
+-    ['target_arch != "arm" and chromeos == 1', {
++    ['target_arch != "arm" and (chromeos == 1 or desktop_linux == 1)', {
        'dependencies': [
          '../media/media.gyp:media',
          '../third_party/libyuv/libyuv.gyp:libyuv',
 Index: dev.vivid/content/content_gpu.gypi
 ===================================================================
---- dev.vivid.orig/content/content_gpu.gypi	2014-12-22 08:49:59.761465837 -0500
-+++ dev.vivid/content/content_gpu.gypi	2014-12-22 08:49:59.757465903 -0500
+--- dev.vivid.orig/content/content_gpu.gypi	2015-01-15 09:16:22.763306042 -0500
++++ dev.vivid/content/content_gpu.gypi	2015-01-15 09:16:22.758306120 -0500
 @@ -39,7 +39,7 @@
          ],
        },
@@ -48,22 +48,22 @@ Index: dev.vivid/content/content_gpu.gypi
        ],
 Index: dev.vivid/content/content_tests.gypi
 ===================================================================
---- dev.vivid.orig/content/content_tests.gypi	2014-12-22 08:49:59.761465837 -0500
-+++ dev.vivid/content/content_tests.gypi	2014-12-22 08:49:59.758465887 -0500
-@@ -1595,7 +1595,7 @@
+--- dev.vivid.orig/content/content_tests.gypi	2015-01-15 09:16:22.763306042 -0500
++++ dev.vivid/content/content_tests.gypi	2015-01-15 09:16:22.759306105 -0500
+@@ -1636,7 +1636,7 @@
            },
          ]
      }],
--    ['chromeos==1 and use_x11 == 1 and target_arch != "arm"', {
-+    ['(chromeos==1 or desktop_linux==1) and use_x11 == 1 and target_arch != "arm"', {
+-    ['chromeos==1 and target_arch != "arm"', {
++    ['(chromeos==1 or desktop_linux==1) and target_arch != "arm"', {
        'targets': [
            {
              'target_name': 'vaapi_h264_decoder_unittest',
 Index: dev.vivid/content/public/common/content_switches.cc
 ===================================================================
---- dev.vivid.orig/content/public/common/content_switches.cc	2014-12-22 08:49:59.761465837 -0500
-+++ dev.vivid/content/public/common/content_switches.cc	2014-12-22 08:49:59.758465887 -0500
-@@ -924,7 +924,7 @@
+--- dev.vivid.orig/content/public/common/content_switches.cc	2015-01-15 09:16:22.763306042 -0500
++++ dev.vivid/content/public/common/content_switches.cc	2015-01-15 09:16:22.759306105 -0500
+@@ -908,7 +908,7 @@
  // Disable web audio API.
  const char kDisableWebAudio[]               = "disable-webaudio";
  
@@ -74,9 +74,9 @@ Index: dev.vivid/content/public/common/content_switches.cc
  
 Index: dev.vivid/content/public/common/content_switches.h
 ===================================================================
---- dev.vivid.orig/content/public/common/content_switches.h	2014-12-22 08:49:59.761465837 -0500
-+++ dev.vivid/content/public/common/content_switches.h	2014-12-22 08:49:59.758465887 -0500
-@@ -268,7 +268,7 @@
+--- dev.vivid.orig/content/public/common/content_switches.h	2015-01-15 09:16:22.763306042 -0500
++++ dev.vivid/content/public/common/content_switches.h	2015-01-15 09:16:22.760306090 -0500
+@@ -264,7 +264,7 @@
  
  CONTENT_EXPORT extern const char kDisableWebAudio[];
  
@@ -87,21 +87,21 @@ Index: dev.vivid/content/public/common/content_switches.h
  #endif
 Index: dev.vivid/media/media.gyp
 ===================================================================
---- dev.vivid.orig/media/media.gyp	2014-12-22 08:49:59.761465837 -0500
-+++ dev.vivid/media/media.gyp	2014-12-22 08:49:59.759465871 -0500
-@@ -697,7 +697,7 @@
+--- dev.vivid.orig/media/media.gyp	2015-01-15 09:16:22.763306042 -0500
++++ dev.vivid/media/media.gyp	2015-01-15 09:16:22.760306090 -0500
+@@ -717,7 +717,7 @@
            ],
          }],
          # For VaapiVideoEncodeAccelerator.
--        ['target_arch != "arm" and chromeos == 1 and use_x11 == 1', {
-+        ['target_arch != "arm" and (chromeos == 1 or desktop_linux == 1) and use_x11 == 1', {
+-        ['target_arch != "arm" and chromeos == 1', {
++        ['target_arch != "arm" and (chromeos == 1 or desktop_linux == 1)', {
            'sources': [
              'filters/h264_bitstream_buffer.cc',
              'filters/h264_bitstream_buffer.h',
 Index: dev.vivid/gpu/config/software_rendering_list_json.cc
 ===================================================================
---- dev.vivid.orig/gpu/config/software_rendering_list_json.cc	2014-12-22 08:49:59.761465837 -0500
-+++ dev.vivid/gpu/config/software_rendering_list_json.cc	2014-12-22 08:49:59.759465871 -0500
+--- dev.vivid.orig/gpu/config/software_rendering_list_json.cc	2015-01-15 09:16:22.763306042 -0500
++++ dev.vivid/gpu/config/software_rendering_list_json.cc	2015-01-15 09:16:22.760306090 -0500
 @@ -508,8 +508,8 @@
      },
      {
@@ -127,8 +127,8 @@ Index: dev.vivid/gpu/config/software_rendering_list_json.cc
        "features": [
 Index: dev.vivid/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 ===================================================================
---- dev.vivid.orig/content/common/sandbox_linux/bpf_gpu_policy_linux.cc	2014-12-22 08:49:59.761465837 -0500
-+++ dev.vivid/content/common/sandbox_linux/bpf_gpu_policy_linux.cc	2014-12-22 08:49:59.759465871 -0500
+--- dev.vivid.orig/content/common/sandbox_linux/bpf_gpu_policy_linux.cc	2015-01-15 09:16:22.763306042 -0500
++++ dev.vivid/content/common/sandbox_linux/bpf_gpu_policy_linux.cc	2015-01-15 09:16:22.761306074 -0500
 @@ -21,6 +21,8 @@
  #include "base/logging.h"
  #include "base/memory/scoped_ptr.h"
@@ -162,7 +162,7 @@ Index: dev.vivid/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  namespace content {
  
  namespace {
-@@ -263,19 +275,38 @@
+@@ -280,23 +292,38 @@
      // Accelerated video dlopen()'s some shared objects
      // inside the sandbox, so preload them now.
      if (IsAcceleratedVideoEnabled()) {
@@ -197,7 +197,11 @@ Index: dev.vivid/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  
 -      dlopen(I965DrvVideoPath, RTLD_NOW|RTLD_GLOBAL|RTLD_NODELETE);
 -      dlopen("libva.so.1", RTLD_NOW|RTLD_GLOBAL|RTLD_NODELETE);
+-#if defined(USE_OZONE)
+-      dlopen("libva-drm.so.1", RTLD_NOW|RTLD_GLOBAL|RTLD_NODELETE);
+-#elif defined(USE_X11)
 -      dlopen("libva-x11.so.1", RTLD_NOW|RTLD_GLOBAL|RTLD_NODELETE);
+-#endif
 -    }
 -  }
 +      int major_version, minor_version;

@@ -6,8 +6,8 @@ Bug-Ubuntu: 1084852
 
 Index: dev.vivid/third_party/webrtc/system_wrappers/source/cpu_features.cc
 ===================================================================
---- dev.vivid.orig/third_party/webrtc/system_wrappers/source/cpu_features.cc	2014-12-22 08:39:01.682451933 -0500
-+++ dev.vivid/third_party/webrtc/system_wrappers/source/cpu_features.cc	2014-12-22 08:39:01.676452028 -0500
+--- dev.vivid.orig/third_party/webrtc/system_wrappers/source/cpu_features.cc	2015-01-15 08:55:23.755117429 -0500
++++ dev.vivid/third_party/webrtc/system_wrappers/source/cpu_features.cc	2015-01-15 08:55:23.750117501 -0500
 @@ -18,6 +18,47 @@
  
  #include "webrtc/typedefs.h"
