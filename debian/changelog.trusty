@@ -1,3 +1,9 @@
+chromium-browser (41.0.2272.3-0ubuntu1~ppa2~trusty1) trusty; urgency=low
+
+  * Fix missing parentheses in enbale_vaapi_on_linux.diff
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 15 Jan 2015 11:33:47 -0500
+
 chromium-browser (41.0.2272.3-0ubuntu1~ppa1~trusty1) trusty; urgency=low
 
   * New upstream version 41.0.2272.3
