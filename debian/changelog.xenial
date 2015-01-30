@@ -1,3 +1,11 @@
+chromium-browser (42.0.2288.8-0ubuntu1~ppa1~vivid1) vivid; urgency=low
+
+  * New upstream version 42.0.2288.8
+  * Update patches from Ubuntu.
+  * Refreshed patches
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 30 Jan 2015 17:02:23 -0500
+
 chromium-browser (41.0.2272.3-0ubuntu1~ppa2~vivid1) vivid; urgency=low
 
   * Fix missing parentheses in enbale_vaapi_on_linux.diff

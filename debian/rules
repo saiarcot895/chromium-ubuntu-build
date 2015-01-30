@@ -312,9 +312,9 @@ endif
 	
 ifeq (1,$(COMPONENT_SHARED_LIB_BUILD))
 	# Set the directory for looking up component libraries.
-	find debian/$(DEBIAN_NAME)/$(LIB_DIR)/libs             -type f -name \*.so             -execdir chrpath --replace "\$$ORIGIN" {} \;
-	find debian/$(DEBIAN_NAME)/$(LIB_DIR)      -maxdepth 1 -type f -name \*.so             -execdir chrpath --replace "\$$ORIGIN/libs" {} \;
-	find debian/$(DEBIAN_NAME)/$(LIB_DIR)      -maxdepth 1 -type f             -executable -execdir chrpath --replace "\$$ORIGIN/libs" {} \;
+	find debian/*/$(LIB_DIR)/libs             -type f -name \*.so             -execdir chrpath --replace "\$$ORIGIN" {} \;
+	find debian/*/$(LIB_DIR)      -maxdepth 1 -type f -name \*.so             -execdir chrpath --replace "\$$ORIGIN/libs" {} \;
+	find debian/*/$(LIB_DIR)      -maxdepth 1 -type f             -executable -execdir chrpath --replace "\$$ORIGIN/libs" {} \;
 endif
 	
 	# Launcher script

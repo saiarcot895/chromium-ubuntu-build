@@ -4,10 +4,32 @@ Author: Chad Miller <chad.miller@canonical.com>
 Bug-Chromium: 154107
 Bug-Ubuntu: 1084852
 
+Index: dev.vivid/third_party/webrtc/common_audio/common_audio.gyp
+===================================================================
+--- dev.vivid.orig/third_party/webrtc/common_audio/common_audio.gyp	2015-01-30 16:16:38.068940398 -0500
++++ dev.vivid/third_party/webrtc/common_audio/common_audio.gyp	2015-01-30 16:16:38.064940474 -0500
+@@ -132,7 +132,7 @@
+             'signal_processing/spl_sqrt_floor.c',
+           ],
+           'conditions': [
+-            ['arm_version>=7', {
++            ['arm_version>=7 and arm_neon==1', {
+               'dependencies': ['common_audio_neon',],
+               'sources': [
+                 'signal_processing/filter_ar_fast_q12_armv7.S',
+@@ -191,7 +191,7 @@
+         },
+       ],  # targets
+     }],
+-    ['target_arch=="arm" and arm_version>=7', {
++    ['arm_neon==1 and (target_arch=="arm" and arm_version>=7)', {
+       'targets': [
+         {
+           'target_name': 'common_audio_neon',
 Index: dev.vivid/third_party/webrtc/system_wrappers/source/cpu_features.cc
 ===================================================================
---- dev.vivid.orig/third_party/webrtc/system_wrappers/source/cpu_features.cc	2015-01-15 08:55:23.755117429 -0500
-+++ dev.vivid/third_party/webrtc/system_wrappers/source/cpu_features.cc	2015-01-15 08:55:23.750117501 -0500
+--- dev.vivid.orig/third_party/webrtc/system_wrappers/source/cpu_features.cc	2015-01-30 16:16:38.068940398 -0500
++++ dev.vivid/third_party/webrtc/system_wrappers/source/cpu_features.cc	2015-01-30 16:16:38.065940455 -0500
 @@ -18,6 +18,47 @@
  
  #include "webrtc/typedefs.h"

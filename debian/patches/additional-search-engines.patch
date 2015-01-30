@@ -1,7 +1,7 @@
 Index: dev.vivid/components/search_engines/prepopulated_engines.json
 ===================================================================
---- dev.vivid.orig/components/search_engines/prepopulated_engines.json	2015-01-15 08:55:24.476107124 -0500
-+++ dev.vivid/components/search_engines/prepopulated_engines.json	2015-01-15 08:55:24.472107180 -0500
+--- dev.vivid.orig/components/search_engines/prepopulated_engines.json	2015-01-30 16:16:38.756927320 -0500
++++ dev.vivid/components/search_engines/prepopulated_engines.json	2015-01-30 16:16:38.753927377 -0500
 @@ -14,6 +14,7 @@
  //    88, 89, 91+
  //
@@ -38,8 +38,8 @@ Index: dev.vivid/components/search_engines/prepopulated_engines.json
        "keyword": "google.com",
 Index: dev.vivid/components/search_engines/search_engine_type.h
 ===================================================================
---- dev.vivid.orig/components/search_engines/search_engine_type.h	2015-01-15 08:55:24.476107124 -0500
-+++ dev.vivid/components/search_engines/search_engine_type.h	2015-01-15 08:55:24.472107180 -0500
+--- dev.vivid.orig/components/search_engines/search_engine_type.h	2015-01-30 16:16:38.756927320 -0500
++++ dev.vivid/components/search_engines/search_engine_type.h	2015-01-30 16:16:38.753927377 -0500
 @@ -22,6 +22,7 @@
    SEARCH_ENGINE_DAUM,
    SEARCH_ENGINE_DELFI,
@@ -50,8 +50,8 @@ Index: dev.vivid/components/search_engines/search_engine_type.h
    SEARCH_ENGINE_GOOGLE,
 Index: dev.vivid/components/search_engines/template_url_prepopulate_data.cc
 ===================================================================
---- dev.vivid.orig/components/search_engines/template_url_prepopulate_data.cc	2015-01-15 08:55:24.476107124 -0500
-+++ dev.vivid/components/search_engines/template_url_prepopulate_data.cc	2015-01-15 08:55:24.472107180 -0500
+--- dev.vivid.orig/components/search_engines/template_url_prepopulate_data.cc	2015-01-30 16:16:38.756927320 -0500
++++ dev.vivid/components/search_engines/template_url_prepopulate_data.cc	2015-01-30 16:16:38.753927377 -0500
 @@ -49,7 +49,7 @@
  
  // Default (for countries with no better engine set)
@@ -93,12 +93,11 @@ Index: dev.vivid/components/search_engines/template_url_prepopulate_data.cc
  
  // Uruguay
  const PrepopulatedEngine* engines_UY[] =
-@@ -491,7 +491,7 @@
+@@ -491,6 +491,7 @@
    &bing_fr_FR,   &bing_it_IT,   &bing_ja_JP,   &bing_lv_LV,   &bing_nb_NO,
    &bing_nl_BE,   &bing_pl_PL,   &bing_pt_BR,   &bing_pt_PT,   &bing_ru_RU,
    &bing_sv_SE,   &bing_tr_TR,   &bing_zh_HK,   &bing_zh_TW,   &daum,
--  &google,       &kvasir,       &mail_ru,      &najdi,        &naver,
-+  &duckduckgo, &google, &kvasir, &mail_ru,     &najdi,        &naver,
++  &duckduckgo,
+   &google,       &kvasir,       &mail_ru,      &najdi,        &naver,
    &onet,         &seznam,       &sogou,        &vinden,       &virgilio,
    &yahoo,        &yahoo_ar,     &yahoo_at,     &yahoo_au,     &yahoo_br,
-   &yahoo_ca,     &yahoo_ch,     &yahoo_cl,     &yahoo_co,     &yahoo_de,

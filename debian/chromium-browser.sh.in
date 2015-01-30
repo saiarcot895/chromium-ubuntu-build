@@ -73,6 +73,9 @@ usage () {
   echo " See 'man chromium-browser' for more details"
 }
 
+# Work around crbug.com/415681
+lsmod |grep ^i915\  >/dev/null && export LIBGL_DRI3_DISABLE=1
+
 if [ -f /etc/$APPNAME/default ] ; then
   . /etc/$APPNAME/default
 fi

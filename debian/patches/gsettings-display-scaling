@@ -4,8 +4,8 @@ Forwarded: yes
 
 Index: dev.vivid/ui/views/widget/desktop_aura/desktop_screen_x11.cc
 ===================================================================
---- dev.vivid.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2015-01-15 08:58:45.954089435 -0500
-+++ dev.vivid/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2015-01-15 08:58:45.950089496 -0500
+--- dev.vivid.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2015-01-30 16:16:43.949828713 -0500
++++ dev.vivid/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2015-01-30 16:16:43.947828751 -0500
 @@ -7,7 +7,12 @@
  #include <X11/extensions/Xrandr.h>
  #include <X11/Xlib.h>
