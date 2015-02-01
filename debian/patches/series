@@ -16,7 +16,7 @@ additional-search-engines.patch
 6-passwordless-install-support.patch
 7-npapi-permission-not-defaults-to-unauthorized.patch
 breakpad
-gsettings-display-scaling
+#gsettings-display-scaling
 touch-v35
 display-scaling-default-value
 display-scaling-report-hardware-info

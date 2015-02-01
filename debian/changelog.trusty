@@ -1,3 +1,9 @@
+chromium-browser (42.0.2288.8-0ubuntu1~ppa3~trusty1) trusty; urgency=low
+
+  * Disable gsettings-display-scaling patch
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 01 Feb 2015 09:06:15 -0500
+
 chromium-browser (42.0.2288.8-0ubuntu1~ppa2~trusty1) trusty; urgency=low
 
   * Add missing link define
