@@ -4,8 +4,8 @@ Description: Avoid a linker bug where symbols are not found.
 
 Index: dev.vivid/build/common.gypi
 ===================================================================
---- dev.vivid.orig/build/common.gypi	2015-01-30 16:16:36.669967003 -0500
-+++ dev.vivid/build/common.gypi	2015-01-30 16:16:36.667967041 -0500
+--- dev.vivid.orig/build/common.gypi	2015-02-03 11:43:41.557039823 -0500
++++ dev.vivid/build/common.gypi	2015-02-03 11:43:41.556039839 -0500
 @@ -3648,7 +3648,7 @@
                    '-fomit-frame-pointer',
                  ],

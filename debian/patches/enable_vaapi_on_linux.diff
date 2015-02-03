@@ -1,7 +1,7 @@
 Index: dev.vivid/content/common/gpu/media/gpu_video_decode_accelerator.cc
 ===================================================================
---- dev.vivid.orig/content/common/gpu/media/gpu_video_decode_accelerator.cc	2015-01-30 16:56:44.471436338 -0500
-+++ dev.vivid/content/common/gpu/media/gpu_video_decode_accelerator.cc	2015-01-30 16:56:44.467436410 -0500
+--- dev.vivid.orig/content/common/gpu/media/gpu_video_decode_accelerator.cc	2015-02-03 11:44:44.556001391 -0500
++++ dev.vivid/content/common/gpu/media/gpu_video_decode_accelerator.cc	2015-02-03 11:44:44.550001489 -0500
 @@ -29,7 +29,7 @@
  #include "content/common/gpu/media/dxva_video_decode_accelerator.h"
  #elif defined(OS_MACOSX)
@@ -22,8 +22,8 @@ Index: dev.vivid/content/common/gpu/media/gpu_video_decode_accelerator.cc
    return decoder.Pass();
 Index: dev.vivid/content/content_common.gypi
 ===================================================================
---- dev.vivid.orig/content/content_common.gypi	2015-01-30 16:56:44.471436338 -0500
-+++ dev.vivid/content/content_common.gypi	2015-01-30 16:56:44.467436410 -0500
+--- dev.vivid.orig/content/content_common.gypi	2015-02-03 11:44:44.556001391 -0500
++++ dev.vivid/content/content_common.gypi	2015-02-03 11:44:44.550001489 -0500
 @@ -859,7 +859,7 @@
          }],
        ],
@@ -35,8 +35,8 @@ Index: dev.vivid/content/content_common.gypi
          '../third_party/libyuv/libyuv.gyp:libyuv',
 Index: dev.vivid/content/content_gpu.gypi
 ===================================================================
---- dev.vivid.orig/content/content_gpu.gypi	2015-01-30 16:56:44.471436338 -0500
-+++ dev.vivid/content/content_gpu.gypi	2015-01-30 16:56:44.467436410 -0500
+--- dev.vivid.orig/content/content_gpu.gypi	2015-02-03 11:44:44.556001391 -0500
++++ dev.vivid/content/content_gpu.gypi	2015-02-03 11:44:44.550001489 -0500
 @@ -39,7 +39,7 @@
          ],
        },
@@ -48,8 +48,8 @@ Index: dev.vivid/content/content_gpu.gypi
        ],
 Index: dev.vivid/content/content_tests.gypi
 ===================================================================
---- dev.vivid.orig/content/content_tests.gypi	2015-01-30 16:56:44.471436338 -0500
-+++ dev.vivid/content/content_tests.gypi	2015-01-30 16:56:44.468436392 -0500
+--- dev.vivid.orig/content/content_tests.gypi	2015-02-03 11:44:44.556001391 -0500
++++ dev.vivid/content/content_tests.gypi	2015-02-03 11:44:44.551001473 -0500
 @@ -1622,7 +1622,7 @@
            },
          ]
@@ -61,8 +61,8 @@ Index: dev.vivid/content/content_tests.gypi
              'target_name': 'vaapi_h264_decoder_unittest',
 Index: dev.vivid/content/public/common/content_switches.cc
 ===================================================================
---- dev.vivid.orig/content/public/common/content_switches.cc	2015-01-30 16:56:44.471436338 -0500
-+++ dev.vivid/content/public/common/content_switches.cc	2015-01-30 16:56:44.468436392 -0500
+--- dev.vivid.orig/content/public/common/content_switches.cc	2015-02-03 11:44:44.556001391 -0500
++++ dev.vivid/content/public/common/content_switches.cc	2015-02-03 11:44:44.551001473 -0500
 @@ -900,7 +900,7 @@
  // Disable web audio API.
  const char kDisableWebAudio[]               = "disable-webaudio";
@@ -74,8 +74,8 @@ Index: dev.vivid/content/public/common/content_switches.cc
  
 Index: dev.vivid/content/public/common/content_switches.h
 ===================================================================
---- dev.vivid.orig/content/public/common/content_switches.h	2015-01-30 16:56:44.471436338 -0500
-+++ dev.vivid/content/public/common/content_switches.h	2015-01-30 16:56:44.468436392 -0500
+--- dev.vivid.orig/content/public/common/content_switches.h	2015-02-03 11:44:44.556001391 -0500
++++ dev.vivid/content/public/common/content_switches.h	2015-02-03 11:44:44.552001457 -0500
 @@ -261,7 +261,7 @@
  
  CONTENT_EXPORT extern const char kDisableWebAudio[];
@@ -87,8 +87,8 @@ Index: dev.vivid/content/public/common/content_switches.h
  #endif
 Index: dev.vivid/media/media.gyp
 ===================================================================
---- dev.vivid.orig/media/media.gyp	2015-01-30 16:56:44.471436338 -0500
-+++ dev.vivid/media/media.gyp	2015-01-30 16:56:44.469436374 -0500
+--- dev.vivid.orig/media/media.gyp	2015-02-03 11:44:44.556001391 -0500
++++ dev.vivid/media/media.gyp	2015-02-03 11:44:44.552001457 -0500
 @@ -723,7 +723,7 @@
            ],
          }],
@@ -100,8 +100,8 @@ Index: dev.vivid/media/media.gyp
              'filters/h264_bitstream_buffer.h',
 Index: dev.vivid/gpu/config/software_rendering_list_json.cc
 ===================================================================
---- dev.vivid.orig/gpu/config/software_rendering_list_json.cc	2015-01-30 16:56:44.471436338 -0500
-+++ dev.vivid/gpu/config/software_rendering_list_json.cc	2015-01-30 16:56:44.469436374 -0500
+--- dev.vivid.orig/gpu/config/software_rendering_list_json.cc	2015-02-03 11:44:44.556001391 -0500
++++ dev.vivid/gpu/config/software_rendering_list_json.cc	2015-02-03 11:44:44.552001457 -0500
 @@ -507,17 +507,6 @@
        ]
      },
@@ -134,8 +134,8 @@ Index: dev.vivid/gpu/config/software_rendering_list_json.cc
        "features": [
 Index: dev.vivid/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 ===================================================================
---- dev.vivid.orig/content/common/sandbox_linux/bpf_gpu_policy_linux.cc	2015-01-30 16:56:44.471436338 -0500
-+++ dev.vivid/content/common/sandbox_linux/bpf_gpu_policy_linux.cc	2015-01-30 18:18:49.289478085 -0500
+--- dev.vivid.orig/content/common/sandbox_linux/bpf_gpu_policy_linux.cc	2015-02-03 11:44:44.556001391 -0500
++++ dev.vivid/content/common/sandbox_linux/bpf_gpu_policy_linux.cc	2015-02-03 11:44:44.552001457 -0500
 @@ -21,6 +21,8 @@
  #include "base/logging.h"
  #include "base/memory/scoped_ptr.h"
@@ -233,8 +233,8 @@ Index: dev.vivid/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  }
 Index: dev.vivid/chrome/browser/about_flags.cc
 ===================================================================
---- dev.vivid.orig/chrome/browser/about_flags.cc	2015-01-30 06:52:38.000000000 -0500
-+++ dev.vivid/chrome/browser/about_flags.cc	2015-01-30 18:21:49.447329226 -0500
+--- dev.vivid.orig/chrome/browser/about_flags.cc	2015-02-03 11:44:44.556001391 -0500
++++ dev.vivid/chrome/browser/about_flags.cc	2015-02-03 11:44:44.553001441 -0500
 @@ -949,7 +949,7 @@
    { "disable-accelerated-video-decode",
      IDS_FLAGS_DISABLE_ACCELERATED_VIDEO_DECODE_NAME,

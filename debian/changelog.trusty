@@ -1,3 +1,9 @@
+chromium-browser (42.0.2288.8-0ubuntu1~ppa4~trusty1) trusty; urgency=low
+
+  * Disable related patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 03 Feb 2015 11:46:18 -0500
+
 chromium-browser (42.0.2288.8-0ubuntu1~ppa3~trusty1) trusty; urgency=low
 
   * Disable gsettings-display-scaling patch
