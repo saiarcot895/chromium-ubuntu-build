@@ -1,8 +1,8 @@
 
 Index: dev.vivid/tools/find_depot_tools.py
 ===================================================================
---- dev.vivid.orig/tools/find_depot_tools.py	2015-02-03 11:43:47.748937287 -0500
-+++ dev.vivid/tools/find_depot_tools.py	2015-02-03 11:43:47.679938429 -0500
+--- dev.vivid.orig/tools/find_depot_tools.py	2015-02-04 08:11:59.854788755 -0500
++++ dev.vivid/tools/find_depot_tools.py	2015-02-04 08:11:59.852788788 -0500
 @@ -40,6 +40,3 @@
    return None
  

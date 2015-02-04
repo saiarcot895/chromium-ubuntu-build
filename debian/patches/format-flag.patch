@@ -4,9 +4,9 @@ Author: Chad Miller <chad.miller@canonical.com>
 
 Index: dev.vivid/build/common.gypi
 ===================================================================
---- dev.vivid.orig/build/common.gypi	2015-02-03 11:43:38.447091358 -0500
-+++ dev.vivid/build/common.gypi	2015-02-03 11:43:38.445091390 -0500
-@@ -3036,9 +3036,6 @@
+--- dev.vivid.orig/build/common.gypi	2015-02-04 08:11:50.761941314 -0500
++++ dev.vivid/build/common.gypi	2015-02-04 08:11:50.759941348 -0500
+@@ -3033,9 +3033,6 @@
                '-Wno-deprecated',
              ],
              'cflags': [
