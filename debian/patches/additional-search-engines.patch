@@ -1,7 +1,7 @@
 Index: dev.vivid/components/search_engines/prepopulated_engines.json
 ===================================================================
---- dev.vivid.orig/components/search_engines/prepopulated_engines.json	2015-02-04 08:11:55.767857356 -0500
-+++ dev.vivid/components/search_engines/prepopulated_engines.json	2015-02-04 08:11:55.764857406 -0500
+--- dev.vivid.orig/components/search_engines/prepopulated_engines.json	2015-02-11 08:32:15.113850290 -0500
++++ dev.vivid/components/search_engines/prepopulated_engines.json	2015-02-11 08:32:15.110850341 -0500
 @@ -14,6 +14,7 @@
  //    88, 89, 91+
  //
@@ -19,7 +19,7 @@ Index: dev.vivid/components/search_engines/prepopulated_engines.json
  
      // Increment this if you change the data in ways that mean users with
      // existing data should get a new version.
-@@ -524,6 +525,16 @@
+@@ -105,6 +106,16 @@
        "id": 68
      },
  
@@ -38,8 +38,8 @@ Index: dev.vivid/components/search_engines/prepopulated_engines.json
        "keyword": "google.com",
 Index: dev.vivid/components/search_engines/search_engine_type.h
 ===================================================================
---- dev.vivid.orig/components/search_engines/search_engine_type.h	2015-02-04 08:11:55.767857356 -0500
-+++ dev.vivid/components/search_engines/search_engine_type.h	2015-02-04 08:11:55.765857389 -0500
+--- dev.vivid.orig/components/search_engines/search_engine_type.h	2015-02-11 08:32:15.113850290 -0500
++++ dev.vivid/components/search_engines/search_engine_type.h	2015-02-11 08:32:15.110850341 -0500
 @@ -22,6 +22,7 @@
    SEARCH_ENGINE_DAUM,
    SEARCH_ENGINE_DELFI,
@@ -50,8 +50,8 @@ Index: dev.vivid/components/search_engines/search_engine_type.h
    SEARCH_ENGINE_GOOGLE,
 Index: dev.vivid/components/search_engines/template_url_prepopulate_data.cc
 ===================================================================
---- dev.vivid.orig/components/search_engines/template_url_prepopulate_data.cc	2015-02-04 08:11:55.767857356 -0500
-+++ dev.vivid/components/search_engines/template_url_prepopulate_data.cc	2015-02-04 08:11:55.765857389 -0500
+--- dev.vivid.orig/components/search_engines/template_url_prepopulate_data.cc	2015-02-11 08:32:15.113850290 -0500
++++ dev.vivid/components/search_engines/template_url_prepopulate_data.cc	2015-02-11 08:32:15.111850324 -0500
 @@ -49,7 +49,7 @@
  
  // Default (for countries with no better engine set)
@@ -65,8 +65,8 @@ Index: dev.vivid/components/search_engines/template_url_prepopulate_data.cc
  
  // Germany
  const PrepopulatedEngine* engines_DE[] =
--    { &google, &bing_de_DE, &yahoo_de };
-+    { &google, &bing_de_DE, &yahoo_de, &duckduckgo, };
+-    { &google, &bing, &yahoo_de };
++    { &google, &bing, &yahoo_de, &duckduckgo, };
  
  // Denmark
  const PrepopulatedEngine* engines_DK[] =
@@ -74,13 +74,13 @@ Index: dev.vivid/components/search_engines/template_url_prepopulate_data.cc
  
  // France
  const PrepopulatedEngine* engines_FR[] =
--    { &google, &bing_fr_FR, &yahoo_fr, };
-+    { &google, &bing_fr_FR, &yahoo_fr, &duckduckgo, };
+-    { &google, &bing, &yahoo_fr, };
++    { &google, &bing, &yahoo_fr, &duckduckgo, };
  
  // United Kingdom
  const PrepopulatedEngine* engines_GB[] =
--    { &google, &bing_en_GB, &yahoo_uk, &ask_uk, };
-+    { &google, &bing_en_GB, &yahoo_uk, &ask_uk, &duckduckgo, };
+-    { &google, &bing, &yahoo_uk, &ask_uk, };
++    { &google, &bing, &yahoo_uk, &ask_uk, &duckduckgo, };
  
  // Greece
  const PrepopulatedEngine* engines_GR[] =
@@ -88,16 +88,16 @@ Index: dev.vivid/components/search_engines/template_url_prepopulate_data.cc
  
  // United States
  const PrepopulatedEngine* engines_US[] =
--    { &google, &bing_en_US, &yahoo, &aol, &ask, };
-+    { &google, &bing_en_US, &yahoo, &aol, &ask, &duckduckgo, };
+-    { &google, &bing, &yahoo, &aol, &ask, };
++    { &google, &bing, &yahoo, &aol, &ask, &duckduckgo, };
  
  // Uruguay
  const PrepopulatedEngine* engines_UY[] =
-@@ -491,6 +491,7 @@
-   &bing_fr_FR,   &bing_it_IT,   &bing_ja_JP,   &bing_lv_LV,   &bing_nb_NO,
-   &bing_nl_BE,   &bing_pl_PL,   &bing_pt_BR,   &bing_pt_PT,   &bing_ru_RU,
-   &bing_sv_SE,   &bing_tr_TR,   &bing_zh_HK,   &bing_zh_TW,   &daum,
+@@ -484,6 +484,7 @@
+   // Prepopulated engines:
+   &aol,          &ask,          &ask_br,       &ask_uk,       &baidu,
+   &bing,         &daum,         &google,       &kvasir,       &mail_ru,
 +  &duckduckgo,
-   &google,       &kvasir,       &mail_ru,      &najdi,        &naver,
-   &onet,         &seznam,       &sogou,        &vinden,       &virgilio,
-   &yahoo,        &yahoo_ar,     &yahoo_at,     &yahoo_au,     &yahoo_br,
+   &najdi,        &naver,        &onet,         &seznam,       &sogou,
+   &vinden,       &virgilio,     &yahoo,        &yahoo_ar,     &yahoo_at,
+   &yahoo_au,     &yahoo_br,     &yahoo_ca,     &yahoo_ch,     &yahoo_cl,

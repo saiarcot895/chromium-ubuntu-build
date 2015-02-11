@@ -3,8 +3,8 @@ Description: Never default to using the custom title bar. Chromium should
 
 Index: dev.vivid/ui/base/x/x11_util.cc
 ===================================================================
---- dev.vivid.orig/ui/base/x/x11_util.cc	2015-02-04 08:11:50.071952880 -0500
-+++ dev.vivid/ui/base/x/x11_util.cc	2015-02-04 08:11:50.067952947 -0500
+--- dev.vivid.orig/ui/base/x/x11_util.cc	2015-02-11 08:15:24.743939753 -0500
++++ dev.vivid/ui/base/x/x11_util.cc	2015-02-11 08:15:24.734939913 -0500
 @@ -1046,6 +1046,7 @@
    // Also disable custom frames for (at-least-partially-)EWMH-supporting tiling
    // window managers.

@@ -1,3 +1,10 @@
+chromium-browser (42.0.2298.0-0ubuntu1~ppa1~vivid1) vivid; urgency=low
+
+  * New upstream version 42.0.2298.0
+  * Refreshed patches
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 11 Feb 2015 08:35:59 -0500
+
 chromium-browser (42.0.2292.0-0ubuntu1~ppa1~vivid1) vivid; urgency=low
 
   * New upstream version 42.0.2292.0
