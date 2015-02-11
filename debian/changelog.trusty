@@ -1,3 +1,9 @@
+chromium-browser (42.0.2298.0-0ubuntu1~ppa2~trusty1) trusty; urgency=low
+
+  * Add missing include in VAAPI patch.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 11 Feb 2015 12:42:02 -0500
+
 chromium-browser (42.0.2298.0-0ubuntu1~ppa1~trusty1) trusty; urgency=low
 
   * New upstream version 42.0.2298.0
