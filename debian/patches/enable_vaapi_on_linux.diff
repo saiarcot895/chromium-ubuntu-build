@@ -1,17 +1,17 @@
 Index: dev.vivid/content/common/gpu/media/gpu_video_decode_accelerator.cc
 ===================================================================
---- dev.vivid.orig/content/common/gpu/media/gpu_video_decode_accelerator.cc	2015-02-11 12:29:38.813614070 -0500
-+++ dev.vivid/content/common/gpu/media/gpu_video_decode_accelerator.cc	2015-02-11 12:29:38.803614250 -0500
+--- dev.vivid.orig/content/common/gpu/media/gpu_video_decode_accelerator.cc	2015-02-19 10:02:48.333682501 -0500
++++ dev.vivid/content/common/gpu/media/gpu_video_decode_accelerator.cc	2015-02-19 10:02:48.320682702 -0500
 @@ -30,7 +30,7 @@
  #include "content/common/gpu/media/dxva_video_decode_accelerator.h"
  #elif defined(OS_MACOSX)
  #include "content/common/gpu/media/vt_video_decode_accelerator.h"
 -#elif defined(OS_CHROMEOS)
 +#elif defined(OS_CHROMEOS) || defined(OS_LINUX)
- #if defined(ARCH_CPU_ARMEL) && defined(USE_LIBV4L2)
+ #if defined(USE_V4L2_CODEC)
  #include "content/common/gpu/media/v4l2_slice_video_decode_accelerator.h"
- #endif  // defined(ARCH_CPU_ARMEL)
-@@ -351,7 +351,7 @@
+ #include "content/common/gpu/media/v4l2_video_decode_accelerator.h"
+@@ -347,7 +347,7 @@
  scoped_ptr<media::VideoDecodeAccelerator>
  GpuVideoDecodeAccelerator::CreateVaapiVDA() {
    scoped_ptr<media::VideoDecodeAccelerator> decoder;
@@ -22,10 +22,10 @@ Index: dev.vivid/content/common/gpu/media/gpu_video_decode_accelerator.cc
                                          base::Unretained(this))));
 Index: dev.vivid/content/content_common.gypi
 ===================================================================
---- dev.vivid.orig/content/content_common.gypi	2015-02-11 12:29:38.813614070 -0500
-+++ dev.vivid/content/content_common.gypi	2015-02-11 12:29:38.804614232 -0500
-@@ -868,7 +868,7 @@
-         }],
+--- dev.vivid.orig/content/content_common.gypi	2015-02-19 10:02:48.333682501 -0500
++++ dev.vivid/content/content_common.gypi	2015-02-19 10:02:48.321682687 -0500
+@@ -856,7 +856,7 @@
+         'common/gpu/media/tegra_v4l2_video_device.h',
        ],
      }],
 -    ['target_arch != "arm" and chromeos == 1', {
@@ -35,8 +35,8 @@ Index: dev.vivid/content/content_common.gypi
          '../third_party/libyuv/libyuv.gyp:libyuv',
 Index: dev.vivid/content/content_gpu.gypi
 ===================================================================
---- dev.vivid.orig/content/content_gpu.gypi	2015-02-11 12:29:38.813614070 -0500
-+++ dev.vivid/content/content_gpu.gypi	2015-02-11 12:29:38.804614232 -0500
+--- dev.vivid.orig/content/content_gpu.gypi	2015-02-19 10:02:48.333682501 -0500
++++ dev.vivid/content/content_gpu.gypi	2015-02-19 10:02:48.322682671 -0500
 @@ -39,7 +39,7 @@
          ],
        },
@@ -48,9 +48,9 @@ Index: dev.vivid/content/content_gpu.gypi
        ],
 Index: dev.vivid/content/content_tests.gypi
 ===================================================================
---- dev.vivid.orig/content/content_tests.gypi	2015-02-11 12:29:38.813614070 -0500
-+++ dev.vivid/content/content_tests.gypi	2015-02-11 12:29:38.805614214 -0500
-@@ -1632,7 +1632,7 @@
+--- dev.vivid.orig/content/content_tests.gypi	2015-02-19 10:02:48.333682501 -0500
++++ dev.vivid/content/content_tests.gypi	2015-02-19 10:02:48.323682655 -0500
+@@ -1631,7 +1631,7 @@
            },
          ]
      }],
@@ -61,9 +61,9 @@ Index: dev.vivid/content/content_tests.gypi
              'target_name': 'vaapi_h264_decoder_unittest',
 Index: dev.vivid/content/public/common/content_switches.cc
 ===================================================================
---- dev.vivid.orig/content/public/common/content_switches.cc	2015-02-11 12:29:38.813614070 -0500
-+++ dev.vivid/content/public/common/content_switches.cc	2015-02-11 12:29:38.805614214 -0500
-@@ -916,7 +916,7 @@
+--- dev.vivid.orig/content/public/common/content_switches.cc	2015-02-19 10:02:48.333682501 -0500
++++ dev.vivid/content/public/common/content_switches.cc	2015-02-19 10:02:48.323682655 -0500
+@@ -921,7 +921,7 @@
  // Disable web audio API.
  const char kDisableWebAudio[]               = "disable-webaudio";
  
@@ -74,9 +74,9 @@ Index: dev.vivid/content/public/common/content_switches.cc
  
 Index: dev.vivid/content/public/common/content_switches.h
 ===================================================================
---- dev.vivid.orig/content/public/common/content_switches.h	2015-02-11 12:29:38.813614070 -0500
-+++ dev.vivid/content/public/common/content_switches.h	2015-02-11 12:29:38.806614196 -0500
-@@ -262,7 +262,7 @@
+--- dev.vivid.orig/content/public/common/content_switches.h	2015-02-19 10:02:48.333682501 -0500
++++ dev.vivid/content/public/common/content_switches.h	2015-02-19 10:02:48.324682639 -0500
+@@ -263,7 +263,7 @@
  
  CONTENT_EXPORT extern const char kDisableWebAudio[];
  
@@ -87,8 +87,8 @@ Index: dev.vivid/content/public/common/content_switches.h
  #endif
 Index: dev.vivid/media/media.gyp
 ===================================================================
---- dev.vivid.orig/media/media.gyp	2015-02-11 12:29:38.813614070 -0500
-+++ dev.vivid/media/media.gyp	2015-02-11 12:29:38.807614178 -0500
+--- dev.vivid.orig/media/media.gyp	2015-02-19 10:02:48.333682501 -0500
++++ dev.vivid/media/media.gyp	2015-02-19 10:02:48.325682624 -0500
 @@ -727,7 +727,7 @@
            ],
          }],
@@ -100,8 +100,8 @@ Index: dev.vivid/media/media.gyp
              'filters/h264_bitstream_buffer.h',
 Index: dev.vivid/gpu/config/software_rendering_list_json.cc
 ===================================================================
---- dev.vivid.orig/gpu/config/software_rendering_list_json.cc	2015-02-11 12:29:38.813614070 -0500
-+++ dev.vivid/gpu/config/software_rendering_list_json.cc	2015-02-11 12:29:38.808614160 -0500
+--- dev.vivid.orig/gpu/config/software_rendering_list_json.cc	2015-02-19 10:02:48.333682501 -0500
++++ dev.vivid/gpu/config/software_rendering_list_json.cc	2015-02-19 10:02:48.325682624 -0500
 @@ -507,17 +507,6 @@
        ]
      },
@@ -134,8 +134,8 @@ Index: dev.vivid/gpu/config/software_rendering_list_json.cc
        "features": [
 Index: dev.vivid/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 ===================================================================
---- dev.vivid.orig/content/common/sandbox_linux/bpf_gpu_policy_linux.cc	2015-02-11 12:29:38.813614070 -0500
-+++ dev.vivid/content/common/sandbox_linux/bpf_gpu_policy_linux.cc	2015-02-11 12:32:34.985264087 -0500
+--- dev.vivid.orig/content/common/sandbox_linux/bpf_gpu_policy_linux.cc	2015-02-19 10:02:48.333682501 -0500
++++ dev.vivid/content/common/sandbox_linux/bpf_gpu_policy_linux.cc	2015-02-19 10:02:48.326682609 -0500
 @@ -21,6 +21,8 @@
  #include "base/logging.h"
  #include "base/memory/scoped_ptr.h"
@@ -146,9 +146,9 @@ Index: dev.vivid/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  #include "content/common/sandbox_linux/sandbox_seccomp_bpf_linux.h"
  #include "content/common/set_process_title.h"
 @@ -31,6 +33,8 @@
- #include "sandbox/linux/services/linux_syscalls.h"
  #include "sandbox/linux/syscall_broker/broker_file_permission.h"
  #include "sandbox/linux/syscall_broker/broker_process.h"
+ #include "sandbox/linux/system_headers/linux_syscalls.h"
 +#include "third_party/libva/va/va.h"
 +#include "third_party/libva/va/va_x11.h"
  
@@ -233,9 +233,9 @@ Index: dev.vivid/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  }
 Index: dev.vivid/chrome/browser/about_flags.cc
 ===================================================================
---- dev.vivid.orig/chrome/browser/about_flags.cc	2015-02-11 12:29:38.813614070 -0500
-+++ dev.vivid/chrome/browser/about_flags.cc	2015-02-11 12:29:38.810614124 -0500
-@@ -943,7 +943,7 @@
+--- dev.vivid.orig/chrome/browser/about_flags.cc	2015-02-19 10:02:48.333682501 -0500
++++ dev.vivid/chrome/browser/about_flags.cc	2015-02-19 10:02:48.327682594 -0500
+@@ -933,7 +933,7 @@
    { "disable-accelerated-video-decode",
      IDS_FLAGS_DISABLE_ACCELERATED_VIDEO_DECODE_NAME,
      IDS_FLAGS_DISABLE_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
@@ -244,3 +244,44 @@ Index: dev.vivid/chrome/browser/about_flags.cc
      SINGLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
    },
  #if defined(USE_ASH)
+Index: dev.vivid/content/common/gpu/media/vaapi_wrapper.cc
+===================================================================
+--- dev.vivid.orig/content/common/gpu/media/vaapi_wrapper.cc	2015-02-19 10:02:48.333682501 -0500
++++ dev.vivid/content/common/gpu/media/vaapi_wrapper.cc	2015-02-19 10:02:48.328682578 -0500
+@@ -184,14 +184,17 @@
+ 
+   if (!vaapi_wrapper->VaInitialize(report_error_to_uma_cb))
+     return nullptr;
++  VLOG(1) << "VAAPI wrapper: initialized VA driver"; 
+ 
+   std::vector<VAProfile> supported_va_profiles;
+   if (!vaapi_wrapper->GetSupportedVaProfiles(&supported_va_profiles))
+     return nullptr;
++  VLOG(1) << "VAAPI wrapper: got supported VA profiles";
+ 
+   VAProfile va_profile = ProfileToVAProfile(profile, supported_va_profiles);
+   if (!vaapi_wrapper->Initialize(mode, va_profile))
+     return nullptr;
++  VLOG(1) << "VAAPI wrapper: VAAPI wrapper initialized";
+ 
+   return vaapi_wrapper.Pass();
+ }
+@@ -363,6 +366,7 @@
+ bool VaapiWrapper::Initialize(CodecMode mode, VAProfile va_profile) {
+   if (va_profile == VAProfileNone) {
+     DVLOG(1) << "Unsupported profile";
++    VLOG(1) << "Unsupported profile";
+     return false;
+   }
+   VAEntrypoint entrypoint =
+@@ -372,8 +376,10 @@
+   std::vector<VAConfigAttrib> required_attribs = GetRequiredAttribs(mode);
+   if (!AreAttribsSupported(va_profile, entrypoint, required_attribs))
+     return false;
++  VLOG(1) << "VAAPI Wrapper Initialization: entrypoint and attribs supported";
+ 
+   TryToSetVADisplayAttributeToLocalGPU();
++  VLOG(1) << "VAAPI Wrapper Initialization: attributes set";
+ 
+   base::AutoLock auto_lock(va_lock_);
+   VAStatus va_res = vaCreateConfig(va_display_,

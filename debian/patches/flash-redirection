@@ -5,8 +5,8 @@ Author: Chad MILLER <chad.miller@canonical.com>
 
 Index: dev.vivid/chrome/browser/resources/plugin_metadata/plugins_linux.json
 ===================================================================
---- dev.vivid.orig/chrome/browser/resources/plugin_metadata/plugins_linux.json	2015-02-11 08:32:20.912751797 -0500
-+++ dev.vivid/chrome/browser/resources/plugin_metadata/plugins_linux.json	2015-02-11 08:32:20.910751831 -0500
+--- dev.vivid.orig/chrome/browser/resources/plugin_metadata/plugins_linux.json	2015-02-19 09:59:27.383763189 -0500
++++ dev.vivid/chrome/browser/resources/plugin_metadata/plugins_linux.json	2015-02-19 09:59:27.380763234 -0500
 @@ -87,8 +87,8 @@
      ],
      "lang": "en-US",

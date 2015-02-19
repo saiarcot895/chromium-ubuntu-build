@@ -1,7 +1,7 @@
 Index: dev.vivid/content/app/strings/content_strings.grd
 ===================================================================
---- dev.vivid.orig/content/app/strings/content_strings.grd	2015-02-11 08:32:23.118714257 -0500
-+++ dev.vivid/content/app/strings/content_strings.grd	2015-02-11 08:32:23.115714308 -0500
+--- dev.vivid.orig/content/app/strings/content_strings.grd	2015-02-19 09:59:29.704728152 -0500
++++ dev.vivid/content/app/strings/content_strings.grd	2015-02-19 09:59:29.702728182 -0500
 @@ -51,34 +51,34 @@
      <output filename="content_strings_am.pak" type="data_package" lang="am" />
      <output filename="content_strings_ar.pak" type="data_package" lang="ar" />
@@ -167,8 +167,8 @@ Index: dev.vivid/content/app/strings/content_strings.grd
      <file path="translations/content_strings_vi.xtb" lang="vi" />
 Index: dev.vivid/tools/grit/grit/testdata/chrome/app/generated_resources.grd
 ===================================================================
---- dev.vivid.orig/tools/grit/grit/testdata/chrome/app/generated_resources.grd	2015-02-11 08:32:23.118714257 -0500
-+++ dev.vivid/tools/grit/grit/testdata/chrome/app/generated_resources.grd	2015-02-11 08:32:23.115714308 -0500
+--- dev.vivid.orig/tools/grit/grit/testdata/chrome/app/generated_resources.grd	2015-02-19 09:59:29.704728152 -0500
++++ dev.vivid/tools/grit/grit/testdata/chrome/app/generated_resources.grd	2015-02-19 09:59:29.702728182 -0500
 @@ -110,49 +110,49 @@
    <translations>
      <file path="resources/generated_resources_am.xtb" lang="am" />
