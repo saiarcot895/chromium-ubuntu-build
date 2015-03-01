@@ -4,8 +4,8 @@ Author: Chad Miller <chad.miller@canonical.com>
 
 Index: dev.vivid/chrome/common/chrome_paths.cc
 ===================================================================
---- dev.vivid.orig/chrome/common/chrome_paths.cc	2015-02-19 09:36:11.091590909 -0500
-+++ dev.vivid/chrome/common/chrome_paths.cc	2015-02-19 09:36:11.089590939 -0500
+--- dev.vivid.orig/chrome/common/chrome_paths.cc	2015-02-28 20:43:32.114090803 -0500
++++ dev.vivid/chrome/common/chrome_paths.cc	2015-02-28 20:43:32.112090833 -0500
 @@ -81,6 +81,8 @@
  #else
      FILE_PATH_LITERAL("/usr/share/chromium/extensions");
@@ -15,7 +15,7 @@ Index: dev.vivid/chrome/common/chrome_paths.cc
  #endif  // defined(OS_LINUX)
  
  static base::LazyInstance<base::FilePath>
-@@ -452,6 +454,9 @@
+@@ -462,6 +464,9 @@
        cur = base::FilePath(FILE_PATH_LITERAL("/etc/opt/chrome/policies"));
  #else
        cur = base::FilePath(FILE_PATH_LITERAL("/etc/chromium/policies"));
@@ -25,7 +25,7 @@ Index: dev.vivid/chrome/common/chrome_paths.cc
  #endif
        break;
      }
-@@ -482,6 +487,10 @@
+@@ -492,6 +497,10 @@
  #endif
  #if defined(OS_LINUX)
      case chrome::DIR_STANDALONE_EXTERNAL_EXTENSIONS: {
@@ -36,7 +36,7 @@ Index: dev.vivid/chrome/common/chrome_paths.cc
        cur = base::FilePath(kFilepathSinglePrefExtensions);
        break;
      }
-@@ -532,6 +541,10 @@
+@@ -542,6 +551,10 @@
  #else
        cur = base::FilePath(FILE_PATH_LITERAL(
            "/etc/chromium/native-messaging-hosts"));
