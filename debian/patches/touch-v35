@@ -4,8 +4,8 @@ Forwarded: yes
 
 Index: dev.vivid/ui/events/devices/x11/touch_factory_x11.cc
 ===================================================================
---- dev.vivid.orig/ui/events/devices/x11/touch_factory_x11.cc	2015-02-28 20:43:39.345979418 -0500
-+++ dev.vivid/ui/events/devices/x11/touch_factory_x11.cc	2015-02-28 20:43:39.342979466 -0500
+--- dev.vivid.orig/ui/events/devices/x11/touch_factory_x11.cc	2015-03-12 08:50:31.401995653 -0400
++++ dev.vivid/ui/events/devices/x11/touch_factory_x11.cc	2015-03-12 08:50:31.399995683 -0400
 @@ -144,8 +144,11 @@
            XITouchClassInfo* tci =
                reinterpret_cast<XITouchClassInfo*>(xiclassinfo);

@@ -1,8 +1,8 @@
 Index: dev.vivid/third_party/skia/gyp/skia_lib.gyp
 ===================================================================
---- dev.vivid.orig/third_party/skia/gyp/skia_lib.gyp	2015-02-28 20:43:33.400070996 -0500
-+++ dev.vivid/third_party/skia/gyp/skia_lib.gyp	2015-02-28 20:43:33.396071058 -0500
-@@ -10,6 +10,7 @@
+--- dev.vivid.orig/third_party/skia/gyp/skia_lib.gyp	2015-03-12 08:44:24.909558030 -0400
++++ dev.vivid/third_party/skia/gyp/skia_lib.gyp	2015-03-12 08:44:24.907558060 -0400
+@@ -11,6 +11,7 @@
        'ports.gyp:ports',
        'sfnt.gyp:sfnt',
        'utils.gyp:utils',
@@ -10,7 +10,7 @@ Index: dev.vivid/third_party/skia/gyp/skia_lib.gyp
      ],
      'conditions': [
        [ '"x86" in skia_arch_type and skia_os != "android"', {
-@@ -18,7 +19,7 @@
+@@ -19,7 +20,7 @@
            'opts.gyp:opts_sse41',
          ],
        }],
@@ -21,8 +21,8 @@ Index: dev.vivid/third_party/skia/gyp/skia_lib.gyp
          ],
 Index: dev.vivid/ui/base/resource/data_pack.cc
 ===================================================================
---- dev.vivid.orig/ui/base/resource/data_pack.cc	2015-02-28 20:43:33.400070996 -0500
-+++ dev.vivid/ui/base/resource/data_pack.cc	2015-02-28 20:43:33.396071058 -0500
+--- dev.vivid.orig/ui/base/resource/data_pack.cc	2015-03-12 08:44:24.909558030 -0400
++++ dev.vivid/ui/base/resource/data_pack.cc	2015-03-12 08:44:24.907558060 -0400
 @@ -155,9 +155,11 @@
    // 2) Verify the entries are within the appropriate bounds. There's an extra
    // entry after the last item which gives us the length of the last item.
