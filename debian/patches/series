@@ -17,7 +17,6 @@ additional-search-engines.patch
 7-npapi-permission-not-defaults-to-unauthorized.patch
 breakpad
 #gsettings-display-scaling
-touch-v35
 #display-scaling-default-value
 #display-scaling-report-hardware-info
 flash-redirection

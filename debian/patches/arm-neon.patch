@@ -6,9 +6,9 @@ Bug-Ubuntu: 1084852
 
 Index: dev.vivid/third_party/webrtc/common_audio/common_audio.gyp
 ===================================================================
---- dev.vivid.orig/third_party/webrtc/common_audio/common_audio.gyp	2015-03-12 08:50:26.101075822 -0400
-+++ dev.vivid/third_party/webrtc/common_audio/common_audio.gyp	2015-03-12 08:50:26.099075852 -0400
-@@ -135,7 +135,7 @@
+--- dev.vivid.orig/third_party/webrtc/common_audio/common_audio.gyp	2015-03-27 07:34:22.987617099 -0400
++++ dev.vivid/third_party/webrtc/common_audio/common_audio.gyp	2015-03-27 07:34:22.985617133 -0400
+@@ -137,7 +137,7 @@
              'signal_processing/spl_sqrt_floor.c',
            ],
            'conditions': [
@@ -17,7 +17,7 @@ Index: dev.vivid/third_party/webrtc/common_audio/common_audio.gyp
                'dependencies': ['common_audio_neon',],
                'sources': [
                  'signal_processing/filter_ar_fast_q12_armv7.S',
-@@ -197,7 +197,7 @@
+@@ -199,7 +199,7 @@
          },
        ],  # targets
      }],
@@ -28,8 +28,8 @@ Index: dev.vivid/third_party/webrtc/common_audio/common_audio.gyp
            'target_name': 'common_audio_neon',
 Index: dev.vivid/third_party/webrtc/system_wrappers/source/cpu_features.cc
 ===================================================================
---- dev.vivid.orig/third_party/webrtc/system_wrappers/source/cpu_features.cc	2015-03-12 08:50:26.101075822 -0400
-+++ dev.vivid/third_party/webrtc/system_wrappers/source/cpu_features.cc	2015-03-12 08:50:26.099075852 -0400
+--- dev.vivid.orig/third_party/webrtc/system_wrappers/source/cpu_features.cc	2015-03-27 07:34:22.987617099 -0400
++++ dev.vivid/third_party/webrtc/system_wrappers/source/cpu_features.cc	2015-03-27 07:34:22.985617133 -0400
 @@ -18,6 +18,47 @@
  
  #include "webrtc/typedefs.h"
