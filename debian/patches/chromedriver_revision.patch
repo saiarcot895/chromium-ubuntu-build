@@ -1,7 +1,7 @@
 Index: dev.vivid/chrome/test/chromedriver/embed_version_in_cpp.py
 ===================================================================
---- dev.vivid.orig/chrome/test/chromedriver/embed_version_in_cpp.py	2015-03-27 07:34:21.060648567 -0400
-+++ dev.vivid/chrome/test/chromedriver/embed_version_in_cpp.py	2015-03-27 07:34:21.058648599 -0400
+--- dev.vivid.orig/chrome/test/chromedriver/embed_version_in_cpp.py	2015-04-13 08:52:12.396662132 -0400
++++ dev.vivid/chrome/test/chromedriver/embed_version_in_cpp.py	2015-04-13 08:52:12.379662372 -0400
 @@ -26,7 +26,9 @@
    options, args = parser.parse_args()
  

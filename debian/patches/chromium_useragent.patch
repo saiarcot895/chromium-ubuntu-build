@@ -3,9 +3,9 @@ Author: Chad Miller <chad.miller@canonical.com>
 
 Index: dev.vivid/content/common/user_agent.cc
 ===================================================================
---- dev.vivid.orig/content/common/user_agent.cc	2015-03-27 07:34:20.567656598 -0400
-+++ dev.vivid/content/common/user_agent.cc	2015-03-27 07:34:20.565656631 -0400
-@@ -181,13 +181,21 @@
+--- dev.vivid.orig/content/common/user_agent.cc	2015-04-13 08:52:11.775670887 -0400
++++ dev.vivid/content/common/user_agent.cc	2015-04-13 08:52:11.770670958 -0400
+@@ -199,13 +199,21 @@
    // Derived from Safari's UA string.
    // This is done to expose our product name in a manner that is maximally
    // compatible with Safari, we hope!!

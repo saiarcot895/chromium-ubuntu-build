@@ -4,10 +4,10 @@ Description: Avoid a linker bug where symbols are not found.
 
 Index: dev.vivid/build/common.gypi
 ===================================================================
---- dev.vivid.orig/build/common.gypi	2015-03-27 07:34:22.044632509 -0400
-+++ dev.vivid/build/common.gypi	2015-03-27 07:34:22.042632543 -0400
-@@ -3664,7 +3664,7 @@
-                   '-fomit-frame-pointer',
+--- dev.vivid.orig/build/common.gypi	2015-04-13 08:52:13.682644006 -0400
++++ dev.vivid/build/common.gypi	2015-04-13 08:52:13.679644048 -0400
+@@ -3662,7 +3662,7 @@
+                   '_LARGEFILE64_SOURCE',
                  ],
                }],
 -              ['OS=="linux" and target_arch=="ia32"', {
@@ -15,7 +15,7 @@ Index: dev.vivid/build/common.gypi
                  'ldflags': [
                    '-Wl,--no-as-needed',
                  ],
-@@ -3712,7 +3712,6 @@
+@@ -3710,7 +3710,6 @@
                # Specifically tell the linker to perform optimizations.
                # See http://lwn.net/Articles/192624/ .
                '-Wl,-O1',
@@ -23,7 +23,7 @@ Index: dev.vivid/build/common.gypi
              ],
              'conditions' : [
                ['no_gc_sections==0', {
-@@ -3761,6 +3760,11 @@
+@@ -3759,6 +3758,11 @@
                  'cflags': ['-fno-unwind-tables', '-fno-asynchronous-unwind-tables'],
                  'defines': ['NO_UNWIND_TABLES'],
                }],
