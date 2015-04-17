@@ -1,3 +1,9 @@
+chromium-browser (44.0.2369.0-0ubuntu1~ppa2~vivid1) vivid; urgency=low
+
+  * Update enable_vaapi_on_linux patch
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 17 Apr 2015 18:25:48 -0400
+
 chromium-browser (44.0.2369.0-0ubuntu1~ppa1~vivid1) vivid; urgency=low
 
   * New upstream version 44.0.2369.0
