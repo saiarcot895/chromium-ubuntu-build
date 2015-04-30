@@ -87,6 +87,9 @@ GYP_DEFINES += enable_webrtc=1
 GYP_DEFINES += enable_hidpi=1
 GYP_DEFINES += enable_touch_ui=1
 
+# add support and stubbed implementation of widevine (needed for EME)
+GYP_DEFINES += enable_widevine=1
+
 # Intentional configuration, not bug work-arounds.
 ifeq (arm,$(DEB_HOST_ARCH_CPU))
 
@@ -204,6 +207,8 @@ BUILD_TARGETS += \
 	chrome \
 	chrome_sandbox \
 	chromedriver \
+	widevinecdmadapter \
+	clearkeycdm \
 	$(NULL)
 
 GYP_DEFINES += \
