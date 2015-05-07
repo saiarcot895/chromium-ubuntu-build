@@ -1,7 +1,7 @@
 Index: dev.vivid/chrome/browser/browser_resources.grd
 ===================================================================
---- dev.vivid.orig/chrome/browser/browser_resources.grd	2015-04-29 22:10:26.705037140 -0400
-+++ dev.vivid/chrome/browser/browser_resources.grd	2015-04-29 22:10:26.701037198 -0400
+--- dev.vivid.orig/chrome/browser/browser_resources.grd	2015-05-07 12:03:08.472338168 -0400
++++ dev.vivid/chrome/browser/browser_resources.grd	2015-05-07 12:03:08.461338319 -0400
 @@ -242,6 +242,7 @@
        </if>
        <if expr="desktop_linux or (is_android and enable_plugins)">
@@ -12,42 +12,66 @@ Index: dev.vivid/chrome/browser/browser_resources.grd
          <include name="IDR_POLICY_CSS" file="resources\policy_android.css" type="BINDATA"/>
 Index: dev.vivid/chrome/browser/plugins/plugin_finder.cc
 ===================================================================
---- dev.vivid.orig/chrome/browser/plugins/plugin_finder.cc	2015-04-29 22:10:26.705037140 -0400
-+++ dev.vivid/chrome/browser/plugins/plugin_finder.cc	2015-04-29 22:10:26.702037184 -0400
-@@ -128,6 +128,29 @@
-   return plugin;
+--- dev.vivid.orig/chrome/browser/plugins/plugin_finder.cc	2015-05-07 12:03:08.472338168 -0400
++++ dev.vivid/chrome/browser/plugins/plugin_finder.cc	2015-05-07 12:03:08.463338291 -0400
+@@ -151,44 +151,10 @@
+                             static_cast<int>(PluginListError::NUM_VALUES));
  }
  
+-}  // namespace
+-
+-// static
+-void PluginFinder::RegisterPrefs(PrefRegistrySimple* registry) {
+-  registry->RegisterBooleanPref(prefs::kDisablePluginFinder, false);
+-}
+-
+-// static
+-PluginFinder* PluginFinder::GetInstance() {
+-  // PluginFinder::GetInstance() is the only method that's allowed to call
+-  // Singleton<PluginFinder>::get().
+-  return Singleton<PluginFinder>::get();
+-}
+-
+-PluginFinder::PluginFinder() : version_(-1) {
+-  DCHECK_CURRENTLY_ON(content::BrowserThread::UI);
+-}
+-
+-void PluginFinder::Init() {
+-  DCHECK_CURRENTLY_ON(content::BrowserThread::UI);
+-  // Load the built-in plugin list first. If we have a newer version stored
+-  // locally or download one, we will replace this one with it.
+-  scoped_ptr<base::DictionaryValue> plugin_list(LoadBuiltInPluginList());
+-
+-  // Gracefully handle the case where we couldn't parse the built-in plugin list
+-  // for some reason (https://crbug.com/388560). TODO(bauerb): Change back to a
+-  // DCHECK once we have gathered more data about the underlying problem.
+-  if (!plugin_list)
+-    return;
+-
+-  ReinitializePlugins(plugin_list.get());
+-}
+-
+-// static
+-base::DictionaryValue* PluginFinder::LoadBuiltInPluginList() {
 +base::DictionaryValue* LoadPlatformPluginListWithId(int resourceId) {
-+#if defined(OS_WIN) || defined(OS_MACOSX) || defined(OS_LINUX)
-+  base::StringPiece json_resource(
-+      ResourceBundle::GetSharedInstance().GetRawDataResource(
+   base::StringPiece json_resource(
+       ResourceBundle::GetSharedInstance().GetRawDataResource(
+-          IDR_PLUGIN_DB_JSON));
 +          resourceId));
-+  std::string error_str;
-+  scoped_ptr<base::Value> value(base::JSONReader::ReadAndReturnError(
-+      json_resource,
-+      base::JSON_PARSE_RFC,
-+      NULL,
-+      &error_str));
-+  if (!value.get()) {
-+    DLOG(ERROR) << error_str;
-+    return NULL;
-+  }
-+  if (value->GetType() != base::Value::TYPE_DICTIONARY)
-+    return NULL;
-+  return static_cast<base::DictionaryValue*>(value.release());
-+#else
-+  return new DictionaryValue();
-+#endif
+   std::string error_str;
+   int error_code = base::JSONReader::JSON_NO_ERROR;
+   scoped_ptr<base::Value> value(base::JSONReader::ReadAndReturnError(
+@@ -243,6 +209,59 @@
+   return static_cast<base::DictionaryValue*>(value.release());
+ }
+ 
++}  // namespace
++
++// static
++void PluginFinder::RegisterPrefs(PrefRegistrySimple* registry) {
++  registry->RegisterBooleanPref(prefs::kDisablePluginFinder, false);
 +}
 +
- }  // namespace
- 
- // static
-@@ -135,6 +158,16 @@
-   registry->RegisterBooleanPref(prefs::kDisablePluginFinder, false);
- }
- 
 +void PluginFinder::MergePlatformSpecifiPlugins (base::DictionaryValue * plugin_list) {
 +  if (!plugin_list)
 +    return;
@@ -58,40 +82,46 @@ Index: dev.vivid/chrome/browser/plugins/plugin_finder.cc
 +  }
 +}
 +
- // static
- PluginFinder* PluginFinder::GetInstance() {
-   // PluginFinder::GetInstance() is the only method that's allowed to call
-@@ -156,23 +189,13 @@
- }
- 
- // static
++// static
++PluginFinder* PluginFinder::GetInstance() {
++  // PluginFinder::GetInstance() is the only method that's allowed to call
++  // Singleton<PluginFinder>::get().
++  return Singleton<PluginFinder>::get();
++}
++
++PluginFinder::PluginFinder() : version_(-1) {
++  DCHECK_CURRENTLY_ON(content::BrowserThread::UI);
++}
++
++void PluginFinder::Init() {
++  DCHECK_CURRENTLY_ON(content::BrowserThread::UI);
++  // Load the built-in plugin list first. If we have a newer version stored
++  // locally or download one, we will replace this one with it.
++  scoped_ptr<base::DictionaryValue> plugin_list(LoadBuiltInPluginList());
++
++  // Gracefully handle the case where we couldn't parse the built-in plugin list
++  // for some reason (https://crbug.com/388560). TODO(bauerb): Change back to a
++  // DCHECK once we have gathered more data about the underlying problem.
++  if (!plugin_list)
++    return;
++
++  ReinitializePlugins(plugin_list.get());
++}
++
++// static
 +DictionaryValue* PluginFinder::LoadPlatformPluginList() {
 +  return LoadPlatformPluginListWithId(IDR_PLATFORM_PLUGIN_DB_JSON);
 +}
 +
 +// static
- base::DictionaryValue* PluginFinder::LoadBuiltInPluginList() {
--  base::StringPiece json_resource(
--      ResourceBundle::GetSharedInstance().GetRawDataResource(
--          IDR_PLUGIN_DB_JSON));
--  std::string error_str;
--  scoped_ptr<base::Value> value(base::JSONReader::ReadAndReturnError(
--      json_resource,
--      base::JSON_PARSE_RFC,
--      NULL,
--      &error_str));
--  if (!value.get()) {
--    DLOG(ERROR) << error_str;
--    return NULL;
--  }
--  if (value->GetType() != base::Value::TYPE_DICTIONARY)
--    return NULL;
--  return static_cast<base::DictionaryValue*>(value.release());
++base::DictionaryValue* PluginFinder::LoadBuiltInPluginList() {
 +  return LoadPlatformPluginListWithId(IDR_PLUGIN_DB_JSON);
- }
- 
++}
++
  PluginFinder::~PluginFinder() {
-@@ -238,15 +261,20 @@
+ #if defined(ENABLE_PLUGIN_INSTALLATION)
+   STLDeleteValues(&installers_);
+@@ -306,15 +325,20 @@
    if (version <= version_)
      return;
  
@@ -116,8 +146,8 @@ Index: dev.vivid/chrome/browser/plugins/plugin_finder.cc
  
 Index: dev.vivid/chrome/browser/plugins/plugin_finder.h
 ===================================================================
---- dev.vivid.orig/chrome/browser/plugins/plugin_finder.h	2015-04-29 22:10:26.705037140 -0400
-+++ dev.vivid/chrome/browser/plugins/plugin_finder.h	2015-04-29 22:10:26.702037184 -0400
+--- dev.vivid.orig/chrome/browser/plugins/plugin_finder.h	2015-05-07 12:03:08.472338168 -0400
++++ dev.vivid/chrome/browser/plugins/plugin_finder.h	2015-05-07 12:03:08.466338249 -0400
 @@ -80,6 +80,15 @@
    // Returns NULL if the plugin list couldn't be parsed.
    static base::DictionaryValue* LoadBuiltInPluginList();
@@ -137,7 +167,7 @@ Index: dev.vivid/chrome/browser/plugins/plugin_finder.h
 Index: dev.vivid/chrome/browser/resources/plugin_metadata/plugins_ubuntu_linux.json
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.vivid/chrome/browser/resources/plugin_metadata/plugins_ubuntu_linux.json	2015-04-29 22:10:26.702037184 -0400
++++ dev.vivid/chrome/browser/resources/plugin_metadata/plugins_ubuntu_linux.json	2015-05-07 12:03:08.466338249 -0400
 @@ -0,0 +1,18 @@
 +{
 +  "libunity_npapi_plugin.so": {

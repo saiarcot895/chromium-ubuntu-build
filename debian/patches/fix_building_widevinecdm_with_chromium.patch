@@ -1,8 +1,8 @@
 Index: dev.vivid/chrome/common/chrome_content_client.cc
 ===================================================================
---- dev.vivid.orig/chrome/common/chrome_content_client.cc	2015-04-25 17:18:25.000000000 -0400
-+++ dev.vivid/chrome/common/chrome_content_client.cc	2015-04-30 07:53:09.786193326 -0400
-@@ -172,10 +172,7 @@
+--- dev.vivid.orig/chrome/common/chrome_content_client.cc	2015-05-07 12:03:27.491075749 -0400
++++ dev.vivid/chrome/common/chrome_content_client.cc	2015-05-07 12:03:27.487075805 -0400
+@@ -173,10 +173,7 @@
        widevine_cdm.is_out_of_process = true;
        widevine_cdm.path = path;
        widevine_cdm.name = kWidevineCdmDisplayName;

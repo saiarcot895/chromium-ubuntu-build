@@ -1,7 +1,7 @@
 Index: dev.vivid/content/common/gpu/media/gpu_video_decode_accelerator.cc
 ===================================================================
---- dev.vivid.orig/content/common/gpu/media/gpu_video_decode_accelerator.cc	2015-04-29 22:10:31.917962167 -0400
-+++ dev.vivid/content/common/gpu/media/gpu_video_decode_accelerator.cc	2015-04-29 22:10:31.908962296 -0400
+--- dev.vivid.orig/content/common/gpu/media/gpu_video_decode_accelerator.cc	2015-05-07 12:03:26.063095437 -0400
++++ dev.vivid/content/common/gpu/media/gpu_video_decode_accelerator.cc	2015-05-07 12:03:26.040095756 -0400
 @@ -31,7 +31,7 @@
  #include "content/common/gpu/media/dxva_video_decode_accelerator.h"
  #elif defined(OS_MACOSX)
@@ -22,9 +22,9 @@ Index: dev.vivid/content/common/gpu/media/gpu_video_decode_accelerator.cc
                                          base::Unretained(this))));
 Index: dev.vivid/content/content_common.gypi
 ===================================================================
---- dev.vivid.orig/content/content_common.gypi	2015-04-29 22:10:31.917962167 -0400
-+++ dev.vivid/content/content_common.gypi	2015-04-29 22:10:31.908962296 -0400
-@@ -818,7 +818,7 @@
+--- dev.vivid.orig/content/content_common.gypi	2015-05-07 12:03:26.063095437 -0400
++++ dev.vivid/content/content_common.gypi	2015-05-07 12:03:26.044095700 -0400
+@@ -824,7 +824,7 @@
          },
        ],
      }],
@@ -33,7 +33,7 @@ Index: dev.vivid/content/content_common.gypi
        'sources': [
          'common/gpu/media/accelerated_video_decoder.h',
          'common/gpu/media/h264_decoder.cc',
-@@ -867,7 +867,7 @@
+@@ -873,7 +873,7 @@
          'common/gpu/media/tegra_v4l2_device.h',
        ],
      }],
@@ -44,8 +44,8 @@ Index: dev.vivid/content/content_common.gypi
          '../third_party/libyuv/libyuv.gyp:libyuv',
 Index: dev.vivid/content/content_gpu.gypi
 ===================================================================
---- dev.vivid.orig/content/content_gpu.gypi	2015-04-29 22:10:31.917962167 -0400
-+++ dev.vivid/content/content_gpu.gypi	2015-04-29 22:10:31.908962296 -0400
+--- dev.vivid.orig/content/content_gpu.gypi	2015-05-07 12:03:26.063095437 -0400
++++ dev.vivid/content/content_gpu.gypi	2015-05-07 12:03:26.045095686 -0400
 @@ -36,7 +36,7 @@
          ],
        },
@@ -57,9 +57,9 @@ Index: dev.vivid/content/content_gpu.gypi
        ],
 Index: dev.vivid/content/content_tests.gypi
 ===================================================================
---- dev.vivid.orig/content/content_tests.gypi	2015-04-29 22:10:31.917962167 -0400
-+++ dev.vivid/content/content_tests.gypi	2015-04-29 22:10:31.910962268 -0400
-@@ -1639,7 +1639,7 @@
+--- dev.vivid.orig/content/content_tests.gypi	2015-05-07 12:03:26.063095437 -0400
++++ dev.vivid/content/content_tests.gypi	2015-05-07 12:03:26.046095672 -0400
+@@ -1648,7 +1648,7 @@
            },
          ]
      }],
@@ -70,9 +70,9 @@ Index: dev.vivid/content/content_tests.gypi
              'target_name': 'vaapi_jpeg_decoder_unittest',
 Index: dev.vivid/content/public/common/content_switches.cc
 ===================================================================
---- dev.vivid.orig/content/public/common/content_switches.cc	2015-04-29 22:10:31.917962167 -0400
-+++ dev.vivid/content/public/common/content_switches.cc	2015-04-29 22:10:31.910962268 -0400
-@@ -944,7 +944,7 @@
+--- dev.vivid.orig/content/public/common/content_switches.cc	2015-05-07 12:03:26.063095437 -0400
++++ dev.vivid/content/public/common/content_switches.cc	2015-05-07 12:03:26.050095616 -0400
+@@ -947,7 +947,7 @@
  // Disable web audio API.
  const char kDisableWebAudio[]               = "disable-webaudio";
  
@@ -83,9 +83,9 @@ Index: dev.vivid/content/public/common/content_switches.cc
  
 Index: dev.vivid/content/public/common/content_switches.h
 ===================================================================
---- dev.vivid.orig/content/public/common/content_switches.h	2015-04-29 22:10:31.917962167 -0400
-+++ dev.vivid/content/public/common/content_switches.h	2015-04-29 22:10:31.911962253 -0400
-@@ -269,7 +269,7 @@
+--- dev.vivid.orig/content/public/common/content_switches.h	2015-05-07 12:03:26.063095437 -0400
++++ dev.vivid/content/public/common/content_switches.h	2015-05-07 12:03:26.051095603 -0400
+@@ -270,7 +270,7 @@
  
  CONTENT_EXPORT extern const char kDisableWebAudio[];
  
@@ -96,9 +96,9 @@ Index: dev.vivid/content/public/common/content_switches.h
  #endif
 Index: dev.vivid/media/media.gyp
 ===================================================================
---- dev.vivid.orig/media/media.gyp	2015-04-29 22:10:31.917962167 -0400
-+++ dev.vivid/media/media.gyp	2015-04-29 22:10:31.911962253 -0400
-@@ -733,7 +733,7 @@
+--- dev.vivid.orig/media/media.gyp	2015-05-07 12:03:26.063095437 -0400
++++ dev.vivid/media/media.gyp	2015-05-07 12:03:26.051095603 -0400
+@@ -705,7 +705,7 @@
            ],
          }],
          # For VaapiVideoEncodeAccelerator.
@@ -109,8 +109,8 @@ Index: dev.vivid/media/media.gyp
              'filters/h264_bitstream_buffer.h',
 Index: dev.vivid/gpu/config/software_rendering_list_json.cc
 ===================================================================
---- dev.vivid.orig/gpu/config/software_rendering_list_json.cc	2015-04-29 22:10:31.917962167 -0400
-+++ dev.vivid/gpu/config/software_rendering_list_json.cc	2015-04-29 22:10:31.911962253 -0400
+--- dev.vivid.orig/gpu/config/software_rendering_list_json.cc	2015-05-07 12:03:26.063095437 -0400
++++ dev.vivid/gpu/config/software_rendering_list_json.cc	2015-05-07 12:03:26.051095603 -0400
 @@ -475,17 +475,6 @@
        ]
      },
@@ -129,9 +129,9 @@ Index: dev.vivid/gpu/config/software_rendering_list_json.cc
        "id": 49,
        "description": "NVidia GeForce GT 650M can cause the system to hang with flash 3D",
        "cr_bugs": [140175],
-@@ -1056,6 +1045,11 @@
-           "os": {
-             "type": "android"
+@@ -1034,6 +1023,11 @@
+             "op": ">=",
+             "value": "3.0"
            }
 +        },
 +        {
@@ -143,8 +143,8 @@ Index: dev.vivid/gpu/config/software_rendering_list_json.cc
        "features": [
 Index: dev.vivid/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 ===================================================================
---- dev.vivid.orig/content/common/sandbox_linux/bpf_gpu_policy_linux.cc	2015-04-29 22:10:31.917962167 -0400
-+++ dev.vivid/content/common/sandbox_linux/bpf_gpu_policy_linux.cc	2015-04-29 22:10:31.912962238 -0400
+--- dev.vivid.orig/content/common/sandbox_linux/bpf_gpu_policy_linux.cc	2015-05-07 12:03:26.063095437 -0400
++++ dev.vivid/content/common/sandbox_linux/bpf_gpu_policy_linux.cc	2015-05-07 12:03:26.054095563 -0400
 @@ -21,6 +21,8 @@
  #include "base/logging.h"
  #include "base/memory/scoped_ptr.h"
@@ -242,9 +242,9 @@ Index: dev.vivid/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  }
 Index: dev.vivid/chrome/browser/about_flags.cc
 ===================================================================
---- dev.vivid.orig/chrome/browser/about_flags.cc	2015-04-29 22:10:31.917962167 -0400
-+++ dev.vivid/chrome/browser/about_flags.cc	2015-04-29 22:10:31.913962224 -0400
-@@ -1053,7 +1053,7 @@
+--- dev.vivid.orig/chrome/browser/about_flags.cc	2015-05-07 12:03:26.063095437 -0400
++++ dev.vivid/chrome/browser/about_flags.cc	2015-05-07 12:03:26.054095563 -0400
+@@ -1070,7 +1070,7 @@
    { "disable-accelerated-video-decode",
      IDS_FLAGS_DISABLE_ACCELERATED_VIDEO_DECODE_NAME,
      IDS_FLAGS_DISABLE_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
@@ -255,8 +255,8 @@ Index: dev.vivid/chrome/browser/about_flags.cc
  #if defined(USE_ASH)
 Index: dev.vivid/content/common/gpu/media/vaapi_wrapper.cc
 ===================================================================
---- dev.vivid.orig/content/common/gpu/media/vaapi_wrapper.cc	2015-04-29 22:10:31.917962167 -0400
-+++ dev.vivid/content/common/gpu/media/vaapi_wrapper.cc	2015-04-29 22:10:31.913962224 -0400
+--- dev.vivid.orig/content/common/gpu/media/vaapi_wrapper.cc	2015-05-07 12:03:26.063095437 -0400
++++ dev.vivid/content/common/gpu/media/vaapi_wrapper.cc	2015-05-07 12:03:26.058095507 -0400
 @@ -142,7 +142,7 @@
      VAProfile va_profile,
      const base::Closure& report_error_to_uma_cb) {
