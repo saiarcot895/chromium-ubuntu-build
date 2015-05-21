@@ -81,9 +81,11 @@ if [ -f /etc/$APPNAME/default ] ; then
 fi
 
 
-while read f; do
-	. "$f"
-done < <(run-parts --list -- /etc/$APPNAME/customizations)
+if test -d /etc/$APPNAME/customizations; then
+	while read f; do
+		. "$f"
+	done < <(run-parts --list -- /etc/$APPNAME/customizations)
+fi
 test -f ~/.chromium-browser.init && . ~/.chromium-browser.init
 
 # Prefer user defined CHROMIUM_USER_FLAGS (fron env) over system

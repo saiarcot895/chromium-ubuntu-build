@@ -1,8 +1,8 @@
 Index: dev.vivid/chrome/browser/background/background_mode_manager.cc
 ===================================================================
---- dev.vivid.orig/chrome/browser/background/background_mode_manager.cc	2015-05-07 12:03:22.674142172 -0400
-+++ dev.vivid/chrome/browser/background/background_mode_manager.cc	2015-05-07 12:03:22.669142239 -0400
-@@ -330,7 +330,7 @@
+--- dev.vivid.orig/chrome/browser/background/background_mode_manager.cc	2015-05-21 12:23:10.945118836 -0400
++++ dev.vivid/chrome/browser/background/background_mode_manager.cc	2015-05-21 12:23:10.942118872 -0400
+@@ -332,7 +332,7 @@
    registry->RegisterBooleanPref(prefs::kChromeCreatedLoginItem, false);
    registry->RegisterBooleanPref(prefs::kMigratedLoginItemPref, false);
  #endif
