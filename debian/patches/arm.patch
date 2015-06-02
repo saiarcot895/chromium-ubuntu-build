@@ -1,7 +1,7 @@
 Index: dev.vivid/third_party/skia/gyp/skia_lib.gyp
 ===================================================================
---- dev.vivid.orig/third_party/skia/gyp/skia_lib.gyp	2015-05-21 12:23:02.780216264 -0400
-+++ dev.vivid/third_party/skia/gyp/skia_lib.gyp	2015-05-21 12:23:01.728228742 -0400
+--- dev.vivid.orig/third_party/skia/gyp/skia_lib.gyp	2015-06-02 15:12:48.845441259 -0400
++++ dev.vivid/third_party/skia/gyp/skia_lib.gyp	2015-06-02 15:12:48.842441298 -0400
 @@ -15,6 +15,7 @@
        'ports.gyp:ports',
        'sfnt.gyp:sfnt',
@@ -21,8 +21,8 @@ Index: dev.vivid/third_party/skia/gyp/skia_lib.gyp
          ],
 Index: dev.vivid/ui/base/resource/data_pack.cc
 ===================================================================
---- dev.vivid.orig/ui/base/resource/data_pack.cc	2015-05-21 12:23:02.780216264 -0400
-+++ dev.vivid/ui/base/resource/data_pack.cc	2015-05-21 12:23:01.729228730 -0400
+--- dev.vivid.orig/ui/base/resource/data_pack.cc	2015-06-02 15:12:48.845441259 -0400
++++ dev.vivid/ui/base/resource/data_pack.cc	2015-06-02 15:12:48.842441298 -0400
 @@ -155,9 +155,11 @@
    // 2) Verify the entries are within the appropriate bounds. There's an extra
    // entry after the last item which gives us the length of the last item.

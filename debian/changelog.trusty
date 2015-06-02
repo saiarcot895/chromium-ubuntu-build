@@ -1,3 +1,11 @@
+chromium-browser (45.0.2414.0-0ubuntu1~ppa1~trusty1) trusty; urgency=low
+
+  * New upstream version 45.0.2414.0
+  * Refreshed patches
+  * (Partially) synchronize with Ubuntu.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 02 Jun 2015 15:13:49 -0400
+
 chromium-browser (44.0.2403.4-0ubuntu1~ppa1~trusty1) trusty; urgency=low
 
   * New upstream version 44.0.2403.4

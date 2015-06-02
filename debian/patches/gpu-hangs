@@ -1,0 +1,17 @@
+Description: Ten seconds is not enough time for some busy machines. Don't kill
+  GPU process until 20 sec.
+Author: Chad MILLER <chad.miller@canonical.com>
+
+Index: dev.vivid/content/gpu/gpu_main.cc
+===================================================================
+--- dev.vivid.orig/content/gpu/gpu_main.cc	2015-06-02 15:12:58.082319698 -0400
++++ dev.vivid/content/gpu/gpu_main.cc	2015-06-02 15:12:58.079319737 -0400
+@@ -71,7 +71,7 @@
+ #include <sanitizer/coverage_interface.h>
+ #endif
+ 
+-const int kGpuTimeout = 10000;
++const int kGpuTimeout = 20000;
+ 
+ namespace content {
+ 

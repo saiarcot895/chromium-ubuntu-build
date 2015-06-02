@@ -1,0 +1,50 @@
+Description: Add touchscreen support for other xi2 devices.
+Author: Chad MILLER <chad.miller@canonical.com>
+Forwarded: yes
+
+Index: dev.vivid/ui/events/devices/x11/touch_factory_x11.cc
+===================================================================
+--- dev.vivid.orig/ui/events/devices/x11/touch_factory_x11.cc	2015-06-02 15:12:54.667364663 -0400
++++ dev.vivid/ui/events/devices/x11/touch_factory_x11.cc	2015-06-02 15:12:54.663364717 -0400
+@@ -113,7 +113,10 @@
+           if (tci->mode == XIDirectTouch) {
+             touch_device_lookup_[devinfo.deviceid] = true;
+             touch_device_list_[devinfo.deviceid] = true;
+-          }
++            VLOG(1) << "addding master device " << devinfo.deviceid << ", it has mode " << tci->mode;
++          } else {
++            VLOG(1) << "ignoring master device " << devinfo.deviceid << " because it has mode " << tci->mode;
++	  }
+         }
+       }
+       pointer_device_lookup_[devinfo.deviceid] = true;
+@@ -128,8 +131,14 @@
+           XITouchClassInfo* tci =
+               reinterpret_cast<XITouchClassInfo*>(xiclassinfo);
+           // Only care direct touch device (such as touch screen) right now
+-          if (tci->mode == XIDirectTouch)
++          if (tci->mode == XIDirectTouch) {
++            touch_device_lookup_[devinfo.deviceid] = true;
++            touch_device_list_[devinfo.deviceid] = true;
+             CacheTouchscreenIds(devinfo.deviceid);
++            VLOG(1) << "addding floating/slave device " << devinfo.deviceid << ", it has mode " << tci->mode;
++	  } else {
++            VLOG(1) << "ignoring floating/slave device " << devinfo.deviceid << " because it has mode " << tci->mode;
++          }
+         }
+       }
+     }
+@@ -303,8 +312,12 @@
+                      return touchscreen.id == device_id;
+                    });
+   // Internal displays will have a vid and pid of 0. Ignore them.
+-  if (it != touchscreens.end() && it->vendor_id && it->product_id)
++  if (it != touchscreens.end() && it->vendor_id && it->product_id) {
+     touchscreen_ids_.insert(std::make_pair(it->vendor_id, it->product_id));
++    VLOG(1) << "adding device id " << device_id << " to touchscreen list";
++  } else {
++    VLOG(1) << "NOT adding device id " << device_id << " to touchscreen list because it as a vid or pid zero";
++  }
+ }
+ 
+ }  // namespace ui

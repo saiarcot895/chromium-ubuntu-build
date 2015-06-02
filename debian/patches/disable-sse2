@@ -4,9 +4,9 @@ debian-bug: http://bugs.debian.org/750361
 
 Index: dev.vivid/build/common.gypi
 ===================================================================
---- dev.vivid.orig/build/common.gypi	2015-05-21 12:23:11.558111480 -0400
-+++ dev.vivid/build/common.gypi	2015-05-21 12:23:11.544111648 -0400
-@@ -3841,8 +3841,6 @@
+--- dev.vivid.orig/build/common.gypi	2015-06-02 15:12:56.454341138 -0400
++++ dev.vivid/build/common.gypi	2015-06-02 15:12:56.447341229 -0400
+@@ -3881,8 +3881,6 @@
                  # http://crbug.com/313032 for an example where this has "bit"
                  # us in the past.
                  'cflags': [
@@ -17,8 +17,8 @@ Index: dev.vivid/build/common.gypi
                  ],
 Index: dev.vivid/media/base/sinc_resampler.cc
 ===================================================================
---- dev.vivid.orig/media/base/sinc_resampler.cc	2015-05-21 12:23:11.558111480 -0400
-+++ dev.vivid/media/base/sinc_resampler.cc	2015-05-21 12:23:11.545111636 -0400
+--- dev.vivid.orig/media/base/sinc_resampler.cc	2015-06-02 15:12:56.454341138 -0400
++++ dev.vivid/media/base/sinc_resampler.cc	2015-06-02 15:12:56.448341216 -0400
 @@ -83,7 +83,7 @@
  
  #include "base/logging.h"
@@ -39,8 +39,8 @@ Index: dev.vivid/media/base/sinc_resampler.cc
                                    double kernel_interpolation_factor) {
 Index: dev.vivid/media/base/sinc_resampler.h
 ===================================================================
---- dev.vivid.orig/media/base/sinc_resampler.h	2015-05-21 12:23:11.558111480 -0400
-+++ dev.vivid/media/base/sinc_resampler.h	2015-05-21 12:23:11.546111624 -0400
+--- dev.vivid.orig/media/base/sinc_resampler.h	2015-06-02 15:12:56.454341138 -0400
++++ dev.vivid/media/base/sinc_resampler.h	2015-06-02 15:12:56.448341216 -0400
 @@ -94,7 +94,7 @@
    // ARM, NEON support is chosen at compile time based on compilation flags.
    static float Convolve_C(const float* input_ptr, const float* k1,
@@ -52,8 +52,8 @@ Index: dev.vivid/media/base/sinc_resampler.h
                              double kernel_interpolation_factor);
 Index: dev.vivid/media/base/sinc_resampler_perftest.cc
 ===================================================================
---- dev.vivid.orig/media/base/sinc_resampler_perftest.cc	2015-05-21 12:23:11.558111480 -0400
-+++ dev.vivid/media/base/sinc_resampler_perftest.cc	2015-05-21 12:23:11.546111624 -0400
+--- dev.vivid.orig/media/base/sinc_resampler_perftest.cc	2015-06-02 15:12:56.454341138 -0400
++++ dev.vivid/media/base/sinc_resampler_perftest.cc	2015-06-02 15:12:56.448341216 -0400
 @@ -21,7 +21,7 @@
  static void DoNothing(int frames, float* destination) {}
  
@@ -65,8 +65,8 @@ Index: dev.vivid/media/base/sinc_resampler_perftest.cc
  #define CONVOLVE_FUNC Convolve_NEON
 Index: dev.vivid/media/base/sinc_resampler_unittest.cc
 ===================================================================
---- dev.vivid.orig/media/base/sinc_resampler_unittest.cc	2015-05-21 12:23:11.558111480 -0400
-+++ dev.vivid/media/base/sinc_resampler_unittest.cc	2015-05-21 12:23:11.546111624 -0400
+--- dev.vivid.orig/media/base/sinc_resampler_unittest.cc	2015-06-02 15:12:56.454341138 -0400
++++ dev.vivid/media/base/sinc_resampler_unittest.cc	2015-06-02 15:12:56.448341216 -0400
 @@ -150,7 +150,7 @@
  
  
@@ -78,8 +78,8 @@ Index: dev.vivid/media/base/sinc_resampler_unittest.cc
  #define CONVOLVE_FUNC Convolve_NEON
 Index: dev.vivid/media/base/vector_math.cc
 ===================================================================
---- dev.vivid.orig/media/base/vector_math.cc	2015-05-21 12:23:11.558111480 -0400
-+++ dev.vivid/media/base/vector_math.cc	2015-05-21 12:23:11.546111624 -0400
+--- dev.vivid.orig/media/base/vector_math.cc	2015-06-02 15:12:56.454341138 -0400
++++ dev.vivid/media/base/vector_math.cc	2015-06-02 15:12:56.448341216 -0400
 @@ -11,7 +11,7 @@
  #include "build/build_config.h"
  
@@ -100,8 +100,8 @@ Index: dev.vivid/media/base/vector_math.cc
    const int last_index = len - rem;
 Index: dev.vivid/media/base/vector_math_perftest.cc
 ===================================================================
---- dev.vivid.orig/media/base/vector_math_perftest.cc	2015-05-21 12:23:11.558111480 -0400
-+++ dev.vivid/media/base/vector_math_perftest.cc	2015-05-21 12:23:11.546111624 -0400
+--- dev.vivid.orig/media/base/vector_math_perftest.cc	2015-06-02 15:12:56.454341138 -0400
++++ dev.vivid/media/base/vector_math_perftest.cc	2015-06-02 15:12:56.448341216 -0400
 @@ -80,7 +80,7 @@
  };
  
@@ -113,8 +113,8 @@ Index: dev.vivid/media/base/vector_math_perftest.cc
  #define EWMAAndMaxPower_FUNC EWMAAndMaxPower_SSE
 Index: dev.vivid/media/base/vector_math_testing.h
 ===================================================================
---- dev.vivid.orig/media/base/vector_math_testing.h	2015-05-21 12:23:11.558111480 -0400
-+++ dev.vivid/media/base/vector_math_testing.h	2015-05-21 12:23:11.547111612 -0400
+--- dev.vivid.orig/media/base/vector_math_testing.h	2015-06-02 15:12:56.454341138 -0400
++++ dev.vivid/media/base/vector_math_testing.h	2015-06-02 15:12:56.448341216 -0400
 @@ -19,7 +19,7 @@
  MEDIA_EXPORT std::pair<float, float> EWMAAndMaxPower_C(
      float initial_value, const float src[], int len, float smoothing_factor);
@@ -126,8 +126,8 @@ Index: dev.vivid/media/base/vector_math_testing.h
  MEDIA_EXPORT void FMUL_SSE(const float src[], float scale, int len,
 Index: dev.vivid/media/base/vector_math_unittest.cc
 ===================================================================
---- dev.vivid.orig/media/base/vector_math_unittest.cc	2015-05-21 12:23:11.558111480 -0400
-+++ dev.vivid/media/base/vector_math_unittest.cc	2015-05-21 12:23:11.547111612 -0400
+--- dev.vivid.orig/media/base/vector_math_unittest.cc	2015-06-02 15:12:56.454341138 -0400
++++ dev.vivid/media/base/vector_math_unittest.cc	2015-06-02 15:12:56.449341203 -0400
 @@ -73,7 +73,7 @@
      VerifyOutput(kResult);
    }
@@ -157,8 +157,8 @@ Index: dev.vivid/media/base/vector_math_unittest.cc
        const std::pair<float, float>& result = vector_math::EWMAAndMaxPower_SSE(
 Index: dev.vivid/media/base/yuv_convert.cc
 ===================================================================
---- dev.vivid.orig/media/base/yuv_convert.cc	2015-05-21 12:23:11.558111480 -0400
-+++ dev.vivid/media/base/yuv_convert.cc	2015-05-21 12:23:11.547111612 -0400
+--- dev.vivid.orig/media/base/yuv_convert.cc	2015-06-02 15:12:56.454341138 -0400
++++ dev.vivid/media/base/yuv_convert.cc	2015-06-02 15:12:56.450341190 -0400
 @@ -29,7 +29,7 @@
  #include "media/base/simd/convert_yuv_to_rgb.h"
  #include "media/base/simd/filter_yuv.h"
@@ -170,8 +170,8 @@ Index: dev.vivid/media/base/yuv_convert.cc
  #else
 Index: dev.vivid/media/base/yuv_convert.h
 ===================================================================
---- dev.vivid.orig/media/base/yuv_convert.h	2015-05-21 12:23:11.558111480 -0400
-+++ dev.vivid/media/base/yuv_convert.h	2015-05-21 12:23:11.547111612 -0400
+--- dev.vivid.orig/media/base/yuv_convert.h	2015-06-02 15:12:56.454341138 -0400
++++ dev.vivid/media/base/yuv_convert.h	2015-06-02 15:12:56.450341190 -0400
 @@ -14,7 +14,7 @@
  // hide the versions implemented with heavy use of MMX intrinsics.
  // TODO(wolenetz): Use MMX intrinsics when compiling win64 with Visual
@@ -183,8 +183,8 @@ Index: dev.vivid/media/base/yuv_convert.h
  #endif
 Index: dev.vivid/media/base/yuv_convert_unittest.cc
 ===================================================================
---- dev.vivid.orig/media/base/yuv_convert_unittest.cc	2015-05-21 12:23:11.558111480 -0400
-+++ dev.vivid/media/base/yuv_convert_unittest.cc	2015-05-21 12:23:11.547111612 -0400
+--- dev.vivid.orig/media/base/yuv_convert_unittest.cc	2015-06-02 15:12:56.454341138 -0400
++++ dev.vivid/media/base/yuv_convert_unittest.cc	2015-06-02 15:12:56.450341190 -0400
 @@ -887,6 +887,6 @@
  
  #endif  // defined(ARCH_CPU_X86_64)
@@ -195,8 +195,8 @@ Index: dev.vivid/media/base/yuv_convert_unittest.cc
  }  // namespace media
 Index: dev.vivid/third_party/WebKit/Source/platform/audio/DirectConvolver.cpp
 ===================================================================
---- dev.vivid.orig/third_party/WebKit/Source/platform/audio/DirectConvolver.cpp	2015-05-21 12:23:11.558111480 -0400
-+++ dev.vivid/third_party/WebKit/Source/platform/audio/DirectConvolver.cpp	2015-05-21 12:23:11.551111564 -0400
+--- dev.vivid.orig/third_party/WebKit/Source/platform/audio/DirectConvolver.cpp	2015-06-02 15:12:56.454341138 -0400
++++ dev.vivid/third_party/WebKit/Source/platform/audio/DirectConvolver.cpp	2015-06-02 15:12:56.451341177 -0400
 @@ -39,7 +39,7 @@
  #include "platform/audio/VectorMath.h"
  #include "wtf/CPU.h"
@@ -226,8 +226,8 @@ Index: dev.vivid/third_party/WebKit/Source/platform/audio/DirectConvolver.cpp
  #endif // OS(MACOSX)
 Index: dev.vivid/third_party/WebKit/Source/platform/audio/SincResampler.cpp
 ===================================================================
---- dev.vivid.orig/third_party/WebKit/Source/platform/audio/SincResampler.cpp	2015-05-21 12:23:11.558111480 -0400
-+++ dev.vivid/third_party/WebKit/Source/platform/audio/SincResampler.cpp	2015-05-21 12:23:11.554111528 -0400
+--- dev.vivid.orig/third_party/WebKit/Source/platform/audio/SincResampler.cpp	2015-06-02 15:12:56.454341138 -0400
++++ dev.vivid/third_party/WebKit/Source/platform/audio/SincResampler.cpp	2015-06-02 15:12:56.451341177 -0400
 @@ -36,7 +36,7 @@
  #include "wtf/CPU.h"
  #include "wtf/MathExtras.h"
@@ -248,8 +248,8 @@ Index: dev.vivid/third_party/WebKit/Source/platform/audio/SincResampler.cpp
                      CONVOLVE_ONE_SAMPLE
 Index: dev.vivid/third_party/WebKit/Source/platform/audio/VectorMath.cpp
 ===================================================================
---- dev.vivid.orig/third_party/WebKit/Source/platform/audio/VectorMath.cpp	2015-05-21 12:23:11.558111480 -0400
-+++ dev.vivid/third_party/WebKit/Source/platform/audio/VectorMath.cpp	2015-05-21 12:23:11.554111528 -0400
+--- dev.vivid.orig/third_party/WebKit/Source/platform/audio/VectorMath.cpp	2015-06-02 15:12:56.454341138 -0400
++++ dev.vivid/third_party/WebKit/Source/platform/audio/VectorMath.cpp	2015-06-02 15:12:56.451341177 -0400
 @@ -35,7 +35,7 @@
  #include <Accelerate/Accelerate.h>
  #endif
@@ -342,8 +342,8 @@ Index: dev.vivid/third_party/WebKit/Source/platform/audio/VectorMath.cpp
          while ((reinterpret_cast<uintptr_t>(sourceP) & 0x0F) && n) {
 Index: dev.vivid/third_party/qcms/qcms.gyp
 ===================================================================
---- dev.vivid.orig/third_party/qcms/qcms.gyp	2015-05-21 12:23:11.558111480 -0400
-+++ dev.vivid/third_party/qcms/qcms.gyp	2015-05-21 12:23:11.555111516 -0400
+--- dev.vivid.orig/third_party/qcms/qcms.gyp	2015-06-02 15:12:56.454341138 -0400
++++ dev.vivid/third_party/qcms/qcms.gyp	2015-06-02 15:12:56.451341177 -0400
 @@ -31,7 +31,7 @@
        'msvs_disabled_warnings': [ 4018 ],
  
