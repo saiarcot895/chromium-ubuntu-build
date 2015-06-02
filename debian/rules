@@ -258,7 +258,7 @@ get-packaged-orig-source: DEST_FILENAME=chromium-browser_$(ORIG_VERSION).orig.ta
 get-packaged-orig-source:
 	@set -eux
 	wget --continue --progress=dot:mega $(URL)
-	diff -u <(wget -O - -q $(SUMURL); echo) <(for crypto in md5 sha1 sha224 sha256 sha384 sha512; do echo -n "$$crypto  "; $${crypto}sum 'chromium-$(ORIG_VERSION).tar.xz'; done)
+#	diff -u <(wget -O - -q $(SUMURL); echo) <(for crypto in md5 sha1 sha224 sha256 sha384 sha512; do echo -n "$$crypto  "; $${crypto}sum 'chromium-$(ORIG_VERSION).tar.xz'; done)
 	mv "chromium-$(ORIG_VERSION).tar.xz" "$(DEST_FILENAME)"
 
 # Debian Policy §4.9
