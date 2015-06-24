@@ -74,8 +74,14 @@ GYP_DEFINES += sysroot=
 # Link directly to library instead of using dlopen.
 GYP_DEFINES += linux_link_gsettings=1
 
-# Disable NaCl until we figure out what to do with the private toolchain
+ifneq (,$(filter 12.04%,$(UBUNTU_DIST)))
+# Disable NaCl for Precise until the toolchain is built
 GYP_DEFINES += disable_nacl=1
+else
+# Use our toolchain
+GYP_DEFINES += pnacl_newlib_toolchain=/usr/lib/$(DEB_HOST_MULTIARCH)/native-client/linux_x86/pnacl_newlib
+GYP_DEFINES += pnacl_translator_dir=/usr/lib/$(DEB_HOST_MULTIARCH)/native-client/linux_x86/pnacl_translator
+endif
 
 # do not use third_party/gold as the linker.
 GYP_DEFINES += linux_use_gold_binary=0 linux_use_gold_flags=0
@@ -211,6 +217,11 @@ BUILD_TARGETS += \
 	clearkeycdm \
 	$(NULL)
 
+# Include nacl_irt on releases newer than Precise
+ifeq (,$(filter 12.04%,$(UBUNTU_DIST)))
+BUILD_TARGETS += nacl_irt
+endif
+
 GYP_DEFINES += \
 	linux_sandbox_chrome_path=/$(LIB_DIR)/$(DEBIAN_NAME) \
 	$(NULL)
@@ -258,7 +269,7 @@ get-packaged-orig-source: DEST_FILENAME=chromium-browser_$(ORIG_VERSION).orig.ta
 get-packaged-orig-source:
 	@set -eux
 	wget --continue --progress=dot:mega $(URL)
-#	diff -u <(wget -O - -q $(SUMURL); echo) <(for crypto in md5 sha1 sha224 sha256 sha384 sha512; do echo -n "$$crypto  "; $${crypto}sum 'chromium-$(ORIG_VERSION).tar.xz'; done)
+	diff -u <(wget -O - -q $(SUMURL); echo) <(for crypto in md5 sha1 sha224 sha256 sha384 sha512; do echo -n "$$crypto  "; $${crypto}sum 'chromium-$(ORIG_VERSION).tar.xz'; done)
 	mv "chromium-$(ORIG_VERSION).tar.xz" "$(DEST_FILENAME)"
 
 # Debian Policy §4.9
@@ -347,11 +358,6 @@ endif
 	mv debian/chromium-browser/$(LIB_DIR)/chrome.1 debian/chromium-browser/usr/share/man/man1/$(DEBIAN_NAME).1
 	gzip -9 debian/chromium-browser/usr/share/man/man1/chromium-browser.1
 	
-	# NaCL may be blacklisted, so only include it when it's been built
-ifeq (,$(filter disable_nacl=1,$(GYP_DEFINES)))
-	cp -a $(SRC_DIR)/out/$(BUILD_TYPE)/libppGoogleNaClPluginChrome.so debian/$(DEBIAN_NAME)/$(LIB_DIR)/
-	cp -a $(SRC_DIR)/out/$(BUILD_TYPE)/nacl_irt_* debian/$(DEBIAN_NAME)/$(LIB_DIR)/
-endif
 	# Locales: only keep en-US in the main deb
 	# Discard everything except en-US
 	find debian/chromium-browser/$(LIB_DIR)/locales debian/chromium-browser/$(LIB_DIR)/remoting_locales -type f \! -name en-US.pak -print -delete

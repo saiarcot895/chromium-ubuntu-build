@@ -1,3 +1,10 @@
+chromium-browser (45.0.2438.3-0ubuntu1~ppa1~vivid1) vivid; urgency=low
+
+  * New upstream version 45.0.2438.3
+  * Try building Native Client with our toolchain.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 24 Jun 2015 18:04:46 -0400
+
 chromium-browser (45.0.2414.0-0ubuntu1~ppa1~vivid1) vivid; urgency=low
 
   * New upstream version 45.0.2414.0
