@@ -4,8 +4,8 @@ Forwarded: yes
 
 Index: dev.vivid/ui/events/devices/x11/touch_factory_x11.cc
 ===================================================================
---- dev.vivid.orig/ui/events/devices/x11/touch_factory_x11.cc	2015-06-02 15:12:54.667364663 -0400
-+++ dev.vivid/ui/events/devices/x11/touch_factory_x11.cc	2015-06-02 15:12:54.663364717 -0400
+--- dev.vivid.orig/ui/events/devices/x11/touch_factory_x11.cc	2015-06-24 18:02:49.564228877 -0400
++++ dev.vivid/ui/events/devices/x11/touch_factory_x11.cc	2015-06-24 18:02:49.562228905 -0400
 @@ -113,7 +113,10 @@
            if (tci->mode == XIDirectTouch) {
              touch_device_lookup_[devinfo.deviceid] = true;

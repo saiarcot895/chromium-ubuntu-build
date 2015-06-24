@@ -4,9 +4,9 @@ Description: Avoid a linker bug where symbols are not found.
 
 Index: dev.vivid/build/common.gypi
 ===================================================================
---- dev.vivid.orig/build/common.gypi	2015-06-02 15:12:48.248449108 -0400
-+++ dev.vivid/build/common.gypi	2015-06-02 15:12:48.243449175 -0400
-@@ -3729,7 +3729,7 @@
+--- dev.vivid.orig/build/common.gypi	2015-06-24 18:02:42.069333332 -0400
++++ dev.vivid/build/common.gypi	2015-06-24 18:02:42.067333360 -0400
+@@ -3717,7 +3717,7 @@
                    '-fomit-frame-pointer',
                  ],
                }],
@@ -15,7 +15,7 @@ Index: dev.vivid/build/common.gypi
                  'ldflags': [
                    '-Wl,--no-as-needed',
                  ],
-@@ -3777,7 +3777,6 @@
+@@ -3765,7 +3765,6 @@
                # Specifically tell the linker to perform optimizations.
                # See http://lwn.net/Articles/192624/ .
                '-Wl,-O1',
@@ -23,8 +23,8 @@ Index: dev.vivid/build/common.gypi
              ],
              'conditions' : [
                ['no_gc_sections==0', {
-@@ -3834,6 +3833,11 @@
-                   '-funique-section-names',
+@@ -5878,6 +5877,11 @@
+                   'SANITIZER_COVERAGE',
                  ],
                }],
 +              ['OS=="linux"', {
@@ -34,4 +34,4 @@ Index: dev.vivid/build/common.gypi
 +              }],
              ],
            },
-         },
+           'x64_Base': {

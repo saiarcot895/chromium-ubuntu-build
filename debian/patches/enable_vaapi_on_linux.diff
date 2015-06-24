@@ -2,8 +2,8 @@ Description: Enables using VA-API hardware acceleration in Linux. The patch for 
 
 Index: dev.vivid/content/common/gpu/media/gpu_video_decode_accelerator.cc
 ===================================================================
---- dev.vivid.orig/content/common/gpu/media/gpu_video_decode_accelerator.cc	2015-06-02 15:12:59.295303719 -0400
-+++ dev.vivid/content/common/gpu/media/gpu_video_decode_accelerator.cc	2015-06-02 15:12:59.288303811 -0400
+--- dev.vivid.orig/content/common/gpu/media/gpu_video_decode_accelerator.cc	2015-06-24 18:02:54.559159246 -0400
++++ dev.vivid/content/common/gpu/media/gpu_video_decode_accelerator.cc	2015-06-24 18:02:54.553159330 -0400
 @@ -33,7 +33,7 @@
  #include "content/common/gpu/media/dxva_video_decode_accelerator.h"
  #elif defined(OS_MACOSX)
@@ -24,9 +24,9 @@ Index: dev.vivid/content/common/gpu/media/gpu_video_decode_accelerator.cc
                                          base::Unretained(this))));
 Index: dev.vivid/content/content_common.gypi
 ===================================================================
---- dev.vivid.orig/content/content_common.gypi	2015-06-02 15:12:59.295303719 -0400
-+++ dev.vivid/content/content_common.gypi	2015-06-02 15:12:59.289303797 -0400
-@@ -826,7 +826,7 @@
+--- dev.vivid.orig/content/content_common.gypi	2015-06-24 18:02:54.559159246 -0400
++++ dev.vivid/content/content_common.gypi	2015-06-24 18:02:54.553159330 -0400
+@@ -836,7 +836,7 @@
          },
        ],
      }],
@@ -35,7 +35,7 @@ Index: dev.vivid/content/content_common.gypi
        'sources': [
          'common/gpu/media/accelerated_video_decoder.h',
          'common/gpu/media/h264_decoder.cc',
-@@ -875,7 +875,7 @@
+@@ -885,7 +885,7 @@
          'common/gpu/media/tegra_v4l2_device.h',
        ],
      }],
@@ -46,8 +46,8 @@ Index: dev.vivid/content/content_common.gypi
          '../third_party/libyuv/libyuv.gyp:libyuv',
 Index: dev.vivid/content/content_gpu.gypi
 ===================================================================
---- dev.vivid.orig/content/content_gpu.gypi	2015-06-02 15:12:59.295303719 -0400
-+++ dev.vivid/content/content_gpu.gypi	2015-06-02 15:12:59.289303797 -0400
+--- dev.vivid.orig/content/content_gpu.gypi	2015-06-24 18:02:54.559159246 -0400
++++ dev.vivid/content/content_gpu.gypi	2015-06-24 18:02:54.553159330 -0400
 @@ -36,7 +36,7 @@
          ],
        },
@@ -59,9 +59,9 @@ Index: dev.vivid/content/content_gpu.gypi
        ],
 Index: dev.vivid/content/content_tests.gypi
 ===================================================================
---- dev.vivid.orig/content/content_tests.gypi	2015-06-02 15:12:59.295303719 -0400
-+++ dev.vivid/content/content_tests.gypi	2015-06-02 15:12:59.289303797 -0400
-@@ -1651,7 +1651,7 @@
+--- dev.vivid.orig/content/content_tests.gypi	2015-06-24 18:02:54.559159246 -0400
++++ dev.vivid/content/content_tests.gypi	2015-06-24 18:02:54.554159316 -0400
+@@ -1665,7 +1665,7 @@
            },
          ]
      }],
@@ -72,9 +72,9 @@ Index: dev.vivid/content/content_tests.gypi
              'target_name': 'vaapi_jpeg_decoder_unittest',
 Index: dev.vivid/content/public/common/content_switches.cc
 ===================================================================
---- dev.vivid.orig/content/public/common/content_switches.cc	2015-06-02 15:12:59.295303719 -0400
-+++ dev.vivid/content/public/common/content_switches.cc	2015-06-02 15:12:59.290303784 -0400
-@@ -962,7 +962,7 @@
+--- dev.vivid.orig/content/public/common/content_switches.cc	2015-06-24 18:02:54.559159246 -0400
++++ dev.vivid/content/public/common/content_switches.cc	2015-06-24 18:02:54.555159302 -0400
+@@ -946,7 +946,7 @@
  // Disable web audio API.
  const char kDisableWebAudio[]               = "disable-webaudio";
  
@@ -85,9 +85,9 @@ Index: dev.vivid/content/public/common/content_switches.cc
  
 Index: dev.vivid/content/public/common/content_switches.h
 ===================================================================
---- dev.vivid.orig/content/public/common/content_switches.h	2015-06-02 15:12:59.295303719 -0400
-+++ dev.vivid/content/public/common/content_switches.h	2015-06-02 15:12:59.290303784 -0400
-@@ -273,7 +273,7 @@
+--- dev.vivid.orig/content/public/common/content_switches.h	2015-06-24 18:02:54.559159246 -0400
++++ dev.vivid/content/public/common/content_switches.h	2015-06-24 18:02:54.555159302 -0400
+@@ -272,7 +272,7 @@
  
  CONTENT_EXPORT extern const char kDisableWebAudio[];
  
@@ -98,9 +98,9 @@ Index: dev.vivid/content/public/common/content_switches.h
  #endif
 Index: dev.vivid/media/media.gyp
 ===================================================================
---- dev.vivid.orig/media/media.gyp	2015-06-02 15:12:59.295303719 -0400
-+++ dev.vivid/media/media.gyp	2015-06-02 15:12:59.290303784 -0400
-@@ -708,7 +708,7 @@
+--- dev.vivid.orig/media/media.gyp	2015-06-24 18:02:54.559159246 -0400
++++ dev.vivid/media/media.gyp	2015-06-24 18:02:54.555159302 -0400
+@@ -719,7 +719,7 @@
            ],
          }],
          # For VaapiVideoEncodeAccelerator.
@@ -111,8 +111,8 @@ Index: dev.vivid/media/media.gyp
              'filters/h264_bitstream_buffer.h',
 Index: dev.vivid/gpu/config/software_rendering_list_json.cc
 ===================================================================
---- dev.vivid.orig/gpu/config/software_rendering_list_json.cc	2015-06-02 15:12:59.295303719 -0400
-+++ dev.vivid/gpu/config/software_rendering_list_json.cc	2015-06-02 15:12:59.290303784 -0400
+--- dev.vivid.orig/gpu/config/software_rendering_list_json.cc	2015-06-24 18:02:54.559159246 -0400
++++ dev.vivid/gpu/config/software_rendering_list_json.cc	2015-06-24 18:02:54.556159288 -0400
 @@ -475,17 +475,6 @@
        ]
      },
@@ -145,8 +145,8 @@ Index: dev.vivid/gpu/config/software_rendering_list_json.cc
        "features": [
 Index: dev.vivid/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 ===================================================================
---- dev.vivid.orig/content/common/sandbox_linux/bpf_gpu_policy_linux.cc	2015-06-02 15:12:59.295303719 -0400
-+++ dev.vivid/content/common/sandbox_linux/bpf_gpu_policy_linux.cc	2015-06-02 15:12:59.291303771 -0400
+--- dev.vivid.orig/content/common/sandbox_linux/bpf_gpu_policy_linux.cc	2015-06-24 18:02:54.559159246 -0400
++++ dev.vivid/content/common/sandbox_linux/bpf_gpu_policy_linux.cc	2015-06-24 18:02:54.556159288 -0400
 @@ -21,6 +21,8 @@
  #include "base/logging.h"
  #include "base/memory/scoped_ptr.h"
@@ -244,21 +244,21 @@ Index: dev.vivid/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  }
 Index: dev.vivid/chrome/browser/about_flags.cc
 ===================================================================
---- dev.vivid.orig/chrome/browser/about_flags.cc	2015-06-02 15:12:59.295303719 -0400
-+++ dev.vivid/chrome/browser/about_flags.cc	2015-06-02 15:12:59.292303758 -0400
-@@ -1072,7 +1072,7 @@
-   { "disable-accelerated-video-decode",
-     IDS_FLAGS_DISABLE_ACCELERATED_VIDEO_DECODE_NAME,
-     IDS_FLAGS_DISABLE_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
--    kOsMac | kOsWin | kOsCrOS,
-+    kOsAll,
-     SINGLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
-   },
+--- dev.vivid.orig/chrome/browser/about_flags.cc	2015-06-24 18:02:54.559159246 -0400
++++ dev.vivid/chrome/browser/about_flags.cc	2015-06-24 18:02:54.556159288 -0400
+@@ -930,7 +930,7 @@
+      "disable-accelerated-video-decode",
+      IDS_FLAGS_DISABLE_ACCELERATED_VIDEO_DECODE_NAME,
+      IDS_FLAGS_DISABLE_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
+-     kOsMac | kOsWin | kOsCrOS,
++     kOsAll,
+      SINGLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
+     },
  #if defined(USE_ASH)
 Index: dev.vivid/content/common/gpu/media/vaapi_wrapper.cc
 ===================================================================
---- dev.vivid.orig/content/common/gpu/media/vaapi_wrapper.cc	2015-06-02 15:12:59.295303719 -0400
-+++ dev.vivid/content/common/gpu/media/vaapi_wrapper.cc	2015-06-02 15:12:59.293303745 -0400
+--- dev.vivid.orig/content/common/gpu/media/vaapi_wrapper.cc	2015-06-24 18:02:54.559159246 -0400
++++ dev.vivid/content/common/gpu/media/vaapi_wrapper.cc	2015-06-24 18:02:54.557159274 -0400
 @@ -146,7 +146,7 @@
      VAProfile va_profile,
      const base::Closure& report_error_to_uma_cb) {

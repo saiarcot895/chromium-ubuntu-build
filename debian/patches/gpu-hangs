@@ -4,8 +4,8 @@ Author: Chad MILLER <chad.miller@canonical.com>
 
 Index: dev.vivid/content/gpu/gpu_main.cc
 ===================================================================
---- dev.vivid.orig/content/gpu/gpu_main.cc	2015-06-02 15:12:58.082319698 -0400
-+++ dev.vivid/content/gpu/gpu_main.cc	2015-06-02 15:12:58.079319737 -0400
+--- dev.vivid.orig/content/gpu/gpu_main.cc	2015-06-24 18:02:53.250177495 -0400
++++ dev.vivid/content/gpu/gpu_main.cc	2015-06-24 18:02:53.247177537 -0400
 @@ -71,7 +71,7 @@
  #include <sanitizer/coverage_interface.h>
  #endif
