@@ -1,3 +1,9 @@
+chromium-browser (45.0.2438.3-0ubuntu1~ppa2~vivid1) vivid; urgency=low
+
+  * Don't build Native Client. Something's still missing.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 25 Jun 2015 18:53:01 -0400
+
 chromium-browser (45.0.2438.3-0ubuntu1~ppa1~vivid1) vivid; urgency=low
 
   * New upstream version 45.0.2438.3

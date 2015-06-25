@@ -74,14 +74,10 @@ GYP_DEFINES += sysroot=
 # Link directly to library instead of using dlopen.
 GYP_DEFINES += linux_link_gsettings=1
 
-ifneq (,$(filter 12.04%,$(UBUNTU_DIST)))
+#ifneq (,$(filter 12.04%,$(UBUNTU_DIST)))
 # Disable NaCl for Precise until the toolchain is built
 GYP_DEFINES += disable_nacl=1
-else
-# Use our toolchain
-GYP_DEFINES += pnacl_newlib_toolchain=/usr/lib/$(DEB_HOST_MULTIARCH)/native-client/linux_x86/pnacl_newlib
-GYP_DEFINES += pnacl_translator_dir=/usr/lib/$(DEB_HOST_MULTIARCH)/native-client/linux_x86/pnacl_translator
-endif
+#else
 
 # do not use third_party/gold as the linker.
 GYP_DEFINES += linux_use_gold_binary=0 linux_use_gold_flags=0
@@ -218,9 +214,9 @@ BUILD_TARGETS += \
 	$(NULL)
 
 # Include nacl_irt on releases newer than Precise
-ifeq (,$(filter 12.04%,$(UBUNTU_DIST)))
-BUILD_TARGETS += nacl_irt
-endif
+#ifeq (,$(filter 12.04%,$(UBUNTU_DIST)))
+#BUILD_TARGETS += nacl_irt
+#endif
 
 GYP_DEFINES += \
 	linux_sandbox_chrome_path=/$(LIB_DIR)/$(DEBIAN_NAME) \
