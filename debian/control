@@ -40,7 +40,8 @@ Build-Depends: debhelper (>= 9),
 		libssl-dev,
 		libkrb5-dev,
 		libva-dev,
-		chrpath
+		chrpath,
+		libavcodec-dev
 Standards-Version: 3.9.5
 
 Package: chromium-browser

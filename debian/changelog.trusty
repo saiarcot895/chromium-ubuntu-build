@@ -1,6 +1,7 @@
 chromium-browser (45.0.2438.3-0ubuntu1~ppa3~trusty1) trusty; urgency=low
 
   * Re-enable SSE2 requirement, since disabling it didn't work anyways.
+  * Add libavcodec-dev as a dependency.
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 27 Jun 2015 10:59:10 -0400
 
