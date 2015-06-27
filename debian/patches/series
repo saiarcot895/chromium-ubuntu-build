@@ -21,7 +21,7 @@ touch-v35
 #display-scaling-default-value
 flash-redirection
 notifications-nicer
-disable-sse2
+#disable-sse2
 lp-translations-paths
 #gyp-icu-m32-test
 #mir-support
