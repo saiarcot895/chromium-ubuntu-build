@@ -1,3 +1,9 @@
+chromium-browser (45.0.2438.3-0ubuntu1~ppa4~vivid1) vivid; urgency=low
+
+  * Add libavformat-dev and libavutil-dev as dependencies
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 28 Jun 2015 10:57:47 -0400
+
 chromium-browser (45.0.2438.3-0ubuntu1~ppa3~vivid1) vivid; urgency=low
 
   * Re-enable SSE2 requirement, since disabling it didn't work anyways.
