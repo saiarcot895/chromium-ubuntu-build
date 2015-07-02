@@ -185,7 +185,6 @@ subst_files = \
 # When set to "Chrome", it also builds aac/ac3/mpeg4audio/h264/mov/mp3
 BROWSER_GYP_DEFINES += \
 	proprietary_codecs=1 \
-	build_ffmpegsumo=0 \
 	$(NULL)
 FFMPEG_MT_GYP_DEFINES += \
 	use_system_vpx=0 \
