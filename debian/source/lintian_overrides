@@ -9,5 +9,5 @@ chromium-browser source: setuid-binary usr/lib/chromium-browser/chromium-browser
 embedded-library
 
 #chromium-browser binary: embedded-library usr/lib/chromium-browser/libs/libwebkit.so: libxml2
-#chromium-codecs-ffmpeg binary: embedded-library usr/lib/chromium-browser/libffmpegsumo.so: libavutil
-#chromium-codecs-ffmpeg-extra binary: embedded-library usr/lib/chromium-browser/libffmpegsumo.so: libavutil
+#chromium-codecs-ffmpeg binary: embedded-library usr/lib/chromium-browser/libs/libffmpeg.so: libavutil
+#chromium-codecs-ffmpeg-extra binary: embedded-library usr/lib/chromium-browser/libs/libffmpeg.so: libavutil

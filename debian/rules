@@ -141,7 +141,7 @@ COMPONENT_SHARED_LIB_BUILD := 1
 
 ifeq (1,$(COMPONENT_SHARED_LIB_BUILD))
 BROWSER_GYP_DEFINES += component=shared_library
-FFMMPEG_MT_GYP_DEFINES += component=shared_library
+FFMPEG_MT_GYP_DEFINES += component=shared_library
 endif
 
 # Webkit library is enormous. Exclude for now.
@@ -297,7 +297,7 @@ override_dh_shlibdeps:
 	dh_shlibdeps -l$(CURDIR)/debian/chromium-browser/usr/lib/chromium-browser/libs/ |grep -v "dpkg-shlibdeps: warning: can't extract name and version from library name" || true
 
 local_install_arch: PKG_DIRS := $(addprefix debian/,$(shell dh_listpackages))
-local_install_arch: TRASH := .deps gen obj.host obj.target \*.lock obj build.\* .landmines mksnapshot.ia32 protoc pyproto re2c resources xdg-mime xdg-settings yasm \*.TOC \*.stamp product_logo_\*png gen\* lib/\* libvpx_obj_int_extract libffmpegsumo.so libwidevinecdm.so libwidevinecdmadapter.so .ninja\* chrome-wrapper \*.breakpad.\* java_mojo dump_syms
+local_install_arch: TRASH := .deps gen obj.host obj.target \*.lock obj build.\* .landmines mksnapshot.ia32 protoc pyproto re2c resources xdg-mime xdg-settings yasm \*.TOC \*.stamp product_logo_\*png gen\* lib/\* libvpx_obj_int_extract libwidevinecdm.so libwidevinecdmadapter.so .ninja\* chrome-wrapper \*.breakpad.\* java_mojo dump_syms
 local_install_arch: build
 	@set -eux
 	# Two stages: Install out of source tree. Copy to packaging.
@@ -306,6 +306,7 @@ local_install_arch: build
 ifeq (1,$(COMPONENT_SHARED_LIB_BUILD))
 	mkdir -p debian/tmp/$(LIB_DIR)/libs
 	cp $(SRC_DIR)/out/$(BUILD_TYPE)/lib/*.so debian/tmp/$(LIB_DIR)/libs/
+	rm debian/tmp/$(LIB_DIR)/libs/libffmpeg.so
 endif
 	
 	# Icons
@@ -457,8 +458,8 @@ build-stamp-ffmpeg-%: GYP_DEFINES += $(FFMPEG_MT_$(subst std,STD,$(subst extra,E
 build-stamp-ffmpeg-%: configure-stamp-ffmpeg-%
 	@set -eux
 	$(NINJA) $(BUILD_ARGS)
-	mkdir -p debian/tmp-$*/$(LIB_DIR)
-	cp $(SRC_DIR)/out/$(BUILD_TYPE)/libffmpegsumo.so $(CURDIR)/debian/tmp-$*/$(LIB_DIR)
+	mkdir -p debian/tmp-$*/$(LIB_DIR)/libs
+	cp $(SRC_DIR)/out/$(BUILD_TYPE)/lib/libffmpeg.so $(CURDIR)/debian/tmp-$*/$(LIB_DIR)/libs
 	touch $@
 
 # These are (leading-slash-less) files that are created by upstream builder,
@@ -532,7 +533,7 @@ compare-arch:
 	T=$$(mktemp -d -t chromium-comparisons-XXXXXXX);\
 	test "$${T}"; \
 	test -d $${T};\
-	DUPES=`find $(PKG_DIRS) -type f -print | grep -v /DEBIAN/ | cut -d/ -f3- | LC_ALL=C sort | uniq -c | grep -vE '^ *2 .*/libffmpegsumo.so$$' | grep -vE '^  *1 '` || true; \
+	DUPES=`find $(PKG_DIRS) -type f -print | grep -v /DEBIAN/ | cut -d/ -f3- | LC_ALL=C sort | uniq -c | grep -vE '^ *2 .*/libs/libffmpeg.so$$' | grep -vE '^  *1 '` || true; \
 	if [ "Z$$DUPES" != Z ] ; then \
 	  echo " => Found duplicates:\n $$DUPES" ; \
 	  exit 1 ; \
