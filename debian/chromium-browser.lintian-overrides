@@ -1,0 +1,8 @@
+# Weird security policy for Ubuntu, that upstream moves so quickly that 1) bugs
+# are fixed in embedded libraries quickly, and 2) using system libraries would
+# be too difficult to test.
+embedded-library
+
+# Small, vetted binary that's needed to drop capabilities from the
+# network-facing code paths.
+setuid-binary usr/lib/chromium-browser/chrome-sandbox 4755 root/root

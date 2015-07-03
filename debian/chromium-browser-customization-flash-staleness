@@ -1,0 +1,6 @@
+FLASH_STALENESS_REWARN_AT_SOONEST=3  #days
+FLASH_STALENESS_MAX_TRIES_PER_100_DAYS=5
+FLASH_STALENESS_WARN_DIR=~/.config/chromium/Ubuntu/stale-flashplayer-warned
+FLASH_STALENESS_OBSELETE_PACKAGES="flashplugin-installer adobe-flash-player"
+FLASH_STALENESS_GOOD_PACKAGE=adobe-flashplugin
+

@@ -1,0 +1,4 @@
+# stripped out at config time, as memory exhaustion could break mortal linkers
+debug-file-with-no-debug-symbols usr/lib/debug/usr/lib/chromium-browser/libs/libblink_common.so
+#
+debug-file-with-no-debug-symbols usr/lib/debug/usr/lib/chromium-browser/libs/libwtf.so

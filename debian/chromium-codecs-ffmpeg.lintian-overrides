@@ -1,0 +1,4 @@
+# Weird security policy for Ubuntu, that upstream moves so quickly that 1) bugs
+# are fixed in embedded libraries quickly, and 2) using system libraries would
+# be too difficult to test.
+embedded-library
