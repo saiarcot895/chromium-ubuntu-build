@@ -3,6 +3,8 @@ chromium-browser (45.0.2438.3-0ubuntu1~ppa7~trusty1) trusty; urgency=low
   * Try re-enabling building with Native Client.
   * Remove GYP defines that are no longer needed/have no effect.
   * Remove dependencies on libav*-dev
+  * Search for Widevine plugin in default Chrome and Chrome unstable
+    location.
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 03 Jul 2015 16:23:01 -0400
 

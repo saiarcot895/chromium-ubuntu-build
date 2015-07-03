@@ -1,0 +1,34 @@
+Index: dev.wily/chrome/common/chrome_paths.cc
+===================================================================
+--- dev.wily.orig/chrome/common/chrome_paths.cc	2015-07-03 16:21:32.258167547 -0400
++++ dev.wily/chrome/common/chrome_paths.cc	2015-07-03 16:21:32.256167571 -0400
+@@ -356,6 +356,14 @@
+ #if defined(WIDEVINE_CDM_AVAILABLE) && defined(ENABLE_PEPPER_CDMS)
+ #if defined(WIDEVINE_CDM_IS_COMPONENT)
+     case chrome::DIR_COMPONENT_WIDEVINE_CDM:
++      if (base::PathExists("/opt/google/chrome-unstable/libwidevinecdm.so")) {
++        cur = cur.Append("/opt/google/chrome-unstable/");
++        break;
++      }
++      if (base::PathExists("/opt/google/chrome/libwidevinecdm.so")) {
++        cur = cur.Append("/opt/google/chrome/");
++        break;
++      }
+       if (!PathService::Get(chrome::DIR_USER_DATA, &cur))
+         return false;
+       cur = cur.Append(kWidevineCdmBaseDirectory);
+@@ -365,6 +373,14 @@
+     // In the component case, this is the source adapter. Otherwise, it is the
+     // actual Pepper module that gets loaded.
+     case chrome::FILE_WIDEVINE_CDM_ADAPTER:
++      if (base::PathExists("/opt/google/chrome-unstable/libwidevinecdmadapter.so")) {
++        cur = cur.AppendASCII("/opt/google/chrome-unstable/libwidevinecdmadapter.so");
++        break;
++      }
++      if (base::PathExists("/opt/google/chrome/libwidevinecdmadapter.so")) {
++        cur = cur.AppendASCII("/opt/google/chrome/libwidevinecdmadapter.so");
++        break;
++      }
+       if (!GetInternalPluginsDirectory(&cur))
+         return false;
+       cur = cur.AppendASCII(kWidevineCdmAdapterFileName);
