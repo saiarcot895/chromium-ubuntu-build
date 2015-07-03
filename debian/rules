@@ -74,16 +74,16 @@ GYP_DEFINES += sysroot=
 # Link directly to library instead of using dlopen.
 GYP_DEFINES += linux_link_gsettings=1
 
-#ifneq (,$(filter 12.04%,$(UBUNTU_DIST)))
+ifneq (,$(filter 12.04%,$(UBUNTU_DIST)))
 # Disable NaCl for Precise until the toolchain is built
 GYP_DEFINES += disable_nacl=1
-#else
+else
+# Don't build the untrusted NaCl code (it's not used in Chromium anyways)
+GYP_DEFINES += disable_nacl_untrusted=1
+endif
 
 # do not use third_party/gold as the linker.
 GYP_DEFINES += linux_use_gold_binary=0 linux_use_gold_flags=0
-
-# enable features that we want.
-GYP_DEFINES += enable_webrtc=1
 
 # get resources for high dpi and touch
 GYP_DEFINES += enable_hidpi=1
@@ -131,8 +131,6 @@ ifeq (i386,$(DEB_HOST_ARCH))
 GYP_DEFINES += target_arch=ia32
 # SEGV on component builds, 2013-05
 GYP_DEFINES += use_allocator=none
-# Some mobile CPUs don't support SSE instructions. SIGILL. 2014-08
-GYP_DEFINES += disable_sse2=1
 endif
 
 # Do this for every architecture. More than 4GB of memory is too much to expect
@@ -178,7 +176,7 @@ subst_files = \
 	$(NULL)
 
 # FFmpeg-mt
-# Don't build it as part of chromium. Build it separately twice, once with
+# Ignore the version built as part of chromium. Build it separately twice, once with
 # the Chrome branding to gain the extra codecs, and once without branding.
 # The ffmpeg_branding variable controls which codecs are built inside the sumo lib.
 # By default, ffmpeg_branding equals to "Chromium" and only builds the ogg/vorbis/theora codecs.
@@ -211,11 +209,6 @@ BUILD_TARGETS += \
 	widevinecdmadapter \
 	clearkeycdm \
 	$(NULL)
-
-# Include nacl_irt on releases newer than Precise
-#ifeq (,$(filter 12.04%,$(UBUNTU_DIST)))
-#BUILD_TARGETS += nacl_irt
-#endif
 
 GYP_DEFINES += \
 	linux_sandbox_chrome_path=/$(LIB_DIR)/$(DEBIAN_NAME) \

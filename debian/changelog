@@ -1,3 +1,11 @@
+chromium-browser (45.0.2438.3-0ubuntu1~ppa7~wily1) wily; urgency=low
+
+  * Try re-enabling building with Native Client.
+  * Remove GYP defines that are no longer needed/have no effect.
+  * Remove dependencies on libav*-dev
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 03 Jul 2015 16:23:01 -0400
+
 chromium-browser (45.0.2438.3-0ubuntu1~ppa6~vivid1) vivid; urgency=low
 
   * Update build script to reflect new location of libffmpeg.so.
