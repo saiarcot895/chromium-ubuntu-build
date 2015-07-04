@@ -1,3 +1,9 @@
+chromium-browser (45.0.2438.3-0ubuntu1~ppa9~trusty1) trusty; urgency=low
+
+  * Fix patch widevine-other-locations.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 03 Jul 2015 20:58:50 -0400
+
 chromium-browser (45.0.2438.3-0ubuntu1~ppa8~trusty1) trusty; urgency=low
 
   * Add patch dont-load-nacl-nonsfi to fix loading error.
