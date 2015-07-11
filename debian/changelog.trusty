@@ -1,3 +1,10 @@
+chromium-browser (45.0.2453.0-0ubuntu1~ppa1~trusty1) trusty; urgency=low
+
+  * New upstream version 45.0.2453.0
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 10 Jul 2015 23:51:45 -0400
+
 chromium-browser (45.0.2438.3-0ubuntu1~ppa9~trusty1) trusty; urgency=low
 
   * Fix patch widevine-other-locations.

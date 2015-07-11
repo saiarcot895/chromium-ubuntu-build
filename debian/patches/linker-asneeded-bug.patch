@@ -2,11 +2,11 @@ Description: Avoid a linker bug where symbols are not found.
  > /usr/bin/ld.bfd.real: out/Release/obj.target/net/libnet.so: undefined reference to symbol 'SSL_ForceHandshake'
  > out/Release/obj.target/net/third_party/nss/libcrssl.so: error adding symbols: DSO missing from command line
 
-Index: dev.vivid/build/common.gypi
+Index: dev.wily/build/common.gypi
 ===================================================================
---- dev.vivid.orig/build/common.gypi	2015-06-24 18:02:42.069333332 -0400
-+++ dev.vivid/build/common.gypi	2015-06-24 18:02:42.067333360 -0400
-@@ -3717,7 +3717,7 @@
+--- dev.wily.orig/build/common.gypi	2015-07-10 23:51:07.772577526 -0400
++++ dev.wily/build/common.gypi	2015-07-10 23:51:07.769577568 -0400
+@@ -3748,7 +3748,7 @@
                    '-fomit-frame-pointer',
                  ],
                }],
@@ -15,7 +15,7 @@ Index: dev.vivid/build/common.gypi
                  'ldflags': [
                    '-Wl,--no-as-needed',
                  ],
-@@ -3765,7 +3765,6 @@
+@@ -3796,7 +3796,6 @@
                # Specifically tell the linker to perform optimizations.
                # See http://lwn.net/Articles/192624/ .
                '-Wl,-O1',
@@ -23,7 +23,7 @@ Index: dev.vivid/build/common.gypi
              ],
              'conditions' : [
                ['no_gc_sections==0', {
-@@ -5878,6 +5877,11 @@
+@@ -5889,6 +5888,11 @@
                    'SANITIZER_COVERAGE',
                  ],
                }],

@@ -1,10 +1,10 @@
 Description: Never default to using the custom title bar. Chromium should
   integrate, not be a special little snowflake.
 
-Index: dev.vivid/ui/base/x/x11_util.cc
+Index: dev.wily/ui/base/x/x11_util.cc
 ===================================================================
---- dev.vivid.orig/ui/base/x/x11_util.cc	2015-06-24 18:02:38.256386460 -0400
-+++ dev.vivid/ui/base/x/x11_util.cc	2015-06-24 18:02:38.253386501 -0400
+--- dev.wily.orig/ui/base/x/x11_util.cc	2015-07-10 23:51:04.018630162 -0400
++++ dev.wily/ui/base/x/x11_util.cc	2015-07-10 23:51:04.014630218 -0400
 @@ -1045,6 +1045,7 @@
    // Also disable custom frames for (at-least-partially-)EWMH-supporting tiling
    // window managers.

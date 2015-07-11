@@ -2,11 +2,11 @@ Description: GCC doesn't allow -Wno-format with hardening
   -Werror=format-security .
 Author: Chad Miller <chad.miller@canonical.com>
 
-Index: dev.vivid/build/common.gypi
+Index: dev.wily/build/common.gypi
 ===================================================================
---- dev.vivid.orig/build/common.gypi	2015-06-24 18:02:38.939376944 -0400
-+++ dev.vivid/build/common.gypi	2015-06-24 18:02:38.875377836 -0400
-@@ -3096,9 +3096,6 @@
+--- dev.wily.orig/build/common.gypi	2015-07-10 23:51:04.678620910 -0400
++++ dev.wily/build/common.gypi	2015-07-10 23:51:04.676620938 -0400
+@@ -3127,9 +3127,6 @@
                '-Wno-deprecated',
              ],
              'cflags': [
