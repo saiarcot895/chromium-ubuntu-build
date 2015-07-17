@@ -2,11 +2,11 @@ Description: Ten seconds is not enough time for some busy machines. Don't kill
   GPU process until 20 sec.
 Author: Chad MILLER <chad.miller@canonical.com>
 
-Index: dev.vivid/content/gpu/gpu_main.cc
+Index: dev.wily/content/gpu/gpu_main.cc
 ===================================================================
---- dev.vivid.orig/content/gpu/gpu_main.cc	2015-06-24 18:02:53.250177495 -0400
-+++ dev.vivid/content/gpu/gpu_main.cc	2015-06-24 18:02:53.247177537 -0400
-@@ -71,7 +71,7 @@
+--- dev.wily.orig/content/gpu/gpu_main.cc	2015-07-17 00:00:42.147464114 -0400
++++ dev.wily/content/gpu/gpu_main.cc	2015-07-17 00:00:42.145464139 -0400
+@@ -73,7 +73,7 @@
  #include <sanitizer/coverage_interface.h>
  #endif
  

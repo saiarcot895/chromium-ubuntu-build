@@ -1,9 +1,9 @@
 Description: Enables using VA-API hardware acceleration in Linux. The patch for bpf_gpu_policy_linux.cc initially came from https://codereview.chromium.org/15955009/diff/92001/content/common/sandbox_linux/bpf_gpu_policy_linux.cc.
 
-Index: dev.vivid/content/common/gpu/media/gpu_video_decode_accelerator.cc
+Index: dev.wily/content/common/gpu/media/gpu_video_decode_accelerator.cc
 ===================================================================
---- dev.vivid.orig/content/common/gpu/media/gpu_video_decode_accelerator.cc	2015-06-24 18:02:54.559159246 -0400
-+++ dev.vivid/content/common/gpu/media/gpu_video_decode_accelerator.cc	2015-06-24 18:02:54.553159330 -0400
+--- dev.wily.orig/content/common/gpu/media/gpu_video_decode_accelerator.cc	2015-07-17 00:00:43.700444632 -0400
++++ dev.wily/content/common/gpu/media/gpu_video_decode_accelerator.cc	2015-07-17 00:00:43.693444720 -0400
 @@ -33,7 +33,7 @@
  #include "content/common/gpu/media/dxva_video_decode_accelerator.h"
  #elif defined(OS_MACOSX)
@@ -22,11 +22,11 @@ Index: dev.vivid/content/common/gpu/media/gpu_video_decode_accelerator.cc
    decoder.reset(new VaapiVideoDecodeAccelerator(
        make_context_current_, base::Bind(&GpuVideoDecodeAccelerator::BindImage,
                                          base::Unretained(this))));
-Index: dev.vivid/content/content_common.gypi
+Index: dev.wily/content/content_common.gypi
 ===================================================================
---- dev.vivid.orig/content/content_common.gypi	2015-06-24 18:02:54.559159246 -0400
-+++ dev.vivid/content/content_common.gypi	2015-06-24 18:02:54.553159330 -0400
-@@ -836,7 +836,7 @@
+--- dev.wily.orig/content/content_common.gypi	2015-07-17 00:00:43.700444632 -0400
++++ dev.wily/content/content_common.gypi	2015-07-17 00:00:43.694444707 -0400
+@@ -840,7 +840,7 @@
          },
        ],
      }],
@@ -35,7 +35,7 @@ Index: dev.vivid/content/content_common.gypi
        'sources': [
          'common/gpu/media/accelerated_video_decoder.h',
          'common/gpu/media/h264_decoder.cc',
-@@ -885,7 +885,7 @@
+@@ -891,7 +891,7 @@
          'common/gpu/media/tegra_v4l2_device.h',
        ],
      }],
@@ -44,10 +44,10 @@ Index: dev.vivid/content/content_common.gypi
        'dependencies': [
          '../media/media.gyp:media',
          '../third_party/libyuv/libyuv.gyp:libyuv',
-Index: dev.vivid/content/content_gpu.gypi
+Index: dev.wily/content/content_gpu.gypi
 ===================================================================
---- dev.vivid.orig/content/content_gpu.gypi	2015-06-24 18:02:54.559159246 -0400
-+++ dev.vivid/content/content_gpu.gypi	2015-06-24 18:02:54.553159330 -0400
+--- dev.wily.orig/content/content_gpu.gypi	2015-07-17 00:00:43.700444632 -0400
++++ dev.wily/content/content_gpu.gypi	2015-07-17 00:00:43.695444694 -0400
 @@ -36,7 +36,7 @@
          ],
        },
@@ -57,11 +57,11 @@ Index: dev.vivid/content/content_gpu.gypi
        'include_dirs': [
          '<(DEPTH)/third_party/libva',
        ],
-Index: dev.vivid/content/content_tests.gypi
+Index: dev.wily/content/content_tests.gypi
 ===================================================================
---- dev.vivid.orig/content/content_tests.gypi	2015-06-24 18:02:54.559159246 -0400
-+++ dev.vivid/content/content_tests.gypi	2015-06-24 18:02:54.554159316 -0400
-@@ -1665,7 +1665,7 @@
+--- dev.wily.orig/content/content_tests.gypi	2015-07-17 00:00:43.700444632 -0400
++++ dev.wily/content/content_tests.gypi	2015-07-17 00:00:43.695444694 -0400
+@@ -1691,7 +1691,7 @@
            },
          ]
      }],
@@ -70,11 +70,11 @@ Index: dev.vivid/content/content_tests.gypi
        'targets': [
            {
              'target_name': 'vaapi_jpeg_decoder_unittest',
-Index: dev.vivid/content/public/common/content_switches.cc
+Index: dev.wily/content/public/common/content_switches.cc
 ===================================================================
---- dev.vivid.orig/content/public/common/content_switches.cc	2015-06-24 18:02:54.559159246 -0400
-+++ dev.vivid/content/public/common/content_switches.cc	2015-06-24 18:02:54.555159302 -0400
-@@ -946,7 +946,7 @@
+--- dev.wily.orig/content/public/common/content_switches.cc	2015-07-17 00:00:43.700444632 -0400
++++ dev.wily/content/public/common/content_switches.cc	2015-07-17 00:00:43.696444681 -0400
+@@ -959,7 +959,7 @@
  // Disable web audio API.
  const char kDisableWebAudio[]               = "disable-webaudio";
  
@@ -83,11 +83,11 @@ Index: dev.vivid/content/public/common/content_switches.cc
  // Disables panel fitting (used for mirror mode).
  const char kDisablePanelFitting[]           = "disable-panel-fitting";
  
-Index: dev.vivid/content/public/common/content_switches.h
+Index: dev.wily/content/public/common/content_switches.h
 ===================================================================
---- dev.vivid.orig/content/public/common/content_switches.h	2015-06-24 18:02:54.559159246 -0400
-+++ dev.vivid/content/public/common/content_switches.h	2015-06-24 18:02:54.555159302 -0400
-@@ -272,7 +272,7 @@
+--- dev.wily.orig/content/public/common/content_switches.h	2015-07-17 00:00:43.700444632 -0400
++++ dev.wily/content/public/common/content_switches.h	2015-07-17 00:00:43.696444681 -0400
+@@ -275,7 +275,7 @@
  
  CONTENT_EXPORT extern const char kDisableWebAudio[];
  
@@ -96,11 +96,11 @@ Index: dev.vivid/content/public/common/content_switches.h
  CONTENT_EXPORT extern const char kDisablePanelFitting[];
  CONTENT_EXPORT extern const char kDisableVaapiAcceleratedVideoEncode[];
  #endif
-Index: dev.vivid/media/media.gyp
+Index: dev.wily/media/media.gyp
 ===================================================================
---- dev.vivid.orig/media/media.gyp	2015-06-24 18:02:54.559159246 -0400
-+++ dev.vivid/media/media.gyp	2015-06-24 18:02:54.555159302 -0400
-@@ -719,7 +719,7 @@
+--- dev.wily.orig/media/media.gyp	2015-07-17 00:00:43.700444632 -0400
++++ dev.wily/media/media.gyp	2015-07-17 00:00:43.697444668 -0400
+@@ -717,7 +717,7 @@
            ],
          }],
          # For VaapiVideoEncodeAccelerator.
@@ -109,11 +109,11 @@ Index: dev.vivid/media/media.gyp
            'sources': [
              'filters/h264_bitstream_buffer.cc',
              'filters/h264_bitstream_buffer.h',
-Index: dev.vivid/gpu/config/software_rendering_list_json.cc
+Index: dev.wily/gpu/config/software_rendering_list_json.cc
 ===================================================================
---- dev.vivid.orig/gpu/config/software_rendering_list_json.cc	2015-06-24 18:02:54.559159246 -0400
-+++ dev.vivid/gpu/config/software_rendering_list_json.cc	2015-06-24 18:02:54.556159288 -0400
-@@ -475,17 +475,6 @@
+--- dev.wily.orig/gpu/config/software_rendering_list_json.cc	2015-07-17 00:00:43.700444632 -0400
++++ dev.wily/gpu/config/software_rendering_list_json.cc	2015-07-17 00:00:43.697444668 -0400
+@@ -481,17 +481,6 @@
        ]
      },
      {
@@ -131,7 +131,7 @@ Index: dev.vivid/gpu/config/software_rendering_list_json.cc
        "id": 49,
        "description": "NVidia GeForce GT 650M can cause the system to hang with flash 3D",
        "cr_bugs": [140175],
-@@ -1034,6 +1023,11 @@
+@@ -1040,6 +1029,11 @@
              "op": ">=",
              "value": "3.0"
            }
@@ -143,10 +143,10 @@ Index: dev.vivid/gpu/config/software_rendering_list_json.cc
          }
        ],
        "features": [
-Index: dev.vivid/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
+Index: dev.wily/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 ===================================================================
---- dev.vivid.orig/content/common/sandbox_linux/bpf_gpu_policy_linux.cc	2015-06-24 18:02:54.559159246 -0400
-+++ dev.vivid/content/common/sandbox_linux/bpf_gpu_policy_linux.cc	2015-06-24 18:02:54.556159288 -0400
+--- dev.wily.orig/content/common/sandbox_linux/bpf_gpu_policy_linux.cc	2015-07-17 00:00:43.700444632 -0400
++++ dev.wily/content/common/sandbox_linux/bpf_gpu_policy_linux.cc	2015-07-17 00:00:43.697444668 -0400
 @@ -21,6 +21,8 @@
  #include "base/logging.h"
  #include "base/memory/scoped_ptr.h"
@@ -186,7 +186,7 @@ Index: dev.vivid/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
    const base::CommandLine& command_line =
        *base::CommandLine::ForCurrentProcess();
    accelerated_encode_enabled =
-@@ -295,23 +304,41 @@
+@@ -299,23 +308,41 @@
      // inside the sandbox, so preload them now.
      if (IsAcceleratedVaapiVideoEncodeEnabled() ||
          IsAcceleratedVideoDecodeEnabled()) {
@@ -242,11 +242,11 @@ Index: dev.vivid/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  
    return true;
  }
-Index: dev.vivid/chrome/browser/about_flags.cc
+Index: dev.wily/chrome/browser/about_flags.cc
 ===================================================================
---- dev.vivid.orig/chrome/browser/about_flags.cc	2015-06-24 18:02:54.559159246 -0400
-+++ dev.vivid/chrome/browser/about_flags.cc	2015-06-24 18:02:54.556159288 -0400
-@@ -930,7 +930,7 @@
+--- dev.wily.orig/chrome/browser/about_flags.cc	2015-07-17 00:00:43.700444632 -0400
++++ dev.wily/chrome/browser/about_flags.cc	2015-07-17 00:00:43.698444656 -0400
+@@ -974,7 +974,7 @@
       "disable-accelerated-video-decode",
       IDS_FLAGS_DISABLE_ACCELERATED_VIDEO_DECODE_NAME,
       IDS_FLAGS_DISABLE_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
@@ -255,10 +255,10 @@ Index: dev.vivid/chrome/browser/about_flags.cc
       SINGLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
  #if defined(USE_ASH)
-Index: dev.vivid/content/common/gpu/media/vaapi_wrapper.cc
+Index: dev.wily/content/common/gpu/media/vaapi_wrapper.cc
 ===================================================================
---- dev.vivid.orig/content/common/gpu/media/vaapi_wrapper.cc	2015-06-24 18:02:54.559159246 -0400
-+++ dev.vivid/content/common/gpu/media/vaapi_wrapper.cc	2015-06-24 18:02:54.557159274 -0400
+--- dev.wily.orig/content/common/gpu/media/vaapi_wrapper.cc	2015-07-17 00:00:43.700444632 -0400
++++ dev.wily/content/common/gpu/media/vaapi_wrapper.cc	2015-07-17 00:00:43.698444656 -0400
 @@ -146,7 +146,7 @@
      VAProfile va_profile,
      const base::Closure& report_error_to_uma_cb) {

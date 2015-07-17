@@ -1,7 +1,7 @@
 Index: dev.wily/third_party/skia/gyp/skia_lib.gyp
 ===================================================================
---- dev.wily.orig/third_party/skia/gyp/skia_lib.gyp	2015-07-10 23:51:08.367569180 -0400
-+++ dev.wily/third_party/skia/gyp/skia_lib.gyp	2015-07-10 23:51:08.364569222 -0400
+--- dev.wily.orig/third_party/skia/gyp/skia_lib.gyp	2015-07-17 00:00:28.900630350 -0400
++++ dev.wily/third_party/skia/gyp/skia_lib.gyp	2015-07-17 00:00:28.896630399 -0400
 @@ -15,6 +15,7 @@
        'ports.gyp:ports',
        'sfnt.gyp:sfnt',
@@ -21,8 +21,8 @@ Index: dev.wily/third_party/skia/gyp/skia_lib.gyp
          ],
 Index: dev.wily/ui/base/resource/data_pack.cc
 ===================================================================
---- dev.wily.orig/ui/base/resource/data_pack.cc	2015-07-10 23:51:08.367569180 -0400
-+++ dev.wily/ui/base/resource/data_pack.cc	2015-07-10 23:51:08.364569222 -0400
+--- dev.wily.orig/ui/base/resource/data_pack.cc	2015-07-17 00:00:28.900630350 -0400
++++ dev.wily/ui/base/resource/data_pack.cc	2015-07-17 00:00:28.897630387 -0400
 @@ -156,9 +156,11 @@
    // 2) Verify the entries are within the appropriate bounds. There's an extra
    // entry after the last item which gives us the length of the last item.

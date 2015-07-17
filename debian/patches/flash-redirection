@@ -3,16 +3,16 @@ Description: Redirect flash warnings to our wiki, where we can manage users'
 Author: Chad MILLER <chad.miller@canonical.com>
 
 
-Index: dev.vivid/chrome/browser/resources/plugin_metadata/plugins_linux.json
+Index: dev.wily/chrome/browser/resources/plugin_metadata/plugins_linux.json
 ===================================================================
---- dev.vivid.orig/chrome/browser/resources/plugin_metadata/plugins_linux.json	2015-06-24 18:02:50.173220389 -0400
-+++ dev.vivid/chrome/browser/resources/plugin_metadata/plugins_linux.json	2015-06-24 18:02:50.170220431 -0400
+--- dev.wily.orig/chrome/browser/resources/plugin_metadata/plugins_linux.json	2015-07-17 00:00:38.016515943 -0400
++++ dev.wily/chrome/browser/resources/plugin_metadata/plugins_linux.json	2015-07-17 00:00:38.013515981 -0400
 @@ -87,8 +87,8 @@
      ],
      "lang": "en-US",
      "name": "Adobe Flash Player",
 -    "help_url": "https://support.google.com/chrome/?p=plugin_flash",
--    "url": "http://get.adobe.com/flashplayer/",
+-    "url": "https://support.google.com/chrome/answer/6258784",
 +    "help_url": "https://wiki.ubuntu.com/Chromium/Getting-Flash#help",
 +    "url": "https://wiki.ubuntu.com/Chromium/Getting-Flash",
      "displayurl": true,

@@ -1,7 +1,7 @@
-Index: dev.vivid/chrome/browser/browser_resources.grd
+Index: dev.wily/chrome/browser/browser_resources.grd
 ===================================================================
---- dev.vivid.orig/chrome/browser/browser_resources.grd	2015-06-24 18:02:48.241247317 -0400
-+++ dev.vivid/chrome/browser/browser_resources.grd	2015-06-24 18:02:48.169248321 -0400
+--- dev.wily.orig/chrome/browser/browser_resources.grd	2015-07-17 00:00:33.546572036 -0400
++++ dev.wily/chrome/browser/browser_resources.grd	2015-07-17 00:00:33.542572085 -0400
 @@ -236,6 +236,7 @@
        </if>
        <if expr="desktop_linux or (is_android and enable_plugins)">
@@ -10,10 +10,10 @@ Index: dev.vivid/chrome/browser/browser_resources.grd
        </if>
        <if expr="is_android">
          <include name="IDR_POLICY_CSS" file="resources\policy_android.css" type="BINDATA"/>
-Index: dev.vivid/chrome/browser/plugins/plugin_finder.cc
+Index: dev.wily/chrome/browser/plugins/plugin_finder.cc
 ===================================================================
---- dev.vivid.orig/chrome/browser/plugins/plugin_finder.cc	2015-06-24 18:02:48.241247317 -0400
-+++ dev.vivid/chrome/browser/plugins/plugin_finder.cc	2015-06-24 18:02:48.169248321 -0400
+--- dev.wily.orig/chrome/browser/plugins/plugin_finder.cc	2015-07-17 00:00:33.546572036 -0400
++++ dev.wily/chrome/browser/plugins/plugin_finder.cc	2015-07-17 00:00:33.542572085 -0400
 @@ -151,44 +151,10 @@
                              static_cast<int>(PluginListError::NUM_VALUES));
  }
@@ -144,10 +144,10 @@ Index: dev.vivid/chrome/browser/plugins/plugin_finder.cc
        DCHECK(!identifier_plugin_[identifier]);
        identifier_plugin_[identifier] = CreatePluginMetadata(identifier, plugin);
  
-Index: dev.vivid/chrome/browser/plugins/plugin_finder.h
+Index: dev.wily/chrome/browser/plugins/plugin_finder.h
 ===================================================================
---- dev.vivid.orig/chrome/browser/plugins/plugin_finder.h	2015-06-24 18:02:48.241247317 -0400
-+++ dev.vivid/chrome/browser/plugins/plugin_finder.h	2015-06-24 18:02:48.169248321 -0400
+--- dev.wily.orig/chrome/browser/plugins/plugin_finder.h	2015-07-17 00:00:33.546572036 -0400
++++ dev.wily/chrome/browser/plugins/plugin_finder.h	2015-07-17 00:00:33.544572060 -0400
 @@ -86,6 +86,15 @@
    // Returns NULL if the plugin list couldn't be parsed.
    static base::DictionaryValue* LoadBuiltInPluginList();
@@ -164,10 +164,10 @@ Index: dev.vivid/chrome/browser/plugins/plugin_finder.h
  #if defined(ENABLE_PLUGIN_INSTALLATION)
    std::map<std::string, PluginInstaller*> installers_;
  #endif
-Index: dev.vivid/chrome/browser/resources/plugin_metadata/plugins_ubuntu_linux.json
+Index: dev.wily/chrome/browser/resources/plugin_metadata/plugins_ubuntu_linux.json
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ dev.vivid/chrome/browser/resources/plugin_metadata/plugins_ubuntu_linux.json	2015-06-24 18:02:48.169248321 -0400
++++ dev.wily/chrome/browser/resources/plugin_metadata/plugins_ubuntu_linux.json	2015-07-17 00:00:33.544572060 -0400
 @@ -0,0 +1,18 @@
 +{
 +  "libunity_npapi_plugin.so": {

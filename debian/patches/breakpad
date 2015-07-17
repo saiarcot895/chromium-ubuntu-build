@@ -1,8 +1,8 @@
 
-Index: dev.vivid/tools/find_depot_tools.py
+Index: dev.wily/tools/find_depot_tools.py
 ===================================================================
---- dev.vivid.orig/tools/find_depot_tools.py	2015-06-24 18:02:48.955237367 -0400
-+++ dev.vivid/tools/find_depot_tools.py	2015-06-24 18:02:48.952237407 -0400
+--- dev.wily.orig/tools/find_depot_tools.py	2015-07-17 00:00:34.236563377 -0400
++++ dev.wily/tools/find_depot_tools.py	2015-07-17 00:00:34.234563402 -0400
 @@ -40,6 +40,3 @@
    return None
  

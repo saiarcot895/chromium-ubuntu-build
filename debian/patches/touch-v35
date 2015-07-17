@@ -2,10 +2,10 @@ Description: Add touchscreen support for other xi2 devices.
 Author: Chad MILLER <chad.miller@canonical.com>
 Forwarded: yes
 
-Index: dev.vivid/ui/events/devices/x11/touch_factory_x11.cc
+Index: dev.wily/ui/events/devices/x11/touch_factory_x11.cc
 ===================================================================
---- dev.vivid.orig/ui/events/devices/x11/touch_factory_x11.cc	2015-06-24 18:02:49.564228877 -0400
-+++ dev.vivid/ui/events/devices/x11/touch_factory_x11.cc	2015-06-24 18:02:49.562228905 -0400
+--- dev.wily.orig/ui/events/devices/x11/touch_factory_x11.cc	2015-07-17 00:00:34.799556311 -0400
++++ dev.wily/ui/events/devices/x11/touch_factory_x11.cc	2015-07-17 00:00:34.796556349 -0400
 @@ -113,7 +113,10 @@
            if (tci->mode == XIDirectTouch) {
              touch_device_lookup_[devinfo.deviceid] = true;
@@ -18,23 +18,28 @@ Index: dev.vivid/ui/events/devices/x11/touch_factory_x11.cc
          }
        }
        pointer_device_lookup_[devinfo.deviceid] = true;
-@@ -128,8 +131,14 @@
+@@ -128,7 +131,7 @@
            XITouchClassInfo* tci =
                reinterpret_cast<XITouchClassInfo*>(xiclassinfo);
            // Only care direct touch device (such as touch screen) right now
 -          if (tci->mode == XIDirectTouch)
 +          if (tci->mode == XIDirectTouch) {
-+            touch_device_lookup_[devinfo.deviceid] = true;
-+            touch_device_list_[devinfo.deviceid] = true;
              CacheTouchscreenIds(devinfo.deviceid);
-+            VLOG(1) << "addding floating/slave device " << devinfo.deviceid << ", it has mode " << tci->mode;
-+	  } else {
-+            VLOG(1) << "ignoring floating/slave device " << devinfo.deviceid << " because it has mode " << tci->mode;
+             if (devinfo.use == XISlavePointer) {
+               device_master_id_list_[devinfo.deviceid] = devinfo.attachment;
+@@ -136,7 +139,11 @@
+               // master device to be touch device.
+               touch_device_lookup_[devinfo.attachment] = true;
+               touch_device_list_[devinfo.attachment] = true;
++              VLOG(1) << "addding floating/slave device " << devinfo.deviceid << ", it has mode " << tci->mode;
++            } else {
++              VLOG(1) << "ignoring floating/slave device " << devinfo.deviceid << " because it has mode " << tci->mode;
+             }
 +          }
          }
        }
      }
-@@ -303,8 +312,12 @@
+@@ -315,8 +322,12 @@
                       return touchscreen.id == device_id;
                     });
    // Internal displays will have a vid and pid of 0. Ignore them.

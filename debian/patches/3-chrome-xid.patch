@@ -1,7 +1,7 @@
-Index: dev.vivid/chrome/browser/ui/views/frame/browser_frame.cc
+Index: dev.wily/chrome/browser/ui/views/frame/browser_frame.cc
 ===================================================================
---- dev.vivid.orig/chrome/browser/ui/views/frame/browser_frame.cc	2015-06-24 18:02:45.269288740 -0400
-+++ dev.vivid/chrome/browser/ui/views/frame/browser_frame.cc	2015-06-24 18:02:45.261288850 -0400
+--- dev.wily.orig/chrome/browser/ui/views/frame/browser_frame.cc	2015-07-17 00:00:30.842605974 -0400
++++ dev.wily/chrome/browser/ui/views/frame/browser_frame.cc	2015-07-17 00:00:30.786606675 -0400
 @@ -27,6 +27,7 @@
  #include "ui/gfx/screen.h"
  #include "ui/views/controls/menu/menu_runner.h"
@@ -23,10 +23,10 @@ Index: dev.vivid/chrome/browser/ui/views/frame/browser_frame.cc
  bool BrowserFrame::UseCustomFrame() const {
    return native_browser_frame_->UseCustomFrame();
  }
-Index: dev.vivid/chrome/browser/ui/views/frame/browser_frame.h
+Index: dev.wily/chrome/browser/ui/views/frame/browser_frame.h
 ===================================================================
---- dev.vivid.orig/chrome/browser/ui/views/frame/browser_frame.h	2015-06-24 18:02:45.269288740 -0400
-+++ dev.vivid/chrome/browser/ui/views/frame/browser_frame.h	2015-06-24 18:02:45.262288836 -0400
+--- dev.wily.orig/chrome/browser/ui/views/frame/browser_frame.h	2015-07-17 00:00:30.842605974 -0400
++++ dev.wily/chrome/browser/ui/views/frame/browser_frame.h	2015-07-17 00:00:30.786606675 -0400
 @@ -94,6 +94,8 @@
    void GetWindowPlacement(gfx::Rect* bounds,
                            ui::WindowShowState* show_state) const;
@@ -36,11 +36,11 @@ Index: dev.vivid/chrome/browser/ui/views/frame/browser_frame.h
    // Overridden from views::Widget:
    views::internal::RootView* CreateRootView() override;
    views::NonClientFrameView* CreateNonClientFrameView() override;
-Index: dev.vivid/chrome/browser/ui/views/frame/browser_view.cc
+Index: dev.wily/chrome/browser/ui/views/frame/browser_view.cc
 ===================================================================
---- dev.vivid.orig/chrome/browser/ui/views/frame/browser_view.cc	2015-06-24 18:02:45.269288740 -0400
-+++ dev.vivid/chrome/browser/ui/views/frame/browser_view.cc	2015-06-24 18:02:45.263288822 -0400
-@@ -703,6 +703,7 @@
+--- dev.wily.orig/chrome/browser/ui/views/frame/browser_view.cc	2015-07-17 00:00:30.842605974 -0400
++++ dev.wily/chrome/browser/ui/views/frame/browser_view.cc	2015-07-17 00:00:30.787606663 -0400
+@@ -702,6 +702,7 @@
    force_location_bar_focus_ = false;
  
    browser()->OnWindowDidShow();
@@ -48,10 +48,10 @@ Index: dev.vivid/chrome/browser/ui/views/frame/browser_view.cc
  
    chrome::MaybeShowInvertBubbleView(this);
  }
-Index: dev.vivid/ui/aura/client/aura_constants.cc
+Index: dev.wily/ui/aura/client/aura_constants.cc
 ===================================================================
---- dev.vivid.orig/ui/aura/client/aura_constants.cc	2015-06-24 18:02:45.269288740 -0400
-+++ dev.vivid/ui/aura/client/aura_constants.cc	2015-06-24 18:02:45.263288822 -0400
+--- dev.wily.orig/ui/aura/client/aura_constants.cc	2015-07-17 00:00:30.842605974 -0400
++++ dev.wily/ui/aura/client/aura_constants.cc	2015-07-17 00:00:30.787606663 -0400
 @@ -8,6 +8,7 @@
  #include "ui/gfx/geometry/rect.h"
  
@@ -68,10 +68,10 @@ Index: dev.vivid/ui/aura/client/aura_constants.cc
  
  }  // namespace client
  }  // namespace aura
-Index: dev.vivid/ui/aura/client/aura_constants.h
+Index: dev.wily/ui/aura/client/aura_constants.h
 ===================================================================
---- dev.vivid.orig/ui/aura/client/aura_constants.h	2015-06-24 18:02:45.269288740 -0400
-+++ dev.vivid/ui/aura/client/aura_constants.h	2015-06-24 18:02:45.263288822 -0400
+--- dev.wily.orig/ui/aura/client/aura_constants.h	2015-07-17 00:00:30.842605974 -0400
++++ dev.wily/ui/aura/client/aura_constants.h	2015-07-17 00:00:30.788606651 -0400
 @@ -61,6 +61,9 @@
  AURA_EXPORT extern const WindowProperty<ui::WindowShowState>* const
      kShowStateKey;
@@ -82,11 +82,11 @@ Index: dev.vivid/ui/aura/client/aura_constants.h
  // Alphabetical sort.
  
  }  // namespace client
-Index: dev.vivid/ui/aura/window_tree_host_x11.cc
+Index: dev.wily/ui/aura/window_tree_host_x11.cc
 ===================================================================
---- dev.vivid.orig/ui/aura/window_tree_host_x11.cc	2015-06-24 18:02:45.269288740 -0400
-+++ dev.vivid/ui/aura/window_tree_host_x11.cc	2015-06-24 18:02:45.263288822 -0400
-@@ -456,6 +456,26 @@
+--- dev.wily.orig/ui/aura/window_tree_host_x11.cc	2015-07-17 00:00:30.842605974 -0400
++++ dev.wily/ui/aura/window_tree_host_x11.cc	2015-07-17 00:00:30.788606651 -0400
+@@ -458,6 +458,26 @@
    return xwindow_;
  }
  
@@ -113,10 +113,10 @@ Index: dev.vivid/ui/aura/window_tree_host_x11.cc
  void WindowTreeHostX11::ShowImpl() {
    if (!window_mapped_) {
      // Before we map the window, set size hints. Otherwise, some window managers
-Index: dev.vivid/ui/aura/window_tree_host_x11.h
+Index: dev.wily/ui/aura/window_tree_host_x11.h
 ===================================================================
---- dev.vivid.orig/ui/aura/window_tree_host_x11.h	2015-06-24 18:02:45.269288740 -0400
-+++ dev.vivid/ui/aura/window_tree_host_x11.h	2015-06-24 18:02:45.264288808 -0400
+--- dev.wily.orig/ui/aura/window_tree_host_x11.h	2015-07-17 00:00:30.842605974 -0400
++++ dev.wily/ui/aura/window_tree_host_x11.h	2015-07-17 00:00:30.788606651 -0400
 @@ -39,6 +39,8 @@
    bool CanDispatchEvent(const ui::PlatformEvent& event) override;
    uint32_t DispatchEvent(const ui::PlatformEvent& event) override;
@@ -126,11 +126,11 @@ Index: dev.vivid/ui/aura/window_tree_host_x11.h
    // WindowTreeHost:
    ui::EventSource* GetEventSource() override;
    gfx::AcceleratedWidget GetAcceleratedWidget() override;
-Index: dev.vivid/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
+Index: dev.wily/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
 ===================================================================
---- dev.vivid.orig/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc	2015-06-24 18:02:45.269288740 -0400
-+++ dev.vivid/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc	2015-06-24 18:02:45.264288808 -0400
-@@ -599,6 +599,11 @@
+--- dev.wily.orig/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc	2015-07-17 00:00:30.842605974 -0400
++++ dev.wily/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc	2015-07-17 00:00:30.788606651 -0400
+@@ -597,6 +597,11 @@
    drop_helper_->ResetTargetViewIfEquals(view);
  }
  
@@ -142,11 +142,11 @@ Index: dev.vivid/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
  void DesktopNativeWidgetAura::SetNativeWindowProperty(const char* name,
                                                        void* value) {
    if (content_window_)
-Index: dev.vivid/ui/views/widget/desktop_aura/desktop_native_widget_aura.h
+Index: dev.wily/ui/views/widget/desktop_aura/desktop_native_widget_aura.h
 ===================================================================
---- dev.vivid.orig/ui/views/widget/desktop_aura/desktop_native_widget_aura.h	2015-06-24 18:02:45.269288740 -0400
-+++ dev.vivid/ui/views/widget/desktop_aura/desktop_native_widget_aura.h	2015-06-24 18:02:45.264288808 -0400
-@@ -90,6 +90,8 @@
+--- dev.wily.orig/ui/views/widget/desktop_aura/desktop_native_widget_aura.h	2015-07-17 00:00:30.842605974 -0400
++++ dev.wily/ui/views/widget/desktop_aura/desktop_native_widget_aura.h	2015-07-17 00:00:30.789606639 -0400
+@@ -87,6 +87,8 @@
    // we are being activated/deactivated.
    void HandleActivationChanged(bool active);
  
@@ -155,10 +155,10 @@ Index: dev.vivid/ui/views/widget/desktop_aura/desktop_native_widget_aura.h
   protected:
    // Overridden from internal::NativeWidgetPrivate:
    void InitNativeWidget(const Widget::InitParams& params) override;
-Index: dev.vivid/ui/views/widget/desktop_aura/desktop_window_tree_host.h
+Index: dev.wily/ui/views/widget/desktop_aura/desktop_window_tree_host.h
 ===================================================================
---- dev.vivid.orig/ui/views/widget/desktop_aura/desktop_window_tree_host.h	2015-06-24 18:02:45.269288740 -0400
-+++ dev.vivid/ui/views/widget/desktop_aura/desktop_window_tree_host.h	2015-06-24 18:02:45.264288808 -0400
+--- dev.wily.orig/ui/views/widget/desktop_aura/desktop_window_tree_host.h	2015-07-17 00:00:30.842605974 -0400
++++ dev.wily/ui/views/widget/desktop_aura/desktop_window_tree_host.h	2015-07-17 00:00:30.789606639 -0400
 @@ -80,6 +80,8 @@
  
    virtual bool IsVisible() const = 0;
@@ -168,10 +168,10 @@ Index: dev.vivid/ui/views/widget/desktop_aura/desktop_window_tree_host.h
    virtual void SetSize(const gfx::Size& size) = 0;
    virtual void StackAbove(aura::Window* window) = 0;
    virtual void StackAtTop() = 0;
-Index: dev.vivid/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
+Index: dev.wily/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
 ===================================================================
---- dev.vivid.orig/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc	2015-06-24 18:02:45.269288740 -0400
-+++ dev.vivid/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc	2015-06-24 18:02:45.266288780 -0400
+--- dev.wily.orig/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc	2015-07-17 00:00:30.842605974 -0400
++++ dev.wily/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc	2015-07-17 00:00:30.789606639 -0400
 @@ -10,6 +10,8 @@
  #include <X11/Xregion.h>
  #include <X11/Xutil.h>
@@ -181,7 +181,7 @@ Index: dev.vivid/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
  #include "base/basictypes.h"
  #include "base/command_line.h"
  #include "base/strings/stringprintf.h"
-@@ -106,6 +108,7 @@
+@@ -105,6 +107,7 @@
    "_NET_WM_WINDOW_TYPE_NORMAL",
    "_NET_WM_WINDOW_TYPE_NOTIFICATION",
    "_NET_WM_WINDOW_TYPE_TOOLTIP",
@@ -189,7 +189,7 @@ Index: dev.vivid/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
    "XdndActionAsk",
    "XdndActionCopy"
    "XdndActionLink",
-@@ -1405,6 +1408,22 @@
+@@ -1411,6 +1414,22 @@
    XSetWMNormalHints(xdisplay_, xwindow_, &hints);
  }
  
@@ -212,23 +212,23 @@ Index: dev.vivid/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
  void DesktopWindowTreeHostX11::UpdateWMUserTime(
      const ui::PlatformEvent& event) {
    if (!IsActive())
-Index: dev.vivid/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
+Index: dev.wily/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
 ===================================================================
---- dev.vivid.orig/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h	2015-06-24 18:02:45.269288740 -0400
-+++ dev.vivid/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h	2015-06-24 18:02:45.266288780 -0400
-@@ -84,6 +84,8 @@
-   // Deallocates the internal list of open windows.
-   static void CleanUpWindowList();
+--- dev.wily.orig/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h	2015-07-17 00:00:30.842605974 -0400
++++ dev.wily/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h	2015-07-17 00:00:30.789606639 -0400
+@@ -85,6 +85,8 @@
+   // internal list of open windows.
+   static void CleanUpWindowList(void (*func)(aura::Window* window));
  
 +  void SetSessionID(uint32 sessionid);
 +
   protected:
    // Overridden from DesktopWindowTreeHost:
    void Init(aura::Window* content_window,
-Index: dev.vivid/ui/views/widget/native_widget.h
+Index: dev.wily/ui/views/widget/native_widget.h
 ===================================================================
---- dev.vivid.orig/ui/views/widget/native_widget.h	2015-06-24 18:02:45.269288740 -0400
-+++ dev.vivid/ui/views/widget/native_widget.h	2015-06-24 18:02:45.266288780 -0400
+--- dev.wily.orig/ui/views/widget/native_widget.h	2015-07-17 00:00:30.842605974 -0400
++++ dev.wily/ui/views/widget/native_widget.h	2015-07-17 00:00:30.790606627 -0400
 @@ -26,6 +26,8 @@
   public:
    virtual ~NativeWidget() {}
@@ -238,11 +238,11 @@ Index: dev.vivid/ui/views/widget/native_widget.h
   private:
    friend class Widget;
  
-Index: dev.vivid/ui/views/widget/native_widget_aura.cc
+Index: dev.wily/ui/views/widget/native_widget_aura.cc
 ===================================================================
---- dev.vivid.orig/ui/views/widget/native_widget_aura.cc	2015-06-24 18:02:45.269288740 -0400
-+++ dev.vivid/ui/views/widget/native_widget_aura.cc	2015-06-24 18:02:45.266288780 -0400
-@@ -59,6 +59,8 @@
+--- dev.wily.orig/ui/views/widget/native_widget_aura.cc	2015-07-17 00:00:30.842605974 -0400
++++ dev.wily/ui/views/widget/native_widget_aura.cc	2015-07-17 00:00:30.790606627 -0400
+@@ -58,6 +58,8 @@
  #include "ui/views/widget/desktop_aura/desktop_window_tree_host.h"
  #endif
  
@@ -251,7 +251,7 @@ Index: dev.vivid/ui/views/widget/native_widget_aura.cc
  namespace views {
  
  namespace {
-@@ -332,6 +334,11 @@
+@@ -322,6 +324,11 @@
    window_->SetBounds(window_bounds);
  }
  
@@ -263,11 +263,11 @@ Index: dev.vivid/ui/views/widget/native_widget_aura.cc
  void NativeWidgetAura::GetWindowPlacement(
      gfx::Rect* bounds,
      ui::WindowShowState* show_state) const {
-Index: dev.vivid/ui/views/widget/native_widget_aura.h
+Index: dev.wily/ui/views/widget/native_widget_aura.h
 ===================================================================
---- dev.vivid.orig/ui/views/widget/native_widget_aura.h	2015-06-24 18:02:45.269288740 -0400
-+++ dev.vivid/ui/views/widget/native_widget_aura.h	2015-06-24 18:02:45.266288780 -0400
-@@ -50,6 +50,8 @@
+--- dev.wily.orig/ui/views/widget/native_widget_aura.h	2015-07-17 00:00:30.842605974 -0400
++++ dev.wily/ui/views/widget/native_widget_aura.h	2015-07-17 00:00:30.790606627 -0400
+@@ -48,6 +48,8 @@
        internal::NativeWidgetPrivate* native_widget,
        aura::Window* window);
  

@@ -3,8 +3,8 @@ Description: Never default to using the custom title bar. Chromium should
 
 Index: dev.wily/ui/base/x/x11_util.cc
 ===================================================================
---- dev.wily.orig/ui/base/x/x11_util.cc	2015-07-10 23:51:04.018630162 -0400
-+++ dev.wily/ui/base/x/x11_util.cc	2015-07-10 23:51:04.014630218 -0400
+--- dev.wily.orig/ui/base/x/x11_util.cc	2015-07-17 00:00:23.276700954 -0400
++++ dev.wily/ui/base/x/x11_util.cc	2015-07-17 00:00:23.254701231 -0400
 @@ -1045,6 +1045,7 @@
    // Also disable custom frames for (at-least-partially-)EWMH-supporting tiling
    // window managers.
