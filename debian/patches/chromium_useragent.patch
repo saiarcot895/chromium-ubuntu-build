@@ -3,9 +3,9 @@ Author: Chad Miller <chad.miller@canonical.com>
 
 Index: dev.wily/content/common/user_agent.cc
 ===================================================================
---- dev.wily.orig/content/common/user_agent.cc	2015-07-17 00:00:26.560659725 -0400
-+++ dev.wily/content/common/user_agent.cc	2015-07-17 00:00:26.550659850 -0400
-@@ -199,13 +199,21 @@
+--- dev.wily.orig/content/common/user_agent.cc
++++ dev.wily/content/common/user_agent.cc
+@@ -189,13 +189,21 @@ std::string BuildUserAgentFromOSAndProdu
    // Derived from Safari's UA string.
    // This is done to expose our product name in a manner that is maximally
    // compatible with Safari, we hope!!

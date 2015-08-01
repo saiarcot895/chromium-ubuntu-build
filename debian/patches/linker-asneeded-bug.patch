@@ -4,9 +4,9 @@ Description: Avoid a linker bug where symbols are not found.
 
 Index: dev.wily/build/common.gypi
 ===================================================================
---- dev.wily.orig/build/common.gypi	2015-07-17 00:00:28.276638182 -0400
-+++ dev.wily/build/common.gypi	2015-07-17 00:00:28.272638232 -0400
-@@ -3747,7 +3747,7 @@
+--- dev.wily.orig/build/common.gypi
++++ dev.wily/build/common.gypi
+@@ -3754,7 +3754,7 @@
                    '-fomit-frame-pointer',
                  ],
                }],
@@ -15,7 +15,7 @@ Index: dev.wily/build/common.gypi
                  'ldflags': [
                    '-Wl,--no-as-needed',
                  ],
-@@ -3795,7 +3795,6 @@
+@@ -3802,7 +3802,6 @@
                # Specifically tell the linker to perform optimizations.
                # See http://lwn.net/Articles/192624/ .
                '-Wl,-O1',
@@ -23,7 +23,7 @@ Index: dev.wily/build/common.gypi
              ],
              'conditions' : [
                ['no_gc_sections==0', {
-@@ -5885,6 +5884,11 @@
+@@ -5887,6 +5886,11 @@
                    'SANITIZER_COVERAGE',
                  ],
                }],

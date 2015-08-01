@@ -1,9 +1,9 @@
 
 Index: dev.wily/tools/find_depot_tools.py
 ===================================================================
---- dev.wily.orig/tools/find_depot_tools.py	2015-07-17 00:00:34.236563377 -0400
-+++ dev.wily/tools/find_depot_tools.py	2015-07-17 00:00:34.234563402 -0400
-@@ -40,6 +40,3 @@
+--- dev.wily.orig/tools/find_depot_tools.py
++++ dev.wily/tools/find_depot_tools.py
+@@ -40,6 +40,3 @@ def add_depot_tools_to_path():
    return None
  
  add_depot_tools_to_path()

@@ -4,9 +4,9 @@ Author: Chad MILLER <chad.miller@canonical.com>
 
 Index: dev.wily/content/gpu/gpu_main.cc
 ===================================================================
---- dev.wily.orig/content/gpu/gpu_main.cc	2015-07-17 00:00:42.147464114 -0400
-+++ dev.wily/content/gpu/gpu_main.cc	2015-07-17 00:00:42.145464139 -0400
-@@ -73,7 +73,7 @@
+--- dev.wily.orig/content/gpu/gpu_main.cc
++++ dev.wily/content/gpu/gpu_main.cc
+@@ -75,7 +75,7 @@
  #include <sanitizer/coverage_interface.h>
  #endif
  

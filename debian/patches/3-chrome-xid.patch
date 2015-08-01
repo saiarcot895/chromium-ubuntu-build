@@ -1,7 +1,7 @@
 Index: dev.wily/chrome/browser/ui/views/frame/browser_frame.cc
 ===================================================================
---- dev.wily.orig/chrome/browser/ui/views/frame/browser_frame.cc	2015-07-17 00:00:30.842605974 -0400
-+++ dev.wily/chrome/browser/ui/views/frame/browser_frame.cc	2015-07-17 00:00:30.786606675 -0400
+--- dev.wily.orig/chrome/browser/ui/views/frame/browser_frame.cc
++++ dev.wily/chrome/browser/ui/views/frame/browser_frame.cc
 @@ -27,6 +27,7 @@
  #include "ui/gfx/screen.h"
  #include "ui/views/controls/menu/menu_runner.h"
@@ -10,7 +10,7 @@ Index: dev.wily/chrome/browser/ui/views/frame/browser_frame.cc
  
  #if defined(OS_CHROMEOS)
  #include "ash/session/session_state_delegate.h"
-@@ -126,6 +127,12 @@
+@@ -126,6 +127,12 @@ views::View* BrowserFrame::GetFrameView(
    return browser_frame_view_;
  }
  
@@ -25,9 +25,9 @@ Index: dev.wily/chrome/browser/ui/views/frame/browser_frame.cc
  }
 Index: dev.wily/chrome/browser/ui/views/frame/browser_frame.h
 ===================================================================
---- dev.wily.orig/chrome/browser/ui/views/frame/browser_frame.h	2015-07-17 00:00:30.842605974 -0400
-+++ dev.wily/chrome/browser/ui/views/frame/browser_frame.h	2015-07-17 00:00:30.786606675 -0400
-@@ -94,6 +94,8 @@
+--- dev.wily.orig/chrome/browser/ui/views/frame/browser_frame.h
++++ dev.wily/chrome/browser/ui/views/frame/browser_frame.h
+@@ -94,6 +94,8 @@ class BrowserFrame
    void GetWindowPlacement(gfx::Rect* bounds,
                            ui::WindowShowState* show_state) const;
  
@@ -38,9 +38,9 @@ Index: dev.wily/chrome/browser/ui/views/frame/browser_frame.h
    views::NonClientFrameView* CreateNonClientFrameView() override;
 Index: dev.wily/chrome/browser/ui/views/frame/browser_view.cc
 ===================================================================
---- dev.wily.orig/chrome/browser/ui/views/frame/browser_view.cc	2015-07-17 00:00:30.842605974 -0400
-+++ dev.wily/chrome/browser/ui/views/frame/browser_view.cc	2015-07-17 00:00:30.787606663 -0400
-@@ -702,6 +702,7 @@
+--- dev.wily.orig/chrome/browser/ui/views/frame/browser_view.cc
++++ dev.wily/chrome/browser/ui/views/frame/browser_view.cc
+@@ -702,6 +702,7 @@ void BrowserView::Show() {
    force_location_bar_focus_ = false;
  
    browser()->OnWindowDidShow();
@@ -50,8 +50,8 @@ Index: dev.wily/chrome/browser/ui/views/frame/browser_view.cc
  }
 Index: dev.wily/ui/aura/client/aura_constants.cc
 ===================================================================
---- dev.wily.orig/ui/aura/client/aura_constants.cc	2015-07-17 00:00:30.842605974 -0400
-+++ dev.wily/ui/aura/client/aura_constants.cc	2015-07-17 00:00:30.787606663 -0400
+--- dev.wily.orig/ui/aura/client/aura_constants.cc
++++ dev.wily/ui/aura/client/aura_constants.cc
 @@ -8,6 +8,7 @@
  #include "ui/gfx/geometry/rect.h"
  
@@ -60,7 +60,7 @@ Index: dev.wily/ui/aura/client/aura_constants.cc
  DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, ui::ModalType)
  DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, gfx::Rect*)
  DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, ui::InputMethod*)
-@@ -36,6 +37,7 @@
+@@ -36,6 +37,7 @@ DEFINE_WINDOW_PROPERTY_KEY(
      ui::WindowShowState, kRestoreShowStateKey, ui::SHOW_STATE_DEFAULT);
  DEFINE_WINDOW_PROPERTY_KEY(
      ui::WindowShowState, kShowStateKey, ui::SHOW_STATE_DEFAULT);
@@ -70,9 +70,9 @@ Index: dev.wily/ui/aura/client/aura_constants.cc
  }  // namespace aura
 Index: dev.wily/ui/aura/client/aura_constants.h
 ===================================================================
---- dev.wily.orig/ui/aura/client/aura_constants.h	2015-07-17 00:00:30.842605974 -0400
-+++ dev.wily/ui/aura/client/aura_constants.h	2015-07-17 00:00:30.788606651 -0400
-@@ -61,6 +61,9 @@
+--- dev.wily.orig/ui/aura/client/aura_constants.h
++++ dev.wily/ui/aura/client/aura_constants.h
+@@ -61,6 +61,9 @@ AURA_EXPORT extern const WindowProperty<
  AURA_EXPORT extern const WindowProperty<ui::WindowShowState>* const
      kShowStateKey;
  
@@ -84,9 +84,9 @@ Index: dev.wily/ui/aura/client/aura_constants.h
  }  // namespace client
 Index: dev.wily/ui/aura/window_tree_host_x11.cc
 ===================================================================
---- dev.wily.orig/ui/aura/window_tree_host_x11.cc	2015-07-17 00:00:30.842605974 -0400
-+++ dev.wily/ui/aura/window_tree_host_x11.cc	2015-07-17 00:00:30.788606651 -0400
-@@ -458,6 +458,26 @@
+--- dev.wily.orig/ui/aura/window_tree_host_x11.cc
++++ dev.wily/ui/aura/window_tree_host_x11.cc
+@@ -458,6 +458,26 @@ gfx::AcceleratedWidget WindowTreeHostX11
    return xwindow_;
  }
  
@@ -115,9 +115,9 @@ Index: dev.wily/ui/aura/window_tree_host_x11.cc
      // Before we map the window, set size hints. Otherwise, some window managers
 Index: dev.wily/ui/aura/window_tree_host_x11.h
 ===================================================================
---- dev.wily.orig/ui/aura/window_tree_host_x11.h	2015-07-17 00:00:30.842605974 -0400
-+++ dev.wily/ui/aura/window_tree_host_x11.h	2015-07-17 00:00:30.788606651 -0400
-@@ -39,6 +39,8 @@
+--- dev.wily.orig/ui/aura/window_tree_host_x11.h
++++ dev.wily/ui/aura/window_tree_host_x11.h
+@@ -39,6 +39,8 @@ class AURA_EXPORT WindowTreeHostX11 : pu
    bool CanDispatchEvent(const ui::PlatformEvent& event) override;
    uint32_t DispatchEvent(const ui::PlatformEvent& event) override;
  
@@ -128,9 +128,9 @@ Index: dev.wily/ui/aura/window_tree_host_x11.h
    gfx::AcceleratedWidget GetAcceleratedWidget() override;
 Index: dev.wily/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
 ===================================================================
---- dev.wily.orig/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc	2015-07-17 00:00:30.842605974 -0400
-+++ dev.wily/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc	2015-07-17 00:00:30.788606651 -0400
-@@ -597,6 +597,11 @@
+--- dev.wily.orig/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
++++ dev.wily/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
+@@ -597,6 +597,11 @@ void DesktopNativeWidgetAura::ViewRemove
    drop_helper_->ResetTargetViewIfEquals(view);
  }
  
@@ -144,9 +144,9 @@ Index: dev.wily/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
    if (content_window_)
 Index: dev.wily/ui/views/widget/desktop_aura/desktop_native_widget_aura.h
 ===================================================================
---- dev.wily.orig/ui/views/widget/desktop_aura/desktop_native_widget_aura.h	2015-07-17 00:00:30.842605974 -0400
-+++ dev.wily/ui/views/widget/desktop_aura/desktop_native_widget_aura.h	2015-07-17 00:00:30.789606639 -0400
-@@ -87,6 +87,8 @@
+--- dev.wily.orig/ui/views/widget/desktop_aura/desktop_native_widget_aura.h
++++ dev.wily/ui/views/widget/desktop_aura/desktop_native_widget_aura.h
+@@ -87,6 +87,8 @@ class VIEWS_EXPORT DesktopNativeWidgetAu
    // we are being activated/deactivated.
    void HandleActivationChanged(bool active);
  
@@ -157,9 +157,9 @@ Index: dev.wily/ui/views/widget/desktop_aura/desktop_native_widget_aura.h
    void InitNativeWidget(const Widget::InitParams& params) override;
 Index: dev.wily/ui/views/widget/desktop_aura/desktop_window_tree_host.h
 ===================================================================
---- dev.wily.orig/ui/views/widget/desktop_aura/desktop_window_tree_host.h	2015-07-17 00:00:30.842605974 -0400
-+++ dev.wily/ui/views/widget/desktop_aura/desktop_window_tree_host.h	2015-07-17 00:00:30.789606639 -0400
-@@ -80,6 +80,8 @@
+--- dev.wily.orig/ui/views/widget/desktop_aura/desktop_window_tree_host.h
++++ dev.wily/ui/views/widget/desktop_aura/desktop_window_tree_host.h
+@@ -80,6 +80,8 @@ class VIEWS_EXPORT DesktopWindowTreeHost
  
    virtual bool IsVisible() const = 0;
  
@@ -170,8 +170,8 @@ Index: dev.wily/ui/views/widget/desktop_aura/desktop_window_tree_host.h
    virtual void StackAtTop() = 0;
 Index: dev.wily/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
 ===================================================================
---- dev.wily.orig/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc	2015-07-17 00:00:30.842605974 -0400
-+++ dev.wily/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc	2015-07-17 00:00:30.789606639 -0400
+--- dev.wily.orig/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
++++ dev.wily/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
 @@ -10,6 +10,8 @@
  #include <X11/Xregion.h>
  #include <X11/Xutil.h>
@@ -181,7 +181,7 @@ Index: dev.wily/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
  #include "base/basictypes.h"
  #include "base/command_line.h"
  #include "base/strings/stringprintf.h"
-@@ -105,6 +107,7 @@
+@@ -106,6 +108,7 @@ const char* kAtomsToCache[] = {
    "_NET_WM_WINDOW_TYPE_NORMAL",
    "_NET_WM_WINDOW_TYPE_NOTIFICATION",
    "_NET_WM_WINDOW_TYPE_TOOLTIP",
@@ -189,7 +189,7 @@ Index: dev.wily/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
    "XdndActionAsk",
    "XdndActionCopy"
    "XdndActionLink",
-@@ -1411,6 +1414,22 @@
+@@ -1412,6 +1415,22 @@ void DesktopWindowTreeHostX11::UpdateMin
    XSetWMNormalHints(xdisplay_, xwindow_, &hints);
  }
  
@@ -214,9 +214,9 @@ Index: dev.wily/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
    if (!IsActive())
 Index: dev.wily/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
 ===================================================================
---- dev.wily.orig/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h	2015-07-17 00:00:30.842605974 -0400
-+++ dev.wily/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h	2015-07-17 00:00:30.789606639 -0400
-@@ -85,6 +85,8 @@
+--- dev.wily.orig/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
++++ dev.wily/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
+@@ -85,6 +85,8 @@ class VIEWS_EXPORT DesktopWindowTreeHost
    // internal list of open windows.
    static void CleanUpWindowList(void (*func)(aura::Window* window));
  
@@ -227,9 +227,9 @@ Index: dev.wily/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
    void Init(aura::Window* content_window,
 Index: dev.wily/ui/views/widget/native_widget.h
 ===================================================================
---- dev.wily.orig/ui/views/widget/native_widget.h	2015-07-17 00:00:30.842605974 -0400
-+++ dev.wily/ui/views/widget/native_widget.h	2015-07-17 00:00:30.790606627 -0400
-@@ -26,6 +26,8 @@
+--- dev.wily.orig/ui/views/widget/native_widget.h
++++ dev.wily/ui/views/widget/native_widget.h
+@@ -26,6 +26,8 @@ class VIEWS_EXPORT NativeWidget {
   public:
    virtual ~NativeWidget() {}
  
@@ -240,8 +240,8 @@ Index: dev.wily/ui/views/widget/native_widget.h
  
 Index: dev.wily/ui/views/widget/native_widget_aura.cc
 ===================================================================
---- dev.wily.orig/ui/views/widget/native_widget_aura.cc	2015-07-17 00:00:30.842605974 -0400
-+++ dev.wily/ui/views/widget/native_widget_aura.cc	2015-07-17 00:00:30.790606627 -0400
+--- dev.wily.orig/ui/views/widget/native_widget_aura.cc
++++ dev.wily/ui/views/widget/native_widget_aura.cc
 @@ -58,6 +58,8 @@
  #include "ui/views/widget/desktop_aura/desktop_window_tree_host.h"
  #endif
@@ -251,7 +251,7 @@ Index: dev.wily/ui/views/widget/native_widget_aura.cc
  namespace views {
  
  namespace {
-@@ -322,6 +324,11 @@
+@@ -322,6 +324,11 @@ void NativeWidgetAura::CenterWindow(cons
    window_->SetBounds(window_bounds);
  }
  
@@ -265,9 +265,9 @@ Index: dev.wily/ui/views/widget/native_widget_aura.cc
      ui::WindowShowState* show_state) const {
 Index: dev.wily/ui/views/widget/native_widget_aura.h
 ===================================================================
---- dev.wily.orig/ui/views/widget/native_widget_aura.h	2015-07-17 00:00:30.842605974 -0400
-+++ dev.wily/ui/views/widget/native_widget_aura.h	2015-07-17 00:00:30.790606627 -0400
-@@ -48,6 +48,8 @@
+--- dev.wily.orig/ui/views/widget/native_widget_aura.h
++++ dev.wily/ui/views/widget/native_widget_aura.h
+@@ -48,6 +48,8 @@ class VIEWS_EXPORT NativeWidgetAura
        internal::NativeWidgetPrivate* native_widget,
        aura::Window* window);
  

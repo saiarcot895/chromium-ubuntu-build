@@ -1,8 +1,8 @@
 Index: dev.wily/chrome/browser/background/background_mode_manager.cc
 ===================================================================
---- dev.wily.orig/chrome/browser/background/background_mode_manager.cc	2015-07-17 00:00:39.136501890 -0400
-+++ dev.wily/chrome/browser/background/background_mode_manager.cc	2015-07-17 00:00:39.134501914 -0400
-@@ -335,7 +335,7 @@
+--- dev.wily.orig/chrome/browser/background/background_mode_manager.cc
++++ dev.wily/chrome/browser/background/background_mode_manager.cc
+@@ -335,7 +335,7 @@ void BackgroundModeManager::RegisterPref
    registry->RegisterBooleanPref(prefs::kChromeCreatedLoginItem, false);
    registry->RegisterBooleanPref(prefs::kMigratedLoginItemPref, false);
  #endif

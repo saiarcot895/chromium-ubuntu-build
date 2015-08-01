@@ -1,8 +1,8 @@
 Index: dev.wily/chrome/common/chrome_paths.cc
 ===================================================================
---- dev.wily.orig/chrome/common/chrome_paths.cc	2015-07-17 00:00:45.168426215 -0400
-+++ dev.wily/chrome/common/chrome_paths.cc	2015-07-17 00:00:45.165426254 -0400
-@@ -353,6 +353,14 @@
+--- dev.wily.orig/chrome/common/chrome_paths.cc
++++ dev.wily/chrome/common/chrome_paths.cc
+@@ -359,6 +359,14 @@ bool PathProvider(int key, base::FilePat
  #if defined(WIDEVINE_CDM_AVAILABLE) && defined(ENABLE_PEPPER_CDMS)
  #if defined(WIDEVINE_CDM_IS_COMPONENT)
      case chrome::DIR_COMPONENT_WIDEVINE_CDM:
@@ -17,7 +17,7 @@ Index: dev.wily/chrome/common/chrome_paths.cc
        if (!PathService::Get(chrome::DIR_USER_DATA, &cur))
          return false;
        cur = cur.Append(kWidevineCdmBaseDirectory);
-@@ -362,6 +370,14 @@
+@@ -368,6 +376,14 @@ bool PathProvider(int key, base::FilePat
      // In the component case, this is the source adapter. Otherwise, it is the
      // actual Pepper module that gets loaded.
      case chrome::FILE_WIDEVINE_CDM_ADAPTER:

@@ -52,7 +52,7 @@ Depends: ${shlibs:Depends}, ${misc:Depends},
 	xdg-utils,
 	libva1,
 	libva-x11-1,
-	chromium-codecs-ffmpeg-extra (>= 0.6) | chromium-codecs-ffmpeg (>= 0.6)
+	chromium-codecs-ffmpeg-extra (>= ${binary:Version}) | chromium-codecs-ffmpeg (>= ${binary:Version})
 Recommends: chromium-browser-l10n
 Suggests: webaccounts-chromium-extension,
 	unity-chromium-extension,
@@ -116,9 +116,9 @@ Description: chromium-chromedriver debug symbols
 Package: chromium-codecs-ffmpeg
 Architecture: armhf armel i386 amd64
 Pre-Depends: dpkg (>= 1.15.6)
-Depends: ${shlibs:Depends}, ${misc:Depends}, chromium-browser (>= 4.0.203.0~)
-Conflicts: chromium-codecs-ffmpeg-extra
-Replaces: chromium-codecs-ffmpeg-extra
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Conflicts: chromium-codecs-ffmpeg-extra, chromium-browser (<< 44)
+Replaces: chromium-codecs-ffmpeg-extra, chromium-browser (<< 44)
 Description: Free ffmpeg codecs for the Chromium Browser
  Chromium is an open-source browser project that aims to build a safer, faster,
  and more stable way for all Internet users to experience the web.
@@ -133,17 +133,17 @@ Section: debug
 Priority: extra
 Pre-Depends: dpkg (>= 1.15.6)
 Depends: ${shlibs:Depends}, ${misc:Depends}, chromium-codecs-ffmpeg (= ${binary:Version})
-Conflicts: chromium-codecs-ffmpeg-extra-dbg
-Replaces: chromium-codecs-ffmpeg-extra-dbg
+Conflicts: chromium-codecs-ffmpeg-extra-dbg, chromium-browser (<< 44)
+Replaces: chromium-codecs-ffmpeg-extra-dbg, chromium-browser (<< 44)
 Description: chromium-codecs-ffmpeg debug symbols
  Debug symbols for the free ffmpeg-mt codecs
 
 Package: chromium-codecs-ffmpeg-extra
 Architecture: armhf armel i386 amd64
 Pre-Depends: dpkg (>= 1.15.6)
-Depends: ${shlibs:Depends}, ${misc:Depends}, chromium-browser (>= 4.0.203.0~)
-Conflicts: chromium-codecs-ffmpeg
-Replaces: chromium-codecs-ffmpeg
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Conflicts: chromium-codecs-ffmpeg, chromium-browser (<< 44)
+Replaces: chromium-codecs-ffmpeg, chromium-browser (<< 44)
 Description: Extra ffmpeg codecs for the Chromium Browser
  Chromium is an open-source browser project that aims to build a safer, faster,
  and more stable way for all Internet users to experience the web.
@@ -159,7 +159,7 @@ Section: debug
 Priority: extra
 Pre-Depends: dpkg (>= 1.15.6)
 Depends: ${shlibs:Depends}, ${misc:Depends}, chromium-codecs-ffmpeg-extra (= ${binary:Version})
-Conflicts: chromium-codecs-ffmpeg-dbg
-Replaces: chromium-codecs-ffmpeg-dbg
+Conflicts: chromium-codecs-ffmpeg-dbg, chromium-browser (<< 44)
+Replaces: chromium-codecs-ffmpeg-dbg, chromium-browser (<< 44)
 Description: chromium-codecs-ffmpeg-extra debug symbols
  Debug symbols for the extra ffmpeg-mt codecs

@@ -1,7 +1,7 @@
 Index: dev.wily/components/search_engines/prepopulated_engines.json
 ===================================================================
---- dev.wily.orig/components/search_engines/prepopulated_engines.json	2015-07-17 00:00:30.195614095 -0400
-+++ dev.wily/components/search_engines/prepopulated_engines.json	2015-07-17 00:00:30.192614131 -0400
+--- dev.wily.orig/components/search_engines/prepopulated_engines.json
++++ dev.wily/components/search_engines/prepopulated_engines.json
 @@ -14,6 +14,7 @@
  //    88, 89, 91+
  //
@@ -38,9 +38,9 @@ Index: dev.wily/components/search_engines/prepopulated_engines.json
        "keyword": "google.com",
 Index: dev.wily/components/search_engines/search_engine_type.h
 ===================================================================
---- dev.wily.orig/components/search_engines/search_engine_type.h	2015-07-17 00:00:30.195614095 -0400
-+++ dev.wily/components/search_engines/search_engine_type.h	2015-07-17 00:00:30.192614131 -0400
-@@ -22,6 +22,7 @@
+--- dev.wily.orig/components/search_engines/search_engine_type.h
++++ dev.wily/components/search_engines/search_engine_type.h
+@@ -22,6 +22,7 @@ enum SearchEngineType {
    SEARCH_ENGINE_DAUM,
    SEARCH_ENGINE_DELFI,
    SEARCH_ENGINE_DELTA,
@@ -50,9 +50,9 @@ Index: dev.wily/components/search_engines/search_engine_type.h
    SEARCH_ENGINE_GOOGLE,
 Index: dev.wily/components/search_engines/template_url_prepopulate_data.cc
 ===================================================================
---- dev.wily.orig/components/search_engines/template_url_prepopulate_data.cc	2015-07-17 00:00:30.195614095 -0400
-+++ dev.wily/components/search_engines/template_url_prepopulate_data.cc	2015-07-17 00:00:30.193614119 -0400
-@@ -48,7 +48,7 @@
+--- dev.wily.orig/components/search_engines/template_url_prepopulate_data.cc
++++ dev.wily/components/search_engines/template_url_prepopulate_data.cc
+@@ -48,7 +48,7 @@ namespace {
  
  // Default (for countries with no better engine set)
  const PrepopulatedEngine* engines_default[] =
@@ -61,7 +61,7 @@ Index: dev.wily/components/search_engines/template_url_prepopulate_data.cc
  
  // United Arab Emirates
  const PrepopulatedEngine* engines_AE[] =
-@@ -140,7 +140,7 @@
+@@ -140,7 +140,7 @@ const PrepopulatedEngine* engines_CZ[] =
  
  // Germany
  const PrepopulatedEngine* engines_DE[] =
@@ -70,7 +70,7 @@ Index: dev.wily/components/search_engines/template_url_prepopulate_data.cc
  
  // Denmark
  const PrepopulatedEngine* engines_DK[] =
-@@ -180,11 +180,11 @@
+@@ -180,11 +180,11 @@ const PrepopulatedEngine* engines_FI[] =
  
  // France
  const PrepopulatedEngine* engines_FR[] =
@@ -84,7 +84,7 @@ Index: dev.wily/components/search_engines/template_url_prepopulate_data.cc
  
  // Greece
  const PrepopulatedEngine* engines_GR[] =
-@@ -452,7 +452,7 @@
+@@ -452,7 +452,7 @@ const PrepopulatedEngine* engines_UA[] =
  
  // United States
  const PrepopulatedEngine* engines_US[] =
@@ -93,7 +93,7 @@ Index: dev.wily/components/search_engines/template_url_prepopulate_data.cc
  
  // Uruguay
  const PrepopulatedEngine* engines_UY[] =
-@@ -483,6 +483,7 @@
+@@ -483,6 +483,7 @@ const PrepopulatedEngine* kAllEngines[]
    // Prepopulated engines:
    &aol,          &ask,          &ask_br,       &ask_uk,       &baidu,
    &bing,         &daum,         &google,       &kvasir,       &mail_ru,

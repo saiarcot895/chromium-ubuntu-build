@@ -6,8 +6,8 @@ Bug-Ubuntu: 1084852
 
 Index: dev.wily/third_party/webrtc/system_wrappers/source/cpu_features.cc
 ===================================================================
---- dev.wily.orig/third_party/webrtc/system_wrappers/source/cpu_features.cc	2015-07-17 00:00:29.555622126 -0400
-+++ dev.wily/third_party/webrtc/system_wrappers/source/cpu_features.cc	2015-07-17 00:00:29.552622165 -0400
+--- dev.wily.orig/third_party/webrtc/system_wrappers/source/cpu_features.cc
++++ dev.wily/third_party/webrtc/system_wrappers/source/cpu_features.cc
 @@ -18,6 +18,47 @@
  
  #include "webrtc/typedefs.h"

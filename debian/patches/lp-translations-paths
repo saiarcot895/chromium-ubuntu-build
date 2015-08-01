@@ -1,8 +1,8 @@
 Index: dev.wily/content/app/strings/content_strings.grd
 ===================================================================
---- dev.wily.orig/content/app/strings/content_strings.grd	2015-07-17 00:00:39.716494614 -0400
-+++ dev.wily/content/app/strings/content_strings.grd	2015-07-17 00:00:39.698494839 -0400
-@@ -51,34 +51,34 @@
+--- dev.wily.orig/content/app/strings/content_strings.grd
++++ dev.wily/content/app/strings/content_strings.grd
+@@ -51,34 +51,34 @@ below:
      <output filename="content_strings_am.pak" type="data_package" lang="am" />
      <output filename="content_strings_ar.pak" type="data_package" lang="ar" />
      <if expr="use_third_party_translations">
@@ -43,7 +43,7 @@ Index: dev.wily/content/app/strings/content_strings.grd
      </if>
      <output filename="content_strings_fa.pak" type="data_package" lang="fa" />
      <output filename="content_strings_fake-bidi.pak" type="data_package" lang="fake-bidi" />
-@@ -86,7 +86,7 @@
+@@ -86,7 +86,7 @@ below:
      <output filename="content_strings_fil.pak" type="data_package" lang="fil" />
      <output filename="content_strings_fr.pak" type="data_package" lang="fr" />
      <if expr="use_third_party_translations">
@@ -52,7 +52,7 @@ Index: dev.wily/content/app/strings/content_strings.grd
      </if>
      <output filename="content_strings_gu.pak" type="data_package" lang="gu" />
      <output filename="content_strings_he.pak" type="data_package" lang="he" />
-@@ -94,20 +94,20 @@
+@@ -94,20 +94,20 @@ below:
      <output filename="content_strings_hr.pak" type="data_package" lang="hr" />
      <output filename="content_strings_hu.pak" type="data_package" lang="hu" />
      <if expr="use_third_party_translations">
@@ -78,7 +78,7 @@ Index: dev.wily/content/app/strings/content_strings.grd
      </if>
      <output filename="content_strings_lt.pak" type="data_package" lang="lt" />
      <output filename="content_strings_lv.pak" type="data_package" lang="lv" />
-@@ -133,7 +133,7 @@
+@@ -133,7 +133,7 @@ below:
      <output filename="content_strings_th.pak" type="data_package" lang="th" />
      <output filename="content_strings_tr.pak" type="data_package" lang="tr" />
      <if expr="use_third_party_translations">
@@ -87,7 +87,7 @@ Index: dev.wily/content/app/strings/content_strings.grd
      </if>
      <output filename="content_strings_uk.pak" type="data_package" lang="uk" />
      <output filename="content_strings_vi.pak" type="data_package" lang="vi" />
-@@ -144,44 +144,44 @@
+@@ -144,44 +144,44 @@ below:
      <file path="translations/content_strings_am.xtb" lang="am" />
      <file path="translations/content_strings_ar.xtb" lang="ar" />
      <if expr="use_third_party_translations">
@@ -139,7 +139,7 @@ Index: dev.wily/content/app/strings/content_strings.grd
      </if>
      <file path="translations/content_strings_id.xtb" lang="id" />
      <file path="translations/content_strings_it.xtb" lang="it" />
-@@ -189,13 +189,13 @@
+@@ -189,13 +189,13 @@ below:
      <file path="translations/content_strings_iw.xtb" lang="he" />
      <file path="translations/content_strings_ja.xtb" lang="ja" />
      <if expr="use_third_party_translations">
@@ -156,7 +156,7 @@ Index: dev.wily/content/app/strings/content_strings.grd
      </if>
      <file path="translations/content_strings_lt.xtb" lang="lt" />
      <file path="translations/content_strings_lv.xtb" lang="lv" />
-@@ -219,7 +219,7 @@
+@@ -219,7 +219,7 @@ below:
      <file path="translations/content_strings_th.xtb" lang="th" />
      <file path="translations/content_strings_tr.xtb" lang="tr" />
      <if expr="use_third_party_translations">
@@ -167,9 +167,9 @@ Index: dev.wily/content/app/strings/content_strings.grd
      <file path="translations/content_strings_vi.xtb" lang="vi" />
 Index: dev.wily/tools/grit/grit/testdata/chrome/app/generated_resources.grd
 ===================================================================
---- dev.wily.orig/tools/grit/grit/testdata/chrome/app/generated_resources.grd	2015-07-17 00:00:39.716494614 -0400
-+++ dev.wily/tools/grit/grit/testdata/chrome/app/generated_resources.grd	2015-07-17 00:00:39.714494638 -0400
-@@ -110,49 +110,49 @@
+--- dev.wily.orig/tools/grit/grit/testdata/chrome/app/generated_resources.grd
++++ dev.wily/tools/grit/grit/testdata/chrome/app/generated_resources.grd
+@@ -110,49 +110,49 @@ are declared in build/common.gypi.
    <translations>
      <file path="resources/generated_resources_am.xtb" lang="am" />
      <file path="resources/generated_resources_ar.xtb" lang="ar" />
@@ -232,7 +232,7 @@ Index: dev.wily/tools/grit/grit/testdata/chrome/app/generated_resources.grd
      <file path="resources/generated_resources_nl.xtb" lang="nl" />
      <file path="resources/generated_resources_no.xtb" lang="no" />
      <file path="resources/generated_resources_pl.xtb" lang="pl" />
-@@ -169,7 +169,7 @@
+@@ -169,7 +169,7 @@ are declared in build/common.gypi.
      <file path="resources/generated_resources_te.xtb" lang="te" />
      <file path="resources/generated_resources_th.xtb" lang="th" />
      <file path="resources/generated_resources_tr.xtb" lang="tr" />
