@@ -74,7 +74,7 @@ Index: dev.wily/content/public/common/content_switches.cc
 ===================================================================
 --- dev.wily.orig/content/public/common/content_switches.cc
 +++ dev.wily/content/public/common/content_switches.cc
-@@ -959,7 +959,7 @@ const char kEnableAggressiveDOMStorageFl
+@@ -960,7 +960,7 @@ const char kEnableAggressiveDOMStorageFl
  // Disable web audio API.
  const char kDisableWebAudio[]               = "disable-webaudio";
  
@@ -100,7 +100,7 @@ Index: dev.wily/media/media.gyp
 ===================================================================
 --- dev.wily.orig/media/media.gyp
 +++ dev.wily/media/media.gyp
-@@ -749,7 +749,7 @@
+@@ -750,7 +750,7 @@
            ],
          }],
          # For VaapiVideoEncodeAccelerator.
@@ -246,7 +246,7 @@ Index: dev.wily/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.wily.orig/chrome/browser/about_flags.cc
 +++ dev.wily/chrome/browser/about_flags.cc
-@@ -991,7 +991,7 @@ const Experiment kExperiments[] = {
+@@ -995,7 +995,7 @@ const Experiment kExperiments[] = {
       "disable-accelerated-video-decode",
       IDS_FLAGS_DISABLE_ACCELERATED_VIDEO_DECODE_NAME,
       IDS_FLAGS_DISABLE_ACCELERATED_VIDEO_DECODE_DESCRIPTION,

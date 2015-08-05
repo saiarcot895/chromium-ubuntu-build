@@ -25,7 +25,7 @@ Index: dev.wily/chrome/common/chrome_paths.cc
  #endif
        break;
      }
-@@ -491,6 +496,10 @@ bool PathProvider(int key, base::FilePat
+@@ -492,6 +497,10 @@ bool PathProvider(int key, base::FilePat
  #endif
  #if defined(OS_LINUX)
      case chrome::DIR_STANDALONE_EXTERNAL_EXTENSIONS: {
@@ -36,7 +36,7 @@ Index: dev.wily/chrome/common/chrome_paths.cc
        cur = base::FilePath(kFilepathSinglePrefExtensions);
        break;
      }
-@@ -541,6 +550,10 @@ bool PathProvider(int key, base::FilePat
+@@ -542,6 +551,10 @@ bool PathProvider(int key, base::FilePat
  #else
        cur = base::FilePath(FILE_PATH_LITERAL(
            "/etc/chromium/native-messaging-hosts"));

@@ -6,7 +6,7 @@ Index: dev.wily/build/common.gypi
 ===================================================================
 --- dev.wily.orig/build/common.gypi
 +++ dev.wily/build/common.gypi
-@@ -2400,8 +2400,8 @@
+@@ -2408,8 +2408,8 @@
        }],
  
        ['host_clang==1', {

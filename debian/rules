@@ -92,6 +92,9 @@ GYP_DEFINES += enable_touch_ui=1
 # add support and stubbed implementation of widevine (needed for EME)
 GYP_DEFINES += enable_widevine=1
 
+# disable field trial tests
+GYP_DEFINES += fieldtrial_testing_like_official_build=1
+
 # Intentional configuration, not bug work-arounds.
 ifeq (arm,$(DEB_HOST_ARCH_CPU))
 

@@ -2,7 +2,7 @@ Index: dev.wily/chrome/app/generated_resources.grd
 ===================================================================
 --- dev.wily.orig/chrome/app/generated_resources.grd
 +++ dev.wily/chrome/app/generated_resources.grd
-@@ -8285,6 +8285,35 @@ I don't think this site should be blocke
+@@ -8305,6 +8305,35 @@ I don't think this site should be blocke
          Reload
        </message>
  
@@ -38,7 +38,7 @@ Index: dev.wily/chrome/app/generated_resources.grd
        <!-- Mac and Chrome OS users do not close their browser. Mac users quit it and Chrome OS users log out. -->
        <if expr="not is_macosx and not chromeos">
          <message name="IDS_COOKIES_CLEAR_WHEN_CLOSE_CHKBOX" desc="A checkbox in the Content Settings dialog for removing all cookies on when browser is closed.">
-@@ -12489,6 +12518,9 @@ Some features may be unavailable.  Pleas
+@@ -12509,6 +12538,9 @@ Some features may be unavailable.  Pleas
        <message name="IDS_OPTIONS_ADVANCED_SECTION_TITLE_CONTENT">
          Web content
        </message>
@@ -77,7 +77,7 @@ Index: dev.wily/chrome/browser/resources/options/browser_options.js
 ===================================================================
 --- dev.wily.orig/chrome/browser/resources/options/browser_options.js
 +++ dev.wily/chrome/browser/resources/options/browser_options.js
-@@ -623,6 +623,23 @@ cr.define('options', function() {
+@@ -621,6 +621,23 @@ cr.define('options', function() {
              [String(event.target.options[event.target.selectedIndex].value)]);
        };
  
@@ -101,7 +101,7 @@ Index: dev.wily/chrome/browser/resources/options/browser_options.js
        // Languages section.
        var showLanguageOptions = function(event) {
          PageManager.showPageByName('languages');
-@@ -1746,6 +1763,24 @@ cr.define('options', function() {
+@@ -1744,6 +1761,24 @@ cr.define('options', function() {
      },
  
      /**
@@ -126,7 +126,7 @@ Index: dev.wily/chrome/browser/resources/options/browser_options.js
       * Set the checked state of the metrics reporting checkbox.
       * @private
       */
-@@ -2172,6 +2207,7 @@ cr.define('options', function() {
+@@ -2170,6 +2205,7 @@ cr.define('options', function() {
    cr.makePublic(BrowserOptions, [
      'addBluetoothDevice',
      'deleteCurrentProfile',
@@ -134,7 +134,7 @@ Index: dev.wily/chrome/browser/resources/options/browser_options.js
      'enableCertificateButton',
      'enableDisplaySettings',
      'enableFactoryResetSection',
-@@ -2192,6 +2228,7 @@ cr.define('options', function() {
+@@ -2190,6 +2226,7 @@ cr.define('options', function() {
      'setNetworkPredictionValue',
      'setNowSectionVisible',
      'setHighContrastCheckboxState',
@@ -1019,7 +1019,7 @@ Index: dev.wily/chrome/chrome_browser_ui.gypi
 ===================================================================
 --- dev.wily.orig/chrome/chrome_browser_ui.gypi
 +++ dev.wily/chrome/chrome_browser_ui.gypi
-@@ -1860,6 +1860,8 @@
+@@ -1859,6 +1859,8 @@
        'browser/ui/webui/options/core_options_handler.h',
        'browser/ui/webui/options/create_profile_handler.cc',
        'browser/ui/webui/options/create_profile_handler.h',
@@ -1028,7 +1028,7 @@ Index: dev.wily/chrome/chrome_browser_ui.gypi
        'browser/ui/webui/options/easy_unlock_handler.cc',
        'browser/ui/webui/options/easy_unlock_handler.h',
        'browser/ui/webui/options/font_settings_handler.cc',
-@@ -2939,6 +2941,7 @@
+@@ -2938,6 +2940,7 @@
            ],
          }],
          ['use_aura==1 and chromeos==0 and use_ozone==0 and OS=="linux"', {
