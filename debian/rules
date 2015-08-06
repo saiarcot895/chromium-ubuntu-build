@@ -436,6 +436,9 @@ configure-stamp:
 		rm -r chromium-$(DEBIAN_UPSTREAM_VERSION); \
 	fi
 	
+	# Fix (hopefully temporary) gyp/packaging bug
+	touch chrome/test/data/webui/i18n_process_css_test.html
+	
 	cd $(SRC_DIR) && $(GYP_ENV) $(CROSS_BUILD) python build/gyp_chromium build/all.gyp $(GYP_PARAMS)
 
 	touch $@

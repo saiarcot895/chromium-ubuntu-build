@@ -1,3 +1,9 @@
+chromium-browser (46.0.2471.2-0ubuntu1~ppa2~wily1) wily; urgency=low
+
+  * Try to fix build error.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 06 Aug 2015 12:29:27 -0400
+
 chromium-browser (46.0.2471.2-0ubuntu1~ppa1~wily1) wily; urgency=low
 
   * New upstream version 46.0.2471.2
