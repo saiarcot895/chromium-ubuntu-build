@@ -1,3 +1,10 @@
+chromium-browser (46.0.2471.2-0ubuntu1~ppa3~wily1) wily; urgency=low
+
+  * Add disable_newlib=1 and disable_glibc flags to get Native Client
+    working.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 06 Aug 2015 12:37:07 -0400
+
 chromium-browser (46.0.2471.2-0ubuntu1~ppa2~wily1) wily; urgency=low
 
   * Try to fix build error.
