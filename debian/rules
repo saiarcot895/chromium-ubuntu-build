@@ -79,7 +79,7 @@ ifneq (,$(filter 12.04%,$(UBUNTU_DIST)))
 GYP_DEFINES += disable_nacl=1
 else
 # Don't build the untrusted NaCl code (it's not used in Chromium anyways)
-GYP_DEFINES += disable_newlib=1 disable_glibc=1
+GYP_DEFINES += disable_nacl_untrusted=1
 endif
 
 # do not use third_party/gold as the linker.

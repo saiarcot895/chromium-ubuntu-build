@@ -1,3 +1,10 @@
+chromium-browser (46.0.2478.0-0ubuntu1~ppa1~wily1) wily; urgency=low
+
+  * New upstream version 46.0.2478.0
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 12 Aug 2015 08:48:18 -0400
+
 chromium-browser (46.0.2471.2-0ubuntu1~ppa3~wily1) wily; urgency=low
 
   * Add disable_newlib=1 and disable_glibc flags to get Native Client
