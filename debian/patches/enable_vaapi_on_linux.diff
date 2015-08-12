@@ -88,11 +88,9 @@ Index: dev.wily/content/public/common/content_switches.h
 ===================================================================
 --- dev.wily.orig/content/public/common/content_switches.h
 +++ dev.wily/content/public/common/content_switches.h
-@@ -276,8 +276,9 @@ CONTENT_EXPORT extern const char kRender
+@@ -278,6 +278,8 @@ CONTENT_EXPORT extern const char kDisabl
  
- CONTENT_EXPORT extern const char kDisableWebAudio[];
- 
--#if defined(OS_CHROMEOS)
+ #if defined(OS_CHROMEOS)
  CONTENT_EXPORT extern const char kDisablePanelFitting[];
 +#endif
 +#if defined(OS_CHROMEOS) || defined(OS_LINUX)
