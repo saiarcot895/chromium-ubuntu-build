@@ -278,16 +278,28 @@ Index: dev.wily/content/common/gpu/media/vaapi_wrapper.cc
      return nullptr;
    }
  
-@@ -306,7 +306,7 @@ bool VaapiWrapper::VaInitialize(const ba
+@@ -305,14 +305,16 @@ VaapiWrapper::GetSupportedProfileInfosFo
+ bool VaapiWrapper::VaInitialize(const base::Closure& report_error_to_uma_cb) {
    static bool vaapi_functions_initialized = PostSandboxInitialization();
    if (!vaapi_functions_initialized) {
-     bool running_on_chromeos = false;
+-    bool running_on_chromeos = false;
 -#if defined(OS_CHROMEOS)
-+#if defined(OS_CHROMEOS) || defined(OS_LINUX)
++    bool error_level_logging = false;
++#if defined(OS_LINUX)
++    error_level_logging = true;
++#elif defined(OS_CHROMEOS)
      // When chrome runs on linux with chromeos=1, do not log error message
      // without VAAPI libraries.
-     running_on_chromeos = base::SysInfo::IsRunningOnChromeOS();
-@@ -384,7 +384,7 @@ bool VaapiWrapper::IsEntrypointSupported
+-    running_on_chromeos = base::SysInfo::IsRunningOnChromeOS();
++    error_level_logging = base::SysInfo::IsRunningOnChromeOS();
+ #endif
+     static const char kErrorMsg[] = "Failed to initialize VAAPI libs";
+-    if (running_on_chromeos)
++    if (error_level_logging)
+       LOG(ERROR) << kErrorMsg;
+     else
+       DVLOG(1) << kErrorMsg;
+@@ -384,7 +386,7 @@ bool VaapiWrapper::IsEntrypointSupported
    if (std::find(supported_entrypoints.begin(),
                  supported_entrypoints.end(),
                  entrypoint) == supported_entrypoints.end()) {
@@ -296,7 +308,7 @@ Index: dev.wily/content/common/gpu/media/vaapi_wrapper.cc
      return false;
    }
    return true;
-@@ -408,8 +408,8 @@ bool VaapiWrapper::AreAttribsSupported_L
+@@ -408,8 +410,8 @@ bool VaapiWrapper::AreAttribsSupported_L
      if (attribs[i].type != required_attribs[i].type ||
          (attribs[i].value & required_attribs[i].value) !=
              required_attribs[i].value) {

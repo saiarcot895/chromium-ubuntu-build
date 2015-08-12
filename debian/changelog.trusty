@@ -1,3 +1,9 @@
+chromium-browser (46.0.2478.0-0ubuntu1~ppa4~trusty1) trusty; urgency=low
+
+  * Fix calling a Chrome OS-only method.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 12 Aug 2015 15:26:09 -0400
+
 chromium-browser (46.0.2478.0-0ubuntu1~ppa3~trusty1) trusty; urgency=low
 
   * Change constants in LOG() to category names
