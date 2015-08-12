@@ -316,19 +316,19 @@ Index: dev.wily/content/common/gpu/media/vaapi_video_decode_accelerator.cc
    base::AutoLock auto_lock(lock_);
    DCHECK_EQ(state_, kUninitialized);
 -  DVLOG(2) << "Initializing VAVDA, profile: " << profile;
-+  LOG(2) << "Initializing VAVDA, profile: " << profile;
++  LOG(WARNING) << "Initializing VAVDA, profile: " << profile;
  
  #if defined(USE_X11)
    if (gfx::GetGLImplementation() != gfx::kGLImplementationDesktopGL) {
 -    DVLOG(1) << "HW video decode acceleration not available without "
-+    LOG(1) << "HW video decode acceleration not available without "
++    LOG(ERROR) << "HW video decode acceleration not available without "
                  "DesktopGL (GLX).";
      return false;
    }
  #elif defined(USE_OZONE)
    if (gfx::GetGLImplementation() != gfx::kGLImplementationEGLGLES2) {
 -    DVLOG(1) << "HW video decode acceleration not available without "
-+    LOG(1) << "HW video decode acceleration not available without "
++    LOG(ERROR) << "HW video decode acceleration not available without "
               << "EGLGLES2.";
      return false;
    }
@@ -337,7 +337,7 @@ Index: dev.wily/content/common/gpu/media/vaapi_video_decode_accelerator.cc
  
    if (!vaapi_wrapper_.get()) {
 -    DVLOG(1) << "Failed initializing VAAPI for profile " << profile;
-+    LOG(1) << "Failed initializing VAAPI for profile " << profile;
++    LOG(ERROR) << "Failed initializing VAAPI for profile " << profile;
      return false;
    }
  
