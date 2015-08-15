@@ -1,3 +1,9 @@
+chromium-browser (46.0.2478.0-0ubuntu1~ppa5~trusty1) trusty; urgency=low
+
+  * Remove references to remoting_locales
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 14 Aug 2015 20:46:36 -0400
+
 chromium-browser (46.0.2478.0-0ubuntu1~ppa4~trusty1) trusty; urgency=low
 
   * Fix calling a Chrome OS-only method.

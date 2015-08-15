@@ -352,7 +352,7 @@ endif
 	
 	# Locales: only keep en-US in the main deb
 	# Discard everything except en-US
-	find debian/chromium-browser/$(LIB_DIR)/locales debian/chromium-browser/$(LIB_DIR)/remoting_locales -type f \! -name en-US.pak -print -delete
+	find debian/chromium-browser/$(LIB_DIR)/locales -type f \! -name en-US.pak -print -delete
 	
 	dh_install -a
 
@@ -364,7 +364,7 @@ local_install_indep:
 	install --directory debian/tmp/etc/chromium-browser/customizations
 	install --owner=root --mode=0644 --no-target-directory debian/chromium-browser-customization-example debian/tmp/etc/chromium-browser/customizations/00-example
 	install --owner=root --mode=0644 --no-target-directory debian/chromium-browser-customization-flash-staleness debian/chromium-browser/etc/chromium-browser/customizations/09-flash-staleness-check
-	find debian/chromium-browser-l10n/$(LIB_DIR)/remoting_locales debian/chromium-browser-l10n/$(LIB_DIR)/locales -name en-US.pak -print -delete
+	find debian/chromium-browser-l10n/$(LIB_DIR)/locales -name en-US.pak -print -delete
 
 override_dh_clean:
 	@set -eux
