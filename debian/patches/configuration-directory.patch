@@ -6,16 +6,17 @@ Index: dev.wily/chrome/common/chrome_paths.cc
 ===================================================================
 --- dev.wily.orig/chrome/common/chrome_paths.cc
 +++ dev.wily/chrome/common/chrome_paths.cc
-@@ -60,6 +60,8 @@ const base::FilePath::CharType kFilepath
- #else
-     FILE_PATH_LITERAL("/usr/share/chromium/extensions");
- #endif  // defined(GOOGLE_CHROME_BUILD)
+@@ -65,6 +65,9 @@ const base::FilePath::CharType kFilepath
+ // where it can find the latest component updated flash.
+ const base::FilePath::CharType kComponentUpdatedFlashHint[] =
+     FILE_PATH_LITERAL("latest-component-updated-flash");
++
 +const base::FilePath::CharType kFilepathSinglePrefExtensionsNew[] =
 +    FILE_PATH_LITERAL("/usr/share/chromium-browser/extensions");
  #endif  // defined(OS_LINUX)
  
  static base::LazyInstance<base::FilePath>
-@@ -461,6 +463,9 @@ bool PathProvider(int key, base::FilePat
+@@ -466,6 +469,9 @@ bool PathProvider(int key, base::FilePat
        cur = base::FilePath(FILE_PATH_LITERAL("/etc/opt/chrome/policies"));
  #else
        cur = base::FilePath(FILE_PATH_LITERAL("/etc/chromium/policies"));
@@ -25,7 +26,7 @@ Index: dev.wily/chrome/common/chrome_paths.cc
  #endif
        break;
      }
-@@ -492,6 +497,10 @@ bool PathProvider(int key, base::FilePat
+@@ -497,6 +503,10 @@ bool PathProvider(int key, base::FilePat
  #endif
  #if defined(OS_LINUX)
      case chrome::DIR_STANDALONE_EXTERNAL_EXTENSIONS: {
@@ -36,7 +37,7 @@ Index: dev.wily/chrome/common/chrome_paths.cc
        cur = base::FilePath(kFilepathSinglePrefExtensions);
        break;
      }
-@@ -542,6 +551,10 @@ bool PathProvider(int key, base::FilePat
+@@ -547,6 +557,10 @@ bool PathProvider(int key, base::FilePat
  #else
        cur = base::FilePath(FILE_PATH_LITERAL(
            "/etc/chromium/native-messaging-hosts"));

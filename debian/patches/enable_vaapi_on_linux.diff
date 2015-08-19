@@ -26,7 +26,7 @@ Index: dev.wily/content/content_common.gypi
 ===================================================================
 --- dev.wily.orig/content/content_common.gypi
 +++ dev.wily/content/content_common.gypi
-@@ -854,7 +854,7 @@
+@@ -856,7 +856,7 @@
          },
        ],
      }],
@@ -35,7 +35,7 @@ Index: dev.wily/content/content_common.gypi
        'sources': [
          'common/gpu/media/accelerated_video_decoder.h',
          'common/gpu/media/h264_decoder.cc',
-@@ -906,7 +906,7 @@
+@@ -908,7 +908,7 @@
          'common/gpu/media/tegra_v4l2_device.h',
        ],
      }],
@@ -61,7 +61,7 @@ Index: dev.wily/content/content_tests.gypi
 ===================================================================
 --- dev.wily.orig/content/content_tests.gypi
 +++ dev.wily/content/content_tests.gypi
-@@ -1706,7 +1706,7 @@
+@@ -1703,7 +1703,7 @@
            },
          ]
      }],
@@ -74,7 +74,7 @@ Index: dev.wily/content/public/common/content_switches.cc
 ===================================================================
 --- dev.wily.orig/content/public/common/content_switches.cc
 +++ dev.wily/content/public/common/content_switches.cc
-@@ -967,7 +967,9 @@ const char kDisableWebAudio[]
+@@ -973,7 +973,9 @@ const char kDisableWebAudio[]
  #if defined(OS_CHROMEOS)
  // Disables panel fitting (used for mirror mode).
  const char kDisablePanelFitting[]           = "disable-panel-fitting";
@@ -88,7 +88,7 @@ Index: dev.wily/content/public/common/content_switches.h
 ===================================================================
 --- dev.wily.orig/content/public/common/content_switches.h
 +++ dev.wily/content/public/common/content_switches.h
-@@ -278,6 +278,8 @@ CONTENT_EXPORT extern const char kDisabl
+@@ -279,6 +279,8 @@ CONTENT_EXPORT extern const char kDisabl
  
  #if defined(OS_CHROMEOS)
  CONTENT_EXPORT extern const char kDisablePanelFitting[];
@@ -101,7 +101,7 @@ Index: dev.wily/media/media.gyp
 ===================================================================
 --- dev.wily.orig/media/media.gyp
 +++ dev.wily/media/media.gyp
-@@ -752,7 +752,7 @@
+@@ -756,7 +756,7 @@
            ],
          }],
          # For VaapiVideoEncodeAccelerator.
@@ -110,7 +110,7 @@ Index: dev.wily/media/media.gyp
            'sources': [
              'filters/h264_bitstream_buffer.cc',
              'filters/h264_bitstream_buffer.h',
-@@ -1351,7 +1351,7 @@
+@@ -1357,7 +1357,7 @@
              'player_android',
            ],
          }],
@@ -256,7 +256,7 @@ Index: dev.wily/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.wily.orig/chrome/browser/about_flags.cc
 +++ dev.wily/chrome/browser/about_flags.cc
-@@ -1011,7 +1011,7 @@ const Experiment kExperiments[] = {
+@@ -1014,7 +1014,7 @@ const Experiment kExperiments[] = {
       "disable-accelerated-video-decode",
       IDS_FLAGS_DISABLE_ACCELERATED_VIDEO_DECODE_NAME,
       IDS_FLAGS_DISABLE_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
@@ -278,7 +278,7 @@ Index: dev.wily/content/common/gpu/media/vaapi_wrapper.cc
      return nullptr;
    }
  
-@@ -305,14 +305,16 @@ VaapiWrapper::GetSupportedProfileInfosFo
+@@ -305,15 +305,17 @@ VaapiWrapper::GetSupportedProfileInfosFo
  bool VaapiWrapper::VaInitialize(const base::Closure& report_error_to_uma_cb) {
    static bool vaapi_functions_initialized = PostSandboxInitialization();
    if (!vaapi_functions_initialized) {
@@ -295,10 +295,12 @@ Index: dev.wily/content/common/gpu/media/vaapi_wrapper.cc
  #endif
      static const char kErrorMsg[] = "Failed to initialize VAAPI libs";
 -    if (running_on_chromeos)
+-      LOG(ERROR) << kErrorMsg;
 +    if (error_level_logging)
-       LOG(ERROR) << kErrorMsg;
++      VLOG(1) << kErrorMsg;
      else
        DVLOG(1) << kErrorMsg;
+     return false;
 @@ -384,7 +386,7 @@ bool VaapiWrapper::IsEntrypointSupported
    if (std::find(supported_entrypoints.begin(),
                  supported_entrypoints.end(),
@@ -328,19 +330,19 @@ Index: dev.wily/content/common/gpu/media/vaapi_video_decode_accelerator.cc
    base::AutoLock auto_lock(lock_);
    DCHECK_EQ(state_, kUninitialized);
 -  DVLOG(2) << "Initializing VAVDA, profile: " << profile;
-+  LOG(WARNING) << "Initializing VAVDA, profile: " << profile;
++  VLOG(1) << "Initializing VAVDA, profile: " << profile;
  
  #if defined(USE_X11)
    if (gfx::GetGLImplementation() != gfx::kGLImplementationDesktopGL) {
 -    DVLOG(1) << "HW video decode acceleration not available without "
-+    LOG(ERROR) << "HW video decode acceleration not available without "
++    VLOG(1) << "HW video decode acceleration not available without "
                  "DesktopGL (GLX).";
      return false;
    }
  #elif defined(USE_OZONE)
    if (gfx::GetGLImplementation() != gfx::kGLImplementationEGLGLES2) {
 -    DVLOG(1) << "HW video decode acceleration not available without "
-+    LOG(ERROR) << "HW video decode acceleration not available without "
++    VLOG(1) << "HW video decode acceleration not available without "
               << "EGLGLES2.";
      return false;
    }
@@ -349,7 +351,7 @@ Index: dev.wily/content/common/gpu/media/vaapi_video_decode_accelerator.cc
  
    if (!vaapi_wrapper_.get()) {
 -    DVLOG(1) << "Failed initializing VAAPI for profile " << profile;
-+    LOG(ERROR) << "Failed initializing VAAPI for profile " << profile;
++    VLOG(1) << "Failed initializing VAAPI for profile " << profile;
      return false;
    }
  
@@ -358,7 +360,7 @@ Index: dev.wily/content/common/gpu/media/vaapi_video_decode_accelerator.cc
      decoder_.reset(new VP8Decoder(vp8_accelerator_.get()));
    } else {
 -    DLOG(ERROR) << "Unsupported profile " << profile;
-+    LOG(ERROR) << "Unsupported profile " << profile;
++    VLOG(1) << "Unsupported profile " << profile;
      return false;
    }
  

@@ -1,3 +1,10 @@
+chromium-browser (46.0.2486.0-0ubuntu1~ppa1~trusty1) trusty; urgency=low
+
+  * New upstream version 46.0.2486.0
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 19 Aug 2015 19:29:47 -0400
+
 chromium-browser (46.0.2478.0-0ubuntu1~ppa5~trusty1) trusty; urgency=low
 
   * Remove references to remoting_locales

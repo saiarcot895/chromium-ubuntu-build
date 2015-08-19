@@ -4,7 +4,7 @@ Index: dev.wily/AUTHORS
 ===================================================================
 --- dev.wily.orig/AUTHORS
 +++ dev.wily/AUTHORS
-@@ -577,6 +577,7 @@ Volker Sorge <volker.sorge@gmail.com>
+@@ -580,6 +580,7 @@ Volker Sorge <volker.sorge@gmail.com>
  Wesley Lancel <wesleylancel@gmail.com>
  Will Hirsch <chromium@willhirsch.co.uk>
  William Xie <william.xie@intel.com>
@@ -357,19 +357,18 @@ Index: dev.wily/ui/events/platform/x11/x11_event_source.cc
 ===================================================================
 --- dev.wily.orig/ui/events/platform/x11/x11_event_source.cc
 +++ dev.wily/ui/events/platform/x11/x11_event_source.cc
-@@ -134,6 +134,12 @@ uint32_t X11EventSource::DispatchEvent(X
+@@ -139,6 +139,11 @@ uint32_t X11EventSource::DispatchEvent(X
+     ui::UpdateDeviceList();
      hotplug_event_handler_->OnHotplugEvent();
    }
- 
 +  if ((xevent->type == EnterNotify || xevent->type == LeaveNotify) &&
 +      xevent->xcrossing.mode == NotifyNormal) {
 +    // Clear stored scroll data
 +    ui::DeviceDataManagerX11::GetInstance()->InvalidateScrollClasses();
 +  }
-+
-   if (have_cookie)
-     XFreeEventData(xevent->xgeneric.display, &xevent->xcookie);
    return action;
+ }
+ 
 Index: dev.wily/ui/events/x/events_x.cc
 ===================================================================
 --- dev.wily.orig/ui/events/x/events_x.cc
