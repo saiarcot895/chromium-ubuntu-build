@@ -79,7 +79,7 @@ ifneq (,$(filter 12.04%,$(UBUNTU_DIST)))
 GYP_DEFINES += disable_nacl=1
 else
 # Don't build the untrusted NaCl code (it's not used in Chromium anyways)
-GYP_DEFINES += disable_nacl_untrusted=1
+# GYP_DEFINES += disable_nacl_untrusted=1
 endif
 
 # do not use third_party/gold as the linker.
@@ -438,6 +438,9 @@ configure-stamp:
 	
 	# Fix (hopefully temporary) gyp/packaging bug
 	touch chrome/test/data/webui/i18n_process_css_test.html
+	
+	# Add symlink to Native Client toolchain
+	ln -s /usr/lib/$(DEB_HOST_MULTIARCH)/native-client/ native_client/toolchain
 	
 	cd $(SRC_DIR) && $(GYP_ENV) $(CROSS_BUILD) python build/gyp_chromium build/all.gyp $(GYP_PARAMS)
 
