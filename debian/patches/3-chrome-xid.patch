@@ -40,7 +40,7 @@ Index: dev.wily/chrome/browser/ui/views/frame/browser_view.cc
 ===================================================================
 --- dev.wily.orig/chrome/browser/ui/views/frame/browser_view.cc
 +++ dev.wily/chrome/browser/ui/views/frame/browser_view.cc
-@@ -703,6 +703,7 @@ void BrowserView::Show() {
+@@ -702,6 +702,7 @@ void BrowserView::Show() {
    force_location_bar_focus_ = false;
  
    browser()->OnWindowDidShow();
@@ -267,7 +267,7 @@ Index: dev.wily/ui/views/widget/native_widget_aura.h
 ===================================================================
 --- dev.wily.orig/ui/views/widget/native_widget_aura.h
 +++ dev.wily/ui/views/widget/native_widget_aura.h
-@@ -48,6 +48,8 @@ class VIEWS_EXPORT NativeWidgetAura
+@@ -47,6 +47,8 @@ class VIEWS_EXPORT NativeWidgetAura
        internal::NativeWidgetPrivate* native_widget,
        aura::Window* window);
  

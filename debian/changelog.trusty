@@ -1,3 +1,16 @@
+chromium-browser (46.0.2490.4-0ubuntu1~ppa1~trusty1) trusty; urgency=low
+
+  * New upstream version 46.0.2490.4
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 26 Aug 2015 10:18:53 -0400
+
+chromium-browser (46.0.2486.0-0ubuntu1~ppa3~trusty1) trusty; urgency=low
+
+  * Try building only Chromium.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 20 Aug 2015 19:49:20 -0400
+
 chromium-browser (46.0.2486.0-0ubuntu1~ppa2~trusty1) trusty; urgency=low
 
   * Add patch to try fixing Native Client build

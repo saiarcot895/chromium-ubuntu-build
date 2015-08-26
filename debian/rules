@@ -79,7 +79,7 @@ ifneq (,$(filter 12.04%,$(UBUNTU_DIST)))
 GYP_DEFINES += disable_nacl=1
 else
 # Don't build the untrusted NaCl code (it's not used in Chromium anyways)
-# GYP_DEFINES += disable_nacl_untrusted=1
+GYP_DEFINES += disable_nacl_untrusted=1
 endif
 
 # do not use third_party/gold as the linker.
@@ -205,12 +205,8 @@ endif
 
 # Build chrome and chrome_sandbox, and chromedriver
 BUILD_TARGETS += \
-	pdf \
 	chrome \
 	chrome_sandbox \
-	chromedriver \
-	widevinecdmadapter \
-	clearkeycdm \
 	$(NULL)
 
 GYP_DEFINES += \

@@ -2,7 +2,7 @@ Index: dev.wily/chrome/app/generated_resources.grd
 ===================================================================
 --- dev.wily.orig/chrome/app/generated_resources.grd
 +++ dev.wily/chrome/app/generated_resources.grd
-@@ -8021,6 +8021,35 @@ I don't think this site should be blocke
+@@ -8029,6 +8029,35 @@ I don't think this site should be blocke
          Reload
        </message>
  
@@ -38,7 +38,7 @@ Index: dev.wily/chrome/app/generated_resources.grd
        <!-- Mac and Chrome OS users do not close their browser. Mac users quit it and Chrome OS users log out. -->
        <if expr="not is_macosx and not chromeos">
          <message name="IDS_COOKIES_CLEAR_WHEN_CLOSE_CHKBOX" desc="A checkbox in the Content Settings dialog for removing all cookies on when browser is closed.">
-@@ -12226,6 +12255,9 @@ Some features may be unavailable.  Pleas
+@@ -12207,6 +12236,9 @@ Some features may be unavailable.  Pleas
        <message name="IDS_OPTIONS_ADVANCED_SECTION_TITLE_CONTENT">
          Web content
        </message>
@@ -634,10 +634,10 @@ Index: dev.wily/chrome/browser/ui/webui/options/browser_options_handler.cc
      { "disableWebServices", IDS_OPTIONS_DISABLE_WEB_SERVICES },
      { "doNotTrack", IDS_OPTIONS_ENABLE_DO_NOT_TRACK },
      { "doNotTrackConfirmDisable",
-@@ -334,6 +340,8 @@ void BrowserOptionsHandler::GetLocalized
+@@ -332,6 +338,8 @@ void BrowserOptionsHandler::GetLocalized
+     { "profilesManage", IDS_PROFILES_MANAGE_BUTTON_LABEL },
+     { "profilesSingleUser", IDS_PROFILES_SINGLE_USER_MESSAGE,
        IDS_PRODUCT_NAME },
-     { "profilesSupervisedDashboardTip",
-       IDS_PROFILES_SUPERVISED_USER_DASHBOARD_TIP },
 +    { "promptIntegrationEnableIntegration",
 +      IDS_PROMPT_INTEGRATION_ENABLE_BUTTON_LABEL },
      { "proxiesLabelExtension", IDS_OPTIONS_EXTENSION_PROXIES_LABEL },
@@ -995,7 +995,7 @@ Index: dev.wily/chrome/browser/ui/webui/options/options_ui.cc
 ===================================================================
 --- dev.wily.orig/chrome/browser/ui/webui/options/options_ui.cc
 +++ dev.wily/chrome/browser/ui/webui/options/options_ui.cc
-@@ -104,6 +104,10 @@
+@@ -107,6 +107,10 @@
  #include "chrome/browser/ui/webui/options/geolocation_options_handler.h"
  #endif
  
@@ -1006,7 +1006,7 @@ Index: dev.wily/chrome/browser/ui/webui/options/options_ui.cc
  using content::RenderViewHost;
  
  namespace {
-@@ -278,6 +282,8 @@ OptionsUI::OptionsUI(content::WebUI* web
+@@ -281,6 +285,8 @@ OptionsUI::OptionsUI(content::WebUI* web
    AddOptionsPageUIHandler(localized_strings, new CookiesViewHandler());
    AddOptionsPageUIHandler(localized_strings, new CreateProfileHandler());
    AddOptionsPageUIHandler(localized_strings, new EasyUnlockHandler());
@@ -1019,7 +1019,7 @@ Index: dev.wily/chrome/chrome_browser_ui.gypi
 ===================================================================
 --- dev.wily.orig/chrome/chrome_browser_ui.gypi
 +++ dev.wily/chrome/chrome_browser_ui.gypi
-@@ -1867,6 +1867,8 @@
+@@ -1841,6 +1841,8 @@
        'browser/ui/webui/options/core_options_handler.h',
        'browser/ui/webui/options/create_profile_handler.cc',
        'browser/ui/webui/options/create_profile_handler.h',
@@ -1028,7 +1028,7 @@ Index: dev.wily/chrome/chrome_browser_ui.gypi
        'browser/ui/webui/options/easy_unlock_handler.cc',
        'browser/ui/webui/options/easy_unlock_handler.h',
        'browser/ui/webui/options/font_settings_handler.cc',
-@@ -2951,6 +2953,7 @@
+@@ -2918,6 +2920,7 @@
            ],
          }],
          ['use_aura==1 and chromeos==0 and use_ozone==0 and OS=="linux"', {

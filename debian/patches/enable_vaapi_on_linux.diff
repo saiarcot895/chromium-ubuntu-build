@@ -13,12 +13,14 @@ Index: dev.wily/content/common/gpu/media/gpu_video_decode_accelerator.cc
  #if defined(USE_V4L2_CODEC)
  #include "content/common/gpu/media/v4l2_device.h"
  #include "content/common/gpu/media/v4l2_slice_video_decode_accelerator.h"
-@@ -346,7 +346,7 @@ void GpuVideoDecodeAccelerator::BindImag
+@@ -346,7 +346,9 @@ void GpuVideoDecodeAccelerator::BindImag
  scoped_ptr<media::VideoDecodeAccelerator>
  GpuVideoDecodeAccelerator::CreateVaapiVDA() {
    scoped_ptr<media::VideoDecodeAccelerator> decoder;
 -#if defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)
++  VLOG(1) << "About to create new VAAPI video decode accelerator.";
 +#if (defined(OS_CHROMEOS) || defined(OS_LINUX)) && defined(ARCH_CPU_X86_FAMILY)
++  VLOG(1) << "Creating new VAAPI video decode accelerator.";
    decoder.reset(new VaapiVideoDecodeAccelerator(
        make_context_current_, base::Bind(&GpuVideoDecodeAccelerator::BindImage,
                                          base::Unretained(this))));
@@ -74,7 +76,7 @@ Index: dev.wily/content/public/common/content_switches.cc
 ===================================================================
 --- dev.wily.orig/content/public/common/content_switches.cc
 +++ dev.wily/content/public/common/content_switches.cc
-@@ -973,7 +973,9 @@ const char kDisableWebAudio[]
+@@ -947,7 +947,9 @@ const char kDisableWebAudio[]
  #if defined(OS_CHROMEOS)
  // Disables panel fitting (used for mirror mode).
  const char kDisablePanelFitting[]           = "disable-panel-fitting";
@@ -88,7 +90,7 @@ Index: dev.wily/content/public/common/content_switches.h
 ===================================================================
 --- dev.wily.orig/content/public/common/content_switches.h
 +++ dev.wily/content/public/common/content_switches.h
-@@ -279,6 +279,8 @@ CONTENT_EXPORT extern const char kDisabl
+@@ -277,6 +277,8 @@ CONTENT_EXPORT extern const char kDisabl
  
  #if defined(OS_CHROMEOS)
  CONTENT_EXPORT extern const char kDisablePanelFitting[];
@@ -110,7 +112,7 @@ Index: dev.wily/media/media.gyp
            'sources': [
              'filters/h264_bitstream_buffer.cc',
              'filters/h264_bitstream_buffer.h',
-@@ -1357,7 +1357,7 @@
+@@ -1359,7 +1359,7 @@
              'player_android',
            ],
          }],

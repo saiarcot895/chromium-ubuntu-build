@@ -36,4 +36,3 @@ widevine-other-locations
 dont-load-nacl-nonsfi.patch
 add-smooth-scrolling.patch
 specify-max-resolution.patch
-fix-building-native-client.patch
