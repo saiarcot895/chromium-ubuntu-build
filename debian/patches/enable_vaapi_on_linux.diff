@@ -366,3 +366,25 @@ Index: dev.wily/content/common/gpu/media/vaapi_video_decode_accelerator.cc
      return false;
    }
  
+Index: dev.wily/content/gpu/gpu_main.cc
+===================================================================
+--- dev.wily.orig/content/gpu/gpu_main.cc
++++ dev.wily/content/gpu/gpu_main.cc
+@@ -66,7 +66,7 @@
+ #include "content/common/sandbox_mac.h"
+ #endif
+ 
+-#if defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)
++#if (defined(OS_CHROMEOS) || defined(OS_LINUX)) && defined(ARCH_CPU_X86_FAMILY)
+ #include "content/common/gpu/media/vaapi_wrapper.h"
+ #endif
+ 
+@@ -227,7 +227,7 @@ int GpuMain(const MainFunctionParams& pa
+   GetGpuInfoFromCommandLine(gpu_info, command_line);
+   gpu_info.in_process_gpu = false;
+ 
+-#if defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)
++#if (defined(OS_CHROMEOS) || defined(OS_LINUX)) && defined(ARCH_CPU_X86_FAMILY)
+   VaapiWrapper::PreSandboxInitialization();
+ #endif
+ 
