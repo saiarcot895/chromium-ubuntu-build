@@ -1,3 +1,10 @@
+chromium-browser (46.0.2490.6-0ubuntu1~ppa1~trusty1) trusty; urgency=low
+
+  * New upstream version 46.0.2490.6
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 29 Aug 2015 07:42:52 -0400
+
 chromium-browser (46.0.2490.4-0ubuntu1~ppa3~trusty1) trusty; urgency=low
 
   * Add possible fix for hardware video decoding.

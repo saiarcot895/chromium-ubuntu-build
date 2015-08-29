@@ -78,8 +78,9 @@ ifneq (,$(filter 12.04%,$(UBUNTU_DIST)))
 # Disable NaCl for Precise until the toolchain is built
 GYP_DEFINES += disable_nacl=1
 else
-# Don't build the untrusted NaCl code (it's not used in Chromium anyways)
-GYP_DEFINES += disable_nacl_untrusted=1
+# Don't build anything related to newlib or glibc, as it's not needed for the
+# core NaCl
+GYP_DEFINES += disable_newlib=1 disable_glibc=1
 endif
 
 # do not use third_party/gold as the linker.
