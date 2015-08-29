@@ -36,3 +36,4 @@ widevine-other-locations
 dont-load-nacl-nonsfi.patch
 add-smooth-scrolling.patch
 specify-max-resolution.patch
+remove-libgcceh.patch
