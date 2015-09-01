@@ -1,3 +1,9 @@
+chromium-browser (46.0.2490.6-0ubuntu1~ppa3~wily1) wily; urgency=low
+
+  * Add a little more logging, and try another fix.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 01 Sep 2015 13:01:20 -0400
+
 chromium-browser (46.0.2490.6-0ubuntu1~ppa2~wily1) wily; urgency=low
 
   * Don't link with libgcc_eh, as it's not available.

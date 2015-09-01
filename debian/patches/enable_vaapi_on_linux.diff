@@ -13,7 +13,31 @@ Index: dev.wily/content/common/gpu/media/gpu_video_decode_accelerator.cc
  #if defined(USE_V4L2_CODEC)
  #include "content/common/gpu/media/v4l2_device.h"
  #include "content/common/gpu/media/v4l2_slice_video_decode_accelerator.h"
-@@ -346,7 +346,9 @@ void GpuVideoDecodeAccelerator::BindImag
+@@ -251,6 +251,8 @@ void GpuVideoDecodeAccelerator::Initiali
+   }
+ #endif
+ 
++  VLOG(1) << "Initializing GPU video decode accelerator.";
++
+   // Array of Create..VDA() function pointers, maybe applicable to the current
+   // platform. This list is ordered by priority of use and it should be the
+   // same as the order of querying supported profiles of VDAs.
+@@ -264,11 +266,14 @@ void GpuVideoDecodeAccelerator::Initiali
+       &GpuVideoDecodeAccelerator::CreateAndroidVDA};
+ 
+   for (const auto& create_vda_function : create_vda_fps) {
++    VLOG(1) << "Testing create_vda_function.";
+     video_decode_accelerator_ = (this->*create_vda_function)();
+     if (!video_decode_accelerator_ ||
+         !video_decode_accelerator_->Initialize(profile, this))
+       continue;
+ 
++    VLOG(1) << "Initialization successful.";
++
+     if (video_decode_accelerator_->CanDecodeOnIOThread()) {
+       filter_ = new MessageFilter(this, host_route_id_);
+       stub_->channel()->AddFilter(filter_.get());
+@@ -346,7 +351,9 @@ void GpuVideoDecodeAccelerator::BindImag
  scoped_ptr<media::VideoDecodeAccelerator>
  GpuVideoDecodeAccelerator::CreateVaapiVDA() {
    scoped_ptr<media::VideoDecodeAccelerator> decoder;
@@ -24,6 +48,15 @@ Index: dev.wily/content/common/gpu/media/gpu_video_decode_accelerator.cc
    decoder.reset(new VaapiVideoDecodeAccelerator(
        make_context_current_, base::Bind(&GpuVideoDecodeAccelerator::BindImage,
                                          base::Unretained(this))));
+@@ -398,7 +405,7 @@ GpuVideoDecodeAccelerator::GetSupportedP
+   // can be initialized by corresponding VDA successfully.
+ #if defined(OS_WIN)
+   profiles = DXVAVideoDecodeAccelerator::GetSupportedProfiles();
+-#elif defined(OS_CHROMEOS)
++#elif defined(OS_CHROMEOS) || defined(OS_LINUX)
+   media::VideoDecodeAccelerator::SupportedProfiles vda_profiles;
+ #if defined(USE_V4L2_CODEC)
+   vda_profiles = V4L2VideoDecodeAccelerator::GetSupportedProfiles();
 Index: dev.wily/content/content_common.gypi
 ===================================================================
 --- dev.wily.orig/content/content_common.gypi
@@ -388,3 +421,18 @@ Index: dev.wily/content/gpu/gpu_main.cc
    VaapiWrapper::PreSandboxInitialization();
  #endif
  
+Index: dev.wily/content/common/gpu/client/command_buffer_proxy_impl.cc
+===================================================================
+--- dev.wily.orig/content/common/gpu/client/command_buffer_proxy_impl.cc
++++ dev.wily/content/common/gpu/client/command_buffer_proxy_impl.cc
+@@ -561,8 +561,10 @@ bool CommandBufferProxyImpl::ProduceFron
+ 
+ scoped_ptr<media::VideoDecodeAccelerator>
+ CommandBufferProxyImpl::CreateVideoDecoder() {
++  TRACE_EVENT0("gpu", "CommandBufferProxyImpl::CreateVideoDecoder");
+   if (!channel_)
+     return scoped_ptr<media::VideoDecodeAccelerator>();
++  VLOG(1) << "About to create GpuVideoDecodeAcceleratorHost.";
+   return scoped_ptr<media::VideoDecodeAccelerator>(
+       new GpuVideoDecodeAcceleratorHost(channel_, this));
+ }
