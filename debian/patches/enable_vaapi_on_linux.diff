@@ -96,7 +96,7 @@ Index: dev.wily/content/content_tests.gypi
 ===================================================================
 --- dev.wily.orig/content/content_tests.gypi
 +++ dev.wily/content/content_tests.gypi
-@@ -1703,7 +1703,7 @@
+@@ -1709,7 +1709,7 @@
            },
          ]
      }],
@@ -109,7 +109,7 @@ Index: dev.wily/content/public/common/content_switches.cc
 ===================================================================
 --- dev.wily.orig/content/public/common/content_switches.cc
 +++ dev.wily/content/public/common/content_switches.cc
-@@ -947,7 +947,9 @@ const char kDisableWebAudio[]
+@@ -927,7 +927,9 @@ const char kDisableWebAudio[]
  #if defined(OS_CHROMEOS)
  // Disables panel fitting (used for mirror mode).
  const char kDisablePanelFitting[]           = "disable-panel-fitting";
@@ -123,7 +123,7 @@ Index: dev.wily/content/public/common/content_switches.h
 ===================================================================
 --- dev.wily.orig/content/public/common/content_switches.h
 +++ dev.wily/content/public/common/content_switches.h
-@@ -277,6 +277,8 @@ CONTENT_EXPORT extern const char kDisabl
+@@ -272,6 +272,8 @@ CONTENT_EXPORT extern const char kDisabl
  
  #if defined(OS_CHROMEOS)
  CONTENT_EXPORT extern const char kDisablePanelFitting[];
@@ -291,7 +291,7 @@ Index: dev.wily/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.wily.orig/chrome/browser/about_flags.cc
 +++ dev.wily/chrome/browser/about_flags.cc
-@@ -1014,7 +1014,7 @@ const Experiment kExperiments[] = {
+@@ -977,7 +977,7 @@ const Experiment kExperiments[] = {
       "disable-accelerated-video-decode",
       IDS_FLAGS_DISABLE_ACCELERATED_VIDEO_DECODE_NAME,
       IDS_FLAGS_DISABLE_ACCELERATED_VIDEO_DECODE_DESCRIPTION,

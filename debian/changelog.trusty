@@ -1,3 +1,10 @@
+chromium-browser (47.0.2498.0-0ubuntu1~ppa1~trusty1) trusty; urgency=low
+
+  * New upstream version 47.0.2498.0
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 03 Sep 2015 13:21:30 -0400
+
 chromium-browser (46.0.2490.6-0ubuntu1~ppa3~trusty1) trusty; urgency=low
 
   * Add a little more logging, and try another fix.

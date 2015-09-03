@@ -4,7 +4,7 @@ Index: dev.wily/AUTHORS
 ===================================================================
 --- dev.wily.orig/AUTHORS
 +++ dev.wily/AUTHORS
-@@ -582,6 +582,7 @@ Volker Sorge <volker.sorge@gmail.com>
+@@ -583,6 +583,7 @@ Volker Sorge <volker.sorge@gmail.com>
  Wesley Lancel <wesleylancel@gmail.com>
  Will Hirsch <chromium@willhirsch.co.uk>
  William Xie <william.xie@intel.com>
@@ -480,7 +480,7 @@ Index: dev.wily/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
 ===================================================================
 --- dev.wily.orig/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
 +++ dev.wily/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
-@@ -1757,6 +1757,9 @@ uint32_t DesktopWindowTreeHostX11::Dispa
+@@ -1758,6 +1758,9 @@ uint32_t DesktopWindowTreeHostX11::Dispa
        if (xev->xcrossing.detail == NotifyInferior)
          break;
  
