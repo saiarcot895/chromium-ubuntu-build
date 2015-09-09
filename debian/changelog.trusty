@@ -1,3 +1,9 @@
+chromium-browser (47.0.2503.0-0ubuntu1~ppa2~trusty1) trusty; urgency=low
+
+  * Add possible GCC 5 build fix.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 09 Sep 2015 13:29:03 -0400
+
 chromium-browser (47.0.2503.0-0ubuntu1~ppa1~trusty1) trusty; urgency=low
 
   * New upstream version 47.0.2503.0
