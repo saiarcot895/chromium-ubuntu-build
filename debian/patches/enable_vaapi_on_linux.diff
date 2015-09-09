@@ -48,7 +48,7 @@ Index: dev.wily/content/common/gpu/media/gpu_video_decode_accelerator.cc
    decoder.reset(new VaapiVideoDecodeAccelerator(
        make_context_current_, base::Bind(&GpuVideoDecodeAccelerator::BindImage,
                                          base::Unretained(this))));
-@@ -398,7 +405,7 @@ GpuVideoDecodeAccelerator::GetSupportedP
+@@ -400,7 +407,7 @@ GpuVideoDecodeAccelerator::GetSupportedP
    // can be initialized by corresponding VDA successfully.
  #if defined(OS_WIN)
    profiles = DXVAVideoDecodeAccelerator::GetSupportedProfiles();
@@ -96,7 +96,7 @@ Index: dev.wily/content/content_tests.gypi
 ===================================================================
 --- dev.wily.orig/content/content_tests.gypi
 +++ dev.wily/content/content_tests.gypi
-@@ -1709,7 +1709,7 @@
+@@ -1719,7 +1719,7 @@
            },
          ]
      }],
@@ -109,7 +109,7 @@ Index: dev.wily/content/public/common/content_switches.cc
 ===================================================================
 --- dev.wily.orig/content/public/common/content_switches.cc
 +++ dev.wily/content/public/common/content_switches.cc
-@@ -927,7 +927,9 @@ const char kDisableWebAudio[]
+@@ -926,7 +926,9 @@ const char kDisableWebAudio[]
  #if defined(OS_CHROMEOS)
  // Disables panel fitting (used for mirror mode).
  const char kDisablePanelFitting[]           = "disable-panel-fitting";
@@ -291,7 +291,7 @@ Index: dev.wily/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.wily.orig/chrome/browser/about_flags.cc
 +++ dev.wily/chrome/browser/about_flags.cc
-@@ -977,7 +977,7 @@ const Experiment kExperiments[] = {
+@@ -970,7 +970,7 @@ const Experiment kExperiments[] = {
       "disable-accelerated-video-decode",
       IDS_FLAGS_DISABLE_ACCELERATED_VIDEO_DECODE_NAME,
       IDS_FLAGS_DISABLE_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
