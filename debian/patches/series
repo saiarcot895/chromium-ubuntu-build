@@ -37,4 +37,3 @@ add-smooth-scrolling.patch
 specify-max-resolution.patch
 remove-libgcceh.patch
 nacl-loosen-fd-check.patch
-fix-gcc5-build.patch

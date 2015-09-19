@@ -61,7 +61,7 @@ Index: dev.wily/content/content_common.gypi
 ===================================================================
 --- dev.wily.orig/content/content_common.gypi
 +++ dev.wily/content/content_common.gypi
-@@ -856,7 +856,7 @@
+@@ -857,7 +857,7 @@
          },
        ],
      }],
@@ -70,7 +70,7 @@ Index: dev.wily/content/content_common.gypi
        'sources': [
          'common/gpu/media/accelerated_video_decoder.h',
          'common/gpu/media/h264_decoder.cc',
-@@ -908,7 +908,7 @@
+@@ -909,7 +909,7 @@
          'common/gpu/media/tegra_v4l2_device.h',
        ],
      }],
@@ -96,7 +96,7 @@ Index: dev.wily/content/content_tests.gypi
 ===================================================================
 --- dev.wily.orig/content/content_tests.gypi
 +++ dev.wily/content/content_tests.gypi
-@@ -1719,7 +1719,7 @@
+@@ -1731,7 +1731,7 @@
            },
          ]
      }],
@@ -136,7 +136,7 @@ Index: dev.wily/media/media.gyp
 ===================================================================
 --- dev.wily.orig/media/media.gyp
 +++ dev.wily/media/media.gyp
-@@ -756,7 +756,7 @@
+@@ -759,7 +759,7 @@
            ],
          }],
          # For VaapiVideoEncodeAccelerator.
@@ -145,7 +145,7 @@ Index: dev.wily/media/media.gyp
            'sources': [
              'filters/h264_bitstream_buffer.cc',
              'filters/h264_bitstream_buffer.h',
-@@ -1359,7 +1359,7 @@
+@@ -1384,7 +1384,7 @@
              'player_android',
            ],
          }],
@@ -412,7 +412,7 @@ Index: dev.wily/content/gpu/gpu_main.cc
  #include "content/common/gpu/media/vaapi_wrapper.h"
  #endif
  
-@@ -227,7 +227,7 @@ int GpuMain(const MainFunctionParams& pa
+@@ -231,7 +231,7 @@ int GpuMain(const MainFunctionParams& pa
    GetGpuInfoFromCommandLine(gpu_info, command_line);
    gpu_info.in_process_gpu = false;
  

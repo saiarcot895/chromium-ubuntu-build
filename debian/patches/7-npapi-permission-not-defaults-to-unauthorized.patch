@@ -2,7 +2,7 @@ Index: dev.wily/chrome/browser/browser_resources.grd
 ===================================================================
 --- dev.wily.orig/chrome/browser/browser_resources.grd
 +++ dev.wily/chrome/browser/browser_resources.grd
-@@ -245,6 +245,7 @@
+@@ -247,6 +247,7 @@
        </if>
        <if expr="desktop_linux or (is_android and enable_plugins)">
          <include name="IDR_PLUGIN_DB_JSON" file="resources\plugin_metadata\plugins_linux.json" type="BINDATA" />
@@ -28,8 +28,8 @@ Index: dev.wily/chrome/browser/plugins/plugin_finder.cc
 -// static
 -PluginFinder* PluginFinder::GetInstance() {
 -  // PluginFinder::GetInstance() is the only method that's allowed to call
--  // Singleton<PluginFinder>::get().
--  return Singleton<PluginFinder>::get();
+-  // base::Singleton<PluginFinder>::get().
+-  return base::Singleton<PluginFinder>::get();
 -}
 -
 -PluginFinder::PluginFinder() : version_(-1) {
@@ -148,7 +148,7 @@ Index: dev.wily/chrome/browser/plugins/plugin_finder.h
 ===================================================================
 --- dev.wily.orig/chrome/browser/plugins/plugin_finder.h
 +++ dev.wily/chrome/browser/plugins/plugin_finder.h
-@@ -86,6 +86,15 @@ class PluginFinder {
+@@ -85,6 +85,15 @@ class PluginFinder {
    // Returns NULL if the plugin list couldn't be parsed.
    static base::DictionaryValue* LoadBuiltInPluginList();
  
