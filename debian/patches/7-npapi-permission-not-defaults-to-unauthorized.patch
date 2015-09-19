@@ -85,8 +85,8 @@ Index: dev.wily/chrome/browser/plugins/plugin_finder.cc
 +// static
 +PluginFinder* PluginFinder::GetInstance() {
 +  // PluginFinder::GetInstance() is the only method that's allowed to call
-+  // Singleton<PluginFinder>::get().
-+  return Singleton<PluginFinder>::get();
++  // base::Singleton<PluginFinder>::get().
++  return base::Singleton<PluginFinder>::get();
 +}
 +
 +PluginFinder::PluginFinder() : version_(-1) {
@@ -109,7 +109,7 @@ Index: dev.wily/chrome/browser/plugins/plugin_finder.cc
 +}
 +
 +// static
-+DictionaryValue* PluginFinder::LoadPlatformPluginList() {
++base::DictionaryValue* PluginFinder::LoadPlatformPluginList() {
 +  return LoadPlatformPluginListWithId(IDR_PLATFORM_PLUGIN_DB_JSON);
 +}
 +
@@ -127,7 +127,7 @@ Index: dev.wily/chrome/browser/plugins/plugin_finder.cc
  
 +  // Load the platform specific plugins (if any)
 +  scoped_ptr<DictionaryValue> final_plugin_list(plugin_list->DeepCopy());
-+  MergePlatformSpecifiPlugins(final_plugin_list.get());
++  MergePlatformSpecificPlugins(final_plugin_list.get());
 +
    version_ = version;
  
@@ -159,7 +159,7 @@ Index: dev.wily/chrome/browser/plugins/plugin_finder.h
 +
 +  // Merges the platform specific plugins to the list of plugins
 +  // passed as parameters.
-+  static void MergePlatformSpecifiPlugins(base::DictionaryValue * plugin_list);
++  static void MergePlatformSpecificPlugins(base::DictionaryValue * plugin_list);
 +
  #if defined(ENABLE_PLUGIN_INSTALLATION)
    std::map<std::string, PluginInstaller*> installers_;
