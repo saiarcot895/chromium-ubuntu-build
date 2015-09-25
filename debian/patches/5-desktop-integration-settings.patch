@@ -2,7 +2,7 @@ Index: dev.wily/chrome/app/generated_resources.grd
 ===================================================================
 --- dev.wily.orig/chrome/app/generated_resources.grd
 +++ dev.wily/chrome/app/generated_resources.grd
-@@ -7936,6 +7936,35 @@ Keep your key file in a safe place. You
+@@ -7838,6 +7838,35 @@ Keep your key file in a safe place. You
  I don't think this site should be blocked!
        </message>
  
@@ -38,7 +38,7 @@ Index: dev.wily/chrome/app/generated_resources.grd
        <!-- Content Settings dialog data -->
        <message name="IDS_CONTENT_SETTINGS_TITLE" desc="Title for content settings dialog">
          Content settings
-@@ -12124,6 +12153,9 @@ Some features may be unavailable.  Pleas
+@@ -12013,6 +12042,9 @@ Some features may be unavailable.  Pleas
        <message name="IDS_OPTIONS_ADVANCED_SECTION_TITLE_CONTENT">
          Web content
        </message>
@@ -601,7 +601,7 @@ Index: dev.wily/chrome/browser/resources/options/options_bundle.js
 ===================================================================
 --- dev.wily.orig/chrome/browser/resources/options/options_bundle.js
 +++ dev.wily/chrome/browser/resources/options/options_bundle.js
-@@ -82,6 +82,8 @@ var CertificateImportErrorOverlay = opti
+@@ -81,6 +81,8 @@ var CertificateImportErrorOverlay = opti
  <include src="content_settings_ui.js">
  <include src="cookies_list.js">
  <include src="cookies_view.js">
@@ -634,7 +634,7 @@ Index: dev.wily/chrome/browser/ui/webui/options/browser_options_handler.cc
      { "disableWebServices", IDS_OPTIONS_DISABLE_WEB_SERVICES },
      { "doNotTrack", IDS_OPTIONS_ENABLE_DO_NOT_TRACK },
      { "doNotTrackConfirmDisable",
-@@ -333,6 +339,8 @@ void BrowserOptionsHandler::GetLocalized
+@@ -330,6 +336,8 @@ void BrowserOptionsHandler::GetLocalized
      { "profilesManage", IDS_PROFILES_MANAGE_BUTTON_LABEL },
      { "profilesSingleUser", IDS_PROFILES_SINGLE_USER_MESSAGE,
        IDS_PRODUCT_NAME },
@@ -1028,7 +1028,7 @@ Index: dev.wily/chrome/chrome_browser_ui.gypi
        'browser/ui/webui/options/easy_unlock_handler.cc',
        'browser/ui/webui/options/easy_unlock_handler.h',
        'browser/ui/webui/options/font_settings_handler.cc',
-@@ -2920,6 +2922,7 @@
+@@ -2924,6 +2926,7 @@
            ],
          }],
          ['use_aura==1 and chromeos==0 and use_ozone==0 and OS=="linux"', {

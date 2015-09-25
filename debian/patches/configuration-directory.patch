@@ -16,7 +16,7 @@ Index: dev.wily/chrome/common/chrome_paths.cc
  #endif  // defined(OS_LINUX)
  
  static base::LazyInstance<base::FilePath>
-@@ -466,6 +469,9 @@ bool PathProvider(int key, base::FilePat
+@@ -473,6 +476,9 @@ bool PathProvider(int key, base::FilePat
        cur = base::FilePath(FILE_PATH_LITERAL("/etc/opt/chrome/policies"));
  #else
        cur = base::FilePath(FILE_PATH_LITERAL("/etc/chromium/policies"));
@@ -26,7 +26,7 @@ Index: dev.wily/chrome/common/chrome_paths.cc
  #endif
        break;
      }
-@@ -497,6 +503,10 @@ bool PathProvider(int key, base::FilePat
+@@ -504,6 +510,10 @@ bool PathProvider(int key, base::FilePat
  #endif
  #if defined(OS_LINUX)
      case chrome::DIR_STANDALONE_EXTERNAL_EXTENSIONS: {
@@ -37,7 +37,7 @@ Index: dev.wily/chrome/common/chrome_paths.cc
        cur = base::FilePath(kFilepathSinglePrefExtensions);
        break;
      }
-@@ -547,6 +557,10 @@ bool PathProvider(int key, base::FilePat
+@@ -554,6 +564,10 @@ bool PathProvider(int key, base::FilePat
  #else
        cur = base::FilePath(FILE_PATH_LITERAL(
            "/etc/chromium/native-messaging-hosts"));

@@ -2,7 +2,7 @@ Index: dev.wily/chrome/browser/browser_resources.grd
 ===================================================================
 --- dev.wily.orig/chrome/browser/browser_resources.grd
 +++ dev.wily/chrome/browser/browser_resources.grd
-@@ -247,6 +247,7 @@
+@@ -254,6 +254,7 @@
        </if>
        <if expr="desktop_linux or (is_android and enable_plugins)">
          <include name="IDR_PLUGIN_DB_JSON" file="resources\plugin_metadata\plugins_linux.json" type="BINDATA" />
@@ -72,7 +72,7 @@ Index: dev.wily/chrome/browser/plugins/plugin_finder.cc
 +  registry->RegisterBooleanPref(prefs::kDisablePluginFinder, false);
 +}
 +
-+void PluginFinder::MergePlatformSpecifiPlugins (base::DictionaryValue * plugin_list) {
++void PluginFinder::MergePlatformSpecificPlugins (base::DictionaryValue * plugin_list) {
 +  if (!plugin_list)
 +    return;
 +  scoped_ptr<base::DictionaryValue> platform_plugin_list =

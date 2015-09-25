@@ -4,7 +4,7 @@ Index: dev.wily/AUTHORS
 ===================================================================
 --- dev.wily.orig/AUTHORS
 +++ dev.wily/AUTHORS
-@@ -585,6 +585,7 @@ Volker Sorge <volker.sorge@gmail.com>
+@@ -588,6 +588,7 @@ Volker Sorge <volker.sorge@gmail.com>
  Wesley Lancel <wesleylancel@gmail.com>
  Will Hirsch <chromium@willhirsch.co.uk>
  William Xie <william.xie@intel.com>
@@ -383,7 +383,7 @@ Index: dev.wily/ui/events/x/events_x.cc
            if (devices->IsCMTMetricsEvent(native_event))
              return ET_UMA_DATA;
            if (GetButtonMaskForX2Event(xievent))
-@@ -719,15 +722,22 @@ gfx::Vector2d GetMouseWheelOffset(const
+@@ -684,15 +687,22 @@ gfx::Vector2d GetMouseWheelOffset(const
    int button = native_event->type == GenericEvent ?
        EventButtonFromNative(native_event) : native_event->xbutton.button;
  
@@ -410,34 +410,12 @@ Index: dev.wily/ui/events/x/events_x.cc
      default:
        return gfx::Vector2d();
    }
-@@ -811,30 +821,41 @@ bool GetScrollOffsets(const base::Native
+@@ -776,30 +786,41 @@ bool GetScrollOffsets(const base::Native
                        float* x_offset_ordinal,
                        float* y_offset_ordinal,
                        int* finger_count) {
 -  if (!DeviceDataManagerX11::GetInstance()->IsScrollEvent(native_event))
 -    return false;
--
--  // Temp values to prevent passing NULLs to DeviceDataManager.
--  float x_offset_, y_offset_;
--  float x_offset_ordinal_, y_offset_ordinal_;
--  int finger_count_;
--  if (!x_offset)
--    x_offset = &x_offset_;
--  if (!y_offset)
--    y_offset = &y_offset_;
--  if (!x_offset_ordinal)
--    x_offset_ordinal = &x_offset_ordinal_;
--  if (!y_offset_ordinal)
--    y_offset_ordinal = &y_offset_ordinal_;
--  if (!finger_count)
--    finger_count = &finger_count_;
--
--  DeviceDataManagerX11::GetInstance()->GetScrollOffsets(
--      native_event,
--      x_offset, y_offset,
--      x_offset_ordinal, y_offset_ordinal,
--      finger_count);
--  return true;
 +  if (DeviceDataManagerX11::GetInstance()->IsScrollEvent(native_event)) {
 +    // Temp values to prevent passing NULLs to DeviceDataManager.
 +    float x_offset_, y_offset_;
@@ -461,7 +439,28 @@ Index: dev.wily/ui/events/x/events_x.cc
 +        finger_count);
 +    return true;
 +  }
-+
+ 
+-  // Temp values to prevent passing NULLs to DeviceDataManager.
+-  float x_offset_, y_offset_;
+-  float x_offset_ordinal_, y_offset_ordinal_;
+-  int finger_count_;
+-  if (!x_offset)
+-    x_offset = &x_offset_;
+-  if (!y_offset)
+-    y_offset = &y_offset_;
+-  if (!x_offset_ordinal)
+-    x_offset_ordinal = &x_offset_ordinal_;
+-  if (!y_offset_ordinal)
+-    y_offset_ordinal = &y_offset_ordinal_;
+-  if (!finger_count)
+-    finger_count = &finger_count_;
+-
+-  DeviceDataManagerX11::GetInstance()->GetScrollOffsets(
+-      native_event,
+-      x_offset, y_offset,
+-      x_offset_ordinal, y_offset_ordinal,
+-      finger_count);
+-  return true;
 +  if (DeviceDataManagerX11::GetInstance()->
 +      GetScrollClassEventDetail(native_event) != SCROLL_TYPE_NO_SCROLL) {
 +    double x_scroll_offset, y_scroll_offset;

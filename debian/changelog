@@ -1,3 +1,10 @@
+chromium-browser (47.0.2516.0-0ubuntu1~ppa1~wily1) wily; urgency=low
+
+  * New upstream version 47.0.2516.0
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 25 Sep 2015 12:31:33 -0400
+
 chromium-browser (47.0.2508.0-0ubuntu1~ppa2~wily1) wily; urgency=low
 
   * Fix plugin-loading patch.
