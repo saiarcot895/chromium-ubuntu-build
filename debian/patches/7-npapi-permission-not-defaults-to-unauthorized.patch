@@ -2,7 +2,7 @@ Index: dev.wily/chrome/browser/browser_resources.grd
 ===================================================================
 --- dev.wily.orig/chrome/browser/browser_resources.grd
 +++ dev.wily/chrome/browser/browser_resources.grd
-@@ -254,6 +254,7 @@
+@@ -253,6 +253,7 @@
        </if>
        <if expr="desktop_linux or (is_android and enable_plugins)">
          <include name="IDR_PLUGIN_DB_JSON" file="resources\plugin_metadata\plugins_linux.json" type="BINDATA" />

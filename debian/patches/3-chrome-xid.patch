@@ -189,7 +189,7 @@ Index: dev.wily/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
    "XdndActionAsk",
    "XdndActionCopy"
    "XdndActionLink",
-@@ -1413,6 +1416,22 @@ void DesktopWindowTreeHostX11::UpdateMin
+@@ -1414,6 +1417,22 @@ void DesktopWindowTreeHostX11::UpdateMin
    XSetWMNormalHints(xdisplay_, xwindow_, &hints);
  }
  

@@ -232,15 +232,11 @@ CROSS_BUILD = PKG_CONFIG_PATH=/usr/lib/$(DEB_HOST_MULTIARCH)/pkgconfig:/usr/$(DE
 else
 ifneq (,$(filter 12.04%,$(UBUNTU_DIST)))
 CROSS_BUILD = CC=$(shell which clang-3.6 clang-3.5 clang-3.4 clang |head -1) CXX=$(shell which clang++-3.6 clang++-3.5 clang++-3.4 clang++ |head -1)
-else
-CROSS_BUILD = CC=$$(which gcc-4.8 gcc |head -1) CXX=$$(which g++-4.8 g++ |head -1)
-endif
-endif
-
-ifneq (,$(filter 12.04%,$(UBUNTU_DIST)))
 GYP_DEFINES += clang=1 clang_use_chrome_plugins=0
 else
+CROSS_BUILD = CC=$$(which gcc) CXX=$$(which g++)
 GYP_DEFINES += clang=0
+endif
 endif
 
 ### Official interfaces.

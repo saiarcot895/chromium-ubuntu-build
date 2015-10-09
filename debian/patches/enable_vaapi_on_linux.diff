@@ -61,7 +61,7 @@ Index: dev.wily/content/content_common.gypi
 ===================================================================
 --- dev.wily.orig/content/content_common.gypi
 +++ dev.wily/content/content_common.gypi
-@@ -863,7 +863,7 @@
+@@ -862,7 +862,7 @@
          },
        ],
      }],
@@ -70,7 +70,7 @@ Index: dev.wily/content/content_common.gypi
        'sources': [
          'common/gpu/media/accelerated_video_decoder.h',
          'common/gpu/media/h264_decoder.cc',
-@@ -919,7 +919,7 @@
+@@ -918,7 +918,7 @@
          'common/gpu/media/tegra_v4l2_device.h',
        ],
      }],
@@ -96,7 +96,7 @@ Index: dev.wily/content/content_tests.gypi
 ===================================================================
 --- dev.wily.orig/content/content_tests.gypi
 +++ dev.wily/content/content_tests.gypi
-@@ -1732,7 +1732,7 @@
+@@ -1740,7 +1740,7 @@
            },
          ]
      }],
@@ -109,7 +109,7 @@ Index: dev.wily/content/public/common/content_switches.cc
 ===================================================================
 --- dev.wily.orig/content/public/common/content_switches.cc
 +++ dev.wily/content/public/common/content_switches.cc
-@@ -915,7 +915,9 @@ const char kDisableWebAudio[]
+@@ -908,7 +908,9 @@ const char kDisableWebAudio[]
  #if defined(OS_CHROMEOS)
  // Disables panel fitting (used for mirror mode).
  const char kDisablePanelFitting[]           = "disable-panel-fitting";
@@ -136,7 +136,7 @@ Index: dev.wily/media/media.gyp
 ===================================================================
 --- dev.wily.orig/media/media.gyp
 +++ dev.wily/media/media.gyp
-@@ -757,7 +757,7 @@
+@@ -759,7 +759,7 @@
            ],
          }],
          # For VaapiVideoEncodeAccelerator.
@@ -145,7 +145,7 @@ Index: dev.wily/media/media.gyp
            'sources': [
              'filters/h264_bitstream_buffer.cc',
              'filters/h264_bitstream_buffer.h',
-@@ -1377,7 +1377,7 @@
+@@ -1379,7 +1379,7 @@
              'player_android',
            ],
          }],
@@ -295,7 +295,7 @@ Index: dev.wily/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.wily.orig/chrome/browser/about_flags.cc
 +++ dev.wily/chrome/browser/about_flags.cc
-@@ -958,7 +958,7 @@ const Experiment kExperiments[] = {
+@@ -1002,7 +1002,7 @@ const Experiment kExperiments[] = {
       "disable-accelerated-video-decode",
       IDS_FLAGS_DISABLE_ACCELERATED_VIDEO_DECODE_NAME,
       IDS_FLAGS_DISABLE_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
