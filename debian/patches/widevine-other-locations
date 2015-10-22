@@ -16,7 +16,7 @@ Index: dev.wily/chrome/common/chrome_paths.cc
 +      }
        if (!PathService::Get(chrome::DIR_USER_DATA, &cur))
          return false;
-       cur = cur.Append(kWidevineCdmBaseDirectory);
+       cur = cur.Append(FILE_PATH_LITERAL("WidevineCDM"));
 @@ -374,6 +382,14 @@ bool PathProvider(int key, base::FilePat
      // In the component case, this is the source adapter. Otherwise, it is the
      // actual Pepper module that gets loaded.

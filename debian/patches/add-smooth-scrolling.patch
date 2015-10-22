@@ -4,7 +4,7 @@ Index: dev.wily/AUTHORS
 ===================================================================
 --- dev.wily.orig/AUTHORS
 +++ dev.wily/AUTHORS
-@@ -588,6 +588,7 @@ Volker Sorge <volker.sorge@gmail.com>
+@@ -591,6 +591,7 @@ Volker Sorge <volker.sorge@gmail.com>
  Wesley Lancel <wesleylancel@gmail.com>
  Will Hirsch <chromium@willhirsch.co.uk>
  William Xie <william.xie@intel.com>
@@ -25,7 +25,7 @@ Index: dev.wily/ui/events/devices/x11/device_data_manager_x11.cc
      for (int j = 0; j < kMaxSlotNum; j++)
        last_seen_valuator_[i][j].clear();
    }
-@@ -272,21 +274,15 @@ void DeviceDataManagerX11::UpdateDeviceL
+@@ -272,21 +274,14 @@ void DeviceDataManagerX11::UpdateDeviceL
      for (int j = 0; j < kMaxSlotNum; j++)
        last_seen_valuator_[deviceid][j].resize(DT_LAST_ENTRY, 0);
      for (int j = 0; j < info.num_classes; ++j) {
@@ -46,9 +46,8 @@ Index: dev.wily/ui/events/devices/x11/device_data_manager_x11.cc
 -        }
 +      if (info.classes[j]->type == XIValuatorClass) {
 +        if (UpdateValuatorClassDevice(
-+            reinterpret_cast<XIValuatorClassInfo*>(info.classes[j]),
-+            atoms,
-+            deviceid))
++                reinterpret_cast<XIValuatorClassInfo*>(info.classes[j]), atoms,
++                deviceid))
 +          possible_cmt = true;
 +      } else if (info.classes[j]->type == XIScrollClass) {
 +        UpdateScrollClassDevice(
@@ -56,14 +55,15 @@ Index: dev.wily/ui/events/devices/x11/device_data_manager_x11.cc
        }
      }
  
-@@ -295,6 +291,44 @@ void DeviceDataManagerX11::UpdateDeviceL
+@@ -295,6 +290,46 @@ void DeviceDataManagerX11::UpdateDeviceL
    }
  }
  
 +bool DeviceDataManagerX11::UpdateValuatorClassDevice(
 +    XIValuatorClassInfo* valuator_class_info,
-+    Atom *atoms,
++    Atom* atoms,
 +    int deviceid) {
++  DCHECK(deviceid >= 0 && deviceid < kMaxDeviceNum);
 +  for (int data_type = 0; data_type < DT_LAST_ENTRY; ++data_type) {
 +    if (valuator_class_info->label == atoms[data_type]) {
 +      valuator_lookup_[deviceid][data_type] = valuator_class_info->number;
@@ -80,6 +80,7 @@ Index: dev.wily/ui/events/devices/x11/device_data_manager_x11.cc
 +void DeviceDataManagerX11::UpdateScrollClassDevice(
 +    XIScrollClassInfo* scroll_class_info,
 +    int deviceid) {
++  DCHECK(deviceid >= 0 && deviceid < kMaxDeviceNum);
 +  ScrollInfo& info = scroll_data_[deviceid];
 +  switch (scroll_class_info->scroll_type) {
 +    case XIScrollTypeVertical:
@@ -101,12 +102,12 @@ Index: dev.wily/ui/events/devices/x11/device_data_manager_x11.cc
  bool DeviceDataManagerX11::GetSlotNumber(const XIDeviceEvent* xiev, int* slot) {
    ui::TouchFactory* factory = ui::TouchFactory::GetInstance();
    if (!factory->IsMultiTouchDevice(xiev->sourceid)) {
-@@ -417,6 +451,40 @@ bool DeviceDataManagerX11::IsCMTDeviceEv
+@@ -417,6 +452,42 @@ bool DeviceDataManagerX11::IsCMTDeviceEv
    return cmt_devices_[xievent->sourceid];
  }
  
-+int DeviceDataManagerX11::GetScrollClassEventDetail(const base::NativeEvent&
-+    native_event) const {
++int DeviceDataManagerX11::GetScrollClassEventDetail(
++    const base::NativeEvent& native_event) const {
 +  if (native_event->type != GenericEvent)
 +    return SCROLL_TYPE_NO_SCROLL;
 +
@@ -118,10 +119,12 @@ Index: dev.wily/ui/events/devices/x11/device_data_manager_x11.cc
 +    return SCROLL_TYPE_NO_SCROLL;
 +  int horizontal_id = scroll_data_[xievent->sourceid].horizontal.number;
 +  int vertical_id = scroll_data_[xievent->sourceid].vertical.number;
-+  return (XIMaskIsSet(xievent->valuators.mask, horizontal_id) ?
-+      SCROLL_TYPE_HORIZONTAL : 0) |
-+    (XIMaskIsSet(xievent->valuators.mask, vertical_id) ?
-+     SCROLL_TYPE_VERTICAL : 0);
++  return (XIMaskIsSet(xievent->valuators.mask, horizontal_id)
++              ? SCROLL_TYPE_HORIZONTAL
++              : 0) |
++         (XIMaskIsSet(xievent->valuators.mask, vertical_id)
++              ? SCROLL_TYPE_VERTICAL
++              : 0);
 +}
 +
 +int DeviceDataManagerX11::GetScrollClassDeviceDetail(
@@ -136,13 +139,13 @@ Index: dev.wily/ui/events/devices/x11/device_data_manager_x11.cc
 +  const int sourceid = xiev->sourceid;
 +  ScrollInfo device_data = scroll_data_[sourceid];
 +  return (device_data.vertical.number >= 0 ? SCROLL_TYPE_VERTICAL : 0) |
-+    (device_data.horizontal.number >= 0 ? SCROLL_TYPE_HORIZONTAL : 0);
++         (device_data.horizontal.number >= 0 ? SCROLL_TYPE_HORIZONTAL : 0);
 +}
 +
  bool DeviceDataManagerX11::IsCMTGestureEvent(
      const base::NativeEvent& native_event) const {
    return (IsScrollEvent(native_event) ||
-@@ -509,6 +577,64 @@ void DeviceDataManagerX11::GetScrollOffs
+@@ -509,6 +580,64 @@ void DeviceDataManagerX11::GetScrollOffs
      *finger_count = static_cast<int>(data[DT_CMT_FINGER_COUNT]);
  }
  
@@ -169,31 +172,31 @@ Index: dev.wily/ui/events/devices/x11/device_data_manager_x11.cc
 +  const int vertical_number = info.vertical.number;
 +
 +  for (int i = 0; i <= valuator_count_[sourceid]; ++i) {
-+    if (XIMaskIsSet(xiev->valuators.mask, i)) {
-+      if (i == horizontal_number) {
-+        double value = *valuators;
-+        double delta = 0;
++    if (!XIMaskIsSet(xiev->valuators.mask, i))
++      continue;
++    if (i == horizontal_number) {
++      double value = *valuators;
++      double delta = 0;
 +
-+        if (info.horizontal.seen)
-+          delta = info.horizontal.position - value;
++      if (info.horizontal.seen)
++        delta = info.horizontal.position - value;
 +
-+        info.horizontal.seen = true;
-+        info.horizontal.position = value;
-+        *x_offset = delta;
-+        NormalizeScrollData(sourceid, true, x_offset);
-+      } else if (i == vertical_number) {
-+        double value = *valuators;
-+        double delta = 0;
-+        if (info.vertical.seen)
-+          delta = info.vertical.position - value;
++      info.horizontal.seen = true;
++      info.horizontal.position = value;
++      *x_offset = delta;
++      NormalizeScrollData(sourceid, true, x_offset);
++    } else if (i == vertical_number) {
++      double value = *valuators;
++      double delta = 0;
++      if (info.vertical.seen)
++        delta = info.vertical.position - value;
 +
-+        info.vertical.seen = true;
-+        info.vertical.position = value;
-+        *y_offset = delta;
-+        NormalizeScrollData(sourceid, false, y_offset);
-+      }
-+      valuators++;
++      info.vertical.seen = true;
++      info.vertical.position = value;
++      *y_offset = delta;
++      NormalizeScrollData(sourceid, false, y_offset);
 +    }
++    valuators++;
 +  }
 +}
 +
@@ -207,22 +210,21 @@ Index: dev.wily/ui/events/devices/x11/device_data_manager_x11.cc
  void DeviceDataManagerX11::GetFlingData(
      const base::NativeEvent& native_event,
      float* vx,
-@@ -602,6 +728,23 @@ bool DeviceDataManagerX11::NormalizeData
+@@ -602,6 +731,22 @@ bool DeviceDataManagerX11::NormalizeData
    return false;
  }
  
 +bool DeviceDataManagerX11::NormalizeScrollData(unsigned int deviceid,
-+                                         bool horizontal,
-+                                         double* value) {
++                                               bool horizontal,
++                                               double* value) {
 +  if (deviceid >= static_cast<unsigned int>(kMaxDeviceNum))
 +    return false;
 +  if (horizontal && scroll_data_[deviceid].horizontal.number < 0)
 +    return false;
 +  if (!horizontal && scroll_data_[deviceid].vertical.number < 0)
 +    return false;
-+  double increment = horizontal ?
-+    scroll_data_[deviceid].horizontal.increment :
-+    scroll_data_[deviceid].vertical.increment;
++  double increment = horizontal ? scroll_data_[deviceid].horizontal.increment
++                                : scroll_data_[deviceid].vertical.increment;
 +
 +  *value /= increment;
 +  return true;
@@ -266,24 +268,7 @@ Index: dev.wily/ui/events/devices/x11/device_data_manager_x11.h
  // A class that extracts and tracks the input events data. It currently handles
  // mouse, touchpad and touchscreen devices.
  class EVENTS_DEVICES_EXPORT DeviceDataManagerX11 : public DeviceDataManager {
-@@ -119,6 +143,16 @@ class EVENTS_DEVICES_EXPORT DeviceDataMa
-   // Updates the list of devices.
-   void UpdateDeviceList(Display* display);
- 
-+  // Updates a device based on a Valuator class info. Returns true if the
-+  // device is a possible CMT device.
-+  bool UpdateValuatorClassDevice(XIValuatorClassInfo* valuator_class_info,
-+                                 Atom *atoms,
-+                                 int deviceid);
-+
-+  // Updates a device based on a Scroll class info.
-+  void UpdateScrollClassDevice(XIScrollClassInfo* scroll_class_info,
-+                               int deviceid);
-+
-   // For multitouch events we use slot number to distinguish touches from
-   // different fingers. This function returns true if the associated slot
-   // for |xiev| can be found and it is saved in |slot|, returns false if
-@@ -152,6 +186,16 @@ class EVENTS_DEVICES_EXPORT DeviceDataMa
+@@ -152,6 +176,16 @@ class EVENTS_DEVICES_EXPORT DeviceDataMa
    // is a CMT event (e.g. it could be a mouse pointer move).
    bool IsCMTDeviceEvent(const base::NativeEvent& native_event) const;
  
@@ -300,7 +285,7 @@ Index: dev.wily/ui/events/devices/x11/device_data_manager_x11.h
    // Check if the event is one of the CMT gesture events (scroll, fling,
    // metrics etc.).
    bool IsCMTGestureEvent(const base::NativeEvent& native_event) const;
-@@ -174,6 +218,17 @@ class EVENTS_DEVICES_EXPORT DeviceDataMa
+@@ -174,6 +208,17 @@ class EVENTS_DEVICES_EXPORT DeviceDataMa
                          float* y_offset_ordinal,
                          int* finger_count);
  
@@ -318,7 +303,7 @@ Index: dev.wily/ui/events/devices/x11/device_data_manager_x11.h
    // Extract data from a fling event. User must first verify the event type
    // with IsFlingEvent. Pointers shouldn't be NULL.
    void GetFlingData(const base::NativeEvent& native_event,
-@@ -211,6 +266,15 @@ class EVENTS_DEVICES_EXPORT DeviceDataMa
+@@ -211,6 +256,15 @@ class EVENTS_DEVICES_EXPORT DeviceDataMa
                       const DataType type,
                       double* value);
  
@@ -334,6 +319,23 @@ Index: dev.wily/ui/events/devices/x11/device_data_manager_x11.h
    // Extract the range of the data type. Return true if the range is available
    // and written into min & max, false if the range is not available.
    bool GetDataRange(int deviceid,
+@@ -265,6 +319,16 @@ class EVENTS_DEVICES_EXPORT DeviceDataMa
+                                   double min_value,
+                                   double max_value);
+ 
++  // Updates a device based on a Valuator class info. Returns true if the
++  // device is a possible CMT device.
++  bool UpdateValuatorClassDevice(XIValuatorClassInfo* valuator_class_info,
++                                 Atom* atoms,
++                                 int deviceid);
++
++  // Updates a device based on a Scroll class info.
++  void UpdateScrollClassDevice(XIScrollClassInfo* scroll_class_info,
++                               int deviceid);
++
+   static const int kMaxXIEventType = XI_LASTEVENT + 1;
+   static const int kMaxSlotNum = 10;
+ 
 @@ -278,6 +342,7 @@ class EVENTS_DEVICES_EXPORT DeviceDataMa
    // should be processed.
    std::bitset<kMaxDeviceNum> cmt_devices_;
@@ -357,10 +359,11 @@ Index: dev.wily/ui/events/platform/x11/x11_event_source.cc
 ===================================================================
 --- dev.wily.orig/ui/events/platform/x11/x11_event_source.cc
 +++ dev.wily/ui/events/platform/x11/x11_event_source.cc
-@@ -139,6 +139,11 @@ uint32_t X11EventSource::DispatchEvent(X
+@@ -139,6 +139,12 @@ uint32_t X11EventSource::DispatchEvent(X
      ui::UpdateDeviceList();
      hotplug_event_handler_->OnHotplugEvent();
    }
++
 +  if ((xevent->type == EnterNotify || xevent->type == LeaveNotify) &&
 +      xevent->xcrossing.mode == NotifyNormal) {
 +    // Clear stored scroll data
@@ -388,8 +391,8 @@ Index: dev.wily/ui/events/x/events_x.cc
        EventButtonFromNative(native_event) : native_event->xbutton.button;
  
 +  int scroll_class_type =
-+    DeviceDataManagerX11::GetInstance()
-+    ->GetScrollClassDeviceDetail(native_event);
++      DeviceDataManagerX11::GetInstance()->GetScrollClassDeviceDetail(
++          native_event);
 +  bool vertical_scroll_class = scroll_class_type & SCROLL_TYPE_VERTICAL;
 +  bool horizontal_scroll_class = scroll_class_type & SCROLL_TYPE_HORIZONTAL;
 +
@@ -406,11 +409,11 @@ Index: dev.wily/ui/events/x/events_x.cc
      case 7:
 -      return gfx::Vector2d(-kWheelScrollAmount, 0);
 +      return gfx::Vector2d(horizontal_scroll_class ? 0 : -kWheelScrollAmount,
-+          0);
++                           0);
      default:
        return gfx::Vector2d();
    }
-@@ -776,30 +786,41 @@ bool GetScrollOffsets(const base::Native
+@@ -776,30 +786,38 @@ bool GetScrollOffsets(const base::Native
                        float* x_offset_ordinal,
                        float* y_offset_ordinal,
                        int* finger_count) {
@@ -433,9 +436,7 @@ Index: dev.wily/ui/events/x/events_x.cc
 +      finger_count = &finger_count_;
 +
 +    DeviceDataManagerX11::GetInstance()->GetScrollOffsets(
-+        native_event,
-+        x_offset, y_offset,
-+        x_offset_ordinal, y_offset_ordinal,
++        native_event, x_offset, y_offset, x_offset_ordinal, y_offset_ordinal,
 +        finger_count);
 +    return true;
 +  }
@@ -461,12 +462,11 @@ Index: dev.wily/ui/events/x/events_x.cc
 -      x_offset_ordinal, y_offset_ordinal,
 -      finger_count);
 -  return true;
-+  if (DeviceDataManagerX11::GetInstance()->
-+      GetScrollClassEventDetail(native_event) != SCROLL_TYPE_NO_SCROLL) {
++  if (DeviceDataManagerX11::GetInstance()->GetScrollClassEventDetail(
++          native_event) != SCROLL_TYPE_NO_SCROLL) {
 +    double x_scroll_offset, y_scroll_offset;
 +    DeviceDataManagerX11::GetInstance()->GetScrollClassOffsets(
-+        native_event,
-+        &x_scroll_offset, &y_scroll_offset);
++        native_event, &x_scroll_offset, &y_scroll_offset);
 +    *x_offset = x_scroll_offset * kWheelScrollAmount;
 +    *y_offset = y_scroll_offset * kWheelScrollAmount;
 +    return true;
@@ -475,17 +475,3 @@ Index: dev.wily/ui/events/x/events_x.cc
  }
  
  bool GetFlingData(const base::NativeEvent& native_event,
-Index: dev.wily/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
-===================================================================
---- dev.wily.orig/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
-+++ dev.wily/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
-@@ -1759,6 +1759,9 @@ uint32_t DesktopWindowTreeHostX11::Dispa
-       if (xev->xcrossing.detail == NotifyInferior)
-         break;
- 
-+      // Clear stored scroll data
-+      ui::DeviceDataManagerX11::GetInstance()->InvalidateScrollClasses();
-+
-       ui::MouseEvent mouse_event(xev);
-       DispatchMouseEvent(&mouse_event);
-       break;

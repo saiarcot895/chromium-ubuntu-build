@@ -13,7 +13,7 @@ Index: dev.wily/content/common/gpu/media/gpu_video_decode_accelerator.cc
  #if defined(USE_V4L2_CODEC)
  #include "content/common/gpu/media/v4l2_device.h"
  #include "content/common/gpu/media/v4l2_slice_video_decode_accelerator.h"
-@@ -252,6 +252,8 @@ void GpuVideoDecodeAccelerator::Initiali
+@@ -253,6 +253,8 @@ void GpuVideoDecodeAccelerator::Initiali
    }
  #endif
  
@@ -22,7 +22,7 @@ Index: dev.wily/content/common/gpu/media/gpu_video_decode_accelerator.cc
    // Array of Create..VDA() function pointers, maybe applicable to the current
    // platform. This list is ordered by priority of use and it should be the
    // same as the order of querying supported profiles of VDAs.
-@@ -265,11 +267,14 @@ void GpuVideoDecodeAccelerator::Initiali
+@@ -266,11 +268,14 @@ void GpuVideoDecodeAccelerator::Initiali
        &GpuVideoDecodeAccelerator::CreateAndroidVDA};
  
    for (const auto& create_vda_function : create_vda_fps) {
@@ -37,7 +37,7 @@ Index: dev.wily/content/common/gpu/media/gpu_video_decode_accelerator.cc
      if (video_decode_accelerator_->CanDecodeOnIOThread()) {
        filter_ = new MessageFilter(this, host_route_id_);
        stub_->channel()->AddFilter(filter_.get());
-@@ -347,7 +352,9 @@ void GpuVideoDecodeAccelerator::BindImag
+@@ -348,7 +353,9 @@ void GpuVideoDecodeAccelerator::BindImag
  scoped_ptr<media::VideoDecodeAccelerator>
  GpuVideoDecodeAccelerator::CreateVaapiVDA() {
    scoped_ptr<media::VideoDecodeAccelerator> decoder;
@@ -48,7 +48,7 @@ Index: dev.wily/content/common/gpu/media/gpu_video_decode_accelerator.cc
    decoder.reset(new VaapiVideoDecodeAccelerator(
        make_context_current_, base::Bind(&GpuVideoDecodeAccelerator::BindImage,
                                          base::Unretained(this))));
-@@ -401,7 +408,7 @@ GpuVideoDecodeAccelerator::GetSupportedP
+@@ -408,7 +415,7 @@ GpuVideoDecodeAccelerator::GetSupportedP
    // can be initialized by corresponding VDA successfully.
  #if defined(OS_WIN)
    profiles = DXVAVideoDecodeAccelerator::GetSupportedProfiles();
@@ -61,7 +61,7 @@ Index: dev.wily/content/content_common.gypi
 ===================================================================
 --- dev.wily.orig/content/content_common.gypi
 +++ dev.wily/content/content_common.gypi
-@@ -862,7 +862,7 @@
+@@ -866,7 +866,7 @@
          },
        ],
      }],
@@ -70,7 +70,7 @@ Index: dev.wily/content/content_common.gypi
        'sources': [
          'common/gpu/media/accelerated_video_decoder.h',
          'common/gpu/media/h264_decoder.cc',
-@@ -918,7 +918,7 @@
+@@ -922,7 +922,7 @@
          'common/gpu/media/tegra_v4l2_device.h',
        ],
      }],
@@ -83,7 +83,7 @@ Index: dev.wily/content/content_gpu.gypi
 ===================================================================
 --- dev.wily.orig/content/content_gpu.gypi
 +++ dev.wily/content/content_gpu.gypi
-@@ -36,7 +36,7 @@
+@@ -38,7 +38,7 @@
          ],
        },
      }],
@@ -96,7 +96,7 @@ Index: dev.wily/content/content_tests.gypi
 ===================================================================
 --- dev.wily.orig/content/content_tests.gypi
 +++ dev.wily/content/content_tests.gypi
-@@ -1740,7 +1740,7 @@
+@@ -1744,7 +1744,7 @@
            },
          ]
      }],
@@ -109,7 +109,7 @@ Index: dev.wily/content/public/common/content_switches.cc
 ===================================================================
 --- dev.wily.orig/content/public/common/content_switches.cc
 +++ dev.wily/content/public/common/content_switches.cc
-@@ -908,7 +908,9 @@ const char kDisableWebAudio[]
+@@ -920,7 +920,9 @@ const char kDisableWebAudio[]
  #if defined(OS_CHROMEOS)
  // Disables panel fitting (used for mirror mode).
  const char kDisablePanelFitting[]           = "disable-panel-fitting";
@@ -123,7 +123,7 @@ Index: dev.wily/content/public/common/content_switches.h
 ===================================================================
 --- dev.wily.orig/content/public/common/content_switches.h
 +++ dev.wily/content/public/common/content_switches.h
-@@ -269,6 +269,8 @@ CONTENT_EXPORT extern const char kDisabl
+@@ -272,6 +272,8 @@ CONTENT_EXPORT extern const char kDisabl
  
  #if defined(OS_CHROMEOS)
  CONTENT_EXPORT extern const char kDisablePanelFitting[];
@@ -136,7 +136,7 @@ Index: dev.wily/media/media.gyp
 ===================================================================
 --- dev.wily.orig/media/media.gyp
 +++ dev.wily/media/media.gyp
-@@ -759,7 +759,7 @@
+@@ -763,7 +763,7 @@
            ],
          }],
          # For VaapiVideoEncodeAccelerator.
@@ -145,8 +145,8 @@ Index: dev.wily/media/media.gyp
            'sources': [
              'filters/h264_bitstream_buffer.cc',
              'filters/h264_bitstream_buffer.h',
-@@ -1379,7 +1379,7 @@
-             'player_android',
+@@ -1388,7 +1388,7 @@
+             'filters/decrypting_video_decoder_unittest.cc',
            ],
          }],
 -        ['target_arch != "arm" and chromeos == 1 and use_x11 == 1', {
@@ -295,7 +295,7 @@ Index: dev.wily/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.wily.orig/chrome/browser/about_flags.cc
 +++ dev.wily/chrome/browser/about_flags.cc
-@@ -1002,7 +1002,7 @@ const Experiment kExperiments[] = {
+@@ -1006,7 +1006,7 @@ const FeatureEntry kFeatureEntries[] = {
       "disable-accelerated-video-decode",
       IDS_FLAGS_DISABLE_ACCELERATED_VIDEO_DECODE_NAME,
       IDS_FLAGS_DISABLE_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
@@ -407,7 +407,7 @@ Index: dev.wily/content/gpu/gpu_main.cc
 ===================================================================
 --- dev.wily.orig/content/gpu/gpu_main.cc
 +++ dev.wily/content/gpu/gpu_main.cc
-@@ -66,7 +66,7 @@
+@@ -71,7 +71,7 @@
  #include "content/common/sandbox_mac.h"
  #endif
  
@@ -416,7 +416,7 @@ Index: dev.wily/content/gpu/gpu_main.cc
  #include "content/common/gpu/media/vaapi_wrapper.h"
  #endif
  
-@@ -231,7 +231,7 @@ int GpuMain(const MainFunctionParams& pa
+@@ -236,7 +236,7 @@ int GpuMain(const MainFunctionParams& pa
    GetGpuInfoFromCommandLine(gpu_info, command_line);
    gpu_info.in_process_gpu = false;
  
@@ -429,7 +429,7 @@ Index: dev.wily/content/common/gpu/client/command_buffer_proxy_impl.cc
 ===================================================================
 --- dev.wily.orig/content/common/gpu/client/command_buffer_proxy_impl.cc
 +++ dev.wily/content/common/gpu/client/command_buffer_proxy_impl.cc
-@@ -578,8 +578,10 @@ bool CommandBufferProxyImpl::ProduceFron
+@@ -632,8 +632,10 @@ bool CommandBufferProxyImpl::ProduceFron
  
  scoped_ptr<media::VideoDecodeAccelerator>
  CommandBufferProxyImpl::CreateVideoDecoder() {

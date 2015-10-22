@@ -1,3 +1,10 @@
+chromium-browser (48.0.2541.0-0ubuntu1~ppa1~wily1) wily; urgency=low
+
+  * New upstream version 48.0.2541.0
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 22 Oct 2015 17:17:27 -0400
+
 chromium-browser (47.0.2526.8-0ubuntu1~ppa1~wily1) wily; urgency=low
 
   * New upstream version 47.0.2526.8
