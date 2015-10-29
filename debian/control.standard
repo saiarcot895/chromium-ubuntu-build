@@ -70,15 +70,6 @@ Description: Chromium browser
  .
  This package contains the Chromium browser
 
-Package: chromium-browser-dbg
-Architecture: armhf armel i386 amd64
-Priority: extra
-Section: debug
-Pre-Depends: dpkg (>= 1.15.6)
-Depends: ${shlibs:Depends}, ${misc:Depends}, chromium-browser (= ${binary:Version})
-Description: chromium-browser debug symbols
- Debug symbols for the Chromium browser
-
 Package: chromium-browser-l10n
 Architecture: all
 Pre-Depends: dpkg (>= 1.15.6)
@@ -104,15 +95,6 @@ Description: ChromeDriver
  This package contains ChromeDriver, a standalone server which implements
  WebDriver's wire protocol.
 
-Package: chromium-chromedriver-dbg
-Architecture: armhf armel i386 amd64
-Section: debug
-Priority: extra
-Pre-Depends: dpkg (>= 1.15.6)
-Depends: ${shlibs:Depends}, ${misc:Depends}, chromium-chromedriver (= ${binary:Version})
-Description: chromium-chromedriver debug symbols
- Debug symbols for the ChromeDriver
-
 Package: chromium-codecs-ffmpeg
 Architecture: armhf armel i386 amd64
 Pre-Depends: dpkg (>= 1.15.6)
@@ -126,17 +108,6 @@ Description: Free ffmpeg codecs for the Chromium Browser
  This package contains the multi-threaded ffmpeg codecs needed for the HTML5
  <audio> and <video> tags. Only the free ogg, vorbis and theora codecs are
  included. See chromium-codecs-ffmpeg-extra for additional codecs
-
-Package: chromium-codecs-ffmpeg-dbg
-Architecture: armhf armel i386 amd64
-Section: debug
-Priority: extra
-Pre-Depends: dpkg (>= 1.15.6)
-Depends: ${shlibs:Depends}, ${misc:Depends}, chromium-codecs-ffmpeg (= ${binary:Version})
-Conflicts: chromium-codecs-ffmpeg-extra-dbg
-Replaces: chromium-codecs-ffmpeg-extra-dbg
-Description: chromium-codecs-ffmpeg debug symbols
- Debug symbols for the free ffmpeg-mt codecs
 
 Package: chromium-codecs-ffmpeg-extra
 Architecture: armhf armel i386 amd64
@@ -152,14 +123,3 @@ Description: Extra ffmpeg codecs for the Chromium Browser
  <audio> and <video> tags. In addition to the patent-free ogg, vorbis and theora codecs,
  aac/ac3/mpeg4audio/h264/mov/mp3 are also included.
  See chromium-codecs-ffmpeg if you prefer only the patent-free codecs
-
-Package: chromium-codecs-ffmpeg-extra-dbg
-Architecture: armhf armel i386 amd64
-Section: debug
-Priority: extra
-Pre-Depends: dpkg (>= 1.15.6)
-Depends: ${shlibs:Depends}, ${misc:Depends}, chromium-codecs-ffmpeg-extra (= ${binary:Version})
-Conflicts: chromium-codecs-ffmpeg-dbg
-Replaces: chromium-codecs-ffmpeg-dbg
-Description: chromium-codecs-ffmpeg-extra debug symbols
- Debug symbols for the extra ffmpeg-mt codecs

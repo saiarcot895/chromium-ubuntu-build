@@ -2,7 +2,7 @@ Index: dev.wily/chrome/common/chrome_content_client.cc
 ===================================================================
 --- dev.wily.orig/chrome/common/chrome_content_client.cc
 +++ dev.wily/chrome/common/chrome_content_client.cc
-@@ -163,10 +163,7 @@ void ComputeBuiltInPlugins(std::vector<c
+@@ -164,10 +164,7 @@ void ComputeBuiltInPlugins(std::vector<c
        widevine_cdm.is_out_of_process = true;
        widevine_cdm.path = path;
        widevine_cdm.name = kWidevineCdmDisplayName;

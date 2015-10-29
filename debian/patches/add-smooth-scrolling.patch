@@ -4,8 +4,8 @@ Index: dev.wily/AUTHORS
 ===================================================================
 --- dev.wily.orig/AUTHORS
 +++ dev.wily/AUTHORS
-@@ -591,6 +591,7 @@ Volker Sorge <volker.sorge@gmail.com>
- Wesley Lancel <wesleylancel@gmail.com>
+@@ -593,6 +593,7 @@ Wesley Wigham <t-weswig@microsoft.com>
+ Wesley Wigham <wwigham@gmail.com>
  Will Hirsch <chromium@willhirsch.co.uk>
  William Xie <william.xie@intel.com>
 +Will Shackleton <w.shackleton@gmail.com>
@@ -376,7 +376,7 @@ Index: dev.wily/ui/events/x/events_x.cc
 ===================================================================
 --- dev.wily.orig/ui/events/x/events_x.cc
 +++ dev.wily/ui/events/x/events_x.cc
-@@ -438,6 +438,9 @@ EventType EventTypeFromNative(const base
+@@ -440,6 +440,9 @@ EventType EventTypeFromNative(const base
              return devices->IsTouchpadXInputEvent(native_event) ? ET_SCROLL
                                                                  : ET_MOUSEWHEEL;
            }
@@ -386,7 +386,7 @@ Index: dev.wily/ui/events/x/events_x.cc
            if (devices->IsCMTMetricsEvent(native_event))
              return ET_UMA_DATA;
            if (GetButtonMaskForX2Event(xievent))
-@@ -684,15 +687,22 @@ gfx::Vector2d GetMouseWheelOffset(const
+@@ -686,15 +689,22 @@ gfx::Vector2d GetMouseWheelOffset(const
    int button = native_event->type == GenericEvent ?
        EventButtonFromNative(native_event) : native_event->xbutton.button;
  
@@ -413,7 +413,7 @@ Index: dev.wily/ui/events/x/events_x.cc
      default:
        return gfx::Vector2d();
    }
-@@ -776,30 +786,38 @@ bool GetScrollOffsets(const base::Native
+@@ -778,30 +788,38 @@ bool GetScrollOffsets(const base::Native
                        float* x_offset_ordinal,
                        float* y_offset_ordinal,
                        int* finger_count) {

@@ -130,7 +130,7 @@ Index: dev.wily/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
 ===================================================================
 --- dev.wily.orig/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
 +++ dev.wily/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
-@@ -597,6 +597,11 @@ void DesktopNativeWidgetAura::ViewRemove
+@@ -598,6 +598,11 @@ void DesktopNativeWidgetAura::ViewRemove
    drop_helper_->ResetTargetViewIfEquals(view);
  }
  
