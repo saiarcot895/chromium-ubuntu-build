@@ -279,7 +279,7 @@ override_dh_builddeb:
 	dh_builddeb -- -Zxz
 
 override_dh_strip:
-	dh_strip -Xnacl
+	dh_strip -Xnacl_irt_ -Xpnacl
 
 override_dh_install-arch: local_install_arch compare-arch
 
