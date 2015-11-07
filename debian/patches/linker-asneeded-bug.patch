@@ -23,7 +23,7 @@ Index: dev.wily/build/common.gypi
              ],
              'conditions' : [
                ['no_gc_sections==0', {
-@@ -5982,6 +5981,11 @@
+@@ -5960,6 +5959,11 @@
                    'SANITIZER_COVERAGE',
                  ],
                }],

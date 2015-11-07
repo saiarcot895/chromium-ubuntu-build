@@ -1,0 +1,31 @@
+From c9b2e0472c7dda2e0dcbbeea52d6f6d38975fd43 Mon Sep 17 00:00:00 2001
+From: Kalyan Kondapally <kalyan.kondapally@intel.com>
+Date: Tue, 19 Aug 2014 21:08:47 -0700
+Subject: [PATCH 03/13] Add support to provide external ozone files in views.
+
+We have un-necessary dependency on views. This is a temporary patch
+to include desktop_aura/ as part of view target.
+---
+ ui/views/views.gyp | 2 ++
+ 1 file changed, 2 insertions(+)
+
+Index: dev.wily/ui/views/views.gyp
+===================================================================
+--- dev.wily.orig/ui/views/views.gyp
++++ dev.wily/ui/views/views.gyp
+@@ -4,6 +4,7 @@
+ {
+   'variables': {
+     'chromium_code': 1,
++    'external_ozone_views_files': [],
+     # Sources lists shared with GN build.
+     'views_sources': [
+       'accessibility/native_view_accessibility.cc',
+@@ -721,6 +722,7 @@
+         }],
+         ['use_aura==1', {
+           'sources': [
++            '<@(external_ozone_views_files)',
+             '<@(views_aura_sources)',
+           ],
+           'dependencies': [

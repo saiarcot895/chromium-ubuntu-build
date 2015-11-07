@@ -1,0 +1,128 @@
+Source: chromium-browser
+Section: web
+Priority: optional
+Maintainer: Saikrishna Arcot <saiarcot895@gmail.com>
+XSBC-Original-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Homepage: http://code.google.com/chromium/
+Build-Depends: debhelper (>= 9),
+		dh-buildinfo,
+		pkg-config,
+		ninja-build (>= 1.3.4),
+		gcc (>= 4:4.8) | clang (>= 1:3.4) | clang-3.4,
+		lsb-release,
+		python,
+		bison,
+		gperf,
+		libsrtp0-dev,
+		libprotobuf-dev,
+		protobuf-compiler,
+		libspeechd-dev,
+		xdg-utils,
+		libpulse-dev,
+		libcups2-dev | libcupsys2-dev,
+		libasound2-dev,
+		libnss3-dev,
+		libpci-dev,
+		libgles2-mesa-dev [armel armhf],
+		libxtst-dev,
+		libxss-dev,
+		libgtk2.0-dev,
+		libglib2.0-dev,
+		libudev-dev,
+		libgnome-keyring-dev,
+		libgconf2-dev,
+		libcap-dev,
+		libdrm-dev,
+		libharfbuzz-dev | libpango1.0-dev (<< 1.31.0),
+		libicu-dev | libpango1.0-dev (<< 1.31.0),
+		libpango1.0-dev,
+		libexif-dev,
+		libssl-dev,
+		libkrb5-dev,
+		libva-dev,
+		chrpath,
+		native-client,
+		libxkbcommon-dev,
+		libwayland-dev,
+		libegl1-mesa-dev
+Standards-Version: 3.9.5
+
+Package: chromium-browser
+Architecture: armhf armel i386 amd64
+Pre-Depends: dpkg (>= 1.15.6)
+Depends: ${shlibs:Depends}, ${misc:Depends},
+	libnss3,
+	xdg-utils,
+	libva1,
+	libva-x11-1,
+	chromium-codecs-ffmpeg-extra (>= 0.6) | chromium-codecs-ffmpeg (>= 0.6)
+Recommends: chromium-browser-l10n
+Suggests: webaccounts-chromium-extension,
+	unity-chromium-extension,
+	chromiumflashplugin
+Provides: www-browser, chromium-browser-inspector
+Replaces: chromium-browser-inspector
+Conflicts: chromium-browser-inspector
+Description: Chromium browser
+ Chromium is an open-source browser project that aims to build a safer, faster,
+ and more stable way for all Internet users to experience the web.
+ .
+ Chromium serves as a base for Google Chrome, which is Chromium rebranded (name
+ and logo) with very few additions such as usage tracking and an auto-updater
+ system.
+ .
+ This package contains the Chromium browser
+
+Package: chromium-browser-l10n
+Architecture: all
+Pre-Depends: dpkg (>= 1.15.6)
+Depends: ${shlibs:Depends}, ${misc:Depends}, chromium-browser (= ${binary:Version})
+Description: chromium-browser language packages
+ Chromium is an open-source browser project that aims to build a safer, faster,
+ and more stable way for all Internet users to experience the web.
+ .
+ This package contains language packages for 55 languages:
+ am, ar, bg, bn, ca, ca@valencia, cs, da, de, el, en-GB, es, es-419, et, eu,
+ fa, fi, fil, fr, gl, gu, he, hi, hr, hu, id, it, ja, kn, ko, lt, lv, ml, mr,
+ nb, nl, pl, pt-BR, pt-PT, ro, ru, sk, sl, sr, sv, sw, ta, te, th, tr, ug, uk,
+ vi, zh-CN, zh-TW
+
+Package: chromium-chromedriver
+Architecture: armhf armel i386 amd64
+Pre-Depends: dpkg (>= 1.15.6)
+Depends: ${shlibs:Depends}, ${misc:Depends}, chromium-browser (= ${binary:Version})
+Description: ChromeDriver
+ Chromium is an open-source browser project that aims to build a safer, faster,
+ and more stable way for all Internet users to experience the web.
+ .
+ This package contains ChromeDriver, a standalone server which implements
+ WebDriver's wire protocol.
+
+Package: chromium-codecs-ffmpeg
+Architecture: armhf armel i386 amd64
+Pre-Depends: dpkg (>= 1.15.6)
+Depends: ${shlibs:Depends}, ${misc:Depends}, chromium-browser (>= 4.0.203.0~)
+Conflicts: chromium-codecs-ffmpeg-extra
+Replaces: chromium-codecs-ffmpeg-extra
+Description: Free ffmpeg codecs for the Chromium Browser
+ Chromium is an open-source browser project that aims to build a safer, faster,
+ and more stable way for all Internet users to experience the web.
+ .
+ This package contains the multi-threaded ffmpeg codecs needed for the HTML5
+ <audio> and <video> tags. Only the free ogg, vorbis and theora codecs are
+ included. See chromium-codecs-ffmpeg-extra for additional codecs
+
+Package: chromium-codecs-ffmpeg-extra
+Architecture: armhf armel i386 amd64
+Pre-Depends: dpkg (>= 1.15.6)
+Depends: ${shlibs:Depends}, ${misc:Depends}, chromium-browser (>= 4.0.203.0~)
+Conflicts: chromium-codecs-ffmpeg
+Replaces: chromium-codecs-ffmpeg
+Description: Extra ffmpeg codecs for the Chromium Browser
+ Chromium is an open-source browser project that aims to build a safer, faster,
+ and more stable way for all Internet users to experience the web.
+ .
+ This package contains the multi-threaded ffmpeg codecs needed for the HTML5
+ <audio> and <video> tags. In addition to the patent-free ogg, vorbis and theora codecs,
+ aac/ac3/mpeg4audio/h264/mov/mp3 are also included.
+ See chromium-codecs-ffmpeg if you prefer only the patent-free codecs

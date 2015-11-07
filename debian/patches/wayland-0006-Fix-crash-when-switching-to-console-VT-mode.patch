@@ -1,0 +1,29 @@
+From b44713554066eacad74834d7863f4ab64d636ff5 Mon Sep 17 00:00:00 2001
+From: Joone Hur <joone.hur@intel.com>
+Date: Mon, 27 Oct 2014 15:22:48 -0700
+Subject: [PATCH 06/13] Fix crash when switching to console(VT) mode
+
+Buffer swapping should not be synchronized so that the GPU process
+is not blocked by waiting for a frame update from Weston.
+
+Bug: TC-341
+---
+ ui/gl/gl_context_egl.cc | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+Index: dev.wily/ui/gl/gl_context_egl.cc
+===================================================================
+--- dev.wily.orig/ui/gl/gl_context_egl.cc
++++ dev.wily/ui/gl/gl_context_egl.cc
+@@ -120,6 +120,11 @@ bool GLContextEGL::MakeCurrent(GLSurface
+     return false;
+   }
+ 
++#if defined(USE_OZONE)
++  if (!surface->IsOffscreen())
++    eglSwapInterval(display_, 0);
++#endif
++
+   // Set this as soon as the context is current, since we might call into GL.
+   SetRealGLApi();
+ 

@@ -61,7 +61,7 @@ Index: dev.wily/content/content_common.gypi
 ===================================================================
 --- dev.wily.orig/content/content_common.gypi
 +++ dev.wily/content/content_common.gypi
-@@ -866,7 +866,7 @@
+@@ -858,7 +858,7 @@
          },
        ],
      }],
@@ -70,7 +70,7 @@ Index: dev.wily/content/content_common.gypi
        'sources': [
          'common/gpu/media/accelerated_video_decoder.h',
          'common/gpu/media/h264_decoder.cc',
-@@ -922,7 +922,7 @@
+@@ -914,7 +914,7 @@
          'common/gpu/media/tegra_v4l2_device.h',
        ],
      }],
@@ -96,7 +96,7 @@ Index: dev.wily/content/content_tests.gypi
 ===================================================================
 --- dev.wily.orig/content/content_tests.gypi
 +++ dev.wily/content/content_tests.gypi
-@@ -1746,7 +1746,7 @@
+@@ -1749,7 +1749,7 @@
            },
          ]
      }],
@@ -109,7 +109,7 @@ Index: dev.wily/content/public/common/content_switches.cc
 ===================================================================
 --- dev.wily.orig/content/public/common/content_switches.cc
 +++ dev.wily/content/public/common/content_switches.cc
-@@ -916,7 +916,9 @@ const char kDisableWebAudio[]
+@@ -915,7 +915,9 @@ const char kDisableWebAudio[]
  #if defined(OS_CHROMEOS)
  // Disables panel fitting (used for mirror mode).
  const char kDisablePanelFitting[]           = "disable-panel-fitting";
@@ -136,7 +136,7 @@ Index: dev.wily/media/media.gyp
 ===================================================================
 --- dev.wily.orig/media/media.gyp
 +++ dev.wily/media/media.gyp
-@@ -765,7 +765,7 @@
+@@ -766,7 +766,7 @@
            ],
          }],
          # For VaapiVideoEncodeAccelerator.
@@ -145,7 +145,7 @@ Index: dev.wily/media/media.gyp
            'sources': [
              'filters/h264_bitstream_buffer.cc',
              'filters/h264_bitstream_buffer.h',
-@@ -1390,7 +1390,7 @@
+@@ -1391,7 +1391,7 @@
              'filters/decrypting_video_decoder_unittest.cc',
            ],
          }],
@@ -176,18 +176,6 @@ Index: dev.wily/gpu/config/software_rendering_list_json.cc
        "id": 49,
        "description": "NVidia GeForce GT 650M can cause the system to hang with flash 3D",
        "cr_bugs": [140175],
-@@ -1039,6 +1028,11 @@ LONG_STRING_CONST(
-             "op": ">=",
-             "value": "3.0"
-           }
-+        },
-+        {
-+          "os": {
-+            "type": "linux"
-+          }
-         }
-       ],
-       "features": [
 Index: dev.wily/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 ===================================================================
 --- dev.wily.orig/content/common/sandbox_linux/bpf_gpu_policy_linux.cc

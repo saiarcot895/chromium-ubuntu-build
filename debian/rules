@@ -40,6 +40,7 @@ DISTRIBUTION=DEBIAN
 endif
 
 WANT_DEBUG       := 0
+WANT_WAYLAND     := 0
 
 # System libs off. Rationalle: We usually want to use as many system libraries
 # as possible, as a security measure. If there's a security problem in one, the
@@ -61,8 +62,10 @@ GYP_PARAMS := --depth=$(CURDIR)
 # Build the launchpad translations (already landed upstream)
 #GYP_DEFINES += use_third_party_translations=1
 
+ifneq (1,$(WANT_WAYLAND))
 # Always add debug symbols, and strip them when we don't want them.
 GYP_DEFINES += release_extra_cflags="-g"
+endif
 
 # Don't fail on compilation warnings
 GYP_DEFINES += werror=$(NULL)
@@ -173,6 +176,10 @@ endif
 # Shared libraries
 ifeq (1,$(WANT_SHARED_LIBS))
 GYP_DEFINES += library=shared_library
+endif
+
+ifeq (1,$(WANT_WAYLAND))
+GYP_DEFINES += use_aura=1 chromeos=0 use_ozone=1 use_xkbcommon=1
 endif
 
 subst_files = \

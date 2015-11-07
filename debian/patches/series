@@ -36,3 +36,20 @@ add-smooth-scrolling.patch
 specify-max-resolution.patch
 remove-libgcceh.patch
 nacl-loosen-fd-check.patch
+
+### BEGIN Wayland patches ###
+#wayland-0001-Browser-Support-Desktop-Aura-creation-on-Ozone.patch
+#wayland-0002-Remove-usage-of-DesktopFactory.patch
+#wayland-0003-Add-support-to-provide-external-ozone-files-in-views.patch
+#wayland-0004-Add-support-for-checking-DesktopWindow-with-Ozone-an.patch
+## wayland-0005-Media-Build-VaapiPictureWayland-as-part-of-Media.patch
+#wayland-0006-Fix-crash-when-switching-to-console-VT-mode.patch
+#wayland-0007-Add-needed-support-in-PlatformWindow.patch
+#wayland-0008-Add-file-picker-support-using-WebUI.patch
+## wayland-0009-Media-Use-upstream-Video-Accelerator.patch
+#wayland-0010-Remove-ATK-dependency.patch
+#wayland-0011-Gardening-Adopt-to-https-codereview.chromium.org-129.patch
+#wayland-0012-Use-InputMethodAuraLinux-for-Ozone-implementations-o.patch
+#wayland-0013-Add-drag-and-drop-interfaces-to-PlatformWindowDelega.patch
+#wayland-0014-Adapt-to-https-codereview.chromium.org-1409823002.patch
+### END Wayland patches ###

@@ -1,0 +1,41 @@
+From 8bf1ed63585a859d55b09cc1db84c0eb732134ec Mon Sep 17 00:00:00 2001
+From: Kalyan Kondapally <kalyan.kondapally@intel.com>
+Date: Tue, 25 Aug 2015 00:12:01 -0700
+Subject: [PATCH 11/13] Gardening: Adopt to
+ https://codereview.chromium.org/1299713003
+
+Need to fix this upstream.
+---
+ ui/gl/gl_image_egl.cc | 5 +++++
+ ui/gl/gl_image_egl.h  | 4 ++++
+ 2 files changed, 9 insertions(+)
+
+Index: dev.wily/ui/gl/gl_image_egl.cc
+===================================================================
+--- dev.wily.orig/ui/gl/gl_image_egl.cc
++++ dev.wily/ui/gl/gl_image_egl.cc
+@@ -80,4 +80,9 @@ bool GLImageEGL::ScheduleOverlayPlane(Ac
+   return false;
+ }
+ 
++void GLImageEGL::OnMemoryDump(base::trace_event::ProcessMemoryDump* pmd,
++                              uint64_t process_tracing_id,
++                              const std::string& dump_name) {
++}
++
+ }  // namespace gfx
+Index: dev.wily/ui/gl/gl_image_egl.h
+===================================================================
+--- dev.wily.orig/ui/gl/gl_image_egl.h
++++ dev.wily/ui/gl/gl_image_egl.h
+@@ -33,6 +33,10 @@ class GL_EXPORT GLImageEGL : public GLIm
+                             const Rect& bounds_rect,
+                             const RectF& crop_rect) override;
+ 
++  void OnMemoryDump(base::trace_event::ProcessMemoryDump* pmd,
++                    uint64_t process_tracing_id,
++                    const std::string& dump_name) override;
++
+  protected:
+   ~GLImageEGL() override;
+ 
