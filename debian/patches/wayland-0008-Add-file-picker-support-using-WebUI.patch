@@ -36,7 +36,7 @@ Index: dev.wily/chrome/app/generated_resources.grd
 ===================================================================
 --- dev.wily.orig/chrome/app/generated_resources.grd
 +++ dev.wily/chrome/app/generated_resources.grd
-@@ -15119,6 +15119,14 @@ Please check your email at <ph name="ACC
+@@ -15161,6 +15161,14 @@ Please check your email at <ph name="ACC
          Allows users to opt in to the collection of invalid TLS/SSL certificate chains.
        </message>
  
@@ -55,7 +55,7 @@ Index: dev.wily/chrome/browser/browser_resources.grd
 ===================================================================
 --- dev.wily.orig/chrome/browser/browser_resources.grd
 +++ dev.wily/chrome/browser/browser_resources.grd
-@@ -462,6 +462,9 @@
+@@ -465,6 +465,9 @@
        <if expr="enable_media_router">
          <part file="media_router_resources.grdp" />
        </if>
@@ -255,7 +255,7 @@ Index: dev.wily/chrome/browser/ui/aura/chrome_browser_main_extra_parts_aura.cc
  #if defined(USE_X11) && !defined(OS_CHROMEOS)
  #include "chrome/browser/ui/libgtk2ui/gtk2_ui.h"
  #endif
-@@ -104,6 +108,10 @@ void ChromeBrowserMainExtraPartsAura::Pr
+@@ -105,6 +109,10 @@ void ChromeBrowserMainExtraPartsAura::Pr
      ui::InitializeInputMethodForTesting();
    }
  #endif
@@ -266,7 +266,7 @@ Index: dev.wily/chrome/browser/ui/aura/chrome_browser_main_extra_parts_aura.cc
  }
  
  void ChromeBrowserMainExtraPartsAura::ToolkitInitialized() {
-@@ -114,7 +122,7 @@ void ChromeBrowserMainExtraPartsAura::To
+@@ -115,7 +123,7 @@ void ChromeBrowserMainExtraPartsAura::To
  #endif
  #endif
  
@@ -287,7 +287,7 @@ Index: dev.wily/chrome/browser/ui/webui/chrome_web_ui_controller_factory.cc
  
  #if !defined(DISABLE_NACL)
  #include "chrome/browser/ui/webui/nacl_ui.h"
-@@ -333,6 +334,8 @@ WebUIFactoryFunction GetWebUIFactoryFunc
+@@ -334,6 +335,8 @@ WebUIFactoryFunction GetWebUIFactoryFunc
      return &NewWebUI<DomainReliabilityInternalsUI>;
    if (url.host() == chrome::kChromeUIFlagsHost)
      return &NewWebUI<FlagsUI>;
@@ -549,7 +549,7 @@ Index: dev.wily/chrome/chrome_browser_ui.gypi
 ===================================================================
 --- dev.wily.orig/chrome/chrome_browser_ui.gypi
 +++ dev.wily/chrome/chrome_browser_ui.gypi
-@@ -338,6 +338,9 @@
+@@ -342,6 +342,9 @@
        'browser/ui/webui/favicon_source.h',
        'browser/ui/webui/fileicon_source.cc',
        'browser/ui/webui/fileicon_source.h',
@@ -559,7 +559,7 @@ Index: dev.wily/chrome/chrome_browser_ui.gypi
        'browser/ui/webui/flags_ui.cc',
        'browser/ui/webui/flags_ui.h',
        'browser/ui/webui/gcm_internals_ui.cc',
-@@ -2786,6 +2789,7 @@
+@@ -2795,6 +2798,7 @@
          '../content/content.gyp:content_browser',
          '../content/content.gyp:content_common',
          '../crypto/crypto.gyp:crypto',
@@ -567,7 +567,7 @@ Index: dev.wily/chrome/chrome_browser_ui.gypi
          '../skia/skia.gyp:skia',
          '../sync/sync.gyp:sync',
          '../third_party/cacheinvalidation/cacheinvalidation.gyp:cacheinvalidation',
-@@ -3152,6 +3156,7 @@
+@@ -3161,6 +3165,7 @@
                'dependencies': [
                  '../build/linux/system.gyp:dbus',
                  '../build/linux/system.gyp:fontconfig',
@@ -595,7 +595,7 @@ Index: dev.wily/chrome/common/url_constants.cc
  const char kChromeUIFlagsHost[] = "flags";
  const char kChromeUIFlashHost[] = "flash";
  const char kChromeUIGCMInternalsHost[] = "gcm-internals";
-@@ -602,6 +604,7 @@ const char* const kChromeHostURLs[] = {
+@@ -605,6 +607,7 @@ const char* const kChromeHostURLs[] = {
    kChromeUICreditsHost,
    kChromeUIDeviceLogHost,
    kChromeUIDNSHost,

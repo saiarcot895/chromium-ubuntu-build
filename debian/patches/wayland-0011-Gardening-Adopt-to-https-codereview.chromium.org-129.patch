@@ -14,7 +14,7 @@ Index: dev.wily/ui/gl/gl_image_egl.cc
 ===================================================================
 --- dev.wily.orig/ui/gl/gl_image_egl.cc
 +++ dev.wily/ui/gl/gl_image_egl.cc
-@@ -80,4 +80,9 @@ bool GLImageEGL::ScheduleOverlayPlane(Ac
+@@ -80,4 +80,9 @@ bool GLImageEGL::ScheduleOverlayPlane(gf
    return false;
  }
  
@@ -23,14 +23,14 @@ Index: dev.wily/ui/gl/gl_image_egl.cc
 +                              const std::string& dump_name) {
 +}
 +
- }  // namespace gfx
+ }  // namespace gl
 Index: dev.wily/ui/gl/gl_image_egl.h
 ===================================================================
 --- dev.wily.orig/ui/gl/gl_image_egl.h
 +++ dev.wily/ui/gl/gl_image_egl.h
 @@ -33,6 +33,10 @@ class GL_EXPORT GLImageEGL : public GLIm
-                             const Rect& bounds_rect,
-                             const RectF& crop_rect) override;
+                             const gfx::Rect& bounds_rect,
+                             const gfx::RectF& crop_rect) override;
  
 +  void OnMemoryDump(base::trace_event::ProcessMemoryDump* pmd,
 +                    uint64_t process_tracing_id,
