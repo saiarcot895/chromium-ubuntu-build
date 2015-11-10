@@ -437,6 +437,10 @@ configure-stamp:
 		rm -r chromium-$(DEBIAN_UPSTREAM_VERSION); \
 	fi
 	
+	if [ -d wayland ]; then \
+		mv wayland ozone ; \
+	fi
+	
 	# Fix (hopefully temporary) gyp/packaging bug
 	touch chrome/test/data/webui/i18n_process_css_test.html
 	
@@ -444,7 +448,7 @@ configure-stamp:
 	ln -s /usr/lib/$(DEB_HOST_MULTIARCH)/native-client/ native_client/toolchain
 	
 	cd $(SRC_DIR) && $(GYP_ENV) $(CROSS_BUILD) python build/gyp_chromium build/all.gyp $(GYP_PARAMS)
-
+	
 	touch $@
 
 build-stamp: configure-stamp
