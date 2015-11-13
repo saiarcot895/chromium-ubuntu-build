@@ -27,7 +27,7 @@ Index: dev.wily/chrome/browser/ui/views/frame/browser_frame.h
 ===================================================================
 --- dev.wily.orig/chrome/browser/ui/views/frame/browser_frame.h
 +++ dev.wily/chrome/browser/ui/views/frame/browser_frame.h
-@@ -94,6 +94,8 @@ class BrowserFrame
+@@ -96,6 +96,8 @@ class BrowserFrame
    void GetWindowPlacement(gfx::Rect* bounds,
                            ui::WindowShowState* show_state) const;
  

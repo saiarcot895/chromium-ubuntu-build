@@ -1,3 +1,10 @@
+chromium-browser (48.0.2560.0-0ubuntu1~ppa1~14.04.1) trusty; urgency=low
+
+  * New upstream version 48.0.2560.0
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 12 Nov 2015 22:32:32 -0500
+
 chromium-browser (48.0.2552.0-0ubuntu1+wayland~ppa3~14.04.1) trusty; urgency=low
 
   * Add missing libgbm-dev dependency.

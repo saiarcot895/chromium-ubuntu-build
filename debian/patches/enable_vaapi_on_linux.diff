@@ -61,7 +61,7 @@ Index: dev.wily/content/content_common.gypi
 ===================================================================
 --- dev.wily.orig/content/content_common.gypi
 +++ dev.wily/content/content_common.gypi
-@@ -858,7 +858,7 @@
+@@ -865,7 +865,7 @@
          },
        ],
      }],
@@ -70,7 +70,7 @@ Index: dev.wily/content/content_common.gypi
        'sources': [
          'common/gpu/media/accelerated_video_decoder.h',
          'common/gpu/media/h264_decoder.cc',
-@@ -914,7 +914,7 @@
+@@ -921,7 +921,7 @@
          'common/gpu/media/tegra_v4l2_device.h',
        ],
      }],
@@ -96,7 +96,7 @@ Index: dev.wily/content/content_tests.gypi
 ===================================================================
 --- dev.wily.orig/content/content_tests.gypi
 +++ dev.wily/content/content_tests.gypi
-@@ -1749,7 +1749,7 @@
+@@ -1726,7 +1726,7 @@
            },
          ]
      }],
@@ -109,7 +109,7 @@ Index: dev.wily/content/public/common/content_switches.cc
 ===================================================================
 --- dev.wily.orig/content/public/common/content_switches.cc
 +++ dev.wily/content/public/common/content_switches.cc
-@@ -915,7 +915,9 @@ const char kDisableWebAudio[]
+@@ -920,7 +920,9 @@ const char kDisableWebAudio[]
  #if defined(OS_CHROMEOS)
  // Disables panel fitting (used for mirror mode).
  const char kDisablePanelFitting[]           = "disable-panel-fitting";
@@ -123,7 +123,7 @@ Index: dev.wily/content/public/common/content_switches.h
 ===================================================================
 --- dev.wily.orig/content/public/common/content_switches.h
 +++ dev.wily/content/public/common/content_switches.h
-@@ -271,6 +271,8 @@ CONTENT_EXPORT extern const char kDisabl
+@@ -273,6 +273,8 @@ CONTENT_EXPORT extern const char kDisabl
  
  #if defined(OS_CHROMEOS)
  CONTENT_EXPORT extern const char kDisablePanelFitting[];
@@ -136,7 +136,7 @@ Index: dev.wily/media/media.gyp
 ===================================================================
 --- dev.wily.orig/media/media.gyp
 +++ dev.wily/media/media.gyp
-@@ -766,7 +766,7 @@
+@@ -764,7 +764,7 @@
            ],
          }],
          # For VaapiVideoEncodeAccelerator.
@@ -145,7 +145,7 @@ Index: dev.wily/media/media.gyp
            'sources': [
              'filters/h264_bitstream_buffer.cc',
              'filters/h264_bitstream_buffer.h',
-@@ -1391,7 +1391,7 @@
+@@ -1389,7 +1389,7 @@
              'filters/decrypting_video_decoder_unittest.cc',
            ],
          }],
@@ -283,7 +283,7 @@ Index: dev.wily/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.wily.orig/chrome/browser/about_flags.cc
 +++ dev.wily/chrome/browser/about_flags.cc
-@@ -1012,7 +1012,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1013,7 +1013,7 @@ const FeatureEntry kFeatureEntries[] = {
       "disable-accelerated-video-decode",
       IDS_FLAGS_DISABLE_ACCELERATED_VIDEO_DECODE_NAME,
       IDS_FLAGS_DISABLE_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
@@ -352,7 +352,7 @@ Index: dev.wily/content/common/gpu/media/vaapi_video_decode_accelerator.cc
 ===================================================================
 --- dev.wily.orig/content/common/gpu/media/vaapi_video_decode_accelerator.cc
 +++ dev.wily/content/common/gpu/media/vaapi_video_decode_accelerator.cc
-@@ -324,17 +324,17 @@ bool VaapiVideoDecodeAccelerator::Initia
+@@ -325,17 +325,17 @@ bool VaapiVideoDecodeAccelerator::Initia
  
    base::AutoLock auto_lock(lock_);
    DCHECK_EQ(state_, kUninitialized);
@@ -373,7 +373,7 @@ Index: dev.wily/content/common/gpu/media/vaapi_video_decode_accelerator.cc
               << "EGLGLES2.";
      return false;
    }
-@@ -344,7 +344,7 @@ bool VaapiVideoDecodeAccelerator::Initia
+@@ -345,7 +345,7 @@ bool VaapiVideoDecodeAccelerator::Initia
        VaapiWrapper::kDecode, profile, base::Bind(&ReportToUMA, VAAPI_ERROR));
  
    if (!vaapi_wrapper_.get()) {
@@ -382,7 +382,7 @@ Index: dev.wily/content/common/gpu/media/vaapi_video_decode_accelerator.cc
      return false;
    }
  
-@@ -361,7 +361,7 @@ bool VaapiVideoDecodeAccelerator::Initia
+@@ -362,7 +362,7 @@ bool VaapiVideoDecodeAccelerator::Initia
      vp9_accelerator_.reset(new VaapiVP9Accelerator(this, vaapi_wrapper_.get()));
      decoder_.reset(new VP9Decoder(vp9_accelerator_.get()));
    } else {
@@ -395,7 +395,7 @@ Index: dev.wily/content/gpu/gpu_main.cc
 ===================================================================
 --- dev.wily.orig/content/gpu/gpu_main.cc
 +++ dev.wily/content/gpu/gpu_main.cc
-@@ -71,7 +71,7 @@
+@@ -72,7 +72,7 @@
  #include "content/common/sandbox_mac.h"
  #endif
  
@@ -404,7 +404,7 @@ Index: dev.wily/content/gpu/gpu_main.cc
  #include "content/common/gpu/media/vaapi_wrapper.h"
  #endif
  
-@@ -236,7 +236,7 @@ int GpuMain(const MainFunctionParams& pa
+@@ -237,7 +237,7 @@ int GpuMain(const MainFunctionParams& pa
    GetGpuInfoFromCommandLine(gpu_info, command_line);
    gpu_info.in_process_gpu = false;
  
@@ -417,7 +417,7 @@ Index: dev.wily/content/common/gpu/client/command_buffer_proxy_impl.cc
 ===================================================================
 --- dev.wily.orig/content/common/gpu/client/command_buffer_proxy_impl.cc
 +++ dev.wily/content/common/gpu/client/command_buffer_proxy_impl.cc
-@@ -648,8 +648,10 @@ bool CommandBufferProxyImpl::ProduceFron
+@@ -667,8 +667,10 @@ bool CommandBufferProxyImpl::ProduceFron
  
  scoped_ptr<media::VideoDecodeAccelerator>
  CommandBufferProxyImpl::CreateVideoDecoder() {

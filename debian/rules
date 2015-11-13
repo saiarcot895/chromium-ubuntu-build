@@ -40,7 +40,7 @@ DISTRIBUTION=DEBIAN
 endif
 
 WANT_DEBUG       := 0
-WANT_WAYLAND     := 1
+WANT_WAYLAND     := 0
 
 # System libs off. Rationalle: We usually want to use as many system libraries
 # as possible, as a security measure. If there's a security problem in one, the
