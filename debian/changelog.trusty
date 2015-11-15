@@ -1,3 +1,9 @@
+chromium-browser (48.0.2560.0-0ubuntu1+wayland~ppa1~14.04.1) trusty; urgency=low
+
+  * Wayland build of 48.0.2560.0
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 15 Nov 2015 10:23:02 -0500
+
 chromium-browser (48.0.2560.0-0ubuntu1~ppa1~14.04.1) trusty; urgency=low
 
   * New upstream version 48.0.2560.0

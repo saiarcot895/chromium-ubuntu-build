@@ -36,7 +36,7 @@ Index: dev.wily/chrome/app/generated_resources.grd
 ===================================================================
 --- dev.wily.orig/chrome/app/generated_resources.grd
 +++ dev.wily/chrome/app/generated_resources.grd
-@@ -15161,6 +15161,14 @@ Please check your email at <ph name="ACC
+@@ -15215,6 +15215,14 @@ Please check your email at <ph name="ACC
          Allows users to opt in to the collection of invalid TLS/SSL certificate chains.
        </message>
  
@@ -55,7 +55,7 @@ Index: dev.wily/chrome/browser/browser_resources.grd
 ===================================================================
 --- dev.wily.orig/chrome/browser/browser_resources.grd
 +++ dev.wily/chrome/browser/browser_resources.grd
-@@ -465,6 +465,9 @@
+@@ -469,6 +469,9 @@
        <if expr="enable_media_router">
          <part file="media_router_resources.grdp" />
        </if>
@@ -279,7 +279,7 @@ Index: dev.wily/chrome/browser/ui/webui/chrome_web_ui_controller_factory.cc
 ===================================================================
 --- dev.wily.orig/chrome/browser/ui/webui/chrome_web_ui_controller_factory.cc
 +++ dev.wily/chrome/browser/ui/webui/chrome_web_ui_controller_factory.cc
-@@ -75,6 +75,7 @@
+@@ -77,6 +77,7 @@
  #include "ui/gfx/favicon_size.h"
  #include "ui/web_dialogs/web_dialog_ui.h"
  #include "url/gurl.h"
@@ -287,7 +287,7 @@ Index: dev.wily/chrome/browser/ui/webui/chrome_web_ui_controller_factory.cc
  
  #if !defined(DISABLE_NACL)
  #include "chrome/browser/ui/webui/nacl_ui.h"
-@@ -334,6 +335,8 @@ WebUIFactoryFunction GetWebUIFactoryFunc
+@@ -336,6 +337,8 @@ WebUIFactoryFunction GetWebUIFactoryFunc
      return &NewWebUI<DomainReliabilityInternalsUI>;
    if (url.host() == chrome::kChromeUIFlagsHost)
      return &NewWebUI<FlagsUI>;
@@ -559,7 +559,7 @@ Index: dev.wily/chrome/chrome_browser_ui.gypi
        'browser/ui/webui/flags_ui.cc',
        'browser/ui/webui/flags_ui.h',
        'browser/ui/webui/gcm_internals_ui.cc',
-@@ -2795,6 +2798,7 @@
+@@ -2816,6 +2819,7 @@
          '../content/content.gyp:content_browser',
          '../content/content.gyp:content_common',
          '../crypto/crypto.gyp:crypto',
@@ -567,7 +567,7 @@ Index: dev.wily/chrome/chrome_browser_ui.gypi
          '../skia/skia.gyp:skia',
          '../sync/sync.gyp:sync',
          '../third_party/cacheinvalidation/cacheinvalidation.gyp:cacheinvalidation',
-@@ -3161,6 +3165,7 @@
+@@ -3184,6 +3188,7 @@
                'dependencies': [
                  '../build/linux/system.gyp:dbus',
                  '../build/linux/system.gyp:fontconfig',

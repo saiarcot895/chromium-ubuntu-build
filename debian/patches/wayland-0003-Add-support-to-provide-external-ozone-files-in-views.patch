@@ -21,7 +21,7 @@ Index: dev.wily/ui/views/views.gyp
      # Sources lists shared with GN build.
      'views_sources': [
        'accessibility/native_view_accessibility.cc',
-@@ -721,6 +722,7 @@
+@@ -723,6 +724,7 @@
          }],
          ['use_aura==1', {
            'sources': [

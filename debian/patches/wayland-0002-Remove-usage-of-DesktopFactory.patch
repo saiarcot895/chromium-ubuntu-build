@@ -23,7 +23,7 @@ Index: dev.wily/ui/views/views.gyp
 ===================================================================
 --- dev.wily.orig/ui/views/views.gyp
 +++ dev.wily/ui/views/views.gyp
-@@ -466,12 +466,6 @@
+@@ -468,12 +468,6 @@
        'widget/desktop_aura/desktop_window_tree_host_win.cc',
        'widget/desktop_aura/desktop_window_tree_host_win.h',
      ],
@@ -36,7 +36,7 @@ Index: dev.wily/ui/views/views.gyp
      'views_test_support_sources': [
        'animation/test/ink_drop_animation_test_api.cc',
        'animation/test/ink_drop_animation_test_api.h',
-@@ -750,9 +744,6 @@
+@@ -752,9 +746,6 @@
              ['OS == "win"', {
                'sources': [ '<@(views_desktop_aura_win_sources)' ],
              }],
