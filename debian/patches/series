@@ -52,5 +52,5 @@ wayland-0011-Gardening-Adopt-to-https-codereview.chromium.org-129.patch
 wayland-0012-Use-InputMethodAuraLinux-for-Ozone-implementations-o.patch
 wayland-0013-Add-drag-and-drop-interfaces-to-PlatformWindowDelega.patch
 wayland-0014-Adapt-to-https-codereview.chromium.org-1409823002.patch
-wayland-0015-update-ozonewebui.patch
+wayland-0015-implement-new-methods.patch
 ### END Wayland patches ###
