@@ -36,7 +36,7 @@ Index: dev.wily/chrome/app/generated_resources.grd
 ===================================================================
 --- dev.wily.orig/chrome/app/generated_resources.grd
 +++ dev.wily/chrome/app/generated_resources.grd
-@@ -15215,6 +15215,14 @@ Please check your email at <ph name="ACC
+@@ -15214,6 +15214,14 @@ Please check your email at <ph name="ACC
          Allows users to opt in to the collection of invalid TLS/SSL certificate chains.
        </message>
  
@@ -559,7 +559,7 @@ Index: dev.wily/chrome/chrome_browser_ui.gypi
        'browser/ui/webui/flags_ui.cc',
        'browser/ui/webui/flags_ui.h',
        'browser/ui/webui/gcm_internals_ui.cc',
-@@ -2816,6 +2819,7 @@
+@@ -2812,6 +2815,7 @@
          '../content/content.gyp:content_browser',
          '../content/content.gyp:content_common',
          '../crypto/crypto.gyp:crypto',
@@ -567,7 +567,7 @@ Index: dev.wily/chrome/chrome_browser_ui.gypi
          '../skia/skia.gyp:skia',
          '../sync/sync.gyp:sync',
          '../third_party/cacheinvalidation/cacheinvalidation.gyp:cacheinvalidation',
-@@ -3184,6 +3188,7 @@
+@@ -3180,6 +3184,7 @@
                'dependencies': [
                  '../build/linux/system.gyp:dbus',
                  '../build/linux/system.gyp:fontconfig',
