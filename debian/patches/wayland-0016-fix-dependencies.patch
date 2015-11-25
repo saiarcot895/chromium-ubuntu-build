@@ -1,0 +1,12 @@
+Index: dev.wily/ui/views/views.gyp
+===================================================================
+--- dev.wily.orig/ui/views/views.gyp
++++ dev.wily/ui/views/views.gyp
+@@ -731,6 +731,7 @@
+             '../aura/aura.gyp:aura',
+             '../touch_selection/ui_touch_selection.gyp:ui_touch_selection',
+             '../wm/wm.gyp:wm',
++            '../../content/content.gyp:content_browser',
+           ],
+         }],
+         ['use_aura and chromeos == 0', {

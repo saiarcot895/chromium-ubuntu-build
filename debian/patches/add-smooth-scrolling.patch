@@ -4,7 +4,7 @@ Index: dev.wily/AUTHORS
 ===================================================================
 --- dev.wily.orig/AUTHORS
 +++ dev.wily/AUTHORS
-@@ -600,6 +600,7 @@ Wesley Wigham <t-weswig@microsoft.com>
+@@ -602,6 +602,7 @@ Wesley Wigham <t-weswig@microsoft.com>
  Wesley Wigham <wwigham@gmail.com>
  Will Hirsch <chromium@willhirsch.co.uk>
  William Xie <william.xie@intel.com>
@@ -319,7 +319,7 @@ Index: dev.wily/ui/events/devices/x11/device_data_manager_x11.h
    // Extract the range of the data type. Return true if the range is available
    // and written into min & max, false if the range is not available.
    bool GetDataRange(int deviceid,
-@@ -265,6 +319,16 @@ class EVENTS_DEVICES_EXPORT DeviceDataMa
+@@ -267,6 +321,16 @@ class EVENTS_DEVICES_EXPORT DeviceDataMa
                                    double min_value,
                                    double max_value);
  
@@ -336,7 +336,7 @@ Index: dev.wily/ui/events/devices/x11/device_data_manager_x11.h
    static const int kMaxXIEventType = XI_LASTEVENT + 1;
    static const int kMaxSlotNum = 10;
  
-@@ -278,6 +342,7 @@ class EVENTS_DEVICES_EXPORT DeviceDataMa
+@@ -280,6 +344,7 @@ class EVENTS_DEVICES_EXPORT DeviceDataMa
    // should be processed.
    std::bitset<kMaxDeviceNum> cmt_devices_;
    std::bitset<kMaxDeviceNum> touchpads_;
@@ -344,7 +344,7 @@ Index: dev.wily/ui/events/devices/x11/device_data_manager_x11.h
  
    // List of the master pointer devices.
    std::vector<int> master_pointers_;
-@@ -296,6 +361,10 @@ class EVENTS_DEVICES_EXPORT DeviceDataMa
+@@ -298,6 +363,10 @@ class EVENTS_DEVICES_EXPORT DeviceDataMa
    // by valuator_lookup_[device_id][data_type].
    std::vector<int> valuator_lookup_[kMaxDeviceNum];
  
@@ -386,7 +386,7 @@ Index: dev.wily/ui/events/x/events_x.cc
            if (devices->IsCMTMetricsEvent(native_event))
              return ET_UMA_DATA;
            if (GetButtonMaskForX2Event(xievent))
-@@ -686,15 +689,22 @@ gfx::Vector2d GetMouseWheelOffset(const
+@@ -691,15 +694,22 @@ gfx::Vector2d GetMouseWheelOffset(const
    int button = native_event->type == GenericEvent ?
        EventButtonFromNative(native_event) : native_event->xbutton.button;
  
@@ -413,7 +413,7 @@ Index: dev.wily/ui/events/x/events_x.cc
      default:
        return gfx::Vector2d();
    }
-@@ -778,30 +788,38 @@ bool GetScrollOffsets(const base::Native
+@@ -783,30 +793,38 @@ bool GetScrollOffsets(const base::Native
                        float* x_offset_ordinal,
                        float* y_offset_ordinal,
                        int* finger_count) {

@@ -40,7 +40,7 @@ DISTRIBUTION=DEBIAN
 endif
 
 WANT_DEBUG       := 0
-WANT_WAYLAND     := 1
+WANT_WAYLAND     := 0
 
 # System libs off. Rationalle: We usually want to use as many system libraries
 # as possible, as a security measure. If there's a security problem in one, the
@@ -65,6 +65,8 @@ GYP_PARAMS := --depth=$(CURDIR)
 ifneq (1,$(WANT_WAYLAND))
 # Always add debug symbols, and strip them when we don't want them.
 GYP_DEFINES += release_extra_cflags="-g"
+else
+GYP_DEFINES += fastbuild=2
 endif
 
 # Don't fail on compilation warnings
@@ -72,6 +74,7 @@ GYP_DEFINES += werror=$(NULL)
 
 # We are never using a sysroot-based toolchain; override the wrong
 # autodetection for arm.
+GYP_DEFINES += use_sysroot=0
 GYP_DEFINES += sysroot=
 
 # Link directly to library instead of using dlopen.

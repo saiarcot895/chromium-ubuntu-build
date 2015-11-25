@@ -33,7 +33,7 @@ Index: dev.wily/ozone/ui/desktop_aura/desktop_window_tree_host_ozone.cc
    return state_ & Visible;
  }
  
-+void SetSessionID(uint32 sessionid) {
++void DesktopWindowTreeHostOzone::SetSessionID(uint32 sessionid) {
 +}
 +
  void DesktopWindowTreeHostOzone::SetSize(const gfx::Size& requested_size) {

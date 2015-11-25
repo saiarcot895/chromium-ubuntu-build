@@ -40,7 +40,7 @@ Index: dev.wily/chrome/browser/ui/views/frame/browser_view.cc
 ===================================================================
 --- dev.wily.orig/chrome/browser/ui/views/frame/browser_view.cc
 +++ dev.wily/chrome/browser/ui/views/frame/browser_view.cc
-@@ -726,6 +726,7 @@ void BrowserView::Show() {
+@@ -727,6 +727,7 @@ void BrowserView::Show() {
    force_location_bar_focus_ = false;
  
    browser()->OnWindowDidShow();
@@ -86,7 +86,7 @@ Index: dev.wily/ui/aura/window_tree_host_x11.cc
 ===================================================================
 --- dev.wily.orig/ui/aura/window_tree_host_x11.cc
 +++ dev.wily/ui/aura/window_tree_host_x11.cc
-@@ -459,6 +459,26 @@ gfx::AcceleratedWidget WindowTreeHostX11
+@@ -460,6 +460,26 @@ gfx::AcceleratedWidget WindowTreeHostX11
    return xwindow_;
  }
  
@@ -189,7 +189,7 @@ Index: dev.wily/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
    "XdndActionAsk",
    "XdndActionCopy"
    "XdndActionLink",
-@@ -1421,6 +1424,22 @@ void DesktopWindowTreeHostX11::UpdateMin
+@@ -1422,6 +1425,22 @@ void DesktopWindowTreeHostX11::UpdateMin
    XSetWMNormalHints(xdisplay_, xwindow_, &hints);
  }
  

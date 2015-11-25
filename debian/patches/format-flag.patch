@@ -6,7 +6,7 @@ Index: dev.wily/build/common.gypi
 ===================================================================
 --- dev.wily.orig/build/common.gypi
 +++ dev.wily/build/common.gypi
-@@ -3102,9 +3102,6 @@
+@@ -3097,9 +3097,6 @@
                '-Wno-deprecated',
              ],
              'cflags': [
