@@ -41,7 +41,11 @@ Build-Depends: debhelper (>= 9),
 		libkrb5-dev,
 		libva-dev,
 		chrpath,
-		native-client
+		native-client,
+		libxkbcommon-dev,
+		libwayland-dev,
+		libegl1-mesa-dev,
+		libgbm-dev
 Standards-Version: 3.9.5
 
 Package: chromium-browser
