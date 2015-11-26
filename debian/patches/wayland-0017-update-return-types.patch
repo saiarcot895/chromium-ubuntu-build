@@ -1,0 +1,29 @@
+Index: dev.wily/ozone/wayland/egl/surface_ozone_wayland.cc
+===================================================================
+--- dev.wily.orig/ozone/wayland/egl/surface_ozone_wayland.cc
++++ dev.wily/ozone/wayland/egl/surface_ozone_wayland.cc
+@@ -35,9 +35,9 @@ bool SurfaceOzoneWayland::OnSwapBuffers(
+   return true;
+ }
+ 
+-bool SurfaceOzoneWayland::OnSwapBuffersAsync(
++void SurfaceOzoneWayland::OnSwapBuffersAsync(
+     const ui::SwapCompletionCallback& callback) {
+-  return true;
++  callback.Run(gfx::SwapResult::SWAP_ACK);
+ }
+ 
+ scoped_ptr<gfx::VSyncProvider> SurfaceOzoneWayland::CreateVSyncProvider() {
+Index: dev.wily/ozone/wayland/egl/surface_ozone_wayland.h
+===================================================================
+--- dev.wily.orig/ozone/wayland/egl/surface_ozone_wayland.h
++++ dev.wily/ozone/wayland/egl/surface_ozone_wayland.h
+@@ -22,7 +22,7 @@ class SurfaceOzoneWayland : public ui::S
+   intptr_t GetNativeWindow() override;
+   bool ResizeNativeWindow(const gfx::Size& viewport_size) override;
+   bool OnSwapBuffers() override;
+-  bool OnSwapBuffersAsync(const ui::SwapCompletionCallback& callback) override;
++  void OnSwapBuffersAsync(const ui::SwapCompletionCallback& callback) override;
+   scoped_ptr<gfx::VSyncProvider> CreateVSyncProvider() override;
+ 
+  private:

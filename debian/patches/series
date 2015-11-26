@@ -55,3 +55,4 @@ wayland-0014-Adapt-to-https-codereview.chromium.org-1409823002.patch
 wayland-0015-implement-new-methods.patch
 wayland-0016-fix-dependencies.patch
 ### END Wayland patches ###
+wayland-0017-update-return-types.patch
