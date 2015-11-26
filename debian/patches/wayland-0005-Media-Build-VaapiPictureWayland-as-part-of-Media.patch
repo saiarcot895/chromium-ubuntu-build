@@ -10,11 +10,11 @@ to figure out how we could use upstream VaapiWrapper.
  content/content_common.gypi | 51 ++++++++++++++++++++++++++++-----------------
  1 file changed, 32 insertions(+), 19 deletions(-)
 
-diff --git a/content/content_common.gypi b/content/content_common.gypi
-index 095004a..2fce813 100644
---- a/content/content_common.gypi
-+++ b/content/content_common.gypi
-@@ -866,7 +866,7 @@
+Index: dev.wily/content/content_common.gypi
+===================================================================
+--- dev.wily.orig/content/content_common.gypi
++++ dev.wily/content/content_common.gypi
+@@ -865,7 +865,7 @@
          },
        ],
      }],
@@ -23,7 +23,7 @@ index 095004a..2fce813 100644
        'sources': [
          'common/gpu/media/accelerated_video_decoder.h',
          'common/gpu/media/h264_decoder.cc',
-@@ -922,7 +922,7 @@
+@@ -921,7 +921,7 @@
          'common/gpu/media/tegra_v4l2_device.h',
        ],
      }],
@@ -32,7 +32,7 @@ index 095004a..2fce813 100644
        'dependencies': [
          '../media/media.gyp:media',
          '../third_party/libyuv/libyuv.gyp:libyuv',
-@@ -933,18 +933,19 @@
+@@ -932,18 +932,19 @@
          'common/gpu/media/vaapi_jpeg_decode_accelerator.h',
          'common/gpu/media/vaapi_jpeg_decoder.cc',
          'common/gpu/media/vaapi_jpeg_decoder.h',
@@ -58,7 +58,7 @@ index 095004a..2fce813 100644
              'sig_files': [
                'common/gpu/media/va.sigs',
                'common/gpu/media/va_x11.sigs',
-@@ -955,21 +956,33 @@
+@@ -954,21 +955,33 @@
              'common/gpu/media/vaapi_tfp_picture.h',
            ],
          }, {
@@ -103,6 +103,3 @@ index 095004a..2fce813 100644
          'outfile_type': 'posix_stubs',
          'stubs_filename_root': 'va_stubs',
          'project_path': 'content/common/gpu/media',
--- 
-2.5.0
-

@@ -1,3 +1,9 @@
+chromium-browser (48.0.2564.10-0ubuntu1+wayland~ppa4~15.10.1) wily; urgency=low
+
+  * Enable all wayland patches, and disable enable_vaapi_on_linux.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 26 Nov 2015 12:13:39 -0500
+
 chromium-browser (48.0.2564.10-0ubuntu1+wayland~ppa3~15.10.1) wily; urgency=low
 
   * Add patch to fix return type definition.
