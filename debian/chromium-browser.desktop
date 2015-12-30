@@ -174,7 +174,6 @@ Type=Application
 Icon=chromium-browser
 Categories=Network;WebBrowser;
 MimeType=text/html;text/xml;application/xhtml_xml;x-scheme-handler/http;x-scheme-handler/https;
-StartupWMClass=Chromium-browser
 StartupNotify=true
 Actions=NewWindow;Incognito;TempProfile
 X-AppInstall-Package=chromium-browser

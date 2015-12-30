@@ -1,7 +1,7 @@
-From 4ec4228c4ba2660040edc0ffcf086865259b0c7d Mon Sep 17 00:00:00 2001
+From 1eb5924e774f09914f69ba23a964e2d25edbac49 Mon Sep 17 00:00:00 2001
 From: Kalyan Kondapally <kalyan.kondapally@intel.com>
 Date: Thu, 9 Jul 2015 00:53:02 -0700
-Subject: [PATCH 05/13] Media: Build VaapiPictureWayland as part of Media.
+Subject: [PATCH 05/14] Media: Build VaapiPictureWayland as part of Media.
 
 This is temporary, so we can avoid gl circular dependency. Eventually,
 we want to be as aligned as possible with upstream Media solution and need

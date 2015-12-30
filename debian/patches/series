@@ -24,7 +24,6 @@ notifications-nicer
 #disable-sse2
 #gyp-icu-m32-test
 #mir-support
-gpu-hangs
 #mir-ozone-module
 use-system-clang
 #enable_vaapi_on_linux.diff
@@ -53,5 +52,4 @@ wayland-0013-Add-drag-and-drop-interfaces-to-PlatformWindowDelega.patch
 wayland-0014-Adapt-to-https-codereview.chromium.org-1409823002.patch
 wayland-0015-implement-new-methods.patch
 wayland-0016-fix-dependencies.patch
-wayland-0017-update-return-types.patch
 ### END Wayland patches ###

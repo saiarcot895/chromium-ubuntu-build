@@ -1,3 +1,9 @@
+chromium-browser (48.0.2564.10-0ubuntu1+wayland~ppa5~15.10.1) wily; urgency=low
+
+  * Update wayland ozone sources and patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 30 Dec 2015 01:57:25 -0500
+
 chromium-browser (48.0.2564.10-0ubuntu1+wayland~ppa4~15.10.1) wily; urgency=low
 
   * Enable all wayland patches, and disable enable_vaapi_on_linux.

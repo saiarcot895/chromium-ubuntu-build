@@ -1,14 +1,13 @@
-From 8bf1ed63585a859d55b09cc1db84c0eb732134ec Mon Sep 17 00:00:00 2001
+From 0f25407dd932eef4d8a1ff08875a45fe547f75a6 Mon Sep 17 00:00:00 2001
 From: Kalyan Kondapally <kalyan.kondapally@intel.com>
-Date: Tue, 25 Aug 2015 00:12:01 -0700
-Subject: [PATCH 11/13] Gardening: Adopt to
+Date: Thu, 17 Dec 2015 11:04:22 -0800
+Subject: [PATCH 11/14] Gardening: Adopt to
  https://codereview.chromium.org/1299713003
 
-Need to fix this upstream.
 ---
  ui/gl/gl_image_egl.cc | 5 +++++
- ui/gl/gl_image_egl.h  | 4 ++++
- 2 files changed, 9 insertions(+)
+ ui/gl/gl_image_egl.h  | 3 +++
+ 2 files changed, 8 insertions(+)
 
 Index: dev.wily/ui/gl/gl_image_egl.cc
 ===================================================================
@@ -28,14 +27,13 @@ Index: dev.wily/ui/gl/gl_image_egl.h
 ===================================================================
 --- dev.wily.orig/ui/gl/gl_image_egl.h
 +++ dev.wily/ui/gl/gl_image_egl.h
-@@ -33,6 +33,10 @@ class GL_EXPORT GLImageEGL : public GLIm
+@@ -32,6 +32,9 @@ class GL_EXPORT GLImageEGL : public GLIm
+                             gfx::OverlayTransform transform,
                              const gfx::Rect& bounds_rect,
                              const gfx::RectF& crop_rect) override;
- 
 +  void OnMemoryDump(base::trace_event::ProcessMemoryDump* pmd,
 +                    uint64_t process_tracing_id,
 +                    const std::string& dump_name) override;
-+
+ 
   protected:
    ~GLImageEGL() override;
- 

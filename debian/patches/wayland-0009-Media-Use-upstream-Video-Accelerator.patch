@@ -1,13 +1,12 @@
-From 1238b55e0e8b2d5529c81ec3371986f81889dc57 Mon Sep 17 00:00:00 2001
+From c6609ba5d3572e0979aeb57347abf3103c56ac9d Mon Sep 17 00:00:00 2001
 From: Kalyan Kondapally <kalyan.kondapally@intel.com>
 Date: Tue, 15 Sep 2015 01:34:13 -0700
-Subject: [PATCH 09/13] Media: Use upstream Video Accelerator.
+Subject: [PATCH 09/14] Media: Use upstream Video Accelerator.
 
 ---
- chrome/browser/password_manager/password_store_factory.cc |  2 +-
- content/common/gpu/media/gpu_video_decode_accelerator.cc  | 10 +++-------
- content/common/sandbox_linux/bpf_gpu_policy_linux.cc      |  2 +-
- 3 files changed, 5 insertions(+), 9 deletions(-)
+ content/common/gpu/media/gpu_video_decode_accelerator.cc | 10 +++-------
+ content/common/sandbox_linux/bpf_gpu_policy_linux.cc     |  2 +-
+ 2 files changed, 4 insertions(+), 8 deletions(-)
 
 Index: dev.wily/content/common/gpu/media/gpu_video_decode_accelerator.cc
 ===================================================================

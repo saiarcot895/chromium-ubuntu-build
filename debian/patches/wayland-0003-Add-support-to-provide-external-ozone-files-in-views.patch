@@ -1,7 +1,7 @@
-From c9b2e0472c7dda2e0dcbbeea52d6f6d38975fd43 Mon Sep 17 00:00:00 2001
+From 479ab8d9ba2b765cd834a68d4b30f666fe3b6f01 Mon Sep 17 00:00:00 2001
 From: Kalyan Kondapally <kalyan.kondapally@intel.com>
 Date: Tue, 19 Aug 2014 21:08:47 -0700
-Subject: [PATCH 03/13] Add support to provide external ozone files in views.
+Subject: [PATCH 03/14] Add support to provide external ozone files in views.
 
 We have un-necessary dependency on views. This is a temporary patch
 to include desktop_aura/ as part of view target.
