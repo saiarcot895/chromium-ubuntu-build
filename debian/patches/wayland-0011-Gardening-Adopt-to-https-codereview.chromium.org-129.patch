@@ -13,7 +13,7 @@ Index: dev.wily/ui/gl/gl_image_egl.cc
 ===================================================================
 --- dev.wily.orig/ui/gl/gl_image_egl.cc
 +++ dev.wily/ui/gl/gl_image_egl.cc
-@@ -80,4 +80,9 @@ bool GLImageEGL::ScheduleOverlayPlane(gf
+@@ -82,4 +82,9 @@ bool GLImageEGL::ScheduleOverlayPlane(gf
    return false;
  }
  
@@ -27,7 +27,7 @@ Index: dev.wily/ui/gl/gl_image_egl.h
 ===================================================================
 --- dev.wily.orig/ui/gl/gl_image_egl.h
 +++ dev.wily/ui/gl/gl_image_egl.h
-@@ -32,6 +32,9 @@ class GL_EXPORT GLImageEGL : public GLIm
+@@ -33,6 +33,9 @@ class GL_EXPORT GLImageEGL : public GLIm
                              gfx::OverlayTransform transform,
                              const gfx::Rect& bounds_rect,
                              const gfx::RectF& crop_rect) override;

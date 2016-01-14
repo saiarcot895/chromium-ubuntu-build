@@ -12,7 +12,7 @@ Index: dev.wily/content/common/gpu/media/gpu_video_decode_accelerator.cc
 ===================================================================
 --- dev.wily.orig/content/common/gpu/media/gpu_video_decode_accelerator.cc
 +++ dev.wily/content/common/gpu/media/gpu_video_decode_accelerator.cc
-@@ -44,7 +44,8 @@
+@@ -45,7 +45,8 @@
  #include "ui/gl/gl_implementation.h"
  #endif
  #elif defined(USE_OZONE)
@@ -20,9 +20,9 @@ Index: dev.wily/content/common/gpu/media/gpu_video_decode_accelerator.cc
 +#include "content/common/gpu/media/vaapi_video_decode_accelerator.h"
 +#include "ui/gl/gl_implementation.h"
  #elif defined(OS_ANDROID)
- #include "content/common/gpu/media/android_copying_backing_strategy.h"
- #include "content/common/gpu/media/android_deferred_rendering_backing_strategy.h"
-@@ -438,7 +439,7 @@ void GpuVideoDecodeAccelerator::BindImag
+ #include "content/common/gpu/media/android_video_decode_accelerator.h"
+ #endif
+@@ -444,7 +445,7 @@ void GpuVideoDecodeAccelerator::BindImag
  scoped_ptr<media::VideoDecodeAccelerator>
  GpuVideoDecodeAccelerator::CreateVaapiVDA() {
    scoped_ptr<media::VideoDecodeAccelerator> decoder;
@@ -31,7 +31,7 @@ Index: dev.wily/content/common/gpu/media/gpu_video_decode_accelerator.cc
    decoder.reset(new VaapiVideoDecodeAccelerator(
        make_context_current_, base::Bind(&GpuVideoDecodeAccelerator::BindImage,
                                          base::Unretained(this))));
-@@ -460,11 +461,6 @@ GpuVideoDecodeAccelerator::CreateVTVDA()
+@@ -466,11 +467,6 @@ GpuVideoDecodeAccelerator::CreateVTVDA()
  scoped_ptr<media::VideoDecodeAccelerator>
  GpuVideoDecodeAccelerator::CreateOzoneVDA() {
    scoped_ptr<media::VideoDecodeAccelerator> decoder;
@@ -40,14 +40,14 @@ Index: dev.wily/content/common/gpu/media/gpu_video_decode_accelerator.cc
 -      media::MediaOzonePlatform::GetInstance();
 -  decoder.reset(platform->CreateVideoDecodeAccelerator(make_context_current_));
 -#endif
-   return decoder.Pass();
+   return decoder;
  }
  
 Index: dev.wily/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 ===================================================================
 --- dev.wily.orig/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 +++ dev.wily/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
-@@ -314,7 +314,7 @@ bool GpuProcessPolicy::PreSandboxHook()
+@@ -315,7 +315,7 @@ bool GpuProcessPolicy::PreSandboxHook()
          dlopen(I965HybridDrvVideoPath, RTLD_NOW|RTLD_GLOBAL|RTLD_NODELETE);
        dlopen("libva.so.1", RTLD_NOW|RTLD_GLOBAL|RTLD_NODELETE);
  #if defined(USE_OZONE)

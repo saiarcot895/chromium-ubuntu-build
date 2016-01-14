@@ -13,7 +13,7 @@ Index: dev.wily/ui/events/ozone/layout/xkb/xkb_keyboard_layout_engine.cc
 ===================================================================
 --- dev.wily.orig/ui/events/ozone/layout/xkb/xkb_keyboard_layout_engine.cc
 +++ dev.wily/ui/events/ozone/layout/xkb/xkb_keyboard_layout_engine.cc
-@@ -682,8 +682,13 @@ bool XkbKeyboardLayoutEngine::SetCurrent
+@@ -684,8 +684,13 @@ bool XkbKeyboardLayoutEngine::SetCurrent
        true);
    return true;
  #else

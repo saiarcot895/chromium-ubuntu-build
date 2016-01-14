@@ -193,7 +193,7 @@ Index: dev.wily/chrome/chrome_browser_ui.gypi
 ===================================================================
 --- dev.wily.orig/chrome/chrome_browser_ui.gypi
 +++ dev.wily/chrome/chrome_browser_ui.gypi
-@@ -1319,6 +1319,8 @@
+@@ -1344,6 +1344,8 @@
        'browser/ui/views/frame/browser_desktop_window_tree_host_x11.h',
        'browser/ui/views/frame/desktop_browser_frame_auralinux.cc',
        'browser/ui/views/frame/desktop_browser_frame_auralinux.h',

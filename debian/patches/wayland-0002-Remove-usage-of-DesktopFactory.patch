@@ -23,7 +23,7 @@ Index: dev.wily/ui/views/views.gyp
 ===================================================================
 --- dev.wily.orig/ui/views/views.gyp
 +++ dev.wily/ui/views/views.gyp
-@@ -468,12 +468,6 @@
+@@ -476,12 +476,6 @@
        'widget/desktop_aura/desktop_window_tree_host_win.cc',
        'widget/desktop_aura/desktop_window_tree_host_win.h',
      ],
@@ -36,7 +36,7 @@ Index: dev.wily/ui/views/views.gyp
      'views_test_support_sources': [
        'animation/test/ink_drop_animation_test_api.cc',
        'animation/test/ink_drop_animation_test_api.h',
-@@ -752,9 +746,6 @@
+@@ -766,9 +760,6 @@
              ['OS == "win"', {
                'sources': [ '<@(views_desktop_aura_win_sources)' ],
              }],
@@ -159,12 +159,13 @@ Index: dev.wily/ui/views/widget/desktop_aura/desktop_window_tree_host_ozone.cc
 ===================================================================
 --- dev.wily.orig/ui/views/widget/desktop_aura/desktop_window_tree_host_ozone.cc
 +++ /dev/null
-@@ -1,20 +0,0 @@
+@@ -1,26 +0,0 @@
 -// Copyright 2013 The Chromium Authors. All rights reserved.
 -// Use of this source code is governed by a BSD-style license that can be
 -// found in the LICENSE file.
 -
 -#include "ui/aura/window_tree_host.h"
+-#include "ui/native_theme/native_theme_aura.h"
 -#include "ui/views/widget/desktop_aura/desktop_factory_ozone.h"
 -#include "ui/views/widget/desktop_aura/desktop_window_tree_host.h"
 -
@@ -177,6 +178,11 @@ Index: dev.wily/ui/views/widget/desktop_aura/desktop_window_tree_host_ozone.cc
 -
 -  return d_factory->CreateWindowTreeHost(native_widget_delegate,
 -                                         desktop_native_widget_aura);
+-}
+-
+-// static
+-ui::NativeTheme* DesktopWindowTreeHost::GetNativeTheme(aura::Window* window) {
+-  return ui::NativeThemeAura::instance();
 -}
 -
 -}  // namespace views

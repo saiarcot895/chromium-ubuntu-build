@@ -14,7 +14,7 @@ Index: dev.wily/content/content_common.gypi
 ===================================================================
 --- dev.wily.orig/content/content_common.gypi
 +++ dev.wily/content/content_common.gypi
-@@ -865,7 +865,7 @@
+@@ -873,7 +873,7 @@
          },
        ],
      }],
@@ -23,7 +23,7 @@ Index: dev.wily/content/content_common.gypi
        'sources': [
          'common/gpu/media/accelerated_video_decoder.h',
          'common/gpu/media/h264_decoder.cc',
-@@ -921,7 +921,7 @@
+@@ -929,7 +929,7 @@
          'common/gpu/media/tegra_v4l2_device.h',
        ],
      }],
@@ -32,7 +32,7 @@ Index: dev.wily/content/content_common.gypi
        'dependencies': [
          '../media/media.gyp:media',
          '../third_party/libyuv/libyuv.gyp:libyuv',
-@@ -932,18 +932,19 @@
+@@ -940,18 +940,19 @@
          'common/gpu/media/vaapi_jpeg_decode_accelerator.h',
          'common/gpu/media/vaapi_jpeg_decoder.cc',
          'common/gpu/media/vaapi_jpeg_decoder.h',
@@ -58,7 +58,7 @@ Index: dev.wily/content/content_common.gypi
              'sig_files': [
                'common/gpu/media/va.sigs',
                'common/gpu/media/va_x11.sigs',
-@@ -954,21 +955,33 @@
+@@ -962,21 +963,33 @@
              'common/gpu/media/vaapi_tfp_picture.h',
            ],
          }, {

@@ -12,7 +12,7 @@ Index: dev.wily/ui/views/accessibility/native_view_accessibility.cc
 ===================================================================
 --- dev.wily.orig/ui/views/accessibility/native_view_accessibility.cc
 +++ dev.wily/ui/views/accessibility/native_view_accessibility.cc
-@@ -24,7 +24,9 @@ NativeViewAccessibility::NativeViewAcces
+@@ -25,7 +25,9 @@ NativeViewAccessibility::NativeViewAcces
      : view_(view),
        parent_widget_(nullptr),
        ax_node_(nullptr) {
@@ -26,7 +26,7 @@ Index: dev.wily/ui/views/view.cc
 ===================================================================
 --- dev.wily.orig/ui/views/view.cc
 +++ dev.wily/ui/views/view.cc
-@@ -1265,8 +1265,10 @@ bool View::ExceededDragThreshold(const g
+@@ -1301,8 +1301,10 @@ bool View::ExceededDragThreshold(const g
  // Accessibility----------------------------------------------------------------
  
  gfx::NativeViewAccessible View::GetNativeViewAccessible() {
@@ -37,7 +37,7 @@ Index: dev.wily/ui/views/view.cc
    if (native_view_accessibility_)
      return native_view_accessibility_->GetNativeObject();
    return NULL;
-@@ -1279,8 +1281,10 @@ void View::NotifyAccessibilityEvent(
+@@ -1315,8 +1317,10 @@ void View::NotifyAccessibilityEvent(
      ViewsDelegate::GetInstance()->NotifyAccessibilityEvent(this, event_type);
  
    if (send_native_event && GetWidget()) {

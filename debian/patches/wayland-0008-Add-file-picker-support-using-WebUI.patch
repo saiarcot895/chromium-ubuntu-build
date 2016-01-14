@@ -36,7 +36,7 @@ Index: dev.wily/chrome/app/generated_resources.grd
 ===================================================================
 --- dev.wily.orig/chrome/app/generated_resources.grd
 +++ dev.wily/chrome/app/generated_resources.grd
-@@ -15214,6 +15214,14 @@ Please check your email at <ph name="ACC
+@@ -14420,6 +14420,14 @@ Please check your email at <ph name="ACC
          Allows users to opt in to the collection of invalid TLS/SSL certificate chains.
        </message>
  
@@ -55,7 +55,7 @@ Index: dev.wily/chrome/browser/browser_resources.grd
 ===================================================================
 --- dev.wily.orig/chrome/browser/browser_resources.grd
 +++ dev.wily/chrome/browser/browser_resources.grd
-@@ -469,6 +469,9 @@
+@@ -481,6 +481,9 @@
        <if expr="enable_media_router">
          <part file="media_router_resources.grdp" />
        </if>
@@ -244,7 +244,7 @@ Index: dev.wily/chrome/browser/ui/aura/chrome_browser_main_extra_parts_aura.cc
 ===================================================================
 --- dev.wily.orig/chrome/browser/ui/aura/chrome_browser_main_extra_parts_aura.cc
 +++ dev.wily/chrome/browser/ui/aura/chrome_browser_main_extra_parts_aura.cc
-@@ -29,6 +29,10 @@
+@@ -31,6 +31,10 @@
  #include "ui/views/linux_ui/linux_ui.h"
  #endif
  
@@ -255,7 +255,7 @@ Index: dev.wily/chrome/browser/ui/aura/chrome_browser_main_extra_parts_aura.cc
  #if defined(USE_X11) && !defined(OS_CHROMEOS)
  #include "chrome/browser/ui/libgtk2ui/gtk2_ui.h"
  #endif
-@@ -93,7 +97,9 @@ ChromeBrowserMainExtraPartsAura::~Chrome
+@@ -97,7 +101,9 @@ ChromeBrowserMainExtraPartsAura::~Chrome
  }
  
  void ChromeBrowserMainExtraPartsAura::PreEarlyInitialization() {
@@ -263,14 +263,14 @@ Index: dev.wily/chrome/browser/ui/aura/chrome_browser_main_extra_parts_aura.cc
 +#if defined(USE_OZONE)
 +  views::LinuxUI::SetInstance(BuildWebUI());
 +#elif defined(USE_X11) && !defined(OS_CHROMEOS)
-   if (GetInitialDesktop() != chrome::HOST_DESKTOP_TYPE_ASH) {
-     // TODO(erg): Refactor this into a dlopen call when we add a GTK3 port.
-     views::LinuxUI* gtk2_ui = BuildGtk2UI();
+ #if defined(USE_ASH)
+   if (GetInitialDesktop() == chrome::HOST_DESKTOP_TYPE_ASH) {
+     ui::InitializeInputMethodForTesting();
 Index: dev.wily/chrome/browser/ui/webui/chrome_web_ui_controller_factory.cc
 ===================================================================
 --- dev.wily.orig/chrome/browser/ui/webui/chrome_web_ui_controller_factory.cc
 +++ dev.wily/chrome/browser/ui/webui/chrome_web_ui_controller_factory.cc
-@@ -77,6 +77,7 @@
+@@ -81,6 +81,7 @@
  #include "ui/gfx/favicon_size.h"
  #include "ui/web_dialogs/web_dialog_ui.h"
  #include "url/gurl.h"
@@ -278,15 +278,15 @@ Index: dev.wily/chrome/browser/ui/webui/chrome_web_ui_controller_factory.cc
  
  #if !defined(DISABLE_NACL)
  #include "chrome/browser/ui/webui/nacl_ui.h"
-@@ -336,6 +337,8 @@ WebUIFactoryFunction GetWebUIFactoryFunc
+@@ -339,6 +340,8 @@ WebUIFactoryFunction GetWebUIFactoryFunc
      return &NewWebUI<DomainReliabilityInternalsUI>;
    if (url.host() == chrome::kChromeUIFlagsHost)
      return &NewWebUI<FlagsUI>;
 +  if (url.host() == chrome::kChromeUIFilePickerHost)
 +    return &NewWebUI<ui::FilePickerUI>;
+   if (url.host() == chrome::kChromeUIGCMInternalsHost)
+     return &NewWebUI<GCMInternalsUI>;
    if (url.host() == chrome::kChromeUIHistoryFrameHost)
-     return &NewWebUI<HistoryUI>;
-   if (url.host() == chrome::kChromeUIInstantHost)
 Index: dev.wily/chrome/browser/ui/webui/file_picker/file_picker_ui.cc
 ===================================================================
 --- /dev/null
@@ -540,7 +540,7 @@ Index: dev.wily/chrome/chrome_browser_ui.gypi
 ===================================================================
 --- dev.wily.orig/chrome/chrome_browser_ui.gypi
 +++ dev.wily/chrome/chrome_browser_ui.gypi
-@@ -342,6 +342,9 @@
+@@ -340,6 +340,9 @@
        'browser/ui/webui/favicon_source.h',
        'browser/ui/webui/fileicon_source.cc',
        'browser/ui/webui/fileicon_source.h',
@@ -550,7 +550,7 @@ Index: dev.wily/chrome/chrome_browser_ui.gypi
        'browser/ui/webui/flags_ui.cc',
        'browser/ui/webui/flags_ui.h',
        'browser/ui/webui/gcm_internals_ui.cc',
-@@ -2812,6 +2815,7 @@
+@@ -2861,6 +2864,7 @@
          '../content/content.gyp:content_browser',
          '../content/content.gyp:content_common',
          '../crypto/crypto.gyp:crypto',
@@ -558,7 +558,7 @@ Index: dev.wily/chrome/chrome_browser_ui.gypi
          '../skia/skia.gyp:skia',
          '../sync/sync.gyp:sync',
          '../third_party/cacheinvalidation/cacheinvalidation.gyp:cacheinvalidation',
-@@ -3180,6 +3184,7 @@
+@@ -3233,6 +3237,7 @@
                'dependencies': [
                  '../build/linux/system.gyp:dbus',
                  '../build/linux/system.gyp:fontconfig',
@@ -570,7 +570,7 @@ Index: dev.wily/chrome/common/url_constants.cc
 ===================================================================
 --- dev.wily.orig/chrome/common/url_constants.cc
 +++ dev.wily/chrome/common/url_constants.cc
-@@ -43,6 +43,7 @@ const char kChromeUIExtensionsFrameURL[]
+@@ -45,6 +45,7 @@ const char kChromeUIExtensionsFrameURL[]
  const char kChromeUIExtensionsURL[] = "chrome://extensions/";
  const char kChromeUIFallbackIconURL[] = "chrome://fallback-icon/";
  const char kChromeUIFaviconURL[] = "chrome://favicon/";
@@ -578,7 +578,7 @@ Index: dev.wily/chrome/common/url_constants.cc
  const char kChromeUIFlagsURL[] = "chrome://flags/";
  const char kChromeUIFlashURL[] = "chrome://flash/";
  const char kChromeUIGCMInternalsURL[] = "chrome://gcm-internals/";
-@@ -186,6 +187,7 @@ const char kChromeUIExtensionsFrameHost[
+@@ -187,6 +188,7 @@ const char kChromeUIExtensionsFrameHost[
  const char kChromeUIExtensionsHost[] = "extensions";
  const char kChromeUIFallbackIconHost[] = "fallback-icon";
  const char kChromeUIFaviconHost[] = "favicon";
@@ -586,19 +586,19 @@ Index: dev.wily/chrome/common/url_constants.cc
  const char kChromeUIFlagsHost[] = "flags";
  const char kChromeUIFlashHost[] = "flash";
  const char kChromeUIGCMInternalsHost[] = "gcm-internals";
-@@ -605,6 +607,7 @@ const char* const kChromeHostURLs[] = {
+@@ -601,6 +603,7 @@ const char* const kChromeHostURLs[] = {
    kChromeUICreditsHost,
    kChromeUIDeviceLogHost,
    kChromeUIDNSHost,
 +  kChromeUIFilePickerHost,
    kChromeUIFlagsHost,
+   kChromeUIGCMInternalsHost,
    kChromeUIHistoryHost,
-   kChromeUIInvalidationsHost,
 Index: dev.wily/chrome/common/url_constants.h
 ===================================================================
 --- dev.wily.orig/chrome/common/url_constants.h
 +++ dev.wily/chrome/common/url_constants.h
-@@ -39,6 +39,7 @@ extern const char kChromeUIExtensionsFra
+@@ -42,6 +42,7 @@ extern const char kChromeUIExtensionsFra
  extern const char kChromeUIExtensionsURL[];
  extern const char kChromeUIFallbackIconURL[];
  extern const char kChromeUIFaviconURL[];
@@ -606,7 +606,7 @@ Index: dev.wily/chrome/common/url_constants.h
  extern const char kChromeUIFlagsURL[];
  extern const char kChromeUIFlashURL[];
  extern const char kChromeUIGCMInternalsURL[];
-@@ -177,6 +178,7 @@ extern const char kChromeUIExtensionsFra
+@@ -179,6 +180,7 @@ extern const char kChromeUIExtensionsFra
  extern const char kChromeUIExtensionsHost[];
  extern const char kChromeUIFallbackIconHost[];
  extern const char kChromeUIFaviconHost[];

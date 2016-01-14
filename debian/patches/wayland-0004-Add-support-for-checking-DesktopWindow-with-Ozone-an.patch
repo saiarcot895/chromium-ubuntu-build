@@ -17,7 +17,7 @@ Index: dev.wily/chrome/browser/ui/aura/active_desktop_monitor.cc
 ===================================================================
 --- dev.wily.orig/chrome/browser/ui/aura/active_desktop_monitor.cc
 +++ dev.wily/chrome/browser/ui/aura/active_desktop_monitor.cc
-@@ -11,6 +11,8 @@
+@@ -12,6 +12,8 @@
  #include "ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h"
  #elif defined(OS_WIN)
  #include "ui/views/widget/desktop_aura/desktop_window_tree_host_win.h"
@@ -26,7 +26,7 @@ Index: dev.wily/chrome/browser/ui/aura/active_desktop_monitor.cc
  #endif
  
  // static
-@@ -48,6 +50,10 @@ bool ActiveDesktopMonitor::IsDesktopWind
+@@ -49,6 +51,10 @@ bool ActiveDesktopMonitor::IsDesktopWind
  #elif defined(USE_X11)
    return views::DesktopWindowTreeHostX11::GetContentWindowForXID(
        host->GetAcceleratedWidget()) != NULL;
