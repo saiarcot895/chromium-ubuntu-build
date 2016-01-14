@@ -11,14 +11,14 @@ Index: dev.wily/components/search_engines/prepopulated_engines.json
        "favicon_url": "http://www.baidu.com/favicon.ico",
 -      "search_url": "http://www.baidu.com/#ie={inputEncoding}&wd={searchTerms}",
 +      "search_url": "http://www.baidu.com/#ie={inputEncoding}&tn=ubuntuu_cb&wd={searchTerms}",
+       "suggest_url": "http://suggestion.baidu.com/su?wd={searchTerms}&action=opensearch&ie={inputEncoding}",
        "type": "SEARCH_ENGINE_BAIDU",
        "id": 21
-     },
 Index: dev.wily/components/search_engines/template_url.cc
 ===================================================================
 --- dev.wily.orig/components/search_engines/template_url.cc
 +++ dev.wily/components/search_engines/template_url.cc
-@@ -1067,7 +1067,7 @@ std::string TemplateURLRef::HandleReplac
+@@ -1028,7 +1028,7 @@ std::string TemplateURLRef::HandleReplac
  
        case GOOGLE_SEARCH_CLIENT: {
          DCHECK(!i->is_post_param);

@@ -6,7 +6,7 @@ Index: dev.wily/ui/events/devices/x11/touch_factory_x11.cc
 ===================================================================
 --- dev.wily.orig/ui/events/devices/x11/touch_factory_x11.cc
 +++ dev.wily/ui/events/devices/x11/touch_factory_x11.cc
-@@ -107,7 +107,10 @@ void TouchFactory::UpdateDeviceList(Disp
+@@ -123,7 +123,10 @@ void TouchFactory::UpdateDeviceList(Disp
            if (tci->mode == XIDirectTouch) {
              touch_device_lookup_[devinfo.deviceid] = true;
              touch_device_list_[devinfo.deviceid] = true;
@@ -18,7 +18,7 @@ Index: dev.wily/ui/events/devices/x11/touch_factory_x11.cc
          }
        }
        pointer_device_lookup_[devinfo.deviceid] = true;
-@@ -130,6 +133,9 @@ void TouchFactory::UpdateDeviceList(Disp
+@@ -146,6 +149,9 @@ void TouchFactory::UpdateDeviceList(Disp
                // master device to be touch device.
                touch_device_lookup_[devinfo.attachment] = true;
                touch_device_list_[devinfo.attachment] = true;
@@ -28,7 +28,7 @@ Index: dev.wily/ui/events/devices/x11/touch_factory_x11.cc
              }
            }
          }
-@@ -309,8 +315,12 @@ void TouchFactory::CacheTouchscreenIds(i
+@@ -339,8 +345,12 @@ void TouchFactory::CacheTouchscreenIds(i
                       return touchscreen.id == device_id;
                     });
    // Internal displays will have a vid and pid of 0. Ignore them.

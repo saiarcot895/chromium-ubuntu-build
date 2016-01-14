@@ -9,7 +9,7 @@ Index: dev.wily/content/common/gpu/media/vaapi_wrapper.cc
 ===================================================================
 --- dev.wily.orig/content/common/gpu/media/vaapi_wrapper.cc
 +++ dev.wily/content/common/gpu/media/vaapi_wrapper.cc
-@@ -427,46 +427,7 @@ bool VaapiWrapper::GetMaxResolution_Lock
+@@ -463,46 +463,7 @@ bool VaapiWrapper::GetMaxResolution_Lock
      VAEntrypoint entrypoint,
      std::vector<VAConfigAttrib>& required_attribs,
      gfx::Size* resolution) {

@@ -1,3 +1,10 @@
+chromium-browser (49.0.2618.8-0ubuntu1~ppa1~14.04.1) trusty; urgency=low
+
+  * New upstream version 49.0.2618.8
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 14 Jan 2016 10:19:41 -0500
+
 chromium-browser (48.0.2564.10-0ubuntu1+wayland~ppa5~14.04.1) trusty; urgency=low
 
   * Update wayland ozone sources and patches.

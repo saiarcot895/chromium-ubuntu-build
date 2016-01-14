@@ -5,7 +5,7 @@ Index: dev.wily/content/common/user_agent.cc
 ===================================================================
 --- dev.wily.orig/content/common/user_agent.cc
 +++ dev.wily/content/common/user_agent.cc
-@@ -187,13 +187,21 @@ std::string BuildUserAgentFromOSAndProdu
+@@ -189,13 +189,21 @@ std::string BuildUserAgentFromOSAndProdu
    // Derived from Safari's UA string.
    // This is done to expose our product name in a manner that is maximally
    // compatible with Safari, we hope!!

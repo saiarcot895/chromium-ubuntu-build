@@ -4,19 +4,19 @@ Index: dev.wily/AUTHORS
 ===================================================================
 --- dev.wily.orig/AUTHORS
 +++ dev.wily/AUTHORS
-@@ -602,6 +602,7 @@ Wesley Wigham <t-weswig@microsoft.com>
- Wesley Wigham <wwigham@gmail.com>
+@@ -618,6 +618,7 @@ Wesley Wigham <wwigham@gmail.com>
  Will Hirsch <chromium@willhirsch.co.uk>
+ Will Shackleton <w.shackleton@gmail.com>
  William Xie <william.xie@intel.com>
 +Will Shackleton <w.shackleton@gmail.com>
  Xiang Long <xiang.long@intel.com>
+ Xiaolei Yu <dreifachstein@gmail.com>
  Xinchao He <hexinchao@gmail.com>
- Xing Zhang <xzhang@adobe.com>
 Index: dev.wily/ui/events/devices/x11/device_data_manager_x11.cc
 ===================================================================
 --- dev.wily.orig/ui/events/devices/x11/device_data_manager_x11.cc
 +++ dev.wily/ui/events/devices/x11/device_data_manager_x11.cc
-@@ -222,6 +222,8 @@ void DeviceDataManagerX11::UpdateDeviceL
+@@ -225,6 +225,8 @@ void DeviceDataManagerX11::UpdateDeviceL
      data_type_lookup_[i].clear();
      valuator_min_[i].clear();
      valuator_max_[i].clear();
@@ -25,7 +25,7 @@ Index: dev.wily/ui/events/devices/x11/device_data_manager_x11.cc
      for (int j = 0; j < kMaxSlotNum; j++)
        last_seen_valuator_[i][j].clear();
    }
-@@ -277,21 +279,14 @@ void DeviceDataManagerX11::UpdateDeviceL
+@@ -280,21 +282,14 @@ void DeviceDataManagerX11::UpdateDeviceL
      for (int j = 0; j < kMaxSlotNum; j++)
        last_seen_valuator_[deviceid][j].resize(DT_LAST_ENTRY, 0);
      for (int j = 0; j < info.num_classes; ++j) {
@@ -55,7 +55,7 @@ Index: dev.wily/ui/events/devices/x11/device_data_manager_x11.cc
        }
      }
  
-@@ -300,6 +295,46 @@ void DeviceDataManagerX11::UpdateDeviceL
+@@ -303,6 +298,46 @@ void DeviceDataManagerX11::UpdateDeviceL
    }
  }
  
@@ -102,7 +102,7 @@ Index: dev.wily/ui/events/devices/x11/device_data_manager_x11.cc
  bool DeviceDataManagerX11::GetSlotNumber(const XIDeviceEvent* xiev, int* slot) {
    ui::TouchFactory* factory = ui::TouchFactory::GetInstance();
    if (!factory->IsMultiTouchDevice(xiev->sourceid)) {
-@@ -422,6 +457,42 @@ bool DeviceDataManagerX11::IsCMTDeviceEv
+@@ -425,6 +460,42 @@ bool DeviceDataManagerX11::IsCMTDeviceEv
    return cmt_devices_[xievent->sourceid];
  }
  
@@ -145,7 +145,7 @@ Index: dev.wily/ui/events/devices/x11/device_data_manager_x11.cc
  bool DeviceDataManagerX11::IsCMTGestureEvent(
      const base::NativeEvent& native_event) const {
    return (IsScrollEvent(native_event) ||
-@@ -514,6 +585,64 @@ void DeviceDataManagerX11::GetScrollOffs
+@@ -517,6 +588,64 @@ void DeviceDataManagerX11::GetScrollOffs
      *finger_count = static_cast<int>(data[DT_CMT_FINGER_COUNT]);
  }
  
@@ -210,7 +210,7 @@ Index: dev.wily/ui/events/devices/x11/device_data_manager_x11.cc
  void DeviceDataManagerX11::GetFlingData(
      const base::NativeEvent& native_event,
      float* vx,
-@@ -607,6 +736,22 @@ bool DeviceDataManagerX11::NormalizeData
+@@ -610,6 +739,22 @@ bool DeviceDataManagerX11::NormalizeData
    return false;
  }
  
@@ -376,7 +376,7 @@ Index: dev.wily/ui/events/x/events_x.cc
 ===================================================================
 --- dev.wily.orig/ui/events/x/events_x.cc
 +++ dev.wily/ui/events/x/events_x.cc
-@@ -440,6 +440,9 @@ EventType EventTypeFromNative(const base
+@@ -444,6 +444,9 @@ EventType EventTypeFromNative(const base
              return devices->IsTouchpadXInputEvent(native_event) ? ET_SCROLL
                                                                  : ET_MOUSEWHEEL;
            }
@@ -386,7 +386,7 @@ Index: dev.wily/ui/events/x/events_x.cc
            if (devices->IsCMTMetricsEvent(native_event))
              return ET_UMA_DATA;
            if (GetButtonMaskForX2Event(xievent))
-@@ -691,15 +694,22 @@ gfx::Vector2d GetMouseWheelOffset(const
+@@ -695,15 +698,22 @@ gfx::Vector2d GetMouseWheelOffset(const
    int button = native_event->type == GenericEvent ?
        EventButtonFromNative(native_event) : native_event->xbutton.button;
  
@@ -413,7 +413,7 @@ Index: dev.wily/ui/events/x/events_x.cc
      default:
        return gfx::Vector2d();
    }
-@@ -783,30 +793,38 @@ bool GetScrollOffsets(const base::Native
+@@ -787,30 +797,38 @@ bool GetScrollOffsets(const base::Native
                        float* x_offset_ordinal,
                        float* y_offset_ordinal,
                        int* finger_count) {

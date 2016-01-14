@@ -2,7 +2,7 @@ Index: dev.wily/third_party/skia/gyp/skia_lib.gyp
 ===================================================================
 --- dev.wily.orig/third_party/skia/gyp/skia_lib.gyp
 +++ dev.wily/third_party/skia/gyp/skia_lib.gyp
-@@ -15,6 +15,7 @@
+@@ -16,6 +16,7 @@
        'ports.gyp:ports',
        'sfnt.gyp:sfnt',
        'utils.gyp:utils',
@@ -10,7 +10,7 @@ Index: dev.wily/third_party/skia/gyp/skia_lib.gyp
      ],
      'conditions': [
        [ '"x86" in skia_arch_type and skia_os != "android"', {
-@@ -23,7 +24,7 @@
+@@ -24,7 +25,7 @@
            'opts.gyp:opts_sse41',
          ],
        }],
@@ -23,7 +23,7 @@ Index: dev.wily/ui/base/resource/data_pack.cc
 ===================================================================
 --- dev.wily.orig/ui/base/resource/data_pack.cc
 +++ dev.wily/ui/base/resource/data_pack.cc
-@@ -156,9 +156,11 @@ bool DataPack::LoadImpl() {
+@@ -157,9 +157,11 @@ bool DataPack::LoadImpl() {
    // 2) Verify the entries are within the appropriate bounds. There's an extra
    // entry after the last item which gives us the length of the last item.
    for (size_t i = 0; i < resource_count_ + 1; ++i) {
