@@ -1,3 +1,9 @@
+chromium-browser (50.0.2633.3-0ubuntu1~ppa3~15.10.1) wily; urgency=low
+
+  * Add dependency on mesa-common-dev.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 02 Feb 2016 17:25:39 -0500
+
 chromium-browser (50.0.2633.3-0ubuntu1~ppa2~15.10.1) wily; urgency=low
 
   * Add dependency on libffi.
