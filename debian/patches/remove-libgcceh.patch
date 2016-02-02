@@ -2,7 +2,7 @@ Index: dev.wily/native_client/build/untrusted.gypi
 ===================================================================
 --- dev.wily.orig/native_client/build/untrusted.gypi
 +++ dev.wily/native_client/build/untrusted.gypi
-@@ -1601,7 +1601,6 @@
+@@ -1554,7 +1554,6 @@
          '-lc',
          '-lnacl',
          '-lgcc',

@@ -18,7 +18,7 @@ Index: dev.wily/components/search_engines/template_url.cc
 ===================================================================
 --- dev.wily.orig/components/search_engines/template_url.cc
 +++ dev.wily/components/search_engines/template_url.cc
-@@ -1028,7 +1028,7 @@ std::string TemplateURLRef::HandleReplac
+@@ -1020,7 +1020,7 @@ std::string TemplateURLRef::HandleReplac
  
        case GOOGLE_SEARCH_CLIENT: {
          DCHECK(!i->is_post_param);

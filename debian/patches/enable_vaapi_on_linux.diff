@@ -46,7 +46,7 @@ Index: dev.wily/content/content_common.gypi
 ===================================================================
 --- dev.wily.orig/content/content_common.gypi
 +++ dev.wily/content/content_common.gypi
-@@ -873,7 +873,7 @@
+@@ -884,7 +884,7 @@
          },
        ],
      }],
@@ -55,7 +55,7 @@ Index: dev.wily/content/content_common.gypi
        'sources': [
          'common/gpu/media/accelerated_video_decoder.h',
          'common/gpu/media/h264_decoder.cc',
-@@ -929,7 +929,7 @@
+@@ -940,7 +940,7 @@
          'common/gpu/media/tegra_v4l2_device.h',
        ],
      }],
@@ -68,7 +68,7 @@ Index: dev.wily/content/content_gpu.gypi
 ===================================================================
 --- dev.wily.orig/content/content_gpu.gypi
 +++ dev.wily/content/content_gpu.gypi
-@@ -38,7 +38,7 @@
+@@ -39,7 +39,7 @@
          ],
        },
      }],
@@ -81,7 +81,7 @@ Index: dev.wily/content/content_tests.gypi
 ===================================================================
 --- dev.wily.orig/content/content_tests.gypi
 +++ dev.wily/content/content_tests.gypi
-@@ -1759,7 +1759,7 @@
+@@ -1758,7 +1758,7 @@
            },
          ]
      }],
@@ -94,7 +94,7 @@ Index: dev.wily/content/public/common/content_switches.cc
 ===================================================================
 --- dev.wily.orig/content/public/common/content_switches.cc
 +++ dev.wily/content/public/common/content_switches.cc
-@@ -944,7 +944,9 @@ const char kDisableWebAudio[]
+@@ -945,7 +945,9 @@ const char kEnableAudioSupportForDesktop
  #if defined(OS_CHROMEOS)
  // Disables panel fitting (used for mirror mode).
  const char kDisablePanelFitting[]           = "disable-panel-fitting";
@@ -121,7 +121,7 @@ Index: dev.wily/media/media.gyp
 ===================================================================
 --- dev.wily.orig/media/media.gyp
 +++ dev.wily/media/media.gyp
-@@ -781,7 +781,7 @@
+@@ -783,7 +783,7 @@
            ],
          }],
          # For VaapiVideoEncodeAccelerator.
@@ -130,7 +130,7 @@ Index: dev.wily/media/media.gyp
            'sources': [
              'filters/h264_bitstream_buffer.cc',
              'filters/h264_bitstream_buffer.h',
-@@ -1421,7 +1421,7 @@
+@@ -1417,7 +1417,7 @@
              'cdm/cdm_adapter_unittest.cc',
            ],
          }],
@@ -268,13 +268,13 @@ Index: dev.wily/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.wily.orig/chrome/browser/about_flags.cc
 +++ dev.wily/chrome/browser/about_flags.cc
-@@ -921,7 +921,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -940,7 +940,7 @@ const FeatureEntry kFeatureEntries[] = {
       "disable-accelerated-video-decode",
       IDS_FLAGS_ACCELERATED_VIDEO_DECODE_NAME,
       IDS_FLAGS_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
 -     kOsMac | kOsWin | kOsCrOS,
 +     kOsAll,
-      SINGLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
+      SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
  #if defined(USE_ASH)
 Index: dev.wily/content/common/gpu/media/vaapi_wrapper.cc
@@ -380,7 +380,7 @@ Index: dev.wily/content/gpu/gpu_main.cc
 ===================================================================
 --- dev.wily.orig/content/gpu/gpu_main.cc
 +++ dev.wily/content/gpu/gpu_main.cc
-@@ -74,7 +74,7 @@
+@@ -76,7 +76,7 @@
  #include "content/common/sandbox_mac.h"
  #endif
  
@@ -389,7 +389,7 @@ Index: dev.wily/content/gpu/gpu_main.cc
  #include "content/common/gpu/media/vaapi_wrapper.h"
  #endif
  
-@@ -245,7 +245,7 @@ int GpuMain(const MainFunctionParams& pa
+@@ -247,7 +247,7 @@ int GpuMain(const MainFunctionParams& pa
    GetGpuInfoFromCommandLine(gpu_info, command_line);
    gpu_info.in_process_gpu = false;
  
@@ -402,7 +402,7 @@ Index: dev.wily/content/common/gpu/client/command_buffer_proxy_impl.cc
 ===================================================================
 --- dev.wily.orig/content/common/gpu/client/command_buffer_proxy_impl.cc
 +++ dev.wily/content/common/gpu/client/command_buffer_proxy_impl.cc
-@@ -682,8 +682,10 @@ bool CommandBufferProxyImpl::ProduceFron
+@@ -654,8 +654,10 @@ bool CommandBufferProxyImpl::ProduceFron
  
  scoped_ptr<media::VideoDecodeAccelerator>
  CommandBufferProxyImpl::CreateVideoDecoder() {
