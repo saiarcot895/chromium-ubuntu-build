@@ -2,7 +2,7 @@ Index: dev.wily/chrome/app/generated_resources.grd
 ===================================================================
 --- dev.wily.orig/chrome/app/generated_resources.grd
 +++ dev.wily/chrome/app/generated_resources.grd
-@@ -7755,6 +7755,35 @@ I don't think this site should be blocke
+@@ -7757,6 +7757,35 @@ I don't think this site should be blocke
          <ph name="ORGANIZATION">$1<ex>Paypal Inc.</ex></ph> [<ph name="COUNTRY">$2<ex>US</ex></ph>]
        </message>
  
@@ -38,7 +38,7 @@ Index: dev.wily/chrome/app/generated_resources.grd
        <!-- Content Settings dialog data -->
        <message name="IDS_CONTENT_SETTINGS_TITLE" desc="Title for content settings dialog">
          Content settings
-@@ -11151,6 +11180,9 @@ Some features may be unavailable.  Pleas
+@@ -11153,6 +11182,9 @@ Some features may be unavailable.  Pleas
        <message name="IDS_OPTIONS_ADVANCED_SECTION_TITLE_CONTENT">
          Web content
        </message>
@@ -52,10 +52,10 @@ Index: dev.wily/chrome/browser/resources/options/browser_options.html
 ===================================================================
 --- dev.wily.orig/chrome/browser/resources/options/browser_options.html
 +++ dev.wily/chrome/browser/resources/options/browser_options.html
-@@ -526,6 +526,20 @@
+@@ -540,6 +540,20 @@
      </div>
    </section>
- </if>  <!-- chromeos -->
+ </if>
 +
 +  <section id="desktop-integration-section">
 +    <h3 i18n-content="advancedSectionTitleIntegration"></h3>
@@ -614,7 +614,7 @@ Index: dev.wily/chrome/browser/ui/webui/options/browser_options_handler.cc
 ===================================================================
 --- dev.wily.orig/chrome/browser/ui/webui/options/browser_options_handler.cc
 +++ dev.wily/chrome/browser/ui/webui/options/browser_options_handler.cc
-@@ -228,6 +228,8 @@ void BrowserOptionsHandler::GetLocalized
+@@ -229,6 +229,8 @@ void BrowserOptionsHandler::GetLocalized
      { "advancedSectionTitleCloudPrint", IDS_GOOGLE_CLOUD_PRINT },
      { "advancedSectionTitleContent",
        IDS_OPTIONS_ADVANCED_SECTION_TITLE_CONTENT },
@@ -623,7 +623,7 @@ Index: dev.wily/chrome/browser/ui/webui/options/browser_options_handler.cc
      { "advancedSectionTitleLanguages",
        IDS_OPTIONS_ADVANCED_SECTION_TITLE_LANGUAGES },
      { "advancedSectionTitleNetwork",
-@@ -251,6 +253,10 @@ void BrowserOptionsHandler::GetLocalized
+@@ -252,6 +254,10 @@ void BrowserOptionsHandler::GetLocalized
      { "defaultFontSizeLabel", IDS_OPTIONS_DEFAULT_FONT_SIZE_LABEL },
      { "defaultSearchManageEngines", IDS_OPTIONS_DEFAULTSEARCH_MANAGE_ENGINES },
      { "defaultZoomFactorLabel", IDS_OPTIONS_DEFAULT_ZOOM_LEVEL_LABEL },
@@ -634,7 +634,7 @@ Index: dev.wily/chrome/browser/ui/webui/options/browser_options_handler.cc
      { "disableWebServices", IDS_OPTIONS_DISABLE_WEB_SERVICES },
      { "doNotTrack", IDS_OPTIONS_ENABLE_DO_NOT_TRACK },
      { "doNotTrackConfirmDisable",
-@@ -337,6 +343,8 @@ void BrowserOptionsHandler::GetLocalized
+@@ -338,6 +344,8 @@ void BrowserOptionsHandler::GetLocalized
      { "profilesManage", IDS_PROFILES_MANAGE_BUTTON_LABEL },
      { "profilesSingleUser", IDS_PROFILES_SINGLE_USER_MESSAGE,
        IDS_PRODUCT_NAME },
@@ -1019,7 +1019,7 @@ Index: dev.wily/chrome/chrome_browser_ui.gypi
 ===================================================================
 --- dev.wily.orig/chrome/chrome_browser_ui.gypi
 +++ dev.wily/chrome/chrome_browser_ui.gypi
-@@ -1924,6 +1924,8 @@
+@@ -1922,6 +1922,8 @@
        'browser/ui/webui/options/core_options_handler.h',
        'browser/ui/webui/options/create_profile_handler.cc',
        'browser/ui/webui/options/create_profile_handler.h',
@@ -1028,7 +1028,7 @@ Index: dev.wily/chrome/chrome_browser_ui.gypi
        'browser/ui/webui/options/easy_unlock_handler.cc',
        'browser/ui/webui/options/easy_unlock_handler.h',
        'browser/ui/webui/options/font_settings_handler.cc',
-@@ -3052,6 +3054,7 @@
+@@ -3054,6 +3056,7 @@
            ],
          }],
          ['use_aura==1 and chromeos==0 and use_ozone==0 and OS=="linux"', {

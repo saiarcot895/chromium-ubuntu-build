@@ -46,7 +46,7 @@ Index: dev.wily/content/content_common.gypi
 ===================================================================
 --- dev.wily.orig/content/content_common.gypi
 +++ dev.wily/content/content_common.gypi
-@@ -884,7 +884,7 @@
+@@ -883,7 +883,7 @@
          },
        ],
      }],
@@ -55,7 +55,7 @@ Index: dev.wily/content/content_common.gypi
        'sources': [
          'common/gpu/media/accelerated_video_decoder.h',
          'common/gpu/media/h264_decoder.cc',
-@@ -940,7 +940,7 @@
+@@ -939,7 +939,7 @@
          'common/gpu/media/tegra_v4l2_device.h',
        ],
      }],
@@ -81,7 +81,7 @@ Index: dev.wily/content/content_tests.gypi
 ===================================================================
 --- dev.wily.orig/content/content_tests.gypi
 +++ dev.wily/content/content_tests.gypi
-@@ -1758,7 +1758,7 @@
+@@ -1725,7 +1725,7 @@
            },
          ]
      }],
@@ -94,7 +94,7 @@ Index: dev.wily/content/public/common/content_switches.cc
 ===================================================================
 --- dev.wily.orig/content/public/common/content_switches.cc
 +++ dev.wily/content/public/common/content_switches.cc
-@@ -945,7 +945,9 @@ const char kEnableAudioSupportForDesktop
+@@ -948,7 +948,9 @@ const char kEnableAudioSupportForDesktop
  #if defined(OS_CHROMEOS)
  // Disables panel fitting (used for mirror mode).
  const char kDisablePanelFitting[]           = "disable-panel-fitting";
@@ -108,7 +108,7 @@ Index: dev.wily/content/public/common/content_switches.h
 ===================================================================
 --- dev.wily.orig/content/public/common/content_switches.h
 +++ dev.wily/content/public/common/content_switches.h
-@@ -277,6 +277,8 @@ CONTENT_EXPORT extern const char kDisabl
+@@ -278,6 +278,8 @@ CONTENT_EXPORT extern const char kDisabl
  
  #if defined(OS_CHROMEOS)
  CONTENT_EXPORT extern const char kDisablePanelFitting[];
@@ -130,7 +130,7 @@ Index: dev.wily/media/media.gyp
            'sources': [
              'filters/h264_bitstream_buffer.cc',
              'filters/h264_bitstream_buffer.h',
-@@ -1417,7 +1417,7 @@
+@@ -1407,7 +1407,7 @@
              'cdm/cdm_adapter_unittest.cc',
            ],
          }],
@@ -268,7 +268,7 @@ Index: dev.wily/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.wily.orig/chrome/browser/about_flags.cc
 +++ dev.wily/chrome/browser/about_flags.cc
-@@ -940,7 +940,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -931,7 +931,7 @@ const FeatureEntry kFeatureEntries[] = {
       "disable-accelerated-video-decode",
       IDS_FLAGS_ACCELERATED_VIDEO_DECODE_NAME,
       IDS_FLAGS_ACCELERATED_VIDEO_DECODE_DESCRIPTION,

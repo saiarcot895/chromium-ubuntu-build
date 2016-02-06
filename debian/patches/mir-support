@@ -502,7 +502,7 @@ X-rev-id: 166346ab7a00e8dbd23a9f32ddb5741ad5afb41f
 +void EventConverterInProcess::NotifyKeyEvent(EventConverterInProcess* data,
 +                                             ui::EventType type,
 +                                             ui::KeyboardCode code,
-+                                             uint16 CharacterCodeFromNativeKey,
++                                             uint16_t CharacterCodeFromNativeKey,
 +                                             unsigned modifiers) {
 +  //ui::KeyEvent keyev(type, modifiers, ?, ?, code);  // FIXME(chad): WTF strings  chrome/test/chromedriver/chrome/ui_events.cc
 +  //keyev.set_character(CharacterCodeFromNativeKey);
@@ -660,7 +660,7 @@ X-rev-id: 166346ab7a00e8dbd23a9f32ddb5741ad5afb41f
 +  static void NotifyKeyEvent(EventConverterInProcess* data,
 +                             ui::EventType type,
 +                             ui::KeyboardCode code,
-+                             uint16 CharacterCodeFromNativeKey,
++                             uint16_t CharacterCodeFromNativeKey,
 +                             unsigned modifiers);
 +  static void NotifyTouchEvent(EventConverterInProcess* data,
 +                               ui::EventType type,
@@ -1206,7 +1206,7 @@ X-rev-id: 166346ab7a00e8dbd23a9f32ddb5741ad5afb41f
 +  BrowserGpuChannelHostFactory* hostFactory =
 +      BrowserGpuChannelHostFactory::instance();
 +  DCHECK(hostFactory);
-+  const uint32 kMessagesToFilter[] = { WaylandInput_MotionNotify::ID,
++  const uint32_t kMessagesToFilter[] = { WaylandInput_MotionNotify::ID,
 +                                       WaylandInput_ButtonNotify::ID,
 +                                       WaylandInput_AxisNotify::ID,
 +                                       WaylandInput_PointerEnter::ID,
@@ -2256,8 +2256,8 @@ X-rev-id: 166346ab7a00e8dbd23a9f32ddb5741ad5afb41f
 +  widget->SetWindowType(type);
 +}
 +
-+const int32*
-+om::Display::GetEGLSurfaceProperties(const int32* desired_list) {
++const int32_t*
++om::Display::GetEGLSurfaceProperties(const int32_t* desired_list) {
 +  LOG(ERROR) << "ozonemir::Display::GetEGLSurfaceProperties";
 +  static const EGLint attribs[] = {
 +    EGL_BUFFER_SIZE, 32,
@@ -2373,8 +2373,8 @@ X-rev-id: 166346ab7a00e8dbd23a9f32ddb5741ad5afb41f
 +    ui::SurfaceFactoryOzone::AddGLLibraryCallback add_gl_library,
 +    ui::SurfaceFactoryOzone::SetGLGetProcAddressProcCallback
 +        proc_address) OVERRIDE;
-+  virtual const int32* GetEGLSurfaceProperties(
-+      const int32* desired_list) OVERRIDE;
++  virtual const int32_t* GetEGLSurfaceProperties(
++      const int32_t* desired_list) OVERRIDE;
 +
 +private:
 +  void Terminate();
@@ -6025,7 +6025,7 @@ X-rev-id: 166346ab7a00e8dbd23a9f32ddb5741ad5afb41f
 +  return VKEY_UNKNOWN;
 +}
 +
-+uint16 CharacterCodeFromNativeKeySym(unsigned sym, unsigned flags) {
++uint16_t CharacterCodeFromNativeKeySym(unsigned sym, unsigned flags) {
 +  const bool ctrl = (flags & EF_CONTROL_DOWN) != 0;
 +
 +  // Other ctrl characters
@@ -6118,7 +6118,7 @@ X-rev-id: 166346ab7a00e8dbd23a9f32ddb5741ad5afb41f
 +
 +  // A helper function to convert Ozone-WL types to ui::KeyboardCode type.
 +  OZONE_WAYLAND_EXPORT KeyboardCode KeyboardCodeFromNativeKeysym(unsigned key);
-+  OZONE_WAYLAND_EXPORT uint16 CharacterCodeFromNativeKeySym(unsigned sym,
++  OZONE_WAYLAND_EXPORT uint16_t CharacterCodeFromNativeKeySym(unsigned sym,
 +                                                            unsigned flags);
 +
 +}  // namespace ui
@@ -6836,8 +6836,8 @@ X-rev-id: 166346ab7a00e8dbd23a9f32ddb5741ad5afb41f
 +  return false;
 +}
 +
-+const int32*
-+OzoneDisplay::GetEGLSurfaceProperties(const int32* desired_list) {
++const int32_t*
++OzoneDisplay::GetEGLSurfaceProperties(const int32_t* desired_list) {
 +  return desired_list;
 +}
 +
@@ -6889,8 +6889,8 @@ X-rev-id: 166346ab7a00e8dbd23a9f32ddb5741ad5afb41f
 +    ui::SurfaceFactoryOzone::AddGLLibraryCallback add_gl_library,
 +    ui::SurfaceFactoryOzone::SetGLGetProcAddressProcCallback
 +        proc_address) OVERRIDE;
-+  virtual const int32* GetEGLSurfaceProperties(
-+      const int32* desired_list) OVERRIDE;
++  virtual const int32_t* GetEGLSurfaceProperties(
++      const int32_t* desired_list) OVERRIDE;
 +
 + private:
 +  static OzoneDisplay* instance_;
@@ -7337,8 +7337,8 @@ X-rev-id: 166346ab7a00e8dbd23a9f32ddb5741ad5afb41f
 +  return true;
 +}
 +
-+const int32*
-+WaylandDisplay::GetEGLSurfaceProperties(const int32* desired_list) {
++const int32_t*
++WaylandDisplay::GetEGLSurfaceProperties(const int32_t* desired_list) {
 +  static const EGLint kConfigAttribs[] = {
 +    EGL_BUFFER_SIZE, 32,
 +    EGL_ALPHA_SIZE, 8,
@@ -7677,8 +7677,8 @@ X-rev-id: 166346ab7a00e8dbd23a9f32ddb5741ad5afb41f
 +    ui::SurfaceFactoryOzone::AddGLLibraryCallback add_gl_library,
 +    ui::SurfaceFactoryOzone::SetGLGetProcAddressProcCallback
 +        proc_address) OVERRIDE;
-+  virtual const int32* GetEGLSurfaceProperties(
-+      const int32* desired_list) OVERRIDE;
++  virtual const int32_t* GetEGLSurfaceProperties(
++      const int32_t* desired_list) OVERRIDE;
 +
 +  // WindowStateChangeHandler implementation:
 +  virtual void SetWidgetState(unsigned widget,

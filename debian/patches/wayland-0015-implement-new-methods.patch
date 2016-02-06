@@ -6,7 +6,7 @@ Index: dev.wily/ozone/ui/desktop_aura/desktop_window_tree_host_ozone.cc
    return state_ & Visible;
  }
  
-+void DesktopWindowTreeHostOzone::SetSessionID(uint32 sessionid) {
++void DesktopWindowTreeHostOzone::SetSessionID(uint32_t sessionid) {
 +}
 +
  void DesktopWindowTreeHostOzone::SetSize(const gfx::Size& requested_size) {
@@ -20,7 +20,7 @@ Index: dev.wily/ozone/ui/desktop_aura/desktop_window_tree_host_ozone.h
    void ShowWindowWithState(ui::WindowShowState show_state) override;
    void ShowMaximizedWithBounds(const gfx::Rect& restored_bounds) override;
    bool IsVisible() const override;
-+  void SetSessionID(uint32 sessionid) override;
++  void SetSessionID(uint32_t sessionid) override;
    void SetSize(const gfx::Size& size) override;
    void StackAbove(aura::Window* window) override;
    void StackAtTop() override;
