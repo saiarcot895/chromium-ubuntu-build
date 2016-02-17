@@ -3,10 +3,10 @@ Description: Redirect flash warnings to our wiki, where we can manage users'
 Author: Chad MILLER <chad.miller@canonical.com>
 
 
-Index: dev.wily/chrome/browser/resources/plugin_metadata/plugins_linux.json
+Index: dev.xenial/chrome/browser/resources/plugin_metadata/plugins_linux.json
 ===================================================================
---- dev.wily.orig/chrome/browser/resources/plugin_metadata/plugins_linux.json
-+++ dev.wily/chrome/browser/resources/plugin_metadata/plugins_linux.json
+--- dev.xenial.orig/chrome/browser/resources/plugin_metadata/plugins_linux.json
++++ dev.xenial/chrome/browser/resources/plugin_metadata/plugins_linux.json
 @@ -87,8 +87,8 @@
      ],
      "lang": "en-US",

@@ -1,8 +1,8 @@
 
-Index: dev.wily/build/find_depot_tools.py
+Index: dev.xenial/build/find_depot_tools.py
 ===================================================================
---- dev.wily.orig/build/find_depot_tools.py
-+++ dev.wily/build/find_depot_tools.py
+--- dev.xenial.orig/build/find_depot_tools.py
++++ dev.xenial/build/find_depot_tools.py
 @@ -45,9 +45,6 @@ def add_depot_tools_to_path():
  
  DEPOT_TOOLS_PATH = add_depot_tools_to_path()

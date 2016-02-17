@@ -2,11 +2,11 @@ Description: Use the system clang instead of the one that is (not really)
  inside the source tree.
 Author: Chad Miller <chad.miller@canonical.com>
 
-Index: dev.wily/build/common.gypi
+Index: dev.xenial/build/common.gypi
 ===================================================================
---- dev.wily.orig/build/common.gypi
-+++ dev.wily/build/common.gypi
-@@ -2446,8 +2446,8 @@
+--- dev.xenial.orig/build/common.gypi
++++ dev.xenial/build/common.gypi
+@@ -2439,8 +2439,8 @@
        }],
  
        ['host_clang==1', {

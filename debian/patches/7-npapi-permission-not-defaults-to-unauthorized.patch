@@ -1,8 +1,8 @@
-Index: dev.wily/chrome/browser/browser_resources.grd
+Index: dev.xenial/chrome/browser/browser_resources.grd
 ===================================================================
---- dev.wily.orig/chrome/browser/browser_resources.grd
-+++ dev.wily/chrome/browser/browser_resources.grd
-@@ -291,6 +291,7 @@
+--- dev.xenial.orig/chrome/browser/browser_resources.grd
++++ dev.xenial/chrome/browser/browser_resources.grd
+@@ -289,6 +289,7 @@
        </if>
        <if expr="desktop_linux or (is_android and enable_plugins)">
          <include name="IDR_PLUGIN_DB_JSON" file="resources\plugin_metadata\plugins_linux.json" type="BINDATA" />
@@ -10,10 +10,10 @@ Index: dev.wily/chrome/browser/browser_resources.grd
        </if>
        <if expr="is_android">
          <include name="IDR_POLICY_CSS" file="resources\policy_android.css" type="BINDATA"/>
-Index: dev.wily/chrome/browser/plugins/plugin_finder.cc
+Index: dev.xenial/chrome/browser/plugins/plugin_finder.cc
 ===================================================================
---- dev.wily.orig/chrome/browser/plugins/plugin_finder.cc
-+++ dev.wily/chrome/browser/plugins/plugin_finder.cc
+--- dev.xenial.orig/chrome/browser/plugins/plugin_finder.cc
++++ dev.xenial/chrome/browser/plugins/plugin_finder.cc
 @@ -153,44 +153,10 @@ void RecordBuiltInPluginListError(Plugin
                              static_cast<int>(PluginListError::NUM_VALUES));
  }
@@ -144,10 +144,10 @@ Index: dev.wily/chrome/browser/plugins/plugin_finder.cc
        DCHECK(!identifier_plugin_[identifier]);
        identifier_plugin_[identifier] = CreatePluginMetadata(identifier, plugin);
  
-Index: dev.wily/chrome/browser/plugins/plugin_finder.h
+Index: dev.xenial/chrome/browser/plugins/plugin_finder.h
 ===================================================================
---- dev.wily.orig/chrome/browser/plugins/plugin_finder.h
-+++ dev.wily/chrome/browser/plugins/plugin_finder.h
+--- dev.xenial.orig/chrome/browser/plugins/plugin_finder.h
++++ dev.xenial/chrome/browser/plugins/plugin_finder.h
 @@ -86,6 +86,15 @@ class PluginFinder {
    // Returns NULL if the plugin list couldn't be parsed.
    static base::DictionaryValue* LoadBuiltInPluginList();
@@ -164,10 +164,10 @@ Index: dev.wily/chrome/browser/plugins/plugin_finder.h
  #if defined(ENABLE_PLUGIN_INSTALLATION)
    std::map<std::string, PluginInstaller*> installers_;
  #endif
-Index: dev.wily/chrome/browser/resources/plugin_metadata/plugins_ubuntu_linux.json
+Index: dev.xenial/chrome/browser/resources/plugin_metadata/plugins_ubuntu_linux.json
 ===================================================================
 --- /dev/null
-+++ dev.wily/chrome/browser/resources/plugin_metadata/plugins_ubuntu_linux.json
++++ dev.xenial/chrome/browser/resources/plugin_metadata/plugins_ubuntu_linux.json
 @@ -0,0 +1,18 @@
 +{
 +  "libunity_npapi_plugin.so": {

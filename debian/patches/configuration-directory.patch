@@ -2,10 +2,10 @@ Description: Prefer a /usr/share directory named after the package if it
   exists.
 Author: Chad Miller <chad.miller@canonical.com>
 
-Index: dev.wily/chrome/common/chrome_paths.cc
+Index: dev.xenial/chrome/common/chrome_paths.cc
 ===================================================================
---- dev.wily.orig/chrome/common/chrome_paths.cc
-+++ dev.wily/chrome/common/chrome_paths.cc
+--- dev.xenial.orig/chrome/common/chrome_paths.cc
++++ dev.xenial/chrome/common/chrome_paths.cc
 @@ -66,6 +66,9 @@ const base::FilePath::CharType kFilepath
  // where it can find the latest component updated flash.
  const base::FilePath::CharType kComponentUpdatedFlashHint[] =

@@ -1,7 +1,7 @@
-Index: dev.wily/components/search_engines/prepopulated_engines.json
+Index: dev.xenial/components/search_engines/prepopulated_engines.json
 ===================================================================
---- dev.wily.orig/components/search_engines/prepopulated_engines.json
-+++ dev.wily/components/search_engines/prepopulated_engines.json
+--- dev.xenial.orig/components/search_engines/prepopulated_engines.json
++++ dev.xenial/components/search_engines/prepopulated_engines.json
 @@ -14,6 +14,7 @@
  //    88, 89, 91+
  //
@@ -36,10 +36,10 @@ Index: dev.wily/components/search_engines/prepopulated_engines.json
      "google": {
        "name": "Google",
        "keyword": "google.com",
-Index: dev.wily/components/search_engines/search_engine_type.h
+Index: dev.xenial/components/search_engines/search_engine_type.h
 ===================================================================
---- dev.wily.orig/components/search_engines/search_engine_type.h
-+++ dev.wily/components/search_engines/search_engine_type.h
+--- dev.xenial.orig/components/search_engines/search_engine_type.h
++++ dev.xenial/components/search_engines/search_engine_type.h
 @@ -22,6 +22,7 @@ enum SearchEngineType {
    SEARCH_ENGINE_DAUM,
    SEARCH_ENGINE_DELFI,
@@ -48,10 +48,10 @@ Index: dev.wily/components/search_engines/search_engine_type.h
    SEARCH_ENGINE_FUNMOODS,
    SEARCH_ENGINE_GOO,
    SEARCH_ENGINE_GOOGLE,
-Index: dev.wily/components/search_engines/template_url_prepopulate_data.cc
+Index: dev.xenial/components/search_engines/template_url_prepopulate_data.cc
 ===================================================================
---- dev.wily.orig/components/search_engines/template_url_prepopulate_data.cc
-+++ dev.wily/components/search_engines/template_url_prepopulate_data.cc
+--- dev.xenial.orig/components/search_engines/template_url_prepopulate_data.cc
++++ dev.xenial/components/search_engines/template_url_prepopulate_data.cc
 @@ -50,7 +50,7 @@ namespace {
  
  // Default (for countries with no better engine set)

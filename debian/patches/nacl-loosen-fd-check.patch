@@ -1,7 +1,7 @@
-Index: dev.wily/components/nacl/loader/sandbox_linux/nacl_sandbox_linux.cc
+Index: dev.xenial/components/nacl/loader/sandbox_linux/nacl_sandbox_linux.cc
 ===================================================================
---- dev.wily.orig/components/nacl/loader/sandbox_linux/nacl_sandbox_linux.cc
-+++ dev.wily/components/nacl/loader/sandbox_linux/nacl_sandbox_linux.cc
+--- dev.xenial.orig/components/nacl/loader/sandbox_linux/nacl_sandbox_linux.cc
++++ dev.xenial/components/nacl/loader/sandbox_linux/nacl_sandbox_linux.cc
 @@ -163,14 +163,16 @@ void NaClSandbox::CheckForExpectedNumber
    //
    // This sanity check ensures that dynamically loaded libraries don't

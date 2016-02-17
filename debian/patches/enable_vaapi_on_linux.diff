@@ -1,9 +1,9 @@
 Description: Enables using VA-API hardware acceleration in Linux. The patch for bpf_gpu_policy_linux.cc initially came from https://codereview.chromium.org/15955009/diff/92001/content/common/sandbox_linux/bpf_gpu_policy_linux.cc.
 
-Index: dev.wily/content/common/gpu/media/gpu_video_decode_accelerator.cc
+Index: dev.xenial/content/common/gpu/media/gpu_video_decode_accelerator.cc
 ===================================================================
---- dev.wily.orig/content/common/gpu/media/gpu_video_decode_accelerator.cc
-+++ dev.wily/content/common/gpu/media/gpu_video_decode_accelerator.cc
+--- dev.xenial.orig/content/common/gpu/media/gpu_video_decode_accelerator.cc
++++ dev.xenial/content/common/gpu/media/gpu_video_decode_accelerator.cc
 @@ -34,7 +34,7 @@
  #include "content/common/gpu/media/dxva_video_decode_accelerator_win.h"
  #elif defined(OS_MACOSX)
@@ -42,11 +42,11 @@ Index: dev.wily/content/common/gpu/media/gpu_video_decode_accelerator.cc
    decoder.reset(new VaapiVideoDecodeAccelerator(
        make_context_current_, base::Bind(&GpuVideoDecodeAccelerator::BindImage,
                                          base::Unretained(this))));
-Index: dev.wily/content/content_common.gypi
+Index: dev.xenial/content/content_common.gypi
 ===================================================================
---- dev.wily.orig/content/content_common.gypi
-+++ dev.wily/content/content_common.gypi
-@@ -883,7 +883,7 @@
+--- dev.xenial.orig/content/content_common.gypi
++++ dev.xenial/content/content_common.gypi
+@@ -880,7 +880,7 @@
          },
        ],
      }],
@@ -55,7 +55,7 @@ Index: dev.wily/content/content_common.gypi
        'sources': [
          'common/gpu/media/accelerated_video_decoder.h',
          'common/gpu/media/h264_decoder.cc',
-@@ -939,7 +939,7 @@
+@@ -936,7 +936,7 @@
          'common/gpu/media/tegra_v4l2_device.h',
        ],
      }],
@@ -64,10 +64,10 @@ Index: dev.wily/content/content_common.gypi
        'dependencies': [
          '../media/media.gyp:media',
          '../third_party/libyuv/libyuv.gyp:libyuv',
-Index: dev.wily/content/content_gpu.gypi
+Index: dev.xenial/content/content_gpu.gypi
 ===================================================================
---- dev.wily.orig/content/content_gpu.gypi
-+++ dev.wily/content/content_gpu.gypi
+--- dev.xenial.orig/content/content_gpu.gypi
++++ dev.xenial/content/content_gpu.gypi
 @@ -39,7 +39,7 @@
          ],
        },
@@ -77,11 +77,11 @@ Index: dev.wily/content/content_gpu.gypi
        'include_dirs': [
          '<(DEPTH)/third_party/libva',
        ],
-Index: dev.wily/content/content_tests.gypi
+Index: dev.xenial/content/content_tests.gypi
 ===================================================================
---- dev.wily.orig/content/content_tests.gypi
-+++ dev.wily/content/content_tests.gypi
-@@ -1725,7 +1725,7 @@
+--- dev.xenial.orig/content/content_tests.gypi
++++ dev.xenial/content/content_tests.gypi
+@@ -1776,7 +1776,7 @@
            },
          ]
      }],
@@ -90,11 +90,11 @@ Index: dev.wily/content/content_tests.gypi
        'targets': [
            {
              'target_name': 'vaapi_jpeg_decoder_unittest',
-Index: dev.wily/content/public/common/content_switches.cc
+Index: dev.xenial/content/public/common/content_switches.cc
 ===================================================================
---- dev.wily.orig/content/public/common/content_switches.cc
-+++ dev.wily/content/public/common/content_switches.cc
-@@ -948,7 +948,9 @@ const char kEnableAudioSupportForDesktop
+--- dev.xenial.orig/content/public/common/content_switches.cc
++++ dev.xenial/content/public/common/content_switches.cc
+@@ -959,7 +959,9 @@ const char kEnableAudioSupportForDesktop
  #if defined(OS_CHROMEOS)
  // Disables panel fitting (used for mirror mode).
  const char kDisablePanelFitting[]           = "disable-panel-fitting";
@@ -104,11 +104,11 @@ Index: dev.wily/content/public/common/content_switches.cc
  // Disables VA-API accelerated video encode.
  const char kDisableVaapiAcceleratedVideoEncode[] =
      "disable-vaapi-accelerated-video-encode";
-Index: dev.wily/content/public/common/content_switches.h
+Index: dev.xenial/content/public/common/content_switches.h
 ===================================================================
---- dev.wily.orig/content/public/common/content_switches.h
-+++ dev.wily/content/public/common/content_switches.h
-@@ -278,6 +278,8 @@ CONTENT_EXPORT extern const char kDisabl
+--- dev.xenial.orig/content/public/common/content_switches.h
++++ dev.xenial/content/public/common/content_switches.h
+@@ -281,6 +281,8 @@ CONTENT_EXPORT extern const char kDisabl
  
  #if defined(OS_CHROMEOS)
  CONTENT_EXPORT extern const char kDisablePanelFitting[];
@@ -117,11 +117,11 @@ Index: dev.wily/content/public/common/content_switches.h
  CONTENT_EXPORT extern const char kDisableVaapiAcceleratedVideoEncode[];
  #endif
  
-Index: dev.wily/media/media.gyp
+Index: dev.xenial/media/media.gyp
 ===================================================================
---- dev.wily.orig/media/media.gyp
-+++ dev.wily/media/media.gyp
-@@ -783,7 +783,7 @@
+--- dev.xenial.orig/media/media.gyp
++++ dev.xenial/media/media.gyp
+@@ -787,7 +787,7 @@
            ],
          }],
          # For VaapiVideoEncodeAccelerator.
@@ -130,7 +130,7 @@ Index: dev.wily/media/media.gyp
            'sources': [
              'filters/h264_bitstream_buffer.cc',
              'filters/h264_bitstream_buffer.h',
-@@ -1407,7 +1407,7 @@
+@@ -1420,7 +1420,7 @@
              'cdm/cdm_adapter_unittest.cc',
            ],
          }],
@@ -139,10 +139,10 @@ Index: dev.wily/media/media.gyp
            'sources': [
              'filters/h264_bitstream_buffer_unittest.cc',
            ],
-Index: dev.wily/gpu/config/software_rendering_list_json.cc
+Index: dev.xenial/gpu/config/software_rendering_list_json.cc
 ===================================================================
---- dev.wily.orig/gpu/config/software_rendering_list_json.cc
-+++ dev.wily/gpu/config/software_rendering_list_json.cc
+--- dev.xenial.orig/gpu/config/software_rendering_list_json.cc
++++ dev.xenial/gpu/config/software_rendering_list_json.cc
 @@ -481,17 +481,6 @@ const char kSoftwareRenderingListJson[]
        ]
      },
@@ -161,10 +161,10 @@ Index: dev.wily/gpu/config/software_rendering_list_json.cc
        "id": 49,
        "description": "NVidia GeForce GT 650M can cause the system to hang with flash 3D",
        "cr_bugs": [140175],
-Index: dev.wily/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
+Index: dev.xenial/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 ===================================================================
---- dev.wily.orig/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
-+++ dev.wily/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
+--- dev.xenial.orig/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
++++ dev.xenial/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 @@ -22,6 +22,8 @@
  #include "base/macros.h"
  #include "base/memory/scoped_ptr.h"
@@ -264,23 +264,23 @@ Index: dev.wily/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  
    return true;
  }
-Index: dev.wily/chrome/browser/about_flags.cc
+Index: dev.xenial/chrome/browser/about_flags.cc
 ===================================================================
---- dev.wily.orig/chrome/browser/about_flags.cc
-+++ dev.wily/chrome/browser/about_flags.cc
-@@ -931,7 +931,7 @@ const FeatureEntry kFeatureEntries[] = {
-      "disable-accelerated-video-decode",
-      IDS_FLAGS_ACCELERATED_VIDEO_DECODE_NAME,
-      IDS_FLAGS_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
--     kOsMac | kOsWin | kOsCrOS,
-+     kOsAll,
-      SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
+--- dev.xenial.orig/chrome/browser/about_flags.cc
++++ dev.xenial/chrome/browser/about_flags.cc
+@@ -859,7 +859,7 @@ const FeatureEntry kFeatureEntries[] = {
+         "disable-accelerated-video-decode",
+         IDS_FLAGS_ACCELERATED_VIDEO_DECODE_NAME,
+         IDS_FLAGS_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
+-        kOsMac | kOsWin | kOsCrOS,
++        kOsAll,
+         SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
  #if defined(USE_ASH)
-Index: dev.wily/content/common/gpu/media/vaapi_wrapper.cc
+Index: dev.xenial/content/common/gpu/media/vaapi_wrapper.cc
 ===================================================================
---- dev.wily.orig/content/common/gpu/media/vaapi_wrapper.cc
-+++ dev.wily/content/common/gpu/media/vaapi_wrapper.cc
+--- dev.xenial.orig/content/common/gpu/media/vaapi_wrapper.cc
++++ dev.xenial/content/common/gpu/media/vaapi_wrapper.cc
 @@ -186,7 +186,7 @@ scoped_refptr<VaapiWrapper> VaapiWrapper
      VAProfile va_profile,
      const base::Closure& report_error_to_uma_cb) {
@@ -313,7 +313,7 @@ Index: dev.wily/content/common/gpu/media/vaapi_wrapper.cc
      else
        DVLOG(1) << kErrorMsg;
      return false;
-@@ -424,7 +426,7 @@ bool VaapiWrapper::IsEntrypointSupported
+@@ -421,7 +423,7 @@ bool VaapiWrapper::IsEntrypointSupported
    if (std::find(supported_entrypoints.begin(),
                  supported_entrypoints.end(),
                  entrypoint) == supported_entrypoints.end()) {
@@ -322,7 +322,7 @@ Index: dev.wily/content/common/gpu/media/vaapi_wrapper.cc
      return false;
    }
    return true;
-@@ -448,8 +450,8 @@ bool VaapiWrapper::AreAttribsSupported_L
+@@ -445,8 +447,8 @@ bool VaapiWrapper::AreAttribsSupported_L
      if (attribs[i].type != required_attribs[i].type ||
          (attribs[i].value & required_attribs[i].value) !=
              required_attribs[i].value) {
@@ -333,10 +333,10 @@ Index: dev.wily/content/common/gpu/media/vaapi_wrapper.cc
        return false;
      }
    }
-Index: dev.wily/content/common/gpu/media/vaapi_video_decode_accelerator.cc
+Index: dev.xenial/content/common/gpu/media/vaapi_video_decode_accelerator.cc
 ===================================================================
---- dev.wily.orig/content/common/gpu/media/vaapi_video_decode_accelerator.cc
-+++ dev.wily/content/common/gpu/media/vaapi_video_decode_accelerator.cc
+--- dev.xenial.orig/content/common/gpu/media/vaapi_video_decode_accelerator.cc
++++ dev.xenial/content/common/gpu/media/vaapi_video_decode_accelerator.cc
 @@ -334,17 +334,17 @@ bool VaapiVideoDecodeAccelerator::Initia
  
    base::AutoLock auto_lock(lock_);
@@ -376,10 +376,10 @@ Index: dev.wily/content/common/gpu/media/vaapi_video_decode_accelerator.cc
      return false;
    }
  
-Index: dev.wily/content/gpu/gpu_main.cc
+Index: dev.xenial/content/gpu/gpu_main.cc
 ===================================================================
---- dev.wily.orig/content/gpu/gpu_main.cc
-+++ dev.wily/content/gpu/gpu_main.cc
+--- dev.xenial.orig/content/gpu/gpu_main.cc
++++ dev.xenial/content/gpu/gpu_main.cc
 @@ -76,7 +76,7 @@
  #include "content/common/sandbox_mac.h"
  #endif
@@ -398,10 +398,10 @@ Index: dev.wily/content/gpu/gpu_main.cc
    VaapiWrapper::PreSandboxInitialization();
  #endif
  
-Index: dev.wily/content/common/gpu/client/command_buffer_proxy_impl.cc
+Index: dev.xenial/content/common/gpu/client/command_buffer_proxy_impl.cc
 ===================================================================
---- dev.wily.orig/content/common/gpu/client/command_buffer_proxy_impl.cc
-+++ dev.wily/content/common/gpu/client/command_buffer_proxy_impl.cc
+--- dev.xenial.orig/content/common/gpu/client/command_buffer_proxy_impl.cc
++++ dev.xenial/content/common/gpu/client/command_buffer_proxy_impl.cc
 @@ -654,8 +654,10 @@ bool CommandBufferProxyImpl::ProduceFron
  
  scoped_ptr<media::VideoDecodeAccelerator>

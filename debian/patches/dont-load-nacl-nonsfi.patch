@@ -1,8 +1,8 @@
-Index: dev.wily/chrome/chrome_exe.gypi
+Index: dev.xenial/chrome/chrome_exe.gypi
 ===================================================================
---- dev.wily.orig/chrome/chrome_exe.gypi
-+++ dev.wily/chrome/chrome_exe.gypi
-@@ -395,7 +395,13 @@
+--- dev.xenial.orig/chrome/chrome_exe.gypi
++++ dev.xenial/chrome/chrome_exe.gypi
+@@ -393,7 +393,13 @@
                'dependencies': [
                  '../native_client/src/trusted/service_runtime/linux/nacl_bootstrap.gyp:nacl_helper_bootstrap',
                  '../components/nacl.gyp:nacl_helper',
@@ -17,11 +17,11 @@ Index: dev.wily/chrome/chrome_exe.gypi
                ],
              }],
            ],
-Index: dev.wily/chrome/chrome_tests.gypi
+Index: dev.xenial/chrome/chrome_tests.gypi
 ===================================================================
---- dev.wily.orig/chrome/chrome_tests.gypi
-+++ dev.wily/chrome/chrome_tests.gypi
-@@ -2309,7 +2309,13 @@
+--- dev.xenial.orig/chrome/chrome_tests.gypi
++++ dev.xenial/chrome/chrome_tests.gypi
+@@ -2335,7 +2335,13 @@
                'dependencies': [
                  '../native_client/src/trusted/service_runtime/linux/nacl_bootstrap.gyp:nacl_helper_bootstrap',
                  '../components/nacl.gyp:nacl_helper',

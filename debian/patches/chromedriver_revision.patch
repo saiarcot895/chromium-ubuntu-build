@@ -1,7 +1,7 @@
-Index: dev.wily/chrome/test/chromedriver/embed_version_in_cpp.py
+Index: dev.xenial/chrome/test/chromedriver/embed_version_in_cpp.py
 ===================================================================
---- dev.wily.orig/chrome/test/chromedriver/embed_version_in_cpp.py
-+++ dev.wily/chrome/test/chromedriver/embed_version_in_cpp.py
+--- dev.xenial.orig/chrome/test/chromedriver/embed_version_in_cpp.py
++++ dev.xenial/chrome/test/chromedriver/embed_version_in_cpp.py
 @@ -26,7 +26,9 @@ def main():
    options, _ = parser.parse_args()
  

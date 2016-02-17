@@ -1,10 +1,10 @@
 Description: Add "Chromium" and "Ubuntu" to the user-agent text.
 Author: Chad Miller <chad.miller@canonical.com>
 
-Index: dev.wily/content/common/user_agent.cc
+Index: dev.xenial/content/common/user_agent.cc
 ===================================================================
---- dev.wily.orig/content/common/user_agent.cc
-+++ dev.wily/content/common/user_agent.cc
+--- dev.xenial.orig/content/common/user_agent.cc
++++ dev.xenial/content/common/user_agent.cc
 @@ -189,13 +189,21 @@ std::string BuildUserAgentFromOSAndProdu
    // Derived from Safari's UA string.
    // This is done to expose our product name in a manner that is maximally
