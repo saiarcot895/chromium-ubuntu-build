@@ -1,3 +1,9 @@
+chromium-browser (50.0.2652.0-0ubuntu1~ppa2~14.04.1) trusty; urgency=low
+
+  * Add in build_newlib=0
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 18 Feb 2016 20:13:23 -0500
+
 chromium-browser (50.0.2652.0-0ubuntu1~ppa1~14.04.1) trusty; urgency=low
 
   * New upstream version 50.0.2652.0
