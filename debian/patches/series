@@ -14,10 +14,10 @@ additional-search-engines.patch
 5-desktop-integration-settings.patch
 6-passwordless-install-support.patch
 7-npapi-permission-not-defaults-to-unauthorized.patch
-breakpad
-#gsettings-display-scaling
+#breakpad
+gsettings-display-scaling
 touch-v35
-#display-scaling-default-value
+display-scaling-default-value
 flash-redirection
 notifications-nicer
 #disable-sse2
@@ -32,6 +32,7 @@ dont-load-nacl-nonsfi.patch
 specify-max-resolution.patch
 remove-libgcceh.patch
 nacl-loosen-fd-check.patch
+fix-pnacl-irt-shim-build.patch
 
 ### BEGIN Wayland patches ###
 #wayland-0001-Browser-Support-Desktop-Aura-creation-on-Ozone.patch

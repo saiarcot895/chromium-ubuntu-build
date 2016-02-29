@@ -84,9 +84,14 @@ ifneq (,$(filter 12.04%,$(UBUNTU_DIST)))
 # Disable NaCl for Precise until the toolchain is built
 GYP_DEFINES += disable_nacl=1
 else
+ ifeq (arm,$(DEB_HOST_ARCH_CPU))
+# Disable NaCl for arm until the toolchain is built
+GYP_DEFINES += disable_nacl=1
+ else
 # Don't build anything related to newlib or glibc, as it's not needed for the
 # core NaCl
 GYP_DEFINES += disable_newlib=1 build_newlib=0 disable_glibc=1
+ endif
 endif
 
 # do not use third_party/gold as the linker.

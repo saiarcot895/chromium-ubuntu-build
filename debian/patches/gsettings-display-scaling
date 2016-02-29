@@ -2,10 +2,39 @@ Description: Read display scaling from gsettings.
 Author: Chad MILLER <chad.miller@canonical.com>
 Forwarded: yes
 
-Index: dev.vivid/ui/views/widget/desktop_aura/desktop_screen_x11.cc
+Index: dev.xenial/build/linux/system.gyp
 ===================================================================
---- dev.vivid.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2015-01-30 16:16:43.949828713 -0500
-+++ dev.vivid/ui/views/widget/desktop_aura/desktop_screen_x11.cc	2015-01-30 16:16:43.947828751 -0500
+--- dev.xenial.orig/build/linux/system.gyp
++++ dev.xenial/build/linux/system.gyp
+@@ -34,7 +34,12 @@
+       'g_settings_get_boolean',
+       'g_settings_get_int',
+       'g_settings_get_strv',
++      'g_settings_new_full',
+       'g_settings_list_schemas',
++      'g_settings_schema_source_get_default',
++      'g_settings_schema_source_lookup',
++      'g_settings_get',
++      'g_variant_lookup',
+     ],
+     'libpci_functions': [
+       'pci_alloc',
+Index: dev.xenial/ui/views/views.gyp
+===================================================================
+--- dev.xenial.orig/ui/views/views.gyp
++++ dev.xenial/ui/views/views.gyp
+@@ -737,6 +737,7 @@
+           'dependencies': [
+             '../../build/linux/system.gyp:x11',
+             '../../build/linux/system.gyp:xrandr',
++            '../../build/linux/system.gyp:gio',
+             '../events/devices/events_devices.gyp:events_devices',
+             '../events/platform/x11/x11_events_platform.gyp:x11_events_platform',
+             '../gfx/x/gfx_x11.gyp:gfx_x11',
+Index: dev.xenial/ui/views/widget/desktop_aura/desktop_screen_x11.cc
+===================================================================
+--- dev.xenial.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc
++++ dev.xenial/ui/views/widget/desktop_aura/desktop_screen_x11.cc
 @@ -7,7 +7,12 @@
  #include <X11/extensions/Xrandr.h>
  #include <X11/Xlib.h>
@@ -19,8 +48,8 @@ Index: dev.vivid/ui/views/widget/desktop_aura/desktop_screen_x11.cc
 +// It clashes with our RootWindow.
  #undef RootWindow
  
- #include "base/debug/trace_event.h"
-@@ -266,6 +271,29 @@
+ #include "base/logging.h"
+@@ -282,6 +287,29 @@ std::vector<gfx::Display> DesktopScreenX
      return GetFallbackDisplayList();
    }
  
@@ -48,9 +77,9 @@ Index: dev.vivid/ui/views/widget/desktop_aura/desktop_screen_x11.cc
 +#endif
 +
    bool has_work_area = false;
-   gfx::Rect work_area;
+   gfx::Rect work_area_in_pixels;
    std::vector<int> value;
-@@ -302,7 +330,26 @@
+@@ -320,7 +348,27 @@ std::vector<gfx::Display> DesktopScreenX
        gfx::Rect crtc_bounds(crtc->x, crtc->y, crtc->width, crtc->height);
        gfx::Display display(display_id, crtc_bounds);
  
@@ -75,13 +104,6 @@ Index: dev.vivid/ui/views/widget/desktop_aura/desktop_screen_x11.cc
 +                 << device_scale_factor << " from gsettings.";
 +        display.SetScaleAndBounds(device_scale_factor, crtc_bounds);
 +      } else if (!gfx::Display::HasForceDeviceScaleFactor()) {
-         if (i == 0 && !ui::IsDisplaySizeBlackListed(
-             gfx::Size(output_info->mm_width, output_info->mm_height))) {
-           // As per display scale factor is not supported right now,
-@@ -311,6 +358,7 @@
-                                                      output_info->mm_width);
-           DCHECK_LE(1.0f, device_scale_factor);
-         }
 +        DVLOG(1) << "Didn't use gsettings info at all.  Picked " << device_scale_factor;
          display.SetScaleAndBounds(device_scale_factor, crtc_bounds);
        }

@@ -46,7 +46,7 @@ Index: dev.xenial/content/content_common.gypi
 ===================================================================
 --- dev.xenial.orig/content/content_common.gypi
 +++ dev.xenial/content/content_common.gypi
-@@ -880,7 +880,7 @@
+@@ -847,7 +847,7 @@
          },
        ],
      }],
@@ -55,7 +55,7 @@ Index: dev.xenial/content/content_common.gypi
        'sources': [
          'common/gpu/media/accelerated_video_decoder.h',
          'common/gpu/media/h264_decoder.cc',
-@@ -936,7 +936,7 @@
+@@ -903,7 +903,7 @@
          'common/gpu/media/tegra_v4l2_device.h',
        ],
      }],
@@ -68,7 +68,7 @@ Index: dev.xenial/content/content_gpu.gypi
 ===================================================================
 --- dev.xenial.orig/content/content_gpu.gypi
 +++ dev.xenial/content/content_gpu.gypi
-@@ -39,7 +39,7 @@
+@@ -40,7 +40,7 @@
          ],
        },
      }],
@@ -81,7 +81,7 @@ Index: dev.xenial/content/content_tests.gypi
 ===================================================================
 --- dev.xenial.orig/content/content_tests.gypi
 +++ dev.xenial/content/content_tests.gypi
-@@ -1776,7 +1776,7 @@
+@@ -1784,7 +1784,7 @@
            },
          ]
      }],
@@ -94,7 +94,7 @@ Index: dev.xenial/content/public/common/content_switches.cc
 ===================================================================
 --- dev.xenial.orig/content/public/common/content_switches.cc
 +++ dev.xenial/content/public/common/content_switches.cc
-@@ -959,7 +959,9 @@ const char kEnableAudioSupportForDesktop
+@@ -979,7 +979,9 @@ const char kEnableAudioSupportForDesktop
  #if defined(OS_CHROMEOS)
  // Disables panel fitting (used for mirror mode).
  const char kDisablePanelFitting[]           = "disable-panel-fitting";
@@ -108,7 +108,7 @@ Index: dev.xenial/content/public/common/content_switches.h
 ===================================================================
 --- dev.xenial.orig/content/public/common/content_switches.h
 +++ dev.xenial/content/public/common/content_switches.h
-@@ -281,6 +281,8 @@ CONTENT_EXPORT extern const char kDisabl
+@@ -284,6 +284,8 @@ CONTENT_EXPORT extern const char kDisabl
  
  #if defined(OS_CHROMEOS)
  CONTENT_EXPORT extern const char kDisablePanelFitting[];
@@ -121,7 +121,7 @@ Index: dev.xenial/media/media.gyp
 ===================================================================
 --- dev.xenial.orig/media/media.gyp
 +++ dev.xenial/media/media.gyp
-@@ -787,7 +787,7 @@
+@@ -784,7 +784,7 @@
            ],
          }],
          # For VaapiVideoEncodeAccelerator.
@@ -130,7 +130,7 @@ Index: dev.xenial/media/media.gyp
            'sources': [
              'filters/h264_bitstream_buffer.cc',
              'filters/h264_bitstream_buffer.h',
-@@ -1420,7 +1420,7 @@
+@@ -1422,7 +1422,7 @@
              'cdm/cdm_adapter_unittest.cc',
            ],
          }],
@@ -268,7 +268,7 @@ Index: dev.xenial/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.xenial.orig/chrome/browser/about_flags.cc
 +++ dev.xenial/chrome/browser/about_flags.cc
-@@ -859,7 +859,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -849,7 +849,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_NAME,
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
@@ -402,7 +402,7 @@ Index: dev.xenial/content/common/gpu/client/command_buffer_proxy_impl.cc
 ===================================================================
 --- dev.xenial.orig/content/common/gpu/client/command_buffer_proxy_impl.cc
 +++ dev.xenial/content/common/gpu/client/command_buffer_proxy_impl.cc
-@@ -654,8 +654,10 @@ bool CommandBufferProxyImpl::ProduceFron
+@@ -655,8 +655,10 @@ bool CommandBufferProxyImpl::ProduceFron
  
  scoped_ptr<media::VideoDecodeAccelerator>
  CommandBufferProxyImpl::CreateVideoDecoder() {

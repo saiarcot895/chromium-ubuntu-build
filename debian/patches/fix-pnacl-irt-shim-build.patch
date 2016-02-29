@@ -1,0 +1,17 @@
+Patch needed after https://chromium.googlesource.com/chromium/src.git/+/862629a4bd59c32a7afa38ae204f8c44df184960%5E%21/#F0
+
+Index: dev.xenial/ppapi/native_client/src/untrusted/pnacl_irt_shim/pnacl_irt_shim.gyp
+===================================================================
+--- dev.xenial.orig/ppapi/native_client/src/untrusted/pnacl_irt_shim/pnacl_irt_shim.gyp
++++ dev.xenial/ppapi/native_client/src/untrusted/pnacl_irt_shim/pnacl_irt_shim.gyp
+@@ -63,6 +63,10 @@
+         # pnacl_support_extension rename this to the canonical name when
+         # copying to the final target directory.
+         'nlib_target': 'libpnacl_irt_shim_browser.a',
++        'out_pnacl_newlib_arm': '>(tc_lib_dir_newlib_arm)/>(nlib_target)',
++        'out_pnacl_newlib_x86_32': '>(tc_lib_dir_newlib32)/>(nlib_target)',
++        'out_pnacl_newlib_x86_64': '>(tc_lib_dir_newlib64)/>(nlib_target)',
++        'out_pnacl_newlib_mips': '>(tc_lib_dir_newlib_mips)/>(nlib_target)',
+         'build_newlib': 1,
+         'sources': [
+           'shim_entry.c',
