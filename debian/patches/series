@@ -33,6 +33,7 @@ specify-max-resolution.patch
 remove-libgcceh.patch
 nacl-loosen-fd-check.patch
 fix-pnacl-irt-shim-build.patch
+tcmalloc-add-support-for-arm64.patch
 
 ### BEGIN Wayland patches ###
 #wayland-0001-Browser-Support-Desktop-Aura-creation-on-Ozone.patch

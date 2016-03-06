@@ -23,7 +23,7 @@ Index: dev.xenial/ui/views/views.gyp
 ===================================================================
 --- dev.xenial.orig/ui/views/views.gyp
 +++ dev.xenial/ui/views/views.gyp
-@@ -737,6 +737,7 @@
+@@ -747,6 +747,7 @@
            'dependencies': [
              '../../build/linux/system.gyp:x11',
              '../../build/linux/system.gyp:xrandr',

@@ -23,7 +23,7 @@ Build-Depends: debhelper (>= 9),
 		libasound2-dev,
 		libnss3-dev,
 		libpci-dev,
-		libgles2-mesa-dev [armel armhf],
+		libgles2-mesa-dev [armhf],
 		mesa-common-dev,
 		libxtst-dev,
 		libxss-dev,
@@ -46,7 +46,7 @@ Build-Depends: debhelper (>= 9),
 Standards-Version: 3.9.5
 
 Package: chromium-browser
-Architecture: armhf armel i386 amd64
+Architecture: armhf arm64 i386 amd64
 Pre-Depends: dpkg (>= 1.15.6)
 Depends: ${shlibs:Depends}, ${misc:Depends},
 	libnss3,
@@ -86,7 +86,7 @@ Description: chromium-browser language packages
  vi, zh-CN, zh-TW
 
 Package: chromium-chromedriver
-Architecture: armhf armel i386 amd64
+Architecture: armhf arm64 i386 amd64
 Pre-Depends: dpkg (>= 1.15.6)
 Depends: ${shlibs:Depends}, ${misc:Depends}, chromium-browser (= ${binary:Version})
 Description: ChromeDriver
@@ -97,7 +97,7 @@ Description: ChromeDriver
  WebDriver's wire protocol.
 
 Package: chromium-codecs-ffmpeg
-Architecture: armhf armel i386 amd64
+Architecture: armhf arm64 i386 amd64
 Pre-Depends: dpkg (>= 1.15.6)
 Depends: ${shlibs:Depends}, ${misc:Depends}, chromium-browser (>= 4.0.203.0~)
 Conflicts: chromium-codecs-ffmpeg-extra
@@ -111,7 +111,7 @@ Description: Free ffmpeg codecs for the Chromium Browser
  included. See chromium-codecs-ffmpeg-extra for additional codecs
 
 Package: chromium-codecs-ffmpeg-extra
-Architecture: armhf armel i386 amd64
+Architecture: armhf arm64 i386 amd64
 Pre-Depends: dpkg (>= 1.15.6)
 Depends: ${shlibs:Depends}, ${misc:Depends}, chromium-browser (>= 4.0.203.0~)
 Conflicts: chromium-codecs-ffmpeg

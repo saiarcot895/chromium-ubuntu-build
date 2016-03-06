@@ -1,0 +1,118 @@
+From d31f522f0e1b0e87ee3d5941e331ba745a0f5c23 Mon Sep 17 00:00:00 2001
+From: Riku Voipio <riku.voipio@linaro.org>
+Date: Mon, 3 Feb 2014 16:31:32 +0200
+Subject: [PATCH] Add aarch64 defines
+
+With atomic operations and system call support in place, enable
+with __aarch64__ defines Aarch64 support in other files around
+the google-perftools header files. After these, google-perftools
+testsuite (make check) results:
+
+8 of 46 tests failed.
+
+FAIL: sampling_test.sh
+FAIL: heap-profiler_unittest.sh
+FAIL: heap-checker_unittest.sh
+FAIL: heap-checker-death_unittest.sh
+FAIL: sampling_debug_test.sh
+FAIL: heap-profiler_debug_unittest.sh
+FAIL: heap-checker_debug_unittest.sh
+FAIL: profiler_unittest.sh
+
+While it indicates that there is still work to do, This is still
+better than the result I get on ARMv7:
+
+12 of 46 tests failed.
+---
+ src/base/basictypes.h        | 3 +++
+ src/base/cycleclock.h        | 6 +++---
+ src/base/linuxthreads.h      | 2 +-
+ src/malloc_hook_mmap_linux.h | 2 +-
+ 4 files changed, 8 insertions(+), 5 deletions(-)
+
+Patch modified to match Chromium's version.
+
+Index: dev.xenial/third_party/tcmalloc/chromium/src/base/basictypes.h
+===================================================================
+--- dev.xenial.orig/third_party/tcmalloc/chromium/src/base/basictypes.h
++++ dev.xenial/third_party/tcmalloc/chromium/src/base/basictypes.h
+@@ -331,7 +331,7 @@ class AssignAttributeStartEnd {
+ 
+ #endif  // HAVE___ATTRIBUTE__ and __ELF__ or __MACH__
+ 
+-#if defined(HAVE___ATTRIBUTE__) && (defined(__i386__) || defined(__x86_64__))
++#if defined(HAVE___ATTRIBUTE__) && (defined(__i386__) || defined(__x86_64__)) || defined(__aarch64__)
+ # define CACHELINE_ALIGNED __attribute__((aligned(64)))
+ #else
+ # define CACHELINE_ALIGNED
+Index: dev.xenial/third_party/tcmalloc/chromium/src/base/cycleclock.h
+===================================================================
+--- dev.xenial.orig/third_party/tcmalloc/chromium/src/base/cycleclock.h
++++ dev.xenial/third_party/tcmalloc/chromium/src/base/cycleclock.h
+@@ -49,7 +49,7 @@
+ #include "base/arm_instruction_set_select.h"
+ // base/sysinfo.h is really big and we don't want to include it unless
+ // it is necessary.
+-#if defined(__arm__) || defined(__mips__)
++#if defined(__arm__) || defined(__mips__) || defined(__aarch64__)
+ # include "base/sysinfo.h"
+ #endif
+ #if defined(__MACH__) && defined(__APPLE__)
+@@ -66,7 +66,7 @@
+ extern "C" uint64 __rdtsc();
+ #pragma intrinsic(__rdtsc)
+ #endif
+-#if defined(ARMV3) || defined(__mips__)
++#if defined(ARMV3) || defined(__mips__) || defined(__aarch64__)
+ #ifdef HAVE_SYS_TIME_H
+ #include <sys/time.h>
+ #endif
+@@ -125,7 +125,7 @@ struct CycleClock {
+     _asm rdtsc
+ #elif defined(_MSC_VER)
+     return __rdtsc();
+-#elif defined(ARMV3)
++#elif defined(ARMV3) || defined(__aarch64__)
+ #if defined(ARMV6)  // V6 is the earliest arch that has a standard cyclecount
+     uint32 pmccntr;
+     uint32 pmuseren;
+Index: dev.xenial/third_party/tcmalloc/chromium/src/base/linuxthreads.h
+===================================================================
+--- dev.xenial.orig/third_party/tcmalloc/chromium/src/base/linuxthreads.h
++++ dev.xenial/third_party/tcmalloc/chromium/src/base/linuxthreads.h
+@@ -41,7 +41,7 @@
+  * related platforms should not be difficult.
+  */
+ #if (defined(__i386__) || defined(__x86_64__) || defined(__ARM_ARCH_3__) || \
+-     defined(__mips__) || defined(__PPC__)) && defined(__linux)
++     defined(__mips__) || defined(__PPC__) || defined(__aarch64__)) && defined(__linux)
+ 
+ /* Define the THREADS symbol to make sure that there is exactly one core dumper
+  * built into the library.
+Index: dev.xenial/third_party/tcmalloc/chromium/src/malloc_hook_mmap_linux.h
+===================================================================
+--- dev.xenial.orig/third_party/tcmalloc/chromium/src/malloc_hook_mmap_linux.h
++++ dev.xenial/third_party/tcmalloc/chromium/src/malloc_hook_mmap_linux.h
+@@ -73,7 +73,7 @@ typedef off64_t __off64_t;
+ 
+ // I test for 64-bit first so I don't have to do things like
+ // '#if (defined(__mips__) && !defined(__MIPS64__))' as a mips32 check.
+-#if defined(__x86_64__) || defined(__PPC64__) || (defined(_MIPS_SIM) && _MIPS_SIM == _ABI64)
++#if defined(__x86_64__) || defined(__PPC64__) || defined(__aarch64__) || (defined(_MIPS_SIM) && _MIPS_SIM == _ABI64)
+ 
+ static inline void* do_mmap64(void *start, size_t length,
+                               int prot, int flags,
+Index: dev.xenial/third_party/tcmalloc/chromium/src/base/arm_instruction_set_select.h
+===================================================================
+--- dev.xenial.orig/third_party/tcmalloc/chromium/src/base/arm_instruction_set_select.h
++++ dev.xenial/third_party/tcmalloc/chromium/src/base/arm_instruction_set_select.h
+@@ -35,7 +35,8 @@
+ #ifndef ARM_INSTRUCTION_SET_SELECT_H_
+ #define ARM_INSTRUCTION_SET_SELECT_H_
+ 
+-#if defined(__ARM_ARCH_8A__)
++#if defined(__ARM_ARCH_8A__) || \
++    defined(__aarch64__)
+ # define ARMV8 1
+ #endif
+ 

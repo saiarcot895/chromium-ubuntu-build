@@ -6,7 +6,7 @@ Index: dev.xenial/build/common.gypi
 ===================================================================
 --- dev.xenial.orig/build/common.gypi
 +++ dev.xenial/build/common.gypi
-@@ -3748,7 +3748,7 @@
+@@ -3734,7 +3734,7 @@
                    '-fomit-frame-pointer',
                  ],
                }],
@@ -15,7 +15,7 @@ Index: dev.xenial/build/common.gypi
                  'ldflags': [
                    '-Wl,--no-as-needed',
                  ],
-@@ -3793,7 +3793,6 @@
+@@ -3779,7 +3779,6 @@
                # Specifically tell the linker to perform optimizations.
                # See http://lwn.net/Articles/192624/ .
                '-Wl,-O1',
@@ -23,7 +23,7 @@ Index: dev.xenial/build/common.gypi
              ],
              'conditions' : [
                ['no_gc_sections==0', {
-@@ -5981,6 +5980,11 @@
+@@ -5960,6 +5959,11 @@
                    'SANITIZER_COVERAGE',
                  ],
                }],

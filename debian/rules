@@ -139,6 +139,13 @@ GYP_DEFINES += \
 	$(NULL)
  endif
 endif
+ifeq (arm64,$(DEB_HOST_ARCH))
+GYP_DEFINES += \
+	arm_neon=1 \
+	target_arch=arm64 \
+	use_cups=1 \
+	$(NULL)
+endif
 ifeq (amd64,$(DEB_HOST_ARCH))
 GYP_DEFINES += target_arch=x64
 endif
