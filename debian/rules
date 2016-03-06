@@ -80,11 +80,14 @@ GYP_DEFINES += sysroot=
 # Link directly to library instead of using dlopen.
 GYP_DEFINES += linux_link_gsettings=1
 
+# Disable NaCl temporarily, until gyp bug is fixed
+GYP_DEFINES += disable_nacl=1
+
 ifneq (,$(filter 12.04%,$(UBUNTU_DIST)))
 # Disable NaCl for Precise until the toolchain is built
 GYP_DEFINES += disable_nacl=1
 else
- ifeq (arm,$(DEB_HOST_ARCH_CPU))
+ ifneq (,$(filter arm%,$(DEB_HOST_ARCH_CPU)))
 # Disable NaCl for arm until the toolchain is built
 GYP_DEFINES += disable_nacl=1
  else

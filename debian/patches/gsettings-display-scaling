@@ -2,10 +2,10 @@ Description: Read display scaling from gsettings.
 Author: Chad MILLER <chad.miller@canonical.com>
 Forwarded: yes
 
-Index: dev.xenial/build/linux/system.gyp
+Index: beta.xenial/build/linux/system.gyp
 ===================================================================
---- dev.xenial.orig/build/linux/system.gyp
-+++ dev.xenial/build/linux/system.gyp
+--- beta.xenial.orig/build/linux/system.gyp
++++ beta.xenial/build/linux/system.gyp
 @@ -34,7 +34,12 @@
        'g_settings_get_boolean',
        'g_settings_get_int',
@@ -19,11 +19,11 @@ Index: dev.xenial/build/linux/system.gyp
      ],
      'libpci_functions': [
        'pci_alloc',
-Index: dev.xenial/ui/views/views.gyp
+Index: beta.xenial/ui/views/views.gyp
 ===================================================================
---- dev.xenial.orig/ui/views/views.gyp
-+++ dev.xenial/ui/views/views.gyp
-@@ -747,6 +747,7 @@
+--- beta.xenial.orig/ui/views/views.gyp
++++ beta.xenial/ui/views/views.gyp
+@@ -736,6 +736,7 @@
            'dependencies': [
              '../../build/linux/system.gyp:x11',
              '../../build/linux/system.gyp:xrandr',
@@ -31,10 +31,10 @@ Index: dev.xenial/ui/views/views.gyp
              '../events/devices/events_devices.gyp:events_devices',
              '../events/platform/x11/x11_events_platform.gyp:x11_events_platform',
              '../gfx/x/gfx_x11.gyp:gfx_x11',
-Index: dev.xenial/ui/views/widget/desktop_aura/desktop_screen_x11.cc
+Index: beta.xenial/ui/views/widget/desktop_aura/desktop_screen_x11.cc
 ===================================================================
---- dev.xenial.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc
-+++ dev.xenial/ui/views/widget/desktop_aura/desktop_screen_x11.cc
+--- beta.xenial.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc
++++ beta.xenial/ui/views/widget/desktop_aura/desktop_screen_x11.cc
 @@ -7,7 +7,12 @@
  #include <X11/extensions/Xrandr.h>
  #include <X11/Xlib.h>
@@ -79,7 +79,16 @@ Index: dev.xenial/ui/views/widget/desktop_aura/desktop_screen_x11.cc
    bool has_work_area = false;
    gfx::Rect work_area_in_pixels;
    std::vector<int> value;
-@@ -320,7 +348,27 @@ std::vector<gfx::Display> DesktopScreenX
+@@ -293,7 +321,7 @@ std::vector<gfx::Display> DesktopScreenX
+ 
+   // As per-display scale factor is not supported right now,
+   // the X11 root window's scale factor is always used.
+-  const float device_scale_factor = GetDeviceScaleFactor();
++  float device_scale_factor = GetDeviceScaleFactor();
+   for (int i = 0; i < resources->noutput; ++i) {
+     RROutput output_id = resources->outputs[i];
+     gfx::XScopedPtr<XRROutputInfo,
+@@ -319,7 +347,27 @@ std::vector<gfx::Display> DesktopScreenX
        gfx::Rect crtc_bounds(crtc->x, crtc->y, crtc->width, crtc->height);
        gfx::Display display(display_id, crtc_bounds);
  
