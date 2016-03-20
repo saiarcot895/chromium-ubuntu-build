@@ -4,16 +4,26 @@ Index: dev.xenial/content/common/gpu/media/gpu_video_decode_accelerator.cc
 ===================================================================
 --- dev.xenial.orig/content/common/gpu/media/gpu_video_decode_accelerator.cc
 +++ dev.xenial/content/common/gpu/media/gpu_video_decode_accelerator.cc
-@@ -34,7 +34,7 @@
+@@ -34,16 +34,13 @@
  #include "content/common/gpu/media/dxva_video_decode_accelerator_win.h"
  #elif defined(OS_MACOSX)
  #include "content/common/gpu/media/vt_video_decode_accelerator_mac.h"
 -#elif defined(OS_CHROMEOS)
-+#elif defined(OS_CHROMEOS) || defined(OS_LINUX)
- #if defined(USE_V4L2_CODEC)
+-#if defined(USE_V4L2_CODEC)
++#elif defined(OS_CHROMEOS) && defined(USE_V4L2_CODEC)
  #include "content/common/gpu/media/v4l2_device.h"
  #include "content/common/gpu/media/v4l2_slice_video_decode_accelerator.h"
-@@ -164,7 +164,7 @@ GpuVideoDecodeAccelerator::GetCapabiliti
+ #include "content/common/gpu/media/v4l2_video_decode_accelerator.h"
+-#endif
+-#if defined(ARCH_CPU_X86_FAMILY)
++#elif (defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)) || defined(OS_LINUX)
+ #include "content/common/gpu/media/vaapi_video_decode_accelerator.h"
+ #include "ui/gl/gl_implementation.h"
+-#endif
+ #elif defined(USE_OZONE)
+ #include "media/ozone/media_ozone_platform.h"
+ #elif defined(OS_ANDROID)
+@@ -164,7 +161,7 @@ GpuVideoDecodeAccelerator::GetCapabiliti
  #if defined(OS_WIN)
    capabilities.supported_profiles =
        DXVAVideoDecodeAccelerator::GetSupportedProfiles();
@@ -22,7 +32,7 @@ Index: dev.xenial/content/common/gpu/media/gpu_video_decode_accelerator.cc
    media::VideoDecodeAccelerator::SupportedProfiles vda_profiles;
  #if defined(USE_V4L2_CODEC)
    vda_profiles = V4L2VideoDecodeAccelerator::GetSupportedProfiles();
-@@ -349,6 +349,8 @@ bool GpuVideoDecodeAccelerator::Initiali
+@@ -349,6 +346,8 @@ bool GpuVideoDecodeAccelerator::Initiali
    }
  #endif
  
@@ -31,7 +41,7 @@ Index: dev.xenial/content/common/gpu/media/gpu_video_decode_accelerator.cc
    // Array of Create..VDA() function pointers, maybe applicable to the current
    // platform. This list is ordered by priority of use and it should be the
    // same as the order of querying supported profiles of VDAs.
-@@ -360,7 +362,7 @@ bool GpuVideoDecodeAccelerator::Initiali
+@@ -360,7 +359,7 @@ bool GpuVideoDecodeAccelerator::Initiali
      &GpuVideoDecodeAccelerator::CreateV4L2VDA,
      &GpuVideoDecodeAccelerator::CreateV4L2SliceVDA,
  #endif
@@ -40,7 +50,16 @@ Index: dev.xenial/content/common/gpu/media/gpu_video_decode_accelerator.cc
      &GpuVideoDecodeAccelerator::CreateVaapiVDA,
  #endif
  #if defined(OS_MACOSX)
-@@ -459,9 +461,10 @@ void GpuVideoDecodeAccelerator::BindImag
+@@ -444,7 +443,7 @@ GpuVideoDecodeAccelerator::CreateV4L2Sli
+ }
+ #endif
+ 
+-#if (defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)) || defined(OS_MACOSX)
++#if (defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)) || defined(OS_MACOSX) || defined(OS_LINUX)
+ void GpuVideoDecodeAccelerator::BindImage(uint32_t client_texture_id,
+                                           uint32_t texture_target,
+                                           scoped_refptr<gl::GLImage> image) {
+@@ -459,9 +458,10 @@ void GpuVideoDecodeAccelerator::BindImag
  }
  #endif
  

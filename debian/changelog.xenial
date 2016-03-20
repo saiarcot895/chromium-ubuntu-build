@@ -1,3 +1,9 @@
+chromium-browser (51.0.2679.0-0ubuntu1~ppa2~16.04.1) xenial; urgency=low
+
+  * Fix builing VAAPI acceleration.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 20 Mar 2016 09:08:45 -0400
+
 chromium-browser (51.0.2679.0-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
 
   * New upstream version 51.0.2679.0
