@@ -40,7 +40,7 @@ Index: dev.xenial/chrome/browser/ui/views/frame/browser_view.cc
 ===================================================================
 --- dev.xenial.orig/chrome/browser/ui/views/frame/browser_view.cc
 +++ dev.xenial/chrome/browser/ui/views/frame/browser_view.cc
-@@ -736,6 +736,7 @@ void BrowserView::Show() {
+@@ -714,6 +714,7 @@ void BrowserView::Show() {
    force_location_bar_focus_ = false;
  
    browser()->OnWindowDidShow();

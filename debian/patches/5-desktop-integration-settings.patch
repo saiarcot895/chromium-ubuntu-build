@@ -2,7 +2,7 @@ Index: dev.xenial/chrome/app/generated_resources.grd
 ===================================================================
 --- dev.xenial.orig/chrome/app/generated_resources.grd
 +++ dev.xenial/chrome/app/generated_resources.grd
-@@ -7735,6 +7735,35 @@ Keep your key file in a safe place. You
+@@ -7749,6 +7749,35 @@ Keep your key file in a safe place. You
  I don't think this site should be blocked!
        </message>
  
@@ -38,7 +38,7 @@ Index: dev.xenial/chrome/app/generated_resources.grd
        <!-- Content Settings dialog data -->
        <message name="IDS_CONTENT_SETTINGS_TITLE" desc="Title for content settings dialog">
          Content settings
-@@ -11032,6 +11061,9 @@ Some features may be unavailable.  Pleas
+@@ -11054,6 +11083,9 @@ Some features may be unavailable.  Pleas
        <message name="IDS_OPTIONS_ADVANCED_SECTION_TITLE_CONTENT">
          Web content
        </message>
@@ -126,7 +126,7 @@ Index: dev.xenial/chrome/browser/resources/options/browser_options.js
       * Set the checked state of the metrics reporting checkbox.
       * @private
       */
-@@ -2228,6 +2263,7 @@ cr.define('options', function() {
+@@ -2229,6 +2264,7 @@ cr.define('options', function() {
    // Forward public APIs to private implementations.
    cr.makePublic(BrowserOptions, [
      'deleteCurrentProfile',
@@ -134,7 +134,7 @@ Index: dev.xenial/chrome/browser/resources/options/browser_options.js
      'enableCertificateButton',
      'enableDisplaySettings',
      'enableFactoryResetSection',
-@@ -2246,6 +2282,7 @@ cr.define('options', function() {
+@@ -2247,6 +2283,7 @@ cr.define('options', function() {
      'setNetworkPredictionValue',
      'setNowSectionVisible',
      'setHighContrastCheckboxState',
@@ -614,7 +614,7 @@ Index: dev.xenial/chrome/browser/ui/webui/options/browser_options_handler.cc
 ===================================================================
 --- dev.xenial.orig/chrome/browser/ui/webui/options/browser_options_handler.cc
 +++ dev.xenial/chrome/browser/ui/webui/options/browser_options_handler.cc
-@@ -234,6 +234,8 @@ void BrowserOptionsHandler::GetLocalized
+@@ -239,6 +239,8 @@ void BrowserOptionsHandler::GetLocalized
      { "advancedSectionTitleCloudPrint", IDS_GOOGLE_CLOUD_PRINT },
      { "advancedSectionTitleContent",
        IDS_OPTIONS_ADVANCED_SECTION_TITLE_CONTENT },
@@ -623,7 +623,7 @@ Index: dev.xenial/chrome/browser/ui/webui/options/browser_options_handler.cc
      { "advancedSectionTitleLanguages",
        IDS_OPTIONS_ADVANCED_SECTION_TITLE_LANGUAGES },
      { "advancedSectionTitleNetwork",
-@@ -257,6 +259,10 @@ void BrowserOptionsHandler::GetLocalized
+@@ -262,6 +264,10 @@ void BrowserOptionsHandler::GetLocalized
      { "defaultFontSizeLabel", IDS_OPTIONS_DEFAULT_FONT_SIZE_LABEL },
      { "defaultSearchManageEngines", IDS_OPTIONS_DEFAULTSEARCH_MANAGE_ENGINES },
      { "defaultZoomFactorLabel", IDS_OPTIONS_DEFAULT_ZOOM_LEVEL_LABEL },
@@ -634,7 +634,7 @@ Index: dev.xenial/chrome/browser/ui/webui/options/browser_options_handler.cc
      { "disableWebServices", IDS_OPTIONS_DISABLE_WEB_SERVICES },
      { "doNotTrack", IDS_OPTIONS_ENABLE_DO_NOT_TRACK },
      { "doNotTrackConfirmDisable",
-@@ -343,6 +349,8 @@ void BrowserOptionsHandler::GetLocalized
+@@ -348,6 +354,8 @@ void BrowserOptionsHandler::GetLocalized
      { "profilesManage", IDS_PROFILES_MANAGE_BUTTON_LABEL },
      { "profilesSingleUser", IDS_PROFILES_SINGLE_USER_MESSAGE,
        IDS_PRODUCT_NAME },
@@ -1019,7 +1019,7 @@ Index: dev.xenial/chrome/chrome_browser_ui.gypi
 ===================================================================
 --- dev.xenial.orig/chrome/chrome_browser_ui.gypi
 +++ dev.xenial/chrome/chrome_browser_ui.gypi
-@@ -1935,6 +1935,8 @@
+@@ -1939,6 +1939,8 @@
        'browser/ui/webui/options/core_options_handler.h',
        'browser/ui/webui/options/create_profile_handler.cc',
        'browser/ui/webui/options/create_profile_handler.h',
@@ -1028,7 +1028,7 @@ Index: dev.xenial/chrome/chrome_browser_ui.gypi
        'browser/ui/webui/options/easy_unlock_handler.cc',
        'browser/ui/webui/options/easy_unlock_handler.h',
        'browser/ui/webui/options/font_settings_handler.cc',
-@@ -3070,6 +3072,7 @@
+@@ -3089,6 +3091,7 @@
            ],
          }],
          ['use_aura==1 and chromeos==0 and use_ozone==0 and OS=="linux"', {

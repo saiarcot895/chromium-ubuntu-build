@@ -1,3 +1,10 @@
+chromium-browser (51.0.2679.0-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
+
+  * New upstream version 51.0.2679.0
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 19 Mar 2016 23:02:37 -0400
+
 chromium-browser (50.0.2661.11-0ubuntu1~ppa2~16.04.1) xenial; urgency=low
 
   * Temporarily disable native client.
