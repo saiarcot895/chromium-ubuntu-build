@@ -255,11 +255,11 @@ ifneq ($(DEB_HOST_ARCH),$(DEB_BUILD_ARCH))
 $(note Cross compiling for $(DEB_HOST_ARCH), from this $(DEB_BUILD_ARCH))
 CROSS_BUILD = PKG_CONFIG_PATH=/usr/lib/$(DEB_HOST_MULTIARCH)/pkgconfig:/usr/$(DEB_HOST_MULTIARCH)/lib/pkgconfig CXX=$(DEB_HOST_GNU_TYPE)-$(CXX)
 else
-ifneq (,$(filter 12.04%,$(UBUNTU_DIST)))
-CROSS_BUILD = CC=$(shell which clang-3.6 clang-3.5 clang-3.4 clang |head -1) CXX=$(shell which clang++-3.6 clang++-3.5 clang++-3.4 clang++ |head -1)
+ifneq (,$(filter 12.04% 14.04%,$(UBUNTU_DIST)))
+CROSS_BUILD = CC=$(shell which clang-3.6 clang |head -1) CXX=$(shell which clang++-3.6 clang++ |head -1)
 GYP_DEFINES += clang=1 clang_use_chrome_plugins=0
 else
-CROSS_BUILD = CC=$$(which gcc) CXX=$$(which g++)
+CROSS_BUILD = CC=$(shell which gcc) CXX=$(shell which g++)
 GYP_DEFINES += clang=0
 endif
 endif
