@@ -9,10 +9,10 @@ to include desktop_aura/ as part of view target.
  ui/views/views.gyp | 2 ++
  1 file changed, 2 insertions(+)
 
-Index: dev.wily/ui/views/views.gyp
+Index: dev.xenial/ui/views/views.gyp
 ===================================================================
---- dev.wily.orig/ui/views/views.gyp
-+++ dev.wily/ui/views/views.gyp
+--- dev.xenial.orig/ui/views/views.gyp
++++ dev.xenial/ui/views/views.gyp
 @@ -4,6 +4,7 @@
  {
    'variables': {
@@ -21,7 +21,7 @@ Index: dev.wily/ui/views/views.gyp
      # Sources lists shared with GN build.
      'views_sources': [
        'accessibility/native_view_accessibility.cc',
-@@ -737,6 +738,7 @@
+@@ -755,6 +756,7 @@
          }],
          ['use_aura==1', {
            'sources': [

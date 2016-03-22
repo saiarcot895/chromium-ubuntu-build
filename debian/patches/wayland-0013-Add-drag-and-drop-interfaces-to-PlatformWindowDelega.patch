@@ -8,10 +8,10 @@ Based on a patch by Kalyan Kondapally
  ui/platform_window/platform_window_delegate.h | 18 ++++++++++++++++++
  1 file changed, 18 insertions(+)
 
-Index: dev.wily/ui/platform_window/platform_window_delegate.h
+Index: dev.xenial/ui/platform_window/platform_window_delegate.h
 ===================================================================
---- dev.wily.orig/ui/platform_window/platform_window_delegate.h
-+++ dev.wily/ui/platform_window/platform_window_delegate.h
+--- dev.xenial.orig/ui/platform_window/platform_window_delegate.h
++++ dev.xenial/ui/platform_window/platform_window_delegate.h
 @@ -7,6 +7,8 @@
  
  #include "ui/gfx/native_widget_types.h"

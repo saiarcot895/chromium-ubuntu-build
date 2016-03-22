@@ -11,11 +11,11 @@ Bug: TC-341
  ui/gl/gl_context_egl.cc | 5 +++++
  1 file changed, 5 insertions(+)
 
-Index: dev.wily/ui/gl/gl_context_egl.cc
+Index: dev.xenial/ui/gl/gl_context_egl.cc
 ===================================================================
---- dev.wily.orig/ui/gl/gl_context_egl.cc
-+++ dev.wily/ui/gl/gl_context_egl.cc
-@@ -120,6 +120,11 @@ bool GLContextEGL::MakeCurrent(GLSurface
+--- dev.xenial.orig/ui/gl/gl_context_egl.cc
++++ dev.xenial/ui/gl/gl_context_egl.cc
+@@ -127,6 +127,11 @@ bool GLContextEGL::MakeCurrent(GLSurface
      return false;
    }
  

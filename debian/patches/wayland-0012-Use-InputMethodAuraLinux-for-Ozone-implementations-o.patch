@@ -12,12 +12,12 @@ implementations on non-chromeos platforms.
  ui/base/ime/input_method_factory.cc | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-Index: dev.wily/ui/base/ime/input_method_factory.cc
+Index: dev.xenial/ui/base/ime/input_method_factory.cc
 ===================================================================
---- dev.wily.orig/ui/base/ime/input_method_factory.cc
-+++ dev.wily/ui/base/ime/input_method_factory.cc
-@@ -15,7 +15,7 @@
- #include "ui/base/ime/remote_input_method_win.h"
+--- dev.xenial.orig/ui/base/ime/input_method_factory.cc
++++ dev.xenial/ui/base/ime/input_method_factory.cc
+@@ -13,7 +13,7 @@
+ #include "ui/base/ime/input_method_win.h"
  #elif defined(OS_MACOSX)
  #include "ui/base/ime/input_method_mac.h"
 -#elif defined(USE_AURA) && defined(OS_LINUX) && defined(USE_X11) && \
@@ -25,7 +25,7 @@ Index: dev.wily/ui/base/ime/input_method_factory.cc
        !defined(OS_CHROMEOS)
  #include "ui/base/ime/input_method_auralinux.h"
  #elif defined(OS_ANDROID)
-@@ -59,7 +59,7 @@ scoped_ptr<InputMethod> CreateInputMetho
+@@ -55,7 +55,7 @@ scoped_ptr<InputMethod> CreateInputMetho
    return make_scoped_ptr(new InputMethodWin(delegate, widget));
  #elif defined(OS_MACOSX)
    return make_scoped_ptr(new InputMethodMac(delegate));

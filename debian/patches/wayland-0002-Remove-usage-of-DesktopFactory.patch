@@ -19,11 +19,11 @@ discussion upstream.
  delete mode 100644 ui/views/widget/desktop_aura/desktop_screen_ozone.cc
  delete mode 100644 ui/views/widget/desktop_aura/desktop_window_tree_host_ozone.cc
 
-Index: dev.wily/ui/views/views.gyp
+Index: dev.xenial/ui/views/views.gyp
 ===================================================================
---- dev.wily.orig/ui/views/views.gyp
-+++ dev.wily/ui/views/views.gyp
-@@ -476,12 +476,6 @@
+--- dev.xenial.orig/ui/views/views.gyp
++++ dev.xenial/ui/views/views.gyp
+@@ -477,12 +477,6 @@
        'widget/desktop_aura/desktop_window_tree_host_win.cc',
        'widget/desktop_aura/desktop_window_tree_host_win.h',
      ],
@@ -34,9 +34,9 @@ Index: dev.wily/ui/views/views.gyp
 -      'widget/desktop_aura/desktop_window_tree_host_ozone.cc',
 -    ],
      'views_test_support_sources': [
-       'animation/test/ink_drop_animation_test_api.cc',
-       'animation/test/ink_drop_animation_test_api.h',
-@@ -766,9 +760,6 @@
+       'animation/test/flood_fill_ink_drop_animation_test_api.cc',
+       'animation/test/flood_fill_ink_drop_animation_test_api.h',
+@@ -784,9 +778,6 @@
              ['OS == "win"', {
                'sources': [ '<@(views_desktop_aura_win_sources)' ],
              }],
@@ -46,9 +46,9 @@ Index: dev.wily/ui/views/views.gyp
            ],
          }],
          ['OS=="mac"', {
-Index: dev.wily/ui/views/widget/desktop_aura/desktop_factory_ozone.cc
+Index: dev.xenial/ui/views/widget/desktop_aura/desktop_factory_ozone.cc
 ===================================================================
---- dev.wily.orig/ui/views/widget/desktop_aura/desktop_factory_ozone.cc
+--- dev.xenial.orig/ui/views/widget/desktop_aura/desktop_factory_ozone.cc
 +++ /dev/null
 @@ -1,29 +0,0 @@
 -// Copyright 2013 The Chromium Authors. All rights reserved.
@@ -80,9 +80,9 @@ Index: dev.wily/ui/views/widget/desktop_aura/desktop_factory_ozone.cc
 -}
 -
 -} // namespace views
-Index: dev.wily/ui/views/widget/desktop_aura/desktop_factory_ozone.h
+Index: dev.xenial/ui/views/widget/desktop_aura/desktop_factory_ozone.h
 ===================================================================
---- dev.wily.orig/ui/views/widget/desktop_aura/desktop_factory_ozone.h
+--- dev.xenial.orig/ui/views/widget/desktop_aura/desktop_factory_ozone.h
 +++ /dev/null
 @@ -1,50 +0,0 @@
 -// Copyright 2013 The Chromium Authors. All rights reserved.
@@ -135,9 +135,9 @@ Index: dev.wily/ui/views/widget/desktop_aura/desktop_factory_ozone.h
 -}  // namespace views
 -
 -#endif // UI_VIEWS_WIDGET_DESKTOP_AURA_DESKTOP_FACTORY_OZONE_H_
-Index: dev.wily/ui/views/widget/desktop_aura/desktop_screen_ozone.cc
+Index: dev.xenial/ui/views/widget/desktop_aura/desktop_screen_ozone.cc
 ===================================================================
---- dev.wily.orig/ui/views/widget/desktop_aura/desktop_screen_ozone.cc
+--- dev.xenial.orig/ui/views/widget/desktop_aura/desktop_screen_ozone.cc
 +++ /dev/null
 @@ -1,15 +0,0 @@
 -// Copyright 2013 The Chromium Authors. All rights reserved.
@@ -155,9 +155,9 @@ Index: dev.wily/ui/views/widget/desktop_aura/desktop_screen_ozone.cc
 -}
 -
 -}  // namespace views
-Index: dev.wily/ui/views/widget/desktop_aura/desktop_window_tree_host_ozone.cc
+Index: dev.xenial/ui/views/widget/desktop_aura/desktop_window_tree_host_ozone.cc
 ===================================================================
---- dev.wily.orig/ui/views/widget/desktop_aura/desktop_window_tree_host_ozone.cc
+--- dev.xenial.orig/ui/views/widget/desktop_aura/desktop_window_tree_host_ozone.cc
 +++ /dev/null
 @@ -1,26 +0,0 @@
 -// Copyright 2013 The Chromium Authors. All rights reserved.

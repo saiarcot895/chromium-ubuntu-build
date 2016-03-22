@@ -1,3 +1,9 @@
+chromium-browser (51.0.2679.0-0ubuntu1+wayland~ppa1~14.04.1) trusty; urgency=low
+
+  * Wayland build of 51.0.2679.0
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 22 Mar 2016 09:44:13 -0400
+
 chromium-browser (51.0.2679.0-0ubuntu1~ppa3~14.04.1) trusty; urgency=low
 
   * More VAAPI fixes.

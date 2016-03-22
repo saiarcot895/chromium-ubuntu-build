@@ -9,10 +9,10 @@ need to be evaluated further before trying to upstream them.
  ui/platform_window/platform_window.h | 34 ++++++++++++++++++++++++++++++++++
  1 file changed, 34 insertions(+)
 
-Index: dev.wily/ui/platform_window/platform_window.h
+Index: dev.xenial/ui/platform_window/platform_window.h
 ===================================================================
---- dev.wily.orig/ui/platform_window/platform_window.h
-+++ dev.wily/ui/platform_window/platform_window.h
+--- dev.xenial.orig/ui/platform_window/platform_window.h
++++ dev.xenial/ui/platform_window/platform_window.h
 @@ -8,11 +8,14 @@
  #include "base/memory/scoped_ptr.h"
  #include "base/strings/string16.h"

@@ -8,10 +8,10 @@ Subject: [PATCH 09/14] Media: Use upstream Video Accelerator.
  content/common/sandbox_linux/bpf_gpu_policy_linux.cc     |  2 +-
  2 files changed, 4 insertions(+), 8 deletions(-)
 
-Index: dev.wily/content/common/gpu/media/gpu_video_decode_accelerator.cc
+Index: dev.xenial/content/common/gpu/media/gpu_video_decode_accelerator.cc
 ===================================================================
---- dev.wily.orig/content/common/gpu/media/gpu_video_decode_accelerator.cc
-+++ dev.wily/content/common/gpu/media/gpu_video_decode_accelerator.cc
+--- dev.xenial.orig/content/common/gpu/media/gpu_video_decode_accelerator.cc
++++ dev.xenial/content/common/gpu/media/gpu_video_decode_accelerator.cc
 @@ -45,7 +45,8 @@
  #include "ui/gl/gl_implementation.h"
  #endif
@@ -22,31 +22,64 @@ Index: dev.wily/content/common/gpu/media/gpu_video_decode_accelerator.cc
  #elif defined(OS_ANDROID)
  #include "content/common/gpu/media/android_video_decode_accelerator.h"
  #endif
-@@ -444,7 +445,7 @@ void GpuVideoDecodeAccelerator::BindImag
- scoped_ptr<media::VideoDecodeAccelerator>
- GpuVideoDecodeAccelerator::CreateVaapiVDA() {
-   scoped_ptr<media::VideoDecodeAccelerator> decoder;
+@@ -360,13 +361,13 @@ bool GpuVideoDecodeAccelerator::Initiali
+     &GpuVideoDecodeAccelerator::CreateV4L2VDA,
+     &GpuVideoDecodeAccelerator::CreateV4L2SliceVDA,
+ #endif
 -#if defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)
 +#if defined(USE_OZONE) && defined(ARCH_CPU_X86_FAMILY)
-   decoder.reset(new VaapiVideoDecodeAccelerator(
-       make_context_current_, base::Bind(&GpuVideoDecodeAccelerator::BindImage,
-                                         base::Unretained(this))));
-@@ -466,11 +467,6 @@ GpuVideoDecodeAccelerator::CreateVTVDA()
+     &GpuVideoDecodeAccelerator::CreateVaapiVDA,
+ #endif
+ #if defined(OS_MACOSX)
+     &GpuVideoDecodeAccelerator::CreateVTVDA,
+ #endif
+-#if !defined(OS_CHROMEOS) && defined(USE_OZONE)
++#if !defined(OS_CHROMEOS)
+     &GpuVideoDecodeAccelerator::CreateOzoneVDA,
+ #endif
+ #if defined(OS_ANDROID)
+@@ -459,7 +460,7 @@ void GpuVideoDecodeAccelerator::BindImag
+ }
+ #endif
+ 
+-#if defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)
++#if defined(USE_OZONE) && defined(ARCH_CPU_X86_FAMILY)
+ scoped_ptr<media::VideoDecodeAccelerator>
+ GpuVideoDecodeAccelerator::CreateVaapiVDA() {
+   return make_scoped_ptr<media::VideoDecodeAccelerator>(
+@@ -481,7 +482,7 @@ GpuVideoDecodeAccelerator::CreateVTVDA()
+ }
+ #endif
+ 
+-#if !defined(OS_CHROMEOS) && defined(USE_OZONE)
++#if !defined(OS_CHROMEOS)
  scoped_ptr<media::VideoDecodeAccelerator>
  GpuVideoDecodeAccelerator::CreateOzoneVDA() {
-   scoped_ptr<media::VideoDecodeAccelerator> decoder;
--#if !defined(OS_CHROMEOS) && defined(USE_OZONE)
--  media::MediaOzonePlatform* platform =
--      media::MediaOzonePlatform::GetInstance();
--  decoder.reset(platform->CreateVideoDecodeAccelerator(make_context_current_));
--#endif
-   return decoder;
- }
- 
-Index: dev.wily/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
+   media::MediaOzonePlatform* platform =
+Index: dev.xenial/content/common/gpu/media/gpu_video_decode_accelerator.h
 ===================================================================
---- dev.wily.orig/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
-+++ dev.wily/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
+--- dev.xenial.orig/content/common/gpu/media/gpu_video_decode_accelerator.h
++++ dev.xenial/content/common/gpu/media/gpu_video_decode_accelerator.h
+@@ -89,13 +89,13 @@ class GpuVideoDecodeAccelerator
+   scoped_ptr<media::VideoDecodeAccelerator> CreateV4L2VDA();
+   scoped_ptr<media::VideoDecodeAccelerator> CreateV4L2SliceVDA();
+ #endif
+-#if defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)
++#if defined(USE_OZONE) && defined(ARCH_CPU_X86_FAMILY)
+   scoped_ptr<media::VideoDecodeAccelerator> CreateVaapiVDA();
+ #endif
+ #if defined(OS_MACOSX)
+   scoped_ptr<media::VideoDecodeAccelerator> CreateVTVDA();
+ #endif
+-#if !defined(OS_CHROMEOS) && defined(USE_OZONE)
++#if !defined(OS_CHROMEOS)
+   scoped_ptr<media::VideoDecodeAccelerator> CreateOzoneVDA();
+ #endif
+ #if defined(OS_ANDROID)
+Index: dev.xenial/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
+===================================================================
+--- dev.xenial.orig/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
++++ dev.xenial/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 @@ -315,7 +315,7 @@ bool GpuProcessPolicy::PreSandboxHook()
          dlopen(I965HybridDrvVideoPath, RTLD_NOW|RTLD_GLOBAL|RTLD_NODELETE);
        dlopen("libva.so.1", RTLD_NOW|RTLD_GLOBAL|RTLD_NODELETE);

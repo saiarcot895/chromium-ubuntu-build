@@ -1,7 +1,7 @@
-Index: dev.wily/ozone/ui/desktop_aura/desktop_window_tree_host_ozone.cc
+Index: dev.xenial/ozone/ui/desktop_aura/desktop_window_tree_host_ozone.cc
 ===================================================================
---- dev.wily.orig/ozone/ui/desktop_aura/desktop_window_tree_host_ozone.cc
-+++ dev.wily/ozone/ui/desktop_aura/desktop_window_tree_host_ozone.cc
+--- dev.xenial.orig/ozone/ui/desktop_aura/desktop_window_tree_host_ozone.cc
++++ dev.xenial/ozone/ui/desktop_aura/desktop_window_tree_host_ozone.cc
 @@ -274,6 +274,9 @@ bool DesktopWindowTreeHostOzone::IsVisib
    return state_ & Visible;
  }
@@ -12,10 +12,10 @@ Index: dev.wily/ozone/ui/desktop_aura/desktop_window_tree_host_ozone.cc
  void DesktopWindowTreeHostOzone::SetSize(const gfx::Size& requested_size) {
    gfx::Size size_in_pixels = ToPixelRect(gfx::Rect(requested_size)).size();
    size_in_pixels = AdjustSize(size_in_pixels);
-Index: dev.wily/ozone/ui/desktop_aura/desktop_window_tree_host_ozone.h
+Index: dev.xenial/ozone/ui/desktop_aura/desktop_window_tree_host_ozone.h
 ===================================================================
---- dev.wily.orig/ozone/ui/desktop_aura/desktop_window_tree_host_ozone.h
-+++ dev.wily/ozone/ui/desktop_aura/desktop_window_tree_host_ozone.h
+--- dev.xenial.orig/ozone/ui/desktop_aura/desktop_window_tree_host_ozone.h
++++ dev.xenial/ozone/ui/desktop_aura/desktop_window_tree_host_ozone.h
 @@ -73,6 +73,7 @@ class VIEWS_EXPORT DesktopWindowTreeHost
    void ShowWindowWithState(ui::WindowShowState show_state) override;
    void ShowMaximizedWithBounds(const gfx::Rect& restored_bounds) override;

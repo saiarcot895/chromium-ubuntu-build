@@ -9,10 +9,10 @@ Subject: [PATCH 11/14] Gardening: Adopt to
  ui/gl/gl_image_egl.h  | 3 +++
  2 files changed, 8 insertions(+)
 
-Index: dev.wily/ui/gl/gl_image_egl.cc
+Index: dev.xenial/ui/gl/gl_image_egl.cc
 ===================================================================
---- dev.wily.orig/ui/gl/gl_image_egl.cc
-+++ dev.wily/ui/gl/gl_image_egl.cc
+--- dev.xenial.orig/ui/gl/gl_image_egl.cc
++++ dev.xenial/ui/gl/gl_image_egl.cc
 @@ -82,4 +82,9 @@ bool GLImageEGL::ScheduleOverlayPlane(gf
    return false;
  }
@@ -23,10 +23,10 @@ Index: dev.wily/ui/gl/gl_image_egl.cc
 +}
 +
  }  // namespace gl
-Index: dev.wily/ui/gl/gl_image_egl.h
+Index: dev.xenial/ui/gl/gl_image_egl.h
 ===================================================================
---- dev.wily.orig/ui/gl/gl_image_egl.h
-+++ dev.wily/ui/gl/gl_image_egl.h
+--- dev.xenial.orig/ui/gl/gl_image_egl.h
++++ dev.xenial/ui/gl/gl_image_egl.h
 @@ -33,6 +33,9 @@ class GL_EXPORT GLImageEGL : public GLIm
                              gfx::OverlayTransform transform,
                              const gfx::Rect& bounds_rect,
