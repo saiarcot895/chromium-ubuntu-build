@@ -1,3 +1,9 @@
+chromium-browser (51.0.2700.0-0ubuntu1~ppa5~16.04.1) xenial; urgency=low
+
+  * Specify clang isn't being used for building gn.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 10 Apr 2016 18:47:50 -0400
+
 chromium-browser (51.0.2700.0-0ubuntu1~ppa4~16.04.1) xenial; urgency=low
 
   * Specify clang isn't being used.
