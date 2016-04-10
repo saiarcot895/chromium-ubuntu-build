@@ -1,3 +1,9 @@
+chromium-browser (51.0.2700.0-0ubuntu1~ppa4~14.04.1) trusty; urgency=low
+
+  * Specify clang isn't being used.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 10 Apr 2016 17:55:58 -0400
+
 chromium-browser (51.0.2700.0-0ubuntu1~ppa2~14.04.1) trusty; urgency=low
 
   * Don't use a sysroot when building gn.
