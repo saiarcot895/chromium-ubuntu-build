@@ -442,7 +442,7 @@ override_dh_clean:
 # the source files for gn (the binary) are present in the source tree. This section
 # disables the default behavior, falls back to gyp, builds gn, and use that as the binary.
 configure-stamp-gn: GYP_ENV = GYP_GENERATORS=ninja
-configure-stamp-gn: GYP_ENV += GYP_DEFINES="werror= linux_use_gold_binary=0 linux_use_gold_flags=0"
+configure-stamp-gn: GYP_ENV += GYP_DEFINES="werror= linux_use_gold_binary=0 linux_use_gold_flags=0 use_sysroot=0 sysroot="
 configure-stamp-gn:
 	if [ -d chromium-$(DEBIAN_UPSTREAM_VERSION) ]; then \
 		mv chromium-$(DEBIAN_UPSTREAM_VERSION)/* . ; \
