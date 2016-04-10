@@ -2,7 +2,7 @@ Index: dev.xenial/chrome/app/generated_resources.grd
 ===================================================================
 --- dev.xenial.orig/chrome/app/generated_resources.grd
 +++ dev.xenial/chrome/app/generated_resources.grd
-@@ -7749,6 +7749,35 @@ Keep your key file in a safe place. You
+@@ -7680,6 +7680,35 @@ Keep your key file in a safe place. You
  I don't think this site should be blocked!
        </message>
  
@@ -38,7 +38,7 @@ Index: dev.xenial/chrome/app/generated_resources.grd
        <!-- Content Settings dialog data -->
        <message name="IDS_CONTENT_SETTINGS_TITLE" desc="Title for content settings dialog">
          Content settings
-@@ -11054,6 +11083,9 @@ Some features may be unavailable.  Pleas
+@@ -11011,6 +11040,9 @@ Some features may be unavailable.  Pleas
        <message name="IDS_OPTIONS_ADVANCED_SECTION_TITLE_CONTENT">
          Web content
        </message>
@@ -52,7 +52,7 @@ Index: dev.xenial/chrome/browser/resources/options/browser_options.html
 ===================================================================
 --- dev.xenial.orig/chrome/browser/resources/options/browser_options.html
 +++ dev.xenial/chrome/browser/resources/options/browser_options.html
-@@ -540,6 +540,20 @@
+@@ -542,6 +542,20 @@
      </div>
    </section>
  </if>
@@ -101,7 +101,7 @@ Index: dev.xenial/chrome/browser/resources/options/browser_options.js
        // Languages section.
        var showLanguageOptions = function(event) {
          PageManager.showPageByName('languages');
-@@ -1758,6 +1775,24 @@ cr.define('options', function() {
+@@ -1760,6 +1777,24 @@ cr.define('options', function() {
      },
  
      /**
@@ -126,7 +126,7 @@ Index: dev.xenial/chrome/browser/resources/options/browser_options.js
       * Set the checked state of the metrics reporting checkbox.
       * @private
       */
-@@ -2229,6 +2264,7 @@ cr.define('options', function() {
+@@ -2231,6 +2266,7 @@ cr.define('options', function() {
    // Forward public APIs to private implementations.
    cr.makePublic(BrowserOptions, [
      'deleteCurrentProfile',
@@ -134,7 +134,7 @@ Index: dev.xenial/chrome/browser/resources/options/browser_options.js
      'enableCertificateButton',
      'enableDisplaySettings',
      'enableFactoryResetSection',
-@@ -2247,6 +2283,7 @@ cr.define('options', function() {
+@@ -2249,6 +2285,7 @@ cr.define('options', function() {
      'setNetworkPredictionValue',
      'setNowSectionVisible',
      'setHighContrastCheckboxState',
@@ -558,8 +558,8 @@ Index: dev.xenial/chrome/browser/resources/options/options.html
    <include src="language_options.html">
    <include src="manage_profile_overlay.html">
    <include src="password_manager.html">
-@@ -150,6 +152,7 @@
-   <include src="autofill_edit_creditcard_overlay.html">
+@@ -151,6 +153,7 @@
+   <include src="clear_browser_data_history_notice_overlay.html">
    <include src="content_settings_exceptions_area.html">
    <include src="cookies_view.html">
 +  <include src="desktop_integration_add_website_overlay.html">
@@ -570,7 +570,7 @@ Index: dev.xenial/chrome/browser/resources/options/options.js
 ===================================================================
 --- dev.xenial.orig/chrome/browser/resources/options/options.js
 +++ dev.xenial/chrome/browser/resources/options/options.js
-@@ -15,6 +15,8 @@ var ContentSettingsExceptionsArea =
+@@ -16,6 +16,8 @@ var ContentSettingsExceptionsArea =
      options.contentSettings.ContentSettingsExceptionsArea;
  var ContentSettings = options.ContentSettings;
  var CookiesView = options.CookiesView;
@@ -579,7 +579,7 @@ Index: dev.xenial/chrome/browser/resources/options/options.js
  var CreateProfileOverlay = options.CreateProfileOverlay;
  var EditDictionaryOverlay = cr.IsMac ? null : options.EditDictionaryOverlay;
  var EasyUnlockTurnOffOverlay = options.EasyUnlockTurnOffOverlay;
-@@ -130,6 +132,17 @@ function load() {
+@@ -134,6 +136,17 @@ function load() {
    PageManager.registerOverlay(FontSettings.getInstance(),
                                BrowserOptions.getInstance(),
                                [$('fontSettingsCustomizeFontsButton')]);
@@ -601,7 +601,7 @@ Index: dev.xenial/chrome/browser/resources/options/options_bundle.js
 ===================================================================
 --- dev.xenial.orig/chrome/browser/resources/options/options_bundle.js
 +++ dev.xenial/chrome/browser/resources/options/options_bundle.js
-@@ -83,6 +83,8 @@ var CertificateImportErrorOverlay = opti
+@@ -84,6 +84,8 @@ var CertificateImportErrorOverlay = opti
  <include src="content_settings_ui.js">
  <include src="cookies_list.js">
  <include src="cookies_view.js">
@@ -1019,7 +1019,7 @@ Index: dev.xenial/chrome/chrome_browser_ui.gypi
 ===================================================================
 --- dev.xenial.orig/chrome/chrome_browser_ui.gypi
 +++ dev.xenial/chrome/chrome_browser_ui.gypi
-@@ -1939,6 +1939,8 @@
+@@ -1949,6 +1949,8 @@
        'browser/ui/webui/options/core_options_handler.h',
        'browser/ui/webui/options/create_profile_handler.cc',
        'browser/ui/webui/options/create_profile_handler.h',
@@ -1028,7 +1028,7 @@ Index: dev.xenial/chrome/chrome_browser_ui.gypi
        'browser/ui/webui/options/easy_unlock_handler.cc',
        'browser/ui/webui/options/easy_unlock_handler.h',
        'browser/ui/webui/options/font_settings_handler.cc',
-@@ -3089,6 +3091,7 @@
+@@ -3091,6 +3093,7 @@
            ],
          }],
          ['use_aura==1 and chromeos==0 and use_ozone==0 and OS=="linux"', {
@@ -1036,3 +1036,15 @@ Index: dev.xenial/chrome/chrome_browser_ui.gypi
            'dependencies': [
              # gtk2 is the only component that can interact with gtk2 in our new
              # world.
+Index: dev.xenial/chrome/browser/ui/BUILD.gn
+===================================================================
+--- dev.xenial.orig/chrome/browser/ui/BUILD.gn
++++ dev.xenial/chrome/browser/ui/BUILD.gn
+@@ -313,6 +313,7 @@ source_set("ui") {
+   }
+   if (use_aura && !use_ozone && is_desktop_linux) {
+     deps += [
++      "//build/config/linux:glib",
+       "//build/linux:gio",
+ 
+       # gtk2 is the only component that can interact with gtk2 in our new

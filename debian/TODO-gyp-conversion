@@ -1,0 +1,17 @@
+# debian/patches/5-desktop-integration-settings.patch
+# debian/patches/arm.patch
+# debian/patches/dont-load-nacl-nonsfi.patch ## Might need to come back to this
+# debian/patches/enable_vaapi_on_linux.diff
+# debian/patches/fix-pnacl-irt-shim-build.patch ## Skipped
+# debian/patches/gsettings-display-scaling
+# debian/patches/linker-asneeded-bug.patch
+# debian/patches/mir-ozone-module ## Skipped
+# debian/patches/mir-support ## Skipped
+# debian/patches/remove-libgcceh.patch ## Might need to come back to this
+# debian/patches/use-system-clang
+debian/patches/wayland-0001-Browser-Support-Desktop-Aura-creation-on-Ozone.patch
+debian/patches/wayland-0002-Remove-usage-of-DesktopFactory.patch
+debian/patches/wayland-0003-Add-support-to-provide-external-ozone-files-in-views.patch
+debian/patches/wayland-0005-Media-Build-VaapiPictureWayland-as-part-of-Media.patch
+debian/patches/wayland-0008-Add-file-picker-support-using-WebUI.patch
+debian/patches/wayland-0016-fix-dependencies.patch

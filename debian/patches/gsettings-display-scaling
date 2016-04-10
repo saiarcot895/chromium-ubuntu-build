@@ -23,7 +23,7 @@ Index: dev.xenial/ui/views/views.gyp
 ===================================================================
 --- dev.xenial.orig/ui/views/views.gyp
 +++ dev.xenial/ui/views/views.gyp
-@@ -753,6 +753,7 @@
+@@ -760,6 +760,7 @@
            'dependencies': [
              '../../build/linux/system.gyp:x11',
              '../../build/linux/system.gyp:xrandr',
@@ -49,7 +49,7 @@ Index: dev.xenial/ui/views/widget/desktop_aura/desktop_screen_x11.cc
  #undef RootWindow
  
  #include "base/logging.h"
-@@ -282,6 +287,29 @@ std::vector<gfx::Display> DesktopScreenX
+@@ -285,6 +290,29 @@ std::vector<gfx::Display> DesktopScreenX
      return GetFallbackDisplayList();
    }
  
@@ -79,7 +79,7 @@ Index: dev.xenial/ui/views/widget/desktop_aura/desktop_screen_x11.cc
    bool has_work_area = false;
    gfx::Rect work_area_in_pixels;
    std::vector<int> value;
-@@ -293,7 +321,7 @@ std::vector<gfx::Display> DesktopScreenX
+@@ -296,7 +324,7 @@ std::vector<gfx::Display> DesktopScreenX
  
    // As per-display scale factor is not supported right now,
    // the X11 root window's scale factor is always used.
@@ -88,7 +88,7 @@ Index: dev.xenial/ui/views/widget/desktop_aura/desktop_screen_x11.cc
    for (int i = 0; i < resources->noutput; ++i) {
      RROutput output_id = resources->outputs[i];
      gfx::XScopedPtr<XRROutputInfo,
-@@ -320,7 +348,27 @@ std::vector<gfx::Display> DesktopScreenX
+@@ -323,7 +351,27 @@ std::vector<gfx::Display> DesktopScreenX
        gfx::Rect crtc_bounds(crtc->x, crtc->y, crtc->width, crtc->height);
        gfx::Display display(display_id, crtc_bounds);
  
@@ -117,3 +117,15 @@ Index: dev.xenial/ui/views/widget/desktop_aura/desktop_screen_x11.cc
          display.SetScaleAndBounds(device_scale_factor, crtc_bounds);
        }
  
+Index: dev.xenial/ui/views/BUILD.gn
+===================================================================
+--- dev.xenial.orig/ui/views/BUILD.gn
++++ dev.xenial/ui/views/BUILD.gn
+@@ -101,6 +101,7 @@ component("views") {
+     configs += [
+       "//build/config/linux:x11",
+       "//build/config/linux:xrandr",
++      "//build/config/linux:gio",
+     ]
+     deps += [
+       "//ui/events/devices",

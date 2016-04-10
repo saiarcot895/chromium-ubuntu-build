@@ -2,7 +2,7 @@ Index: dev.xenial/chrome/browser/background/background_mode_manager.cc
 ===================================================================
 --- dev.xenial.orig/chrome/browser/background/background_mode_manager.cc
 +++ dev.xenial/chrome/browser/background/background_mode_manager.cc
-@@ -356,7 +356,7 @@ void BackgroundModeManager::RegisterPref
+@@ -355,7 +355,7 @@ void BackgroundModeManager::RegisterPref
    registry->RegisterBooleanPref(prefs::kChromeCreatedLoginItem, false);
    registry->RegisterBooleanPref(prefs::kMigratedLoginItemPref, false);
  #endif

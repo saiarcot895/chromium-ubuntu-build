@@ -40,7 +40,7 @@ DISTRIBUTION=DEBIAN
 endif
 
 WANT_DEBUG       := 0
-WANT_WAYLAND     := 1
+WANT_WAYLAND     := 0
 
 # System libs off. Rationalle: We usually want to use as many system libraries
 # as possible, as a security measure. If there's a security problem in one, the
@@ -76,12 +76,14 @@ GYP_DEFINES += werror=$(NULL)
 # autodetection for arm.
 GYP_DEFINES += use_sysroot=0
 GYP_DEFINES += sysroot=
+GN_DEFINES += use_sysroot=false
 
 # Link directly to library instead of using dlopen.
 GYP_DEFINES += linux_link_gsettings=1
 
 # Disable NaCl temporarily, until gyp bug is fixed
 GYP_DEFINES += disable_nacl=1
+GN_DEFINES += enable_nacl=false
 
 ifneq (,$(filter 12.04%,$(UBUNTU_DIST)))
 # Disable NaCl for Precise until the toolchain is built
@@ -90,6 +92,7 @@ else
  ifneq (,$(filter arm%,$(DEB_HOST_ARCH_CPU)))
 # Disable NaCl for arm until the toolchain is built
 GYP_DEFINES += disable_nacl=1
+GN_DEFINES += enable_nacl=false
  else
 # Don't build anything related to newlib or glibc, as it's not needed for the
 # core NaCl
@@ -99,16 +102,20 @@ endif
 
 # do not use third_party/gold as the linker.
 GYP_DEFINES += linux_use_gold_binary=0 linux_use_gold_flags=0
+GN_DEFINES += use_gold=false
 
 # get resources for high dpi and touch
 GYP_DEFINES += enable_hidpi=1
 GYP_DEFINES += enable_touch_ui=1
+GN_DEFINES += enable_hidpi=true
 
 # add support and stubbed implementation of widevine (needed for EME)
 GYP_DEFINES += enable_widevine=1
+GN_DEFINES += enable_widevine=true
 
 # disable field trial tests
 GYP_DEFINES += fieldtrial_testing_like_official_build=1
+GN_DEFINES += fieldtrial_testing_like_official_build=true
 
 # Intentional configuration, not bug work-arounds.
 ifeq (arm,$(DEB_HOST_ARCH_CPU))
@@ -118,6 +125,11 @@ GYP_DEFINES += \
 	target_arch=arm \
 	use_cups=1 \
 	$(NULL)
+GN_DEFINES += \
+	arm_use_neon=false \
+	target_cpu=arm \
+	use_cups=true \
+	$(NULL)
 
  ifeq (armel,$(DEB_HOST_ARCH))
 GYP_DEFINES += \
@@ -125,6 +137,11 @@ GYP_DEFINES += \
 	arm_float_abi=soft \
 	arm_thumb=0 \
 	armv7=0 \
+	$(NULL)
+GN_DEFINES += \
+	arm_float_abi=soft \
+	arm_use_thumb=false \
+	arm_version=6 \
 	$(NULL)
  endif
  ifeq (armhf,$(DEB_HOST_ARCH))
@@ -140,6 +157,13 @@ GYP_DEFINES += \
 	armv7=1 \
 	arm_version=7 \
 	$(NULL)
+GN_DEFINES += \
+	arm_optionally_use_neon=false \
+	arm_fpu=vfpv3-d16 \
+	arm_float_abi=hard \
+	arm_use_thumb=true \
+	arm_version=7 \
+	$(NULL)
  endif
 endif
 ifeq (arm64,$(DEB_HOST_ARCH))
@@ -148,14 +172,22 @@ GYP_DEFINES += \
 	target_arch=arm64 \
 	use_cups=1 \
 	$(NULL)
+GN_DEFINES += \
+	arm_use_neon=true \
+	target_cpu=arm64 \
+	use_cups=1 \
+	$(NULL)
 endif
 ifeq (amd64,$(DEB_HOST_ARCH))
 GYP_DEFINES += target_arch=x64
+GN_DEFINES += target_cpu=x64
 endif
 ifeq (i386,$(DEB_HOST_ARCH))
 GYP_DEFINES += target_arch=ia32
+GN_DEFINES += target_cpu=x86
 # SEGV on component builds, 2013-05
 GYP_DEFINES += use_allocator=none
+GN_DEFINES += use_allocator=none
 endif
 
 # Do this for every architecture. More than 4GB of memory is too much to expect
@@ -164,11 +196,14 @@ COMPONENT_SHARED_LIB_BUILD := 1
 
 ifeq (1,$(COMPONENT_SHARED_LIB_BUILD))
 BROWSER_GYP_DEFINES += component=shared_library
+BROWSER_GN_DEFINES += is_component_build=true
 FFMPEG_MT_GYP_DEFINES += component=shared_library
+FFMPEG_MT_GN_DEFINES += is_component_build=true
 endif
 
 # Webkit library is enormous. Exclude for now.
 GYP_DEFINES += remove_webcore_debug_symbols=1
+GN_DEFINES += remove_webcore_debug_symbols=1
 
 # Don't let dh_installinit install *.default in /etc/default
 DEB_DH_INSTALLINIT_ARGS += --noscripts --onlyscripts
@@ -183,12 +218,10 @@ GYP_DEFINES += linux_dump_symbols=1
 endif
 
 BUILD_ARGS += -C $(DEB_TAR_SRCDIR)/out/$(BUILD_TYPE)
-GN_BUILD_ARGS += -C $(DEB_TAR_SRCDIR)/out/$(BUILD_TYPE)
 
 # Verbose?
 ifeq (1,$(VERBOSE))
 BUILD_ARGS += -v
-GN_BUILD_ARGS += -v
 endif
 
 # Shared libraries
@@ -213,12 +246,17 @@ subst_files = \
 BROWSER_GYP_DEFINES += \
 	proprietary_codecs=1 \
 	$(NULL)
+BROWSER_GN_DEFINES += \
+	proprietary_codecs=1 \
+	$(NULL)
 FFMPEG_MT_GYP_DEFINES += \
 	use_system_vpx=0 \
 	release_extra_cflags=-g \
 	$(NULL)
 FFMPEG_MT_STD_GYP_DEFINES   = $(NULL)
+FFMPEG_MT_STD_GN_DEFINES    = is_chrome_branded=false
 FFMPEG_MT_EXTRA_GYP_DEFINES = ffmpeg_branding=Chrome
+FFMPEG_MT_EXTRA_GN_DEFINES  = is_chrome_branded=true
 
 # Precise and earlier don't set some settings.
 ifeq (,$(filter 12.04%,$(UBUNTU_DIST)))
@@ -295,7 +333,7 @@ override_dh_auto_configure:
 	# Don't configure here. We configure and build many times in 'build'.
 
 # There are three things to build. Standard, ffmpeg simple, and ffmpeg full.
-override_dh_auto_build: build-stamp build-stamp-ffmpeg-std build-stamp-ffmpeg-extra
+override_dh_auto_build: build-stamp-gn build-stamp-ffmpeg-std build-stamp-ffmpeg-extra
 
 override_dh_fixperms:
 	dh_fixperms --exclude $(DEB_FIXPERMS_EXCLUDE)
@@ -411,28 +449,18 @@ configure-stamp-gn:
 		rm -r chromium-$(DEBIAN_UPSTREAM_VERSION); \
 	fi
 	
-	# Disable default behavior of using gn
-	patch -p 1 -i debian/patches/disable_gn.patch
-	
 	cd $(SRC_DIR) && $(GYP_ENV) $(CROSS_BUILD) python build/gyp_chromium tools/gn/gn.gyp $(GYP_PARAMS)
 	
-	# Re-enable behavior of using gn
-	patch -p 1 -R -i debian/patches/disable_gn.patch
 	touch $@
 
 build-stamp-gn: configure-stamp-gn
 	@set -eux
 	
-	### build
-	$(NINJA) -C $(DEB_TAR_SRCDIR)/out/Release $(GN_BUILD_ARGS) gn
-	
-	# Copy the binary to the location expected by the build system
-	cp $(DEB_TAR_SRCDIR)/out/Release/gn $(DEB_TAR_SRCDIR)/tools/gn/bin/linux
-ifeq (32,$(DEB_BUILD_ARCH_BITS))
-	mv $(DEB_TAR_SRCDIR)/tools/gn/bin/linux/gn $(DEB_TAR_SRCDIR)/tools/gn/bin/linux/gn32
-endif
+	$(NINJA) -C $(DEB_TAR_SRCDIR)/out/Release -v gn
+	cp $(DEB_TAR_SRCDIR)/out/Release/gn $(DEB_TAR_SRCDIR)
 	
 	rm -rf $(DEB_TAR_SRCDIR)/out
+	
 	touch $@
 
 debian/chromium-browser.sh: debian/chromium-browser.sh.in
@@ -445,10 +473,7 @@ debian/chromium-browser.sh: debian/chromium-browser.sh.in
 	    $< > $@
 
 configure: configure-stamp
-configure-stamp: GYP_ENV = GYP_GENERATORS=ninja
-configure-stamp: GYP_ENV += GYP_DEFINES="$(GYP_DEFINES) $(BROWSER_GYP_DEFINES)"
-configure-stamp: debian/chromium-browser.sh
-configure-stamp:
+configure-stamp: debian/chromium-browser.sh build-stamp-gn
 	@set -eux
 	if [ -d chromium-$(DEBIAN_UPSTREAM_VERSION) ]; then \
 		mv chromium-$(DEBIAN_UPSTREAM_VERSION)/* . ; \
@@ -459,13 +484,10 @@ configure-stamp:
 		mv wayland ozone ; \
 	fi
 	
-	# Fix (hopefully temporary) gyp/packaging bug
-	touch chrome/test/data/webui/i18n_process_css_test.html
-	
 	# Add symlink to Native Client toolchain
 	ln -s /usr/lib/$(DEB_HOST_MULTIARCH)/native-client/ native_client/toolchain
 	
-	cd $(SRC_DIR) && $(GYP_ENV) $(CROSS_BUILD) python build/gyp_chromium build/all.gyp $(GYP_PARAMS)
+	$(DEB_TAR_SRCDIR)/gn gen $(DEB_TAR_SRCDIR)/out/$(BUILD_TYPE) --args="$(GN_DEFINES) $(BROWSER_GN_DEFINES)"
 	
 	touch $@
 
@@ -474,17 +496,17 @@ build-stamp: configure-stamp
 	$(NINJA) $(BUILD_ARGS) $(BUILD_TARGETS)
 	touch $@
 
-configure-stamp-ffmpeg-%:
+configure-stamp-ffmpeg-%: GYP_DEFINES += $(FFMPEG_MT_$(subst std,STD,$(subst extra,EXTRA,$*))_GYP_DEFINES) $(FFMPEG_MT_GYP_DEFINES)
+configure-stamp-ffmpeg-%: build-stamp-gn
 	@set -eux
-	cd $(SRC_DIR) && GYP_DEFINES="$(GYP_DEFINES)" $(CROSS_BUILD) GYP_GENERATORS=ninja build/gyp_chromium --depth=$(SRC_DIR) $(FFMPEG_DIR)/ffmpeg.gyp $(GYP_PARAMS)
+	$(DEB_TAR_SRCDIR)/gn gen $(DEB_TAR_SRCDIR)/out/$(BUILD_TYPE)-ffmpeg-$* --args="$(FFMPEG_MT_$(subst std,STD,$(subst extra,EXTRA,$*))_GN_DEFINES) $(FFMPEG_MT_GN_DEFINES)"
 	touch $@
 
-build-stamp-ffmpeg-%: GYP_DEFINES += $(FFMPEG_MT_$(subst std,STD,$(subst extra,EXTRA,$*))_GYP_DEFINES) $(FFMPEG_MT_GYP_DEFINES)
 build-stamp-ffmpeg-%: configure-stamp-ffmpeg-%
 	@set -eux
-	$(NINJA) $(BUILD_ARGS)
+	$(NINJA) -v -C $(DEB_TAR_SRCDIR)/out/$(BUILD_TYPE)-ffmpeg-$*
 	mkdir -p debian/tmp-$*/$(LIB_DIR)/libs
-	cp $(SRC_DIR)/out/$(BUILD_TYPE)/lib/libffmpeg.so $(CURDIR)/debian/tmp-$*/$(LIB_DIR)/libs
+	cp $(DEB_TAR_SRCDIR)/out/$(BUILD_TYPE)-ffmpeg-$*/lib/libffmpeg.so $(CURDIR)/debian/tmp-$*/$(LIB_DIR)/libs
 	touch $@
 
 # These are (leading-slash-less) files that are created by upstream builder,

@@ -6,7 +6,7 @@ Index: dev.xenial/build/common.gypi
 ===================================================================
 --- dev.xenial.orig/build/common.gypi
 +++ dev.xenial/build/common.gypi
-@@ -2428,8 +2428,8 @@
+@@ -2444,8 +2444,8 @@
        }],
  
        ['host_clang==1', {
@@ -17,3 +17,20 @@ Index: dev.xenial/build/common.gypi
        }, {
          'host_cc': '<!(which gcc)',
          'host_cxx': '<!(which g++)',
+Index: dev.xenial/build/toolchain/gcc_toolchain.gni
+===================================================================
+--- dev.xenial.orig/build/toolchain/gcc_toolchain.gni
++++ dev.xenial/build/toolchain/gcc_toolchain.gni
+@@ -446,10 +446,8 @@ template("clang_toolchain") {
+   }
+ 
+   gcc_toolchain(target_name) {
+-    prefix = rebase_path("//third_party/llvm-build/Release+Asserts/bin",
+-                         root_build_dir)
+-    cc = "$prefix/clang"
+-    cxx = "$prefix/clang++"
++    cc = "clang"
++    cxx = "clang++"
+     ld = cxx
+     is_clang = true
+ 
