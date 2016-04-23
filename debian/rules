@@ -71,14 +71,12 @@ endif
 
 # Don't fail on compilation warnings
 GYP_DEFINES += werror=$(NULL)
-GYP_GN_DEFINES += werror=$(NULL)
+GN_DEFINES += treat_warnings_as_errors=false
 
 # We are never using a sysroot-based toolchain; override the wrong
 # autodetection for arm.
 GYP_DEFINES += use_sysroot=0
 GYP_DEFINES += sysroot=
-GYP_GN_DEFINES += use_sysroot=0
-GYP_GN_DEFINES += sysroot=
 GN_DEFINES += use_sysroot=false
 FFMPEG_MT_GN_DEFINES += use_sysroot=false
 
@@ -106,7 +104,6 @@ endif
 
 # do not use third_party/gold as the linker.
 GYP_DEFINES += linux_use_gold_binary=0 linux_use_gold_flags=0
-GYP_GN_DEFINES += linux_use_gold_binary=0 linux_use_gold_flags=0
 GN_DEFINES += use_gold=false
 
 # get resources for high dpi and touch
@@ -126,11 +123,6 @@ GN_DEFINES += fieldtrial_testing_like_official_build=true
 ifeq (arm,$(DEB_HOST_ARCH_CPU))
 
 GYP_DEFINES += \
-	arm_neon=0 \
-	target_arch=arm \
-	use_cups=1 \
-	$(NULL)
-GYP_GN_DEFINES += \
 	arm_neon=0 \
 	target_arch=arm \
 	use_cups=1 \
@@ -172,15 +164,6 @@ GYP_DEFINES += \
 	armv7=1 \
 	arm_version=7 \
 	$(NULL)
-GYP_GN_DEFINES += \
-	arm_neon_optional=0 \
-	v8_use_arm_eabi_hardfloat=true \
-	arm_fpu=vfpv3-d16 \
-	arm_float_abi=hard \
-	arm_thumb=1 \
-	armv7=1 \
-	arm_version=7 \
-	$(NULL)
 GN_DEFINES += \
 	arm_optionally_use_neon=false \
 	arm_fpu=vfpv3-d16 \
@@ -203,11 +186,6 @@ GYP_DEFINES += \
 	target_arch=arm64 \
 	use_cups=1 \
 	$(NULL)
-GYP_GN_DEFINES += \
-	arm_neon=1 \
-	target_arch=arm64 \
-	use_cups=1 \
-	$(NULL)
 GN_DEFINES += \
 	arm_use_neon=true \
 	target_cpu=arm64 \
@@ -221,18 +199,15 @@ FFMPEG_MT_GN_DEFINES += \
 endif
 ifeq (amd64,$(DEB_HOST_ARCH))
 GYP_DEFINES += target_arch=x64
-GYP_GN_DEFINES += target_arch=x64
 GN_DEFINES += target_cpu=x64
 FFMPEG_MT_GN_DEFINES += target_cpu=x64
 endif
 ifeq (i386,$(DEB_HOST_ARCH))
 GYP_DEFINES += target_arch=ia32
-GYP_GN_DEFINES += target_arch=ia32
 GN_DEFINES += target_cpu=x86
 FFMPEG_MT_GN_DEFINES += target_cpu=x86
 # SEGV on component builds, 2013-05
 GYP_DEFINES += use_allocator=none
-GYP_GN_DEFINES += use_allocator=none
 GN_DEFINES += use_allocator=none
 endif
 
@@ -347,7 +322,6 @@ GN_DEFINES += is_clang=false
 else
 CROSS_BUILD = CC=$(shell which gcc) CXX=$(shell which g++)
 GYP_DEFINES += clang=0
-GYP_GN_DEFINES += clang=0
 GN_DEFINES += is_clang=false
 endif
 endif
@@ -491,22 +465,18 @@ override_dh_clean:
 # By default, Chromium expects a binary file that generates the build files. Fortunately,
 # the source files for gn (the binary) are present in the source tree. This section
 # disables the default behavior, falls back to gyp, builds gn, and use that as the binary.
-configure-stamp-gn: GYP_ENV = GYP_GENERATORS=ninja
-configure-stamp-gn: GYP_ENV += GYP_DEFINES="clang=0"
 configure-stamp-gn:
 	if [ -d chromium-$(DEBIAN_UPSTREAM_VERSION) ]; then \
 		mv chromium-$(DEBIAN_UPSTREAM_VERSION)/* . ; \
 		rm -r chromium-$(DEBIAN_UPSTREAM_VERSION); \
 	fi
 	
-	cd $(SRC_DIR) && $(GYP_ENV) $(CROSS_BUILD) python build/gyp_chromium tools/gn/gn.gyp $(GYP_PARAMS)
-	
 	touch $@
 
 build-stamp-gn: configure-stamp-gn
 	@set -eux
 	
-	$(NINJA) -C $(DEB_TAR_SRCDIR)/out/Release -v gn
+	tools/gn/bootstrap/bootstrap.py -v --gn-gen-args "$(GN_DEFINES)"
 	cp $(DEB_TAR_SRCDIR)/out/Release/gn $(DEB_TAR_SRCDIR)
 	
 	rm -rf $(DEB_TAR_SRCDIR)/out
