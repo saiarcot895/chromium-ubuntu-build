@@ -45,7 +45,7 @@ Index: dev.xenial/tools/gn/args.cc
 +    arch = kArm64;
    else
 -    CHECK(false) << "OS architecture not handled.";
-+    CHECK(false) << "OS architecture not handled: " + arch;
++    CHECK(false) << "OS architecture not handled: " << arch;
  
    // Save the OS and architecture as build arguments that are implicitly
    // declared. This is so they can be overridden in a toolchain build args
