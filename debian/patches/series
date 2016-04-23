@@ -54,3 +54,4 @@ tcmalloc-add-support-for-arm64.patch
 #wayland-0016-fix-dependencies.patch
 ### END Wayland patches ###
 #wayland-0017-switch-to-stdint.patch
+gn-add-support-for-arm64.patch

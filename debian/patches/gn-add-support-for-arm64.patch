@@ -1,0 +1,51 @@
+Index: dev.xenial/build/toolchain/linux/BUILD.gn
+===================================================================
+--- dev.xenial.orig/build/toolchain/linux/BUILD.gn
++++ dev.xenial/build/toolchain/linux/BUILD.gn
+@@ -27,6 +27,22 @@ gcc_toolchain("arm") {
+   is_clang = false
+ }
+ 
++gcc_toolchain("arm64") {
++  toolprefix = "aarch64-linux-gnueabihf-"
++
++  cc = "${toolprefix}gcc"
++  cxx = "${toolprefix}g++"
++
++  ar = "${toolprefix}ar"
++  ld = cxx
++  readelf = "${toolprefix}readelf"
++  nm = "${toolprefix}nm"
++
++  toolchain_cpu = "arm64"
++  toolchain_os = "linux"
++  is_clang = false
++}
++
+ clang_toolchain("clang_x86") {
+   toolchain_cpu = "x86"
+   toolchain_os = "linux"
+Index: dev.xenial/tools/gn/args.cc
+===================================================================
+--- dev.xenial.orig/tools/gn/args.cc
++++ dev.xenial/tools/gn/args.cc
+@@ -245,6 +245,7 @@ void Args::SetSystemVarsLocked(Scope* de
+   static const char kX86[] = "x86";
+   static const char kX64[] = "x64";
+   static const char kArm[] = "arm";
++  static const char kArm64[] = "arm64";
+   const char* arch = nullptr;
+ 
+   // Set the host CPU architecture based on the underlying OS, not
+@@ -256,8 +257,10 @@ void Args::SetSystemVarsLocked(Scope* de
+     arch = kX64;
+   else if (os_arch.substr(3) == "arm")
+     arch = kArm;
++  else if (os_arch == "aarch64")
++    arch = kArm64;
+   else
+-    CHECK(false) << "OS architecture not handled.";
++    CHECK(false) << "OS architecture not handled: " + arch;
+ 
+   // Save the OS and architecture as build arguments that are implicitly
+   // declared. This is so they can be overridden in a toolchain build args
