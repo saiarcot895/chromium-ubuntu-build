@@ -129,12 +129,12 @@ GYP_DEFINES += \
 	$(NULL)
 GN_DEFINES += \
 	arm_use_neon=false \
-	target_cpu=arm \
+	target_cpu="arm" \
 	use_cups=true \
 	$(NULL)
 FFMPEG_MT_GN_DEFINES += \
 	arm_use_neon=false \
-	target_cpu=arm \
+	target_cpu="arm" \
 	use_cups=true \
 	$(NULL)
 
@@ -146,7 +146,7 @@ GYP_DEFINES += \
 	armv7=0 \
 	$(NULL)
 GN_DEFINES += \
-	arm_float_abi=soft \
+	arm_float_abi="soft" \
 	arm_use_thumb=false \
 	arm_version=6 \
 	$(NULL)
@@ -166,15 +166,15 @@ GYP_DEFINES += \
 	$(NULL)
 GN_DEFINES += \
 	arm_optionally_use_neon=false \
-	arm_fpu=vfpv3-d16 \
-	arm_float_abi=hard \
+	arm_fpu="vfpv3-d16" \
+	arm_float_abi="hard" \
 	arm_use_thumb=true \
 	arm_version=7 \
 	$(NULL)
 FFMPEG_MT_GN_DEFINES += \
 	arm_optionally_use_neon=false \
-	arm_fpu=vfpv3-d16 \
-	arm_float_abi=hard \
+	arm_fpu="vfpv3-d16" \
+	arm_float_abi="hard" \
 	arm_use_thumb=true \
 	arm_version=7 \
 	$(NULL)
@@ -188,27 +188,27 @@ GYP_DEFINES += \
 	$(NULL)
 GN_DEFINES += \
 	arm_use_neon=true \
-	target_cpu=arm64 \
-	use_cups=1 \
+	target_cpu="arm64" \
+	use_cups=true \
 	$(NULL)
 FFMPEG_MT_GN_DEFINES += \
 	arm_use_neon=true \
-	target_cpu=arm64 \
-	use_cups=1 \
+	target_cpu="arm64" \
+	use_cups=true \
 	$(NULL)
 endif
 ifeq (amd64,$(DEB_HOST_ARCH))
 GYP_DEFINES += target_arch=x64
-GN_DEFINES += target_cpu=x64
-FFMPEG_MT_GN_DEFINES += target_cpu=x64
+GN_DEFINES += target_cpu="x64"
+FFMPEG_MT_GN_DEFINES += target_cpu="x64"
 endif
 ifeq (i386,$(DEB_HOST_ARCH))
 GYP_DEFINES += target_arch=ia32
-GN_DEFINES += target_cpu=x86
-FFMPEG_MT_GN_DEFINES += target_cpu=x86
+GN_DEFINES += target_cpu="x86"
+FFMPEG_MT_GN_DEFINES += target_cpu="x86"
 # SEGV on component builds, 2013-05
 GYP_DEFINES += use_allocator=none
-GN_DEFINES += use_allocator=none
+GN_DEFINES += use_allocator="none"
 endif
 
 # Do this for every architecture. More than 4GB of memory is too much to expect
@@ -268,7 +268,7 @@ BROWSER_GYP_DEFINES += \
 	proprietary_codecs=1 \
 	$(NULL)
 BROWSER_GN_DEFINES += \
-	proprietary_codecs=1 \
+	proprietary_codecs=true \
 	$(NULL)
 FFMPEG_MT_GYP_DEFINES += \
 	use_system_vpx=0 \
@@ -476,7 +476,7 @@ configure-stamp-gn:
 build-stamp-gn: configure-stamp-gn
 	@set -eux
 	
-	tools/gn/bootstrap/bootstrap.py -v --gn-gen-args "$(GN_DEFINES)"
+	tools/gn/bootstrap/bootstrap.py -v --gn-gen-args '$(GN_DEFINES)'
 	cp $(DEB_TAR_SRCDIR)/out/Release/gn $(DEB_TAR_SRCDIR)
 	
 	rm -rf $(DEB_TAR_SRCDIR)/out
@@ -507,7 +507,7 @@ configure-stamp: debian/chromium-browser.sh build-stamp-gn
 	# Add symlink to Native Client toolchain
 	ln -s /usr/lib/$(DEB_HOST_MULTIARCH)/native-client/ native_client/toolchain
 	
-	$(DEB_TAR_SRCDIR)/gn gen $(DEB_TAR_SRCDIR)/out/$(BUILD_TYPE) --args="$(GN_DEFINES) $(BROWSER_GN_DEFINES)"
+	$(DEB_TAR_SRCDIR)/gn gen $(DEB_TAR_SRCDIR)/out/$(BUILD_TYPE) --args='$(GN_DEFINES) $(BROWSER_GN_DEFINES)'
 	
 	touch $@
 
