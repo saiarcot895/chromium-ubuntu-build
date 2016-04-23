@@ -1,3 +1,10 @@
+chromium-browser (51.0.2704.19-0ubuntu1~ppa1~15.10.1) wily; urgency=low
+
+  * New upstream version 51.0.2704.19
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 23 Apr 2016 08:45:06 -0400
+
 chromium-browser (51.0.2700.0-0ubuntu1~ppa5~15.10.1) wily; urgency=low
 
   * Specify clang isn't being used for building gn.

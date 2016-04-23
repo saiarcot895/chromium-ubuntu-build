@@ -6,7 +6,7 @@ Index: dev.xenial/build/common.gypi
 ===================================================================
 --- dev.xenial.orig/build/common.gypi
 +++ dev.xenial/build/common.gypi
-@@ -2444,8 +2444,8 @@
+@@ -2443,8 +2443,8 @@
        }],
  
        ['host_clang==1', {
@@ -21,7 +21,7 @@ Index: dev.xenial/build/toolchain/gcc_toolchain.gni
 ===================================================================
 --- dev.xenial.orig/build/toolchain/gcc_toolchain.gni
 +++ dev.xenial/build/toolchain/gcc_toolchain.gni
-@@ -446,10 +446,8 @@ template("clang_toolchain") {
+@@ -447,10 +447,8 @@ template("clang_toolchain") {
    }
  
    gcc_toolchain(target_name) {

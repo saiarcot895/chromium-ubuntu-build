@@ -121,7 +121,7 @@ Index: dev.xenial/chrome/browser/plugins/plugin_finder.cc
  PluginFinder::~PluginFinder() {
  #if defined(ENABLE_PLUGIN_INSTALLATION)
    STLDeleteValues(&installers_);
-@@ -322,15 +341,20 @@ void PluginFinder::ReinitializePlugins(
+@@ -308,15 +327,20 @@ void PluginFinder::ReinitializePlugins(
    if (version <= version_)
      return;
  
@@ -148,7 +148,7 @@ Index: dev.xenial/chrome/browser/plugins/plugin_finder.h
 ===================================================================
 --- dev.xenial.orig/chrome/browser/plugins/plugin_finder.h
 +++ dev.xenial/chrome/browser/plugins/plugin_finder.h
-@@ -86,6 +86,15 @@ class PluginFinder {
+@@ -77,6 +77,15 @@ class PluginFinder {
    // Returns NULL if the plugin list couldn't be parsed.
    static base::DictionaryValue* LoadBuiltInPluginList();
  

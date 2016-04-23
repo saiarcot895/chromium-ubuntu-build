@@ -77,6 +77,7 @@ GYP_DEFINES += werror=$(NULL)
 GYP_DEFINES += use_sysroot=0
 GYP_DEFINES += sysroot=
 GN_DEFINES += use_sysroot=false
+FFMPEG_MT_GN_DEFINES += use_sysroot=false
 
 # Link directly to library instead of using dlopen.
 GYP_DEFINES += linux_link_gsettings=1
@@ -130,6 +131,11 @@ GN_DEFINES += \
 	target_cpu=arm \
 	use_cups=true \
 	$(NULL)
+FFMPEG_MT_GN_DEFINES += \
+	arm_use_neon=false \
+	target_cpu=arm \
+	use_cups=true \
+	$(NULL)
 
  ifeq (armel,$(DEB_HOST_ARCH))
 GYP_DEFINES += \
@@ -164,6 +170,13 @@ GN_DEFINES += \
 	arm_use_thumb=true \
 	arm_version=7 \
 	$(NULL)
+FFMPEG_MT_GN_DEFINES += \
+	arm_optionally_use_neon=false \
+	arm_fpu=vfpv3-d16 \
+	arm_float_abi=hard \
+	arm_use_thumb=true \
+	arm_version=7 \
+	$(NULL)
  endif
 endif
 ifeq (arm64,$(DEB_HOST_ARCH))
@@ -177,14 +190,21 @@ GN_DEFINES += \
 	target_cpu=arm64 \
 	use_cups=1 \
 	$(NULL)
+FFMPEG_MT_GN_DEFINES += \
+	arm_use_neon=true \
+	target_cpu=arm64 \
+	use_cups=1 \
+	$(NULL)
 endif
 ifeq (amd64,$(DEB_HOST_ARCH))
 GYP_DEFINES += target_arch=x64
 GN_DEFINES += target_cpu=x64
+FFMPEG_MT_GN_DEFINES += target_cpu=x64
 endif
 ifeq (i386,$(DEB_HOST_ARCH))
 GYP_DEFINES += target_arch=ia32
 GN_DEFINES += target_cpu=x86
+FFMPEG_MT_GN_DEFINES += target_cpu=x86
 # SEGV on component builds, 2013-05
 GYP_DEFINES += use_allocator=none
 GN_DEFINES += use_allocator=none

@@ -32,6 +32,20 @@ better than the result I get on ARMv7:
 
 Patch modified to match Chromium's version.
 
+Index: dev.xenial/third_party/tcmalloc/chromium/src/base/arm_instruction_set_select.h
+===================================================================
+--- dev.xenial.orig/third_party/tcmalloc/chromium/src/base/arm_instruction_set_select.h
++++ dev.xenial/third_party/tcmalloc/chromium/src/base/arm_instruction_set_select.h
+@@ -35,7 +35,8 @@
+ #ifndef ARM_INSTRUCTION_SET_SELECT_H_
+ #define ARM_INSTRUCTION_SET_SELECT_H_
+ 
+-#if defined(__ARM_ARCH_8A__)
++#if defined(__ARM_ARCH_8A__) || \
++    defined(__aarch64__)
+ # define ARMV8 1
+ #endif
+ 
 Index: dev.xenial/third_party/tcmalloc/chromium/src/base/basictypes.h
 ===================================================================
 --- dev.xenial.orig/third_party/tcmalloc/chromium/src/base/basictypes.h
@@ -102,17 +116,3 @@ Index: dev.xenial/third_party/tcmalloc/chromium/src/malloc_hook_mmap_linux.h
  
  static inline void* do_mmap64(void *start, size_t length,
                                int prot, int flags,
-Index: dev.xenial/third_party/tcmalloc/chromium/src/base/arm_instruction_set_select.h
-===================================================================
---- dev.xenial.orig/third_party/tcmalloc/chromium/src/base/arm_instruction_set_select.h
-+++ dev.xenial/third_party/tcmalloc/chromium/src/base/arm_instruction_set_select.h
-@@ -35,7 +35,8 @@
- #ifndef ARM_INSTRUCTION_SET_SELECT_H_
- #define ARM_INSTRUCTION_SET_SELECT_H_
- 
--#if defined(__ARM_ARCH_8A__)
-+#if defined(__ARM_ARCH_8A__) || \
-+    defined(__aarch64__)
- # define ARMV8 1
- #endif
- 
