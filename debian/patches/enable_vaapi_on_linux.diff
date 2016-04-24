@@ -17,6 +17,15 @@ Index: dev.xenial/content/common/BUILD.gn
 ===================================================================
 --- dev.xenial.orig/content/common/BUILD.gn
 +++ dev.xenial/content/common/BUILD.gn
+@@ -11,7 +11,7 @@ if (is_mac) {
+   import("//build/config/mac/mac_sdk.gni")
+ }
+ 
+-if (is_chromeos && current_cpu != "arm") {
++if (is_linux && !(is_chromeos && current_cpu == "arm")) {
+   action("libva_generate_stubs") {
+     extra_header = "gpu/media/va_stub_header.fragment"
+ 
 @@ -347,7 +347,7 @@ source_set("common") {
      }
    }

@@ -1,3 +1,9 @@
+chromium-browser (51.0.2704.19-0ubuntu1~ppa8~14.04.1) trusty; urgency=low
+
+  * Fix gn in enable_vaapi_on_linux.patch
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 24 Apr 2016 08:46:51 -0400
+
 chromium-browser (51.0.2704.19-0ubuntu1~ppa7~14.04.1) trusty; urgency=low
 
   * Fix gn config/deps.
