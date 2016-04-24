@@ -1,3 +1,9 @@
+chromium-browser (51.0.2704.19-0ubuntu1~ppa9~15.10.1) wily; urgency=low
+
+  * Fix gn error (again).
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 24 Apr 2016 09:07:05 -0400
+
 chromium-browser (51.0.2704.19-0ubuntu1~ppa8~15.10.1) wily; urgency=low
 
   * Fix gn in enable_vaapi_on_linux.patch
