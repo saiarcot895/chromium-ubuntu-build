@@ -614,14 +614,16 @@ Index: dev.xenial/chrome/browser/ui/BUILD.gn
 ===================================================================
 --- dev.xenial.orig/chrome/browser/ui/BUILD.gn
 +++ dev.xenial/chrome/browser/ui/BUILD.gn
-@@ -313,6 +313,7 @@ source_set("ui") {
+@@ -312,6 +312,9 @@ source_set("ui") {
+     }
    }
    if (use_aura && !use_ozone && is_desktop_linux) {
-     deps += [
++    configs += [
 +      "//build/config/linux:glib",
++    ]
+     deps += [
        "//build/linux:gio",
  
-       # gtk2 is the only component that can interact with gtk2 in our new
 Index: dev.xenial/chrome/browser/ui/webui/options/browser_options_handler.cc
 ===================================================================
 --- dev.xenial.orig/chrome/browser/ui/webui/options/browser_options_handler.cc

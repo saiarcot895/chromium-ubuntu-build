@@ -1,3 +1,10 @@
+chromium-browser (51.0.2704.19-0ubuntu1~ppa7~16.04.1) xenial; urgency=low
+
+  * Fix gn config/deps.
+  * Possible fix for incorrect reading of architecture.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 24 Apr 2016 08:04:10 -0400
+
 chromium-browser (51.0.2704.19-0ubuntu1~ppa6~16.04.1) xenial; urgency=low
 
   * Fix compile error.

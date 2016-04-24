@@ -37,15 +37,18 @@ Index: dev.xenial/tools/gn/args.cc
    const char* arch = nullptr;
  
    // Set the host CPU architecture based on the underlying OS, not
-@@ -256,8 +257,10 @@ void Args::SetSystemVarsLocked(Scope* de
+@@ -254,10 +255,12 @@ void Args::SetSystemVarsLocked(Scope* de
+     arch = kX86;
+   else if (os_arch == "x86_64")
      arch = kX64;
-   else if (os_arch.substr(3) == "arm")
+-  else if (os_arch.substr(3) == "arm")
++  else if (os_arch.substr(0, 3) == "arm")
      arch = kArm;
 +  else if (os_arch == "aarch64")
 +    arch = kArm64;
    else
 -    CHECK(false) << "OS architecture not handled.";
-+    CHECK(false) << "OS architecture not handled: " << arch;
++    CHECK(false) << "OS architecture not handled: " << os_arch;
  
    // Save the OS and architecture as build arguments that are implicitly
    // declared. This is so they can be overridden in a toolchain build args
