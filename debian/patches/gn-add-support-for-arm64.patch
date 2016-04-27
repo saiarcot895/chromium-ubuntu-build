@@ -29,15 +29,15 @@ Index: dev.xenial/tools/gn/args.cc
 ===================================================================
 --- dev.xenial.orig/tools/gn/args.cc
 +++ dev.xenial/tools/gn/args.cc
-@@ -245,6 +245,7 @@ void Args::SetSystemVarsLocked(Scope* de
+@@ -232,6 +232,7 @@ void Args::SetSystemVarsLocked(Scope* de
    static const char kX86[] = "x86";
    static const char kX64[] = "x64";
    static const char kArm[] = "arm";
 +  static const char kArm64[] = "arm64";
+   static const char kMips[] = "mipsel";
    const char* arch = nullptr;
  
-   // Set the host CPU architecture based on the underlying OS, not
-@@ -254,10 +255,12 @@ void Args::SetSystemVarsLocked(Scope* de
+@@ -242,12 +243,14 @@ void Args::SetSystemVarsLocked(Scope* de
      arch = kX86;
    else if (os_arch == "x86_64")
      arch = kX64;
@@ -46,6 +46,8 @@ Index: dev.xenial/tools/gn/args.cc
      arch = kArm;
 +  else if (os_arch == "aarch64")
 +    arch = kArm64;
+   else if (os_arch == "mips")
+     arch = kMips;
    else
 -    CHECK(false) << "OS architecture not handled.";
 +    CHECK(false) << "OS architecture not handled: " << os_arch;

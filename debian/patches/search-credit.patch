@@ -18,7 +18,7 @@ Index: dev.xenial/components/search_engines/template_url.cc
 ===================================================================
 --- dev.xenial.orig/components/search_engines/template_url.cc
 +++ dev.xenial/components/search_engines/template_url.cc
-@@ -1032,7 +1032,7 @@ std::string TemplateURLRef::HandleReplac
+@@ -1070,7 +1070,7 @@ std::string TemplateURLRef::HandleReplac
  
        case GOOGLE_SEARCH_CLIENT: {
          DCHECK(!i->is_post_param);

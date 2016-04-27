@@ -4,7 +4,7 @@ Index: dev.xenial/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.xenial.orig/chrome/browser/about_flags.cc
 +++ dev.xenial/chrome/browser/about_flags.cc
-@@ -843,7 +843,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -834,7 +834,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_NAME,
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
@@ -26,7 +26,7 @@ Index: dev.xenial/content/common/BUILD.gn
    action("libva_generate_stubs") {
      extra_header = "gpu/media/va_stub_header.fragment"
  
-@@ -347,7 +347,7 @@ source_set("common") {
+@@ -342,7 +342,7 @@ source_set("common") {
      }
    }
  
@@ -35,7 +35,7 @@ Index: dev.xenial/content/common/BUILD.gn
      sources += [
        "gpu/media/accelerated_video_decoder.h",
        "gpu/media/h264_decoder.cc",
-@@ -392,13 +392,13 @@ source_set("common") {
+@@ -387,13 +387,13 @@ source_set("common") {
          "GLESv2",
        ]
      }
@@ -55,7 +55,7 @@ Index: dev.xenial/content/common/gpu/media/gpu_video_decode_accelerator.cc
 ===================================================================
 --- dev.xenial.orig/content/common/gpu/media/gpu_video_decode_accelerator.cc
 +++ dev.xenial/content/common/gpu/media/gpu_video_decode_accelerator.cc
-@@ -57,7 +57,7 @@ static bool MakeDecoderContextCurrent(
+@@ -58,7 +58,7 @@ static bool MakeDecoderContextCurrent(
    return true;
  }
  
@@ -64,7 +64,7 @@ Index: dev.xenial/content/common/gpu/media/gpu_video_decode_accelerator.cc
  static bool BindImage(const base::WeakPtr<gpu::GpuCommandBufferStub>& stub,
                        uint32_t client_texture_id,
                        uint32_t texture_target,
-@@ -169,7 +169,7 @@ GpuVideoDecodeAccelerator::GpuVideoDecod
+@@ -170,7 +170,7 @@ GpuVideoDecodeAccelerator::GpuVideoDecod
    get_gl_context_cb_ = base::Bind(&GetGLContext, stub_->AsWeakPtr());
    make_context_current_cb_ =
        base::Bind(&MakeDecoderContextCurrent, stub_->AsWeakPtr());
@@ -77,7 +77,7 @@ Index: dev.xenial/content/common/gpu/media/gpu_video_decode_accelerator_factory_
 ===================================================================
 --- dev.xenial.orig/content/common/gpu/media/gpu_video_decode_accelerator_factory_impl.cc
 +++ dev.xenial/content/common/gpu/media/gpu_video_decode_accelerator_factory_impl.cc
-@@ -13,14 +13,14 @@
+@@ -14,14 +14,14 @@
  #include "content/common/gpu/media/dxva_video_decode_accelerator_win.h"
  #elif defined(OS_MACOSX)
  #include "content/common/gpu/media/vt_video_decode_accelerator_mac.h"
@@ -94,7 +94,7 @@ Index: dev.xenial/content/common/gpu/media/gpu_video_decode_accelerator_factory_
  #include "content/common/gpu/media/vaapi_video_decode_accelerator.h"
  #include "ui/gl/gl_implementation.h"
  #endif
-@@ -78,7 +78,7 @@ GpuVideoDecodeAcceleratorFactoryImpl::Ge
+@@ -79,7 +79,7 @@ GpuVideoDecodeAcceleratorFactoryImpl::Ge
  #if defined(OS_WIN)
    capabilities.supported_profiles =
        DXVAVideoDecodeAccelerator::GetSupportedProfiles();
@@ -103,7 +103,7 @@ Index: dev.xenial/content/common/gpu/media/gpu_video_decode_accelerator_factory_
    media::VideoDecodeAccelerator::SupportedProfiles vda_profiles;
  #if defined(USE_V4L2_CODEC)
    vda_profiles = V4L2VideoDecodeAccelerator::GetSupportedProfiles();
-@@ -88,7 +88,7 @@ GpuVideoDecodeAcceleratorFactoryImpl::Ge
+@@ -89,7 +89,7 @@ GpuVideoDecodeAcceleratorFactoryImpl::Ge
    media::GpuVideoAcceleratorUtil::InsertUniqueDecodeProfiles(
        vda_profiles, &capabilities.supported_profiles);
  #endif
@@ -112,7 +112,7 @@ Index: dev.xenial/content/common/gpu/media/gpu_video_decode_accelerator_factory_
    vda_profiles = VaapiVideoDecodeAccelerator::GetSupportedProfiles();
    media::GpuVideoAcceleratorUtil::InsertUniqueDecodeProfiles(
        vda_profiles, &capabilities.supported_profiles);
-@@ -129,7 +129,7 @@ GpuVideoDecodeAcceleratorFactoryImpl::Cr
+@@ -130,7 +130,7 @@ GpuVideoDecodeAcceleratorFactoryImpl::Cr
      &GpuVideoDecodeAcceleratorFactoryImpl::CreateV4L2VDA,
      &GpuVideoDecodeAcceleratorFactoryImpl::CreateV4L2SVDA,
  #endif
@@ -121,37 +121,37 @@ Index: dev.xenial/content/common/gpu/media/gpu_video_decode_accelerator_factory_
      &GpuVideoDecodeAcceleratorFactoryImpl::CreateVaapiVDA,
  #endif
  #if defined(OS_MACOSX)
-@@ -194,10 +194,11 @@ GpuVideoDecodeAcceleratorFactoryImpl::Cr
+@@ -195,10 +195,11 @@ GpuVideoDecodeAcceleratorFactoryImpl::Cr
  }
  #endif
  
 -#if defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)
 +#if (defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)) || defined(OS_LINUX)
- scoped_ptr<media::VideoDecodeAccelerator>
+ std::unique_ptr<media::VideoDecodeAccelerator>
  GpuVideoDecodeAcceleratorFactoryImpl::CreateVaapiVDA(
      const gpu::GpuPreferences& gpu_preferences) const {
 +  VLOG(1) << "Creating new VAAPI video decode accelerator.";
-   scoped_ptr<media::VideoDecodeAccelerator> decoder;
+   std::unique_ptr<media::VideoDecodeAccelerator> decoder;
    decoder.reset(new VaapiVideoDecodeAccelerator(make_context_current_cb_,
                                                  bind_image_cb_));
 Index: dev.xenial/content/common/gpu/media/gpu_video_decode_accelerator_factory_impl.h
 ===================================================================
 --- dev.xenial.orig/content/common/gpu/media/gpu_video_decode_accelerator_factory_impl.h
 +++ dev.xenial/content/common/gpu/media/gpu_video_decode_accelerator_factory_impl.h
-@@ -95,7 +95,7 @@ public:
-   scoped_ptr<media::VideoDecodeAccelerator> CreateV4L2SVDA(
+@@ -99,7 +99,7 @@ public:
+   std::unique_ptr<media::VideoDecodeAccelerator> CreateV4L2SVDA(
        const gpu::GpuPreferences& gpu_preferences) const;
  #endif
 -#if defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)
 +#if (defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)) || defined(OS_LINUX)
-   scoped_ptr<media::VideoDecodeAccelerator> CreateVaapiVDA(
+   std::unique_ptr<media::VideoDecodeAccelerator> CreateVaapiVDA(
        const gpu::GpuPreferences& gpu_preferences) const;
  #endif
 Index: dev.xenial/content/common/gpu/media/vaapi_video_decode_accelerator.cc
 ===================================================================
 --- dev.xenial.orig/content/common/gpu/media/vaapi_video_decode_accelerator.cc
 +++ dev.xenial/content/common/gpu/media/vaapi_video_decode_accelerator.cc
-@@ -337,17 +337,17 @@ bool VaapiVideoDecodeAccelerator::Initia
+@@ -344,17 +344,17 @@ bool VaapiVideoDecodeAccelerator::Initia
  
    base::AutoLock auto_lock(lock_);
    DCHECK_EQ(state_, kUninitialized);
@@ -172,7 +172,7 @@ Index: dev.xenial/content/common/gpu/media/vaapi_video_decode_accelerator.cc
               << "EGLGLES2.";
      return false;
    }
-@@ -357,7 +357,7 @@ bool VaapiVideoDecodeAccelerator::Initia
+@@ -364,7 +364,7 @@ bool VaapiVideoDecodeAccelerator::Initia
        VaapiWrapper::kDecode, profile, base::Bind(&ReportToUMA, VAAPI_ERROR));
  
    if (!vaapi_wrapper_.get()) {
@@ -181,7 +181,7 @@ Index: dev.xenial/content/common/gpu/media/vaapi_video_decode_accelerator.cc
      return false;
    }
  
-@@ -374,7 +374,7 @@ bool VaapiVideoDecodeAccelerator::Initia
+@@ -381,7 +381,7 @@ bool VaapiVideoDecodeAccelerator::Initia
      vp9_accelerator_.reset(new VaapiVP9Accelerator(this, vaapi_wrapper_.get()));
      decoder_.reset(new VP9Decoder(vp9_accelerator_.get()));
    } else {
@@ -250,16 +250,16 @@ Index: dev.xenial/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 ===================================================================
 --- dev.xenial.orig/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 +++ dev.xenial/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
-@@ -22,6 +22,8 @@
+@@ -23,6 +23,8 @@
  #include "base/macros.h"
- #include "base/memory/scoped_ptr.h"
+ #include "base/memory/ptr_util.h"
  #include "build/build_config.h"
 +// Auto-generated for dlopen libva libraries
 +#include "content/common/gpu/media/va_stubs.h"
  #include "content/common/sandbox_linux/sandbox_bpf_base_policy_linux.h"
  #include "content/common/sandbox_linux/sandbox_seccomp_bpf_linux.h"
  #include "content/common/set_process_title.h"
-@@ -32,6 +34,8 @@
+@@ -33,6 +35,8 @@
  #include "sandbox/linux/syscall_broker/broker_file_permission.h"
  #include "sandbox/linux/syscall_broker/broker_process.h"
  #include "sandbox/linux/system_headers/linux_syscalls.h"
@@ -268,7 +268,7 @@ Index: dev.xenial/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  
  using sandbox::arch_seccomp_data;
  using sandbox::bpf_dsl::Allow;
-@@ -41,6 +45,11 @@ using sandbox::syscall_broker::BrokerFil
+@@ -42,6 +46,11 @@ using sandbox::syscall_broker::BrokerFil
  using sandbox::syscall_broker::BrokerProcess;
  using sandbox::SyscallSets;
  
@@ -280,7 +280,7 @@ Index: dev.xenial/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  namespace content {
  
  namespace {
-@@ -95,7 +104,7 @@ inline bool UseLibV4L2() {
+@@ -96,7 +105,7 @@ inline bool UseLibV4L2() {
  
  bool IsAcceleratedVaapiVideoEncodeEnabled() {
    bool accelerated_encode_enabled = false;
@@ -289,7 +289,7 @@ Index: dev.xenial/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
    const base::CommandLine& command_line =
        *base::CommandLine::ForCurrentProcess();
    accelerated_encode_enabled =
-@@ -295,32 +304,46 @@ bool GpuProcessPolicy::PreSandboxHook()
+@@ -296,32 +305,46 @@ bool GpuProcessPolicy::PreSandboxHook()
        GpuBrokerProcessPolicy::Create,
        std::vector<BrokerFilePermission>());  // No extra files in whitelist.
  
@@ -359,7 +359,7 @@ Index: dev.xenial/content/content_common.gypi
 ===================================================================
 --- dev.xenial.orig/content/content_common.gypi
 +++ dev.xenial/content/content_common.gypi
-@@ -790,7 +790,7 @@
+@@ -782,7 +782,7 @@
          },
        ],
      }],
@@ -368,7 +368,7 @@ Index: dev.xenial/content/content_common.gypi
        'sources': [
          'common/gpu/media/accelerated_video_decoder.h',
          'common/gpu/media/h264_decoder.cc',
-@@ -846,7 +846,7 @@
+@@ -838,7 +838,7 @@
          'common/gpu/media/tegra_v4l2_device.h',
        ],
      }],
@@ -381,7 +381,7 @@ Index: dev.xenial/content/content_gpu.gypi
 ===================================================================
 --- dev.xenial.orig/content/content_gpu.gypi
 +++ dev.xenial/content/content_gpu.gypi
-@@ -45,7 +45,7 @@
+@@ -46,7 +46,7 @@
          ],
        },
      }],
@@ -394,7 +394,7 @@ Index: dev.xenial/content/content_tests.gypi
 ===================================================================
 --- dev.xenial.orig/content/content_tests.gypi
 +++ dev.xenial/content/content_tests.gypi
-@@ -1729,7 +1729,7 @@
+@@ -1709,7 +1709,7 @@
            },
          ]
      }],
@@ -407,7 +407,7 @@ Index: dev.xenial/content/gpu/BUILD.gn
 ===================================================================
 --- dev.xenial.orig/content/gpu/BUILD.gn
 +++ dev.xenial/content/gpu/BUILD.gn
-@@ -78,7 +78,7 @@ source_set("gpu_sources") {
+@@ -79,7 +79,7 @@ source_set("gpu_sources") {
      ]
    }
  
@@ -442,7 +442,7 @@ Index: dev.xenial/content/public/common/content_switches.cc
 ===================================================================
 --- dev.xenial.orig/content/public/common/content_switches.cc
 +++ dev.xenial/content/public/common/content_switches.cc
-@@ -949,7 +949,9 @@ const char kDisableAudioSupportForDeskto
+@@ -953,7 +953,9 @@ const char kDisableAudioSupportForDeskto
  #if defined(OS_CHROMEOS)
  // Disables panel fitting (used for mirror mode).
  const char kDisablePanelFitting[]           = "disable-panel-fitting";
@@ -491,7 +491,7 @@ Index: dev.xenial/media/BUILD.gn
 ===================================================================
 --- dev.xenial.orig/media/BUILD.gn
 +++ dev.xenial/media/BUILD.gn
-@@ -326,7 +326,7 @@ component("media") {
+@@ -339,7 +339,7 @@ component("media") {
      allow_circular_includes_from = [ "//media/base/android" ]
    }
  
@@ -500,7 +500,7 @@ Index: dev.xenial/media/BUILD.gn
      sources += [
        "filters/h264_bitstream_buffer.cc",
        "filters/h264_bitstream_buffer.h",
-@@ -615,7 +615,7 @@ test("media_unittests") {
+@@ -628,7 +628,7 @@ test("media_unittests") {
      }
    }
  
@@ -513,7 +513,7 @@ Index: dev.xenial/media/media.gyp
 ===================================================================
 --- dev.xenial.orig/media/media.gyp
 +++ dev.xenial/media/media.gyp
-@@ -737,7 +737,7 @@
+@@ -740,7 +740,7 @@
            ],
          }],
          # For VaapiVideoEncodeAccelerator.
@@ -522,7 +522,7 @@ Index: dev.xenial/media/media.gyp
            'sources': [
              'filters/h264_bitstream_buffer.cc',
              'filters/h264_bitstream_buffer.h',
-@@ -1311,7 +1311,7 @@
+@@ -1318,7 +1318,7 @@
              'cdm/cdm_adapter_unittest.cc',
            ],
          }],

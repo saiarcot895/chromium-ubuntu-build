@@ -1,3 +1,10 @@
+chromium-browser (52.0.2716.0-0ubuntu1~ppa1~15.10.1) wily; urgency=low
+
+  * New upstream version 52.0.2716.0
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 27 Apr 2016 14:44:43 -0400
+
 chromium-browser (51.0.2704.19-0ubuntu1~ppa9~15.10.1) wily; urgency=low
 
   * Fix gn error (again).

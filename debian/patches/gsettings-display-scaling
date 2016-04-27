@@ -23,7 +23,7 @@ Index: dev.xenial/ui/views/BUILD.gn
 ===================================================================
 --- dev.xenial.orig/ui/views/BUILD.gn
 +++ dev.xenial/ui/views/BUILD.gn
-@@ -106,6 +106,7 @@ component("views") {
+@@ -270,6 +270,7 @@ test("views_unittests") {
        "//ui/events/devices",
        "//ui/events/platform/x11",
        "//ui/gfx/x",
@@ -35,14 +35,14 @@ Index: dev.xenial/ui/views/views.gyp
 ===================================================================
 --- dev.xenial.orig/ui/views/views.gyp
 +++ dev.xenial/ui/views/views.gyp
-@@ -760,6 +760,7 @@
+@@ -764,6 +764,7 @@
            'dependencies': [
              '../../build/linux/system.gyp:x11',
              '../../build/linux/system.gyp:xrandr',
 +            '../../build/linux/system.gyp:gio',
              '../events/devices/events_devices.gyp:events_devices',
-             '../events/platform/x11/x11_events_platform.gyp:x11_events_platform',
-             '../gfx/x/gfx_x11.gyp:gfx_x11',
+             '../events/devices/x11/events_devices_x11.gyp:events_devices_x11',
+             '../events/keycodes/events_keycodes.gyp:keycodes_x11',
 Index: dev.xenial/ui/views/widget/desktop_aura/desktop_screen_x11.cc
 ===================================================================
 --- dev.xenial.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc
@@ -61,7 +61,7 @@ Index: dev.xenial/ui/views/widget/desktop_aura/desktop_screen_x11.cc
  #undef RootWindow
  
  #include "base/logging.h"
-@@ -286,6 +291,29 @@ std::vector<gfx::Display> DesktopScreenX
+@@ -298,6 +303,29 @@ std::vector<gfx::Display> DesktopScreenX
      return GetFallbackDisplayList();
    }
  
@@ -91,7 +91,7 @@ Index: dev.xenial/ui/views/widget/desktop_aura/desktop_screen_x11.cc
    bool has_work_area = false;
    gfx::Rect work_area_in_pixels;
    std::vector<int> value;
-@@ -297,7 +325,7 @@ std::vector<gfx::Display> DesktopScreenX
+@@ -309,7 +337,7 @@ std::vector<gfx::Display> DesktopScreenX
  
    // As per-display scale factor is not supported right now,
    // the X11 root window's scale factor is always used.
@@ -100,7 +100,7 @@ Index: dev.xenial/ui/views/widget/desktop_aura/desktop_screen_x11.cc
    for (int i = 0; i < resources->noutput; ++i) {
      RROutput output_id = resources->outputs[i];
      gfx::XScopedPtr<XRROutputInfo,
-@@ -324,7 +352,27 @@ std::vector<gfx::Display> DesktopScreenX
+@@ -336,7 +364,27 @@ std::vector<gfx::Display> DesktopScreenX
        gfx::Rect crtc_bounds(crtc->x, crtc->y, crtc->width, crtc->height);
        gfx::Display display(display_id, crtc_bounds);
  

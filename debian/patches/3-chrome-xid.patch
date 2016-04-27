@@ -40,7 +40,7 @@ Index: dev.xenial/chrome/browser/ui/views/frame/browser_view.cc
 ===================================================================
 --- dev.xenial.orig/chrome/browser/ui/views/frame/browser_view.cc
 +++ dev.xenial/chrome/browser/ui/views/frame/browser_view.cc
-@@ -710,6 +710,7 @@ void BrowserView::Show() {
+@@ -709,6 +709,7 @@ void BrowserView::Show() {
    force_location_bar_focus_ = false;
  
    browser()->OnWindowDidShow();
@@ -86,7 +86,7 @@ Index: dev.xenial/ui/aura/window_tree_host_x11.h
 ===================================================================
 --- dev.xenial.orig/ui/aura/window_tree_host_x11.h
 +++ dev.xenial/ui/aura/window_tree_host_x11.h
-@@ -37,6 +37,8 @@ class AURA_EXPORT WindowTreeHostX11 : pu
+@@ -38,6 +38,8 @@ class AURA_EXPORT WindowTreeHostX11 : pu
    bool CanDispatchEvent(const ui::PlatformEvent& event) override;
    uint32_t DispatchEvent(const ui::PlatformEvent& event) override;
  
@@ -99,7 +99,7 @@ Index: dev.xenial/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
 ===================================================================
 --- dev.xenial.orig/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
 +++ dev.xenial/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
-@@ -591,6 +591,11 @@ void DesktopNativeWidgetAura::ViewRemove
+@@ -592,6 +592,11 @@ void DesktopNativeWidgetAura::ViewRemove
    drop_helper_->ResetTargetViewIfEquals(view);
  }
  
@@ -115,7 +115,7 @@ Index: dev.xenial/ui/views/widget/desktop_aura/desktop_native_widget_aura.h
 ===================================================================
 --- dev.xenial.orig/ui/views/widget/desktop_aura/desktop_native_widget_aura.h
 +++ dev.xenial/ui/views/widget/desktop_aura/desktop_native_widget_aura.h
-@@ -87,6 +87,8 @@ class VIEWS_EXPORT DesktopNativeWidgetAu
+@@ -89,6 +89,8 @@ class VIEWS_EXPORT DesktopNativeWidgetAu
    // we are being activated/deactivated.
    void HandleActivationChanged(bool active);
  
@@ -128,7 +128,7 @@ Index: dev.xenial/ui/views/widget/desktop_aura/desktop_window_tree_host.h
 ===================================================================
 --- dev.xenial.orig/ui/views/widget/desktop_aura/desktop_window_tree_host.h
 +++ dev.xenial/ui/views/widget/desktop_aura/desktop_window_tree_host.h
-@@ -80,6 +80,8 @@ class VIEWS_EXPORT DesktopWindowTreeHost
+@@ -81,6 +81,8 @@ class VIEWS_EXPORT DesktopWindowTreeHost
  
    virtual bool IsVisible() const = 0;
  
@@ -141,16 +141,16 @@ Index: dev.xenial/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
 ===================================================================
 --- dev.xenial.orig/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
 +++ dev.xenial/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
-@@ -11,6 +11,8 @@
- #include <X11/extensions/shape.h>
+@@ -12,6 +12,8 @@
+ 
  #include <utility>
  
 +#include <signal.h>
 +
  #include "base/command_line.h"
+ #include "base/memory/ptr_util.h"
  #include "base/strings/stringprintf.h"
- #include "base/strings/utf_string_conversions.h"
-@@ -108,6 +110,7 @@ const char* kAtomsToCache[] = {
+@@ -110,6 +112,7 @@ const char* kAtomsToCache[] = {
    "_NET_WM_WINDOW_TYPE_NORMAL",
    "_NET_WM_WINDOW_TYPE_NOTIFICATION",
    "_NET_WM_WINDOW_TYPE_TOOLTIP",
@@ -158,7 +158,7 @@ Index: dev.xenial/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
    "XdndActionAsk",
    "XdndActionCopy",
    "XdndActionLink",
-@@ -1418,6 +1421,22 @@ void DesktopWindowTreeHostX11::UpdateMin
+@@ -1420,6 +1423,22 @@ void DesktopWindowTreeHostX11::UpdateMin
    XSetWMNormalHints(xdisplay_, xwindow_, &hints);
  }
  
@@ -211,7 +211,7 @@ Index: dev.xenial/ui/views/widget/native_widget_aura.cc
 ===================================================================
 --- dev.xenial.orig/ui/views/widget/native_widget_aura.cc
 +++ dev.xenial/ui/views/widget/native_widget_aura.cc
-@@ -59,6 +59,8 @@
+@@ -60,6 +60,8 @@
  #include "ui/views/widget/desktop_aura/desktop_window_tree_host.h"
  #endif
  
@@ -220,7 +220,7 @@ Index: dev.xenial/ui/views/widget/native_widget_aura.cc
  namespace views {
  
  namespace {
-@@ -325,6 +327,11 @@ void NativeWidgetAura::CenterWindow(cons
+@@ -327,6 +329,11 @@ void NativeWidgetAura::CenterWindow(cons
    window_->SetBounds(window_bounds);
  }
  
@@ -236,7 +236,7 @@ Index: dev.xenial/ui/views/widget/native_widget_aura.h
 ===================================================================
 --- dev.xenial.orig/ui/views/widget/native_widget_aura.h
 +++ dev.xenial/ui/views/widget/native_widget_aura.h
-@@ -48,6 +48,8 @@ class VIEWS_EXPORT NativeWidgetAura
+@@ -50,6 +50,8 @@ class VIEWS_EXPORT NativeWidgetAura
        internal::NativeWidgetPrivate* native_widget,
        aura::Window* window);
  

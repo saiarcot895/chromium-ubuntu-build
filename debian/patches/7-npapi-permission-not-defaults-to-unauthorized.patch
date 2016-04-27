@@ -2,7 +2,7 @@ Index: dev.xenial/chrome/browser/browser_resources.grd
 ===================================================================
 --- dev.xenial.orig/chrome/browser/browser_resources.grd
 +++ dev.xenial/chrome/browser/browser_resources.grd
-@@ -280,6 +280,7 @@
+@@ -289,6 +289,7 @@
        </if>
        <if expr="desktop_linux or (is_android and enable_plugins)">
          <include name="IDR_PLUGIN_DB_JSON" file="resources\plugin_metadata\plugins_linux.json" type="BINDATA" />
@@ -40,7 +40,7 @@ Index: dev.xenial/chrome/browser/plugins/plugin_finder.cc
 -  DCHECK_CURRENTLY_ON(content::BrowserThread::UI);
 -  // Load the built-in plugin list first. If we have a newer version stored
 -  // locally or download one, we will replace this one with it.
--  scoped_ptr<base::DictionaryValue> plugin_list(LoadBuiltInPluginList());
+-  std::unique_ptr<base::DictionaryValue> plugin_list(LoadBuiltInPluginList());
 -
 -  // Gracefully handle the case where we couldn't parse the built-in plugin list
 -  // for some reason (https://crbug.com/388560). TODO(bauerb): Change back to a
@@ -60,7 +60,7 @@ Index: dev.xenial/chrome/browser/plugins/plugin_finder.cc
 +          resourceId));
    std::string error_str;
    int error_code = base::JSONReader::JSON_NO_ERROR;
-   scoped_ptr<base::Value> value = base::JSONReader::ReadAndReturnError(
+   std::unique_ptr<base::Value> value = base::JSONReader::ReadAndReturnError(
 @@ -245,6 +211,59 @@ base::DictionaryValue* PluginFinder::Loa
    return static_cast<base::DictionaryValue*>(value.release());
  }
@@ -75,8 +75,8 @@ Index: dev.xenial/chrome/browser/plugins/plugin_finder.cc
 +void PluginFinder::MergePlatformSpecificPlugins (base::DictionaryValue * plugin_list) {
 +  if (!plugin_list)
 +    return;
-+  scoped_ptr<base::DictionaryValue> platform_plugin_list =
-+    scoped_ptr<base::DictionaryValue>(LoadPlatformPluginList());
++  std::unique_ptr<base::DictionaryValue> platform_plugin_list =
++    std::unique_ptr<base::DictionaryValue>(LoadPlatformPluginList());
 +  if (platform_plugin_list) {
 +    plugin_list->MergeDictionary(platform_plugin_list.get());
 +  }
@@ -97,7 +97,7 @@ Index: dev.xenial/chrome/browser/plugins/plugin_finder.cc
 +  DCHECK_CURRENTLY_ON(content::BrowserThread::UI);
 +  // Load the built-in plugin list first. If we have a newer version stored
 +  // locally or download one, we will replace this one with it.
-+  scoped_ptr<base::DictionaryValue> plugin_list(LoadBuiltInPluginList());
++  std::unique_ptr<base::DictionaryValue> plugin_list(LoadBuiltInPluginList());
 +
 +  // Gracefully handle the case where we couldn't parse the built-in plugin list
 +  // for some reason (https://crbug.com/388560). TODO(bauerb): Change back to a
@@ -126,7 +126,7 @@ Index: dev.xenial/chrome/browser/plugins/plugin_finder.cc
      return;
  
 +  // Load the platform specific plugins (if any)
-+  scoped_ptr<DictionaryValue> final_plugin_list(plugin_list->DeepCopy());
++  std::unique_ptr<DictionaryValue> final_plugin_list(plugin_list->DeepCopy());
 +  MergePlatformSpecificPlugins(final_plugin_list.get());
 +
    version_ = version;
@@ -148,7 +148,7 @@ Index: dev.xenial/chrome/browser/plugins/plugin_finder.h
 ===================================================================
 --- dev.xenial.orig/chrome/browser/plugins/plugin_finder.h
 +++ dev.xenial/chrome/browser/plugins/plugin_finder.h
-@@ -77,6 +77,15 @@ class PluginFinder {
+@@ -78,6 +78,15 @@ class PluginFinder {
    // Returns NULL if the plugin list couldn't be parsed.
    static base::DictionaryValue* LoadBuiltInPluginList();
  

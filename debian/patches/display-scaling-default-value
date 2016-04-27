@@ -8,7 +8,7 @@ Index: dev.xenial/ui/views/widget/desktop_aura/desktop_screen_x11.cc
 ===================================================================
 --- dev.xenial.orig/ui/views/widget/desktop_aura/desktop_screen_x11.cc
 +++ dev.xenial/ui/views/widget/desktop_aura/desktop_screen_x11.cc
-@@ -353,11 +353,13 @@ std::vector<gfx::Display> DesktopScreenX
+@@ -365,11 +365,13 @@ std::vector<gfx::Display> DesktopScreenX
        gfx::Display display(display_id, crtc_bounds);
  
        // An integer that forces discrete steps.

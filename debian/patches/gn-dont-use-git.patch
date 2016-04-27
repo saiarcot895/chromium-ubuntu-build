@@ -1,0 +1,31 @@
+Index: dev.xenial/tools/gn/last_commit_position.py
+===================================================================
+--- dev.xenial.orig/tools/gn/last_commit_position.py
++++ dev.xenial/tools/gn/last_commit_position.py
+@@ -51,25 +51,7 @@ def RunGitCommand(directory, command):
+ 
+ 
+ def FetchCommitPosition(directory):
+-  regex = re.compile(r'\s*Cr-Commit-Position: refs/heads/master@\{#(\d+)\}\s*')
+-
+-  # Search this far backward in the git log. The commit position should be
+-  # close to the top. We allow some slop for long commit messages, and maybe
+-  # there were some local commits after the last "official" one. Having this
+-  # max prevents us from searching all history in the case of an error.
+-  max_lines = 2048
+-
+-  proc = RunGitCommand(directory, ['log'])
+-  for i in range(max_lines):
+-    line = proc.stdout.readline()
+-    if not line:
+-      return None
+-
+-    match = regex.match(line)
+-    if match:
+-      return match.group(1)
+-
+-  return None
++  return 0
+ 
+ 
+ def WriteHeader(header_file, header_guard, value):

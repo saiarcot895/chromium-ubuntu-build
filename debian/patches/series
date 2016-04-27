@@ -55,3 +55,4 @@ tcmalloc-add-support-for-arm64.patch
 ### END Wayland patches ###
 #wayland-0017-switch-to-stdint.patch
 gn-add-support-for-arm64.patch
+gn-dont-use-git.patch

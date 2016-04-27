@@ -2,7 +2,7 @@ Index: dev.xenial/chrome/app/generated_resources.grd
 ===================================================================
 --- dev.xenial.orig/chrome/app/generated_resources.grd
 +++ dev.xenial/chrome/app/generated_resources.grd
-@@ -7698,6 +7698,35 @@ Keep your key file in a safe place. You
+@@ -7739,6 +7739,35 @@ Keep your key file in a safe place. You
  I don't think this site should be blocked!
        </message>
  
@@ -38,7 +38,7 @@ Index: dev.xenial/chrome/app/generated_resources.grd
        <!-- Content Settings dialog data -->
        <message name="IDS_CONTENT_SETTINGS_TITLE" desc="Title for content settings dialog">
          Content settings
-@@ -11056,6 +11085,9 @@ Some features may be unavailable.  Pleas
+@@ -11103,6 +11132,9 @@ Some features may be unavailable.  Pleas
        <message name="IDS_OPTIONS_ADVANCED_SECTION_TITLE_CONTENT">
          Web content
        </message>
@@ -614,7 +614,7 @@ Index: dev.xenial/chrome/browser/ui/BUILD.gn
 ===================================================================
 --- dev.xenial.orig/chrome/browser/ui/BUILD.gn
 +++ dev.xenial/chrome/browser/ui/BUILD.gn
-@@ -312,6 +312,9 @@ source_set("ui") {
+@@ -314,6 +314,9 @@ source_set("ui") {
      }
    }
    if (use_aura && !use_ozone && is_desktop_linux) {
@@ -1033,7 +1033,7 @@ Index: dev.xenial/chrome/chrome_browser_ui.gypi
 ===================================================================
 --- dev.xenial.orig/chrome/chrome_browser_ui.gypi
 +++ dev.xenial/chrome/chrome_browser_ui.gypi
-@@ -1957,6 +1957,8 @@
+@@ -1954,6 +1954,8 @@
        'browser/ui/webui/options/core_options_handler.h',
        'browser/ui/webui/options/create_profile_handler.cc',
        'browser/ui/webui/options/create_profile_handler.h',
@@ -1042,7 +1042,7 @@ Index: dev.xenial/chrome/chrome_browser_ui.gypi
        'browser/ui/webui/options/easy_unlock_handler.cc',
        'browser/ui/webui/options/easy_unlock_handler.h',
        'browser/ui/webui/options/font_settings_handler.cc',
-@@ -3098,6 +3100,7 @@
+@@ -3091,6 +3093,7 @@
            ],
          }],
          ['use_aura==1 and chromeos==0 and use_ozone==0 and OS=="linux"', {
