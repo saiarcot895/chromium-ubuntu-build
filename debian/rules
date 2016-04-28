@@ -524,7 +524,7 @@ configure-stamp-ffmpeg-%: build-stamp-gn
 
 build-stamp-ffmpeg-%: configure-stamp-ffmpeg-%
 	@set -eux
-	$(NINJA) -v -C $(DEB_TAR_SRCDIR)/out/$(BUILD_TYPE)-ffmpeg-$*
+	$(NINJA) -v -C $(DEB_TAR_SRCDIR)/out/$(BUILD_TYPE)-ffmpeg-$* ffmpeg
 	mkdir -p debian/tmp-$*/$(LIB_DIR)/libs
 	cp $(DEB_TAR_SRCDIR)/out/$(BUILD_TYPE)-ffmpeg-$*/lib/libffmpeg.so $(CURDIR)/debian/tmp-$*/$(LIB_DIR)/libs
 	touch $@
