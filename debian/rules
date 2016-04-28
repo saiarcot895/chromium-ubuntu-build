@@ -519,7 +519,7 @@ build-stamp: configure-stamp
 configure-stamp-ffmpeg-%: GYP_DEFINES += $(FFMPEG_MT_$(subst std,STD,$(subst extra,EXTRA,$*))_GYP_DEFINES) $(FFMPEG_MT_GYP_DEFINES)
 configure-stamp-ffmpeg-%: build-stamp-gn
 	@set -eux
-	$(DEB_TAR_SRCDIR)/gn gen $(DEB_TAR_SRCDIR)/out/$(BUILD_TYPE)-ffmpeg-$* --args="$(FFMPEG_MT_$(subst std,STD,$(subst extra,EXTRA,$*))_GN_DEFINES) $(FFMPEG_MT_GN_DEFINES)"
+	$(DEB_TAR_SRCDIR)/gn gen $(DEB_TAR_SRCDIR)/out/$(BUILD_TYPE)-ffmpeg-$* --args='$(FFMPEG_MT_$(subst std,STD,$(subst extra,EXTRA,$*))_GN_DEFINES) $(FFMPEG_MT_GN_DEFINES)'
 	touch $@
 
 build-stamp-ffmpeg-%: configure-stamp-ffmpeg-%

@@ -1,3 +1,9 @@
+chromium-browser (52.0.2716.0-0ubuntu1~ppa3~14.04.1) trusty; urgency=low
+
+  * Fix building ffmpeg.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 28 Apr 2016 13:07:12 -0400
+
 chromium-browser (52.0.2716.0-0ubuntu1~ppa2~14.04.1) trusty; urgency=low
 
   * Fix GN revision patch.
