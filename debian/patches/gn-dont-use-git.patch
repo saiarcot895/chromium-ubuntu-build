@@ -25,7 +25,7 @@ Index: dev.xenial/tools/gn/last_commit_position.py
 -      return match.group(1)
 -
 -  return None
-+  return 0
++  return 389538
  
  
  def WriteHeader(header_file, header_guard, value):

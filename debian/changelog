@@ -1,3 +1,9 @@
+chromium-browser (52.0.2716.0-0ubuntu1~ppa2~16.04.1) xenial; urgency=low
+
+  * Fix GN revision patch.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 27 Apr 2016 20:53:49 -0400
+
 chromium-browser (52.0.2716.0-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
 
   * New upstream version 52.0.2716.0
