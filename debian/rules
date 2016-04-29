@@ -318,11 +318,13 @@ ifneq (,$(filter 12.04% 14.04%,$(UBUNTU_DIST)))
 CROSS_BUILD = CC=$(shell which clang-3.6 clang |head -1) CXX=$(shell which clang++-3.6 clang++ |head -1)
 GYP_DEFINES += clang=1 clang_use_chrome_plugins=0
 # This might work.
-GN_DEFINES += is_clang=false
+GN_DEFINES += clang_use_chrome_plugins=false cc="$(shell which clang-3.6 clang |head -1)" cxx="$(shell which clang++-3.6 clang++ |head -1)" ld="$(shell which clang++-3.6 clang++ |head -1)"
+FFMPEG_MT_GN_DEFINES += clang_use_chrome_plugins=false cc="$(shell which clang-3.6 clang |head -1)" cxx="$(shell which clang++-3.6 clang++ |head -1)" ld="$(shell which clang++-3.6 clang++ |head -1)"
 else
 CROSS_BUILD = CC=$(shell which gcc) CXX=$(shell which g++)
 GYP_DEFINES += clang=0
-GN_DEFINES += is_clang=false
+GN_DEFINES += is_clang=false cc="$(shell which gcc)" cxx="$(shell which g++)" ld="$(shell which g++)"
+FFMPEG_MT_GN_DEFINES += is_clang=false cc="$(shell which gcc)" cxx="$(shell which g++)" ld="$(shell which g++)"
 endif
 endif
 

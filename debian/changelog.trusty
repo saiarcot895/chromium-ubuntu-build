@@ -1,3 +1,9 @@
+chromium-browser (52.0.2716.0-0ubuntu1~ppa5~14.04.1) trusty; urgency=low
+
+  * Fix clang settings.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 29 Apr 2016 07:48:28 -0400
+
 chromium-browser (52.0.2716.0-0ubuntu1~ppa4~14.04.1) trusty; urgency=low
 
   * Fix building ffmpeg (again).
