@@ -2,12 +2,18 @@ Index: dev.xenial/build/toolchain/linux/BUILD.gn
 ===================================================================
 --- dev.xenial.orig/build/toolchain/linux/BUILD.gn
 +++ dev.xenial/build/toolchain/linux/BUILD.gn
-@@ -27,6 +27,22 @@ gcc_toolchain("arm") {
+@@ -27,6 +27,28 @@ gcc_toolchain("arm") {
    is_clang = false
  }
  
++clang_toolchain("clang_arm64") {
++  toolchain_cpu = "arm64"
++  toolchain_os = "linux"
++  toolprefix = "aarch64-linux-gnu-"
++}
++
 +gcc_toolchain("arm64") {
-+  toolprefix = "aarch64-linux-gnueabihf-"
++  toolprefix = "aarch64-linux-gnu-"
 +
 +  cc = "${toolprefix}gcc"
 +  cxx = "${toolprefix}g++"
@@ -54,3 +60,18 @@ Index: dev.xenial/tools/gn/args.cc
  
    // Save the OS and architecture as build arguments that are implicitly
    // declared. This is so they can be overridden in a toolchain build args
+Index: dev.xenial/build/toolchain/gcc_toolchain.gni
+===================================================================
+--- dev.xenial.orig/build/toolchain/gcc_toolchain.gni
++++ dev.xenial/build/toolchain/gcc_toolchain.gni
+@@ -459,8 +459,8 @@ template("clang_toolchain") {
+   }
+ 
+   gcc_toolchain(target_name) {
+-    cc = "clang"
+-    cxx = "clang++"
++    cc = "clang-3.6"
++    cxx = "clang++-3.6"
+     ld = cxx
+     is_clang = true
+ 

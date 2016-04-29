@@ -323,13 +323,13 @@ ifneq (,$(filter 12.04% 14.04%,$(UBUNTU_DIST)))
 CROSS_BUILD = CC=$(shell which clang-3.6 clang |head -1) CXX=$(shell which clang++-3.6 clang++ |head -1)
 GYP_DEFINES += clang=1 clang_use_chrome_plugins=0
 # This might work.
-GN_DEFINES += clang_use_chrome_plugins=false cc="$(shell which clang-3.6 clang |head -1)" cxx="$(shell which clang++-3.6 clang++ |head -1)" ld="$(shell which clang++-3.6 clang++ |head -1)"
-FFMPEG_MT_GN_DEFINES += clang_use_chrome_plugins=false cc="$(shell which clang-3.6 clang |head -1)" cxx="$(shell which clang++-3.6 clang++ |head -1)" ld="$(shell which clang++-3.6 clang++ |head -1)"
+GN_DEFINES += clang_use_chrome_plugins=false
+FFMPEG_MT_GN_DEFINES += clang_use_chrome_plugins=false
 else
 CROSS_BUILD = CC=$(shell which gcc) CXX=$(shell which g++)
 GYP_DEFINES += clang=0
-GN_DEFINES += is_clang=false cc="$(shell which gcc)" cxx="$(shell which g++)" ld="$(shell which g++)"
-FFMPEG_MT_GN_DEFINES += is_clang=false cc="$(shell which gcc)" cxx="$(shell which g++)" ld="$(shell which g++)"
+GN_DEFINES += is_clang=false
+FFMPEG_MT_GN_DEFINES += is_clang=false
 endif
 endif
 
@@ -364,7 +364,7 @@ override_dh_auto_configure:
 	# Don't configure here. We configure and build many times in 'build'.
 
 # There are three things to build. Standard, ffmpeg simple, and ffmpeg full.
-override_dh_auto_build: build-stamp-gn build-stamp-ffmpeg-std build-stamp-ffmpeg-extra
+override_dh_auto_build: build-stamp-gn build-stamp build-stamp-ffmpeg-std build-stamp-ffmpeg-extra
 
 override_dh_fixperms:
 	dh_fixperms --exclude $(DEB_FIXPERMS_EXCLUDE)
@@ -375,9 +375,9 @@ override_dh_builddeb:
 override_dh_strip:
 	dh_strip -Xnacl_irt_ -Xpnacl
 
-override_dh_install-arch: local_install_arch compare-arch
+override_dh_install-arch: local_install_arch
 
-override_dh_install-indep: local_install_indep compare-indep
+override_dh_install-indep: local_install_indep
 
 override_dh_shlibdeps:
 	dh_shlibdeps -l$(CURDIR)/debian/chromium-browser/usr/lib/chromium-browser/libs/ |grep -v "dpkg-shlibdeps: warning: can't extract name and version from library name" || true
@@ -388,7 +388,7 @@ local_install_arch: build
 	@set -eux
 	# Two stages: Install out of source tree. Copy to packaging.
 	mkdir -p debian/tmp/$(LIB_DIR)
-	(cd $(SRC_DIR)/out/$(BUILD_TYPE); tar cf - . $(foreach excl,$(TRASH),--exclude=$(excl) );) | (cd debian/tmp/$(LIB_DIR); tar xvf -;)
+	(cd $(SRC_DIR)/out/$(BUILD_TYPE) && tar cf - . $(foreach excl,$(TRASH),--exclude=$(excl) );) | (cd debian/tmp/$(LIB_DIR) && tar xvf -;)
 ifeq (1,$(COMPONENT_SHARED_LIB_BUILD))
 	mkdir -p debian/tmp/$(LIB_DIR)/libs
 	cp $(SRC_DIR)/out/$(BUILD_TYPE)/lib/*.so debian/tmp/$(LIB_DIR)/libs/

@@ -1,3 +1,12 @@
+chromium-browser (52.0.2716.0-0ubuntu1~ppa7~15.10.1) wily; urgency=low
+
+  * Fix cc/c++ variable on arm64.
+  * Fix clang builds.
+  * Fix main Chromium not being built, and temporary disable compare
+    checks.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 29 Apr 2016 11:11:38 -0400
+
 chromium-browser (52.0.2716.0-0ubuntu1~ppa6~15.10.1) wily; urgency=low
 
   * Fix ffmpeg build location.
