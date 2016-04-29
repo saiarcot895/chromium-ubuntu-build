@@ -102,9 +102,14 @@ GYP_DEFINES += disable_newlib=1 build_newlib=0 disable_glibc=1
  endif
 endif
 
+# do not use bundled binutils
+GN_DEFINES += linux_use_bundled_binutils=false
+FFMPEG_MT_GN_DEFINES += linux_use_bundled_binutils=false
+
 # do not use third_party/gold as the linker.
 GYP_DEFINES += linux_use_gold_binary=0 linux_use_gold_flags=0
 GN_DEFINES += use_gold=false
+FFMPEG_MT_GN_DEFINES += use_gold=false
 
 # get resources for high dpi and touch
 GYP_DEFINES += enable_hidpi=1
@@ -528,7 +533,7 @@ build-stamp-ffmpeg-%: configure-stamp-ffmpeg-%
 	@set -eux
 	$(NINJA) -v -C $(DEB_TAR_SRCDIR)/out/$(BUILD_TYPE)-ffmpeg-$* ffmpeg
 	mkdir -p debian/tmp-$*/$(LIB_DIR)/libs
-	cp $(DEB_TAR_SRCDIR)/out/$(BUILD_TYPE)-ffmpeg-$*/lib/libffmpeg.so $(CURDIR)/debian/tmp-$*/$(LIB_DIR)/libs
+	cp $(DEB_TAR_SRCDIR)/out/$(BUILD_TYPE)-ffmpeg-$*/libffmpeg.so $(CURDIR)/debian/tmp-$*/$(LIB_DIR)/libs
 	touch $@
 
 # These are (leading-slash-less) files that are created by upstream builder,

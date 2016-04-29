@@ -56,3 +56,4 @@ tcmalloc-add-support-for-arm64.patch
 #wayland-0017-switch-to-stdint.patch
 gn-add-support-for-arm64.patch
 gn-dont-use-git.patch
+ffmpeg-fix-build-for-arm64.patch
