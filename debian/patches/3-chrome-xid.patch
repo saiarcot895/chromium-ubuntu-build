@@ -245,3 +245,18 @@ Index: dev.xenial/ui/views/widget/native_widget_aura.h
    // Overridden from internal::NativeWidgetPrivate:
    void InitNativeWidget(const Widget::InitParams& params) override;
    void OnWidgetInitDone() override;
+Index: dev.xenial/mash/wm/non_client_frame_controller.cc
+===================================================================
+--- dev.xenial.orig/mash/wm/non_client_frame_controller.cc
++++ dev.xenial/mash/wm/non_client_frame_controller.cc
+@@ -142,6 +142,10 @@ class WmNativeWidgetMus : public views::
+     // the client area should come from the client, not us.
+   }
+ 
++  void SetSessionID(uint32_t sessionid) {
++    // Do nothing.
++  }
++
+  private:
+   // The shadow, may be null.
+   std::unique_ptr<Shadow> shadow_;

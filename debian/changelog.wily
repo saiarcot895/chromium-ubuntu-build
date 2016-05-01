@@ -1,3 +1,9 @@
+chromium-browser (52.0.2716.0-0ubuntu1~ppa8~15.10.1) wily; urgency=low
+
+  * Some more build fixes.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 01 May 2016 12:23:58 -0400
+
 chromium-browser (52.0.2716.0-0ubuntu1~ppa7~15.10.1) wily; urgency=low
 
   * Fix cc/c++ variable on arm64.

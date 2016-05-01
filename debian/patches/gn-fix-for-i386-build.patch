@@ -1,0 +1,12 @@
+Index: dev.xenial/media/BUILD.gn
+===================================================================
+--- dev.xenial.orig/media/BUILD.gn
++++ dev.xenial/media/BUILD.gn
+@@ -769,6 +769,7 @@ component("shared_memory_support") {
+     ":media_config",
+     ":media_implementation",
+   ]
++  cflags += [ "-msse2" ]
+   deps = [
+     "//base",
+     "//ui/gfx/geometry",

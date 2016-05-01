@@ -57,3 +57,4 @@ tcmalloc-add-support-for-arm64.patch
 gn-add-support-for-arm64.patch
 gn-dont-use-git.patch
 ffmpeg-fix-build-for-arm64.patch
+gn-fix-for-i386-build.patch

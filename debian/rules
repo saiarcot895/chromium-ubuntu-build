@@ -114,7 +114,7 @@ FFMPEG_MT_GN_DEFINES += use_gold=false
 # get resources for high dpi and touch
 GYP_DEFINES += enable_hidpi=1
 GYP_DEFINES += enable_touch_ui=1
-GN_DEFINES += enable_hidpi=true
+# GN_DEFINES += enable_hidpi=true
 
 # add support and stubbed implementation of widevine (needed for EME)
 GYP_DEFINES += enable_widevine=1
@@ -195,11 +195,13 @@ GN_DEFINES += \
 	arm_use_neon=true \
 	target_cpu="arm64" \
 	use_cups=true \
+	use_allocator="none" \
 	$(NULL)
 FFMPEG_MT_GN_DEFINES += \
 	arm_use_neon=true \
 	target_cpu="arm64" \
 	use_cups=true \
+	use_allocator="none" \
 	$(NULL)
 endif
 ifeq (amd64,$(DEB_HOST_ARCH))
@@ -213,6 +215,9 @@ GN_DEFINES += target_cpu="x86"
 FFMPEG_MT_GN_DEFINES += target_cpu="x86"
 # SEGV on component builds, 2013-05
 GYP_DEFINES += use_allocator=none
+GN_DEFINES += use_allocator="none"
+endif
+ifeq (arm64,$(DEB_HOST_ARCH))
 GN_DEFINES += use_allocator="none"
 endif
 
