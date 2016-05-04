@@ -1,12 +1,15 @@
-Index: dev.xenial/media/BUILD.gn
+Index: dev.xenial/build/config/compiler/BUILD.gn
 ===================================================================
---- dev.xenial.orig/media/BUILD.gn
-+++ dev.xenial/media/BUILD.gn
-@@ -45,6 +45,7 @@ config("media_config") {
-   if (use_cras) {
-     defines += [ "USE_CRAS" ]
+--- dev.xenial.orig/build/config/compiler/BUILD.gn
++++ dev.xenial/build/config/compiler/BUILD.gn
+@@ -227,6 +227,10 @@ config("compiler") {
+     }
    }
-+  cflags = [ "-msse2", "-mfpmath=sse", "-mmmx" ]
- }
  
- config("media_implementation") {
++  if (current_cpu == "x86") {
++    cflags += [ "-msse2", "-mfpmath=sse", "-mmmx" ]
++  }
++
+   if (is_clang && is_debug) {
+     # Allow comparing the address of references and 'this' against 0
+     # in debug builds. Technically, these can never be null in

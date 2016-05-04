@@ -260,3 +260,31 @@ Index: dev.xenial/mash/wm/non_client_frame_controller.cc
   private:
    // The shadow, may be null.
    std::unique_ptr<Shadow> shadow_;
+Index: dev.xenial/ui/views/mus/native_widget_mus.cc
+===================================================================
+--- dev.xenial.orig/ui/views/mus/native_widget_mus.cc
++++ dev.xenial/ui/views/mus/native_widget_mus.cc
+@@ -341,6 +341,10 @@ void NativeWidgetMus::UpdateClientArea()
+       non_client_view->bounds().width() - client_area_rect.right()));
+ }
+ 
++void NativeWidgetMus::SetSessionID(uint32_t sessionid) {
++  // Do nothing.
++}
++
+ ////////////////////////////////////////////////////////////////////////////////
+ // NativeWidgetMus, private:
+ 
+Index: dev.xenial/ui/views/mus/native_widget_mus.h
+===================================================================
+--- dev.xenial.orig/ui/views/mus/native_widget_mus.h
++++ dev.xenial/ui/views/mus/native_widget_mus.h
+@@ -79,6 +79,8 @@ class VIEWS_MUS_EXPORT NativeWidgetMus :
+   void OnPlatformWindowClosed();
+   void OnActivationChanged(bool active);
+ 
++  void SetSessionID(uint32_t sessionid);
++
+  protected:
+   // Updates the client area in the mus::Window.
+   virtual void UpdateClientArea();

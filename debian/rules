@@ -388,7 +388,7 @@ override_dh_shlibdeps:
 	dh_shlibdeps -l$(CURDIR)/debian/chromium-browser/usr/lib/chromium-browser/libs/ |grep -v "dpkg-shlibdeps: warning: can't extract name and version from library name" || true
 
 local_install_arch: PKG_DIRS := $(addprefix debian/,$(shell dh_listpackages))
-local_install_arch: TRASH := .deps gen obj.host obj.target \*.lock obj build.\* .landmines mksnapshot.ia32 protoc pyproto re2c resources xdg-mime xdg-settings yasm \*.TOC \*.stamp product_logo_\*png gen\* lib/\* libvpx_obj_int_extract libwidevinecdm.so libwidevinecdmadapter.so .ninja\* chrome-wrapper \*.breakpad.\* java_mojo dump_syms \*.cmd \*.debug \*.debug.raw
+local_install_arch: TRASH := .deps gen obj.host obj.target \*.lock obj build.\* .landmines mksnapshot.ia32 protoc pyproto re2c resources xdg-mime xdg-settings yasm \*.TOC \*.stamp product_logo_\*png gen\* libvpx_obj_int_extract libwidevinecdm.so libwidevinecdmadapter.so .ninja\* \*.ninja args.gn chrome-wrapper \*.breakpad.\* java_mojo dump_syms \*.cmd \*.debug \*.debug.raw 
 local_install_arch: build
 	@set -eux
 	# Two stages: Install out of source tree. Copy to packaging.
@@ -396,8 +396,9 @@ local_install_arch: build
 	(cd $(SRC_DIR)/out/$(BUILD_TYPE) && tar cf - . $(foreach excl,$(TRASH),--exclude=$(excl) );) | (cd debian/tmp/$(LIB_DIR) && tar xvf -;)
 ifeq (1,$(COMPONENT_SHARED_LIB_BUILD))
 	mkdir -p debian/tmp/$(LIB_DIR)/libs
-	cp $(SRC_DIR)/out/$(BUILD_TYPE)/lib/*.so debian/tmp/$(LIB_DIR)/libs/
+	cp $(SRC_DIR)/out/$(BUILD_TYPE)/*.so debian/tmp/$(LIB_DIR)/libs/
 	rm debian/tmp/$(LIB_DIR)/libs/libffmpeg.so
+	mv debian/tmp/$(LIB_DIR)/libs/libclearkeycdm.so debian/tmp/$(LIB_DIR)/libs/libEGL.so debian/tmp/$(LIB_DIR)/libs/libGLESv2.so debian/tmp/$(LIB_DIR)/
 endif
 	
 	# Icons
