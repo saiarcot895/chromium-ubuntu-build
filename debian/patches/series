@@ -59,3 +59,4 @@ gn-dont-use-git.patch
 ffmpeg-fix-build-for-arm64.patch
 gn-fix-for-i386-build.patch
 gn-fix-for-x64-non-clang-build.patch
+sandbox-fix-build-for-arm64.patch

@@ -108,8 +108,8 @@ FFMPEG_MT_GN_DEFINES += linux_use_bundled_binutils=false
 
 # do not use third_party/gold as the linker.
 GYP_DEFINES += linux_use_gold_binary=0 linux_use_gold_flags=0
-GN_DEFINES += use_gold=false
-FFMPEG_MT_GN_DEFINES += use_gold=false
+# GN_DEFINES += use_gold=false
+# FFMPEG_MT_GN_DEFINES += use_gold=false
 
 # get resources for high dpi and touch
 GYP_DEFINES += enable_hidpi=1

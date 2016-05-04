@@ -60,18 +60,3 @@ Index: dev.xenial/tools/gn/args.cc
  
    // Save the OS and architecture as build arguments that are implicitly
    // declared. This is so they can be overridden in a toolchain build args
-Index: dev.xenial/build/toolchain/gcc_toolchain.gni
-===================================================================
---- dev.xenial.orig/build/toolchain/gcc_toolchain.gni
-+++ dev.xenial/build/toolchain/gcc_toolchain.gni
-@@ -459,8 +459,8 @@ template("clang_toolchain") {
-   }
- 
-   gcc_toolchain(target_name) {
--    cc = "clang"
--    cxx = "clang++"
-+    cc = "clang-3.6"
-+    cxx = "clang++-3.6"
-     ld = cxx
-     is_clang = true
- 
