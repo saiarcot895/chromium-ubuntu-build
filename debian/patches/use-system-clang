@@ -29,8 +29,8 @@ Index: dev.xenial/build/toolchain/gcc_toolchain.gni
 -                         root_build_dir)
 -    cc = "$prefix/clang"
 -    cxx = "$prefix/clang++"
-+    cc = "clang"
-+    cxx = "clang++"
++    cc = "clang-3.6"
++    cxx = "clang++-3.6"
      ld = cxx
      is_clang = true
  

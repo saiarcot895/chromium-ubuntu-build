@@ -1,3 +1,9 @@
+chromium-browser (52.0.2716.0-0ubuntu1~ppa12~14.04.1) trusty; urgency=low
+
+  * More build fixes.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 05 May 2016 08:41:58 -0400
+
 chromium-browser (52.0.2716.0-0ubuntu1~ppa11~14.04.1) trusty; urgency=low
 
   * More build fixes.

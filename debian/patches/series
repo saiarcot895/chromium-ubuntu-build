@@ -34,6 +34,12 @@ remove-libgcceh.patch
 nacl-loosen-fd-check.patch
 fix-pnacl-irt-shim-build.patch
 tcmalloc-add-support-for-arm64.patch
+gn-add-support-for-arm64.patch
+gn-dont-use-git.patch
+ffmpeg-fix-build-for-arm64.patch
+gn-fix-for-i386-build.patch
+gn-fix-for-x64-non-clang-build.patch
+sandbox-fix-build-for-arm64.patch
 
 ### BEGIN Wayland patches ###
 #wayland-0001-Browser-Support-Desktop-Aura-creation-on-Ozone.patch
@@ -52,11 +58,5 @@ tcmalloc-add-support-for-arm64.patch
 ## wayland-0014-Adapt-to-https-codereview.chromium.org-1409823002.patch
 #wayland-0015-implement-new-methods.patch
 #wayland-0016-fix-dependencies.patch
-### END Wayland patches ###
 #wayland-0017-switch-to-stdint.patch
-gn-add-support-for-arm64.patch
-gn-dont-use-git.patch
-ffmpeg-fix-build-for-arm64.patch
-gn-fix-for-i386-build.patch
-gn-fix-for-x64-non-clang-build.patch
-sandbox-fix-build-for-arm64.patch
+### END Wayland patches ###
