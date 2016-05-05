@@ -1,3 +1,9 @@
+chromium-browser (52.0.2716.0-0ubuntu1~ppa13~15.10.1) wily; urgency=low
+
+  * Try not to have dh_strip go into Mojo Applications folder.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 05 May 2016 08:45:16 -0400
+
 chromium-browser (52.0.2716.0-0ubuntu1~ppa12~15.10.1) wily; urgency=low
 
   * More build fixes.
