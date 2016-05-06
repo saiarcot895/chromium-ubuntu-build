@@ -6,7 +6,7 @@ Index: dev.xenial/build/common.gypi
 ===================================================================
 --- dev.xenial.orig/build/common.gypi
 +++ dev.xenial/build/common.gypi
-@@ -2436,8 +2436,8 @@
+@@ -2437,8 +2437,8 @@
        }],
  
        ['host_clang==1', {
@@ -17,28 +17,11 @@ Index: dev.xenial/build/common.gypi
        }, {
          'host_cc': '<!(which gcc)',
          'host_cxx': '<!(which g++)',
-Index: dev.xenial/build/toolchain/gcc_toolchain.gni
-===================================================================
---- dev.xenial.orig/build/toolchain/gcc_toolchain.gni
-+++ dev.xenial/build/toolchain/gcc_toolchain.gni
-@@ -459,10 +459,8 @@ template("clang_toolchain") {
-   }
- 
-   gcc_toolchain(target_name) {
--    prefix = rebase_path("//third_party/llvm-build/Release+Asserts/bin",
--                         root_build_dir)
--    cc = "$prefix/clang"
--    cxx = "$prefix/clang++"
-+    cc = "clang-3.6"
-+    cxx = "clang++-3.6"
-     ld = cxx
-     is_clang = true
- 
 Index: dev.xenial/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.xenial.orig/build/config/compiler/BUILD.gn
 +++ dev.xenial/build/config/compiler/BUILD.gn
-@@ -357,15 +357,6 @@ config("compiler") {
+@@ -351,15 +351,6 @@ config("compiler") {
      cflags += [ "-fcolor-diagnostics" ]
    }
  
@@ -54,3 +37,20 @@ Index: dev.xenial/build/config/compiler/BUILD.gn
    # C++11 compiler flags setup.
    # ---------------------------
    if (is_linux || is_android || (is_nacl && is_clang)) {
+Index: dev.xenial/build/toolchain/gcc_toolchain.gni
+===================================================================
+--- dev.xenial.orig/build/toolchain/gcc_toolchain.gni
++++ dev.xenial/build/toolchain/gcc_toolchain.gni
+@@ -462,10 +462,8 @@ template("clang_toolchain") {
+   }
+ 
+   gcc_toolchain(target_name) {
+-    prefix = rebase_path("//third_party/llvm-build/Release+Asserts/bin",
+-                         root_build_dir)
+-    cc = "$prefix/clang"
+-    cxx = "$prefix/clang++"
++    cc = "clang-3.6"
++    cxx = "clang++-3.6"
+     ld = cxx
+     is_clang = true
+ 

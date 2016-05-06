@@ -292,9 +292,9 @@ FFMPEG_MT_GYP_DEFINES += \
 	release_extra_cflags=-g \
 	$(NULL)
 FFMPEG_MT_STD_GYP_DEFINES   = $(NULL)
-FFMPEG_MT_STD_GN_DEFINES    = is_chrome_branded=false
+FFMPEG_MT_STD_GN_DEFINES    = ffmpeg_branding="Chrome"
 FFMPEG_MT_EXTRA_GYP_DEFINES = ffmpeg_branding=Chrome
-FFMPEG_MT_EXTRA_GN_DEFINES  = is_chrome_branded=true
+FFMPEG_MT_EXTRA_GN_DEFINES  = ffmpeg_branding="Chromium"
 
 # Precise and earlier don't set some settings.
 ifeq (,$(filter 12.04%,$(UBUNTU_DIST)))
@@ -331,7 +331,7 @@ ifneq ($(DEB_HOST_ARCH),$(DEB_BUILD_ARCH))
 $(note Cross compiling for $(DEB_HOST_ARCH), from this $(DEB_BUILD_ARCH))
 CROSS_BUILD = PKG_CONFIG_PATH=/usr/lib/$(DEB_HOST_MULTIARCH)/pkgconfig:/usr/$(DEB_HOST_MULTIARCH)/lib/pkgconfig CXX=$(DEB_HOST_GNU_TYPE)-$(CXX)
 else
-ifneq (,$(filter 12.04% 14.04%,$(UBUNTU_DIST)))
+ifneq (,$(filter 12.04%,$(UBUNTU_DIST)))
 CROSS_BUILD = CC=$(shell which clang-3.6 clang |head -1) CXX=$(shell which clang++-3.6 clang++ |head -1)
 GYP_DEFINES += clang=1 clang_use_chrome_plugins=0
 # This might work.
@@ -401,6 +401,7 @@ local_install_arch: build
 	# Two stages: Install out of source tree. Copy to packaging.
 	mkdir -p debian/tmp/$(LIB_DIR)
 	(cd $(SRC_DIR)/out/$(BUILD_TYPE) && tar cf - . $(foreach excl,$(TRASH),--exclude=$(excl) );) | (cd debian/tmp/$(LIB_DIR) && tar xvf -;)
+	rm debian/tmp/$(LIB_DIR)/libffmpeg.so
 ifeq (1,$(COMPONENT_SHARED_LIB_BUILD))
 #	mkdir -p debian/tmp/$(LIB_DIR)/libs
 #	cp $(SRC_DIR)/out/$(BUILD_TYPE)/*.so debian/tmp/$(LIB_DIR)/libs/

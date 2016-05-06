@@ -43,12 +43,9 @@ Index: dev.xenial/tools/gn/args.cc
    static const char kMips[] = "mipsel";
    const char* arch = nullptr;
  
-@@ -242,12 +243,14 @@ void Args::SetSystemVarsLocked(Scope* de
-     arch = kX86;
-   else if (os_arch == "x86_64")
+@@ -244,10 +245,12 @@ void Args::SetSystemVarsLocked(Scope* de
      arch = kX64;
--  else if (os_arch.substr(3) == "arm")
-+  else if (os_arch.substr(0, 3) == "arm")
+   else if (os_arch.substr(0, 3) == "arm")
      arch = kArm;
 +  else if (os_arch == "aarch64")
 +    arch = kArm64;

@@ -5,31 +5,27 @@ In the change introduced by https://codereview.chromium.org/872623002, Chromium 
 There is a patch in libva (http://cgit.freedesktop.org/vaapi/intel-driver/commit/?id=9a20d6c34cb65e5b85dd16d6c8b3a215c5972b18) that asks what the maximum resolution supported by the hardware is. Until there is a new release of libva that has that change, this patch will have to be used.
 
 
-Index: dev.xenial/content/common/gpu/media/vaapi_wrapper.cc
+Index: dev.xenial/media/gpu/vaapi_wrapper.cc
 ===================================================================
---- dev.xenial.orig/content/common/gpu/media/vaapi_wrapper.cc
-+++ dev.xenial/content/common/gpu/media/vaapi_wrapper.cc
-@@ -456,46 +456,7 @@ bool VaapiWrapper::GetMaxResolution_Lock
+--- dev.xenial.orig/media/gpu/vaapi_wrapper.cc
++++ dev.xenial/media/gpu/vaapi_wrapper.cc
+@@ -452,42 +452,7 @@ bool VaapiWrapper::GetMaxResolution_Lock
      VAEntrypoint entrypoint,
      std::vector<VAConfigAttrib>& required_attribs,
      gfx::Size* resolution) {
 -  va_lock_->AssertAcquired();
 -  VAConfigID va_config_id;
--  VAStatus va_res = vaCreateConfig(
--      va_display_,
--      va_profile,
--      entrypoint,
--      &required_attribs[0],
--      required_attribs.size(),
--      &va_config_id);
+-  VAStatus va_res =
+-      vaCreateConfig(va_display_, va_profile, entrypoint, &required_attribs[0],
+-                     required_attribs.size(), &va_config_id);
 -  VA_SUCCESS_OR_RETURN(va_res, "vaCreateConfig failed", false);
 -
 -  // Calls vaQuerySurfaceAttributes twice. The first time is to get the number
 -  // of attributes to prepare the space and the second time is to get all
 -  // attributes.
 -  unsigned int num_attribs;
--  va_res = vaQuerySurfaceAttributes(
--      va_display_, va_config_id, nullptr, &num_attribs);
+-  va_res = vaQuerySurfaceAttributes(va_display_, va_config_id, nullptr,
+-                                    &num_attribs);
 -  VA_SUCCESS_OR_RETURN(va_res, "vaQuerySurfaceAttributes failed", false);
 -  if (!num_attribs)
 -    return false;
@@ -37,8 +33,8 @@ Index: dev.xenial/content/common/gpu/media/vaapi_wrapper.cc
 -  std::vector<VASurfaceAttrib> attrib_list(
 -      base::checked_cast<size_t>(num_attribs));
 -
--  va_res = vaQuerySurfaceAttributes(
--      va_display_, va_config_id, &attrib_list[0], &num_attribs);
+-  va_res = vaQuerySurfaceAttributes(va_display_, va_config_id, &attrib_list[0],
+-                                    &num_attribs);
 -  VA_SUCCESS_OR_RETURN(va_res, "vaQuerySurfaceAttributes failed", false);
 -
 -  resolution->SetSize(0, 0);

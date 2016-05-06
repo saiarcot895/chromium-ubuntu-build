@@ -2,15 +2,15 @@ Index: dev.xenial/chrome/browser/ui/views/frame/browser_frame.cc
 ===================================================================
 --- dev.xenial.orig/chrome/browser/ui/views/frame/browser_frame.cc
 +++ dev.xenial/chrome/browser/ui/views/frame/browser_frame.cc
-@@ -29,6 +29,7 @@
- #include "ui/gfx/screen.h"
+@@ -28,6 +28,7 @@
+ #include "ui/gfx/font_list.h"
  #include "ui/views/controls/menu/menu_runner.h"
  #include "ui/views/widget/native_widget.h"
 +#include "ui/views/widget/native_widget_aura.h"
  
  #if defined(OS_CHROMEOS)
  #include "ash/session/session_state_delegate.h"
-@@ -127,6 +128,12 @@ BrowserNonClientFrameView* BrowserFrame:
+@@ -126,6 +127,12 @@ BrowserNonClientFrameView* BrowserFrame:
    return browser_frame_view_;
  }
  
@@ -48,6 +48,21 @@ Index: dev.xenial/chrome/browser/ui/views/frame/browser_view.cc
  
    chrome::MaybeShowInvertBubbleView(this);
  }
+Index: dev.xenial/mash/wm/non_client_frame_controller.cc
+===================================================================
+--- dev.xenial.orig/mash/wm/non_client_frame_controller.cc
++++ dev.xenial/mash/wm/non_client_frame_controller.cc
+@@ -142,6 +142,10 @@ class WmNativeWidgetMus : public views::
+     // the client area should come from the client, not us.
+   }
+ 
++  void SetSessionID(uint32_t sessionid) {
++    // Do nothing.
++  }
++
+  private:
+   // The shadow, may be null.
+   std::unique_ptr<Shadow> shadow_;
 Index: dev.xenial/ui/aura/client/aura_constants.cc
 ===================================================================
 --- dev.xenial.orig/ui/aura/client/aura_constants.cc
@@ -95,11 +110,39 @@ Index: dev.xenial/ui/aura/window_tree_host_x11.h
    // WindowTreeHost:
    ui::EventSource* GetEventSource() override;
    gfx::AcceleratedWidget GetAcceleratedWidget() override;
+Index: dev.xenial/ui/views/mus/native_widget_mus.cc
+===================================================================
+--- dev.xenial.orig/ui/views/mus/native_widget_mus.cc
++++ dev.xenial/ui/views/mus/native_widget_mus.cc
+@@ -368,6 +368,10 @@ void NativeWidgetMus::UpdateClientArea()
+       non_client_view->bounds().width() - client_area_rect.right()));
+ }
+ 
++void NativeWidgetMus::SetSessionID(uint32_t sessionid) {
++  // Do nothing.
++}
++
+ ////////////////////////////////////////////////////////////////////////////////
+ // NativeWidgetMus, private:
+ 
+Index: dev.xenial/ui/views/mus/native_widget_mus.h
+===================================================================
+--- dev.xenial.orig/ui/views/mus/native_widget_mus.h
++++ dev.xenial/ui/views/mus/native_widget_mus.h
+@@ -80,6 +80,8 @@ class VIEWS_MUS_EXPORT NativeWidgetMus :
+   void OnPlatformWindowClosed();
+   void OnActivationChanged(bool active);
+ 
++  void SetSessionID(uint32_t sessionid);
++
+  protected:
+   // Updates the client area in the mus::Window.
+   virtual void UpdateClientArea();
 Index: dev.xenial/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
 ===================================================================
 --- dev.xenial.orig/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
 +++ dev.xenial/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
-@@ -592,6 +592,11 @@ void DesktopNativeWidgetAura::ViewRemove
+@@ -591,6 +591,11 @@ void DesktopNativeWidgetAura::ViewRemove
    drop_helper_->ResetTargetViewIfEquals(view);
  }
  
@@ -220,7 +263,7 @@ Index: dev.xenial/ui/views/widget/native_widget_aura.cc
  namespace views {
  
  namespace {
-@@ -327,6 +329,11 @@ void NativeWidgetAura::CenterWindow(cons
+@@ -329,6 +331,11 @@ void NativeWidgetAura::CenterWindow(cons
    window_->SetBounds(window_bounds);
  }
  
@@ -245,46 +288,3 @@ Index: dev.xenial/ui/views/widget/native_widget_aura.h
    // Overridden from internal::NativeWidgetPrivate:
    void InitNativeWidget(const Widget::InitParams& params) override;
    void OnWidgetInitDone() override;
-Index: dev.xenial/mash/wm/non_client_frame_controller.cc
-===================================================================
---- dev.xenial.orig/mash/wm/non_client_frame_controller.cc
-+++ dev.xenial/mash/wm/non_client_frame_controller.cc
-@@ -142,6 +142,10 @@ class WmNativeWidgetMus : public views::
-     // the client area should come from the client, not us.
-   }
- 
-+  void SetSessionID(uint32_t sessionid) {
-+    // Do nothing.
-+  }
-+
-  private:
-   // The shadow, may be null.
-   std::unique_ptr<Shadow> shadow_;
-Index: dev.xenial/ui/views/mus/native_widget_mus.cc
-===================================================================
---- dev.xenial.orig/ui/views/mus/native_widget_mus.cc
-+++ dev.xenial/ui/views/mus/native_widget_mus.cc
-@@ -341,6 +341,10 @@ void NativeWidgetMus::UpdateClientArea()
-       non_client_view->bounds().width() - client_area_rect.right()));
- }
- 
-+void NativeWidgetMus::SetSessionID(uint32_t sessionid) {
-+  // Do nothing.
-+}
-+
- ////////////////////////////////////////////////////////////////////////////////
- // NativeWidgetMus, private:
- 
-Index: dev.xenial/ui/views/mus/native_widget_mus.h
-===================================================================
---- dev.xenial.orig/ui/views/mus/native_widget_mus.h
-+++ dev.xenial/ui/views/mus/native_widget_mus.h
-@@ -79,6 +79,8 @@ class VIEWS_MUS_EXPORT NativeWidgetMus :
-   void OnPlatformWindowClosed();
-   void OnActivationChanged(bool active);
- 
-+  void SetSessionID(uint32_t sessionid);
-+
-  protected:
-   // Updates the client area in the mus::Window.
-   virtual void UpdateClientArea();

@@ -2,7 +2,7 @@ Index: dev.xenial/chrome/common/chrome_content_client.cc
 ===================================================================
 --- dev.xenial.orig/chrome/common/chrome_content_client.cc
 +++ dev.xenial/chrome/common/chrome_content_client.cc
-@@ -200,9 +200,7 @@ void ComputeBuiltInPlugins(std::vector<c
+@@ -204,9 +204,7 @@ void ComputeBuiltInPlugins(std::vector<c
      widevine_cdm.path = adapter_path;
      widevine_cdm.name = kWidevineCdmDisplayName;
      widevine_cdm.description =
@@ -13,7 +13,7 @@ Index: dev.xenial/chrome/common/chrome_content_client.cc
      content::WebPluginMimeType widevine_cdm_mime_type(
          kWidevineCdmPluginMimeType, kWidevineCdmPluginExtension,
          kWidevineCdmPluginMimeTypeDescription);
-@@ -551,8 +549,7 @@ void ChromeContentClient::AddContentDecr
+@@ -555,8 +553,7 @@ void ChromeContentClient::AddContentDecr
      // CdmInfo needs |path| to be the actual Widevine library,
      // not the adapter, so adjust as necessary. It will be in the
      // same directory as the installed adapter.

@@ -1,3 +1,10 @@
+chromium-browser (52.0.2723.2-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
+
+  * New upstream version 52.0.2723.2
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 06 May 2016 10:05:31 -0400
+
 chromium-browser (52.0.2716.0-0ubuntu1~ppa13~16.04.1) xenial; urgency=low
 
   * Try not to have dh_strip go into Mojo Applications folder.
