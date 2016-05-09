@@ -268,7 +268,7 @@ Index: dev.xenial/media/gpu/BUILD.gn
        ]
      }
 -    if (current_cpu == "arm") {
-+    if (current_cpu == "arm" and is_chromeos) {
++    if (current_cpu == "arm" && is_chromeos) {
        sources += [
          "tegra_v4l2_device.cc",
          "tegra_v4l2_device.h",

@@ -1,3 +1,9 @@
+chromium-browser (52.0.2723.2-0ubuntu1~ppa5~14.04.1) trusty; urgency=low
+
+  * Fix VAAPI build file.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 08 May 2016 23:29:42 -0400
+
 chromium-browser (52.0.2723.2-0ubuntu1~ppa4~14.04.1) trusty; urgency=low
 
   * More fixes for GN forward_variables_from change.
