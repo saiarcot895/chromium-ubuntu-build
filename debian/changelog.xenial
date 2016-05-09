@@ -1,3 +1,9 @@
+chromium-browser (52.0.2723.2-0ubuntu1~ppa3~16.04.1) xenial; urgency=low
+
+  * Fix GN forward_variables_from change.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 08 May 2016 21:07:20 -0400
+
 chromium-browser (52.0.2723.2-0ubuntu1~ppa2~16.04.1) xenial; urgency=low
 
   * Fix GN bootstrap.

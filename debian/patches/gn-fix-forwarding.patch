@@ -1,0 +1,44 @@
+Index: dev.xenial/build/toolchain/gcc_toolchain.gni
+===================================================================
+--- dev.xenial.orig/build/toolchain/gcc_toolchain.gni
++++ dev.xenial/build/toolchain/gcc_toolchain.gni
+@@ -414,7 +414,6 @@ template("gcc_toolchain") {
+                              [
+                                "use_allocator",
+                                "use_gold",
+-                               "symbol_level",
+                              ])
+ 
+       if (defined(invoker.is_clang)) {
+@@ -426,6 +425,9 @@ template("gcc_toolchain") {
+       if (defined(invoker.is_nacl_glibc)) {
+         is_nacl_glibc = invoker.is_nacl_glibc
+       }
++      if (defined(invoker.symbol_level)) {
++        symbol_level = invoker.symbol_level
++      }
+ 
+       if (defined(invoker.clear_sanitizers) && invoker.clear_sanitizers) {
+         is_asan = false
+Index: dev.xenial/build/toolchain/nacl_toolchain.gni
+===================================================================
+--- dev.xenial.orig/build/toolchain/nacl_toolchain.gni
++++ dev.xenial/build/toolchain/nacl_toolchain.gni
+@@ -43,7 +43,6 @@ template("nacl_toolchain") {
+                              "nm",
+                              "readelf",
+                              "strip",
+-                             "symbol_level",
+                              "toolchain_cpu",
+                            ])
+ 
+@@ -53,6 +52,9 @@ template("nacl_toolchain") {
+     if (defined(invoker.is_nacl_glibc)) {
+       is_nacl_glibc = invoker.is_nacl_glibc
+     }
++    if (defined(invoker.symbol_level)) {
++      symbol_level = invoker.symbol_level
++    }
+ 
+     # We do not support component builds or sanitizers with the NaCl toolchains.
+     is_component_build = false
