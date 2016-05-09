@@ -1,3 +1,10 @@
+chromium-browser (52.0.2723.2-0ubuntu1~ppa8~16.04.1) xenial; urgency=low
+
+  * Use system libva headers (for consistency).
+  * Add dependency on libva stubs for the sandbox file.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 09 May 2016 17:50:25 -0400
+
 chromium-browser (52.0.2723.2-0ubuntu1~ppa7~16.04.1) xenial; urgency=low
 
   * Yet another fix for VAAPI patch.

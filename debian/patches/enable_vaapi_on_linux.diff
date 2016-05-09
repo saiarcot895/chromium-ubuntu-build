@@ -30,8 +30,8 @@ Index: dev.xenial/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  #include "sandbox/linux/syscall_broker/broker_file_permission.h"
  #include "sandbox/linux/syscall_broker/broker_process.h"
  #include "sandbox/linux/system_headers/linux_syscalls.h"
-+#include "third_party/libva/va/va.h"
-+#include "third_party/libva/va/va_x11.h"
++#include <va/va.h>
++#include <va/va_x11.h>
  
  using sandbox::arch_seccomp_data;
  using sandbox::bpf_dsl::Allow;
@@ -531,3 +531,44 @@ Index: dev.xenial/media/media_gpu.gypi
        'dependencies': [
          '../media/media.gyp:media',
          '../third_party/libyuv/libyuv.gyp:libyuv',
+Index: dev.xenial/media/gpu/va_stub_header.fragment
+===================================================================
+--- dev.xenial.orig/media/gpu/va_stub_header.fragment
++++ dev.xenial/media/gpu/va_stub_header.fragment
+@@ -3,10 +3,10 @@
+ 
+ extern "C" {
+ 
+-#include "third_party/libva/va/drm/va_drm.h"
+-#include "third_party/libva/va/va.h"
++#include <va/va_drm.h>
++#include <va/va.h>
+ #if defined(USE_X11)
+-#include "third_party/libva/va/va_x11.h"
++#include <va/va_x11.h>
+ #endif
+ 
+ }
+Index: dev.xenial/content/common/BUILD.gn
+===================================================================
+--- dev.xenial.orig/content/common/BUILD.gn
++++ dev.xenial/content/common/BUILD.gn
+@@ -175,6 +175,8 @@ source_set("common") {
+ 
+   if (use_seccomp_bpf) {
+     defines += [ "USE_SECCOMP_BPF" ]
++    sources += get_target_outputs("//media/gpu:libva_generate_stubs")
++    deps += [ "//media/gpu:libva_generate_stubs" ]
+   } else {
+     if (is_linux) {
+       sources -= [
+Index: dev.xenial/third_party/libva/BUILD.gn
+===================================================================
+--- dev.xenial.orig/third_party/libva/BUILD.gn
++++ dev.xenial/third_party/libva/BUILD.gn
+@@ -4,5 +4,4 @@
+ 
+ # Add this config to targets that need to use the libva headers.
+ config("libva_config") {
+-  include_dirs = [ "." ]
+ }
