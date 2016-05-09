@@ -39,10 +39,10 @@ Index: dev.xenial/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  using sandbox::syscall_broker::BrokerProcess;
  using sandbox::SyscallSets;
  
-+using content_common_gpu_media::kModuleVa;
-+using content_common_gpu_media::kModuleVa_x11;
-+using content_common_gpu_media::InitializeStubs;
-+using content_common_gpu_media::StubPathMap;
++using media_gpu::kModuleVa;
++using media_gpu::kModuleVa_x11;
++using media_gpu::InitializeStubs;
++using media_gpu::StubPathMap;
 +
  namespace content {
  
