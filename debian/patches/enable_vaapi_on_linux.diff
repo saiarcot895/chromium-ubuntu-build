@@ -4,7 +4,7 @@ Index: dev.xenial/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.xenial.orig/chrome/browser/about_flags.cc
 +++ dev.xenial/chrome/browser/about_flags.cc
-@@ -841,7 +841,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -850,7 +850,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_NAME,
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
@@ -22,7 +22,7 @@ Index: dev.xenial/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  #include "base/memory/ptr_util.h"
  #include "build/build_config.h"
 +// Auto-generated for dlopen libva libraries
-+#include "media/gpu/va_stubs.h"
++#include "content/common/va_stubs.h"
  #include "content/common/sandbox_linux/sandbox_bpf_base_policy_linux.h"
  #include "content/common/sandbox_linux/sandbox_seccomp_bpf_linux.h"
  #include "content/common/set_process_title.h"
@@ -174,7 +174,7 @@ Index: dev.xenial/content/public/common/content_switches.cc
 ===================================================================
 --- dev.xenial.orig/content/public/common/content_switches.cc
 +++ dev.xenial/content/public/common/content_switches.cc
-@@ -950,7 +950,9 @@ const char kDisableAudioSupportForDeskto
+@@ -953,7 +953,9 @@ const char kDisableAudioSupportForDeskto
  #if defined(OS_CHROMEOS)
  // Disables panel fitting (used for mirror mode).
  const char kDisablePanelFitting[]           = "disable-panel-fitting";
@@ -188,7 +188,7 @@ Index: dev.xenial/content/public/common/content_switches.h
 ===================================================================
 --- dev.xenial.orig/content/public/common/content_switches.h
 +++ dev.xenial/content/public/common/content_switches.h
-@@ -273,6 +273,8 @@ CONTENT_EXPORT extern const char kEnable
+@@ -274,6 +274,8 @@ CONTENT_EXPORT extern const char kEnable
  
  #if defined(OS_CHROMEOS)
  CONTENT_EXPORT extern const char kDisablePanelFitting[];
@@ -201,7 +201,7 @@ Index: dev.xenial/gpu/config/software_rendering_list_json.cc
 ===================================================================
 --- dev.xenial.orig/gpu/config/software_rendering_list_json.cc
 +++ dev.xenial/gpu/config/software_rendering_list_json.cc
-@@ -484,17 +484,6 @@ const char kSoftwareRenderingListJson[]
+@@ -488,17 +488,6 @@ const char kSoftwareRenderingListJson[]
        ]
      },
      {
@@ -254,7 +254,7 @@ Index: dev.xenial/media/gpu/BUILD.gn
    action("libva_generate_stubs") {
      extra_header = "va_stub_header.fragment"
  
-@@ -221,7 +221,7 @@ component("gpu") {
+@@ -227,7 +227,7 @@ component("gpu") {
      }
    }
  
@@ -263,7 +263,7 @@ Index: dev.xenial/media/gpu/BUILD.gn
      sources += [
        "accelerated_video_decoder.h",
        "h264_decoder.cc",
-@@ -266,13 +266,13 @@ component("gpu") {
+@@ -271,13 +271,13 @@ component("gpu") {
          "GLESv2",
        ]
      }
@@ -327,7 +327,7 @@ Index: dev.xenial/media/gpu/gpu_video_decode_accelerator_factory_impl.cc
      &GpuVideoDecodeAcceleratorFactoryImpl::CreateVaapiVDA,
  #endif
  #if defined(OS_MACOSX)
-@@ -195,10 +195,11 @@ GpuVideoDecodeAcceleratorFactoryImpl::Cr
+@@ -194,10 +194,11 @@ GpuVideoDecodeAcceleratorFactoryImpl::Cr
  }
  #endif
  
@@ -491,7 +491,7 @@ Index: dev.xenial/media/media.gyp
 ===================================================================
 --- dev.xenial.orig/media/media.gyp
 +++ dev.xenial/media/media.gyp
-@@ -747,7 +747,7 @@
+@@ -748,7 +748,7 @@
            ],
          }],
          # For VaapiVideoEncodeAccelerator.
@@ -500,7 +500,7 @@ Index: dev.xenial/media/media.gyp
            'sources': [
              'filters/h264_bitstream_buffer.cc',
              'filters/h264_bitstream_buffer.h',
-@@ -1325,7 +1325,7 @@
+@@ -1326,7 +1326,7 @@
              'cdm/cdm_adapter_unittest.cc',
            ],
          }],
@@ -509,7 +509,7 @@ Index: dev.xenial/media/media.gyp
            'sources': [
              'filters/h264_bitstream_buffer_unittest.cc',
            ],
-@@ -2254,7 +2254,7 @@
+@@ -2255,7 +2255,7 @@
        ],
      }],
  
@@ -522,7 +522,7 @@ Index: dev.xenial/media/media_gpu.gypi
 ===================================================================
 --- dev.xenial.orig/media/media_gpu.gypi
 +++ dev.xenial/media/media_gpu.gypi
-@@ -223,7 +223,7 @@
+@@ -228,7 +228,7 @@
          'gpu/tegra_v4l2_device.h',
        ],
      }],
@@ -553,12 +553,61 @@ Index: dev.xenial/content/common/BUILD.gn
 ===================================================================
 --- dev.xenial.orig/content/common/BUILD.gn
 +++ dev.xenial/content/common/BUILD.gn
-@@ -175,6 +175,8 @@ source_set("common") {
+@@ -11,6 +11,48 @@ if (is_mac) {
+   import("//build/config/mac/mac_sdk.gni")
+ }
+ 
++if (is_desktop_linux || (is_chromeos && current_cpu != "arm")) {
++  action("libva_generate_stubs") {
++    extra_header = "va_stub_header.fragment"
++
++    script = "../../tools/generate_stubs/generate_stubs.py"
++    sources = [
++      "../../media/gpu/va.sigs",
++    ]
++    inputs = [
++      extra_header,
++    ]
++    if (use_x11) {
++      sources += [ "../../media/gpu/va_x11.sigs" ]
++    }
++    if (use_ozone) {
++      sources += [ "../../media/gpu/va_drm.sigs" ]
++    }
++    stubs_filename_root = "va_stubs"
++
++    outputs = [
++      "$target_gen_dir/$stubs_filename_root.cc",
++      "$target_gen_dir/$stubs_filename_root.h",
++    ]
++    args = [
++      "-i",
++      rebase_path("$target_gen_dir", root_build_dir),
++      "-o",
++      rebase_path("$target_gen_dir", root_build_dir),
++      "-t",
++      "posix_stubs",
++      "-e",
++      rebase_path(extra_header, root_build_dir),
++      "-s",
++      stubs_filename_root,
++      "-p",
++      "content/common",
++    ]
++
++    args += rebase_path(sources, root_build_dir)
++  }
++}
++
+ source_set("common") {
+   # Targets external to content should always link to the public API.
+   # In addition, targets outside of the content component (shell and tests)
+@@ -176,6 +218,8 @@ source_set("common") {
  
    if (use_seccomp_bpf) {
      defines += [ "USE_SECCOMP_BPF" ]
-+    sources += get_target_outputs("//media/gpu:libva_generate_stubs")
-+    deps += [ "//media/gpu:libva_generate_stubs" ]
++    sources += get_target_outputs(":libva_generate_stubs")
++    deps += [ ":libva_generate_stubs" ]
    } else {
      if (is_linux) {
        sources -= [

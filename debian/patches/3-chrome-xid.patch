@@ -2,7 +2,7 @@ Index: dev.xenial/chrome/browser/ui/views/frame/browser_frame.cc
 ===================================================================
 --- dev.xenial.orig/chrome/browser/ui/views/frame/browser_frame.cc
 +++ dev.xenial/chrome/browser/ui/views/frame/browser_frame.cc
-@@ -28,6 +28,7 @@
+@@ -30,6 +30,7 @@
  #include "ui/gfx/font_list.h"
  #include "ui/views/controls/menu/menu_runner.h"
  #include "ui/views/widget/native_widget.h"
@@ -10,7 +10,7 @@ Index: dev.xenial/chrome/browser/ui/views/frame/browser_frame.cc
  
  #if defined(OS_CHROMEOS)
  #include "ash/session/session_state_delegate.h"
-@@ -126,6 +127,12 @@ BrowserNonClientFrameView* BrowserFrame:
+@@ -137,6 +138,12 @@ BrowserNonClientFrameView* BrowserFrame:
    return browser_frame_view_;
  }
  
@@ -114,7 +114,7 @@ Index: dev.xenial/ui/views/mus/native_widget_mus.cc
 ===================================================================
 --- dev.xenial.orig/ui/views/mus/native_widget_mus.cc
 +++ dev.xenial/ui/views/mus/native_widget_mus.cc
-@@ -368,6 +368,10 @@ void NativeWidgetMus::UpdateClientArea()
+@@ -428,6 +428,10 @@ void NativeWidgetMus::UpdateClientArea()
        non_client_view->bounds().width() - client_area_rect.right()));
  }
  
@@ -129,7 +129,7 @@ Index: dev.xenial/ui/views/mus/native_widget_mus.h
 ===================================================================
 --- dev.xenial.orig/ui/views/mus/native_widget_mus.h
 +++ dev.xenial/ui/views/mus/native_widget_mus.h
-@@ -80,6 +80,8 @@ class VIEWS_MUS_EXPORT NativeWidgetMus :
+@@ -81,6 +81,8 @@ class VIEWS_MUS_EXPORT NativeWidgetMus :
    void OnPlatformWindowClosed();
    void OnActivationChanged(bool active);
  
@@ -192,8 +192,8 @@ Index: dev.xenial/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
 +
  #include "base/command_line.h"
  #include "base/memory/ptr_util.h"
- #include "base/strings/stringprintf.h"
-@@ -110,6 +112,7 @@ const char* kAtomsToCache[] = {
+ #include "base/strings/string_number_conversions.h"
+@@ -111,6 +113,7 @@ const char* kAtomsToCache[] = {
    "_NET_WM_WINDOW_TYPE_NORMAL",
    "_NET_WM_WINDOW_TYPE_NOTIFICATION",
    "_NET_WM_WINDOW_TYPE_TOOLTIP",
@@ -201,7 +201,7 @@ Index: dev.xenial/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
    "XdndActionAsk",
    "XdndActionCopy",
    "XdndActionLink",
-@@ -1420,6 +1423,22 @@ void DesktopWindowTreeHostX11::UpdateMin
+@@ -1432,6 +1435,22 @@ void DesktopWindowTreeHostX11::UpdateMin
    XSetWMNormalHints(xdisplay_, xwindow_, &hints);
  }
  
@@ -263,7 +263,7 @@ Index: dev.xenial/ui/views/widget/native_widget_aura.cc
  namespace views {
  
  namespace {
-@@ -329,6 +331,11 @@ void NativeWidgetAura::CenterWindow(cons
+@@ -330,6 +332,11 @@ void NativeWidgetAura::CenterWindow(cons
    window_->SetBounds(window_bounds);
  }
  
