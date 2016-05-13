@@ -60,3 +60,4 @@ sandbox-fix-build-for-arm64.patch
 #wayland-0016-fix-dependencies.patch
 #wayland-0017-switch-to-stdint.patch
 ### END Wayland patches ###
+gn-fix-forwarding.patch

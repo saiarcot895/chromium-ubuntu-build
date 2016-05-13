@@ -1,3 +1,9 @@
+chromium-browser (52.0.2729.3-0ubuntu1~ppa2~16.04.1) xenial; urgency=low
+
+  * Fix gn forwarding.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 12 May 2016 21:14:09 -0400
+
 chromium-browser (52.0.2729.3-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
 
   * New upstream version 52.0.2729.3

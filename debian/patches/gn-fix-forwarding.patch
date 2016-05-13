@@ -1,0 +1,22 @@
+Index: dev.xenial/build/toolchain/gcc_toolchain.gni
+===================================================================
+--- dev.xenial.orig/build/toolchain/gcc_toolchain.gni
++++ dev.xenial/build/toolchain/gcc_toolchain.gni
+@@ -480,5 +480,17 @@ template("clang_toolchain") {
+                              "use_gold",
+                              "strip",
+                            ])
++		if (defined(invoker.toolchain_cpu)) {
++			toolchain_cpu = invoker.toolchain_cpu
++		}
++		if (defined(invoker.toolchain_os)) {
++			toolchain_os = invoker.toolchain_os
++		}
++		if (defined(invoker.use_gold)) {
++			use_gold = invoker.use_gold
++		}
++		if (defined(invoker.strip)) {
++			strip = invoker.strip
++		}
+   }
+ }
