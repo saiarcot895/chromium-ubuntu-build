@@ -1,3 +1,9 @@
+chromium-browser (52.0.2729.3-0ubuntu1~ppa4~16.04.1) xenial; urgency=low
+
+  * Fix path to va sigs.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 13 May 2016 09:37:40 -0400
+
 chromium-browser (52.0.2729.3-0ubuntu1~ppa3~16.04.1) xenial; urgency=low
 
   * Fix patch, and tabs are evil.

@@ -559,7 +559,7 @@ Index: dev.xenial/content/common/BUILD.gn
  
 +if (is_desktop_linux || (is_chromeos && current_cpu != "arm")) {
 +  action("libva_generate_stubs") {
-+    extra_header = "va_stub_header.fragment"
++    extra_header = "../../media/gpu/va_stub_header.fragment"
 +
 +    script = "../../tools/generate_stubs/generate_stubs.py"
 +    sources = [
