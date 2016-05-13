@@ -39,10 +39,10 @@ Index: dev.xenial/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  using sandbox::syscall_broker::BrokerProcess;
  using sandbox::SyscallSets;
  
-+using media_gpu::kModuleVa;
-+using media_gpu::kModuleVa_x11;
-+using media_gpu::InitializeStubs;
-+using media_gpu::StubPathMap;
++using content_common::kModuleVa;
++using content_common::kModuleVa_x11;
++using content_common::InitializeStubs;
++using content_common::StubPathMap;
 +
  namespace content {
  
@@ -621,3 +621,16 @@ Index: dev.xenial/third_party/libva/BUILD.gn
  config("libva_config") {
 -  include_dirs = [ "." ]
  }
+Index: dev.xenial/media/gpu/va_surface.h
+===================================================================
+--- dev.xenial.orig/media/gpu/va_surface.h
++++ dev.xenial/media/gpu/va_surface.h
+@@ -12,7 +12,7 @@
+ #include "base/macros.h"
+ #include "base/memory/ref_counted.h"
+ #include "media/gpu/media_gpu_export.h"
+-#include "third_party/libva/va/va.h"
++#include <va/va.h>
+ #include "ui/gfx/geometry/size.h"
+ 
+ namespace media {
