@@ -1,3 +1,10 @@
+chromium-browser (52.0.2729.3-0ubuntu1~ppa6~15.10.1) wily; urgency=low
+
+  * Try to bring back support for Precise.
+  * Add detection code to see if VP9 is available on the target system.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 22 May 2016 11:32:26 -0400
+
 chromium-browser (52.0.2729.3-0ubuntu1~ppa5~15.10.1) wily; urgency=low
 
   * Fix VA patch (again).

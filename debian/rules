@@ -91,6 +91,8 @@ FFMPEG_MT_GN_DEFINES += enable_nacl=false
 ifneq (,$(filter 12.04%,$(UBUNTU_DIST)))
 # Disable NaCl for Precise until the toolchain is built
 GYP_DEFINES += disable_nacl=1
+GN_DEFINES += enable_nacl=false
+FFMPEG_MT_GN_DEFINES += enable_nacl=false
 else
  ifneq (,$(filter arm%,$(DEB_HOST_ARCH_CPU)))
 # Disable NaCl for arm until the toolchain is built
@@ -251,8 +253,8 @@ BUILD_TYPE := Release
 # Add symbols
 GYP_DEFINES += linux_dump_symbols=1
 #GYP_DEFINES += logging_like_official_build=1
-GN_DEFINES += is_debug=false symbol_level=1
-FFMPEG_MT_GN_DEFINES += is_debug=false symbol_level=1
+GN_DEFINES += is_debug=false
+FFMPEG_MT_GN_DEFINES += is_debug=false
 endif
 
 BUILD_ARGS += -C $(DEB_TAR_SRCDIR)/out/$(BUILD_TYPE)
@@ -292,9 +294,9 @@ FFMPEG_MT_GYP_DEFINES += \
 	release_extra_cflags=-g \
 	$(NULL)
 FFMPEG_MT_STD_GYP_DEFINES   = $(NULL)
-FFMPEG_MT_STD_GN_DEFINES    = ffmpeg_branding="Chrome"
+FFMPEG_MT_STD_GN_DEFINES    = ffmpeg_branding="Chromium"
 FFMPEG_MT_EXTRA_GYP_DEFINES = ffmpeg_branding=Chrome
-FFMPEG_MT_EXTRA_GN_DEFINES  = ffmpeg_branding="Chromium"
+FFMPEG_MT_EXTRA_GN_DEFINES  = ffmpeg_branding="Chrome"
 
 # Precise and earlier don't set some settings.
 ifeq (,$(filter 12.04%,$(UBUNTU_DIST)))
@@ -331,18 +333,10 @@ ifneq ($(DEB_HOST_ARCH),$(DEB_BUILD_ARCH))
 $(note Cross compiling for $(DEB_HOST_ARCH), from this $(DEB_BUILD_ARCH))
 CROSS_BUILD = PKG_CONFIG_PATH=/usr/lib/$(DEB_HOST_MULTIARCH)/pkgconfig:/usr/$(DEB_HOST_MULTIARCH)/lib/pkgconfig CXX=$(DEB_HOST_GNU_TYPE)-$(CXX)
 else
-ifneq (,$(filter 12.04%,$(UBUNTU_DIST)))
-CROSS_BUILD = CC=$(shell which clang-3.6 clang |head -1) CXX=$(shell which clang++-3.6 clang++ |head -1)
-GYP_DEFINES += clang=1 clang_use_chrome_plugins=0
-# This might work.
-GN_DEFINES += clang_use_chrome_plugins=false
-FFMPEG_MT_GN_DEFINES += clang_use_chrome_plugins=false
-else
 CROSS_BUILD = CC=$(shell which gcc) CXX=$(shell which g++)
 GYP_DEFINES += clang=0
 GN_DEFINES += is_clang=false
 FFMPEG_MT_GN_DEFINES += is_clang=false
-endif
 endif
 
 ### Official interfaces.
@@ -395,7 +389,7 @@ override_dh_shlibdeps:
 	dh_shlibdeps -l$(CURDIR)/debian/chromium-browser/usr/lib/chromium-browser/libs/ |grep -v "dpkg-shlibdeps: warning: can't extract name and version from library name" || true
 
 local_install_arch: PKG_DIRS := $(addprefix debian/,$(shell dh_listpackages))
-local_install_arch: TRASH := .deps gen obj.host obj.target \*.lock obj build.\* .landmines mksnapshot.ia32 protoc pyproto re2c resources xdg-mime xdg-settings yasm \*.TOC \*.stamp product_logo_\*png gen\* libvpx_obj_int_extract libwidevinecdm.so libwidevinecdmadapter.so .ninja\* \*.ninja args.gn chrome-wrapper \*.breakpad.\* java_mojo dump_syms \*.cmd \*.debug \*.debug.raw 
+local_install_arch: TRASH := .deps gen obj.host obj.target \*.lock obj build.\* .landmines mksnapshot.ia32 mksnapshot protoc pyproto re2c resources xdg-mime xdg-settings yasm \*.TOC \*.stamp product_logo_\*png gen\* libvpx_obj_int_extract libwidevinecdm.so libwidevinecdmadapter.so .ninja\* \*.ninja args.gn chrome-wrapper \*.breakpad.\* java_mojo dump_syms \*.cmd \*.debug \*.debug.raw character_data_generator
 local_install_arch: build
 	@set -eux
 	# Two stages: Install out of source tree. Copy to packaging.
@@ -475,7 +469,7 @@ override_dh_clean:
 		configure-stamp-ffmpeg-std configure-stamp-ffmpeg-extra \
 		configure-stamp-gn build-stamp-gn
 	rm -f $(subst_files)
-	rm -rf $(DEB_TAR_SRCDIR)/out $(FFMPEG_SRC_DIR)/yasm $(FFMPEG_SRC_DIR)/out $(FFMPEG_SRC_DIR)/*.mk $(DEB_TAR_SRCDIR)/tools/gn/bin/linux/gn
+	rm -rf $(DEB_TAR_SRCDIR)/out $(FFMPEG_SRC_DIR)/yasm $(FFMPEG_SRC_DIR)/out $(FFMPEG_SRC_DIR)/*.mk
 	find $(DEB_TAR_SRCDIR) \( -name \*.pyc -o -name \*.pyo -name \*.o \) -delete
 	find $(DEB_TAR_SRCDIR) -regex '.*/\([^/]*\)/\1[^/]*\.\(Makefile\|\(target\|host\)\.mk\)' -delete
 	sed -i 's,/etc/$(DEBIAN_NAME)/policies,/etc/chromium/policies,' \
@@ -546,8 +540,8 @@ configure-stamp-ffmpeg-%: build-stamp-gn
 build-stamp-ffmpeg-%: configure-stamp-ffmpeg-%
 	@set -eux
 	$(NINJA) -v -C $(DEB_TAR_SRCDIR)/out/$(BUILD_TYPE)-ffmpeg-$* ffmpeg
-	mkdir -p debian/tmp-$*/$(LIB_DIR)/libs
-	cp $(DEB_TAR_SRCDIR)/out/$(BUILD_TYPE)-ffmpeg-$*/libffmpeg.so $(CURDIR)/debian/tmp-$*/$(LIB_DIR)/libs
+	mkdir -p debian/tmp-$*/$(LIB_DIR)
+	cp $(DEB_TAR_SRCDIR)/out/$(BUILD_TYPE)-ffmpeg-$*/libffmpeg.so $(CURDIR)/debian/tmp-$*/$(LIB_DIR)
 	touch $@
 
 # These are (leading-slash-less) files that are created by upstream builder,
