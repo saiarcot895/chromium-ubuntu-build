@@ -40,6 +40,8 @@ ffmpeg-fix-build-for-arm64.patch
 gn-fix-for-i386-build.patch
 gn-fix-for-x64-non-clang-build.patch
 sandbox-fix-build-for-arm64.patch
+gn-fix-forwarding.patch
+#precise-change-compiler.patch
 
 ### BEGIN Wayland patches ###
 #wayland-0001-Browser-Support-Desktop-Aura-creation-on-Ozone.patch
@@ -60,4 +62,3 @@ sandbox-fix-build-for-arm64.patch
 #wayland-0016-fix-dependencies.patch
 #wayland-0017-switch-to-stdint.patch
 ### END Wayland patches ###
-gn-fix-forwarding.patch

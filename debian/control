@@ -8,7 +8,7 @@ Build-Depends: debhelper (>= 9),
 		dh-buildinfo,
 		pkg-config,
 		ninja-build (>= 1.3.4),
-		gcc (>= 4:4.8.1) | clang (>= 1:3.6) | clang-3.6,
+		gcc (>= 4:4.8.1) | g++-4.8 | clang (>= 1:3.6) | clang-3.6,
 		lsb-release,
 		python,
 		bison,
@@ -40,7 +40,6 @@ Build-Depends: debhelper (>= 9),
 		libexif-dev,
 		libssl-dev,
 		libkrb5-dev,
-		libva-dev,
 		libffi-dev,
 		chrpath,
 		native-client [i386 amd64]
@@ -50,12 +49,9 @@ Package: chromium-browser
 Architecture: armhf arm64 i386 amd64
 Pre-Depends: dpkg (>= 1.15.6)
 Depends: ${shlibs:Depends}, ${misc:Depends},
-	libnss3,
 	xdg-utils,
-	libva1,
-	libva-x11-1,
 	chromium-codecs-ffmpeg-extra (>= 0.6) | chromium-codecs-ffmpeg (>= 0.6)
-Recommends: chromium-browser-l10n
+Recommends: chromium-browser-l10n, libva1, libva-x11-1
 Suggests: webaccounts-chromium-extension,
 	unity-chromium-extension,
 	chromiumflashplugin

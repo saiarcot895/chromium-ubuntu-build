@@ -615,7 +615,7 @@ compare-arch:
 	T=$$(mktemp -d -t chromium-comparisons-XXXXXXX);\
 	test "$${T}"; \
 	test -d $${T};\
-	DUPES=`find $(PKG_DIRS) -type f -print | grep -v /DEBIAN/ | cut -d/ -f3- | LC_ALL=C sort | uniq -c | grep -vE '^ *2 .*/libs/libffmpeg.so$$' | grep -vE '^  *1 '` || true; \
+	DUPES=`find $(PKG_DIRS) -type f -print | grep -v /DEBIAN/ | cut -d/ -f3- | LC_ALL=C sort | uniq -c | grep -vE '^ *2 .*/libffmpeg.so$$' | grep -vE '^  *1 '` || true; \
 	if [ "Z$$DUPES" != Z ] ; then \
 	  echo " => Found duplicates:\n $$DUPES" ; \
 	  exit 1 ; \

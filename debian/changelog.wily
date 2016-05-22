@@ -1,3 +1,12 @@
+chromium-browser (52.0.2729.3-0ubuntu1~ppa7~15.10.1) wily; urgency=low
+
+  * Work on support for Precise.
+  * Update path to ffmpeg.so library.
+  * Don't use the libva-dev package, and use the headers that upstream
+    is using. The library is dlopen'ed anyways.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 22 May 2016 19:47:06 -0400
+
 chromium-browser (52.0.2729.3-0ubuntu1~ppa6~15.10.1) wily; urgency=low
 
   * Try to bring back support for Precise.

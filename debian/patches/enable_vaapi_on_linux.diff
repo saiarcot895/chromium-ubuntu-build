@@ -392,22 +392,6 @@ Index: dev.xenial/media/gpu/vaapi_video_decode_accelerator.cc
 ===================================================================
 --- dev.xenial.orig/media/gpu/vaapi_video_decode_accelerator.cc
 +++ dev.xenial/media/gpu/vaapi_video_decode_accelerator.cc
-@@ -7,6 +7,7 @@
- #include <string.h>
- 
- #include <memory>
-+#include <va/va.h>
- 
- #include "base/bind.h"
- #include "base/logging.h"
-@@ -24,7 +25,6 @@
- #include "media/gpu/vp8_decoder.h"
- #include "media/gpu/vp9_decoder.h"
- #include "media/video/picture.h"
--#include "third_party/libva/va/va_dec_vp8.h"
- #include "ui/gl/gl_bindings.h"
- #include "ui/gl/gl_image.h"
- 
 @@ -342,17 +342,17 @@ bool VaapiVideoDecodeAccelerator::Initia
  
    base::AutoLock auto_lock(lock_);
@@ -447,25 +431,6 @@ Index: dev.xenial/media/gpu/vaapi_video_decode_accelerator.cc
      return false;
    }
  
-@@ -1635,6 +1635,7 @@ bool VaapiVideoDecodeAccelerator::VaapiV
-     const media::Vp9Segmentation& seg,
-     const media::Vp9LoopFilter& lf,
-     const std::vector<scoped_refptr<VP9Picture>>& ref_pictures) {
-+#ifdef VA_DEC_VP9_H
-   VADecPictureParameterBufferVP9 pic_param;
-   memset(&pic_param, 0, sizeof(pic_param));
- 
-@@ -1748,6 +1749,10 @@ bool VaapiVideoDecodeAccelerator::VaapiV
-       VP9PictureToVaapiDecodeSurface(pic);
- 
-   return vaapi_dec_->DecodeSurface(dec_surface);
-+#else
-+  DVLOG(1) << "VP9 is not supported";
-+  return false;
-+#endif
- }
- 
- bool VaapiVideoDecodeAccelerator::VaapiVP9Accelerator::OutputPicture(
 Index: dev.xenial/media/gpu/vaapi_wrapper.cc
 ===================================================================
 --- dev.xenial.orig/media/gpu/vaapi_wrapper.cc
