@@ -1,0 +1,37 @@
+Index: dev.xenial/build/toolchain/linux/BUILD.gn
+===================================================================
+--- dev.xenial.orig/build/toolchain/linux/BUILD.gn
++++ dev.xenial/build/toolchain/linux/BUILD.gn
+@@ -14,8 +14,8 @@ clang_toolchain("clang_arm") {
+ gcc_toolchain("arm") {
+   toolprefix = "arm-linux-gnueabihf-"
+ 
+-  cc = "${toolprefix}gcc"
+-  cxx = "${toolprefix}g++"
++  cc = "${toolprefix}gcc-4.8"
++  cxx = "${toolprefix}g++-4.8"
+ 
+   ar = "${toolprefix}ar"
+   ld = cxx
+@@ -55,8 +55,8 @@ clang_toolchain("clang_x86") {
+ }
+ 
+ gcc_toolchain("x86") {
+-  cc = "gcc"
+-  cxx = "g++"
++  cc = "gcc-4.8"
++  cxx = "g++-4.8"
+ 
+   readelf = "readelf"
+   nm = "nm"
+@@ -74,8 +74,8 @@ clang_toolchain("clang_x64") {
+ }
+ 
+ gcc_toolchain("x64") {
+-  cc = "gcc"
+-  cxx = "g++"
++  cc = "gcc-4.8"
++  cxx = "g++-4.8"
+ 
+   readelf = "readelf"
+   nm = "nm"

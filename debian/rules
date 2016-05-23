@@ -333,7 +333,11 @@ ifneq ($(DEB_HOST_ARCH),$(DEB_BUILD_ARCH))
 $(note Cross compiling for $(DEB_HOST_ARCH), from this $(DEB_BUILD_ARCH))
 CROSS_BUILD = PKG_CONFIG_PATH=/usr/lib/$(DEB_HOST_MULTIARCH)/pkgconfig:/usr/$(DEB_HOST_MULTIARCH)/lib/pkgconfig CXX=$(DEB_HOST_GNU_TYPE)-$(CXX)
 else
+ifneq (,$(filter 12.04%,$(UBUNTU_DIST)))
+CROSS_BUILD = CC=$(shell which gcc-4.8) CXX=$(shell which g++-4.8)
+else
 CROSS_BUILD = CC=$(shell which gcc) CXX=$(shell which g++)
+endif
 GYP_DEFINES += clang=0
 GN_DEFINES += is_clang=false
 FFMPEG_MT_GN_DEFINES += is_clang=false
@@ -491,7 +495,7 @@ configure-stamp-gn:
 build-stamp-gn: configure-stamp-gn
 	@set -eux
 	
-	tools/gn/bootstrap/bootstrap.py -v --gn-gen-args '$(GN_DEFINES)'
+	$(CROSS_BUILD) tools/gn/bootstrap/bootstrap.py -v --gn-gen-args '$(GN_DEFINES)'
 	cp $(DEB_TAR_SRCDIR)/out/Release/gn $(DEB_TAR_SRCDIR)
 	
 	rm -rf $(DEB_TAR_SRCDIR)/out
