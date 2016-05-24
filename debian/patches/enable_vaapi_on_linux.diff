@@ -584,12 +584,13 @@ Index: dev.xenial/content/common/BUILD.gn
  source_set("common") {
    # Targets external to content should always link to the public API.
    # In addition, targets outside of the content component (shell and tests)
-@@ -176,6 +218,8 @@ source_set("common") {
+@@ -176,6 +218,9 @@ source_set("common") {
  
    if (use_seccomp_bpf) {
      defines += [ "USE_SECCOMP_BPF" ]
 +    sources += get_target_outputs(":libva_generate_stubs")
 +    deps += [ ":libva_generate_stubs" ]
++    configs += [ "//third_party/libva:libva_config" ]
    } else {
      if (is_linux) {
        sources -= [
