@@ -35,20 +35,22 @@ Index: dev.xenial/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  
  using sandbox::arch_seccomp_data;
  using sandbox::bpf_dsl::Allow;
-@@ -42,6 +46,12 @@ using sandbox::syscall_broker::BrokerFil
+@@ -42,6 +46,14 @@ using sandbox::syscall_broker::BrokerFil
  using sandbox::syscall_broker::BrokerProcess;
  using sandbox::SyscallSets;
  
 +using content_common::kModuleVa;
 +using content_common::kModuleVa_x11;
++#if defined(USE_OZONE)
 +using content_common::kModuleVa_drm;
++#endif
 +using content_common::InitializeStubs;
 +using content_common::StubPathMap;
 +
  namespace content {
  
  namespace {
-@@ -96,7 +106,7 @@ inline bool UseLibV4L2() {
+@@ -96,7 +108,7 @@ inline bool UseLibV4L2() {
  
  bool IsAcceleratedVaapiVideoEncodeEnabled() {
    bool accelerated_encode_enabled = false;
@@ -57,27 +59,34 @@ Index: dev.xenial/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
    const base::CommandLine& command_line =
        *base::CommandLine::ForCurrentProcess();
    accelerated_encode_enabled =
-@@ -302,27 +312,46 @@ bool GpuProcessPolicy::PreSandboxHook()
+@@ -302,27 +314,65 @@ bool GpuProcessPolicy::PreSandboxHook()
      // inside the sandbox, so preload them now.
      if (IsAcceleratedVaapiVideoEncodeEnabled() ||
          IsAcceleratedVideoDecodeEnabled()) {
 -      const char* I965DrvVideoPath = NULL;
 -      const char* I965HybridDrvVideoPath = NULL;
-+      VLOG(1) << "Attempting to enable hardware video acceleration.";
-+      StubPathMap paths;
-+      paths[kModuleVa].push_back("libva.so.1");
-+      paths[kModuleVa_x11].push_back("libva-x11.so.1");
-+      paths[kModuleVa_drm].push_back("libva-drm.so.1");
-+      if (!InitializeStubs(paths)) {
-+        LOG(WARNING) << "Failed to initialize stubs";
-+        return true;
-+      }
- 
+-
 -      if (IsArchitectureX86_64()) {
 -        I965DrvVideoPath = "/usr/lib64/va/drivers/i965_drv_video.so";
 -        I965HybridDrvVideoPath = "/usr/lib64/va/drivers/hybrid_drv_video.so";
 -      } else if (IsArchitectureI386()) {
 -        I965DrvVideoPath = "/usr/lib/va/drivers/i965_drv_video.so";
++      VLOG(1) << "Attempting to enable hardware video acceleration.";
++      StubPathMap paths;
++      paths[kModuleVa].push_back("libva.so.1");
++      paths[kModuleVa_x11].push_back("libva-x11.so.1");
++#if defined(USE_OZONE)
++      paths[kModuleVa_drm].push_back("libva-drm.so.1");
++#endif
++      if (!InitializeStubs(paths)) {
++        LOG(WARNING) << "Failed to initialize stubs";
++        return true;
+       }
+ 
+-      dlopen(I965DrvVideoPath, RTLD_NOW|RTLD_GLOBAL|RTLD_NODELETE);
+-      if (I965HybridDrvVideoPath)
+-        dlopen(I965HybridDrvVideoPath, RTLD_NOW|RTLD_GLOBAL|RTLD_NODELETE);
+-      dlopen("libva.so.1", RTLD_NOW|RTLD_GLOBAL|RTLD_NODELETE);
 +      // libva drivers won't get loaded even above two libraries get dlopened.
 +      // Thus, libva calls will fail after post sandbox stage.
 +      //
@@ -89,28 +98,39 @@ Index: dev.xenial/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 +      // Fortunately, the va driver will be loadded when vaInitialize() get
 +      // called.
 +      // So the following code is to call vaInitialize() before sandboxing.
-+      Display* x_display = XOpenDisplay(NULL);
-+      if (!x_display) {
-+        LOG(WARNING) << "Failed to find X-Display";
-+        return true;
-+      }
-+      VADisplay va_display = vaGetDisplay(x_display);
-+      if (!vaDisplayIsValid(va_display)) {
-+        LOG(WARNING) << "Failed to call vaGetDisplay()";
-+        return true;
-       }
- 
--      dlopen(I965DrvVideoPath, RTLD_NOW|RTLD_GLOBAL|RTLD_NODELETE);
--      if (I965HybridDrvVideoPath)
--        dlopen(I965HybridDrvVideoPath, RTLD_NOW|RTLD_GLOBAL|RTLD_NODELETE);
--      dlopen("libva.so.1", RTLD_NOW|RTLD_GLOBAL|RTLD_NODELETE);
--#if defined(USE_OZONE)
++
++      VADisplay va_display = NULL;
+ #if defined(USE_OZONE)
 -      dlopen("libva-drm.so.1", RTLD_NOW|RTLD_GLOBAL|RTLD_NODELETE);
 -#elif defined(USE_X11)
 -      dlopen("libva-x11.so.1", RTLD_NOW|RTLD_GLOBAL|RTLD_NODELETE);
--#endif
++      struct wl_display* wayland_display = wl_display_connect(NULL);
++      if (wayland_display) {
++        va_display = vaGetDisplayWl(wayland_display);
++        if (!vaDisplayIsValid(va_display)) {
++          LOG(WARNING) << "Failed to call vaGetDisplayWl()";
++          va_display = NULL;
++        }
++      } else {
++        LOG(WARNING) << "Failed to find Wayland display";
++      }
+ #endif
 -    }
 -  }
++
++      if (!va_display) {
++        Display* x_display = XOpenDisplay(NULL);
++        if (!x_display) {
++          LOG(WARNING) << "Failed to find X-Display";
++          return true;
++        }
++        va_display = vaGetDisplay(x_display);
++        if (!vaDisplayIsValid(va_display)) {
++          LOG(WARNING) << "Failed to call vaGetDisplay()";
++          return true;
++        }
++      }
++
 +      int major_version, minor_version;
 +      if (vaInitialize(va_display, &major_version, &minor_version)
 +          != VA_STATUS_SUCCESS) {
@@ -511,7 +531,7 @@ Index: dev.xenial/content/common/BUILD.gn
 ===================================================================
 --- dev.xenial.orig/content/common/BUILD.gn
 +++ dev.xenial/content/common/BUILD.gn
-@@ -11,6 +11,48 @@ if (is_mac) {
+@@ -11,6 +11,49 @@ if (is_mac) {
    import("//build/config/mac/mac_sdk.gni")
  }
  
@@ -526,11 +546,12 @@ Index: dev.xenial/content/common/BUILD.gn
 +    inputs = [
 +      extra_header,
 +    ]
-+    if (use_x11) {
-+      sources += [ "../../media/gpu/va_x11.sigs" ]
-+    }
++    sources += [ "../../media/gpu/va_x11.sigs" ]
 +    if (use_ozone) {
-+      sources += [ "../../media/gpu/va_drm.sigs" ]
++      sources += [
++        "../../media/gpu/va_drm.sigs",
++        "va_wayland.sigs",
++      ]
 +    }
 +    stubs_filename_root = "va_stubs"
 +
@@ -560,13 +581,45 @@ Index: dev.xenial/content/common/BUILD.gn
  source_set("common") {
    # Targets external to content should always link to the public API.
    # In addition, targets outside of the content component (shell and tests)
-@@ -178,6 +220,9 @@ source_set("common") {
+@@ -178,6 +221,11 @@ source_set("common") {
  
    if (use_seccomp_bpf) {
      defines += [ "USE_SECCOMP_BPF" ]
-+    sources += get_target_outputs(":libva_generate_stubs")
-+    deps += [ ":libva_generate_stubs" ]
-+    configs += [ "//third_party/libva:libva_config" ]
++    if (current_cpu != "arm") {
++      sources += get_target_outputs(":libva_generate_stubs")
++      deps += [ ":libva_generate_stubs" ]
++      configs += [ "//third_party/libva:libva_config" ]
++    }
    } else {
      if (is_linux) {
        sources -= [
+Index: dev.xenial/content/common/va_wayland.sigs
+===================================================================
+--- /dev/null
++++ dev.xenial/content/common/va_wayland.sigs
+@@ -0,0 +1,8 @@
++// Copyright 2014 The Chromium Authors. All rights reserved.
++// Use of this source code is governed by a BSD-style license that can be
++// found in the LICENSE file.
++
++//------------------------------------------------
++// Functions from libva-wayland used in chromium code.
++//------------------------------------------------
++VADisplay vaGetDisplayWl(struct wl_display *display);
+Index: dev.xenial/media/gpu/va_stub_header.fragment
+===================================================================
+--- dev.xenial.orig/media/gpu/va_stub_header.fragment
++++ dev.xenial/media/gpu/va_stub_header.fragment
+@@ -5,8 +5,11 @@ extern "C" {
+ 
+ #include "third_party/libva/va/drm/va_drm.h"
+ #include "third_party/libva/va/va.h"
+-#if defined(USE_X11)
+ #include "third_party/libva/va/va_x11.h"
++#if defined(USE_OZONE)
++// We don't need all of the structs defined in the wayland header files,
++// so just define the one that we do need
++struct wl_display;
+ #endif
+ 
+ }

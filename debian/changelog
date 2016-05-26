@@ -1,3 +1,9 @@
+chromium-browser (52.0.2743.6-0ubuntu1~ppa2~16.04.1) xenial; urgency=low
+
+  * Fixes to libva patch.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 26 May 2016 11:36:18 -0400
+
 chromium-browser (52.0.2743.6-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
 
   * New upstream version 52.0.2743.6
