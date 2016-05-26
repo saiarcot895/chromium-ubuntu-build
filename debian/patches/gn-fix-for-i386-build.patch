@@ -2,7 +2,7 @@ Index: dev.xenial/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.xenial.orig/build/config/compiler/BUILD.gn
 +++ dev.xenial/build/config/compiler/BUILD.gn
-@@ -219,6 +219,10 @@ config("compiler") {
+@@ -214,6 +214,10 @@ config("compiler") {
      }
    }
  

@@ -41,6 +41,8 @@ Build-Depends: debhelper (>= 9),
 		libssl-dev,
 		libkrb5-dev,
 		libffi-dev,
+		libxkbcommon-dev,
+		libegl1-mesa-dev,
 		chrpath,
 		native-client [i386 amd64]
 Standards-Version: 3.9.5
@@ -50,7 +52,7 @@ Architecture: armhf arm64 i386 amd64
 Pre-Depends: dpkg (>= 1.15.6)
 Depends: ${shlibs:Depends}, ${misc:Depends},
 	xdg-utils,
-	chromium-codecs-ffmpeg-extra (>= 0.6) | chromium-codecs-ffmpeg (>= 0.6)
+	chromium-codecs-ffmpeg-extra (= ${binary:Version}) | chromium-codecs-ffmpeg (= ${binary:Version})
 Recommends: chromium-browser-l10n, libva1, libva-x11-1
 Suggests: webaccounts-chromium-extension,
 	unity-chromium-extension,
@@ -96,7 +98,7 @@ Description: ChromeDriver
 Package: chromium-codecs-ffmpeg
 Architecture: armhf arm64 i386 amd64
 Pre-Depends: dpkg (>= 1.15.6)
-Depends: ${shlibs:Depends}, ${misc:Depends}, chromium-browser (>= 4.0.203.0~)
+Depends: ${shlibs:Depends}, ${misc:Depends}, chromium-browser (= ${binary:Version})
 Conflicts: chromium-codecs-ffmpeg-extra
 Replaces: chromium-codecs-ffmpeg-extra
 Description: Free ffmpeg codecs for the Chromium Browser
@@ -110,7 +112,7 @@ Description: Free ffmpeg codecs for the Chromium Browser
 Package: chromium-codecs-ffmpeg-extra
 Architecture: armhf arm64 i386 amd64
 Pre-Depends: dpkg (>= 1.15.6)
-Depends: ${shlibs:Depends}, ${misc:Depends}, chromium-browser (>= 4.0.203.0~)
+Depends: ${shlibs:Depends}, ${misc:Depends}, chromium-browser (= ${binary:Version})
 Conflicts: chromium-codecs-ffmpeg
 Replaces: chromium-codecs-ffmpeg
 Description: Extra ffmpeg codecs for the Chromium Browser

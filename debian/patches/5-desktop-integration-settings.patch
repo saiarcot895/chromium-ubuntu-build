@@ -2,7 +2,7 @@ Index: dev.xenial/chrome/app/generated_resources.grd
 ===================================================================
 --- dev.xenial.orig/chrome/app/generated_resources.grd
 +++ dev.xenial/chrome/app/generated_resources.grd
-@@ -7810,6 +7810,35 @@ Keep your key file in a safe place. You
+@@ -7835,6 +7835,35 @@ Keep your key file in a safe place. You
  I don't think this site should be blocked!
        </message>
  
@@ -38,7 +38,7 @@ Index: dev.xenial/chrome/app/generated_resources.grd
        <!-- Content Settings dialog data -->
        <message name="IDS_CONTENT_SETTINGS_TITLE" desc="Title for content settings dialog">
          Content settings
-@@ -11183,6 +11212,9 @@ Some features may be unavailable.  Pleas
+@@ -11215,6 +11244,9 @@ Some features may be unavailable.  Pleas
        <message name="IDS_OPTIONS_ADVANCED_SECTION_TITLE_CONTENT">
          Web content
        </message>
@@ -550,7 +550,7 @@ Index: dev.xenial/chrome/browser/resources/options/options.html
  <link rel="stylesheet" href="do_not_track_confirm_overlay.css">
  <link rel="stylesheet" href="easy_unlock_turn_off_overlay.css">
  <link rel="stylesheet" href="font_settings.css">
-@@ -118,6 +119,7 @@
+@@ -119,6 +120,7 @@
    <include src="home_page_overlay.html">
    <include src="hotword_confirm_overlay.html">
    <include src="import_data_overlay.html">
@@ -558,7 +558,7 @@ Index: dev.xenial/chrome/browser/resources/options/options.html
    <include src="language_options.html">
    <include src="manage_profile_overlay.html">
    <include src="password_manager.html">
-@@ -151,6 +153,7 @@
+@@ -152,6 +154,7 @@
    <include src="clear_browser_data_history_notice_overlay.html">
    <include src="content_settings_exceptions_area.html">
    <include src="cookies_view.html">
@@ -1033,7 +1033,7 @@ Index: dev.xenial/chrome/chrome_browser_ui.gypi
 ===================================================================
 --- dev.xenial.orig/chrome/chrome_browser_ui.gypi
 +++ dev.xenial/chrome/chrome_browser_ui.gypi
-@@ -1923,6 +1923,8 @@
+@@ -1938,6 +1938,8 @@
        'browser/ui/webui/options/core_options_handler.h',
        'browser/ui/webui/options/create_profile_handler.cc',
        'browser/ui/webui/options/create_profile_handler.h',
@@ -1042,7 +1042,7 @@ Index: dev.xenial/chrome/chrome_browser_ui.gypi
        'browser/ui/webui/options/easy_unlock_handler.cc',
        'browser/ui/webui/options/easy_unlock_handler.h',
        'browser/ui/webui/options/font_settings_handler.cc',
-@@ -3038,6 +3040,7 @@
+@@ -3032,6 +3034,7 @@
            ],
          }],
          ['use_aura==1 and chromeos==0 and use_ozone==0 and OS=="linux"', {

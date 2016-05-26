@@ -27,7 +27,7 @@ Index: dev.xenial/chrome/browser/ui/views/frame/browser_frame.h
 ===================================================================
 --- dev.xenial.orig/chrome/browser/ui/views/frame/browser_frame.h
 +++ dev.xenial/chrome/browser/ui/views/frame/browser_frame.h
-@@ -96,6 +96,8 @@ class BrowserFrame
+@@ -95,6 +95,8 @@ class BrowserFrame
    // Called when BrowserView creates all it's child views.
    void OnBrowserViewInitViewsComplete();
  
@@ -40,7 +40,7 @@ Index: dev.xenial/chrome/browser/ui/views/frame/browser_view.cc
 ===================================================================
 --- dev.xenial.orig/chrome/browser/ui/views/frame/browser_view.cc
 +++ dev.xenial/chrome/browser/ui/views/frame/browser_view.cc
-@@ -709,6 +709,7 @@ void BrowserView::Show() {
+@@ -705,6 +705,7 @@ void BrowserView::Show() {
    force_location_bar_focus_ = false;
  
    browser()->OnWindowDidShow();
@@ -52,7 +52,7 @@ Index: dev.xenial/mash/wm/non_client_frame_controller.cc
 ===================================================================
 --- dev.xenial.orig/mash/wm/non_client_frame_controller.cc
 +++ dev.xenial/mash/wm/non_client_frame_controller.cc
-@@ -142,6 +142,10 @@ class WmNativeWidgetMus : public views::
+@@ -148,6 +148,10 @@ class WmNativeWidgetMus : public views::
      // the client area should come from the client, not us.
    }
  
@@ -75,10 +75,10 @@ Index: dev.xenial/ui/aura/client/aura_constants.cc
  DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, ui::ModalType)
  DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, gfx::Rect*)
  DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, ui::InputMethod*)
-@@ -36,6 +37,7 @@ DEFINE_WINDOW_PROPERTY_KEY(
-     ui::WindowShowState, kRestoreShowStateKey, ui::SHOW_STATE_DEFAULT);
+@@ -37,6 +38,7 @@ DEFINE_WINDOW_PROPERTY_KEY(
  DEFINE_WINDOW_PROPERTY_KEY(
      ui::WindowShowState, kShowStateKey, ui::SHOW_STATE_DEFAULT);
+ DEFINE_WINDOW_PROPERTY_KEY(int, kTopViewInset, 0);
 +DEFINE_WINDOW_PROPERTY_KEY(uint32_t, kSessionIdKey, 0);
  
  }  // namespace client
@@ -87,9 +87,9 @@ Index: dev.xenial/ui/aura/client/aura_constants.h
 ===================================================================
 --- dev.xenial.orig/ui/aura/client/aura_constants.h
 +++ dev.xenial/ui/aura/client/aura_constants.h
-@@ -61,6 +61,9 @@ AURA_EXPORT extern const WindowProperty<
- AURA_EXPORT extern const WindowProperty<ui::WindowShowState>* const
-     kShowStateKey;
+@@ -67,6 +67,9 @@ AURA_EXPORT extern const WindowProperty<
+ // the web contents for app windows and varies for fullscreen windows.
+ AURA_EXPORT extern const aura::WindowProperty<int>* const kTopViewInset;
  
 +AURA_EXPORT extern const WindowProperty<uint32_t>* const kSessionIdKey;
 +
@@ -114,7 +114,7 @@ Index: dev.xenial/ui/views/mus/native_widget_mus.cc
 ===================================================================
 --- dev.xenial.orig/ui/views/mus/native_widget_mus.cc
 +++ dev.xenial/ui/views/mus/native_widget_mus.cc
-@@ -428,6 +428,10 @@ void NativeWidgetMus::UpdateClientArea()
+@@ -564,6 +564,10 @@ void NativeWidgetMus::UpdateClientArea()
        non_client_view->bounds().width() - client_area_rect.right()));
  }
  
@@ -129,7 +129,7 @@ Index: dev.xenial/ui/views/mus/native_widget_mus.h
 ===================================================================
 --- dev.xenial.orig/ui/views/mus/native_widget_mus.h
 +++ dev.xenial/ui/views/mus/native_widget_mus.h
-@@ -81,6 +81,8 @@ class VIEWS_MUS_EXPORT NativeWidgetMus :
+@@ -96,6 +96,8 @@ class VIEWS_MUS_EXPORT NativeWidgetMus
    void OnPlatformWindowClosed();
    void OnActivationChanged(bool active);
  
@@ -254,7 +254,7 @@ Index: dev.xenial/ui/views/widget/native_widget_aura.cc
 ===================================================================
 --- dev.xenial.orig/ui/views/widget/native_widget_aura.cc
 +++ dev.xenial/ui/views/widget/native_widget_aura.cc
-@@ -60,6 +60,8 @@
+@@ -62,6 +62,8 @@
  #include "ui/views/widget/desktop_aura/desktop_window_tree_host.h"
  #endif
  
@@ -263,7 +263,7 @@ Index: dev.xenial/ui/views/widget/native_widget_aura.cc
  namespace views {
  
  namespace {
-@@ -330,6 +332,11 @@ void NativeWidgetAura::CenterWindow(cons
+@@ -332,6 +334,11 @@ void NativeWidgetAura::CenterWindow(cons
    window_->SetBounds(window_bounds);
  }
  

@@ -4,7 +4,7 @@ Index: dev.xenial/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.xenial.orig/chrome/browser/about_flags.cc
 +++ dev.xenial/chrome/browser/about_flags.cc
-@@ -850,7 +850,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -869,7 +869,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_NAME,
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
@@ -35,19 +35,20 @@ Index: dev.xenial/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  
  using sandbox::arch_seccomp_data;
  using sandbox::bpf_dsl::Allow;
-@@ -42,6 +46,11 @@ using sandbox::syscall_broker::BrokerFil
+@@ -42,6 +46,12 @@ using sandbox::syscall_broker::BrokerFil
  using sandbox::syscall_broker::BrokerProcess;
  using sandbox::SyscallSets;
  
 +using content_common::kModuleVa;
 +using content_common::kModuleVa_x11;
++using content_common::kModuleVa_drm;
 +using content_common::InitializeStubs;
 +using content_common::StubPathMap;
 +
  namespace content {
  
  namespace {
-@@ -96,7 +105,7 @@ inline bool UseLibV4L2() {
+@@ -96,7 +106,7 @@ inline bool UseLibV4L2() {
  
  bool IsAcceleratedVaapiVideoEncodeEnabled() {
    bool accelerated_encode_enabled = false;
@@ -56,13 +57,7 @@ Index: dev.xenial/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
    const base::CommandLine& command_line =
        *base::CommandLine::ForCurrentProcess();
    accelerated_encode_enabled =
-@@ -297,32 +306,46 @@ bool GpuProcessPolicy::PreSandboxHook()
-       GpuBrokerProcessPolicy::Create,
-       std::vector<BrokerFilePermission>());  // No extra files in whitelist.
- 
--  if (IsArchitectureX86_64() || IsArchitectureI386()) {
-+  if (true) {
-     // Accelerated video dlopen()'s some shared objects
+@@ -302,27 +312,46 @@ bool GpuProcessPolicy::PreSandboxHook()
      // inside the sandbox, so preload them now.
      if (IsAcceleratedVaapiVideoEncodeEnabled() ||
          IsAcceleratedVideoDecodeEnabled()) {
@@ -72,9 +67,10 @@ Index: dev.xenial/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 +      StubPathMap paths;
 +      paths[kModuleVa].push_back("libva.so.1");
 +      paths[kModuleVa_x11].push_back("libva-x11.so.1");
++      paths[kModuleVa_drm].push_back("libva-drm.so.1");
 +      if (!InitializeStubs(paths)) {
-+        VLOG(1) << "Failed to initialize stubs";
-+        return false;
++        LOG(WARNING) << "Failed to initialize stubs";
++        return true;
 +      }
  
 -      if (IsArchitectureX86_64()) {
@@ -94,10 +90,14 @@ Index: dev.xenial/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 +      // called.
 +      // So the following code is to call vaInitialize() before sandboxing.
 +      Display* x_display = XOpenDisplay(NULL);
++      if (!x_display) {
++        LOG(WARNING) << "Failed to find X-Display";
++        return true;
++      }
 +      VADisplay va_display = vaGetDisplay(x_display);
 +      if (!vaDisplayIsValid(va_display)) {
-+        VLOG(1) << "Failed to call vaGetDisplay()";
-+        return false;
++        LOG(WARNING) << "Failed to call vaGetDisplay()";
++        return true;
        }
  
 -      dlopen(I965DrvVideoPath, RTLD_NOW|RTLD_GLOBAL|RTLD_NODELETE);
@@ -114,11 +114,11 @@ Index: dev.xenial/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 +      int major_version, minor_version;
 +      if (vaInitialize(va_display, &major_version, &minor_version)
 +          != VA_STATUS_SUCCESS) {
-+        VLOG(1) << "Failed to call vaInitialize()";
-+        return false;
++        LOG(WARNING) << "Failed to call vaInitialize()";
++        return true;
 +      }
 +    }  // end of IsAcceleratedVaapiVideoEncodeEnabled() || IsAcceleratedVideoDecodeEnabled()
-+  }  // end of true
++  }  // end of IsArchitectureX86_64() || IsArchitectureI386()
  
    return true;
  }
@@ -126,12 +126,12 @@ Index: dev.xenial/content/content_gpu.gypi
 ===================================================================
 --- dev.xenial.orig/content/content_gpu.gypi
 +++ dev.xenial/content/content_gpu.gypi
-@@ -48,7 +48,7 @@
+@@ -49,7 +49,7 @@
          ],
        },
      }],
 -    ['target_arch!="arm" and chromeos == 1', {
-+    ['(target_arch!="arm" and chromeos == 1) or desktop_linux == 1', {
++    ['target_arch!="arm" and (chromeos == 1 or desktop_linux == 1)', {
        'include_dirs': [
          '<(DEPTH)/third_party/libva',
        ],
@@ -144,7 +144,7 @@ Index: dev.xenial/content/gpu/BUILD.gn
    }
  
 -  if (is_chromeos && current_cpu != "arm") {
-+  if ((is_chromeos && current_cpu != "arm") || is_linux) {
++  if ((is_desktop_linux || is_chromeos) && current_cpu != "arm") {
      configs += [ "//third_party/libva:libva_config" ]
    }
  
@@ -152,21 +152,21 @@ Index: dev.xenial/content/gpu/gpu_main.cc
 ===================================================================
 --- dev.xenial.orig/content/gpu/gpu_main.cc
 +++ dev.xenial/content/gpu/gpu_main.cc
-@@ -74,7 +74,7 @@
+@@ -75,7 +75,7 @@
  #include "content/common/sandbox_mac.h"
  #endif
  
 -#if defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)
-+#if (defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)) || defined(OS_LINUX)
++#if (defined(OS_LINUX) || defined(OS_CHROMEOS)) && defined(ARCH_CPU_X86_FAMILY)
  #include "media/gpu/vaapi_wrapper.h"
  #endif
  
-@@ -245,7 +245,7 @@ int GpuMain(const MainFunctionParams& pa
+@@ -252,7 +252,7 @@ int GpuMain(const MainFunctionParams& pa
    GetGpuInfoFromCommandLine(gpu_info, command_line);
    gpu_info.in_process_gpu = false;
  
 -#if defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)
-+#if (defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)) || defined(OS_LINUX)
++#if (defined(OS_LINUX) || defined(OS_CHROMEOS)) && defined(ARCH_CPU_X86_FAMILY)
    media::VaapiWrapper::PreSandboxInitialization();
  #endif
  
@@ -174,7 +174,7 @@ Index: dev.xenial/content/public/common/content_switches.cc
 ===================================================================
 --- dev.xenial.orig/content/public/common/content_switches.cc
 +++ dev.xenial/content/public/common/content_switches.cc
-@@ -953,7 +953,9 @@ const char kDisableAudioSupportForDeskto
+@@ -970,7 +970,9 @@ const char kDisableAudioSupportForDeskto
  #if defined(OS_CHROMEOS)
  // Disables panel fitting (used for mirror mode).
  const char kDisablePanelFitting[]           = "disable-panel-fitting";
@@ -188,7 +188,7 @@ Index: dev.xenial/content/public/common/content_switches.h
 ===================================================================
 --- dev.xenial.orig/content/public/common/content_switches.h
 +++ dev.xenial/content/public/common/content_switches.h
-@@ -274,6 +274,8 @@ CONTENT_EXPORT extern const char kEnable
+@@ -278,6 +278,8 @@ CONTENT_EXPORT extern const char kEnable
  
  #if defined(OS_CHROMEOS)
  CONTENT_EXPORT extern const char kDisablePanelFitting[];
@@ -228,16 +228,16 @@ Index: dev.xenial/media/BUILD.gn
    }
  
 -  if (current_cpu != "arm" && is_chromeos) {
-+  if ((current_cpu != "arm" && is_chromeos) || is_desktop_linux) {
++  if (current_cpu != "arm" && (is_chromeos || is_desktop_linux)) {
      sources += [
        "filters/h264_bitstream_buffer.cc",
        "filters/h264_bitstream_buffer.h",
-@@ -627,7 +627,7 @@ test("media_unittests") {
+@@ -629,7 +629,7 @@ test("media_unittests") {
      }
    }
  
 -  if (current_cpu != "arm" && is_chromeos) {
-+  if ((current_cpu != "arm" && is_chromeos) || is_linux) {
++  if (current_cpu != "arm" && (is_chromeos || is_desktop_linux)) {
      sources += [ "filters/h264_bitstream_buffer_unittest.cc" ]
    }
  
@@ -250,11 +250,11 @@ Index: dev.xenial/media/gpu/BUILD.gn
  }
  
 -if (is_chromeos && current_cpu != "arm") {
-+if (is_desktop_linux || (is_chromeos && current_cpu != "arm")) {
++if ((is_desktop_linux || is_chromeos) && current_cpu != "arm") {
    action("libva_generate_stubs") {
      extra_header = "va_stub_header.fragment"
  
-@@ -227,7 +227,7 @@ component("gpu") {
+@@ -229,7 +229,7 @@ component("gpu") {
      }
    }
  
@@ -263,7 +263,7 @@ Index: dev.xenial/media/gpu/BUILD.gn
      sources += [
        "accelerated_video_decoder.h",
        "h264_decoder.cc",
-@@ -271,13 +271,13 @@ component("gpu") {
+@@ -273,7 +273,7 @@ component("gpu") {
          "GLESv2",
        ]
      }
@@ -272,18 +272,11 @@ Index: dev.xenial/media/gpu/BUILD.gn
        sources += [
          "tegra_v4l2_device.cc",
          "tegra_v4l2_device.h",
-       ]
-     }
--    if (current_cpu != "arm") {
-+    if (current_cpu != "arm" || !is_chromeos) {
-       sources += [
-                    "va_surface.h",
-                    "vaapi_jpeg_decode_accelerator.cc",
 Index: dev.xenial/media/gpu/gpu_video_decode_accelerator_factory_impl.cc
 ===================================================================
 --- dev.xenial.orig/media/gpu/gpu_video_decode_accelerator_factory_impl.cc
 +++ dev.xenial/media/gpu/gpu_video_decode_accelerator_factory_impl.cc
-@@ -14,14 +14,14 @@
+@@ -14,7 +14,7 @@
  #include "media/gpu/dxva_video_decode_accelerator_win.h"
  #elif defined(OS_MACOSX)
  #include "media/gpu/vt_video_decode_accelerator_mac.h"
@@ -292,14 +285,6 @@ Index: dev.xenial/media/gpu/gpu_video_decode_accelerator_factory_impl.cc
  #if defined(USE_V4L2_CODEC)
  #include "media/gpu/v4l2_device.h"
  #include "media/gpu/v4l2_slice_video_decode_accelerator.h"
- #include "media/gpu/v4l2_video_decode_accelerator.h"
- #include "ui/gl/gl_surface_egl.h"
- #endif
--#if defined(ARCH_CPU_X86_FAMILY)
-+#if defined(ARCH_CPU_X86_FAMILY) || defined(OS_LINUX)
- #include "media/gpu/vaapi_video_decode_accelerator.h"
- #include "ui/gl/gl_implementation.h"
- #endif
 @@ -79,7 +79,7 @@ GpuVideoDecodeAcceleratorFactoryImpl::Ge
  #if defined(OS_WIN)
    capabilities.supported_profiles =
@@ -309,21 +294,12 @@ Index: dev.xenial/media/gpu/gpu_video_decode_accelerator_factory_impl.cc
    media::VideoDecodeAccelerator::SupportedProfiles vda_profiles;
  #if defined(USE_V4L2_CODEC)
    vda_profiles = V4L2VideoDecodeAccelerator::GetSupportedProfiles();
-@@ -89,7 +89,7 @@ GpuVideoDecodeAcceleratorFactoryImpl::Ge
-   media::GpuVideoAcceleratorUtil::InsertUniqueDecodeProfiles(
-       vda_profiles, &capabilities.supported_profiles);
- #endif
--#if defined(ARCH_CPU_X86_FAMILY)
-+#if defined(ARCH_CPU_X86_FAMILY) || defined(OS_LINUX)
-   vda_profiles = VaapiVideoDecodeAccelerator::GetSupportedProfiles();
-   media::GpuVideoAcceleratorUtil::InsertUniqueDecodeProfiles(
-       vda_profiles, &capabilities.supported_profiles);
 @@ -130,7 +130,7 @@ GpuVideoDecodeAcceleratorFactoryImpl::Cr
      &GpuVideoDecodeAcceleratorFactoryImpl::CreateV4L2VDA,
      &GpuVideoDecodeAcceleratorFactoryImpl::CreateV4L2SVDA,
  #endif
 -#if defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)
-+#if (defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)) || defined(OS_LINUX)
++#if (defined(OS_LINUX) || defined(OS_CHROMEOS)) && defined(ARCH_CPU_X86_FAMILY)
      &GpuVideoDecodeAcceleratorFactoryImpl::CreateVaapiVDA,
  #endif
  #if defined(OS_MACOSX)
@@ -332,7 +308,7 @@ Index: dev.xenial/media/gpu/gpu_video_decode_accelerator_factory_impl.cc
  #endif
  
 -#if defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)
-+#if (defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)) || defined(OS_LINUX)
++#if (defined(OS_LINUX) || defined(OS_CHROMEOS)) && defined(ARCH_CPU_X86_FAMILY)
  std::unique_ptr<media::VideoDecodeAccelerator>
  GpuVideoDecodeAcceleratorFactoryImpl::CreateVaapiVDA(
      const gpu::GpuPreferences& gpu_preferences) const {
@@ -349,7 +325,7 @@ Index: dev.xenial/media/gpu/gpu_video_decode_accelerator_factory_impl.h
        const gpu::GpuPreferences& gpu_preferences) const;
  #endif
 -#if defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)
-+#if (defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)) || defined(OS_LINUX)
++#if (defined(OS_LINUX) || defined(OS_CHROMEOS)) && defined(ARCH_CPU_X86_FAMILY)
    std::unique_ptr<media::VideoDecodeAccelerator> CreateVaapiVDA(
        const gpu::GpuPreferences& gpu_preferences) const;
  #endif
@@ -362,7 +338,7 @@ Index: dev.xenial/media/gpu/ipc/service/BUILD.gn
    ]
  
 -  if (is_chromeos && current_cpu != "arm") {
-+  if ((is_chromeos && current_cpu != "arm") || is_desktop_linux) {
++  if ((is_desktop_linux || is_chromeos) && current_cpu != "arm") {
      configs += [ "//third_party/libva:libva_config" ]
    }
  
@@ -370,21 +346,21 @@ Index: dev.xenial/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
 ===================================================================
 --- dev.xenial.orig/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
 +++ dev.xenial/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
-@@ -66,7 +66,7 @@ static bool MakeDecoderContextCurrent(
+@@ -58,7 +58,7 @@ static bool MakeDecoderContextCurrent(
    return true;
  }
  
 -#if (defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)) || defined(OS_MACOSX)
-+#if (defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)) || defined(OS_MACOSX) || defined(OS_LINUX)
++#if ((defined(OS_LINUX) || defined(OS_CHROMEOS)) && defined(ARCH_CPU_X86_FAMILY)) || defined(OS_MACOSX)
  static bool BindImage(const base::WeakPtr<gpu::GpuCommandBufferStub>& stub,
                        uint32_t client_texture_id,
                        uint32_t texture_target,
-@@ -178,7 +178,7 @@ GpuVideoDecodeAccelerator::GpuVideoDecod
+@@ -170,7 +170,7 @@ GpuVideoDecodeAccelerator::GpuVideoDecod
    get_gl_context_cb_ = base::Bind(&GetGLContext, stub_->AsWeakPtr());
    make_context_current_cb_ =
        base::Bind(&MakeDecoderContextCurrent, stub_->AsWeakPtr());
 -#if (defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)) || defined(OS_MACOSX)
-+#if (defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)) || defined(OS_MACOSX) || defined(OS_LINUX)
++#if ((defined(OS_LINUX) || defined(OS_CHROMEOS)) && defined(ARCH_CPU_X86_FAMILY)) || defined(OS_MACOSX)
    bind_image_cb_ = base::Bind(&BindImage, stub_->AsWeakPtr());
  #endif
    get_gles2_decoder_cb_ = base::Bind(&GetGLES2Decoder, stub_->AsWeakPtr());
@@ -435,7 +411,7 @@ Index: dev.xenial/media/gpu/vaapi_wrapper.cc
 ===================================================================
 --- dev.xenial.orig/media/gpu/vaapi_wrapper.cc
 +++ dev.xenial/media/gpu/vaapi_wrapper.cc
-@@ -186,7 +186,7 @@ scoped_refptr<VaapiWrapper> VaapiWrapper
+@@ -189,7 +189,7 @@ scoped_refptr<VaapiWrapper> VaapiWrapper
      VAProfile va_profile,
      const base::Closure& report_error_to_uma_cb) {
    if (!profile_infos_.Get().IsProfileSupported(mode, va_profile)) {
@@ -444,7 +420,7 @@ Index: dev.xenial/media/gpu/vaapi_wrapper.cc
      return nullptr;
    }
  
-@@ -339,15 +339,17 @@ VaapiWrapper::GetSupportedProfileInfosFo
+@@ -342,15 +342,17 @@ VaapiWrapper::GetSupportedProfileInfosFo
  bool VaapiWrapper::VaInitialize(const base::Closure& report_error_to_uma_cb) {
    static bool vaapi_functions_initialized = PostSandboxInitialization();
    if (!vaapi_functions_initialized) {
@@ -467,7 +443,7 @@ Index: dev.xenial/media/gpu/vaapi_wrapper.cc
      else
        DVLOG(1) << kErrorMsg;
      return false;
-@@ -413,7 +415,7 @@ bool VaapiWrapper::IsEntrypointSupported
+@@ -416,7 +418,7 @@ bool VaapiWrapper::IsEntrypointSupported
  
    if (std::find(supported_entrypoints.begin(), supported_entrypoints.end(),
                  entrypoint) == supported_entrypoints.end()) {
@@ -476,7 +452,7 @@ Index: dev.xenial/media/gpu/vaapi_wrapper.cc
      return false;
    }
    return true;
-@@ -437,8 +439,8 @@ bool VaapiWrapper::AreAttribsSupported_L
+@@ -440,8 +442,8 @@ bool VaapiWrapper::AreAttribsSupported_L
      if (attribs[i].type != required_attribs[i].type ||
          (attribs[i].value & required_attribs[i].value) !=
              required_attribs[i].value) {
@@ -491,30 +467,30 @@ Index: dev.xenial/media/media.gyp
 ===================================================================
 --- dev.xenial.orig/media/media.gyp
 +++ dev.xenial/media/media.gyp
-@@ -748,7 +748,7 @@
+@@ -752,7 +752,7 @@
            ],
          }],
          # For VaapiVideoEncodeAccelerator.
 -        ['target_arch != "arm" and chromeos == 1', {
-+        ['(target_arch != "arm" and chromeos == 1) or desktop_linux == 1', {
++        ['target_arch != "arm" and (chromeos == 1 or desktop_linux == 1)', {
            'sources': [
              'filters/h264_bitstream_buffer.cc',
              'filters/h264_bitstream_buffer.h',
-@@ -1326,7 +1326,7 @@
+@@ -1330,7 +1330,7 @@
              'cdm/cdm_adapter_unittest.cc',
            ],
          }],
 -        ['target_arch != "arm" and chromeos == 1 and use_x11 == 1', {
-+        ['(target_arch != "arm" and chromeos == 1) or desktop_linux == 1 and use_x11 == 1', {
++        ['target_arch != "arm" and (chromeos == 1 or desktop_linux == 1) and use_x11 == 1', {
            'sources': [
              'filters/h264_bitstream_buffer_unittest.cc',
            ],
-@@ -2255,7 +2255,7 @@
+@@ -2264,7 +2264,7 @@
        ],
      }],
  
 -    ['chromeos==1 and target_arch != "arm"', {
-+    ['(chromeos==1 and target_arch != "arm") or desktop_linux==1', {
++    ['(desktop_linux==1 or chromeos==1) and target_arch != "arm"', {
        'targets': [
            {
              'target_name': 'vaapi_jpeg_decoder_unittest',
@@ -522,12 +498,12 @@ Index: dev.xenial/media/media_gpu.gypi
 ===================================================================
 --- dev.xenial.orig/media/media_gpu.gypi
 +++ dev.xenial/media/media_gpu.gypi
-@@ -228,7 +228,7 @@
+@@ -230,7 +230,7 @@
          'gpu/tegra_v4l2_device.h',
        ],
      }],
 -    ['target_arch != "arm" and chromeos == 1', {
-+    ['(target_arch != "arm" and chromeos == 1) or desktop_linux == 1', {
++    ['target_arch != "arm" and (chromeos == 1 or desktop_linux == 1)', {
        'dependencies': [
          '../media/media.gyp:media',
          '../third_party/libyuv/libyuv.gyp:libyuv',
@@ -539,7 +515,7 @@ Index: dev.xenial/content/common/BUILD.gn
    import("//build/config/mac/mac_sdk.gni")
  }
  
-+if (is_desktop_linux || (is_chromeos && current_cpu != "arm")) {
++if ((is_desktop_linux || is_chromeos) && current_cpu != "arm") {
 +  action("libva_generate_stubs") {
 +    extra_header = "../../media/gpu/va_stub_header.fragment"
 +
@@ -584,7 +560,7 @@ Index: dev.xenial/content/common/BUILD.gn
  source_set("common") {
    # Targets external to content should always link to the public API.
    # In addition, targets outside of the content component (shell and tests)
-@@ -176,6 +218,9 @@ source_set("common") {
+@@ -178,6 +220,9 @@ source_set("common") {
  
    if (use_seccomp_bpf) {
      defines += [ "USE_SECCOMP_BPF" ]

@@ -9,7 +9,7 @@ Index: dev.xenial/media/gpu/vaapi_wrapper.cc
 ===================================================================
 --- dev.xenial.orig/media/gpu/vaapi_wrapper.cc
 +++ dev.xenial/media/gpu/vaapi_wrapper.cc
-@@ -452,42 +452,7 @@ bool VaapiWrapper::GetMaxResolution_Lock
+@@ -455,42 +455,7 @@ bool VaapiWrapper::GetMaxResolution_Lock
      VAEntrypoint entrypoint,
      std::vector<VAConfigAttrib>& required_attribs,
      gfx::Size* resolution) {

@@ -6,7 +6,7 @@ Index: dev.xenial/build/common.gypi
 ===================================================================
 --- dev.xenial.orig/build/common.gypi
 +++ dev.xenial/build/common.gypi
-@@ -2433,8 +2433,8 @@
+@@ -2432,8 +2432,8 @@
        }],
  
        ['host_clang==1', {
@@ -21,7 +21,7 @@ Index: dev.xenial/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.xenial.orig/build/config/compiler/BUILD.gn
 +++ dev.xenial/build/config/compiler/BUILD.gn
-@@ -351,15 +351,6 @@ config("compiler") {
+@@ -371,15 +371,6 @@ config("compiler") {
      cflags += [ "-fcolor-diagnostics" ]
    }
  
@@ -41,7 +41,7 @@ Index: dev.xenial/build/toolchain/gcc_toolchain.gni
 ===================================================================
 --- dev.xenial.orig/build/toolchain/gcc_toolchain.gni
 +++ dev.xenial/build/toolchain/gcc_toolchain.gni
-@@ -464,10 +464,8 @@ template("clang_toolchain") {
+@@ -502,10 +502,8 @@ template("clang_toolchain") {
    }
  
    gcc_toolchain(target_name) {

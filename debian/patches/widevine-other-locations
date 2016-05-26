@@ -2,7 +2,7 @@ Index: dev.xenial/chrome/common/chrome_paths.cc
 ===================================================================
 --- dev.xenial.orig/chrome/common/chrome_paths.cc
 +++ dev.xenial/chrome/common/chrome_paths.cc
-@@ -346,6 +346,14 @@ bool PathProvider(int key, base::FilePat
+@@ -369,6 +369,14 @@ bool PathProvider(int key, base::FilePat
  #if defined(WIDEVINE_CDM_AVAILABLE) && defined(ENABLE_PEPPER_CDMS)
  #if defined(WIDEVINE_CDM_IS_COMPONENT)
      case chrome::DIR_COMPONENT_WIDEVINE_CDM:
@@ -17,7 +17,7 @@ Index: dev.xenial/chrome/common/chrome_paths.cc
        if (!PathService::Get(chrome::DIR_USER_DATA, &cur))
          return false;
        cur = cur.Append(FILE_PATH_LITERAL("WidevineCDM"));
-@@ -355,6 +363,14 @@ bool PathProvider(int key, base::FilePat
+@@ -378,6 +386,14 @@ bool PathProvider(int key, base::FilePat
      // In the component case, this is the source adapter. Otherwise, it is the
      // actual Pepper module that gets loaded.
      case chrome::FILE_WIDEVINE_CDM_ADAPTER:
@@ -29,6 +29,6 @@ Index: dev.xenial/chrome/common/chrome_paths.cc
 +        cur = cur.AppendASCII("/opt/google/chrome/libwidevinecdmadapter.so");
 +        break;
 +      }
-       if (!GetInternalPluginsDirectory(&cur))
+       if (!GetComponentDirectory(&cur))
          return false;
        cur = cur.AppendASCII(kWidevineCdmAdapterFileName);
