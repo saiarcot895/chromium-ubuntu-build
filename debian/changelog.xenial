@@ -1,3 +1,12 @@
+chromium-browser (52.0.2743.6-0ubuntu1~ppa5~16.04.1) xenial; urgency=low
+
+  * Add X11 libraries and Wayland libraries to list of libraries to
+    compile with.
+  * Add patch to fix compiling pdfium with XFA support enabled on armhf
+    and arm64.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 27 May 2016 10:09:06 -0400
+
 chromium-browser (52.0.2743.6-0ubuntu1~ppa4~16.04.1) xenial; urgency=low
 
   * Fix 5-desktop-integration-settings.patch.

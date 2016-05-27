@@ -13,6 +13,76 @@ Index: dev.xenial/chrome/browser/about_flags.cc
          SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
  #if defined(USE_ASH)
+Index: dev.xenial/content/common/BUILD.gn
+===================================================================
+--- dev.xenial.orig/content/common/BUILD.gn
++++ dev.xenial/content/common/BUILD.gn
+@@ -11,6 +11,49 @@ if (is_mac) {
+   import("//build/config/mac/mac_sdk.gni")
+ }
+ 
++if ((is_desktop_linux || is_chromeos) && current_cpu != "arm") {
++  action("libva_generate_stubs") {
++    extra_header = "../../media/gpu/va_stub_header.fragment"
++
++    script = "../../tools/generate_stubs/generate_stubs.py"
++    sources = [
++      "../../media/gpu/va.sigs",
++    ]
++    inputs = [
++      extra_header,
++    ]
++    sources += [ "../../media/gpu/va_x11.sigs" ]
++    if (use_ozone) {
++      sources += [
++        "../../media/gpu/va_drm.sigs",
++        "va_wayland.sigs",
++      ]
++    }
++    stubs_filename_root = "va_stubs"
++
++    outputs = [
++      "$target_gen_dir/$stubs_filename_root.cc",
++      "$target_gen_dir/$stubs_filename_root.h",
++    ]
++    args = [
++      "-i",
++      rebase_path("$target_gen_dir", root_build_dir),
++      "-o",
++      rebase_path("$target_gen_dir", root_build_dir),
++      "-t",
++      "posix_stubs",
++      "-e",
++      rebase_path(extra_header, root_build_dir),
++      "-s",
++      stubs_filename_root,
++      "-p",
++      "content/common",
++    ]
++
++    args += rebase_path(sources, root_build_dir)
++  }
++}
++
+ source_set("common") {
+   # Targets external to content should always link to the public API.
+   # In addition, targets outside of the content component (shell and tests)
+@@ -178,6 +221,15 @@ source_set("common") {
+ 
+   if (use_seccomp_bpf) {
+     defines += [ "USE_SECCOMP_BPF" ]
++    if (current_cpu != "arm" && is_desktop_linux) {
++      sources += get_target_outputs(":libva_generate_stubs")
++      deps += [ ":libva_generate_stubs" ]
++      configs += [ "//third_party/libva:libva_config" ]
++      if (use_ozone) {
++        configs += [ "//build/config/linux:x11" ]
++        deps += [ "//third_party/wayland:wayland_client" ]
++      }
++    }
+   } else {
+     if (is_linux) {
+       sources -= [
 Index: dev.xenial/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 ===================================================================
 --- dev.xenial.orig/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
@@ -161,6 +231,19 @@ Index: dev.xenial/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  
    return true;
  }
+Index: dev.xenial/content/common/va_wayland.sigs
+===================================================================
+--- /dev/null
++++ dev.xenial/content/common/va_wayland.sigs
+@@ -0,0 +1,8 @@
++// Copyright 2014 The Chromium Authors. All rights reserved.
++// Use of this source code is governed by a BSD-style license that can be
++// found in the LICENSE file.
++
++//------------------------------------------------
++// Functions from libva-wayland used in chromium code.
++//------------------------------------------------
++VADisplay vaGetDisplayWl(struct wl_display *display);
 Index: dev.xenial/content/content_gpu.gypi
 ===================================================================
 --- dev.xenial.orig/content/content_gpu.gypi
@@ -403,6 +486,21 @@ Index: dev.xenial/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
    bind_image_cb_ = base::Bind(&BindImage, stub_->AsWeakPtr());
  #endif
    get_gles2_decoder_cb_ = base::Bind(&GetGLES2Decoder, stub_->AsWeakPtr());
+Index: dev.xenial/media/gpu/va_stub_header.fragment
+===================================================================
+--- dev.xenial.orig/media/gpu/va_stub_header.fragment
++++ dev.xenial/media/gpu/va_stub_header.fragment
+@@ -5,8 +5,9 @@ extern "C" {
+ 
+ #include "third_party/libva/va/drm/va_drm.h"
+ #include "third_party/libva/va/va.h"
+-#if defined(USE_X11)
+ #include "third_party/libva/va/va_x11.h"
++#if defined(USE_OZONE)
++#include "third_party/libva/va/wayland/va_wayland.h"
+ #endif
+ 
+ }
 Index: dev.xenial/media/gpu/vaapi_video_decode_accelerator.cc
 ===================================================================
 --- dev.xenial.orig/media/gpu/vaapi_video_decode_accelerator.cc
@@ -546,99 +644,3 @@ Index: dev.xenial/media/media_gpu.gypi
        'dependencies': [
          '../media/media.gyp:media',
          '../third_party/libyuv/libyuv.gyp:libyuv',
-Index: dev.xenial/content/common/BUILD.gn
-===================================================================
---- dev.xenial.orig/content/common/BUILD.gn
-+++ dev.xenial/content/common/BUILD.gn
-@@ -11,6 +11,49 @@ if (is_mac) {
-   import("//build/config/mac/mac_sdk.gni")
- }
- 
-+if ((is_desktop_linux || is_chromeos) && current_cpu != "arm") {
-+  action("libva_generate_stubs") {
-+    extra_header = "../../media/gpu/va_stub_header.fragment"
-+
-+    script = "../../tools/generate_stubs/generate_stubs.py"
-+    sources = [
-+      "../../media/gpu/va.sigs",
-+    ]
-+    inputs = [
-+      extra_header,
-+    ]
-+    sources += [ "../../media/gpu/va_x11.sigs" ]
-+    if (use_ozone) {
-+      sources += [
-+        "../../media/gpu/va_drm.sigs",
-+        "va_wayland.sigs",
-+      ]
-+    }
-+    stubs_filename_root = "va_stubs"
-+
-+    outputs = [
-+      "$target_gen_dir/$stubs_filename_root.cc",
-+      "$target_gen_dir/$stubs_filename_root.h",
-+    ]
-+    args = [
-+      "-i",
-+      rebase_path("$target_gen_dir", root_build_dir),
-+      "-o",
-+      rebase_path("$target_gen_dir", root_build_dir),
-+      "-t",
-+      "posix_stubs",
-+      "-e",
-+      rebase_path(extra_header, root_build_dir),
-+      "-s",
-+      stubs_filename_root,
-+      "-p",
-+      "content/common",
-+    ]
-+
-+    args += rebase_path(sources, root_build_dir)
-+  }
-+}
-+
- source_set("common") {
-   # Targets external to content should always link to the public API.
-   # In addition, targets outside of the content component (shell and tests)
-@@ -178,6 +221,11 @@ source_set("common") {
- 
-   if (use_seccomp_bpf) {
-     defines += [ "USE_SECCOMP_BPF" ]
-+    if (current_cpu != "arm") {
-+      sources += get_target_outputs(":libva_generate_stubs")
-+      deps += [ ":libva_generate_stubs" ]
-+      configs += [ "//third_party/libva:libva_config" ]
-+    }
-   } else {
-     if (is_linux) {
-       sources -= [
-Index: dev.xenial/content/common/va_wayland.sigs
-===================================================================
---- /dev/null
-+++ dev.xenial/content/common/va_wayland.sigs
-@@ -0,0 +1,8 @@
-+// Copyright 2014 The Chromium Authors. All rights reserved.
-+// Use of this source code is governed by a BSD-style license that can be
-+// found in the LICENSE file.
-+
-+//------------------------------------------------
-+// Functions from libva-wayland used in chromium code.
-+//------------------------------------------------
-+VADisplay vaGetDisplayWl(struct wl_display *display);
-Index: dev.xenial/media/gpu/va_stub_header.fragment
-===================================================================
---- dev.xenial.orig/media/gpu/va_stub_header.fragment
-+++ dev.xenial/media/gpu/va_stub_header.fragment
-@@ -5,8 +5,11 @@ extern "C" {
- 
- #include "third_party/libva/va/drm/va_drm.h"
- #include "third_party/libva/va/va.h"
--#if defined(USE_X11)
- #include "third_party/libva/va/va_x11.h"
-+#if defined(USE_OZONE)
-+// We don't need all of the structs defined in the wayland header files,
-+// so just define the one that we do need
-+struct wl_display;
- #endif
- 
- }

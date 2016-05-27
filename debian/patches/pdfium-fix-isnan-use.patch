@@ -1,0 +1,13 @@
+Index: dev.xenial/third_party/pdfium/xfa/fxbarcode/utils.h
+===================================================================
+--- dev.xenial.orig/third_party/pdfium/xfa/fxbarcode/utils.h
++++ dev.xenial/third_party/pdfium/xfa/fxbarcode/utils.h
+@@ -31,7 +31,7 @@ void BC_FX_ByteString_Append(CFX_ByteStr
+ #define FXSYS_isnan(x) std::isnan(x)
+ #elif(_FX_OS_ == _FX_LINUX_DESKTOP_ || _FX_OS_ == _FX_ANDROID_)
+ #include <math.h>
+-#define FXSYS_isnan(x) isnan(x)
++#define FXSYS_isnan(x) std::isnan(x)
+ #endif
+ #if (_FX_OS_ == _FX_WIN32_DESKTOP_ || _FX_OS_ == _FX_WIN64_)
+ #define FXSYS_nan() (std::numeric_limits<float>::quiet_NaN())
