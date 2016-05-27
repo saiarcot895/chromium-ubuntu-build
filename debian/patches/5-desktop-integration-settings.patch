@@ -614,16 +614,16 @@ Index: dev.xenial/chrome/browser/ui/BUILD.gn
 ===================================================================
 --- dev.xenial.orig/chrome/browser/ui/BUILD.gn
 +++ dev.xenial/chrome/browser/ui/BUILD.gn
-@@ -327,6 +327,9 @@ source_set("ui") {
-     }
-   }
-   if (use_aura && !use_ozone && is_desktop_linux) {
+@@ -498,6 +498,9 @@ source_set("ui") {
+     sources += rebase_path(gypi_values.chrome_browser_ui_desktop_linux_sources,
+                            ".",
+                            "//chrome")
 +    configs += [
 +      "//build/config/linux:glib",
 +    ]
      deps += [
-       "//build/linux/libgio",
- 
+       "//ui/base/ime",
+       "//ui/events:dom_keycode_converter",
 Index: dev.xenial/chrome/browser/ui/webui/options/browser_options_handler.cc
 ===================================================================
 --- dev.xenial.orig/chrome/browser/ui/webui/options/browser_options_handler.cc
@@ -855,7 +855,7 @@ Index: dev.xenial/chrome/browser/ui/webui/options/desktop_integration_settings_h
 +  typedef gchar* (* GetAllDomainsFunc) (void);
 +
 +  gchar* all_domains = ((GetAllDomainsFunc) get_all_func_handle_) ();
-+  if (all_domains) { 
++  if (all_domains) {
 +    web_ui()->CallJavascriptFunction(
 +        "DesktopIntegrationOverlay.setIntegratedWebsites",
 +        base::StringValue(all_domains));
@@ -928,7 +928,7 @@ Index: dev.xenial/chrome/browser/ui/webui/options/desktop_integration_settings_h
 ===================================================================
 --- /dev/null
 +++ dev.xenial/chrome/browser/ui/webui/options/desktop_integration_settings_handler.h
-@@ -0,0 +1,76 @@
+@@ -0,0 +1,75 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.
@@ -991,7 +991,6 @@ Index: dev.xenial/chrome/browser/ui/webui/options/desktop_integration_settings_h
 +  // permissions).
 +  bool IsUnityWebappsInitialized() const;
 +
-+  // 
 +  void * lib_unity_webapps_handle_;
 +  void * get_all_func_handle_;
 +  void * remove_from_permissions_func_handle_;
@@ -1033,15 +1032,15 @@ Index: dev.xenial/chrome/chrome_browser_ui.gypi
 ===================================================================
 --- dev.xenial.orig/chrome/chrome_browser_ui.gypi
 +++ dev.xenial/chrome/chrome_browser_ui.gypi
-@@ -1938,6 +1938,8 @@
-       'browser/ui/webui/options/core_options_handler.h',
-       'browser/ui/webui/options/create_profile_handler.cc',
-       'browser/ui/webui/options/create_profile_handler.h',
+@@ -1396,6 +1396,8 @@
+       'browser/ui/views/status_icons/status_icon_linux_wrapper.h',
+       'browser/ui/webui/help/version_updater_basic.cc',
+       'browser/ui/webui/help/version_updater_basic.h',
 +      'browser/ui/webui/options/desktop_integration_settings_handler.cc',
 +      'browser/ui/webui/options/desktop_integration_settings_handler.h',
-       'browser/ui/webui/options/easy_unlock_handler.cc',
-       'browser/ui/webui/options/easy_unlock_handler.h',
-       'browser/ui/webui/options/font_settings_handler.cc',
+     ],
+     # Files used on iOS. iOS uses only these files and does not share other
+     # lists, so a file may appear here and in the non_ios_sources also.
 @@ -3032,6 +3034,7 @@
            ],
          }],

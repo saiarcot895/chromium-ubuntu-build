@@ -1,3 +1,9 @@
+chromium-browser (52.0.2743.6-0ubuntu1~ppa4~16.04.1) xenial; urgency=low
+
+  * Fix 5-desktop-integration-settings.patch.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 27 May 2016 00:07:14 -0400
+
 chromium-browser (52.0.2743.6-0ubuntu1~ppa3~16.04.1) xenial; urgency=low
 
   * Add in missing part of VAAPI patch.
