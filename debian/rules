@@ -133,10 +133,12 @@ GYP_DEFINES += \
 	use_cups=1 \
 	$(NULL)
 GN_DEFINES += \
+	arm_use_neon=false \
 	target_cpu="arm" \
 	use_cups=true \
 	$(NULL)
 FFMPEG_MT_GN_DEFINES += \
+	arm_use_neon=false \
 	target_cpu="arm" \
 	use_cups=true \
 	$(NULL)
