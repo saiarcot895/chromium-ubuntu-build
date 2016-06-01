@@ -1,3 +1,10 @@
+chromium-browser (52.0.2743.19-0ubuntu1~ppa1~14.04.1) trusty; urgency=low
+
+  * New upstream version 52.0.2743.19
+  * Update ffmpeg build target.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 31 May 2016 21:59:15 -0400
+
 chromium-browser (52.0.2743.6-0ubuntu1~ppa6~14.04.1) trusty; urgency=low
 
   * Disable ozone, because it's not yet ready.

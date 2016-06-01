@@ -133,12 +133,10 @@ GYP_DEFINES += \
 	use_cups=1 \
 	$(NULL)
 GN_DEFINES += \
-	arm_use_neon=false \
 	target_cpu="arm" \
 	use_cups=true \
 	$(NULL)
 FFMPEG_MT_GN_DEFINES += \
-	arm_use_neon=false \
 	target_cpu="arm" \
 	use_cups=true \
 	$(NULL)
@@ -192,13 +190,11 @@ GYP_DEFINES += \
 	use_cups=1 \
 	$(NULL)
 GN_DEFINES += \
-	arm_use_neon=true \
 	target_cpu="arm64" \
 	use_cups=true \
 	use_allocator="none" \
 	$(NULL)
 FFMPEG_MT_GN_DEFINES += \
-	arm_use_neon=true \
 	target_cpu="arm64" \
 	use_cups=true \
 	use_allocator="none" \
@@ -536,7 +532,7 @@ configure-stamp-ffmpeg-%: build-stamp-gn
 
 build-stamp-ffmpeg-%: configure-stamp-ffmpeg-%
 	@set -eux
-	$(NINJA) -v -C $(DEB_TAR_SRCDIR)/out/$(BUILD_TYPE)-ffmpeg-$* ffmpeg
+	$(NINJA) -v -C $(DEB_TAR_SRCDIR)/out/$(BUILD_TYPE)-ffmpeg-$* third_party/ffmpeg
 	mkdir -p debian/tmp-$*/$(LIB_DIR)
 	cp $(DEB_TAR_SRCDIR)/out/$(BUILD_TYPE)-ffmpeg-$*/libffmpeg.so $(CURDIR)/debian/tmp-$*/$(LIB_DIR)
 	touch $@
