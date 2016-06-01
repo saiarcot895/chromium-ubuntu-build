@@ -1,7 +1,7 @@
-Index: dev.xenial/native_client/build/untrusted.gypi
+Index: dev/native_client/build/untrusted.gypi
 ===================================================================
---- dev.xenial.orig/native_client/build/untrusted.gypi
-+++ dev.xenial/native_client/build/untrusted.gypi
+--- dev.orig/native_client/build/untrusted.gypi
++++ dev/native_client/build/untrusted.gypi
 @@ -1538,7 +1538,6 @@
          '-lc',
          '-lnacl',

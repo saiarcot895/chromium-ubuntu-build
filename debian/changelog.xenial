@@ -2,6 +2,7 @@ chromium-browser (52.0.2743.19-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
 
   * New upstream version 52.0.2743.19
   * Update ffmpeg build target.
+  * Updated patches.
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 31 May 2016 21:59:16 -0400
 

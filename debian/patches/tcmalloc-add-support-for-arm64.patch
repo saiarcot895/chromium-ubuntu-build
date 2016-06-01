@@ -32,10 +32,10 @@ better than the result I get on ARMv7:
 
 Patch modified to match Chromium's version.
 
-Index: dev.xenial/third_party/tcmalloc/chromium/src/base/arm_instruction_set_select.h
+Index: dev/third_party/tcmalloc/chromium/src/base/arm_instruction_set_select.h
 ===================================================================
---- dev.xenial.orig/third_party/tcmalloc/chromium/src/base/arm_instruction_set_select.h
-+++ dev.xenial/third_party/tcmalloc/chromium/src/base/arm_instruction_set_select.h
+--- dev.orig/third_party/tcmalloc/chromium/src/base/arm_instruction_set_select.h
++++ dev/third_party/tcmalloc/chromium/src/base/arm_instruction_set_select.h
 @@ -35,7 +35,8 @@
  #ifndef ARM_INSTRUCTION_SET_SELECT_H_
  #define ARM_INSTRUCTION_SET_SELECT_H_
@@ -46,10 +46,10 @@ Index: dev.xenial/third_party/tcmalloc/chromium/src/base/arm_instruction_set_sel
  # define ARMV8 1
  #endif
  
-Index: dev.xenial/third_party/tcmalloc/chromium/src/base/basictypes.h
+Index: dev/third_party/tcmalloc/chromium/src/base/basictypes.h
 ===================================================================
---- dev.xenial.orig/third_party/tcmalloc/chromium/src/base/basictypes.h
-+++ dev.xenial/third_party/tcmalloc/chromium/src/base/basictypes.h
+--- dev.orig/third_party/tcmalloc/chromium/src/base/basictypes.h
++++ dev/third_party/tcmalloc/chromium/src/base/basictypes.h
 @@ -331,7 +331,7 @@ class AssignAttributeStartEnd {
  
  #endif  // HAVE___ATTRIBUTE__ and __ELF__ or __MACH__
@@ -59,10 +59,10 @@ Index: dev.xenial/third_party/tcmalloc/chromium/src/base/basictypes.h
  # define CACHELINE_ALIGNED __attribute__((aligned(64)))
  #else
  # define CACHELINE_ALIGNED
-Index: dev.xenial/third_party/tcmalloc/chromium/src/base/cycleclock.h
+Index: dev/third_party/tcmalloc/chromium/src/base/cycleclock.h
 ===================================================================
---- dev.xenial.orig/third_party/tcmalloc/chromium/src/base/cycleclock.h
-+++ dev.xenial/third_party/tcmalloc/chromium/src/base/cycleclock.h
+--- dev.orig/third_party/tcmalloc/chromium/src/base/cycleclock.h
++++ dev/third_party/tcmalloc/chromium/src/base/cycleclock.h
 @@ -49,7 +49,7 @@
  #include "base/arm_instruction_set_select.h"
  // base/sysinfo.h is really big and we don't want to include it unless
@@ -90,10 +90,10 @@ Index: dev.xenial/third_party/tcmalloc/chromium/src/base/cycleclock.h
  #if defined(ARMV6)  // V6 is the earliest arch that has a standard cyclecount
      uint32 pmccntr;
      uint32 pmuseren;
-Index: dev.xenial/third_party/tcmalloc/chromium/src/base/linuxthreads.h
+Index: dev/third_party/tcmalloc/chromium/src/base/linuxthreads.h
 ===================================================================
---- dev.xenial.orig/third_party/tcmalloc/chromium/src/base/linuxthreads.h
-+++ dev.xenial/third_party/tcmalloc/chromium/src/base/linuxthreads.h
+--- dev.orig/third_party/tcmalloc/chromium/src/base/linuxthreads.h
++++ dev/third_party/tcmalloc/chromium/src/base/linuxthreads.h
 @@ -41,7 +41,7 @@
   * related platforms should not be difficult.
   */
@@ -103,10 +103,10 @@ Index: dev.xenial/third_party/tcmalloc/chromium/src/base/linuxthreads.h
  
  /* Define the THREADS symbol to make sure that there is exactly one core dumper
   * built into the library.
-Index: dev.xenial/third_party/tcmalloc/chromium/src/malloc_hook_mmap_linux.h
+Index: dev/third_party/tcmalloc/chromium/src/malloc_hook_mmap_linux.h
 ===================================================================
---- dev.xenial.orig/third_party/tcmalloc/chromium/src/malloc_hook_mmap_linux.h
-+++ dev.xenial/third_party/tcmalloc/chromium/src/malloc_hook_mmap_linux.h
+--- dev.orig/third_party/tcmalloc/chromium/src/malloc_hook_mmap_linux.h
++++ dev/third_party/tcmalloc/chromium/src/malloc_hook_mmap_linux.h
 @@ -73,7 +73,7 @@ typedef off64_t __off64_t;
  
  // I test for 64-bit first so I don't have to do things like

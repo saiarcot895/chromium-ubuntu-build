@@ -1,10 +1,10 @@
 Description: Enables using VA-API hardware acceleration in Linux. The patch for bpf_gpu_policy_linux.cc initially came from https://codereview.chromium.org/15955009/diff/92001/content/common/sandbox_linux/bpf_gpu_policy_linux.cc.
 
-Index: dev.xenial/chrome/browser/about_flags.cc
+Index: dev/chrome/browser/about_flags.cc
 ===================================================================
---- dev.xenial.orig/chrome/browser/about_flags.cc
-+++ dev.xenial/chrome/browser/about_flags.cc
-@@ -869,7 +869,7 @@ const FeatureEntry kFeatureEntries[] = {
+--- dev.orig/chrome/browser/about_flags.cc
++++ dev/chrome/browser/about_flags.cc
+@@ -866,7 +866,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_NAME,
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
@@ -13,10 +13,10 @@ Index: dev.xenial/chrome/browser/about_flags.cc
          SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
  #if defined(USE_ASH)
-Index: dev.xenial/content/common/BUILD.gn
+Index: dev/content/common/BUILD.gn
 ===================================================================
---- dev.xenial.orig/content/common/BUILD.gn
-+++ dev.xenial/content/common/BUILD.gn
+--- dev.orig/content/common/BUILD.gn
++++ dev/content/common/BUILD.gn
 @@ -11,6 +11,49 @@ if (is_mac) {
    import("//build/config/mac/mac_sdk.gni")
  }
@@ -83,10 +83,10 @@ Index: dev.xenial/content/common/BUILD.gn
    } else {
      if (is_linux) {
        sources -= [
-Index: dev.xenial/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
+Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 ===================================================================
---- dev.xenial.orig/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
-+++ dev.xenial/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
+--- dev.orig/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
++++ dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 @@ -23,6 +23,12 @@
  #include "base/macros.h"
  #include "base/memory/ptr_util.h"
@@ -231,10 +231,10 @@ Index: dev.xenial/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  
    return true;
  }
-Index: dev.xenial/content/common/va_wayland.sigs
+Index: dev/content/common/va_wayland.sigs
 ===================================================================
 --- /dev/null
-+++ dev.xenial/content/common/va_wayland.sigs
++++ dev/content/common/va_wayland.sigs
 @@ -0,0 +1,8 @@
 +// Copyright 2014 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -244,10 +244,10 @@ Index: dev.xenial/content/common/va_wayland.sigs
 +// Functions from libva-wayland used in chromium code.
 +//------------------------------------------------
 +VADisplay vaGetDisplayWl(struct wl_display *display);
-Index: dev.xenial/content/content_gpu.gypi
+Index: dev/content/content_gpu.gypi
 ===================================================================
---- dev.xenial.orig/content/content_gpu.gypi
-+++ dev.xenial/content/content_gpu.gypi
+--- dev.orig/content/content_gpu.gypi
++++ dev/content/content_gpu.gypi
 @@ -49,7 +49,7 @@
          ],
        },
@@ -257,11 +257,11 @@ Index: dev.xenial/content/content_gpu.gypi
        'include_dirs': [
          '<(DEPTH)/third_party/libva',
        ],
-Index: dev.xenial/content/gpu/BUILD.gn
+Index: dev/content/gpu/BUILD.gn
 ===================================================================
---- dev.xenial.orig/content/gpu/BUILD.gn
-+++ dev.xenial/content/gpu/BUILD.gn
-@@ -85,7 +85,7 @@ source_set("gpu_sources") {
+--- dev.orig/content/gpu/BUILD.gn
++++ dev/content/gpu/BUILD.gn
+@@ -86,7 +86,7 @@ source_set("gpu_sources") {
      ]
    }
  
@@ -270,10 +270,10 @@ Index: dev.xenial/content/gpu/BUILD.gn
      configs += [ "//third_party/libva:libva_config" ]
    }
  
-Index: dev.xenial/content/gpu/gpu_main.cc
+Index: dev/content/gpu/gpu_main.cc
 ===================================================================
---- dev.xenial.orig/content/gpu/gpu_main.cc
-+++ dev.xenial/content/gpu/gpu_main.cc
+--- dev.orig/content/gpu/gpu_main.cc
++++ dev/content/gpu/gpu_main.cc
 @@ -75,7 +75,7 @@
  #include "content/common/sandbox_mac.h"
  #endif
@@ -292,10 +292,10 @@ Index: dev.xenial/content/gpu/gpu_main.cc
    media::VaapiWrapper::PreSandboxInitialization();
  #endif
  
-Index: dev.xenial/content/public/common/content_switches.cc
+Index: dev/content/public/common/content_switches.cc
 ===================================================================
---- dev.xenial.orig/content/public/common/content_switches.cc
-+++ dev.xenial/content/public/common/content_switches.cc
+--- dev.orig/content/public/common/content_switches.cc
++++ dev/content/public/common/content_switches.cc
 @@ -970,7 +970,9 @@ const char kDisableAudioSupportForDeskto
  #if defined(OS_CHROMEOS)
  // Disables panel fitting (used for mirror mode).
@@ -306,10 +306,10 @@ Index: dev.xenial/content/public/common/content_switches.cc
  // Disables VA-API accelerated video encode.
  const char kDisableVaapiAcceleratedVideoEncode[] =
      "disable-vaapi-accelerated-video-encode";
-Index: dev.xenial/content/public/common/content_switches.h
+Index: dev/content/public/common/content_switches.h
 ===================================================================
---- dev.xenial.orig/content/public/common/content_switches.h
-+++ dev.xenial/content/public/common/content_switches.h
+--- dev.orig/content/public/common/content_switches.h
++++ dev/content/public/common/content_switches.h
 @@ -278,6 +278,8 @@ CONTENT_EXPORT extern const char kEnable
  
  #if defined(OS_CHROMEOS)
@@ -319,10 +319,10 @@ Index: dev.xenial/content/public/common/content_switches.h
  CONTENT_EXPORT extern const char kDisableVaapiAcceleratedVideoEncode[];
  #endif
  
-Index: dev.xenial/gpu/config/software_rendering_list_json.cc
+Index: dev/gpu/config/software_rendering_list_json.cc
 ===================================================================
---- dev.xenial.orig/gpu/config/software_rendering_list_json.cc
-+++ dev.xenial/gpu/config/software_rendering_list_json.cc
+--- dev.orig/gpu/config/software_rendering_list_json.cc
++++ dev/gpu/config/software_rendering_list_json.cc
 @@ -488,17 +488,6 @@ const char kSoftwareRenderingListJson[]
        ]
      },
@@ -341,10 +341,10 @@ Index: dev.xenial/gpu/config/software_rendering_list_json.cc
        "id": 49,
        "description": "NVidia GeForce GT 650M can cause the system to hang with flash 3D",
        "cr_bugs": [140175],
-Index: dev.xenial/media/BUILD.gn
+Index: dev/media/BUILD.gn
 ===================================================================
---- dev.xenial.orig/media/BUILD.gn
-+++ dev.xenial/media/BUILD.gn
+--- dev.orig/media/BUILD.gn
++++ dev/media/BUILD.gn
 @@ -339,7 +339,7 @@ component("media") {
      allow_circular_includes_from = [ "//media/base/android" ]
    }
@@ -363,10 +363,10 @@ Index: dev.xenial/media/BUILD.gn
      sources += [ "filters/h264_bitstream_buffer_unittest.cc" ]
    }
  
-Index: dev.xenial/media/gpu/BUILD.gn
+Index: dev/media/gpu/BUILD.gn
 ===================================================================
---- dev.xenial.orig/media/gpu/BUILD.gn
-+++ dev.xenial/media/gpu/BUILD.gn
+--- dev.orig/media/gpu/BUILD.gn
++++ dev/media/gpu/BUILD.gn
 @@ -12,7 +12,7 @@ if (is_mac) {
    import("//build/config/mac/mac_sdk.gni")
  }
@@ -394,10 +394,10 @@ Index: dev.xenial/media/gpu/BUILD.gn
        sources += [
          "tegra_v4l2_device.cc",
          "tegra_v4l2_device.h",
-Index: dev.xenial/media/gpu/gpu_video_decode_accelerator_factory_impl.cc
+Index: dev/media/gpu/gpu_video_decode_accelerator_factory_impl.cc
 ===================================================================
---- dev.xenial.orig/media/gpu/gpu_video_decode_accelerator_factory_impl.cc
-+++ dev.xenial/media/gpu/gpu_video_decode_accelerator_factory_impl.cc
+--- dev.orig/media/gpu/gpu_video_decode_accelerator_factory_impl.cc
++++ dev/media/gpu/gpu_video_decode_accelerator_factory_impl.cc
 @@ -14,7 +14,7 @@
  #include "media/gpu/dxva_video_decode_accelerator_win.h"
  #elif defined(OS_MACOSX)
@@ -438,10 +438,10 @@ Index: dev.xenial/media/gpu/gpu_video_decode_accelerator_factory_impl.cc
    std::unique_ptr<media::VideoDecodeAccelerator> decoder;
    decoder.reset(new VaapiVideoDecodeAccelerator(make_context_current_cb_,
                                                  bind_image_cb_));
-Index: dev.xenial/media/gpu/gpu_video_decode_accelerator_factory_impl.h
+Index: dev/media/gpu/gpu_video_decode_accelerator_factory_impl.h
 ===================================================================
---- dev.xenial.orig/media/gpu/gpu_video_decode_accelerator_factory_impl.h
-+++ dev.xenial/media/gpu/gpu_video_decode_accelerator_factory_impl.h
+--- dev.orig/media/gpu/gpu_video_decode_accelerator_factory_impl.h
++++ dev/media/gpu/gpu_video_decode_accelerator_factory_impl.h
 @@ -99,7 +99,7 @@ class MEDIA_GPU_EXPORT GpuVideoDecodeAcc
    std::unique_ptr<media::VideoDecodeAccelerator> CreateV4L2SVDA(
        const gpu::GpuPreferences& gpu_preferences) const;
@@ -451,10 +451,10 @@ Index: dev.xenial/media/gpu/gpu_video_decode_accelerator_factory_impl.h
    std::unique_ptr<media::VideoDecodeAccelerator> CreateVaapiVDA(
        const gpu::GpuPreferences& gpu_preferences) const;
  #endif
-Index: dev.xenial/media/gpu/ipc/service/BUILD.gn
+Index: dev/media/gpu/ipc/service/BUILD.gn
 ===================================================================
---- dev.xenial.orig/media/gpu/ipc/service/BUILD.gn
-+++ dev.xenial/media/gpu/ipc/service/BUILD.gn
+--- dev.orig/media/gpu/ipc/service/BUILD.gn
++++ dev/media/gpu/ipc/service/BUILD.gn
 @@ -37,7 +37,7 @@ source_set("service") {
      "//third_party/mesa:mesa_headers",
    ]
@@ -464,10 +464,10 @@ Index: dev.xenial/media/gpu/ipc/service/BUILD.gn
      configs += [ "//third_party/libva:libva_config" ]
    }
  
-Index: dev.xenial/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
+Index: dev/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
 ===================================================================
---- dev.xenial.orig/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
-+++ dev.xenial/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
+--- dev.orig/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
++++ dev/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
 @@ -58,7 +58,7 @@ static bool MakeDecoderContextCurrent(
    return true;
  }
@@ -486,10 +486,10 @@ Index: dev.xenial/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
    bind_image_cb_ = base::Bind(&BindImage, stub_->AsWeakPtr());
  #endif
    get_gles2_decoder_cb_ = base::Bind(&GetGLES2Decoder, stub_->AsWeakPtr());
-Index: dev.xenial/media/gpu/va_stub_header.fragment
+Index: dev/media/gpu/va_stub_header.fragment
 ===================================================================
---- dev.xenial.orig/media/gpu/va_stub_header.fragment
-+++ dev.xenial/media/gpu/va_stub_header.fragment
+--- dev.orig/media/gpu/va_stub_header.fragment
++++ dev/media/gpu/va_stub_header.fragment
 @@ -5,8 +5,9 @@ extern "C" {
  
  #include "third_party/libva/va/drm/va_drm.h"
@@ -501,10 +501,10 @@ Index: dev.xenial/media/gpu/va_stub_header.fragment
  #endif
  
  }
-Index: dev.xenial/media/gpu/vaapi_video_decode_accelerator.cc
+Index: dev/media/gpu/vaapi_video_decode_accelerator.cc
 ===================================================================
---- dev.xenial.orig/media/gpu/vaapi_video_decode_accelerator.cc
-+++ dev.xenial/media/gpu/vaapi_video_decode_accelerator.cc
+--- dev.orig/media/gpu/vaapi_video_decode_accelerator.cc
++++ dev/media/gpu/vaapi_video_decode_accelerator.cc
 @@ -342,17 +342,17 @@ bool VaapiVideoDecodeAccelerator::Initia
  
    base::AutoLock auto_lock(lock_);
@@ -544,10 +544,10 @@ Index: dev.xenial/media/gpu/vaapi_video_decode_accelerator.cc
      return false;
    }
  
-Index: dev.xenial/media/gpu/vaapi_wrapper.cc
+Index: dev/media/gpu/vaapi_wrapper.cc
 ===================================================================
---- dev.xenial.orig/media/gpu/vaapi_wrapper.cc
-+++ dev.xenial/media/gpu/vaapi_wrapper.cc
+--- dev.orig/media/gpu/vaapi_wrapper.cc
++++ dev/media/gpu/vaapi_wrapper.cc
 @@ -189,7 +189,7 @@ scoped_refptr<VaapiWrapper> VaapiWrapper
      VAProfile va_profile,
      const base::Closure& report_error_to_uma_cb) {
@@ -600,10 +600,10 @@ Index: dev.xenial/media/gpu/vaapi_wrapper.cc
        return false;
      }
    }
-Index: dev.xenial/media/media.gyp
+Index: dev/media/media.gyp
 ===================================================================
---- dev.xenial.orig/media/media.gyp
-+++ dev.xenial/media/media.gyp
+--- dev.orig/media/media.gyp
++++ dev/media/media.gyp
 @@ -752,7 +752,7 @@
            ],
          }],
@@ -631,10 +631,10 @@ Index: dev.xenial/media/media.gyp
        'targets': [
            {
              'target_name': 'vaapi_jpeg_decoder_unittest',
-Index: dev.xenial/media/media_gpu.gypi
+Index: dev/media/media_gpu.gypi
 ===================================================================
---- dev.xenial.orig/media/media_gpu.gypi
-+++ dev.xenial/media/media_gpu.gypi
+--- dev.orig/media/media_gpu.gypi
++++ dev/media/media_gpu.gypi
 @@ -230,7 +230,7 @@
          'gpu/tegra_v4l2_device.h',
        ],

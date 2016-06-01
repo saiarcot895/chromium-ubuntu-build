@@ -1,7 +1,7 @@
-Index: dev.xenial/chrome/common/chrome_content_client.cc
+Index: dev/chrome/common/chrome_content_client.cc
 ===================================================================
---- dev.xenial.orig/chrome/common/chrome_content_client.cc
-+++ dev.xenial/chrome/common/chrome_content_client.cc
+--- dev.orig/chrome/common/chrome_content_client.cc
++++ dev/chrome/common/chrome_content_client.cc
 @@ -204,9 +204,7 @@ void ComputeBuiltInPlugins(std::vector<c
      widevine_cdm.path = adapter_path;
      widevine_cdm.name = kWidevineCdmDisplayName;

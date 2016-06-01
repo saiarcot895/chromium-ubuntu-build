@@ -2,10 +2,10 @@ Description: Add touchscreen support for other xi2 devices.
 Author: Chad MILLER <chad.miller@canonical.com>
 Forwarded: yes
 
-Index: dev.xenial/ui/events/devices/x11/touch_factory_x11.cc
+Index: dev/ui/events/devices/x11/touch_factory_x11.cc
 ===================================================================
---- dev.xenial.orig/ui/events/devices/x11/touch_factory_x11.cc
-+++ dev.xenial/ui/events/devices/x11/touch_factory_x11.cc
+--- dev.orig/ui/events/devices/x11/touch_factory_x11.cc
++++ dev/ui/events/devices/x11/touch_factory_x11.cc
 @@ -123,7 +123,10 @@ void TouchFactory::UpdateDeviceList(Disp
            if (tci->mode == XIDirectTouch) {
              touch_device_lookup_[devinfo.deviceid] = true;

@@ -2,10 +2,10 @@ Description: Use the system clang instead of the one that is (not really)
  inside the source tree.
 Author: Chad Miller <chad.miller@canonical.com>
 
-Index: dev.xenial/build/common.gypi
+Index: dev/build/common.gypi
 ===================================================================
---- dev.xenial.orig/build/common.gypi
-+++ dev.xenial/build/common.gypi
+--- dev.orig/build/common.gypi
++++ dev/build/common.gypi
 @@ -2432,8 +2432,8 @@
        }],
  
@@ -17,10 +17,10 @@ Index: dev.xenial/build/common.gypi
        }, {
          'host_cc': '<!(which gcc)',
          'host_cxx': '<!(which g++)',
-Index: dev.xenial/build/config/compiler/BUILD.gn
+Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
---- dev.xenial.orig/build/config/compiler/BUILD.gn
-+++ dev.xenial/build/config/compiler/BUILD.gn
+--- dev.orig/build/config/compiler/BUILD.gn
++++ dev/build/config/compiler/BUILD.gn
 @@ -371,15 +371,6 @@ config("compiler") {
      cflags += [ "-fcolor-diagnostics" ]
    }
@@ -37,10 +37,10 @@ Index: dev.xenial/build/config/compiler/BUILD.gn
    # C++11 compiler flags setup.
    # ---------------------------
    if (is_linux || is_android || (is_nacl && is_clang)) {
-Index: dev.xenial/build/toolchain/gcc_toolchain.gni
+Index: dev/build/toolchain/gcc_toolchain.gni
 ===================================================================
---- dev.xenial.orig/build/toolchain/gcc_toolchain.gni
-+++ dev.xenial/build/toolchain/gcc_toolchain.gni
+--- dev.orig/build/toolchain/gcc_toolchain.gni
++++ dev/build/toolchain/gcc_toolchain.gni
 @@ -502,10 +502,8 @@ template("clang_toolchain") {
    }
  

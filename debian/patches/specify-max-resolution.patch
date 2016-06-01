@@ -5,10 +5,10 @@ In the change introduced by https://codereview.chromium.org/872623002, Chromium 
 There is a patch in libva (http://cgit.freedesktop.org/vaapi/intel-driver/commit/?id=9a20d6c34cb65e5b85dd16d6c8b3a215c5972b18) that asks what the maximum resolution supported by the hardware is. Until there is a new release of libva that has that change, this patch will have to be used.
 
 
-Index: dev.xenial/media/gpu/vaapi_wrapper.cc
+Index: dev/media/gpu/vaapi_wrapper.cc
 ===================================================================
---- dev.xenial.orig/media/gpu/vaapi_wrapper.cc
-+++ dev.xenial/media/gpu/vaapi_wrapper.cc
+--- dev.orig/media/gpu/vaapi_wrapper.cc
++++ dev/media/gpu/vaapi_wrapper.cc
 @@ -455,42 +455,7 @@ bool VaapiWrapper::GetMaxResolution_Lock
      VAEntrypoint entrypoint,
      std::vector<VAConfigAttrib>& required_attribs,

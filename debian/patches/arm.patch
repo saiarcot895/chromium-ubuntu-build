@@ -1,7 +1,7 @@
-Index: dev.xenial/third_party/skia/gyp/skia_lib.gyp
+Index: dev/third_party/skia/gyp/skia_lib.gyp
 ===================================================================
---- dev.xenial.orig/third_party/skia/gyp/skia_lib.gyp
-+++ dev.xenial/third_party/skia/gyp/skia_lib.gyp
+--- dev.orig/third_party/skia/gyp/skia_lib.gyp
++++ dev/third_party/skia/gyp/skia_lib.gyp
 @@ -16,6 +16,7 @@
        'ports.gyp:ports',
        'sfnt.gyp:sfnt',
@@ -19,10 +19,10 @@ Index: dev.xenial/third_party/skia/gyp/skia_lib.gyp
          'component_libs': [
            'opts.gyp:opts_neon',
          ],
-Index: dev.xenial/ui/base/resource/data_pack.cc
+Index: dev/ui/base/resource/data_pack.cc
 ===================================================================
---- dev.xenial.orig/ui/base/resource/data_pack.cc
-+++ dev.xenial/ui/base/resource/data_pack.cc
+--- dev.orig/ui/base/resource/data_pack.cc
++++ dev/ui/base/resource/data_pack.cc
 @@ -157,9 +157,11 @@ bool DataPack::LoadImpl() {
    // 2) Verify the entries are within the appropriate bounds. There's an extra
    // entry after the last item which gives us the length of the last item.
