@@ -352,9 +352,15 @@ get-packaged-orig-source:
 	mv "chromium-$(ORIG_VERSION).tar.xz" "$(DEST_FILENAME)"
 
 # Debian Policy §4.9
-get-orig-source:
+get-orig-source: get-orig-source-dev
+
+get-orig-source-dev:
 	@set -eux
 	ORIG_VERSION=$(shell wget -qO- "https://omahaproxy.appspot.com/all?os=linux&channel=dev" | grep linux | while IFS=, read col1 col2 col3 col4; do echo $$col3; done) debian/rules get-packaged-orig-source
+
+get-orig-source-beta:
+	@set -eux
+	ORIG_VERSION=$(shell wget -qO- "https://omahaproxy.appspot.com/all?os=linux&channel=beta" | grep linux | while IFS=, read col1 col2 col3 col4; do echo $$col3; done) debian/rules get-packaged-orig-source
 
 
 

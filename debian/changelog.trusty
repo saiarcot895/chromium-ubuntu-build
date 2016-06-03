@@ -1,6 +1,8 @@
 chromium-browser (52.0.2743.19-0ubuntu1~ppa2~14.04.1) UNRELEASED; urgency=medium
 
   * Fix build for armhf.
+  * Add separate rules in debian/rules for getting the beta tarball and
+    dev tarball.
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 01 Jun 2016 10:22:11 -0400
 
