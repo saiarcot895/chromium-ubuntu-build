@@ -1,7 +1,7 @@
-Index: dev/chrome/chrome_exe.gypi
+Index: beta/chrome/chrome_exe.gypi
 ===================================================================
---- dev.orig/chrome/chrome_exe.gypi
-+++ dev/chrome/chrome_exe.gypi
+--- beta.orig/chrome/chrome_exe.gypi
++++ beta/chrome/chrome_exe.gypi
 @@ -379,7 +379,13 @@
                'dependencies': [
                  '../native_client/src/trusted/service_runtime/linux/nacl_bootstrap.gyp:nacl_helper_bootstrap',
@@ -17,10 +17,10 @@ Index: dev/chrome/chrome_exe.gypi
                ],
              }],
            ],
-Index: dev/chrome/chrome_tests.gypi
+Index: beta/chrome/chrome_tests.gypi
 ===================================================================
---- dev.orig/chrome/chrome_tests.gypi
-+++ dev/chrome/chrome_tests.gypi
+--- beta.orig/chrome/chrome_tests.gypi
++++ beta/chrome/chrome_tests.gypi
 @@ -2374,7 +2374,13 @@
                'dependencies': [
                  '../native_client/src/trusted/service_runtime/linux/nacl_bootstrap.gyp:nacl_helper_bootstrap',

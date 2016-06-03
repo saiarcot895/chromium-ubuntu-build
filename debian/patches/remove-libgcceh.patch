@@ -1,7 +1,7 @@
-Index: dev/native_client/build/untrusted.gypi
+Index: beta/native_client/build/untrusted.gypi
 ===================================================================
---- dev.orig/native_client/build/untrusted.gypi
-+++ dev/native_client/build/untrusted.gypi
+--- beta.orig/native_client/build/untrusted.gypi
++++ beta/native_client/build/untrusted.gypi
 @@ -1538,7 +1538,6 @@
          '-lc',
          '-lnacl',

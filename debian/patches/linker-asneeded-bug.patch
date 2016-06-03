@@ -2,10 +2,10 @@ Description: Avoid a linker bug where symbols are not found.
  > /usr/bin/ld.bfd.real: out/Release/obj.target/net/libnet.so: undefined reference to symbol 'SSL_ForceHandshake'
  > out/Release/obj.target/net/third_party/nss/libcrssl.so: error adding symbols: DSO missing from command line
 
-Index: dev/build/common.gypi
+Index: beta/build/common.gypi
 ===================================================================
---- dev.orig/build/common.gypi
-+++ dev/build/common.gypi
+--- beta.orig/build/common.gypi
++++ beta/build/common.gypi
 @@ -3715,7 +3715,7 @@
                    '-fomit-frame-pointer',
                  ],

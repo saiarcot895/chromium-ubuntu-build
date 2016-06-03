@@ -1,10 +1,12 @@
-chromium-browser (52.0.2743.19-0ubuntu1~ppa2~14.04.1) UNRELEASED; urgency=medium
+chromium-browser (52.0.2743.24-0ubuntu1~ppa1~14.04.1) trusty; urgency=low
 
   * Fix build for armhf.
   * Add separate rules in debian/rules for getting the beta tarball and
     dev tarball.
+  * New upstream version 52.0.2743.24
+  * Updated patches.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 01 Jun 2016 10:22:11 -0400
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 03 Jun 2016 08:50:21 -0400
 
 chromium-browser (52.0.2743.19-0ubuntu1~ppa1~14.04.1) trusty; urgency=low
 

@@ -4,10 +4,10 @@ Author: Chad Miller <chad.miller@canonical.com>
 Bug-Chromium: 154107
 Bug-Ubuntu: 1084852
 
-Index: dev/third_party/webrtc/system_wrappers/source/cpu_features.cc
+Index: beta/third_party/webrtc/system_wrappers/source/cpu_features.cc
 ===================================================================
---- dev.orig/third_party/webrtc/system_wrappers/source/cpu_features.cc
-+++ dev/third_party/webrtc/system_wrappers/source/cpu_features.cc
+--- beta.orig/third_party/webrtc/system_wrappers/source/cpu_features.cc
++++ beta/third_party/webrtc/system_wrappers/source/cpu_features.cc
 @@ -18,6 +18,47 @@
  
  #include "webrtc/typedefs.h"

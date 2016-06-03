@@ -1,7 +1,7 @@
-Index: dev/services/shell/runner/host/linux_sandbox.cc
+Index: beta/services/shell/runner/host/linux_sandbox.cc
 ===================================================================
---- dev.orig/services/shell/runner/host/linux_sandbox.cc
-+++ dev/services/shell/runner/host/linux_sandbox.cc
+--- beta.orig/services/shell/runner/host/linux_sandbox.cc
++++ beta/services/shell/runner/host/linux_sandbox.cc
 @@ -38,12 +38,14 @@ intptr_t SandboxSIGSYSHandler(const stru
    const sandbox::syscall_broker::BrokerProcess* broker_process =
        static_cast<const sandbox::syscall_broker::BrokerProcess*>(aux);

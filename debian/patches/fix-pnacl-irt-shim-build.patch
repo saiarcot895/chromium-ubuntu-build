@@ -1,9 +1,9 @@
 Patch needed after https://chromium.googlesource.com/chromium/src.git/+/862629a4bd59c32a7afa38ae204f8c44df184960%5E%21/#F0
 
-Index: dev/ppapi/native_client/src/untrusted/pnacl_irt_shim/pnacl_irt_shim.gyp
+Index: beta/ppapi/native_client/src/untrusted/pnacl_irt_shim/pnacl_irt_shim.gyp
 ===================================================================
---- dev.orig/ppapi/native_client/src/untrusted/pnacl_irt_shim/pnacl_irt_shim.gyp
-+++ dev/ppapi/native_client/src/untrusted/pnacl_irt_shim/pnacl_irt_shim.gyp
+--- beta.orig/ppapi/native_client/src/untrusted/pnacl_irt_shim/pnacl_irt_shim.gyp
++++ beta/ppapi/native_client/src/untrusted/pnacl_irt_shim/pnacl_irt_shim.gyp
 @@ -63,6 +63,10 @@
          # pnacl_support_extension rename this to the canonical name when
          # copying to the final target directory.

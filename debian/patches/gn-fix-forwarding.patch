@@ -1,7 +1,7 @@
-Index: dev/build/toolchain/gcc_toolchain.gni
+Index: beta/build/toolchain/gcc_toolchain.gni
 ===================================================================
---- dev.orig/build/toolchain/gcc_toolchain.gni
-+++ dev/build/toolchain/gcc_toolchain.gni
+--- beta.orig/build/toolchain/gcc_toolchain.gni
++++ beta/build/toolchain/gcc_toolchain.gni
 @@ -511,12 +511,13 @@ template("clang_toolchain") {
      ar = "${toolprefix}ar"
      nm = "${toolprefix}nm"

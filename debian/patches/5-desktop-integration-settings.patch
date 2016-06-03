@@ -1,7 +1,7 @@
-Index: dev/chrome/app/generated_resources.grd
+Index: beta/chrome/app/generated_resources.grd
 ===================================================================
---- dev.orig/chrome/app/generated_resources.grd
-+++ dev/chrome/app/generated_resources.grd
+--- beta.orig/chrome/app/generated_resources.grd
++++ beta/chrome/app/generated_resources.grd
 @@ -7835,6 +7835,35 @@ Keep your key file in a safe place. You
  I don't think this site should be blocked!
        </message>
@@ -48,10 +48,10 @@ Index: dev/chrome/app/generated_resources.grd
        <message name="IDS_OPTIONS_ADVANCED_SECTION_TITLE_CERTIFICATES">
          HTTPS/SSL
        </message>
-Index: dev/chrome/browser/resources/options/browser_options.html
+Index: beta/chrome/browser/resources/options/browser_options.html
 ===================================================================
---- dev.orig/chrome/browser/resources/options/browser_options.html
-+++ dev/chrome/browser/resources/options/browser_options.html
+--- beta.orig/chrome/browser/resources/options/browser_options.html
++++ beta/chrome/browser/resources/options/browser_options.html
 @@ -549,6 +549,20 @@
      </div>
    </section>
@@ -73,10 +73,10 @@ Index: dev/chrome/browser/resources/options/browser_options.html
    <section id="passwords-and-autofill-section">
      <h3 i18n-content="passwordsAndAutofillGroupName"></h3>
      <div class="checkbox controlled-setting-with-label">
-Index: dev/chrome/browser/resources/options/browser_options.js
+Index: beta/chrome/browser/resources/options/browser_options.js
 ===================================================================
---- dev.orig/chrome/browser/resources/options/browser_options.js
-+++ dev/chrome/browser/resources/options/browser_options.js
+--- beta.orig/chrome/browser/resources/options/browser_options.js
++++ beta/chrome/browser/resources/options/browser_options.js
 @@ -674,6 +674,23 @@ cr.define('options', function() {
              [String(event.target.options[event.target.selectedIndex].value)]);
        };
@@ -142,10 +142,10 @@ Index: dev/chrome/browser/resources/options/browser_options.js
      'setAllHotwordSectionsVisible',
      'setMetricsReportingCheckboxState',
      'setMetricsReportingSettingVisibility',
-Index: dev/chrome/browser/resources/options/desktop_integration_add_website_overlay.html
+Index: beta/chrome/browser/resources/options/desktop_integration_add_website_overlay.html
 ===================================================================
 --- /dev/null
-+++ dev/chrome/browser/resources/options/desktop_integration_add_website_overlay.html
++++ beta/chrome/browser/resources/options/desktop_integration_add_website_overlay.html
 @@ -0,0 +1,15 @@
 +<div id="add-desktop-integration-website-overlay-page" class="page" hidden>
 +  <div class="close-button"></div>
@@ -162,10 +162,10 @@ Index: dev/chrome/browser/resources/options/desktop_integration_add_website_over
 +    <button id="add-integration-website-overlay-ok-button" i18n-content="ok"></button>
 +  </div>
 +</div>
-Index: dev/chrome/browser/resources/options/desktop_integration_add_website_overlay.js
+Index: beta/chrome/browser/resources/options/desktop_integration_add_website_overlay.js
 ===================================================================
 --- /dev/null
-+++ dev/chrome/browser/resources/options/desktop_integration_add_website_overlay.js
++++ beta/chrome/browser/resources/options/desktop_integration_add_website_overlay.js
 @@ -0,0 +1,48 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -215,10 +215,10 @@ Index: dev/chrome/browser/resources/options/desktop_integration_add_website_over
 +    AddDesktopIntegrationWebsiteOverlay: AddDesktopIntegrationWebsiteOverlay
 +  };
 +});
-Index: dev/chrome/browser/resources/options/desktop_integration_overlay.css
+Index: beta/chrome/browser/resources/options/desktop_integration_overlay.css
 ===================================================================
 --- /dev/null
-+++ dev/chrome/browser/resources/options/desktop_integration_overlay.css
++++ beta/chrome/browser/resources/options/desktop_integration_overlay.css
 @@ -0,0 +1,75 @@
 +/* Copyright (c) 2012 The Chromium Authors. All rights reserved.
 + * Use of this source code is governed by a BSD-style license that can be
@@ -295,10 +295,10 @@ Index: dev/chrome/browser/resources/options/desktop_integration_overlay.css
 +  padding-bottom: 2px;
 +  padding-top: 2px;
 +}
-Index: dev/chrome/browser/resources/options/desktop_integration_overlay.html
+Index: beta/chrome/browser/resources/options/desktop_integration_overlay.html
 ===================================================================
 --- /dev/null
-+++ dev/chrome/browser/resources/options/desktop_integration_overlay.html
++++ beta/chrome/browser/resources/options/desktop_integration_overlay.html
 @@ -0,0 +1,26 @@
 +<div id="desktop-integration-area" class="page" hidden>
 +
@@ -326,10 +326,10 @@ Index: dev/chrome/browser/resources/options/desktop_integration_overlay.html
 +
 +</div>
 +
-Index: dev/chrome/browser/resources/options/desktop_integration_overlay.js
+Index: beta/chrome/browser/resources/options/desktop_integration_overlay.js
 ===================================================================
 --- /dev/null
-+++ dev/chrome/browser/resources/options/desktop_integration_overlay.js
++++ beta/chrome/browser/resources/options/desktop_integration_overlay.js
 @@ -0,0 +1,207 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -538,10 +538,10 @@ Index: dev/chrome/browser/resources/options/desktop_integration_overlay.js
 +  };
 +});
 +
-Index: dev/chrome/browser/resources/options/options.html
+Index: beta/chrome/browser/resources/options/options.html
 ===================================================================
---- dev.orig/chrome/browser/resources/options/options.html
-+++ dev/chrome/browser/resources/options/options.html
+--- beta.orig/chrome/browser/resources/options/options.html
++++ beta/chrome/browser/resources/options/options.html
 @@ -25,6 +25,7 @@
  <link rel="stylesheet" href="clear_browser_data_overlay.css">
  <link rel="stylesheet" href="content_settings.css">
@@ -566,10 +566,10 @@ Index: dev/chrome/browser/resources/options/options.html
    <include src="handler_options.html">
    <include src="language_add_language_overlay.html">
    <include src="supervised_user_import.html">
-Index: dev/chrome/browser/resources/options/options.js
+Index: beta/chrome/browser/resources/options/options.js
 ===================================================================
---- dev.orig/chrome/browser/resources/options/options.js
-+++ dev/chrome/browser/resources/options/options.js
+--- beta.orig/chrome/browser/resources/options/options.js
++++ beta/chrome/browser/resources/options/options.js
 @@ -16,6 +16,8 @@ var ContentSettingsExceptionsArea =
      options.contentSettings.ContentSettingsExceptionsArea;
  var ContentSettings = options.ContentSettings;
@@ -597,10 +597,10 @@ Index: dev/chrome/browser/resources/options/options.js
    if (HandlerOptions && $('manage-handlers-button')) {
      PageManager.registerOverlay(HandlerOptions.getInstance(),
                                  ContentSettings.getInstance(),
-Index: dev/chrome/browser/resources/options/options_bundle.js
+Index: beta/chrome/browser/resources/options/options_bundle.js
 ===================================================================
---- dev.orig/chrome/browser/resources/options/options_bundle.js
-+++ dev/chrome/browser/resources/options/options_bundle.js
+--- beta.orig/chrome/browser/resources/options/options_bundle.js
++++ beta/chrome/browser/resources/options/options_bundle.js
 @@ -84,6 +84,8 @@ var CertificateImportErrorOverlay = opti
  <include src="content_settings_ui.js">
  <include src="cookies_list.js">
@@ -610,10 +610,10 @@ Index: dev/chrome/browser/resources/options/options_bundle.js
  <include src="easy_unlock_turn_off_overlay.js">
  <include src="factory_reset_overlay.js">
  <include src="font_settings.js">
-Index: dev/chrome/browser/ui/BUILD.gn
+Index: beta/chrome/browser/ui/BUILD.gn
 ===================================================================
---- dev.orig/chrome/browser/ui/BUILD.gn
-+++ dev/chrome/browser/ui/BUILD.gn
+--- beta.orig/chrome/browser/ui/BUILD.gn
++++ beta/chrome/browser/ui/BUILD.gn
 @@ -498,6 +498,9 @@ source_set("ui") {
      sources += rebase_path(gypi_values.chrome_browser_ui_desktop_linux_sources,
                             ".",
@@ -624,10 +624,10 @@ Index: dev/chrome/browser/ui/BUILD.gn
      deps += [
        "//ui/base/ime",
        "//ui/events:dom_keycode_converter",
-Index: dev/chrome/browser/ui/webui/options/browser_options_handler.cc
+Index: beta/chrome/browser/ui/webui/options/browser_options_handler.cc
 ===================================================================
---- dev.orig/chrome/browser/ui/webui/options/browser_options_handler.cc
-+++ dev/chrome/browser/ui/webui/options/browser_options_handler.cc
+--- beta.orig/chrome/browser/ui/webui/options/browser_options_handler.cc
++++ beta/chrome/browser/ui/webui/options/browser_options_handler.cc
 @@ -240,6 +240,8 @@ void BrowserOptionsHandler::GetLocalized
      { "advancedSectionTitleCloudPrint", IDS_GOOGLE_CLOUD_PRINT },
      { "advancedSectionTitleContent",
@@ -657,10 +657,10 @@ Index: dev/chrome/browser/ui/webui/options/browser_options_handler.cc
      { "proxiesLabelExtension", IDS_OPTIONS_EXTENSION_PROXIES_LABEL },
      { "proxiesLabelSystem", IDS_OPTIONS_SYSTEM_PROXIES_LABEL,
        IDS_PRODUCT_NAME },
-Index: dev/chrome/browser/ui/webui/options/desktop_integration_settings_handler.cc
+Index: beta/chrome/browser/ui/webui/options/desktop_integration_settings_handler.cc
 ===================================================================
 --- /dev/null
-+++ dev/chrome/browser/ui/webui/options/desktop_integration_settings_handler.cc
++++ beta/chrome/browser/ui/webui/options/desktop_integration_settings_handler.cc
 @@ -0,0 +1,262 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -924,10 +924,10 @@ Index: dev/chrome/browser/ui/webui/options/desktop_integration_settings_handler.
 +}
 +
 +}  // namespace options
-Index: dev/chrome/browser/ui/webui/options/desktop_integration_settings_handler.h
+Index: beta/chrome/browser/ui/webui/options/desktop_integration_settings_handler.h
 ===================================================================
 --- /dev/null
-+++ dev/chrome/browser/ui/webui/options/desktop_integration_settings_handler.h
++++ beta/chrome/browser/ui/webui/options/desktop_integration_settings_handler.h
 @@ -0,0 +1,75 @@
 +// Copyright (c) 2012 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -1004,10 +1004,10 @@ Index: dev/chrome/browser/ui/webui/options/desktop_integration_settings_handler.
 +}  // namespace options
 +
 +#endif  // CHROME_BROWSER_UI_WEBUI_OPTIONS_DESKTOP_INTEGRATION_SETTINGS_HANDLER2_H_
-Index: dev/chrome/browser/ui/webui/options/options_ui.cc
+Index: beta/chrome/browser/ui/webui/options/options_ui.cc
 ===================================================================
---- dev.orig/chrome/browser/ui/webui/options/options_ui.cc
-+++ dev/chrome/browser/ui/webui/options/options_ui.cc
+--- beta.orig/chrome/browser/ui/webui/options/options_ui.cc
++++ beta/chrome/browser/ui/webui/options/options_ui.cc
 @@ -108,6 +108,10 @@
  #include "chrome/browser/ui/webui/options/geolocation_options_handler.h"
  #endif
@@ -1028,10 +1028,10 @@ Index: dev/chrome/browser/ui/webui/options/options_ui.cc
    AddOptionsPageUIHandler(localized_strings, new FontSettingsHandler());
  #if BUILDFLAG(ENABLE_GOOGLE_NOW)
    AddOptionsPageUIHandler(localized_strings, new GeolocationOptionsHandler());
-Index: dev/chrome/chrome_browser_ui.gypi
+Index: beta/chrome/chrome_browser_ui.gypi
 ===================================================================
---- dev.orig/chrome/chrome_browser_ui.gypi
-+++ dev/chrome/chrome_browser_ui.gypi
+--- beta.orig/chrome/chrome_browser_ui.gypi
++++ beta/chrome/chrome_browser_ui.gypi
 @@ -1396,6 +1396,8 @@
        'browser/ui/views/status_icons/status_icon_linux_wrapper.h',
        'browser/ui/webui/help/version_updater_basic.cc',
@@ -1041,7 +1041,7 @@ Index: dev/chrome/chrome_browser_ui.gypi
      ],
      # Files used on iOS. iOS uses only these files and does not share other
      # lists, so a file may appear here and in the non_ios_sources also.
-@@ -3032,6 +3034,7 @@
+@@ -3034,6 +3036,7 @@
            ],
          }],
          ['use_aura==1 and chromeos==0 and use_ozone==0 and OS=="linux"', {
