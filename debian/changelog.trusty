@@ -1,3 +1,10 @@
+chromium-browser (52.0.2743.33-0ubuntu1~ppa1~14.04.1) trusty; urgency=low
+
+  * New upstream version 52.0.2743.33
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 10 Jun 2016 10:47:09 -0400
+
 chromium-browser (52.0.2743.24-0ubuntu1~ppa1~14.04.1) trusty; urgency=low
 
   * Fix build for armhf.
