@@ -2,7 +2,15 @@ Index: dev/tools/gn/bootstrap/bootstrap.py
 ===================================================================
 --- dev.orig/tools/gn/bootstrap/bootstrap.py
 +++ dev/tools/gn/bootstrap/bootstrap.py
-@@ -353,6 +353,7 @@ def write_ninja(path, root_gen_dir, opti
+@@ -316,6 +316,7 @@ def write_ninja(path, root_gen_dir, opti
+       'base/trace_event/memory_dump_manager.cc',
+       'base/trace_event/memory_dump_request_args.cc',
+       'base/trace_event/memory_dump_session_state.cc',
++      'base/trace_event/memory_infra_background_whitelist.cc',
+       'base/trace_event/process_memory_dump.cc',
+       'base/trace_event/process_memory_maps.cc',
+       'base/trace_event/process_memory_totals.cc',
+@@ -353,6 +354,7 @@ def write_ninja(path, root_gen_dir, opti
          'base/process/process_posix.cc',
          'base/synchronization/condition_variable_posix.cc',
          'base/synchronization/lock_impl_posix.cc',
