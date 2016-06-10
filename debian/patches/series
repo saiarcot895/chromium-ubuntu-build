@@ -60,3 +60,4 @@ gn-fix-forwarding.patch
 #wayland-0016-fix-dependencies.patch
 #wayland-0017-switch-to-stdint.patch
 ### END Wayland patches ###
+fix-gn-bootstrap.patch

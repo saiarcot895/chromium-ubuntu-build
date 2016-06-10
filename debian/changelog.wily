@@ -1,3 +1,9 @@
+chromium-browser (53.0.2763.0-0ubuntu1~ppa2~15.10.1) wily; urgency=medium
+
+  * Fix compiling gn.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 10 Jun 2016 10:37:44 -0400
+
 chromium-browser (53.0.2763.0-0ubuntu1~ppa1~15.10.1) wily; urgency=low
 
   * Fix build for armhf.

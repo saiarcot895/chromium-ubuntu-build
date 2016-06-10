@@ -1,0 +1,12 @@
+Index: dev/tools/gn/bootstrap/bootstrap.py
+===================================================================
+--- dev.orig/tools/gn/bootstrap/bootstrap.py
++++ dev/tools/gn/bootstrap/bootstrap.py
+@@ -353,6 +353,7 @@ def write_ninja(path, root_gen_dir, opti
+         'base/process/process_posix.cc',
+         'base/synchronization/condition_variable_posix.cc',
+         'base/synchronization/lock_impl_posix.cc',
++        'base/synchronization/read_write_lock_posix.cc',
+         'base/synchronization/waitable_event_posix.cc',
+         'base/sys_info_posix.cc',
+         'base/threading/platform_thread_internal_posix.cc',
