@@ -4,7 +4,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -866,7 +866,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -882,7 +882,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_NAME,
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
@@ -17,7 +17,7 @@ Index: dev/content/common/BUILD.gn
 ===================================================================
 --- dev.orig/content/common/BUILD.gn
 +++ dev/content/common/BUILD.gn
-@@ -11,6 +11,49 @@ if (is_mac) {
+@@ -12,6 +12,49 @@ if (is_mac) {
    import("//build/config/mac/mac_sdk.gni")
  }
  
@@ -67,7 +67,7 @@ Index: dev/content/common/BUILD.gn
  source_set("common") {
    # Targets external to content should always link to the public API.
    # In addition, targets outside of the content component (shell and tests)
-@@ -178,6 +221,15 @@ source_set("common") {
+@@ -177,6 +220,15 @@ source_set("common") {
  
    if (use_seccomp_bpf) {
      defines += [ "USE_SECCOMP_BPF" ]
@@ -283,7 +283,7 @@ Index: dev/content/gpu/gpu_main.cc
  #include "media/gpu/vaapi_wrapper.h"
  #endif
  
-@@ -252,7 +252,7 @@ int GpuMain(const MainFunctionParams& pa
+@@ -253,7 +253,7 @@ int GpuMain(const MainFunctionParams& pa
    GetGpuInfoFromCommandLine(gpu_info, command_line);
    gpu_info.in_process_gpu = false;
  
@@ -296,7 +296,7 @@ Index: dev/content/public/common/content_switches.cc
 ===================================================================
 --- dev.orig/content/public/common/content_switches.cc
 +++ dev/content/public/common/content_switches.cc
-@@ -970,7 +970,9 @@ const char kDisableAudioSupportForDeskto
+@@ -972,7 +972,9 @@ const char kDisableAudioSupportForDeskto
  #if defined(OS_CHROMEOS)
  // Disables panel fitting (used for mirror mode).
  const char kDisablePanelFitting[]           = "disable-panel-fitting";
@@ -310,7 +310,7 @@ Index: dev/content/public/common/content_switches.h
 ===================================================================
 --- dev.orig/content/public/common/content_switches.h
 +++ dev/content/public/common/content_switches.h
-@@ -278,6 +278,8 @@ CONTENT_EXPORT extern const char kEnable
+@@ -284,6 +284,8 @@ CONTENT_EXPORT extern const char kEnable
  
  #if defined(OS_CHROMEOS)
  CONTENT_EXPORT extern const char kDisablePanelFitting[];
@@ -323,7 +323,7 @@ Index: dev/gpu/config/software_rendering_list_json.cc
 ===================================================================
 --- dev.orig/gpu/config/software_rendering_list_json.cc
 +++ dev/gpu/config/software_rendering_list_json.cc
-@@ -488,17 +488,6 @@ const char kSoftwareRenderingListJson[]
+@@ -431,17 +431,6 @@ const char kSoftwareRenderingListJson[]
        ]
      },
      {
@@ -338,14 +338,14 @@ Index: dev/gpu/config/software_rendering_list_json.cc
 -      ]
 -    },
 -    {
-       "id": 49,
-       "description": "NVidia GeForce GT 650M can cause the system to hang with flash 3D",
-       "cr_bugs": [140175],
+       "id": 50,
+       "description": "Disable VMware software renderer on older Mesa",
+       "cr_bugs": [145531, 332596, 571899],
 Index: dev/media/BUILD.gn
 ===================================================================
 --- dev.orig/media/BUILD.gn
 +++ dev/media/BUILD.gn
-@@ -339,7 +339,7 @@ component("media") {
+@@ -354,7 +354,7 @@ component("media") {
      allow_circular_includes_from = [ "//media/base/android" ]
    }
  
@@ -354,7 +354,7 @@ Index: dev/media/BUILD.gn
      sources += [
        "filters/h264_bitstream_buffer.cc",
        "filters/h264_bitstream_buffer.h",
-@@ -629,7 +629,7 @@ test("media_unittests") {
+@@ -654,7 +654,7 @@ test("media_unittests") {
      }
    }
  
@@ -376,7 +376,7 @@ Index: dev/media/gpu/BUILD.gn
    action("libva_generate_stubs") {
      extra_header = "va_stub_header.fragment"
  
-@@ -229,7 +229,7 @@ component("gpu") {
+@@ -230,7 +230,7 @@ component("gpu") {
      }
    }
  
@@ -385,7 +385,7 @@ Index: dev/media/gpu/BUILD.gn
      sources += [
        "accelerated_video_decoder.h",
        "h264_decoder.cc",
-@@ -273,7 +273,7 @@ component("gpu") {
+@@ -274,7 +274,7 @@ component("gpu") {
          "GLESv2",
        ]
      }
@@ -442,7 +442,7 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory_impl.h
 ===================================================================
 --- dev.orig/media/gpu/gpu_video_decode_accelerator_factory_impl.h
 +++ dev/media/gpu/gpu_video_decode_accelerator_factory_impl.h
-@@ -99,7 +99,7 @@ class MEDIA_GPU_EXPORT GpuVideoDecodeAcc
+@@ -96,7 +96,7 @@ class MEDIA_GPU_EXPORT GpuVideoDecodeAcc
    std::unique_ptr<media::VideoDecodeAccelerator> CreateV4L2SVDA(
        const gpu::GpuPreferences& gpu_preferences) const;
  #endif
@@ -455,7 +455,7 @@ Index: dev/media/gpu/ipc/service/BUILD.gn
 ===================================================================
 --- dev.orig/media/gpu/ipc/service/BUILD.gn
 +++ dev/media/gpu/ipc/service/BUILD.gn
-@@ -37,7 +37,7 @@ source_set("service") {
+@@ -38,7 +38,7 @@ source_set("service") {
      "//third_party/mesa:mesa_headers",
    ]
  
@@ -477,7 +477,7 @@ Index: dev/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
  static bool BindImage(const base::WeakPtr<gpu::GpuCommandBufferStub>& stub,
                        uint32_t client_texture_id,
                        uint32_t texture_target,
-@@ -170,7 +170,7 @@ GpuVideoDecodeAccelerator::GpuVideoDecod
+@@ -171,7 +171,7 @@ GpuVideoDecodeAccelerator::GpuVideoDecod
    get_gl_context_cb_ = base::Bind(&GetGLContext, stub_->AsWeakPtr());
    make_context_current_cb_ =
        base::Bind(&MakeDecoderContextCurrent, stub_->AsWeakPtr());
@@ -513,14 +513,14 @@ Index: dev/media/gpu/vaapi_video_decode_accelerator.cc
 +  VLOG(1) << "Initializing VAVDA, profile: " << profile;
  
  #if defined(USE_X11)
-   if (gfx::GetGLImplementation() != gfx::kGLImplementationDesktopGL) {
+   if (gl::GetGLImplementation() != gl::kGLImplementationDesktopGL) {
 -    DVLOG(1) << "HW video decode acceleration not available without "
 +    VLOG(1) << "HW video decode acceleration not available without "
                  "DesktopGL (GLX).";
      return false;
    }
  #elif defined(USE_OZONE)
-   if (gfx::GetGLImplementation() != gfx::kGLImplementationEGLGLES2) {
+   if (gl::GetGLImplementation() != gl::kGLImplementationEGLGLES2) {
 -    DVLOG(1) << "HW video decode acceleration not available without "
 +    VLOG(1) << "HW video decode acceleration not available without "
               << "EGLGLES2.";
@@ -604,7 +604,7 @@ Index: dev/media/media.gyp
 ===================================================================
 --- dev.orig/media/media.gyp
 +++ dev/media/media.gyp
-@@ -752,7 +752,7 @@
+@@ -755,7 +755,7 @@
            ],
          }],
          # For VaapiVideoEncodeAccelerator.
@@ -613,16 +613,16 @@ Index: dev/media/media.gyp
            'sources': [
              'filters/h264_bitstream_buffer.cc',
              'filters/h264_bitstream_buffer.h',
-@@ -1330,7 +1330,7 @@
-             'cdm/cdm_adapter_unittest.cc',
-           ],
+@@ -1356,7 +1356,7 @@
+             }]
+            ],
          }],
 -        ['target_arch != "arm" and chromeos == 1 and use_x11 == 1', {
 +        ['target_arch != "arm" and (chromeos == 1 or desktop_linux == 1) and use_x11 == 1', {
            'sources': [
              'filters/h264_bitstream_buffer_unittest.cc',
            ],
-@@ -2264,7 +2264,7 @@
+@@ -2290,7 +2290,7 @@
        ],
      }],
  

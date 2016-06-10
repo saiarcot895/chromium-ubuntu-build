@@ -2,7 +2,7 @@ Index: dev/build/toolchain/gcc_toolchain.gni
 ===================================================================
 --- dev.orig/build/toolchain/gcc_toolchain.gni
 +++ dev/build/toolchain/gcc_toolchain.gni
-@@ -511,12 +511,13 @@ template("clang_toolchain") {
+@@ -519,13 +519,14 @@ template("clang_toolchain") {
      ar = "${toolprefix}ar"
      nm = "${toolprefix}nm"
  
@@ -21,5 +21,6 @@ Index: dev/build/toolchain/gcc_toolchain.gni
 +    if (defined(invoker.strip)) {
 +      strip = invoker.strip
 +    }
-   }
- }
+ 
+     if (defined(invoker.use_debug_fission)) {
+       use_debug_fission = invoker.use_debug_fission

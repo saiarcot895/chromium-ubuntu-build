@@ -38,8 +38,6 @@ gn-add-support-for-arm64.patch
 gn-dont-use-git.patch
 ffmpeg-fix-build-for-arm64.patch
 gn-fix-for-i386-build.patch
-gn-fix-for-x64-non-clang-build.patch
-sandbox-fix-build-for-arm64.patch
 gn-fix-forwarding.patch
 #precise-change-compiler.patch
 
@@ -62,4 +60,3 @@ gn-fix-forwarding.patch
 #wayland-0016-fix-dependencies.patch
 #wayland-0017-switch-to-stdint.patch
 ### END Wayland patches ###
-pdfium-fix-isnan-use.patch
