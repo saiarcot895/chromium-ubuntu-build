@@ -1,8 +1,9 @@
-chromium-browser (53.0.2763.0-0ubuntu1~ppa4~16.04.1) UNRELEASED; urgency=low
+chromium-browser (53.0.2763.0-0ubuntu1~ppa4~16.04.1) xenial; urgency=low
 
   * Update 5-desktop-integration-settings.patch.
+  * Fix private lib directory for dpkg_shlibdeps
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 10 Jun 2016 19:54:51 -0400
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 10 Jun 2016 20:10:43 -0400
 
 chromium-browser (53.0.2763.0-0ubuntu1~ppa3~16.04.1) xenial; urgency=low
 
