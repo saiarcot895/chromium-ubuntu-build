@@ -833,7 +833,7 @@ Index: dev/chrome/browser/ui/webui/options/desktop_integration_settings_handler.
 +
 +void DesktopIntegrationSettingsHandler::LoadIntegratedWebsitesData() {
 +  if (!IsUnityWebappsInitialized()) {
-+    web_ui()->CallJavascriptFunction(
++    web_ui()->CallJavascriptFunctionUnsafe(
 +        "BrowserOptions.disableDesktopIntegration");
 +    LOG(INFO) << "Disabling Desktop Integration options";
 +    return;
@@ -842,7 +842,7 @@ Index: dev/chrome/browser/ui/webui/options/desktop_integration_settings_handler.
 +  typedef gboolean (* IsIntegrationAllowedFunc) (void);
 +  gboolean isallowed =
 +    ((IsIntegrationAllowedFunc) is_integration_allowed_func_handle_) ();
-+  web_ui()->CallJavascriptFunction(
++  web_ui()->CallJavascriptFunctionUnsafe(
 +       "BrowserOptions.setDesktopIntegrationIsAllowed",
 +       base::FundamentalValue(isallowed));
 +}
@@ -856,7 +856,7 @@ Index: dev/chrome/browser/ui/webui/options/desktop_integration_settings_handler.
 +
 +  gchar* all_domains = ((GetAllDomainsFunc) get_all_func_handle_) ();
 +  if (all_domains) {
-+    web_ui()->CallJavascriptFunction(
++    web_ui()->CallJavascriptFunctionUnsafe(
 +        "DesktopIntegrationOverlay.setIntegratedWebsites",
 +        base::StringValue(all_domains));
 +  }
