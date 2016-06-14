@@ -20,8 +20,7 @@ DEB_BUILD_ARCH_BITS ?= $(shell dpkg-architecture -qDEB_BUILD_ARCH_BITS)
 # needed for easy job control, e.g, kill %1
 SHELL := /bin/bash
 
-DEB_TAR_SRCDIR := .
-SRC_DIR        := $(CURDIR)/$(DEB_TAR_SRCDIR)
+SRC_DIR        := $(CURDIR)
 LIB_DIR        := usr/lib/$(DEBIAN_NAME)
 FFMPEG_DIR     := third_party/ffmpeg
 FFMPEG_SRC_DIR := $(SRC_DIR)/$(FFMPEG_DIR)
@@ -57,82 +56,44 @@ ifeq (0,$(PROCESSORS))
 PROCESSORS := 1
 endif
 
-GYP_PARAMS := --depth=$(CURDIR)
-
-# Build the launchpad translations (already landed upstream)
-#GYP_DEFINES += use_third_party_translations=1
-
 # Don't fail on compilation warnings
-GYP_DEFINES += werror=$(NULL)
 GN_DEFINES += treat_warnings_as_errors=false
 
 # We are never using a sysroot-based toolchain; override the wrong
 # autodetection for arm.
-GYP_DEFINES += use_sysroot=0
-GYP_DEFINES += sysroot=
 GN_DEFINES += use_sysroot=false
 FFMPEG_MT_GN_DEFINES += use_sysroot=false
 
-# Link directly to library instead of using dlopen.
-GYP_DEFINES += linux_link_gsettings=1
-
 # Disable NaCl temporarily, until new toolchain is available
-GYP_DEFINES += disable_nacl=1
 GN_DEFINES += enable_nacl=false
 FFMPEG_MT_GN_DEFINES += enable_nacl=false
 
-ifneq (,$(filter 12.04%,$(UBUNTU_DIST)))
-# Disable NaCl for Precise until the toolchain is built
-GYP_DEFINES += disable_nacl=1
+ifneq (,$(filter arm%,$(DEB_HOST_ARCH_CPU)))
+# Disable NaCl for arm until the toolchain is built
 GN_DEFINES += enable_nacl=false
 FFMPEG_MT_GN_DEFINES += enable_nacl=false
 else
- ifneq (,$(filter arm%,$(DEB_HOST_ARCH_CPU)))
-# Disable NaCl for arm until the toolchain is built
-GYP_DEFINES += disable_nacl=1
-GN_DEFINES += enable_nacl=false
-FFMPEG_MT_GN_DEFINES += enable_nacl=false
- else
 # Don't build anything related to newlib or glibc, as it's not needed for the
 # core NaCl
-GYP_DEFINES += disable_newlib=1 build_newlib=0 disable_glibc=1
 GN_DEFINES += use_gcc_glibc=false use_clang_newlib=false
- endif
 endif
 
-# do not use bundled binutils
-GN_DEFINES += linux_use_bundled_binutils=false
-FFMPEG_MT_GN_DEFINES += linux_use_bundled_binutils=false
-
-# do not use third_party/gold as the linker.
-GYP_DEFINES += linux_use_gold_binary=0 linux_use_gold_flags=0
-# GN_DEFINES += use_gold=false
-# FFMPEG_MT_GN_DEFINES += use_gold=false
-
-GN_DEFINES += use_gold=true
-FFMPEG_MT_GN_DEFINES += use_gold=true
+# use gold, do not use bundled binutils
+GN_DEFINES += use_gold=true linux_use_bundled_binutils=false
+FFMPEG_MT_GN_DEFINES += use_gold=true linux_use_bundled_binutils=false
 
 # get resources for high dpi and touch
-GYP_DEFINES += enable_hidpi=1
-GYP_DEFINES += enable_touch_ui=1
 # GN_DEFINES += enable_hidpi=true
 
 # add support and stubbed implementation of widevine (needed for EME)
-GYP_DEFINES += enable_widevine=1
 GN_DEFINES += enable_widevine=true
 
 # disable field trial tests
-GYP_DEFINES += fieldtrial_testing_like_official_build=1
 GN_DEFINES += fieldtrial_testing_like_official_build=true
 
 # Intentional configuration, not bug work-arounds.
 ifeq (arm,$(DEB_HOST_ARCH_CPU))
 
-GYP_DEFINES += \
-	arm_neon=0 \
-	target_arch=arm \
-	use_cups=1 \
-	$(NULL)
 GN_DEFINES += \
 	arm_use_neon=false \
 	target_cpu="arm" \
@@ -145,12 +106,6 @@ FFMPEG_MT_GN_DEFINES += \
 	$(NULL)
 
  ifeq (armel,$(DEB_HOST_ARCH))
-GYP_DEFINES += \
-	v8_use_arm_eabi_hardfloat=false \
-	arm_float_abi=soft \
-	arm_thumb=0 \
-	armv7=0 \
-	$(NULL)
 GN_DEFINES += \
 	arm_float_abi="soft" \
 	arm_use_thumb=false \
@@ -158,18 +113,8 @@ GN_DEFINES += \
 	$(NULL)
  endif
  ifeq (armhf,$(DEB_HOST_ARCH))
-GYP_PARAMS += -DUSE_EABI_HARDFLOAT 
 # ARN Neon optional flag is off because it causes build errors, AND testing
 # /proc/cpuinfo contents can't work with a sandbox anyway.
-GYP_DEFINES += \
-	arm_neon_optional=0 \
-	v8_use_arm_eabi_hardfloat=true \
-	arm_fpu=vfpv3-d16 \
-	arm_float_abi=hard \
-	arm_thumb=1 \
-	armv7=1 \
-	arm_version=7 \
-	$(NULL)
 GN_DEFINES += \
 	arm_optionally_use_neon=false \
 	arm_fpu="vfpv3-d16" \
@@ -187,11 +132,6 @@ FFMPEG_MT_GN_DEFINES += \
  endif
 endif
 ifeq (arm64,$(DEB_HOST_ARCH))
-GYP_DEFINES += \
-	arm_neon=1 \
-	target_arch=arm64 \
-	use_cups=1 \
-	$(NULL)
 GN_DEFINES += \
 	target_cpu="arm64" \
 	use_cups=true \
@@ -204,16 +144,13 @@ FFMPEG_MT_GN_DEFINES += \
 	$(NULL)
 endif
 ifeq (amd64,$(DEB_HOST_ARCH))
-GYP_DEFINES += target_arch=x64
 GN_DEFINES += target_cpu="x64"
 FFMPEG_MT_GN_DEFINES += target_cpu="x64"
 endif
 ifeq (i386,$(DEB_HOST_ARCH))
-GYP_DEFINES += target_arch=ia32
 GN_DEFINES += target_cpu="x86"
 FFMPEG_MT_GN_DEFINES += target_cpu="x86"
 # SEGV on component builds, 2013-05
-GYP_DEFINES += use_allocator=none
 GN_DEFINES += use_allocator="none"
 endif
 ifeq (arm64,$(DEB_HOST_ARCH))
@@ -225,40 +162,27 @@ endif
 COMPONENT_SHARED_LIB_BUILD := 1
 
 ifeq (1,$(COMPONENT_SHARED_LIB_BUILD))
-BROWSER_GYP_DEFINES += component=shared_library
 BROWSER_GN_DEFINES += is_component_build=true
-FFMPEG_MT_GYP_DEFINES += component=shared_library
 FFMPEG_MT_GN_DEFINES += is_component_build=true
 endif
 
 # Webkit library is enormous. Exclude for now.
-GYP_DEFINES += remove_webcore_debug_symbols=1
 GN_DEFINES += remove_webcore_debug_symbols=true
-
-# Don't let dh_installinit install *.default in /etc/default
-DEB_DH_INSTALLINIT_ARGS += --noscripts --onlyscripts
 
 ifeq (1,$(WANT_DEBUG))
 BUILD_TYPE := Debug
 else
 BUILD_TYPE := Release
 # Add symbols
-GYP_DEFINES += linux_dump_symbols=1
-#GYP_DEFINES += logging_like_official_build=1
 GN_DEFINES += is_debug=false symbol_level=2
 FFMPEG_MT_GN_DEFINES += is_debug=false symbol_level=2
 endif
 
-BUILD_ARGS += -C $(DEB_TAR_SRCDIR)/out/$(BUILD_TYPE)
+BUILD_ARGS += -C $(SRC_DIR)/out/$(BUILD_TYPE)
 
 # Verbose?
 ifeq (1,$(VERBOSE))
 BUILD_ARGS += -v
-endif
-
-# Shared libraries
-ifeq (1,$(WANT_SHARED_LIBS))
-GYP_DEFINES += library=shared_library
 endif
 
 ifeq (1,$(WANT_OZONE))
@@ -275,29 +199,18 @@ subst_files = \
 # The ffmpeg_branding variable controls which codecs are built inside the sumo lib.
 # By default, ffmpeg_branding equals to "Chromium" and only builds the ogg/vorbis/theora codecs.
 # When set to "Chrome", it also builds aac/ac3/mpeg4audio/h264/mov/mp3
-BROWSER_GYP_DEFINES += \
-	proprietary_codecs=1 \
-	$(NULL)
 BROWSER_GN_DEFINES += \
 	proprietary_codecs=true \
 	$(NULL)
-FFMPEG_MT_GYP_DEFINES += \
-	use_system_vpx=0 \
-	release_extra_cflags=-g \
-	$(NULL)
-FFMPEG_MT_STD_GYP_DEFINES   = $(NULL)
 FFMPEG_MT_STD_GN_DEFINES    = ffmpeg_branding="Chromium"
-FFMPEG_MT_EXTRA_GYP_DEFINES = ffmpeg_branding=Chrome
 FFMPEG_MT_EXTRA_GN_DEFINES  = ffmpeg_branding="Chrome"
 
-# Precise and earlier don't set some settings.
-ifeq (,$(filter 12.04%,$(UBUNTU_DIST)))
 # enable compile-time dependency on gnome-keyring
-GYP_DEFINES += use_gnome_keyring=1 linux_link_gnome_keyring=1
+# TODO: do this?
+
 # controlling the use of GConf (the classic GNOME configuration
 # and GIO, which contains GSettings (the new GNOME config system)
-GYP_DEFINES += use_gconf=1 use_gio=1
-endif
+GN_DEFINES += use_gconf=true use_gio=true
 
 # Build chrome and chrome_sandbox, and chromedriver
 BUILD_TARGETS += \
@@ -330,7 +243,6 @@ CROSS_BUILD = CC=$(shell which gcc-4.8) CXX=$(shell which g++-4.8)
 else
 CROSS_BUILD = CC=$(shell which gcc) CXX=$(shell which g++)
 endif
-GYP_DEFINES += clang=0
 GN_DEFINES += is_clang=false
 FFMPEG_MT_GN_DEFINES += is_clang=false
 endif
@@ -340,7 +252,7 @@ endif
 # Debian Policy §4.9
 binary binary-arch binary-indep build build-arch build-indep clean install install-arch install-indep patch:
 	@set -eux
-	dh --sourcedirectory=$(DEB_TAR_SRCDIR) --builddirectory=$(DEB_TAR_SRCDIR)/out/$(BUILD_TYPE) $@
+	dh --sourcedirectory=$(SRC_DIR) --builddirectory=$(SRC_DIR)/out/$(BUILD_TYPE) $@
 
 # BZR build-deb rule
 get-packaged-orig-source: URL=https://commondatastorage.googleapis.com/chromium-browser-official/chromium-$(ORIG_VERSION).tar.xz
@@ -407,10 +319,10 @@ endif
 	
 	# Icons
 	dh_installdirs --package=$(DEBIAN_NAME) usr/share/pixmaps
-	cp -a $(DEB_TAR_SRCDIR)/chrome/app/theme/chromium/product_logo_48.png debian/$(DEBIAN_NAME)/usr/share/pixmaps/$(DEBIAN_NAME).png
+	cp -a $(SRC_DIR)/chrome/app/theme/chromium/product_logo_48.png debian/$(DEBIAN_NAME)/usr/share/pixmaps/$(DEBIAN_NAME).png
 	for size in 22 24 48 64 128 256 ; do \
 	  dh_installdirs --package=$(DEBIAN_NAME) usr/share/icons/hicolor/$${size}x$${size}/apps ; \
-	  cp -a $(DEB_TAR_SRCDIR)/chrome/app/theme/chromium/product_logo_$$size.png  \
+	  cp -a $(SRC_DIR)/chrome/app/theme/chromium/product_logo_$$size.png  \
 	    debian/$(DEBIAN_NAME)/usr/share/icons/hicolor/$${size}x$${size}/apps/$(DEBIAN_NAME).png ; \
 	done
 	mkdir -p debian/$(DEBIAN_NAME)/usr/share/icons/hicolor/scalable/apps
@@ -471,11 +383,11 @@ override_dh_clean:
 		configure-stamp-ffmpeg-std configure-stamp-ffmpeg-extra \
 		configure-stamp-gn build-stamp-gn
 	rm -f $(subst_files)
-	rm -rf $(DEB_TAR_SRCDIR)/out $(FFMPEG_SRC_DIR)/yasm $(FFMPEG_SRC_DIR)/out $(FFMPEG_SRC_DIR)/*.mk
-	find $(DEB_TAR_SRCDIR) \( -name \*.pyc -o -name \*.pyo -name \*.o \) -delete
-	find $(DEB_TAR_SRCDIR) -regex '.*/\([^/]*\)/\1[^/]*\.\(Makefile\|\(target\|host\)\.mk\)' -delete
+	rm -rf $(SRC_DIR)/out $(FFMPEG_SRC_DIR)/yasm $(FFMPEG_SRC_DIR)/out $(FFMPEG_SRC_DIR)/*.mk
+	find $(SRC_DIR) \( -name \*.pyc -o -name \*.pyo -name \*.o \) -delete
+	find $(SRC_DIR) -regex '.*/\([^/]*\)/\1[^/]*\.\(Makefile\|\(target\|host\)\.mk\)' -delete
 	sed -i 's,/etc/$(DEBIAN_NAME)/policies,/etc/chromium/policies,' \
-		$(DEB_TAR_SRCDIR)/chrome/common/chrome_paths.cc
+		$(SRC_DIR)/chrome/common/chrome_paths.cc
 	
 	dh_clean
 
@@ -494,9 +406,9 @@ build-stamp-gn: configure-stamp-gn
 	@set -eux
 	
 	$(CROSS_BUILD) tools/gn/bootstrap/bootstrap.py -v --gn-gen-args '$(GN_DEFINES)'
-	cp $(DEB_TAR_SRCDIR)/out/Release/gn $(DEB_TAR_SRCDIR)
+	cp $(SRC_DIR)/out/Release/gn $(SRC_DIR)
 	
-	rm -rf $(DEB_TAR_SRCDIR)/out
+	rm -rf $(SRC_DIR)/out
 	
 	touch $@
 
@@ -517,14 +429,10 @@ configure-stamp: debian/chromium-browser.sh build-stamp-gn
 		rm -r chromium-$(DEBIAN_UPSTREAM_VERSION); \
 	fi
 	
-	if [ -d wayland ]; then \
-		mv wayland ozone ; \
-	fi
-	
 	# Add symlink to Native Client toolchain
 	ln -s /usr/lib/$(DEB_HOST_MULTIARCH)/native-client/ native_client/toolchain
 	
-	$(DEB_TAR_SRCDIR)/gn gen $(DEB_TAR_SRCDIR)/out/$(BUILD_TYPE) --args='$(GN_DEFINES) $(BROWSER_GN_DEFINES)'
+	$(SRC_DIR)/gn gen $(SRC_DIR)/out/$(BUILD_TYPE) --args='$(GN_DEFINES) $(BROWSER_GN_DEFINES)'
 	
 	touch $@
 
@@ -536,14 +444,14 @@ build-stamp: configure-stamp
 configure-stamp-ffmpeg-%: GYP_DEFINES += $(FFMPEG_MT_$(subst std,STD,$(subst extra,EXTRA,$*))_GYP_DEFINES) $(FFMPEG_MT_GYP_DEFINES)
 configure-stamp-ffmpeg-%: build-stamp-gn
 	@set -eux
-	$(DEB_TAR_SRCDIR)/gn gen $(DEB_TAR_SRCDIR)/out/$(BUILD_TYPE)-ffmpeg-$* --args='$(FFMPEG_MT_$(subst std,STD,$(subst extra,EXTRA,$*))_GN_DEFINES) $(FFMPEG_MT_GN_DEFINES)'
+	$(SRC_DIR)/gn gen $(SRC_DIR)/out/$(BUILD_TYPE)-ffmpeg-$* --args='$(FFMPEG_MT_$(subst std,STD,$(subst extra,EXTRA,$*))_GN_DEFINES) $(FFMPEG_MT_GN_DEFINES)'
 	touch $@
 
 build-stamp-ffmpeg-%: configure-stamp-ffmpeg-%
 	@set -eux
-	$(NINJA) -v -C $(DEB_TAR_SRCDIR)/out/$(BUILD_TYPE)-ffmpeg-$* third_party/ffmpeg
+	$(NINJA) -v -C $(SRC_DIR)/out/$(BUILD_TYPE)-ffmpeg-$* third_party/ffmpeg
 	mkdir -p debian/tmp-$*/$(LIB_DIR)
-	cp $(DEB_TAR_SRCDIR)/out/$(BUILD_TYPE)-ffmpeg-$*/libffmpeg.so $(CURDIR)/debian/tmp-$*/$(LIB_DIR)
+	cp $(SRC_DIR)/out/$(BUILD_TYPE)-ffmpeg-$*/libffmpeg.so $(CURDIR)/debian/tmp-$*/$(LIB_DIR)
 	touch $@
 
 # These are (leading-slash-less) files that are created by upstream builder,
@@ -657,12 +565,12 @@ patch-translations:
 	ls $(OTHER_GRIT_TEMPLATES)
 	test -d $(T)/translations-tools || bzr export $(T)/translations-tools $(TRANSLATIONS_TOOLS_BRANCH)
 	test -d $(T)/translations-export || bzr export $(T)/translations-export $(TRANSLATIONS_EXPORT_BRANCH)
-	( cd $(DEB_TAR_SRCDIR); $(T)/translations-tools/chromium2pot.py $(GRIT_CONVERTER_FLAGS) $$(ls $(GRIT_TEMPLATES)); )
+	( cd $(SRC_DIR); $(T)/translations-tools/chromium2pot.py $(GRIT_CONVERTER_FLAGS) $$(ls $(GRIT_TEMPLATES)); )
 	quilt delete "$(PATCH_FILE)" || true
 	quilt new "$(PATCH_FILE)"
 	( cd $(T)/translations-grit && find * -type f ) |while read updatedfile; do \
-		quilt add -P "$(PATCH_FILE)" $(DEB_TAR_SRCDIR)/"$$updatedfile"; \
-		cp $(T)/translations-grit/"$$updatedfile" $(DEB_TAR_SRCDIR)/"$$updatedfile"; \
+		quilt add -P "$(PATCH_FILE)" $(SRC_DIR)/"$$updatedfile"; \
+		cp $(T)/translations-grit/"$$updatedfile" $(SRC_DIR)/"$$updatedfile"; \
 	done;
 	{ echo "Description: Contributed translations from Launchpad. "; echo; } |quilt header -r "$(PATCH_FILE)"
 	quilt refresh -pab "$(PATCH_FILE)"
