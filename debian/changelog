@@ -1,8 +1,10 @@
-chromium-browser (53.0.2763.0-0ubuntu1~ppa5~16.10.1) UNRELEASED; urgency=low
+chromium-browser (53.0.2767.4-0ubuntu1~ppa1~16.10.1) yakkety; urgency=low
 
   * Remove references to Precise and GYP from debian/rules.
+  * New upstream version 53.0.2767.4
+  * Updated patches.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 14 Jun 2016 09:14:00 -0400
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 15 Jun 2016 20:43:58 -0400
 
 chromium-browser (53.0.2763.0-0ubuntu1~ppa4~16.04.1) xenial; urgency=low
 

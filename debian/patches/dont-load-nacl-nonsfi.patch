@@ -21,7 +21,7 @@ Index: dev/chrome/chrome_tests.gypi
 ===================================================================
 --- dev.orig/chrome/chrome_tests.gypi
 +++ dev/chrome/chrome_tests.gypi
-@@ -2380,7 +2380,13 @@
+@@ -2372,7 +2372,13 @@
                'dependencies': [
                  '../native_client/src/trusted/service_runtime/linux/nacl_bootstrap.gyp:nacl_helper_bootstrap',
                  '../components/nacl.gyp:nacl_helper',

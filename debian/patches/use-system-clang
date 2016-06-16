@@ -6,7 +6,7 @@ Index: dev/build/common.gypi
 ===================================================================
 --- dev.orig/build/common.gypi
 +++ dev/build/common.gypi
-@@ -2413,8 +2413,8 @@
+@@ -2411,8 +2411,8 @@
        }],
  
        ['host_clang==1', {
@@ -21,7 +21,7 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -376,15 +376,6 @@ config("compiler") {
+@@ -382,15 +382,6 @@ config("compiler") {
      cflags += [ "-fcolor-diagnostics" ]
    }
  
