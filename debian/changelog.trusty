@@ -1,6 +1,7 @@
 chromium-browser (53.0.2767.4-0ubuntu1~ppa2~14.04.1) UNRELEASED; urgency=medium
 
   * Fix building libpng on armhf without NEON support.
+  * Remove native-client dependency until it gets built again.
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 16 Jun 2016 11:38:54 -0400
 
