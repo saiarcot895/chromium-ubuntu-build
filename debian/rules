@@ -244,7 +244,7 @@ BUILD_TYPE := Release
 # Add symbols
 GYP_DEFINES += linux_dump_symbols=1
 #GYP_DEFINES += logging_like_official_build=1
-GN_DEFINES += is_debug=false symbol_level=2
+GN_DEFINES += is_debug=false symbol_level=1
 FFMPEG_MT_GN_DEFINES += is_debug=false symbol_level=2
 endif
 
