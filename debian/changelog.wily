@@ -1,9 +1,11 @@
-chromium-browser (53.0.2767.4-0ubuntu1~ppa2~15.10.1) UNRELEASED; urgency=medium
+chromium-browser (53.0.2767.4-0ubuntu1~ppa2~15.10.1) wily; urgency=low
 
   * Fix building libpng on armhf without NEON support.
   * Remove native-client dependency until it gets built again.
+  * Decrease symbol level for main chromium-browser package; it's
+    probably not used much anyways.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 16 Jun 2016 11:38:54 -0400
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 16 Jun 2016 14:41:55 -0400
 
 chromium-browser (53.0.2767.4-0ubuntu1~ppa1~15.10.1) wily; urgency=low
 

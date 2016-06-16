@@ -174,7 +174,7 @@ BUILD_TYPE := Debug
 else
 BUILD_TYPE := Release
 # Add symbols
-GN_DEFINES += is_debug=false symbol_level=2
+GN_DEFINES += is_debug=false symbol_level=1
 FFMPEG_MT_GN_DEFINES += is_debug=false symbol_level=2
 endif
 
