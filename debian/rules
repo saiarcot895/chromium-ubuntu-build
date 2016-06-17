@@ -308,7 +308,7 @@ local_install_arch: build
 	@set -eux
 	# Two stages: Install out of source tree. Copy to packaging.
 	mkdir -p debian/tmp/$(LIB_DIR)
-	(cd $(SRC_DIR)/out/$(BUILD_TYPE) && tar cf - . $(foreach excl,$(TRASH),--exclude=$(excl) );) | (cd debian/tmp/$(LIB_DIR) && tar xvf -;)
+	(cd $(SRC_DIR)/out/$(BUILD_TYPE) && tar -cf - $(foreach excl,$(TRASH),--exclude=$(excl) ) .;) | (cd debian/tmp/$(LIB_DIR) && tar -xvf -;)
 	rm debian/tmp/$(LIB_DIR)/libffmpeg.so
 ifeq (1,$(COMPONENT_SHARED_LIB_BUILD))
 #	mkdir -p debian/tmp/$(LIB_DIR)/libs
