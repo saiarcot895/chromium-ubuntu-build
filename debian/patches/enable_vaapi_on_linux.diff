@@ -4,7 +4,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -879,7 +879,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -875,7 +875,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_NAME,
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
@@ -345,7 +345,7 @@ Index: dev/media/BUILD.gn
 ===================================================================
 --- dev.orig/media/BUILD.gn
 +++ dev/media/BUILD.gn
-@@ -354,7 +354,7 @@ component("media") {
+@@ -353,7 +353,7 @@ component("media") {
      allow_circular_includes_from = [ "//media/base/android" ]
    }
  
@@ -354,7 +354,7 @@ Index: dev/media/BUILD.gn
      sources += [
        "filters/h264_bitstream_buffer.cc",
        "filters/h264_bitstream_buffer.h",
-@@ -653,7 +653,7 @@ test("media_unittests") {
+@@ -652,7 +652,7 @@ test("media_unittests") {
      }
    }
  
@@ -413,7 +413,7 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory_impl.cc
        DXVAVideoDecodeAccelerator::GetSupportedProfiles();
 -#elif defined(OS_CHROMEOS)
 +#elif defined(OS_CHROMEOS) || defined(OS_LINUX)
-   media::VideoDecodeAccelerator::SupportedProfiles vda_profiles;
+   VideoDecodeAccelerator::SupportedProfiles vda_profiles;
  #if defined(USE_V4L2_CODEC)
    vda_profiles = V4L2VideoDecodeAccelerator::GetSupportedProfiles();
 @@ -130,7 +130,7 @@ GpuVideoDecodeAcceleratorFactoryImpl::Cr
@@ -431,11 +431,11 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory_impl.cc
  
 -#if defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)
 +#if (defined(OS_LINUX) || defined(OS_CHROMEOS)) && defined(ARCH_CPU_X86_FAMILY)
- std::unique_ptr<media::VideoDecodeAccelerator>
+ std::unique_ptr<VideoDecodeAccelerator>
  GpuVideoDecodeAcceleratorFactoryImpl::CreateVaapiVDA(
      const gpu::GpuPreferences& gpu_preferences) const {
 +  VLOG(1) << "Creating new VAAPI video decode accelerator.";
-   std::unique_ptr<media::VideoDecodeAccelerator> decoder;
+   std::unique_ptr<VideoDecodeAccelerator> decoder;
    decoder.reset(new VaapiVideoDecodeAccelerator(make_context_current_cb_,
                                                  bind_image_cb_));
 Index: dev/media/gpu/gpu_video_decode_accelerator_factory_impl.h
@@ -443,12 +443,12 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory_impl.h
 --- dev.orig/media/gpu/gpu_video_decode_accelerator_factory_impl.h
 +++ dev/media/gpu/gpu_video_decode_accelerator_factory_impl.h
 @@ -96,7 +96,7 @@ class MEDIA_GPU_EXPORT GpuVideoDecodeAcc
-   std::unique_ptr<media::VideoDecodeAccelerator> CreateV4L2SVDA(
+   std::unique_ptr<VideoDecodeAccelerator> CreateV4L2SVDA(
        const gpu::GpuPreferences& gpu_preferences) const;
  #endif
 -#if defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)
 +#if (defined(OS_LINUX) || defined(OS_CHROMEOS)) && defined(ARCH_CPU_X86_FAMILY)
-   std::unique_ptr<media::VideoDecodeAccelerator> CreateVaapiVDA(
+   std::unique_ptr<VideoDecodeAccelerator> CreateVaapiVDA(
        const gpu::GpuPreferences& gpu_preferences) const;
  #endif
 Index: dev/media/gpu/ipc/service/BUILD.gn
@@ -535,7 +535,7 @@ Index: dev/media/gpu/vaapi_video_decode_accelerator.cc
      return false;
    }
  
-@@ -379,7 +379,7 @@ bool VaapiVideoDecodeAccelerator::Initia
+@@ -377,7 +377,7 @@ bool VaapiVideoDecodeAccelerator::Initia
      vp9_accelerator_.reset(new VaapiVP9Accelerator(this, vaapi_wrapper_.get()));
      decoder_.reset(new VP9Decoder(vp9_accelerator_.get()));
    } else {
@@ -604,7 +604,7 @@ Index: dev/media/media.gyp
 ===================================================================
 --- dev.orig/media/media.gyp
 +++ dev/media/media.gyp
-@@ -755,7 +755,7 @@
+@@ -754,7 +754,7 @@
            ],
          }],
          # For VaapiVideoEncodeAccelerator.
@@ -613,7 +613,7 @@ Index: dev/media/media.gyp
            'sources': [
              'filters/h264_bitstream_buffer.cc',
              'filters/h264_bitstream_buffer.h',
-@@ -1356,7 +1356,7 @@
+@@ -1355,7 +1355,7 @@
              }]
             ],
          }],
@@ -622,7 +622,7 @@ Index: dev/media/media.gyp
            'sources': [
              'filters/h264_bitstream_buffer_unittest.cc',
            ],
-@@ -2290,7 +2290,7 @@
+@@ -2289,7 +2289,7 @@
        ],
      }],
  

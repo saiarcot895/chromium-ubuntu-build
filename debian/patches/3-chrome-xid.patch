@@ -52,7 +52,7 @@ Index: dev/ash/mus/non_client_frame_controller.cc
 ===================================================================
 --- dev.orig/ash/mus/non_client_frame_controller.cc
 +++ dev/ash/mus/non_client_frame_controller.cc
-@@ -139,6 +139,10 @@ class WmNativeWidgetMus : public views::
+@@ -162,6 +162,10 @@ class WmNativeWidgetMus : public views::
      // the client area should come from the client, not us.
    }
  
@@ -75,7 +75,7 @@ Index: dev/ui/aura/client/aura_constants.cc
  DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, ui::ModalType)
  DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, gfx::Rect*)
  DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, ui::InputMethod*)
-@@ -37,6 +38,7 @@ DEFINE_WINDOW_PROPERTY_KEY(
+@@ -38,6 +39,7 @@ DEFINE_WINDOW_PROPERTY_KEY(
  DEFINE_WINDOW_PROPERTY_KEY(
      ui::WindowShowState, kShowStateKey, ui::SHOW_STATE_DEFAULT);
  DEFINE_WINDOW_PROPERTY_KEY(int, kTopViewInset, 0);
@@ -87,7 +87,7 @@ Index: dev/ui/aura/client/aura_constants.h
 ===================================================================
 --- dev.orig/ui/aura/client/aura_constants.h
 +++ dev/ui/aura/client/aura_constants.h
-@@ -67,6 +67,9 @@ AURA_EXPORT extern const WindowProperty<
+@@ -71,6 +71,9 @@ AURA_EXPORT extern const WindowProperty<
  // the web contents for app windows and varies for fullscreen windows.
  AURA_EXPORT extern const aura::WindowProperty<int>* const kTopViewInset;
  
@@ -191,9 +191,9 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
 +#include <signal.h>
 +
  #include "base/command_line.h"
+ #include "base/location.h"
  #include "base/memory/ptr_util.h"
- #include "base/strings/string_number_conversions.h"
-@@ -111,6 +113,7 @@ const char* kAtomsToCache[] = {
+@@ -114,6 +116,7 @@ const char* kAtomsToCache[] = {
    "_NET_WM_WINDOW_TYPE_NORMAL",
    "_NET_WM_WINDOW_TYPE_NOTIFICATION",
    "_NET_WM_WINDOW_TYPE_TOOLTIP",
@@ -201,7 +201,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
    "XdndActionAsk",
    "XdndActionCopy",
    "XdndActionLink",
-@@ -1434,6 +1437,22 @@ void DesktopWindowTreeHostX11::UpdateMin
+@@ -1436,6 +1439,22 @@ void DesktopWindowTreeHostX11::UpdateMin
    XSetWMNormalHints(xdisplay_, xwindow_, &hints);
  }
  
@@ -254,7 +254,7 @@ Index: dev/ui/views/widget/native_widget_aura.cc
 ===================================================================
 --- dev.orig/ui/views/widget/native_widget_aura.cc
 +++ dev/ui/views/widget/native_widget_aura.cc
-@@ -62,6 +62,8 @@
+@@ -65,6 +65,8 @@
  #include "ui/views/widget/desktop_aura/desktop_window_tree_host.h"
  #endif
  
@@ -263,7 +263,7 @@ Index: dev/ui/views/widget/native_widget_aura.cc
  namespace views {
  
  namespace {
-@@ -332,6 +334,11 @@ void NativeWidgetAura::CenterWindow(cons
+@@ -335,6 +337,11 @@ void NativeWidgetAura::CenterWindow(cons
    window_->SetBounds(window_bounds);
  }
  

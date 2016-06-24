@@ -2,7 +2,7 @@ Index: dev/chrome/browser/browser_resources.grd
 ===================================================================
 --- dev.orig/chrome/browser/browser_resources.grd
 +++ dev/chrome/browser/browser_resources.grd
-@@ -310,6 +310,7 @@
+@@ -315,6 +315,7 @@
        </if>
        <if expr="desktop_linux or (is_android and enable_plugins)">
          <include name="IDR_PLUGIN_DB_JSON" file="resources\plugin_metadata\plugins_linux.json" type="BINDATA" />

@@ -2,7 +2,7 @@ Index: dev/build/toolchain/linux/BUILD.gn
 ===================================================================
 --- dev.orig/build/toolchain/linux/BUILD.gn
 +++ dev/build/toolchain/linux/BUILD.gn
-@@ -27,6 +27,28 @@ gcc_toolchain("arm") {
+@@ -33,6 +33,28 @@ gcc_toolchain("arm") {
    is_clang = false
  }
  
