@@ -2,16 +2,10 @@ Index: dev/build/toolchain/linux/BUILD.gn
 ===================================================================
 --- dev.orig/build/toolchain/linux/BUILD.gn
 +++ dev/build/toolchain/linux/BUILD.gn
-@@ -33,6 +33,28 @@ gcc_toolchain("arm") {
+@@ -33,6 +33,22 @@ gcc_toolchain("arm") {
    is_clang = false
  }
  
-+clang_toolchain("clang_arm64") {
-+  toolchain_cpu = "arm64"
-+  toolchain_os = "linux"
-+  toolprefix = "aarch64-linux-gnu-"
-+}
-+
 +gcc_toolchain("arm64") {
 +  toolprefix = "aarch64-linux-gnu-"
 +
