@@ -63,3 +63,4 @@ gn-fix-forwarding.patch
 #wayland-0017-switch-to-stdint.patch
 ### END Wayland patches ###
 pdfium-fix-isnan-use.patch
+dont-use-gtk2.patch
