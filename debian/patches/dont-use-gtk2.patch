@@ -15,3 +15,20 @@ Index: dev/chrome/test/BUILD.gn
            }
          }
        }
+Index: dev/remoting/test/BUILD.gn
+===================================================================
+--- dev.orig/remoting/test/BUILD.gn
++++ dev/remoting/test/BUILD.gn
+@@ -192,7 +192,11 @@ if (enable_remoting_host && !is_android
+     ]
+ 
+     if (is_desktop_linux) {
+-      deps += [ "//build/config/linux/gtk2" ]
++      if (use_gtk3) {
++        deps += [ "//build/config/linux/gtk3" ]
++      } else {
++        deps += [ "//build/config/linux/gtk2" ]
++      }
+     }
+   }
+ }
