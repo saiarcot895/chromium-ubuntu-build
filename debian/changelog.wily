@@ -1,3 +1,9 @@
+chromium-browser (53.0.2774.3-0ubuntu1~ppa6~15.10.1) wily; urgency=low
+
+  * Update patch (again) to import GTK 3 instead of GTK 2.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 27 Jun 2016 22:44:23 -0400
+
 chromium-browser (53.0.2774.3-0ubuntu1~ppa5~15.10.1) wily; urgency=low
 
   * Update patch to import GTK 3 instead of GTK 2.
