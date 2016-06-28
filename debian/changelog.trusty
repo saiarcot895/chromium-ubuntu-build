@@ -4,6 +4,7 @@ chromium-browser (52.0.2743.49-0ubuntu1~ppa2~14.04.1) UNRELEASED; urgency=low
   * Add patch to import GTK 3 instead of GTK 2.
   * Update patch to import GTK 3 instead of GTK 2.
   * Update patch (again) to import GTK 3 instead of GTK 2.
+  * Update visibility info for GTK 3 patch.
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 30 Jun 2016 19:21:13 -0400
 
