@@ -1,3 +1,9 @@
+chromium-browser (53.0.2774.3-0ubuntu1~ppa7~15.10.1) UNRELEASED; urgency=low
+
+  * Update visibility info for GTK 3 patch.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 28 Jun 2016 12:41:06 -0400
+
 chromium-browser (53.0.2774.3-0ubuntu1~ppa6~15.10.1) wily; urgency=low
 
   * Update patch (again) to import GTK 3 instead of GTK 2.
