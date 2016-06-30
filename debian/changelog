@@ -1,6 +1,7 @@
 chromium-browser (53.0.2774.3-0ubuntu1~ppa7~16.10.1) UNRELEASED; urgency=low
 
   * Update visibility info for GTK 3 patch.
+  * Update GYP support in VAAPI patch. (Github issue #2)
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 28 Jun 2016 12:41:06 -0400
 
