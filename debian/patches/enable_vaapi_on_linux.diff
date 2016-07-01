@@ -662,15 +662,15 @@ Index: dev/content/content_common.gypi
      }, {
        'defines': ['USE_SECCOMP_BPF'],
 +      'dependencies': [
-+        '../../build/linux/system.gyp:x11',
++        '../build/linux/system.gyp:x11',
 +      ],
 +      'variables': {
 +        'sig_files': [
-+          '../../media/gpu/va.sigs',
-+          '../../media/gpu/va_x11.sigs',
++          '../media/gpu/va.sigs',
++          '../media/gpu/va_x11.sigs',
 +        ],
-+        'generate_stubs_script': '../../tools/generate_stubs/generate_stubs.py',
-+        'extra_header': '../../media/gpu/va_stub_header.fragment',
++        'generate_stubs_script': '../tools/generate_stubs/generate_stubs.py',
++        'extra_header': '../media/gpu/va_stub_header.fragment',
 +        'outfile_type': 'posix_stubs',
 +        'stubs_filename_root': 'va_stubs',
 +        'project_path': 'content/common',

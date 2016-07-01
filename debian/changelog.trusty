@@ -1,3 +1,9 @@
+chromium-browser (53.0.2783.2-0ubuntu1~ppa4~14.04.1) UNRELEASED; urgency=low
+
+  * Fix paths in VAAPI patch for GYP builds. (Github issue #2)
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 01 Jul 2016 14:59:46 -0400
+
 chromium-browser (53.0.2783.2-0ubuntu1~ppa3~14.04.1) trusty; urgency=low
 
   * Add use_gtk3 flag to ffmpeg builds as well (even though ffmpeg
