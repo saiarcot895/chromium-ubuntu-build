@@ -2,7 +2,7 @@ Index: dev/chrome/test/BUILD.gn
 ===================================================================
 --- dev.orig/chrome/test/BUILD.gn
 +++ dev/chrome/test/BUILD.gn
-@@ -473,7 +473,11 @@ if (!is_android) {
+@@ -468,7 +468,11 @@ if (!is_android) {
            ]
            if (!use_ozone) {
              sources += [ "../browser/ui/libgtk2ui/select_file_dialog_interactive_uitest.cc" ]

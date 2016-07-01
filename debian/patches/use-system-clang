@@ -6,7 +6,7 @@ Index: dev/build/common.gypi
 ===================================================================
 --- dev.orig/build/common.gypi
 +++ dev/build/common.gypi
-@@ -2422,8 +2422,8 @@
+@@ -2401,8 +2401,8 @@
        }],
  
        ['host_clang==1', {
@@ -21,7 +21,7 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -382,15 +382,6 @@ config("compiler") {
+@@ -373,15 +373,6 @@ config("compiler") {
      cflags += [ "-fcolor-diagnostics" ]
    }
  
@@ -41,12 +41,11 @@ Index: dev/build/toolchain/gcc_toolchain.gni
 ===================================================================
 --- dev.orig/build/toolchain/gcc_toolchain.gni
 +++ dev/build/toolchain/gcc_toolchain.gni
-@@ -510,10 +510,8 @@ template("clang_toolchain") {
+@@ -511,9 +511,8 @@ template("clang_toolchain") {
    }
  
    gcc_toolchain(target_name) {
--    prefix = rebase_path("//third_party/llvm-build/Release+Asserts/bin",
--                         root_build_dir)
+-    prefix = rebase_path("$clang_base_path/bin", root_build_dir)
 -    cc = "$prefix/clang"
 -    cxx = "$prefix/clang++"
 +    cc = "clang-3.6"

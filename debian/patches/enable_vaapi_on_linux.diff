@@ -4,7 +4,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -875,7 +875,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -922,7 +922,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_NAME,
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
@@ -67,7 +67,7 @@ Index: dev/content/common/BUILD.gn
  source_set("common") {
    # Targets external to content should always link to the public API.
    # In addition, targets outside of the content component (shell and tests)
-@@ -177,6 +220,15 @@ source_set("common") {
+@@ -183,6 +226,15 @@ source_set("common") {
  
    if (use_seccomp_bpf) {
      defines += [ "USE_SECCOMP_BPF" ]
@@ -296,7 +296,7 @@ Index: dev/content/public/common/content_switches.cc
 ===================================================================
 --- dev.orig/content/public/common/content_switches.cc
 +++ dev/content/public/common/content_switches.cc
-@@ -969,7 +969,9 @@ const char kDisableAudioSupportForDeskto
+@@ -973,7 +973,9 @@ const char kDisableAudioSupportForDeskto
  #if defined(OS_CHROMEOS)
  // Disables panel fitting (used for mirror mode).
  const char kDisablePanelFitting[]           = "disable-panel-fitting";
@@ -310,7 +310,7 @@ Index: dev/content/public/common/content_switches.h
 ===================================================================
 --- dev.orig/content/public/common/content_switches.h
 +++ dev/content/public/common/content_switches.h
-@@ -283,6 +283,8 @@ CONTENT_EXPORT extern const char kEnable
+@@ -284,6 +284,8 @@ CONTENT_EXPORT extern const char kEnable
  
  #if defined(OS_CHROMEOS)
  CONTENT_EXPORT extern const char kDisablePanelFitting[];
@@ -354,7 +354,7 @@ Index: dev/media/BUILD.gn
      sources += [
        "filters/h264_bitstream_buffer.cc",
        "filters/h264_bitstream_buffer.h",
-@@ -652,7 +652,7 @@ test("media_unittests") {
+@@ -650,7 +650,7 @@ test("media_unittests") {
      }
    }
  
@@ -376,7 +376,7 @@ Index: dev/media/gpu/BUILD.gn
    action("libva_generate_stubs") {
      extra_header = "va_stub_header.fragment"
  
-@@ -230,7 +230,7 @@ component("gpu") {
+@@ -236,7 +236,7 @@ component("gpu") {
      }
    }
  
@@ -385,7 +385,7 @@ Index: dev/media/gpu/BUILD.gn
      sources += [
        "accelerated_video_decoder.h",
        "h264_decoder.cc",
-@@ -274,7 +274,7 @@ component("gpu") {
+@@ -280,7 +280,7 @@ component("gpu") {
          "GLESv2",
        ]
      }
@@ -604,7 +604,7 @@ Index: dev/media/media.gyp
 ===================================================================
 --- dev.orig/media/media.gyp
 +++ dev/media/media.gyp
-@@ -754,7 +754,7 @@
+@@ -747,7 +747,7 @@
            ],
          }],
          # For VaapiVideoEncodeAccelerator.
@@ -613,7 +613,7 @@ Index: dev/media/media.gyp
            'sources': [
              'filters/h264_bitstream_buffer.cc',
              'filters/h264_bitstream_buffer.h',
-@@ -1355,7 +1355,7 @@
+@@ -1306,7 +1306,7 @@
              }]
             ],
          }],
@@ -622,7 +622,7 @@ Index: dev/media/media.gyp
            'sources': [
              'filters/h264_bitstream_buffer_unittest.cc',
            ],
-@@ -2289,7 +2289,7 @@
+@@ -2249,7 +2249,7 @@
        ],
      }],
  
@@ -657,7 +657,7 @@ Index: dev/content/content_common.gypi
 ===================================================================
 --- dev.orig/content/content_common.gypi
 +++ dev/content/content_common.gypi
-@@ -78,6 +78,39 @@
+@@ -84,6 +84,39 @@
          'template': '<(DEPTH)/build/util/webkit_version.h.in',
        },
      },
@@ -697,7 +697,7 @@ Index: dev/content/content_common.gypi
    ],
    'export_dependent_settings': [
      '../base/base.gyp:base',
-@@ -644,6 +677,20 @@
+@@ -649,6 +682,20 @@
        ],
      }, {
        'defines': ['USE_SECCOMP_BPF'],
