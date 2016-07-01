@@ -5,6 +5,8 @@ chromium-browser (52.0.2743.49-0ubuntu1~ppa2~16.04.1) UNRELEASED; urgency=low
   * Update patch to import GTK 3 instead of GTK 2.
   * Update patch (again) to import GTK 3 instead of GTK 2.
   * Update visibility info for GTK 3 patch.
+  * Add use_gtk3 flag to ffmpeg builds as well (even though ffmpeg
+    doesn't need gtk3).
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 30 Jun 2016 19:21:13 -0400
 
