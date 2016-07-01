@@ -657,32 +657,18 @@ Index: dev/content/content_common.gypi
 ===================================================================
 --- dev.orig/content/content_common.gypi
 +++ dev/content/content_common.gypi
-@@ -84,6 +84,39 @@
-         'template': '<(DEPTH)/build/util/webkit_version.h.in',
-       },
-     },
-+    {
-+      'action_name': 'libva_generate_stubs',
-+      'inputs': [
-+        '<(generate_stubs_script)',
-+        '<(extra_header)',
-+        '<@(sig_files)',
-+      ],
-+      'outputs': [
-+        '<(intermediate_dir)/<(stubs_filename_root).cc',
-+        '<(output_root)/<(project_path)/<(stubs_filename_root).h',
-+      ],
-+      'action': ['python',
-+                 '<(generate_stubs_script)',
-+                 '-i', '<(intermediate_dir)',
-+                 '-o', '<(output_root)/<(project_path)',
-+                 '-t', '<(outfile_type)',
-+                 '-e', '<(extra_header)',
-+                 '-s', '<(stubs_filename_root)',
-+                 '-p', '<(project_path)',
-+                 '<@(_inputs)',
+@@ -649,6 +649,52 @@
+       ],
+     }, {
+       'defines': ['USE_SECCOMP_BPF'],
++      'dependencies': [
++        '../../build/linux/system.gyp:x11',
 +      ],
 +      'variables': {
++        'sig_files': [
++          '../../media/gpu/va.sigs',
++          '../../media/gpu/va_x11.sigs',
++        ],
 +        'generate_stubs_script': '../../tools/generate_stubs/generate_stubs.py',
 +        'extra_header': '../../media/gpu/va_stub_header.fragment',
 +        'outfile_type': 'posix_stubs',
@@ -691,26 +677,32 @@ Index: dev/content/content_common.gypi
 +        'intermediate_dir': '<(INTERMEDIATE_DIR)',
 +        'output_root': '<(SHARED_INTERMEDIATE_DIR)/va',
 +      },
-+      'process_outputs_as_sources': 1,
-+      'message': 'Generating libva stubs for dynamic loading',
-+    },
-   ],
-   'export_dependent_settings': [
-     '../base/base.gyp:base',
-@@ -649,6 +682,20 @@
-       ],
-     }, {
-       'defines': ['USE_SECCOMP_BPF'],
-+      'dependencies': [
-+        '../../build/linux/system.gyp:x11',
-+        '../../ui/gfx/x/gfx_x11.gyp:gfx_x11',
++      'actions': [
++        {
++          'action_name': 'libva_generate_stubs',
++          'inputs': [
++            '<(generate_stubs_script)',
++            '<(extra_header)',
++            '<@(sig_files)',
++          ],
++          'outputs': [
++            '<(intermediate_dir)/<(stubs_filename_root).cc',
++            '<(output_root)/<(project_path)/<(stubs_filename_root).h',
++          ],
++          'action': ['python',
++                     '<(generate_stubs_script)',
++                     '-i', '<(intermediate_dir)',
++                     '-o', '<(output_root)/<(project_path)',
++                     '-t', '<(outfile_type)',
++                     '-e', '<(extra_header)',
++                     '-s', '<(stubs_filename_root)',
++                     '-p', '<(project_path)',
++                     '<@(_inputs)',
++          ],
++          'process_outputs_as_sources': 1,
++          'message': 'Generating libva stubs for dynamic loading',
++        },
 +      ],
-+      'variables': {
-+        'sig_files': [
-+          '../../media/gpu/va.sigs',
-+          '../../media/gpu/va_x11.sigs',
-+        ],
-+      },
 +      'include_dirs': [
 +        '<(DEPTH)/third_party/libva',
 +        '<(output_root)',
