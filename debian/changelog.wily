@@ -1,3 +1,9 @@
+chromium-browser (53.0.2783.2-0ubuntu1~ppa2~15.10.1) wily; urgency=low
+
+  * Add missing comma to content/content_common.gypi. (Github issue #2)
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 30 Jun 2016 21:25:29 -0400
+
 chromium-browser (53.0.2783.2-0ubuntu1~ppa1~15.10.1) wily; urgency=low
 
   * Update visibility info for GTK 3 patch.
