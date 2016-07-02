@@ -125,8 +125,8 @@ GYP_DEFINES += fieldtrial_testing_like_official_build=1
 GN_DEFINES += fieldtrial_testing_like_official_build=true
 
 # use gtk3
-GN_DEFINES += use_gtk3=true
-FFMPEG_MT_GN_DEFINES += use_gtk3=true
+# GN_DEFINES += use_gtk3=true
+# FFMPEG_MT_GN_DEFINES += use_gtk3=true
 
 # Intentional configuration, not bug work-arounds.
 ifeq (arm,$(DEB_HOST_ARCH_CPU))
