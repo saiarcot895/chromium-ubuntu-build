@@ -1,8 +1,9 @@
-chromium-browser (53.0.2783.2-0ubuntu1~ppa4~16.04.1) UNRELEASED; urgency=low
+chromium-browser (53.0.2783.2-0ubuntu1~ppa4~16.04.1) xenial; urgency=low
 
   * Fix paths in VAAPI patch for GYP builds. (Github issue #2)
+  * Revert to using GTK2 due to library conflicts with system protobuf.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 01 Jul 2016 14:59:46 -0400
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 01 Jul 2016 22:28:53 -0400
 
 chromium-browser (53.0.2783.2-0ubuntu1~ppa3~16.04.1) xenial; urgency=low
 
