@@ -4,7 +4,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -922,7 +922,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -910,7 +910,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_NAME,
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
@@ -416,7 +416,7 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory_impl.cc
    VideoDecodeAccelerator::SupportedProfiles vda_profiles;
  #if defined(USE_V4L2_CODEC)
    vda_profiles = V4L2VideoDecodeAccelerator::GetSupportedProfiles();
-@@ -130,7 +130,7 @@ GpuVideoDecodeAcceleratorFactoryImpl::Cr
+@@ -131,7 +131,7 @@ GpuVideoDecodeAcceleratorFactoryImpl::Cr
      &GpuVideoDecodeAcceleratorFactoryImpl::CreateV4L2VDA,
      &GpuVideoDecodeAcceleratorFactoryImpl::CreateV4L2SVDA,
  #endif
@@ -425,7 +425,7 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory_impl.cc
      &GpuVideoDecodeAcceleratorFactoryImpl::CreateVaapiVDA,
  #endif
  #if defined(OS_MACOSX)
-@@ -194,10 +194,11 @@ GpuVideoDecodeAcceleratorFactoryImpl::Cr
+@@ -199,11 +199,12 @@ GpuVideoDecodeAcceleratorFactoryImpl::Cr
  }
  #endif
  
@@ -433,6 +433,7 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory_impl.cc
 +#if (defined(OS_LINUX) || defined(OS_CHROMEOS)) && defined(ARCH_CPU_X86_FAMILY)
  std::unique_ptr<VideoDecodeAccelerator>
  GpuVideoDecodeAcceleratorFactoryImpl::CreateVaapiVDA(
+     const gpu::GpuDriverBugWorkarounds& workarounds,
      const gpu::GpuPreferences& gpu_preferences) const {
 +  VLOG(1) << "Creating new VAAPI video decode accelerator.";
    std::unique_ptr<VideoDecodeAccelerator> decoder;
@@ -442,15 +443,15 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory_impl.h
 ===================================================================
 --- dev.orig/media/gpu/gpu_video_decode_accelerator_factory_impl.h
 +++ dev/media/gpu/gpu_video_decode_accelerator_factory_impl.h
-@@ -96,7 +96,7 @@ class MEDIA_GPU_EXPORT GpuVideoDecodeAcc
-   std::unique_ptr<VideoDecodeAccelerator> CreateV4L2SVDA(
+@@ -101,7 +101,7 @@ class MEDIA_GPU_EXPORT GpuVideoDecodeAcc
+       const gpu::GpuDriverBugWorkarounds& workarounds,
        const gpu::GpuPreferences& gpu_preferences) const;
  #endif
 -#if defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)
 +#if (defined(OS_LINUX) || defined(OS_CHROMEOS)) && defined(ARCH_CPU_X86_FAMILY)
    std::unique_ptr<VideoDecodeAccelerator> CreateVaapiVDA(
+       const gpu::GpuDriverBugWorkarounds& workarounds,
        const gpu::GpuPreferences& gpu_preferences) const;
- #endif
 Index: dev/media/gpu/ipc/service/BUILD.gn
 ===================================================================
 --- dev.orig/media/gpu/ipc/service/BUILD.gn
@@ -505,7 +506,7 @@ Index: dev/media/gpu/vaapi_video_decode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi_video_decode_accelerator.cc
 +++ dev/media/gpu/vaapi_video_decode_accelerator.cc
-@@ -342,17 +342,17 @@ bool VaapiVideoDecodeAccelerator::Initia
+@@ -343,17 +343,17 @@ bool VaapiVideoDecodeAccelerator::Initia
  
    base::AutoLock auto_lock(lock_);
    DCHECK_EQ(state_, kUninitialized);
@@ -526,7 +527,7 @@ Index: dev/media/gpu/vaapi_video_decode_accelerator.cc
               << "EGLGLES2.";
      return false;
    }
-@@ -362,7 +362,7 @@ bool VaapiVideoDecodeAccelerator::Initia
+@@ -363,7 +363,7 @@ bool VaapiVideoDecodeAccelerator::Initia
        VaapiWrapper::kDecode, profile, base::Bind(&ReportToUMA, VAAPI_ERROR));
  
    if (!vaapi_wrapper_.get()) {
@@ -535,7 +536,7 @@ Index: dev/media/gpu/vaapi_video_decode_accelerator.cc
      return false;
    }
  
-@@ -377,7 +377,7 @@ bool VaapiVideoDecodeAccelerator::Initia
+@@ -378,7 +378,7 @@ bool VaapiVideoDecodeAccelerator::Initia
      vp9_accelerator_.reset(new VaapiVP9Accelerator(this, vaapi_wrapper_.get()));
      decoder_.reset(new VP9Decoder(vp9_accelerator_.get()));
    } else {
@@ -604,7 +605,7 @@ Index: dev/media/media.gyp
 ===================================================================
 --- dev.orig/media/media.gyp
 +++ dev/media/media.gyp
-@@ -747,7 +747,7 @@
+@@ -749,7 +749,7 @@
            ],
          }],
          # For VaapiVideoEncodeAccelerator.
@@ -613,7 +614,7 @@ Index: dev/media/media.gyp
            'sources': [
              'filters/h264_bitstream_buffer.cc',
              'filters/h264_bitstream_buffer.h',
-@@ -1306,7 +1306,7 @@
+@@ -1310,7 +1310,7 @@
              }]
             ],
          }],
@@ -622,7 +623,7 @@ Index: dev/media/media.gyp
            'sources': [
              'filters/h264_bitstream_buffer_unittest.cc',
            ],
-@@ -2249,7 +2249,7 @@
+@@ -2255,7 +2255,7 @@
        ],
      }],
  
@@ -657,7 +658,7 @@ Index: dev/content/content_common.gypi
 ===================================================================
 --- dev.orig/content/content_common.gypi
 +++ dev/content/content_common.gypi
-@@ -649,6 +649,52 @@
+@@ -644,6 +644,52 @@
        ],
      }, {
        'defines': ['USE_SECCOMP_BPF'],

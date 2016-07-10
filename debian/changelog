@@ -1,3 +1,10 @@
+chromium-browser (53.0.2785.8-0ubuntu1~ppa1~16.10.1) yakkety; urgency=low
+
+  * New upstream version 53.0.2785.8
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 09 Jul 2016 23:51:04 -0400
+
 chromium-browser (53.0.2783.2-0ubuntu1~ppa4~16.10.1) yakkety; urgency=low
 
   * Fix paths in VAAPI patch for GYP builds. (Github issue #2)

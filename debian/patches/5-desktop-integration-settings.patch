@@ -2,7 +2,7 @@ Index: dev/chrome/app/generated_resources.grd
 ===================================================================
 --- dev.orig/chrome/app/generated_resources.grd
 +++ dev/chrome/app/generated_resources.grd
-@@ -7947,6 +7947,35 @@ Keep your key file in a safe place. You
+@@ -7950,6 +7950,35 @@ Keep your key file in a safe place. You
  I don't think this site should be blocked!
        </message>
  
@@ -38,7 +38,7 @@ Index: dev/chrome/app/generated_resources.grd
        <!-- Content Settings dialog data -->
        <message name="IDS_CONTENT_SETTINGS_TITLE" desc="Title for content settings dialog">
          Content settings
-@@ -11395,6 +11424,9 @@ Some features may be unavailable.  Pleas
+@@ -11398,6 +11427,9 @@ Some features may be unavailable.  Pleas
        <message name="IDS_OPTIONS_ADVANCED_SECTION_TITLE_CONTENT">
          Web content
        </message>
@@ -101,7 +101,7 @@ Index: dev/chrome/browser/resources/options/browser_options.js
        // Languages section.
        var showLanguageOptions = function(event) {
          PageManager.showPageByName('languages');
-@@ -1839,6 +1856,24 @@ cr.define('options', function() {
+@@ -1841,6 +1858,24 @@ cr.define('options', function() {
      },
  
      /**
@@ -126,7 +126,7 @@ Index: dev/chrome/browser/resources/options/browser_options.js
       * Set the checked state of the metrics reporting checkbox.
       * @private
       */
-@@ -2326,6 +2361,7 @@ cr.define('options', function() {
+@@ -2328,6 +2363,7 @@ cr.define('options', function() {
    // Forward public APIs to private implementations.
    cr.makePublic(BrowserOptions, [
      'deleteCurrentProfile',
@@ -134,7 +134,7 @@ Index: dev/chrome/browser/resources/options/browser_options.js
      'enableCertificateButton',
      'enableDisplaySettings',
      'enableFactoryResetSection',
-@@ -2344,6 +2380,7 @@ cr.define('options', function() {
+@@ -2346,6 +2382,7 @@ cr.define('options', function() {
      'setNetworkPredictionValue',
      'setNowSectionVisible',
      'setHighContrastCheckboxState',
@@ -614,7 +614,7 @@ Index: dev/chrome/browser/ui/BUILD.gn
 ===================================================================
 --- dev.orig/chrome/browser/ui/BUILD.gn
 +++ dev/chrome/browser/ui/BUILD.gn
-@@ -517,6 +517,9 @@ target(chrome_browser_target_type, "ui")
+@@ -511,6 +511,9 @@ split_static_library("ui") {
      sources += rebase_path(gypi_values.chrome_browser_ui_desktop_linux_sources,
                             ".",
                             "//chrome")
@@ -1032,7 +1032,7 @@ Index: dev/chrome/chrome_browser_ui.gypi
 ===================================================================
 --- dev.orig/chrome/chrome_browser_ui.gypi
 +++ dev/chrome/chrome_browser_ui.gypi
-@@ -1416,6 +1416,8 @@
+@@ -1420,6 +1420,8 @@
        'browser/ui/views/status_icons/status_icon_linux_wrapper.h',
        'browser/ui/webui/help/version_updater_basic.cc',
        'browser/ui/webui/help/version_updater_basic.h',
@@ -1041,7 +1041,7 @@ Index: dev/chrome/chrome_browser_ui.gypi
      ],
      # Files used on iOS. iOS uses only these files and does not share other
      # lists, so a file may appear here and in the non_ios_sources also.
-@@ -3078,6 +3080,7 @@
+@@ -3082,6 +3084,7 @@
            ],
          }],
          ['use_aura==1 and chromeos==0 and use_ozone==0 and OS=="linux"', {
