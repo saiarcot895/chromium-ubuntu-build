@@ -29,7 +29,7 @@ Index: dev/tools/gn/args.cc
 ===================================================================
 --- dev.orig/tools/gn/args.cc
 +++ dev/tools/gn/args.cc
-@@ -232,6 +232,7 @@ void Args::SetSystemVarsLocked(Scope* de
+@@ -266,6 +266,7 @@ void Args::SetSystemVarsLocked(Scope* de
    static const char kX86[] = "x86";
    static const char kX64[] = "x64";
    static const char kArm[] = "arm";
@@ -37,7 +37,7 @@ Index: dev/tools/gn/args.cc
    static const char kMips[] = "mipsel";
    const char* arch = nullptr;
  
-@@ -244,10 +245,12 @@ void Args::SetSystemVarsLocked(Scope* de
+@@ -278,10 +279,12 @@ void Args::SetSystemVarsLocked(Scope* de
      arch = kX64;
    else if (os_arch.substr(0, 3) == "arm")
      arch = kArm;

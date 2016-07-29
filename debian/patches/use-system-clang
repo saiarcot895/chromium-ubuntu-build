@@ -6,7 +6,7 @@ Index: dev/build/common.gypi
 ===================================================================
 --- dev.orig/build/common.gypi
 +++ dev/build/common.gypi
-@@ -2401,8 +2401,8 @@
+@@ -2398,8 +2398,8 @@
        }],
  
        ['host_clang==1', {
@@ -21,7 +21,7 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -379,15 +379,6 @@ config("compiler") {
+@@ -380,15 +380,6 @@ config("compiler") {
      cflags += [ "-fcolor-diagnostics" ]
    }
  
@@ -41,7 +41,7 @@ Index: dev/build/toolchain/gcc_toolchain.gni
 ===================================================================
 --- dev.orig/build/toolchain/gcc_toolchain.gni
 +++ dev/build/toolchain/gcc_toolchain.gni
-@@ -511,9 +511,8 @@ template("clang_toolchain") {
+@@ -521,9 +521,8 @@ template("clang_toolchain") {
    }
  
    gcc_toolchain(target_name) {

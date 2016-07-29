@@ -2,7 +2,7 @@ Index: dev/chrome/test/BUILD.gn
 ===================================================================
 --- dev.orig/chrome/test/BUILD.gn
 +++ dev/chrome/test/BUILD.gn
-@@ -468,7 +468,11 @@ if (!is_android) {
+@@ -472,7 +472,11 @@ if (!is_android) {
            ]
            if (!use_ozone) {
              sources += [ "../browser/ui/libgtk2ui/select_file_dialog_interactive_uitest.cc" ]
@@ -19,7 +19,7 @@ Index: dev/remoting/test/BUILD.gn
 ===================================================================
 --- dev.orig/remoting/test/BUILD.gn
 +++ dev/remoting/test/BUILD.gn
-@@ -192,7 +192,11 @@ if (enable_remoting_host && !is_android
+@@ -196,7 +196,11 @@ if (enable_remoting_host && !is_android
      ]
  
      if (is_desktop_linux) {
@@ -36,7 +36,7 @@ Index: dev/remoting/host/it2me/BUILD.gn
 ===================================================================
 --- dev.orig/remoting/host/it2me/BUILD.gn
 +++ dev/remoting/host/it2me/BUILD.gn
-@@ -142,7 +142,11 @@ if (!is_chromeos && !is_android && enabl
+@@ -171,7 +171,11 @@ if (!is_chromeos && !is_android && enabl
        }
  
        if (is_desktop_linux) {
@@ -53,7 +53,7 @@ Index: dev/remoting/host/BUILD.gn
 ===================================================================
 --- dev.orig/remoting/host/BUILD.gn
 +++ dev/remoting/host/BUILD.gn
-@@ -132,7 +132,11 @@ static_library("host") {
+@@ -133,7 +133,11 @@ static_library("host") {
        "//build/config/linux:xrandr",
      ]
      if (is_desktop_linux) {
@@ -66,7 +66,7 @@ Index: dev/remoting/host/BUILD.gn
      }
    } else {
      sources -= [
-@@ -894,7 +898,11 @@ if (enable_me2me_host) {
+@@ -896,7 +900,11 @@ if (enable_me2me_host) {
      }
  
      if (is_desktop_linux) {

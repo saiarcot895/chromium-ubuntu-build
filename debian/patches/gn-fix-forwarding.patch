@@ -2,16 +2,17 @@ Index: dev/build/toolchain/gcc_toolchain.gni
 ===================================================================
 --- dev.orig/build/toolchain/gcc_toolchain.gni
 +++ dev/build/toolchain/gcc_toolchain.gni
-@@ -520,13 +520,14 @@ template("clang_toolchain") {
+@@ -530,14 +530,17 @@ template("clang_toolchain") {
      ar = "${toolprefix}ar"
      nm = "${toolprefix}nm"
  
 -    forward_variables_from(invoker,
 -                           [
+-                             "strip",
 -                             "toolchain_cpu",
 -                             "toolchain_os",
 -                             "use_gold",
--                             "strip",
+-                             "v8_toolchain_cpu",
 -                           ])
 +    toolchain_cpu = invoker.toolchain_cpu
 +    toolchain_os = invoker.toolchain_os
@@ -20,6 +21,9 @@ Index: dev/build/toolchain/gcc_toolchain.gni
 +    }
 +    if (defined(invoker.strip)) {
 +      strip = invoker.strip
++    }
++    if (defined(invoker.v8_toolchain_cpu)) {
++      v8_toolchain_cpu = invoker.v8_toolchain_cpu
 +    }
  
      if (defined(invoker.use_debug_fission)) {

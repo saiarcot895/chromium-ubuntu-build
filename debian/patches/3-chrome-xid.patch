@@ -10,7 +10,7 @@ Index: dev/chrome/browser/ui/views/frame/browser_frame.cc
  
  #if defined(OS_CHROMEOS)
  #include "ash/common/session/session_state_delegate.h"
-@@ -137,6 +138,12 @@ BrowserNonClientFrameView* BrowserFrame:
+@@ -141,6 +142,12 @@ BrowserNonClientFrameView* BrowserFrame:
    return browser_frame_view_;
  }
  
@@ -40,7 +40,7 @@ Index: dev/chrome/browser/ui/views/frame/browser_view.cc
 ===================================================================
 --- dev.orig/chrome/browser/ui/views/frame/browser_view.cc
 +++ dev/chrome/browser/ui/views/frame/browser_view.cc
-@@ -682,6 +682,7 @@ void BrowserView::Show() {
+@@ -685,6 +685,7 @@ void BrowserView::Show() {
    force_location_bar_focus_ = false;
  
    browser()->OnWindowDidShow();
@@ -52,7 +52,7 @@ Index: dev/ash/mus/non_client_frame_controller.cc
 ===================================================================
 --- dev.orig/ash/mus/non_client_frame_controller.cc
 +++ dev/ash/mus/non_client_frame_controller.cc
-@@ -162,6 +162,10 @@ class WmNativeWidgetMus : public views::
+@@ -158,6 +158,10 @@ class WmNativeWidgetMus : public views::
      // the client area should come from the client, not us.
    }
  
@@ -114,7 +114,7 @@ Index: dev/ui/views/mus/native_widget_mus.cc
 ===================================================================
 --- dev.orig/ui/views/mus/native_widget_mus.cc
 +++ dev/ui/views/mus/native_widget_mus.cc
-@@ -631,6 +631,10 @@ void NativeWidgetMus::UpdateClientArea()
+@@ -622,6 +622,10 @@ void NativeWidgetMus::UpdateClientArea()
        non_client_view->bounds().width() - client_area_rect.right()));
  }
  
@@ -129,14 +129,14 @@ Index: dev/ui/views/mus/native_widget_mus.h
 ===================================================================
 --- dev.orig/ui/views/mus/native_widget_mus.h
 +++ dev/ui/views/mus/native_widget_mus.h
-@@ -101,6 +101,8 @@ class VIEWS_MUS_EXPORT NativeWidgetMus
+@@ -91,6 +91,8 @@ class VIEWS_MUS_EXPORT NativeWidgetMus
    void OnPlatformWindowClosed();
    void OnActivationChanged(bool active);
  
 +  void SetSessionID(uint32_t sessionid);
 +
   protected:
-   // Updates the client area in the mus::Window.
+   // Updates the client area in the ui::Window.
    virtual void UpdateClientArea();
 Index: dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
 ===================================================================
@@ -201,7 +201,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
    "XdndActionAsk",
    "XdndActionCopy",
    "XdndActionLink",
-@@ -1439,6 +1442,22 @@ void DesktopWindowTreeHostX11::UpdateMin
+@@ -1461,6 +1464,22 @@ void DesktopWindowTreeHostX11::UpdateMin
    XSetWMNormalHints(xdisplay_, xwindow_, &hints);
  }
  

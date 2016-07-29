@@ -2,7 +2,7 @@ Index: dev/chrome/app/generated_resources.grd
 ===================================================================
 --- dev.orig/chrome/app/generated_resources.grd
 +++ dev/chrome/app/generated_resources.grd
-@@ -7950,6 +7950,35 @@ Keep your key file in a safe place. You
+@@ -8009,6 +8009,35 @@ Keep your key file in a safe place. You
  I don't think this site should be blocked!
        </message>
  
@@ -38,7 +38,7 @@ Index: dev/chrome/app/generated_resources.grd
        <!-- Content Settings dialog data -->
        <message name="IDS_CONTENT_SETTINGS_TITLE" desc="Title for content settings dialog">
          Content settings
-@@ -11398,6 +11427,9 @@ Some features may be unavailable.  Pleas
+@@ -11454,6 +11483,9 @@ Some features may be unavailable.  Pleas
        <message name="IDS_OPTIONS_ADVANCED_SECTION_TITLE_CONTENT">
          Web content
        </message>
@@ -52,7 +52,7 @@ Index: dev/chrome/browser/resources/options/browser_options.html
 ===================================================================
 --- dev.orig/chrome/browser/resources/options/browser_options.html
 +++ dev/chrome/browser/resources/options/browser_options.html
-@@ -559,6 +559,20 @@
+@@ -558,6 +558,20 @@
      </div>
    </section>
  </if>
@@ -77,7 +77,7 @@ Index: dev/chrome/browser/resources/options/browser_options.js
 ===================================================================
 --- dev.orig/chrome/browser/resources/options/browser_options.js
 +++ dev/chrome/browser/resources/options/browser_options.js
-@@ -680,6 +680,23 @@ cr.define('options', function() {
+@@ -675,6 +675,23 @@ cr.define('options', function() {
              [String(event.target.options[event.target.selectedIndex].value)]);
        };
  
@@ -101,7 +101,7 @@ Index: dev/chrome/browser/resources/options/browser_options.js
        // Languages section.
        var showLanguageOptions = function(event) {
          PageManager.showPageByName('languages');
-@@ -1841,6 +1858,24 @@ cr.define('options', function() {
+@@ -1829,6 +1846,24 @@ cr.define('options', function() {
      },
  
      /**
@@ -126,7 +126,7 @@ Index: dev/chrome/browser/resources/options/browser_options.js
       * Set the checked state of the metrics reporting checkbox.
       * @private
       */
-@@ -2328,6 +2363,7 @@ cr.define('options', function() {
+@@ -2316,6 +2351,7 @@ cr.define('options', function() {
    // Forward public APIs to private implementations.
    cr.makePublic(BrowserOptions, [
      'deleteCurrentProfile',
@@ -134,7 +134,7 @@ Index: dev/chrome/browser/resources/options/browser_options.js
      'enableCertificateButton',
      'enableDisplaySettings',
      'enableFactoryResetSection',
-@@ -2346,6 +2382,7 @@ cr.define('options', function() {
+@@ -2334,6 +2370,7 @@ cr.define('options', function() {
      'setNetworkPredictionValue',
      'setNowSectionVisible',
      'setHighContrastCheckboxState',
@@ -550,7 +550,7 @@ Index: dev/chrome/browser/resources/options/options.html
  <link rel="stylesheet" href="do_not_track_confirm_overlay.css">
  <link rel="stylesheet" href="easy_unlock_turn_off_overlay.css">
  <link rel="stylesheet" href="font_settings.css">
-@@ -122,6 +123,7 @@
+@@ -119,6 +120,7 @@
    <include src="home_page_overlay.html">
    <include src="hotword_confirm_overlay.html">
    <include src="import_data_overlay.html">
@@ -558,7 +558,7 @@ Index: dev/chrome/browser/resources/options/options.html
    <include src="language_options.html">
    <include src="manage_profile_overlay.html">
    <include src="password_manager.html">
-@@ -157,6 +159,7 @@
+@@ -154,6 +156,7 @@
    <include src="clear_browser_data_history_notice_overlay.html">
    <include src="content_settings_exceptions_area.html">
    <include src="cookies_view.html">
@@ -579,7 +579,7 @@ Index: dev/chrome/browser/resources/options/options.js
  var CreateProfileOverlay = options.CreateProfileOverlay;
  var EditDictionaryOverlay = cr.IsMac ? null : options.EditDictionaryOverlay;
  var EasyUnlockTurnOffOverlay = options.EasyUnlockTurnOffOverlay;
-@@ -134,6 +136,17 @@ function load() {
+@@ -137,6 +139,17 @@ function load() {
    PageManager.registerOverlay(FontSettings.getInstance(),
                                BrowserOptions.getInstance(),
                                [$('fontSettingsCustomizeFontsButton')]);
@@ -614,7 +614,7 @@ Index: dev/chrome/browser/ui/BUILD.gn
 ===================================================================
 --- dev.orig/chrome/browser/ui/BUILD.gn
 +++ dev/chrome/browser/ui/BUILD.gn
-@@ -511,6 +511,9 @@ split_static_library("ui") {
+@@ -514,6 +514,9 @@ split_static_library("ui") {
      sources += rebase_path(gypi_values.chrome_browser_ui_desktop_linux_sources,
                             ".",
                             "//chrome")
@@ -628,7 +628,7 @@ Index: dev/chrome/browser/ui/webui/options/browser_options_handler.cc
 ===================================================================
 --- dev.orig/chrome/browser/ui/webui/options/browser_options_handler.cc
 +++ dev/chrome/browser/ui/webui/options/browser_options_handler.cc
-@@ -243,6 +243,8 @@ void BrowserOptionsHandler::GetLocalized
+@@ -238,6 +238,8 @@ void BrowserOptionsHandler::GetLocalized
      { "advancedSectionTitleCloudPrint", IDS_GOOGLE_CLOUD_PRINT },
      { "advancedSectionTitleContent",
        IDS_OPTIONS_ADVANCED_SECTION_TITLE_CONTENT },
@@ -637,7 +637,7 @@ Index: dev/chrome/browser/ui/webui/options/browser_options_handler.cc
      { "advancedSectionTitleLanguages",
        IDS_OPTIONS_ADVANCED_SECTION_TITLE_LANGUAGES },
      { "advancedSectionTitleNetwork",
-@@ -266,6 +268,10 @@ void BrowserOptionsHandler::GetLocalized
+@@ -261,6 +263,10 @@ void BrowserOptionsHandler::GetLocalized
      { "defaultFontSizeLabel", IDS_OPTIONS_DEFAULT_FONT_SIZE_LABEL },
      { "defaultSearchManageEngines", IDS_OPTIONS_DEFAULTSEARCH_MANAGE_ENGINES },
      { "defaultZoomFactorLabel", IDS_OPTIONS_DEFAULT_ZOOM_LEVEL_LABEL },
@@ -648,7 +648,7 @@ Index: dev/chrome/browser/ui/webui/options/browser_options_handler.cc
      { "disableWebServices", IDS_OPTIONS_DISABLE_WEB_SERVICES },
      { "doNotTrack", IDS_OPTIONS_ENABLE_DO_NOT_TRACK },
      { "doNotTrackConfirmDisable",
-@@ -352,6 +358,8 @@ void BrowserOptionsHandler::GetLocalized
+@@ -347,6 +353,8 @@ void BrowserOptionsHandler::GetLocalized
      { "profilesManage", IDS_PROFILES_MANAGE_BUTTON_LABEL },
      { "profilesSingleUser", IDS_PROFILES_SINGLE_USER_MESSAGE,
        IDS_PRODUCT_NAME },
@@ -1019,7 +1019,7 @@ Index: dev/chrome/browser/ui/webui/options/options_ui.cc
  using content::RenderViewHost;
  
  namespace {
-@@ -284,6 +288,8 @@ OptionsUI::OptionsUI(content::WebUI* web
+@@ -279,6 +283,8 @@ OptionsUI::OptionsUI(content::WebUI* web
    AddOptionsPageUIHandler(localized_strings, new CookiesViewHandler());
    AddOptionsPageUIHandler(localized_strings, new CreateProfileHandler());
    AddOptionsPageUIHandler(localized_strings, new EasyUnlockHandler());
@@ -1032,7 +1032,7 @@ Index: dev/chrome/chrome_browser_ui.gypi
 ===================================================================
 --- dev.orig/chrome/chrome_browser_ui.gypi
 +++ dev/chrome/chrome_browser_ui.gypi
-@@ -1420,6 +1420,8 @@
+@@ -1418,6 +1418,8 @@
        'browser/ui/views/status_icons/status_icon_linux_wrapper.h',
        'browser/ui/webui/help/version_updater_basic.cc',
        'browser/ui/webui/help/version_updater_basic.h',
@@ -1041,7 +1041,7 @@ Index: dev/chrome/chrome_browser_ui.gypi
      ],
      # Files used on iOS. iOS uses only these files and does not share other
      # lists, so a file may appear here and in the non_ios_sources also.
-@@ -3082,6 +3084,7 @@
+@@ -3075,6 +3077,7 @@
            ],
          }],
          ['use_aura==1 and chromeos==0 and use_ozone==0 and OS=="linux"', {
