@@ -1,0 +1,12 @@
+Index: dev/tools/gn/bootstrap/bootstrap.py
+===================================================================
+--- dev.orig/tools/gn/bootstrap/bootstrap.py
++++ dev/tools/gn/bootstrap/bootstrap.py
+@@ -439,7 +439,6 @@ def write_gn_ninja(path, root_gen_dir, o
+       'base/strings/stringprintf.cc',
+       'base/strings/utf_string_conversion_utils.cc',
+       'base/strings/utf_string_conversions.cc',
+-      'base/synchronization/cancellation_flag.cc',
+       'base/synchronization/lock.cc',
+       'base/sys_info.cc',
+       'base/task_runner.cc',
