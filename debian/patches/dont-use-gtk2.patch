@@ -36,7 +36,7 @@ Index: dev/remoting/host/it2me/BUILD.gn
 ===================================================================
 --- dev.orig/remoting/host/it2me/BUILD.gn
 +++ dev/remoting/host/it2me/BUILD.gn
-@@ -171,7 +171,11 @@ if (!is_chromeos && !is_android && enabl
+@@ -176,7 +176,11 @@ if (!is_chromeos && !is_android && enabl
        }
  
        if (is_desktop_linux) {
@@ -53,7 +53,7 @@ Index: dev/remoting/host/BUILD.gn
 ===================================================================
 --- dev.orig/remoting/host/BUILD.gn
 +++ dev/remoting/host/BUILD.gn
-@@ -133,7 +133,11 @@ static_library("host") {
+@@ -134,7 +134,11 @@ static_library("host") {
        "//build/config/linux:xrandr",
      ]
      if (is_desktop_linux) {
@@ -66,7 +66,7 @@ Index: dev/remoting/host/BUILD.gn
      }
    } else {
      sources -= [
-@@ -896,7 +900,11 @@ if (enable_me2me_host) {
+@@ -915,7 +919,11 @@ if (enable_me2me_host) {
      }
  
      if (is_desktop_linux) {
