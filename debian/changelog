@@ -1,3 +1,9 @@
+chromium-browser (54.0.2816.0-0ubuntu1~ppa4~16.10.1) yakkety; urgency=low
+
+  * Fix gn build (try 3)
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 07 Aug 2016 15:05:05 -0400
+
 chromium-browser (54.0.2816.0-0ubuntu1~ppa3~16.10.1) yakkety; urgency=low
 
   * Fix gn build (again)
