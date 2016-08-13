@@ -4,7 +4,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -964,7 +964,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -966,7 +966,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_NAME,
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
@@ -623,7 +623,7 @@ Index: dev/media/media.gyp
            'sources': [
              'filters/h264_bitstream_buffer_unittest.cc',
            ],
-@@ -2278,7 +2278,7 @@
+@@ -2280,7 +2280,7 @@
        ],
      }],
  
@@ -658,7 +658,7 @@ Index: dev/content/content_common.gypi
 ===================================================================
 --- dev.orig/content/content_common.gypi
 +++ dev/content/content_common.gypi
-@@ -644,6 +644,52 @@
+@@ -647,6 +647,52 @@
        ],
      }, {
        'defines': ['USE_SECCOMP_BPF'],

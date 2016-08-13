@@ -2,7 +2,7 @@ Index: dev/chrome/app/generated_resources.grd
 ===================================================================
 --- dev.orig/chrome/app/generated_resources.grd
 +++ dev/chrome/app/generated_resources.grd
-@@ -8003,6 +8003,35 @@ Keep your key file in a safe place. You
+@@ -8016,6 +8016,35 @@ Keep your key file in a safe place. You
  I don't think this site should be blocked!
        </message>
  
@@ -38,7 +38,7 @@ Index: dev/chrome/app/generated_resources.grd
        <!-- Content Settings dialog data -->
        <message name="IDS_CONTENT_SETTINGS_TITLE" desc="Title for content settings dialog">
          Content settings
-@@ -11450,6 +11479,9 @@ Please check that the profile exists and
+@@ -11446,6 +11475,9 @@ Tell us what happened exactly before you
        <message name="IDS_OPTIONS_ADVANCED_SECTION_TITLE_CONTENT">
          Web content
        </message>
@@ -1032,7 +1032,7 @@ Index: dev/chrome/chrome_browser_ui.gypi
 ===================================================================
 --- dev.orig/chrome/chrome_browser_ui.gypi
 +++ dev/chrome/chrome_browser_ui.gypi
-@@ -1418,6 +1418,8 @@
+@@ -1427,6 +1427,8 @@
        'browser/ui/views/status_icons/status_icon_linux_wrapper.h',
        'browser/ui/webui/help/version_updater_basic.cc',
        'browser/ui/webui/help/version_updater_basic.h',
@@ -1041,7 +1041,7 @@ Index: dev/chrome/chrome_browser_ui.gypi
      ],
      # Files used on iOS. iOS uses only these files and does not share other
      # lists, so a file may appear here and in the non_ios_sources also.
-@@ -3077,6 +3079,7 @@
+@@ -3084,6 +3086,7 @@
            ],
          }],
          ['use_aura==1 and chromeos==0 and use_ozone==0 and OS=="linux"', {

@@ -40,7 +40,7 @@ Index: dev/chrome/browser/ui/views/frame/browser_view.cc
 ===================================================================
 --- dev.orig/chrome/browser/ui/views/frame/browser_view.cc
 +++ dev/chrome/browser/ui/views/frame/browser_view.cc
-@@ -685,6 +685,7 @@ void BrowserView::Show() {
+@@ -684,6 +684,7 @@ void BrowserView::Show() {
    force_location_bar_focus_ = false;
  
    browser()->OnWindowDidShow();
@@ -114,7 +114,7 @@ Index: dev/ui/views/mus/native_widget_mus.cc
 ===================================================================
 --- dev.orig/ui/views/mus/native_widget_mus.cc
 +++ dev/ui/views/mus/native_widget_mus.cc
-@@ -622,6 +622,10 @@ void NativeWidgetMus::UpdateClientArea()
+@@ -633,6 +633,10 @@ void NativeWidgetMus::UpdateClientArea()
        non_client_view->bounds().width() - client_area_rect.right()));
  }
  

@@ -61,4 +61,3 @@ gn-fix-forwarding.patch
 #wayland-0017-switch-to-stdint.patch
 ### END Wayland patches ###
 dont-use-gtk2.patch
-fix-gn-build.patch
