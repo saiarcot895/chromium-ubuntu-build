@@ -1032,7 +1032,7 @@ Index: beta/chrome/chrome_browser_ui.gypi
 ===================================================================
 --- beta.orig/chrome/chrome_browser_ui.gypi
 +++ beta/chrome/chrome_browser_ui.gypi
-@@ -1424,6 +1424,8 @@
+@@ -1426,6 +1426,8 @@
        'browser/ui/views/status_icons/status_icon_linux_wrapper.h',
        'browser/ui/webui/help/version_updater_basic.cc',
        'browser/ui/webui/help/version_updater_basic.h',
@@ -1041,7 +1041,7 @@ Index: beta/chrome/chrome_browser_ui.gypi
      ],
      # Files used on iOS. iOS uses only these files and does not share other
      # lists, so a file may appear here and in the non_ios_sources also.
-@@ -3086,6 +3088,7 @@
+@@ -3088,6 +3090,7 @@
            ],
          }],
          ['use_aura==1 and chromeos==0 and use_ozone==0 and OS=="linux"', {
