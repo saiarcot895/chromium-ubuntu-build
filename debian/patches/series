@@ -62,3 +62,4 @@ gn-fix-forwarding.patch
 ### END Wayland patches ###
 dont-use-gtk2.patch
 fix-gn-build.patch
+dont-use-no-auto-profile-on-older-gcc.patch
