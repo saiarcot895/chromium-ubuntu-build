@@ -394,10 +394,10 @@ Index: dev/media/gpu/BUILD.gn
        sources += [
          "tegra_v4l2_device.cc",
          "tegra_v4l2_device.h",
-Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
+Index: dev/media/gpu/gpu_video_decode_accelerator_factory_impl.cc
 ===================================================================
---- dev.orig/media/gpu/gpu_video_decode_accelerator_factory.cc
-+++ dev/media/gpu/gpu_video_decode_accelerator_factory.cc
+--- dev.orig/media/gpu/gpu_video_decode_accelerator_factory_impl.cc
++++ dev/media/gpu/gpu_video_decode_accelerator_factory_impl.cc
 @@ -14,7 +14,7 @@
  #include "media/gpu/dxva_video_decode_accelerator_win.h"
  #elif defined(OS_MACOSX)
@@ -410,19 +410,19 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
 @@ -79,7 +79,7 @@ GpuVideoDecodeAcceleratorFactory::GetDec
  #if defined(OS_WIN)
    capabilities.supported_profiles =
-       DXVAVideoDecodeAccelerator::GetSupportedProfiles(gpu_preferences);
+       DXVAVideoDecodeAccelerator::GetSupportedProfiles();
 -#elif defined(OS_CHROMEOS)
 +#elif defined(OS_CHROMEOS) || defined(OS_LINUX)
    VideoDecodeAccelerator::SupportedProfiles vda_profiles;
  #if defined(USE_V4L2_CODEC)
    vda_profiles = V4L2VideoDecodeAccelerator::GetSupportedProfiles();
 @@ -131,7 +131,7 @@ GpuVideoDecodeAcceleratorFactory::Create
-     &GpuVideoDecodeAcceleratorFactory::CreateV4L2VDA,
-     &GpuVideoDecodeAcceleratorFactory::CreateV4L2SVDA,
+     &GpuVideoDecodeAcceleratorFactoryImpl::CreateV4L2VDA,
+     &GpuVideoDecodeAcceleratorFactoryImpl::CreateV4L2SVDA,
  #endif
 -#if defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)
 +#if (defined(OS_LINUX) || defined(OS_CHROMEOS)) && defined(ARCH_CPU_X86_FAMILY)
-     &GpuVideoDecodeAcceleratorFactory::CreateVaapiVDA,
+     &GpuVideoDecodeAcceleratorFactoryImpl::CreateVaapiVDA,
  #endif
  #if defined(OS_MACOSX)
 @@ -199,11 +199,12 @@ GpuVideoDecodeAcceleratorFactory::Create
@@ -432,7 +432,7 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
 -#if defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)
 +#if (defined(OS_LINUX) || defined(OS_CHROMEOS)) && defined(ARCH_CPU_X86_FAMILY)
  std::unique_ptr<VideoDecodeAccelerator>
- GpuVideoDecodeAcceleratorFactory::CreateVaapiVDA(
+ GpuVideoDecodeAcceleratorFactoryImpl::CreateVaapiVDA(
      const gpu::GpuDriverBugWorkarounds& workarounds,
      const gpu::GpuPreferences& gpu_preferences) const {
 +  VLOG(1) << "Creating new VAAPI video decode accelerator.";
