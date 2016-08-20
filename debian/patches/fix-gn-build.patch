@@ -2,7 +2,7 @@ Index: dev/tools/gn/bootstrap/bootstrap.py
 ===================================================================
 --- dev.orig/tools/gn/bootstrap/bootstrap.py
 +++ dev/tools/gn/bootstrap/bootstrap.py
-@@ -498,6 +498,7 @@ def write_gn_ninja(path, root_gen_dir, o
+@@ -499,6 +499,7 @@ def write_gn_ninja(path, root_gen_dir, o
    if is_posix:
      static_libraries['base']['sources'].extend([
          'base/base_paths_posix.cc',

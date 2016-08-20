@@ -2,8 +2,8 @@ Index: dev/build/toolchain/linux/BUILD.gn
 ===================================================================
 --- dev.orig/build/toolchain/linux/BUILD.gn
 +++ dev/build/toolchain/linux/BUILD.gn
-@@ -33,6 +33,22 @@ gcc_toolchain("arm") {
-   is_clang = false
+@@ -39,6 +39,22 @@ gcc_toolchain("arm") {
+   }
  }
  
 +gcc_toolchain("arm64") {
@@ -23,8 +23,8 @@ Index: dev/build/toolchain/linux/BUILD.gn
 +}
 +
  clang_toolchain("clang_x86") {
-   toolchain_cpu = "x86"
-   toolchain_os = "linux"
+   toolchain_args = {
+     current_cpu = "x86"
 Index: dev/tools/gn/args.cc
 ===================================================================
 --- dev.orig/tools/gn/args.cc

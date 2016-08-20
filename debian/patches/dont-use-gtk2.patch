@@ -2,7 +2,7 @@ Index: dev/chrome/test/BUILD.gn
 ===================================================================
 --- dev.orig/chrome/test/BUILD.gn
 +++ dev/chrome/test/BUILD.gn
-@@ -472,7 +472,11 @@ if (!is_android) {
+@@ -473,7 +473,11 @@ if (!is_android) {
            ]
            if (!use_ozone) {
              sources += [ "../browser/ui/libgtk2ui/select_file_dialog_interactive_uitest.cc" ]
@@ -66,7 +66,7 @@ Index: dev/remoting/host/BUILD.gn
      }
    } else {
      sources -= [
-@@ -915,7 +919,11 @@ if (enable_me2me_host) {
+@@ -919,7 +923,11 @@ if (enable_me2me_host) {
      }
  
      if (is_desktop_linux) {

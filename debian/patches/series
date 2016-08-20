@@ -38,7 +38,6 @@ gn-add-support-for-arm64.patch
 gn-dont-use-git.patch
 ffmpeg-fix-build-for-arm64.patch
 gn-fix-for-i386-build.patch
-gn-fix-forwarding.patch
 #precise-change-compiler.patch
 
 ### BEGIN Wayland patches ###
@@ -62,5 +61,4 @@ gn-fix-forwarding.patch
 ### END Wayland patches ###
 dont-use-gtk2.patch
 fix-gn-build.patch
-dont-use-no-auto-profile-on-older-gcc.patch
 update-for-cups-22.patch

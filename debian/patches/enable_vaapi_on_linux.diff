@@ -4,7 +4,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -966,7 +966,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -968,7 +968,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_NAME,
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
@@ -67,7 +67,7 @@ Index: dev/content/common/BUILD.gn
  source_set("common") {
    # Targets external to content should always link to the public API.
    # In addition, targets outside of the content component (shell and tests)
-@@ -185,6 +228,15 @@ source_set("common") {
+@@ -191,6 +234,15 @@ source_set("common") {
  
    if (use_seccomp_bpf) {
      defines += [ "USE_SECCOMP_BPF" ]
@@ -296,7 +296,7 @@ Index: dev/content/public/common/content_switches.cc
 ===================================================================
 --- dev.orig/content/public/common/content_switches.cc
 +++ dev/content/public/common/content_switches.cc
-@@ -995,7 +995,9 @@ const char kDisableAudioSupportForDeskto
+@@ -998,7 +998,9 @@ const char kDisableAudioSupportForDeskto
  #if defined(OS_CHROMEOS)
  // Disables panel fitting (used for mirror mode).
  const char kDisablePanelFitting[]           = "disable-panel-fitting";
@@ -310,7 +310,7 @@ Index: dev/content/public/common/content_switches.h
 ===================================================================
 --- dev.orig/content/public/common/content_switches.h
 +++ dev/content/public/common/content_switches.h
-@@ -291,6 +291,8 @@ CONTENT_EXPORT extern const char kEnable
+@@ -292,6 +292,8 @@ CONTENT_EXPORT extern const char kEnable
  
  #if defined(OS_CHROMEOS)
  CONTENT_EXPORT extern const char kDisablePanelFitting[];
@@ -345,7 +345,7 @@ Index: dev/media/BUILD.gn
 ===================================================================
 --- dev.orig/media/BUILD.gn
 +++ dev/media/BUILD.gn
-@@ -353,7 +353,7 @@ component("media") {
+@@ -361,7 +361,7 @@ component("media") {
      allow_circular_includes_from = [ "//media/base/android" ]
    }
  
@@ -354,7 +354,7 @@ Index: dev/media/BUILD.gn
      sources += [
        "filters/h264_bitstream_buffer.cc",
        "filters/h264_bitstream_buffer.h",
-@@ -649,7 +649,7 @@ test("media_unittests") {
+@@ -644,7 +644,7 @@ test("media_unittests") {
      }
    }
  
@@ -605,7 +605,7 @@ Index: dev/media/media.gyp
 ===================================================================
 --- dev.orig/media/media.gyp
 +++ dev/media/media.gyp
-@@ -748,7 +748,7 @@
+@@ -756,7 +756,7 @@
            ],
          }],
          # For VaapiVideoEncodeAccelerator.
@@ -614,7 +614,7 @@ Index: dev/media/media.gyp
            'sources': [
              'filters/h264_bitstream_buffer.cc',
              'filters/h264_bitstream_buffer.h',
-@@ -1310,7 +1310,7 @@
+@@ -1319,7 +1319,7 @@
              }]
             ],
          }],
@@ -623,7 +623,7 @@ Index: dev/media/media.gyp
            'sources': [
              'filters/h264_bitstream_buffer_unittest.cc',
            ],
-@@ -2280,7 +2280,7 @@
+@@ -2289,7 +2289,7 @@
        ],
      }],
  
@@ -658,7 +658,7 @@ Index: dev/content/content_common.gypi
 ===================================================================
 --- dev.orig/content/content_common.gypi
 +++ dev/content/content_common.gypi
-@@ -647,6 +647,52 @@
+@@ -640,6 +640,52 @@
        ],
      }, {
        'defines': ['USE_SECCOMP_BPF'],

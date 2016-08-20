@@ -2,15 +2,15 @@ Index: dev/chrome/browser/ui/views/frame/browser_frame.cc
 ===================================================================
 --- dev.orig/chrome/browser/ui/views/frame/browser_frame.cc
 +++ dev/chrome/browser/ui/views/frame/browser_frame.cc
-@@ -30,6 +30,7 @@
- #include "ui/gfx/font_list.h"
+@@ -31,6 +31,7 @@
+ #include "ui/views/controls/menu/menu_model_adapter.h"
  #include "ui/views/controls/menu/menu_runner.h"
  #include "ui/views/widget/native_widget.h"
 +#include "ui/views/widget/native_widget_aura.h"
  
  #if defined(OS_CHROMEOS)
  #include "ash/common/session/session_state_delegate.h"
-@@ -141,6 +142,12 @@ BrowserNonClientFrameView* BrowserFrame:
+@@ -143,6 +144,12 @@ BrowserNonClientFrameView* BrowserFrame:
    return browser_frame_view_;
  }
  
@@ -27,7 +27,7 @@ Index: dev/chrome/browser/ui/views/frame/browser_frame.h
 ===================================================================
 --- dev.orig/chrome/browser/ui/views/frame/browser_frame.h
 +++ dev/chrome/browser/ui/views/frame/browser_frame.h
-@@ -95,6 +95,8 @@ class BrowserFrame
+@@ -100,6 +100,8 @@ class BrowserFrame
    // Called when BrowserView creates all it's child views.
    void OnBrowserViewInitViewsComplete();
  
@@ -52,8 +52,8 @@ Index: dev/ash/mus/non_client_frame_controller.cc
 ===================================================================
 --- dev.orig/ash/mus/non_client_frame_controller.cc
 +++ dev/ash/mus/non_client_frame_controller.cc
-@@ -158,6 +158,10 @@ class WmNativeWidgetMus : public views::
-     // the client area should come from the client, not us.
+@@ -144,6 +144,10 @@ class WmNativeWidgetMus : public views::
+     shadow_->layer()->parent()->StackAtBottom(shadow_->layer());
    }
  
 +  void SetSessionID(uint32_t sessionid) {
@@ -73,12 +73,12 @@ Index: dev/ui/aura/client/aura_constants.cc
  DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, bool)
 +DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, uint32_t)
  DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, ui::ModalType)
+ DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, gfx::ImageSkia*)
  DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, gfx::Rect*)
- DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, ui::InputMethod*)
-@@ -38,6 +39,7 @@ DEFINE_WINDOW_PROPERTY_KEY(
- DEFINE_WINDOW_PROPERTY_KEY(
+@@ -40,6 +41,7 @@ DEFINE_WINDOW_PROPERTY_KEY(
      ui::WindowShowState, kShowStateKey, ui::SHOW_STATE_DEFAULT);
  DEFINE_WINDOW_PROPERTY_KEY(int, kTopViewInset, 0);
+ DEFINE_OWNED_WINDOW_PROPERTY_KEY(gfx::ImageSkia, kWindowIconKey, nullptr);
 +DEFINE_WINDOW_PROPERTY_KEY(uint32_t, kSessionIdKey, 0);
  
  }  // namespace client
@@ -87,9 +87,9 @@ Index: dev/ui/aura/client/aura_constants.h
 ===================================================================
 --- dev.orig/ui/aura/client/aura_constants.h
 +++ dev/ui/aura/client/aura_constants.h
-@@ -71,6 +71,9 @@ AURA_EXPORT extern const WindowProperty<
- // the web contents for app windows and varies for fullscreen windows.
- AURA_EXPORT extern const aura::WindowProperty<int>* const kTopViewInset;
+@@ -74,6 +74,9 @@ AURA_EXPORT extern const aura::WindowPro
+ // A property key to store window icon.
+ AURA_EXPORT extern const WindowProperty<gfx::ImageSkia*>* const kWindowIconKey;
  
 +AURA_EXPORT extern const WindowProperty<uint32_t>* const kSessionIdKey;
 +
@@ -114,7 +114,7 @@ Index: dev/ui/views/mus/native_widget_mus.cc
 ===================================================================
 --- dev.orig/ui/views/mus/native_widget_mus.cc
 +++ dev/ui/views/mus/native_widget_mus.cc
-@@ -633,6 +633,10 @@ void NativeWidgetMus::UpdateClientArea()
+@@ -627,6 +627,10 @@ void NativeWidgetMus::UpdateClientArea()
        non_client_view->bounds().width() - client_area_rect.right()));
  }
  
@@ -129,7 +129,7 @@ Index: dev/ui/views/mus/native_widget_mus.h
 ===================================================================
 --- dev.orig/ui/views/mus/native_widget_mus.h
 +++ dev/ui/views/mus/native_widget_mus.h
-@@ -91,6 +91,8 @@ class VIEWS_MUS_EXPORT NativeWidgetMus
+@@ -94,6 +94,8 @@ class VIEWS_MUS_EXPORT NativeWidgetMus
    void OnPlatformWindowClosed();
    void OnActivationChanged(bool active);
  
@@ -263,7 +263,7 @@ Index: dev/ui/views/widget/native_widget_aura.cc
  namespace views {
  
  namespace {
-@@ -335,6 +337,11 @@ void NativeWidgetAura::CenterWindow(cons
+@@ -352,6 +354,11 @@ void NativeWidgetAura::CenterWindow(cons
    window_->SetBounds(window_bounds);
  }
  
@@ -279,9 +279,9 @@ Index: dev/ui/views/widget/native_widget_aura.h
 ===================================================================
 --- dev.orig/ui/views/widget/native_widget_aura.h
 +++ dev/ui/views/widget/native_widget_aura.h
-@@ -50,6 +50,8 @@ class VIEWS_EXPORT NativeWidgetAura
-       internal::NativeWidgetPrivate* native_widget,
-       aura::Window* window);
+@@ -55,6 +55,8 @@ class VIEWS_EXPORT NativeWidgetAura
+                                      const gfx::ImageSkia& window_icon,
+                                      const gfx::ImageSkia& app_icon);
  
 +  virtual void SetSessionID(uint32_t sessionid) override;
 +
