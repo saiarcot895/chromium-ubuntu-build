@@ -1,6 +1,7 @@
 chromium-browser (54.0.2824.0-0ubuntu1~ppa3~16.04.1) UNRELEASED; urgency=low
 
   * Don't use -fno-auto-profile on older GCCs
+  * Fix building with CUPS 2.2
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 19 Aug 2016 14:35:08 -0400
 

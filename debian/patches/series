@@ -63,3 +63,4 @@ gn-fix-forwarding.patch
 dont-use-gtk2.patch
 fix-gn-build.patch
 dont-use-no-auto-profile-on-older-gcc.patch
+update-for-cups-22.patch
