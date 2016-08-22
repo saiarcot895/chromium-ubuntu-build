@@ -2,7 +2,7 @@ Index: dev/build/toolchain/linux/BUILD.gn
 ===================================================================
 --- dev.orig/build/toolchain/linux/BUILD.gn
 +++ dev/build/toolchain/linux/BUILD.gn
-@@ -39,6 +39,22 @@ gcc_toolchain("arm") {
+@@ -39,6 +39,24 @@ gcc_toolchain("arm") {
    }
  }
  
@@ -17,9 +17,11 @@ Index: dev/build/toolchain/linux/BUILD.gn
 +  readelf = "${toolprefix}readelf"
 +  nm = "${toolprefix}nm"
 +
-+  toolchain_cpu = "arm64"
-+  toolchain_os = "linux"
-+  is_clang = false
++  toolchain_args = {
++    current_cpu = "arm64"
++    current_os = "linux"
++    is_clang = false
++  }
 +}
 +
  clang_toolchain("clang_x86") {

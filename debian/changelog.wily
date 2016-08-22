@@ -1,3 +1,9 @@
+chromium-browser (54.0.2832.2-0ubuntu1~ppa2~15.10.1) wily; urgency=low
+
+  * Update patch for arm64 GN build.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 22 Aug 2016 18:16:41 -0400
+
 chromium-browser (54.0.2832.2-0ubuntu1~ppa1~15.10.1) wily; urgency=low
 
   * Don't use -fno-auto-profile on older GCCs
