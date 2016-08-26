@@ -61,4 +61,3 @@ gn-fix-for-i386-build.patch
 ### END Wayland patches ###
 dont-use-gtk2.patch
 fix-gn-build.patch
-update-for-cups-22.patch

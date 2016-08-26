@@ -1,8 +1,10 @@
-chromium-browser (54.0.2832.2-0ubuntu1~ppa3~15.10.1) UNRELEASED; urgency=low
+chromium-browser (54.0.2837.0-0ubuntu1~ppa1~15.10.1) wily; urgency=low
 
   * Use optional NEON on arm.
+  * New upstream version 54.0.2837.0
+  * Updated patches.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 26 Aug 2016 16:25:39 -0400
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 26 Aug 2016 16:32:15 -0400
 
 chromium-browser (54.0.2832.2-0ubuntu1~ppa2~15.10.1) wily; urgency=low
 

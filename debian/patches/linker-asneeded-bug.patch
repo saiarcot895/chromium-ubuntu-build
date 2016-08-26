@@ -6,7 +6,7 @@ Index: dev/build/common.gypi
 ===================================================================
 --- dev.orig/build/common.gypi
 +++ dev/build/common.gypi
-@@ -3670,7 +3670,7 @@
+@@ -3674,7 +3674,7 @@
                    '-fomit-frame-pointer',
                  ],
                }],
@@ -15,7 +15,7 @@ Index: dev/build/common.gypi
                  'ldflags': [
                    '-Wl,--no-as-needed',
                  ],
-@@ -3715,7 +3715,6 @@
+@@ -3719,7 +3719,6 @@
                # Specifically tell the linker to perform optimizations.
                # See http://lwn.net/Articles/192624/ .
                '-Wl,-O1',
@@ -23,7 +23,7 @@ Index: dev/build/common.gypi
              ],
              'conditions' : [
                ['no_gc_sections==0', {
-@@ -5925,6 +5924,11 @@
+@@ -5935,6 +5934,11 @@
                    'SANITIZER_COVERAGE',
                  ],
                }],

@@ -2,7 +2,7 @@ Index: dev/chrome/app/generated_resources.grd
 ===================================================================
 --- dev.orig/chrome/app/generated_resources.grd
 +++ dev/chrome/app/generated_resources.grd
-@@ -7935,6 +7935,35 @@ Keep your key file in a safe place. You
+@@ -7944,6 +7944,35 @@ Keep your key file in a safe place. You
  I don't think this site should be blocked!
        </message>
  
@@ -38,7 +38,7 @@ Index: dev/chrome/app/generated_resources.grd
        <!-- Content Settings dialog data -->
        <message name="IDS_CONTENT_SETTINGS_TITLE" desc="Title for content settings dialog">
          Content settings
-@@ -11365,6 +11394,9 @@ Tell us what happened exactly before you
+@@ -11347,6 +11376,9 @@ Tell us what happened exactly before you
        <message name="IDS_OPTIONS_ADVANCED_SECTION_TITLE_CONTENT">
          Web content
        </message>
@@ -77,7 +77,7 @@ Index: dev/chrome/browser/resources/options/browser_options.js
 ===================================================================
 --- dev.orig/chrome/browser/resources/options/browser_options.js
 +++ dev/chrome/browser/resources/options/browser_options.js
-@@ -671,6 +671,23 @@ cr.define('options', function() {
+@@ -678,6 +678,23 @@ cr.define('options', function() {
              [String(event.target.options[event.target.selectedIndex].value)]);
        };
  
@@ -101,7 +101,7 @@ Index: dev/chrome/browser/resources/options/browser_options.js
        // Languages section.
        var showLanguageOptions = function(event) {
          PageManager.showPageByName('languages');
-@@ -1835,6 +1852,24 @@ cr.define('options', function() {
+@@ -1842,6 +1859,24 @@ cr.define('options', function() {
      },
  
      /**
@@ -126,7 +126,7 @@ Index: dev/chrome/browser/resources/options/browser_options.js
       * Set the checked state of the metrics reporting checkbox.
       * @private
       */
-@@ -2322,6 +2357,7 @@ cr.define('options', function() {
+@@ -2329,6 +2364,7 @@ cr.define('options', function() {
    // Forward public APIs to private implementations.
    cr.makePublic(BrowserOptions, [
      'deleteCurrentProfile',
@@ -134,7 +134,7 @@ Index: dev/chrome/browser/resources/options/browser_options.js
      'enableCertificateButton',
      'enableDisplaySettings',
      'enableFactoryResetSection',
-@@ -2340,6 +2376,7 @@ cr.define('options', function() {
+@@ -2347,6 +2383,7 @@ cr.define('options', function() {
      'setNetworkPredictionValue',
      'setNowSectionVisible',
      'setHighContrastCheckboxState',
@@ -542,7 +542,7 @@ Index: dev/chrome/browser/resources/options/options.html
 ===================================================================
 --- dev.orig/chrome/browser/resources/options/options.html
 +++ dev/chrome/browser/resources/options/options.html
-@@ -25,6 +25,7 @@
+@@ -28,6 +28,7 @@
  <link rel="stylesheet" href="clear_browser_data_overlay.css">
  <link rel="stylesheet" href="content_settings.css">
  <link rel="stylesheet" href="cookies_view.css">
@@ -550,7 +550,7 @@ Index: dev/chrome/browser/resources/options/options.html
  <link rel="stylesheet" href="do_not_track_confirm_overlay.css">
  <link rel="stylesheet" href="easy_unlock_turn_off_overlay.css">
  <link rel="stylesheet" href="font_settings.css">
-@@ -119,6 +120,7 @@
+@@ -123,6 +124,7 @@
    <include src="home_page_overlay.html">
    <include src="hotword_confirm_overlay.html">
    <include src="import_data_overlay.html">
@@ -558,7 +558,7 @@ Index: dev/chrome/browser/resources/options/options.html
    <include src="language_options.html">
    <include src="manage_profile_overlay.html">
    <include src="password_manager.html">
-@@ -154,6 +156,7 @@
+@@ -159,6 +161,7 @@
    <include src="clear_browser_data_history_notice_overlay.html">
    <include src="content_settings_exceptions_area.html">
    <include src="cookies_view.html">
@@ -601,7 +601,7 @@ Index: dev/chrome/browser/resources/options/options_bundle.js
 ===================================================================
 --- dev.orig/chrome/browser/resources/options/options_bundle.js
 +++ dev/chrome/browser/resources/options/options_bundle.js
-@@ -88,6 +88,8 @@ var CertificateImportErrorOverlay = opti
+@@ -90,6 +90,8 @@ var CertificateImportErrorOverlay = opti
  <include src="content_settings_ui.js">
  <include src="cookies_list.js">
  <include src="cookies_view.js">
@@ -628,7 +628,7 @@ Index: dev/chrome/browser/ui/webui/options/browser_options_handler.cc
 ===================================================================
 --- dev.orig/chrome/browser/ui/webui/options/browser_options_handler.cc
 +++ dev/chrome/browser/ui/webui/options/browser_options_handler.cc
-@@ -238,6 +238,8 @@ void BrowserOptionsHandler::GetLocalized
+@@ -240,6 +240,8 @@ void BrowserOptionsHandler::GetLocalized
      { "advancedSectionTitleCloudPrint", IDS_GOOGLE_CLOUD_PRINT },
      { "advancedSectionTitleContent",
        IDS_OPTIONS_ADVANCED_SECTION_TITLE_CONTENT },
@@ -637,7 +637,7 @@ Index: dev/chrome/browser/ui/webui/options/browser_options_handler.cc
      { "advancedSectionTitleLanguages",
        IDS_OPTIONS_ADVANCED_SECTION_TITLE_LANGUAGES },
      { "advancedSectionTitleNetwork",
-@@ -261,6 +263,10 @@ void BrowserOptionsHandler::GetLocalized
+@@ -263,6 +265,10 @@ void BrowserOptionsHandler::GetLocalized
      { "defaultFontSizeLabel", IDS_OPTIONS_DEFAULT_FONT_SIZE_LABEL },
      { "defaultSearchManageEngines", IDS_OPTIONS_DEFAULTSEARCH_MANAGE_ENGINES },
      { "defaultZoomFactorLabel", IDS_OPTIONS_DEFAULT_ZOOM_LEVEL_LABEL },
@@ -648,7 +648,7 @@ Index: dev/chrome/browser/ui/webui/options/browser_options_handler.cc
      { "disableWebServices", IDS_OPTIONS_DISABLE_WEB_SERVICES },
      { "doNotTrack", IDS_OPTIONS_ENABLE_DO_NOT_TRACK },
      { "doNotTrackConfirmDisable",
-@@ -347,6 +353,8 @@ void BrowserOptionsHandler::GetLocalized
+@@ -349,6 +355,8 @@ void BrowserOptionsHandler::GetLocalized
      { "profilesManage", IDS_PROFILES_MANAGE_BUTTON_LABEL },
      { "profilesSingleUser", IDS_PROFILES_SINGLE_USER_MESSAGE,
        IDS_PRODUCT_NAME },
@@ -1008,7 +1008,7 @@ Index: dev/chrome/browser/ui/webui/options/options_ui.cc
 ===================================================================
 --- dev.orig/chrome/browser/ui/webui/options/options_ui.cc
 +++ dev/chrome/browser/ui/webui/options/options_ui.cc
-@@ -109,6 +109,10 @@
+@@ -110,6 +110,10 @@
  #include "chrome/browser/ui/webui/options/geolocation_options_handler.h"
  #endif
  
@@ -1019,7 +1019,7 @@ Index: dev/chrome/browser/ui/webui/options/options_ui.cc
  using content::RenderViewHost;
  
  namespace {
-@@ -278,6 +282,8 @@ OptionsUI::OptionsUI(content::WebUI* web
+@@ -369,6 +373,8 @@ OptionsUI::OptionsUI(content::WebUI* web
    AddOptionsPageUIHandler(localized_strings, new CookiesViewHandler());
    AddOptionsPageUIHandler(localized_strings, new CreateProfileHandler());
    AddOptionsPageUIHandler(localized_strings, new EasyUnlockHandler());
@@ -1032,7 +1032,7 @@ Index: dev/chrome/chrome_browser_ui.gypi
 ===================================================================
 --- dev.orig/chrome/chrome_browser_ui.gypi
 +++ dev/chrome/chrome_browser_ui.gypi
-@@ -1437,6 +1437,8 @@
+@@ -1439,6 +1439,8 @@
        'browser/ui/views/status_icons/status_icon_linux_wrapper.h',
        'browser/ui/webui/help/version_updater_basic.cc',
        'browser/ui/webui/help/version_updater_basic.h',
@@ -1041,7 +1041,7 @@ Index: dev/chrome/chrome_browser_ui.gypi
      ],
      # Files used on iOS. iOS uses only these files and does not share other
      # lists, so a file may appear here and in the non_ios_sources also.
-@@ -3092,6 +3094,7 @@
+@@ -3094,6 +3096,7 @@
            ],
          }],
          ['use_aura==1 and chromeos==0 and use_ozone==0 and OS=="linux"', {

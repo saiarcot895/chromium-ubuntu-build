@@ -67,7 +67,7 @@ Index: dev/content/common/BUILD.gn
  source_set("common") {
    # Targets external to content should always link to the public API.
    # In addition, targets outside of the content component (shell and tests)
-@@ -191,6 +234,15 @@ source_set("common") {
+@@ -192,6 +235,15 @@ source_set("common") {
  
    if (use_seccomp_bpf) {
      defines += [ "USE_SECCOMP_BPF" ]
@@ -323,7 +323,7 @@ Index: dev/gpu/config/software_rendering_list_json.cc
 ===================================================================
 --- dev.orig/gpu/config/software_rendering_list_json.cc
 +++ dev/gpu/config/software_rendering_list_json.cc
-@@ -435,17 +435,6 @@ const char kSoftwareRenderingListJson[]
+@@ -415,17 +415,6 @@ const char kSoftwareRenderingListJson[]
        ]
      },
      {
@@ -345,7 +345,7 @@ Index: dev/media/BUILD.gn
 ===================================================================
 --- dev.orig/media/BUILD.gn
 +++ dev/media/BUILD.gn
-@@ -361,7 +361,7 @@ component("media") {
+@@ -368,7 +368,7 @@ component("media") {
      allow_circular_includes_from = [ "//media/base/android" ]
    }
  
@@ -354,7 +354,7 @@ Index: dev/media/BUILD.gn
      sources += [
        "filters/h264_bitstream_buffer.cc",
        "filters/h264_bitstream_buffer.h",
-@@ -644,7 +644,7 @@ test("media_unittests") {
+@@ -651,7 +651,7 @@ test("media_unittests") {
      }
    }
  

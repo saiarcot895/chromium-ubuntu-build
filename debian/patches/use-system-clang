@@ -6,7 +6,7 @@ Index: dev/build/common.gypi
 ===================================================================
 --- dev.orig/build/common.gypi
 +++ dev/build/common.gypi
-@@ -2390,8 +2390,8 @@
+@@ -2394,8 +2394,8 @@
        }],
  
        ['host_clang==1', {
@@ -41,7 +41,7 @@ Index: dev/build/toolchain/gcc_toolchain.gni
 ===================================================================
 --- dev.orig/build/toolchain/gcc_toolchain.gni
 +++ dev/build/toolchain/gcc_toolchain.gni
-@@ -453,9 +453,8 @@ template("clang_toolchain") {
+@@ -484,9 +484,8 @@ template("clang_toolchain") {
    }
  
    gcc_toolchain(target_name) {

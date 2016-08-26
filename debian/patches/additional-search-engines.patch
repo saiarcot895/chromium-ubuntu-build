@@ -3,7 +3,7 @@ Index: dev/components/search_engines/prepopulated_engines.json
 --- dev.orig/components/search_engines/prepopulated_engines.json
 +++ dev/components/search_engines/prepopulated_engines.json
 @@ -14,6 +14,7 @@
- //    88, 89, 91+
+ //    89, 91+
  //
  // IDs > 1000 are reserved for distribution custom engines.
 +// 1001: DuckDuckGo
