@@ -1,3 +1,9 @@
+chromium-browser (54.0.2832.2-0ubuntu1~ppa3~14.04.1) UNRELEASED; urgency=low
+
+  * Use optional NEON on arm.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 26 Aug 2016 16:25:39 -0400
+
 chromium-browser (54.0.2832.2-0ubuntu1~ppa2~14.04.1) trusty; urgency=low
 
   * Update patch for arm64 GN build.
