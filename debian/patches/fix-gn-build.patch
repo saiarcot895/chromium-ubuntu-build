@@ -2,15 +2,18 @@ Index: dev/tools/gn/bootstrap/bootstrap.py
 ===================================================================
 --- dev.orig/tools/gn/bootstrap/bootstrap.py
 +++ dev/tools/gn/bootstrap/bootstrap.py
-@@ -445,6 +445,7 @@ def write_gn_ninja(path, root_gen_dir, o
+@@ -445,6 +445,10 @@ def write_gn_ninja(path, root_gen_dir, o
        'base/synchronization/lock.cc',
        'base/sys_info.cc',
        'base/task_runner.cc',
++      'base/task_scheduler/post_task.cc',
++      'base/task_scheduler/task_scheduler.cc',
++      'base/task_scheduler/task_scheduler_impl.cc',
 +      'base/task_scheduler/task_traits.cc',
        'base/third_party/dmg_fp/dtoa_wrapper.cc',
        'base/third_party/dmg_fp/g_fmt.cc',
        'base/third_party/icu/icu_utf.cc',
-@@ -499,6 +500,7 @@ def write_gn_ninja(path, root_gen_dir, o
+@@ -499,6 +503,7 @@ def write_gn_ninja(path, root_gen_dir, o
    if is_posix:
      static_libraries['base']['sources'].extend([
          'base/base_paths_posix.cc',

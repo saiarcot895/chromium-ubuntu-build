@@ -1,3 +1,9 @@
+chromium-browser (54.0.2837.0-0ubuntu1~ppa3~16.04.1) xenial; urgency=low
+
+  * Fix GN build (again)
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 26 Aug 2016 18:26:49 -0400
+
 chromium-browser (54.0.2837.0-0ubuntu1~ppa2~16.04.1) xenial; urgency=low
 
   * Fix GN bootstrap.
