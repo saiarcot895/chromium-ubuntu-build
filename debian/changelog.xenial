@@ -1,3 +1,9 @@
+chromium-browser (54.0.2837.0-0ubuntu1~ppa2~16.04.1) xenial; urgency=low
+
+  * Fix GN bootstrap.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 26 Aug 2016 17:40:34 -0400
+
 chromium-browser (54.0.2837.0-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
 
   * Use optional NEON on arm.
