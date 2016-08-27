@@ -1,3 +1,9 @@
+chromium-browser (54.0.2837.0-0ubuntu1~ppa4~14.04.1) trusty; urgency=low
+
+  * Fix GN bootstrap (again)
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 27 Aug 2016 12:04:02 -0400
+
 chromium-browser (54.0.2837.0-0ubuntu1~ppa3~14.04.1) trusty; urgency=low
 
   * Fix GN build (again)
