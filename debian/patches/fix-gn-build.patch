@@ -2,7 +2,7 @@ Index: dev/tools/gn/bootstrap/bootstrap.py
 ===================================================================
 --- dev.orig/tools/gn/bootstrap/bootstrap.py
 +++ dev/tools/gn/bootstrap/bootstrap.py
-@@ -445,6 +445,22 @@ def write_gn_ninja(path, root_gen_dir, o
+@@ -445,6 +445,23 @@ def write_gn_ninja(path, root_gen_dir, o
        'base/synchronization/lock.cc',
        'base/sys_info.cc',
        'base/task_runner.cc',
@@ -11,6 +11,7 @@ Index: dev/tools/gn/bootstrap/bootstrap.py
 +      'base/task_scheduler/priority_queue.cc',
 +      'base/task_scheduler/scheduler_lock_impl.cc',
 +      'base/task_scheduler/scheduler_service_thread.cc',
++      'base/task_scheduler/scheduler_worker.cc',
 +      'base/task_scheduler/scheduler_worker_pool_impl.cc',
 +      'base/task_scheduler/scheduler_worker_pool_params.cc',
 +      'base/task_scheduler/scheduler_worker_stack.cc',
@@ -25,7 +26,7 @@ Index: dev/tools/gn/bootstrap/bootstrap.py
        'base/third_party/dmg_fp/dtoa_wrapper.cc',
        'base/third_party/dmg_fp/g_fmt.cc',
        'base/third_party/icu/icu_utf.cc',
-@@ -499,6 +515,7 @@ def write_gn_ninja(path, root_gen_dir, o
+@@ -499,6 +516,7 @@ def write_gn_ninja(path, root_gen_dir, o
    if is_posix:
      static_libraries['base']['sources'].extend([
          'base/base_paths_posix.cc',

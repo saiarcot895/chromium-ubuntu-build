@@ -1,3 +1,9 @@
+chromium-browser (54.0.2837.0-0ubuntu1~ppa5~15.10.1) wily; urgency=low
+
+  * Fix GN bootstrap (add one more missing file)
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 27 Aug 2016 12:35:24 -0400
+
 chromium-browser (54.0.2837.0-0ubuntu1~ppa4~15.10.1) wily; urgency=low
 
   * Fix GN bootstrap (again)

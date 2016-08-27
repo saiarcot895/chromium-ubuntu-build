@@ -1,3 +1,9 @@
+chromium-browser (54.0.2837.0-0ubuntu1~ppa5~16.04.1) xenial; urgency=low
+
+  * Fix GN bootstrap (add one more missing file)
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 27 Aug 2016 12:35:25 -0400
+
 chromium-browser (54.0.2837.0-0ubuntu1~ppa4~16.04.1) xenial; urgency=low
 
   * Fix GN bootstrap (again)
