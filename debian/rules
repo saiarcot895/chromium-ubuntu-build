@@ -206,6 +206,7 @@ subst_files = \
 # When set to "Chrome", it also builds aac/ac3/mpeg4audio/h264/mov/mp3
 BROWSER_GN_DEFINES += \
 	proprietary_codecs=true \
+	ffmpeg_branding="Chrome" \
 	$(NULL)
 FFMPEG_MT_STD_GN_DEFINES    = ffmpeg_branding="Chromium"
 FFMPEG_MT_EXTRA_GN_DEFINES  = ffmpeg_branding="Chrome"
