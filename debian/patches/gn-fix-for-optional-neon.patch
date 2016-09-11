@@ -1,0 +1,13 @@
+Index: dev/third_party/openmax_dl/dl/BUILD.gn
+===================================================================
+--- dev.orig/third_party/openmax_dl/dl/BUILD.gn
++++ dev/third_party/openmax_dl/dl/BUILD.gn
+@@ -194,7 +194,7 @@ if (current_cpu == "arm") {
+       "sp/src/arm/armv7/omxSP_FFTFwd_RToCCS_F32_Sfs_s.S",
+       "sp/src/arm/armv7/omxSP_FFTInv_CCSToR_F32_Sfs_s.S",
+     ]
+-    if (arm_optionally_use_neon) {
++    if (arm_optionally_use_neon && is_android) {
+       # Run-time NEON detection.
+       deps = [ "//third_party/android_tools:cpu_features" ]
+       # To get the __android_log_print routine
