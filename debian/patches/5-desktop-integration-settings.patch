@@ -614,7 +614,16 @@ Index: dev/chrome/browser/ui/BUILD.gn
 ===================================================================
 --- dev.orig/chrome/browser/ui/BUILD.gn
 +++ dev/chrome/browser/ui/BUILD.gn
-@@ -2953,6 +2953,9 @@ split_static_library("ui") {
+@@ -982,6 +982,8 @@ split_static_library("ui") {
+       "webui/options/core_options_handler.h",
+       "webui/options/create_profile_handler.cc",
+       "webui/options/create_profile_handler.h",
++      "webui/options/desktop_integration_settings_handler.cc",
++      "webui/options/desktop_integration_settings_handler.h",
+       "webui/options/easy_unlock_handler.cc",
+       "webui/options/easy_unlock_handler.h",
+       "webui/options/font_settings_handler.cc",
+@@ -2953,6 +2955,9 @@ split_static_library("ui") {
        "webui/help/version_updater_basic.cc",
        "webui/help/version_updater_basic.h",
      ]
@@ -951,7 +960,7 @@ Index: dev/chrome/browser/ui/webui/options/desktop_integration_settings_handler.
 +class DesktopIntegrationSettingsHandler : public OptionsPageUIHandler {
 + public:
 +  DesktopIntegrationSettingsHandler();
-+  virtual ~DesktopIntegrationSettingsHandler();
++  virtual ~DesktopIntegrationSettingsHandler() override;
 +
 +  // OptionsPageUIHandler implementation.
 +  virtual void GetLocalizedValues(
@@ -1019,15 +1028,15 @@ Index: dev/chrome/browser/ui/webui/options/options_ui.cc
  using content::RenderViewHost;
  
  namespace {
-@@ -369,6 +373,8 @@ OptionsUI::OptionsUI(content::WebUI* web
+@@ -368,6 +372,8 @@ OptionsUI::OptionsUI(content::WebUI* web
+   AddOptionsPageUIHandler(localized_strings, new ContentSettingsHandler());
    AddOptionsPageUIHandler(localized_strings, new CookiesViewHandler());
    AddOptionsPageUIHandler(localized_strings, new CreateProfileHandler());
-   AddOptionsPageUIHandler(localized_strings, new EasyUnlockHandler());
 +  AddOptionsPageUIHandler(localized_strings,
 +                          new DesktopIntegrationSettingsHandler());
+   AddOptionsPageUIHandler(localized_strings, new EasyUnlockHandler());
    AddOptionsPageUIHandler(localized_strings, new FontSettingsHandler());
  #if BUILDFLAG(ENABLE_GOOGLE_NOW)
-   AddOptionsPageUIHandler(localized_strings, new GeolocationOptionsHandler());
 Index: dev/chrome/chrome_browser_ui.gypi
 ===================================================================
 --- dev.orig/chrome/chrome_browser_ui.gypi
