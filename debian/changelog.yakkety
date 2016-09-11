@@ -2,6 +2,8 @@ chromium-browser (55.0.2853.0-0ubuntu1~ppa2~16.10.1) UNRELEASED; urgency=low
 
   * debian/patches/make-symbol-exported.patch: Make a symbol in
     cc/blink/web_layer_impl.h exported, as it's used in another file.
+  * Optional NEON on arm doesn't appear to be ready yet. Get a working
+    build first.
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 11 Sep 2016 11:26:16 -0400
 

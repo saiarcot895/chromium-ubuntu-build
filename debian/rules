@@ -119,16 +119,16 @@ GN_DEFINES += \
  ifeq (armhf,$(DEB_HOST_ARCH))
 # ARN Neon optional flag is off because it causes build errors, AND testing
 # /proc/cpuinfo contents can't work with a sandbox anyway.
-# Testing out optional neon flag
+# In addition, some componenets appear to assume that Neon always exists.
 GN_DEFINES += \
-	arm_optionally_use_neon=true \
+	arm_optionally_use_neon=false \
 	arm_fpu="vfpv3-d16" \
 	arm_float_abi="hard" \
 	arm_use_thumb=true \
 	arm_version=7 \
 	$(NULL)
 FFMPEG_MT_GN_DEFINES += \
-	arm_optionally_use_neon=true \
+	arm_optionally_use_neon=false \
 	arm_fpu="vfpv3-d16" \
 	arm_float_abi="hard" \
 	arm_use_thumb=true \
