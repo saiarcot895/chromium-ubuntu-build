@@ -1,0 +1,21 @@
+Index: dev/cc/blink/web_layer_impl.h
+===================================================================
+--- dev.orig/cc/blink/web_layer_impl.h
++++ dev/cc/blink/web_layer_impl.h
+@@ -57,6 +57,8 @@ class WebLayerImpl : public blink::WebLa
+   // However, it can still be modified using SetContentsOpaque on the
+   // cc::Layer.
+   CC_BLINK_EXPORT void SetContentsOpaqueIsFixed(bool fixed);
++ 
++  CC_BLINK_EXPORT void setOpaque(bool opaque) override;
+ 
+   // WebLayer implementation.
+   int id() const override;
+@@ -80,7 +82,6 @@ class WebLayerImpl : public blink::WebLa
+   blink::WebBlendMode blendMode() const override;
+   void setIsRootForIsolatedGroup(bool root) override;
+   bool isRootForIsolatedGroup() override;
+-  void setOpaque(bool opaque) override;
+   bool opaque() const override;
+   void setPosition(const blink::WebFloatPoint& position) override;
+   blink::WebFloatPoint position() const override;
