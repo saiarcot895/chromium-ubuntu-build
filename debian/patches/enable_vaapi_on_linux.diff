@@ -4,7 +4,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -965,7 +965,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -945,7 +945,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_NAME,
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
@@ -17,7 +17,7 @@ Index: dev/content/common/BUILD.gn
 ===================================================================
 --- dev.orig/content/common/BUILD.gn
 +++ dev/content/common/BUILD.gn
-@@ -12,6 +12,49 @@ if (is_mac) {
+@@ -11,6 +11,49 @@ if (is_mac) {
    import("//build/config/mac/mac_sdk.gni")
  }
  
@@ -67,7 +67,7 @@ Index: dev/content/common/BUILD.gn
  source_set("common") {
    # Targets external to content should always link to the public API.
    # In addition, targets outside of the content component (shell and tests)
-@@ -192,6 +235,15 @@ source_set("common") {
+@@ -500,6 +543,15 @@ source_set("common") {
  
    if (use_seccomp_bpf) {
      defines += [ "USE_SECCOMP_BPF" ]
@@ -248,7 +248,7 @@ Index: dev/content/content_gpu.gypi
 ===================================================================
 --- dev.orig/content/content_gpu.gypi
 +++ dev/content/content_gpu.gypi
-@@ -47,7 +47,7 @@
+@@ -45,7 +45,7 @@
          ],
        },
      }],
@@ -261,7 +261,7 @@ Index: dev/content/gpu/BUILD.gn
 ===================================================================
 --- dev.orig/content/gpu/BUILD.gn
 +++ dev/content/gpu/BUILD.gn
-@@ -92,7 +92,7 @@ target(link_target_type, "gpu_sources")
+@@ -90,7 +90,7 @@ target(link_target_type, "gpu_sources")
      ]
    }
  
@@ -283,7 +283,7 @@ Index: dev/content/gpu/gpu_main.cc
  #include "media/gpu/vaapi_wrapper.h"
  #endif
  
-@@ -255,7 +255,7 @@ int GpuMain(const MainFunctionParams& pa
+@@ -241,7 +241,7 @@ int GpuMain(const MainFunctionParams& pa
    GetGpuInfoFromCommandLine(gpu_info, command_line);
    gpu_info.in_process_gpu = false;
  
@@ -376,7 +376,7 @@ Index: dev/media/gpu/BUILD.gn
    action("libva_generate_stubs") {
      extra_header = "va_stub_header.fragment"
  
-@@ -239,7 +239,7 @@ component("gpu") {
+@@ -236,7 +236,7 @@ component("gpu") {
      }
    }
  
@@ -385,7 +385,7 @@ Index: dev/media/gpu/BUILD.gn
      sources += [
        "accelerated_video_decoder.h",
        "h264_decoder.cc",
-@@ -282,7 +282,7 @@ component("gpu") {
+@@ -279,7 +279,7 @@ component("gpu") {
          "GLESv2",
        ]
      }
@@ -506,7 +506,7 @@ Index: dev/media/gpu/vaapi_video_decode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi_video_decode_accelerator.cc
 +++ dev/media/gpu/vaapi_video_decode_accelerator.cc
-@@ -354,17 +354,17 @@ bool VaapiVideoDecodeAccelerator::Initia
+@@ -359,17 +359,17 @@ bool VaapiVideoDecodeAccelerator::Initia
  
    base::AutoLock auto_lock(lock_);
    DCHECK_EQ(state_, kUninitialized);
@@ -527,7 +527,7 @@ Index: dev/media/gpu/vaapi_video_decode_accelerator.cc
               << "EGLGLES2.";
      return false;
    }
-@@ -374,7 +374,7 @@ bool VaapiVideoDecodeAccelerator::Initia
+@@ -379,7 +379,7 @@ bool VaapiVideoDecodeAccelerator::Initia
        VaapiWrapper::kDecode, profile, base::Bind(&ReportToUMA, VAAPI_ERROR));
  
    if (!vaapi_wrapper_.get()) {
@@ -536,7 +536,7 @@ Index: dev/media/gpu/vaapi_video_decode_accelerator.cc
      return false;
    }
  
-@@ -389,7 +389,7 @@ bool VaapiVideoDecodeAccelerator::Initia
+@@ -394,7 +394,7 @@ bool VaapiVideoDecodeAccelerator::Initia
      vp9_accelerator_.reset(new VaapiVP9Accelerator(this, vaapi_wrapper_.get()));
      decoder_.reset(new VP9Decoder(vp9_accelerator_.get()));
    } else {
@@ -601,113 +601,3 @@ Index: dev/media/gpu/vaapi_wrapper.cc
        return false;
      }
    }
-Index: dev/media/media.gyp
-===================================================================
---- dev.orig/media/media.gyp
-+++ dev/media/media.gyp
-@@ -756,7 +756,7 @@
-           ],
-         }],
-         # For VaapiVideoEncodeAccelerator.
--        ['target_arch != "arm" and chromeos == 1', {
-+        ['target_arch != "arm" and (chromeos == 1 or desktop_linux == 1)', {
-           'sources': [
-             'filters/h264_bitstream_buffer.cc',
-             'filters/h264_bitstream_buffer.h',
-@@ -1319,7 +1319,7 @@
-             }]
-            ],
-         }],
--        ['target_arch != "arm" and chromeos == 1 and use_x11 == 1', {
-+        ['target_arch != "arm" and (chromeos == 1 or desktop_linux == 1) and use_x11 == 1', {
-           'sources': [
-             'filters/h264_bitstream_buffer_unittest.cc',
-           ],
-@@ -2289,7 +2289,7 @@
-       ],
-     }],
- 
--    ['chromeos==1 and target_arch != "arm"', {
-+    ['(desktop_linux==1 or chromeos==1) and target_arch != "arm"', {
-       'targets': [
-           {
-             'target_name': 'vaapi_jpeg_decoder_unittest',
-Index: dev/media/media_gpu.gypi
-===================================================================
---- dev.orig/media/media_gpu.gypi
-+++ dev/media/media_gpu.gypi
-@@ -175,7 +175,7 @@
-         },
-       ],
-     }],
--    ['chromeos==1', {
-+    ['chromeos==1 or desktop_linux==1', {
-       'sources': [
-         'gpu/accelerated_video_decoder.h',
-         'gpu/h264_decoder.cc',
-@@ -231,7 +231,7 @@
-         'gpu/tegra_v4l2_device.h',
-       ],
-     }],
--    ['target_arch != "arm" and chromeos == 1', {
-+    ['target_arch != "arm" and (chromeos == 1 or desktop_linux == 1)', {
-       'dependencies': [
-         '../media/media.gyp:media',
-         '../third_party/libyuv/libyuv.gyp:libyuv',
-Index: dev/content/content_common.gypi
-===================================================================
---- dev.orig/content/content_common.gypi
-+++ dev/content/content_common.gypi
-@@ -640,6 +640,52 @@
-       ],
-     }, {
-       'defines': ['USE_SECCOMP_BPF'],
-+      'dependencies': [
-+        '../build/linux/system.gyp:x11',
-+      ],
-+      'variables': {
-+        'sig_files': [
-+          '../media/gpu/va.sigs',
-+          '../media/gpu/va_x11.sigs',
-+        ],
-+        'generate_stubs_script': '../tools/generate_stubs/generate_stubs.py',
-+        'extra_header': '../media/gpu/va_stub_header.fragment',
-+        'outfile_type': 'posix_stubs',
-+        'stubs_filename_root': 'va_stubs',
-+        'project_path': 'content/common',
-+        'intermediate_dir': '<(INTERMEDIATE_DIR)',
-+        'output_root': '<(SHARED_INTERMEDIATE_DIR)/va',
-+      },
-+      'actions': [
-+        {
-+          'action_name': 'libva_generate_stubs',
-+          'inputs': [
-+            '<(generate_stubs_script)',
-+            '<(extra_header)',
-+            '<@(sig_files)',
-+          ],
-+          'outputs': [
-+            '<(intermediate_dir)/<(stubs_filename_root).cc',
-+            '<(output_root)/<(project_path)/<(stubs_filename_root).h',
-+          ],
-+          'action': ['python',
-+                     '<(generate_stubs_script)',
-+                     '-i', '<(intermediate_dir)',
-+                     '-o', '<(output_root)/<(project_path)',
-+                     '-t', '<(outfile_type)',
-+                     '-e', '<(extra_header)',
-+                     '-s', '<(stubs_filename_root)',
-+                     '-p', '<(project_path)',
-+                     '<@(_inputs)',
-+          ],
-+          'process_outputs_as_sources': 1,
-+          'message': 'Generating libva stubs for dynamic loading',
-+        },
-+      ],
-+      'include_dirs': [
-+        '<(DEPTH)/third_party/libva',
-+        '<(output_root)',
-+      ],
-     }],
-     ['use_ozone==1', {
-       'dependencies': [

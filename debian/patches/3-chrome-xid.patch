@@ -9,7 +9,7 @@ Index: dev/chrome/browser/ui/views/frame/browser_frame.cc
 +#include "ui/views/widget/native_widget_aura.h"
  
  #if defined(OS_CHROMEOS)
- #include "ash/common/session/session_state_delegate.h"
+ #include "ash/common/session/session_state_delegate.h"  // nogncheck
 @@ -143,6 +144,12 @@ BrowserNonClientFrameView* BrowserFrame:
    return browser_frame_view_;
  }
@@ -40,7 +40,7 @@ Index: dev/chrome/browser/ui/views/frame/browser_view.cc
 ===================================================================
 --- dev.orig/chrome/browser/ui/views/frame/browser_view.cc
 +++ dev/chrome/browser/ui/views/frame/browser_view.cc
-@@ -689,6 +689,7 @@ void BrowserView::Show() {
+@@ -687,6 +687,7 @@ void BrowserView::Show() {
    force_location_bar_focus_ = false;
  
    browser()->OnWindowDidShow();
@@ -52,7 +52,7 @@ Index: dev/ash/mus/non_client_frame_controller.cc
 ===================================================================
 --- dev.orig/ash/mus/non_client_frame_controller.cc
 +++ dev/ash/mus/non_client_frame_controller.cc
-@@ -144,6 +144,10 @@ class WmNativeWidgetMus : public views::
+@@ -259,6 +259,10 @@ class WmNativeWidgetMus : public views::
      shadow_->layer()->parent()->StackAtBottom(shadow_->layer());
    }
  
@@ -114,7 +114,7 @@ Index: dev/ui/views/mus/native_widget_mus.cc
 ===================================================================
 --- dev.orig/ui/views/mus/native_widget_mus.cc
 +++ dev/ui/views/mus/native_widget_mus.cc
-@@ -627,6 +627,10 @@ void NativeWidgetMus::UpdateClientArea()
+@@ -628,6 +628,10 @@ void NativeWidgetMus::UpdateClientArea()
        non_client_view->bounds().width() - client_area_rect.right()));
  }
  
@@ -193,7 +193,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
  #include "base/command_line.h"
  #include "base/location.h"
  #include "base/memory/ptr_util.h"
-@@ -114,6 +116,7 @@ const char* kAtomsToCache[] = {
+@@ -115,6 +117,7 @@ const char* kAtomsToCache[] = {
    "_NET_WM_WINDOW_TYPE_NORMAL",
    "_NET_WM_WINDOW_TYPE_NOTIFICATION",
    "_NET_WM_WINDOW_TYPE_TOOLTIP",
@@ -201,7 +201,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
    "XdndActionAsk",
    "XdndActionCopy",
    "XdndActionLink",
-@@ -1461,6 +1464,22 @@ void DesktopWindowTreeHostX11::UpdateMin
+@@ -1663,6 +1666,22 @@ void DesktopWindowTreeHostX11::UpdateMin
    XSetWMNormalHints(xdisplay_, xwindow_, &hints);
  }
  
@@ -228,7 +228,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
 ===================================================================
 --- dev.orig/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
 +++ dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
-@@ -86,6 +86,8 @@ class VIEWS_EXPORT DesktopWindowTreeHost
+@@ -82,6 +82,8 @@ class VIEWS_EXPORT DesktopWindowTreeHost
    // internal list of open windows.
    static void CleanUpWindowList(void (*func)(aura::Window* window));
  

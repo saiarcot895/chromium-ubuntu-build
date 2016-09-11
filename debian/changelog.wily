@@ -1,8 +1,10 @@
-chromium-browser (54.0.2840.8-0ubuntu1~ppa2~15.10.1) UNRELEASED; urgency=low
+chromium-browser (55.0.2853.0-0ubuntu1~ppa1~15.10.1) wily; urgency=low
 
   * Check for Android when using optional NEON in openmax_dl
+  * New upstream version 55.0.2853.0
+  * Updated patches.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 11 Sep 2016 01:02:31 -0400
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 11 Sep 2016 01:10:46 -0400
 
 chromium-browser (54.0.2840.8-0ubuntu1~ppa1~15.10.1) wily; urgency=low
 

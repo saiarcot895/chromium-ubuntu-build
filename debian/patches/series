@@ -5,7 +5,6 @@ search-credit.patch
 chromium_useragent.patch
 chromedriver_revision.patch
 configuration-directory.patch
-linker-asneeded-bug.patch
 arm.patch
 arm-neon.patch
 #ffmpeg-gyp-config.patch
@@ -28,11 +27,9 @@ use-system-clang
 enable_vaapi_on_linux.diff
 fix_building_widevinecdm_with_chromium.patch
 widevine-other-locations
-dont-load-nacl-nonsfi.patch
 specify-max-resolution.patch
 remove-libgcceh.patch
 nacl-loosen-fd-check.patch
-fix-pnacl-irt-shim-build.patch
 tcmalloc-add-support-for-arm64.patch
 gn-add-support-for-arm64.patch
 gn-dont-use-git.patch
