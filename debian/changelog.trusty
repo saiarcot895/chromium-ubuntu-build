@@ -1,8 +1,10 @@
-chromium-browser (54.0.2840.8-0ubuntu1~ppa2~14.04.1) UNRELEASED; urgency=low
+chromium-browser (54.0.2840.16-0ubuntu1~ppa1~14.04.1) trusty; urgency=low
 
   * Check for Android when using optional NEON in openmax_dl
+  * New upstream version 54.0.2840.16
+  * Updated patches.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 11 Sep 2016 01:02:31 -0400
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 11 Sep 2016 01:28:21 -0400
 
 chromium-browser (54.0.2840.8-0ubuntu1~ppa1~14.04.1) trusty; urgency=low
 

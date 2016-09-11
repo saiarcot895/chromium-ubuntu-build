@@ -1,7 +1,7 @@
-Index: dev/chrome/test/BUILD.gn
+Index: beta/chrome/test/BUILD.gn
 ===================================================================
---- dev.orig/chrome/test/BUILD.gn
-+++ dev/chrome/test/BUILD.gn
+--- beta.orig/chrome/test/BUILD.gn
++++ beta/chrome/test/BUILD.gn
 @@ -473,7 +473,11 @@ if (!is_android) {
            ]
            if (!use_ozone) {
@@ -15,10 +15,10 @@ Index: dev/chrome/test/BUILD.gn
            }
          }
        }
-Index: dev/remoting/test/BUILD.gn
+Index: beta/remoting/test/BUILD.gn
 ===================================================================
---- dev.orig/remoting/test/BUILD.gn
-+++ dev/remoting/test/BUILD.gn
+--- beta.orig/remoting/test/BUILD.gn
++++ beta/remoting/test/BUILD.gn
 @@ -196,7 +196,11 @@ if (enable_remoting_host && !is_android
      ]
  
@@ -32,10 +32,10 @@ Index: dev/remoting/test/BUILD.gn
      }
    }
  }
-Index: dev/remoting/host/it2me/BUILD.gn
+Index: beta/remoting/host/it2me/BUILD.gn
 ===================================================================
---- dev.orig/remoting/host/it2me/BUILD.gn
-+++ dev/remoting/host/it2me/BUILD.gn
+--- beta.orig/remoting/host/it2me/BUILD.gn
++++ beta/remoting/host/it2me/BUILD.gn
 @@ -182,7 +182,11 @@ if (!is_chromeos && !is_android && enabl
        }
  
@@ -49,10 +49,10 @@ Index: dev/remoting/host/it2me/BUILD.gn
        }
      }
    }
-Index: dev/remoting/host/BUILD.gn
+Index: beta/remoting/host/BUILD.gn
 ===================================================================
---- dev.orig/remoting/host/BUILD.gn
-+++ dev/remoting/host/BUILD.gn
+--- beta.orig/remoting/host/BUILD.gn
++++ beta/remoting/host/BUILD.gn
 @@ -430,7 +430,11 @@ static_library("host") {
        "//build/config/linux:xrandr",
      ]
@@ -79,10 +79,10 @@ Index: dev/remoting/host/BUILD.gn
      }
      if ((is_linux && !is_chromeos) || is_mac) {
        libs = [ "pam" ]
-Index: dev/build/config/linux/gtk3/BUILD.gn
+Index: beta/build/config/linux/gtk3/BUILD.gn
 ===================================================================
---- dev.orig/build/config/linux/gtk3/BUILD.gn
-+++ dev/build/config/linux/gtk3/BUILD.gn
+--- beta.orig/build/config/linux/gtk3/BUILD.gn
++++ beta/build/config/linux/gtk3/BUILD.gn
 @@ -30,6 +30,7 @@ group("gtk3") {
      "//remoting/host",
      "//remoting/host/it2me:remote_assistance_host",

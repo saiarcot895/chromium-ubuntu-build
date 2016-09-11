@@ -1,10 +1,10 @@
 Description: Enables using VA-API hardware acceleration in Linux. The patch for bpf_gpu_policy_linux.cc initially came from https://codereview.chromium.org/15955009/diff/92001/content/common/sandbox_linux/bpf_gpu_policy_linux.cc.
 
-Index: dev/chrome/browser/about_flags.cc
+Index: beta/chrome/browser/about_flags.cc
 ===================================================================
---- dev.orig/chrome/browser/about_flags.cc
-+++ dev/chrome/browser/about_flags.cc
-@@ -965,7 +965,7 @@ const FeatureEntry kFeatureEntries[] = {
+--- beta.orig/chrome/browser/about_flags.cc
++++ beta/chrome/browser/about_flags.cc
+@@ -966,7 +966,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_NAME,
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
@@ -13,10 +13,10 @@ Index: dev/chrome/browser/about_flags.cc
          SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
  #if defined(USE_ASH)
-Index: dev/content/common/BUILD.gn
+Index: beta/content/common/BUILD.gn
 ===================================================================
---- dev.orig/content/common/BUILD.gn
-+++ dev/content/common/BUILD.gn
+--- beta.orig/content/common/BUILD.gn
++++ beta/content/common/BUILD.gn
 @@ -12,6 +12,49 @@ if (is_mac) {
    import("//build/config/mac/mac_sdk.gni")
  }
@@ -83,10 +83,10 @@ Index: dev/content/common/BUILD.gn
    } else {
      if (is_linux) {
        sources -= [
-Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
+Index: beta/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 ===================================================================
---- dev.orig/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
-+++ dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
+--- beta.orig/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
++++ beta/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 @@ -23,6 +23,12 @@
  #include "base/macros.h"
  #include "base/memory/ptr_util.h"
@@ -231,10 +231,10 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  
    return true;
  }
-Index: dev/content/common/va_wayland.sigs
+Index: beta/content/common/va_wayland.sigs
 ===================================================================
 --- /dev/null
-+++ dev/content/common/va_wayland.sigs
++++ beta/content/common/va_wayland.sigs
 @@ -0,0 +1,8 @@
 +// Copyright 2014 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
@@ -244,10 +244,10 @@ Index: dev/content/common/va_wayland.sigs
 +// Functions from libva-wayland used in chromium code.
 +//------------------------------------------------
 +VADisplay vaGetDisplayWl(struct wl_display *display);
-Index: dev/content/content_gpu.gypi
+Index: beta/content/content_gpu.gypi
 ===================================================================
---- dev.orig/content/content_gpu.gypi
-+++ dev/content/content_gpu.gypi
+--- beta.orig/content/content_gpu.gypi
++++ beta/content/content_gpu.gypi
 @@ -47,7 +47,7 @@
          ],
        },
@@ -257,10 +257,10 @@ Index: dev/content/content_gpu.gypi
        'include_dirs': [
          '<(DEPTH)/third_party/libva',
        ],
-Index: dev/content/gpu/BUILD.gn
+Index: beta/content/gpu/BUILD.gn
 ===================================================================
---- dev.orig/content/gpu/BUILD.gn
-+++ dev/content/gpu/BUILD.gn
+--- beta.orig/content/gpu/BUILD.gn
++++ beta/content/gpu/BUILD.gn
 @@ -92,7 +92,7 @@ target(link_target_type, "gpu_sources")
      ]
    }
@@ -270,10 +270,10 @@ Index: dev/content/gpu/BUILD.gn
      configs += [ "//third_party/libva:libva_config" ]
    }
  
-Index: dev/content/gpu/gpu_main.cc
+Index: beta/content/gpu/gpu_main.cc
 ===================================================================
---- dev.orig/content/gpu/gpu_main.cc
-+++ dev/content/gpu/gpu_main.cc
+--- beta.orig/content/gpu/gpu_main.cc
++++ beta/content/gpu/gpu_main.cc
 @@ -77,7 +77,7 @@
  #include "content/common/sandbox_mac.h"
  #endif
@@ -292,10 +292,10 @@ Index: dev/content/gpu/gpu_main.cc
    media::VaapiWrapper::PreSandboxInitialization();
  #endif
  
-Index: dev/content/public/common/content_switches.cc
+Index: beta/content/public/common/content_switches.cc
 ===================================================================
---- dev.orig/content/public/common/content_switches.cc
-+++ dev/content/public/common/content_switches.cc
+--- beta.orig/content/public/common/content_switches.cc
++++ beta/content/public/common/content_switches.cc
 @@ -1001,7 +1001,9 @@ const char kDisableAudioSupportForDeskto
  #if defined(OS_CHROMEOS)
  // Disables panel fitting (used for mirror mode).
@@ -306,10 +306,10 @@ Index: dev/content/public/common/content_switches.cc
  // Disables VA-API accelerated video encode.
  const char kDisableVaapiAcceleratedVideoEncode[] =
      "disable-vaapi-accelerated-video-encode";
-Index: dev/content/public/common/content_switches.h
+Index: beta/content/public/common/content_switches.h
 ===================================================================
---- dev.orig/content/public/common/content_switches.h
-+++ dev/content/public/common/content_switches.h
+--- beta.orig/content/public/common/content_switches.h
++++ beta/content/public/common/content_switches.h
 @@ -293,6 +293,8 @@ CONTENT_EXPORT extern const char kEnable
  
  #if defined(OS_CHROMEOS)
@@ -319,10 +319,10 @@ Index: dev/content/public/common/content_switches.h
  CONTENT_EXPORT extern const char kDisableVaapiAcceleratedVideoEncode[];
  #endif
  
-Index: dev/gpu/config/software_rendering_list_json.cc
+Index: beta/gpu/config/software_rendering_list_json.cc
 ===================================================================
---- dev.orig/gpu/config/software_rendering_list_json.cc
-+++ dev/gpu/config/software_rendering_list_json.cc
+--- beta.orig/gpu/config/software_rendering_list_json.cc
++++ beta/gpu/config/software_rendering_list_json.cc
 @@ -415,17 +415,6 @@ const char kSoftwareRenderingListJson[]
        ]
      },
@@ -341,10 +341,10 @@ Index: dev/gpu/config/software_rendering_list_json.cc
        "id": 50,
        "description": "Disable VMware software renderer on older Mesa",
        "cr_bugs": [145531, 332596, 571899],
-Index: dev/media/BUILD.gn
+Index: beta/media/BUILD.gn
 ===================================================================
---- dev.orig/media/BUILD.gn
-+++ dev/media/BUILD.gn
+--- beta.orig/media/BUILD.gn
++++ beta/media/BUILD.gn
 @@ -368,7 +368,7 @@ component("media") {
      allow_circular_includes_from = [ "//media/base/android" ]
    }
@@ -363,10 +363,10 @@ Index: dev/media/BUILD.gn
      sources += [ "filters/h264_bitstream_buffer_unittest.cc" ]
    }
  
-Index: dev/media/gpu/BUILD.gn
+Index: beta/media/gpu/BUILD.gn
 ===================================================================
---- dev.orig/media/gpu/BUILD.gn
-+++ dev/media/gpu/BUILD.gn
+--- beta.orig/media/gpu/BUILD.gn
++++ beta/media/gpu/BUILD.gn
 @@ -12,7 +12,7 @@ if (is_mac) {
    import("//build/config/mac/mac_sdk.gni")
  }
@@ -394,10 +394,10 @@ Index: dev/media/gpu/BUILD.gn
        sources += [
          "tegra_v4l2_device.cc",
          "tegra_v4l2_device.h",
-Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
+Index: beta/media/gpu/gpu_video_decode_accelerator_factory.cc
 ===================================================================
---- dev.orig/media/gpu/gpu_video_decode_accelerator_factory.cc
-+++ dev/media/gpu/gpu_video_decode_accelerator_factory.cc
+--- beta.orig/media/gpu/gpu_video_decode_accelerator_factory.cc
++++ beta/media/gpu/gpu_video_decode_accelerator_factory.cc
 @@ -14,7 +14,7 @@
  #include "media/gpu/dxva_video_decode_accelerator_win.h"
  #elif defined(OS_MACOSX)
@@ -439,10 +439,10 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
    std::unique_ptr<VideoDecodeAccelerator> decoder;
    decoder.reset(new VaapiVideoDecodeAccelerator(make_context_current_cb_,
                                                  bind_image_cb_));
-Index: dev/media/gpu/gpu_video_decode_accelerator_factory.h
+Index: beta/media/gpu/gpu_video_decode_accelerator_factory.h
 ===================================================================
---- dev.orig/media/gpu/gpu_video_decode_accelerator_factory.h
-+++ dev/media/gpu/gpu_video_decode_accelerator_factory.h
+--- beta.orig/media/gpu/gpu_video_decode_accelerator_factory.h
++++ beta/media/gpu/gpu_video_decode_accelerator_factory.h
 @@ -98,7 +98,7 @@ class MEDIA_GPU_EXPORT GpuVideoDecodeAcc
        const gpu::GpuDriverBugWorkarounds& workarounds,
        const gpu::GpuPreferences& gpu_preferences) const;
@@ -452,10 +452,10 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.h
    std::unique_ptr<VideoDecodeAccelerator> CreateVaapiVDA(
        const gpu::GpuDriverBugWorkarounds& workarounds,
        const gpu::GpuPreferences& gpu_preferences) const;
-Index: dev/media/gpu/ipc/service/BUILD.gn
+Index: beta/media/gpu/ipc/service/BUILD.gn
 ===================================================================
---- dev.orig/media/gpu/ipc/service/BUILD.gn
-+++ dev/media/gpu/ipc/service/BUILD.gn
+--- beta.orig/media/gpu/ipc/service/BUILD.gn
++++ beta/media/gpu/ipc/service/BUILD.gn
 @@ -45,7 +45,7 @@ target(link_target_type, "service") {
  
    configs += [ "//media/gpu:gpu_config" ]
@@ -465,10 +465,10 @@ Index: dev/media/gpu/ipc/service/BUILD.gn
      configs += [ "//third_party/libva:libva_config" ]
    }
  
-Index: dev/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
+Index: beta/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
 ===================================================================
---- dev.orig/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
-+++ dev/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
+--- beta.orig/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
++++ beta/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
 @@ -58,7 +58,7 @@ static bool MakeDecoderContextCurrent(
    return true;
  }
@@ -487,10 +487,10 @@ Index: dev/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
    bind_image_cb_ = base::Bind(&BindImage, stub_->AsWeakPtr());
  #endif
    get_gles2_decoder_cb_ = base::Bind(&GetGLES2Decoder, stub_->AsWeakPtr());
-Index: dev/media/gpu/va_stub_header.fragment
+Index: beta/media/gpu/va_stub_header.fragment
 ===================================================================
---- dev.orig/media/gpu/va_stub_header.fragment
-+++ dev/media/gpu/va_stub_header.fragment
+--- beta.orig/media/gpu/va_stub_header.fragment
++++ beta/media/gpu/va_stub_header.fragment
 @@ -5,8 +5,9 @@ extern "C" {
  
  #include "third_party/libva/va/drm/va_drm.h"
@@ -502,11 +502,11 @@ Index: dev/media/gpu/va_stub_header.fragment
  #endif
  
  }
-Index: dev/media/gpu/vaapi_video_decode_accelerator.cc
+Index: beta/media/gpu/vaapi_video_decode_accelerator.cc
 ===================================================================
---- dev.orig/media/gpu/vaapi_video_decode_accelerator.cc
-+++ dev/media/gpu/vaapi_video_decode_accelerator.cc
-@@ -354,17 +354,17 @@ bool VaapiVideoDecodeAccelerator::Initia
+--- beta.orig/media/gpu/vaapi_video_decode_accelerator.cc
++++ beta/media/gpu/vaapi_video_decode_accelerator.cc
+@@ -359,17 +359,17 @@ bool VaapiVideoDecodeAccelerator::Initia
  
    base::AutoLock auto_lock(lock_);
    DCHECK_EQ(state_, kUninitialized);
@@ -527,7 +527,7 @@ Index: dev/media/gpu/vaapi_video_decode_accelerator.cc
               << "EGLGLES2.";
      return false;
    }
-@@ -374,7 +374,7 @@ bool VaapiVideoDecodeAccelerator::Initia
+@@ -379,7 +379,7 @@ bool VaapiVideoDecodeAccelerator::Initia
        VaapiWrapper::kDecode, profile, base::Bind(&ReportToUMA, VAAPI_ERROR));
  
    if (!vaapi_wrapper_.get()) {
@@ -536,7 +536,7 @@ Index: dev/media/gpu/vaapi_video_decode_accelerator.cc
      return false;
    }
  
-@@ -389,7 +389,7 @@ bool VaapiVideoDecodeAccelerator::Initia
+@@ -394,7 +394,7 @@ bool VaapiVideoDecodeAccelerator::Initia
      vp9_accelerator_.reset(new VaapiVP9Accelerator(this, vaapi_wrapper_.get()));
      decoder_.reset(new VP9Decoder(vp9_accelerator_.get()));
    } else {
@@ -545,10 +545,10 @@ Index: dev/media/gpu/vaapi_video_decode_accelerator.cc
      return false;
    }
  
-Index: dev/media/gpu/vaapi_wrapper.cc
+Index: beta/media/gpu/vaapi_wrapper.cc
 ===================================================================
---- dev.orig/media/gpu/vaapi_wrapper.cc
-+++ dev/media/gpu/vaapi_wrapper.cc
+--- beta.orig/media/gpu/vaapi_wrapper.cc
++++ beta/media/gpu/vaapi_wrapper.cc
 @@ -194,7 +194,7 @@ scoped_refptr<VaapiWrapper> VaapiWrapper
      VAProfile va_profile,
      const base::Closure& report_error_to_uma_cb) {
@@ -601,10 +601,10 @@ Index: dev/media/gpu/vaapi_wrapper.cc
        return false;
      }
    }
-Index: dev/media/media.gyp
+Index: beta/media/media.gyp
 ===================================================================
---- dev.orig/media/media.gyp
-+++ dev/media/media.gyp
+--- beta.orig/media/media.gyp
++++ beta/media/media.gyp
 @@ -756,7 +756,7 @@
            ],
          }],
@@ -632,10 +632,10 @@ Index: dev/media/media.gyp
        'targets': [
            {
              'target_name': 'vaapi_jpeg_decoder_unittest',
-Index: dev/media/media_gpu.gypi
+Index: beta/media/media_gpu.gypi
 ===================================================================
---- dev.orig/media/media_gpu.gypi
-+++ dev/media/media_gpu.gypi
+--- beta.orig/media/media_gpu.gypi
++++ beta/media/media_gpu.gypi
 @@ -175,7 +175,7 @@
          },
        ],
@@ -654,10 +654,10 @@ Index: dev/media/media_gpu.gypi
        'dependencies': [
          '../media/media.gyp:media',
          '../third_party/libyuv/libyuv.gyp:libyuv',
-Index: dev/content/content_common.gypi
+Index: beta/content/content_common.gypi
 ===================================================================
---- dev.orig/content/content_common.gypi
-+++ dev/content/content_common.gypi
+--- beta.orig/content/content_common.gypi
++++ beta/content/content_common.gypi
 @@ -640,6 +640,52 @@
        ],
      }, {

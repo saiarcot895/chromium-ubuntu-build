@@ -2,10 +2,10 @@ Description: Use the system clang instead of the one that is (not really)
  inside the source tree.
 Author: Chad Miller <chad.miller@canonical.com>
 
-Index: dev/build/common.gypi
+Index: beta/build/common.gypi
 ===================================================================
---- dev.orig/build/common.gypi
-+++ dev/build/common.gypi
+--- beta.orig/build/common.gypi
++++ beta/build/common.gypi
 @@ -2394,8 +2394,8 @@
        }],
  
@@ -17,10 +17,10 @@ Index: dev/build/common.gypi
        }, {
          'host_cc': '<!(which gcc)',
          'host_cxx': '<!(which g++)',
-Index: dev/build/config/compiler/BUILD.gn
+Index: beta/build/config/compiler/BUILD.gn
 ===================================================================
---- dev.orig/build/config/compiler/BUILD.gn
-+++ dev/build/config/compiler/BUILD.gn
+--- beta.orig/build/config/compiler/BUILD.gn
++++ beta/build/config/compiler/BUILD.gn
 @@ -372,15 +372,6 @@ config("compiler") {
      cflags += [ "-fcolor-diagnostics" ]
    }
@@ -37,10 +37,10 @@ Index: dev/build/config/compiler/BUILD.gn
    # C++11 compiler flags setup.
    # ---------------------------
    if (is_linux || is_android || (is_nacl && is_clang)) {
-Index: dev/build/toolchain/gcc_toolchain.gni
+Index: beta/build/toolchain/gcc_toolchain.gni
 ===================================================================
---- dev.orig/build/toolchain/gcc_toolchain.gni
-+++ dev/build/toolchain/gcc_toolchain.gni
+--- beta.orig/build/toolchain/gcc_toolchain.gni
++++ beta/build/toolchain/gcc_toolchain.gni
 @@ -484,9 +484,8 @@ template("clang_toolchain") {
    }
  
