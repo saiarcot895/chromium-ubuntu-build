@@ -1,9 +1,11 @@
-chromium-browser (54.0.2840.16-0ubuntu1~ppa2~16.04.1) UNRELEASED; urgency=medium
+chromium-browser (54.0.2840.16-0ubuntu1~ppa2~16.04.1) xenial; urgency=low
 
   * debian/patches/make-symbol-exported.patch: Make a symbol in
     cc/blink/web_layer_impl.h exported, as it's used in another file.
+  * Optional NEON on arm doesn't appear to be ready yet. Get a working
+    build first.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 11 Sep 2016 15:09:32 -0400
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 11 Sep 2016 15:13:31 -0400
 
 chromium-browser (54.0.2840.16-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
 
