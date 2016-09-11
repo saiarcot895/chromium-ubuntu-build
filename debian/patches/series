@@ -61,3 +61,4 @@ gn-fix-for-i386-build.patch
 ### END Wayland patches ###
 dont-use-gtk2.patch
 gn-fix-for-optional-neon.patch
+make-symbol-exported.patch
