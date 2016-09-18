@@ -1,7 +1,7 @@
-Index: dev/cc/blink/web_layer_impl.h
+Index: beta/cc/blink/web_layer_impl.h
 ===================================================================
---- dev.orig/cc/blink/web_layer_impl.h
-+++ dev/cc/blink/web_layer_impl.h
+--- beta.orig/cc/blink/web_layer_impl.h
++++ beta/cc/blink/web_layer_impl.h
 @@ -57,6 +57,8 @@ class WebLayerImpl : public blink::WebLa
    // However, it can still be modified using SetContentsOpaque on the
    // cc::Layer.

@@ -87,9 +87,9 @@ Index: beta/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 ===================================================================
 --- beta.orig/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 +++ beta/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
-@@ -23,6 +23,12 @@
- #include "base/macros.h"
+@@ -24,6 +24,12 @@
  #include "base/memory/ptr_util.h"
+ #include "base/strings/stringprintf.h"
  #include "build/build_config.h"
 +
 +#if !defined(__arm__)
@@ -100,7 +100,7 @@ Index: beta/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  #include "content/common/sandbox_linux/sandbox_bpf_base_policy_linux.h"
  #include "content/common/sandbox_linux/sandbox_seccomp_bpf_linux.h"
  #include "content/common/set_process_title.h"
-@@ -34,6 +40,14 @@
+@@ -35,6 +41,14 @@
  #include "sandbox/linux/syscall_broker/broker_process.h"
  #include "sandbox/linux/system_headers/linux_syscalls.h"
  
@@ -115,7 +115,7 @@ Index: beta/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  using sandbox::arch_seccomp_data;
  using sandbox::bpf_dsl::Allow;
  using sandbox::bpf_dsl::ResultExpr;
-@@ -42,6 +56,16 @@ using sandbox::syscall_broker::BrokerFil
+@@ -43,6 +57,16 @@ using sandbox::syscall_broker::BrokerFil
  using sandbox::syscall_broker::BrokerProcess;
  using sandbox::SyscallSets;
  
@@ -132,7 +132,7 @@ Index: beta/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  namespace content {
  
  namespace {
-@@ -96,7 +120,7 @@ inline bool UseLibV4L2() {
+@@ -97,7 +121,7 @@ inline bool UseLibV4L2() {
  
  bool IsAcceleratedVaapiVideoEncodeEnabled() {
    bool accelerated_encode_enabled = false;
@@ -141,7 +141,7 @@ Index: beta/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
    const base::CommandLine& command_line =
        *base::CommandLine::ForCurrentProcess();
    accelerated_encode_enabled =
-@@ -297,32 +321,72 @@ bool GpuProcessPolicy::PreSandboxHook()
+@@ -295,32 +319,72 @@ bool GpuProcessPolicy::PreSandboxHook()
        GpuBrokerProcessPolicy::Create,
        std::vector<BrokerFilePermission>());  // No extra files in whitelist.
  
@@ -171,10 +171,10 @@ Index: beta/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 +        return true;
        }
  
--      dlopen(I965DrvVideoPath, RTLD_NOW|RTLD_GLOBAL|RTLD_NODELETE);
+-      dlopen(I965DrvVideoPath, RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE);
 -      if (I965HybridDrvVideoPath)
--        dlopen(I965HybridDrvVideoPath, RTLD_NOW|RTLD_GLOBAL|RTLD_NODELETE);
--      dlopen("libva.so.1", RTLD_NOW|RTLD_GLOBAL|RTLD_NODELETE);
+-        dlopen(I965HybridDrvVideoPath, RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE);
+-      dlopen("libva.so.1", RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE);
 +      // libva drivers won't get loaded even above two libraries get dlopened.
 +      // Thus, libva calls will fail after post sandbox stage.
 +      //
@@ -189,9 +189,9 @@ Index: beta/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 +
 +      VADisplay va_display = NULL;
  #if defined(USE_OZONE)
--      dlopen("libva-drm.so.1", RTLD_NOW|RTLD_GLOBAL|RTLD_NODELETE);
+-      dlopen("libva-drm.so.1", RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE);
 -#elif defined(USE_X11)
--      dlopen("libva-x11.so.1", RTLD_NOW|RTLD_GLOBAL|RTLD_NODELETE);
+-      dlopen("libva-x11.so.1", RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE);
 +      struct wl_display* wayland_display = wl_display_connect(NULL);
 +      if (wayland_display) {
 +        va_display = vaGetDisplayWl(wayland_display);

@@ -41,7 +41,7 @@ Index: beta/build/toolchain/gcc_toolchain.gni
 ===================================================================
 --- beta.orig/build/toolchain/gcc_toolchain.gni
 +++ beta/build/toolchain/gcc_toolchain.gni
-@@ -484,9 +484,8 @@ template("clang_toolchain") {
+@@ -453,9 +453,8 @@ template("clang_toolchain") {
    }
  
    gcc_toolchain(target_name) {

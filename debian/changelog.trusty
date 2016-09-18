@@ -1,3 +1,10 @@
+chromium-browser (54.0.2840.27-0ubuntu1~ppa1~14.04.1) trusty; urgency=low
+
+  * New upstream version 54.0.2840.27
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 18 Sep 2016 01:32:21 -0400
+
 chromium-browser (54.0.2840.16-0ubuntu1~ppa2~14.04.1) trusty; urgency=low
 
   * debian/patches/make-symbol-exported.patch: Make a symbol in
