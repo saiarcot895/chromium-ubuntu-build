@@ -75,9 +75,9 @@ Index: dev/ui/aura/client/aura_constants.cc
  DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, ui::ModalType)
  DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, gfx::ImageSkia*)
  DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, gfx::Rect*)
-@@ -41,6 +42,7 @@ DEFINE_WINDOW_PROPERTY_KEY(
-     ui::WindowShowState, kShowStateKey, ui::SHOW_STATE_DEFAULT);
+@@ -43,6 +44,7 @@ DEFINE_WINDOW_PROPERTY_KEY(
  DEFINE_WINDOW_PROPERTY_KEY(int, kTopViewInset, 0);
+ DEFINE_WINDOW_PROPERTY_KEY(SkColor, kTopViewColor, SK_ColorTRANSPARENT);
  DEFINE_OWNED_WINDOW_PROPERTY_KEY(gfx::ImageSkia, kWindowIconKey, nullptr);
 +DEFINE_WINDOW_PROPERTY_KEY(uint32_t, kSessionIdKey, 0);
  
@@ -87,7 +87,7 @@ Index: dev/ui/aura/client/aura_constants.h
 ===================================================================
 --- dev.orig/ui/aura/client/aura_constants.h
 +++ dev/ui/aura/client/aura_constants.h
-@@ -78,6 +78,9 @@ AURA_EXPORT extern const aura::WindowPro
+@@ -82,6 +82,9 @@ AURA_EXPORT extern const aura::WindowPro
  // A property key to store window icon.
  AURA_EXPORT extern const WindowProperty<gfx::ImageSkia*>* const kWindowIconKey;
  

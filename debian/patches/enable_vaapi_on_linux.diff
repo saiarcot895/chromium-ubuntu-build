@@ -4,7 +4,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -945,7 +945,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -951,7 +951,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_NAME,
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
@@ -67,7 +67,7 @@ Index: dev/content/common/BUILD.gn
  source_set("common") {
    # Targets external to content should always link to the public API.
    # In addition, targets outside of the content component (shell and tests)
-@@ -500,6 +543,15 @@ source_set("common") {
+@@ -498,6 +541,15 @@ source_set("common") {
  
    if (use_seccomp_bpf) {
      defines += [ "USE_SECCOMP_BPF" ]
@@ -87,9 +87,9 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 ===================================================================
 --- dev.orig/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 +++ dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
-@@ -23,6 +23,12 @@
- #include "base/macros.h"
+@@ -24,6 +24,12 @@
  #include "base/memory/ptr_util.h"
+ #include "base/strings/stringprintf.h"
  #include "build/build_config.h"
 +
 +#if !defined(__arm__)
@@ -100,7 +100,7 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  #include "content/common/sandbox_linux/sandbox_bpf_base_policy_linux.h"
  #include "content/common/sandbox_linux/sandbox_seccomp_bpf_linux.h"
  #include "content/common/set_process_title.h"
-@@ -34,6 +40,14 @@
+@@ -35,6 +41,14 @@
  #include "sandbox/linux/syscall_broker/broker_process.h"
  #include "sandbox/linux/system_headers/linux_syscalls.h"
  
@@ -115,7 +115,7 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  using sandbox::arch_seccomp_data;
  using sandbox::bpf_dsl::Allow;
  using sandbox::bpf_dsl::ResultExpr;
-@@ -42,6 +56,16 @@ using sandbox::syscall_broker::BrokerFil
+@@ -43,6 +57,16 @@ using sandbox::syscall_broker::BrokerFil
  using sandbox::syscall_broker::BrokerProcess;
  using sandbox::SyscallSets;
  
@@ -132,7 +132,7 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  namespace content {
  
  namespace {
-@@ -96,7 +120,7 @@ inline bool UseLibV4L2() {
+@@ -97,7 +121,7 @@ inline bool UseLibV4L2() {
  
  bool IsAcceleratedVaapiVideoEncodeEnabled() {
    bool accelerated_encode_enabled = false;
@@ -141,7 +141,7 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
    const base::CommandLine& command_line =
        *base::CommandLine::ForCurrentProcess();
    accelerated_encode_enabled =
-@@ -297,32 +321,72 @@ bool GpuProcessPolicy::PreSandboxHook()
+@@ -295,32 +319,72 @@ bool GpuProcessPolicy::PreSandboxHook()
        GpuBrokerProcessPolicy::Create,
        std::vector<BrokerFilePermission>());  // No extra files in whitelist.
  
@@ -171,10 +171,10 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 +        return true;
        }
  
--      dlopen(I965DrvVideoPath, RTLD_NOW|RTLD_GLOBAL|RTLD_NODELETE);
+-      dlopen(I965DrvVideoPath, RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE);
 -      if (I965HybridDrvVideoPath)
--        dlopen(I965HybridDrvVideoPath, RTLD_NOW|RTLD_GLOBAL|RTLD_NODELETE);
--      dlopen("libva.so.1", RTLD_NOW|RTLD_GLOBAL|RTLD_NODELETE);
+-        dlopen(I965HybridDrvVideoPath, RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE);
+-      dlopen("libva.so.1", RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE);
 +      // libva drivers won't get loaded even above two libraries get dlopened.
 +      // Thus, libva calls will fail after post sandbox stage.
 +      //
@@ -189,9 +189,9 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 +
 +      VADisplay va_display = NULL;
  #if defined(USE_OZONE)
--      dlopen("libva-drm.so.1", RTLD_NOW|RTLD_GLOBAL|RTLD_NODELETE);
+-      dlopen("libva-drm.so.1", RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE);
 -#elif defined(USE_X11)
--      dlopen("libva-x11.so.1", RTLD_NOW|RTLD_GLOBAL|RTLD_NODELETE);
+-      dlopen("libva-x11.so.1", RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE);
 +      struct wl_display* wayland_display = wl_display_connect(NULL);
 +      if (wayland_display) {
 +        va_display = vaGetDisplayWl(wayland_display);
@@ -244,19 +244,6 @@ Index: dev/content/common/va_wayland.sigs
 +// Functions from libva-wayland used in chromium code.
 +//------------------------------------------------
 +VADisplay vaGetDisplayWl(struct wl_display *display);
-Index: dev/content/content_gpu.gypi
-===================================================================
---- dev.orig/content/content_gpu.gypi
-+++ dev/content/content_gpu.gypi
-@@ -45,7 +45,7 @@
-         ],
-       },
-     }],
--    ['target_arch!="arm" and chromeos == 1', {
-+    ['target_arch!="arm" and (chromeos == 1 or desktop_linux == 1)', {
-       'include_dirs': [
-         '<(DEPTH)/third_party/libva',
-       ],
 Index: dev/content/gpu/BUILD.gn
 ===================================================================
 --- dev.orig/content/gpu/BUILD.gn
@@ -274,7 +261,7 @@ Index: dev/content/gpu/gpu_main.cc
 ===================================================================
 --- dev.orig/content/gpu/gpu_main.cc
 +++ dev/content/gpu/gpu_main.cc
-@@ -77,7 +77,7 @@
+@@ -79,7 +79,7 @@
  #include "content/common/sandbox_mac.h"
  #endif
  
@@ -283,20 +270,20 @@ Index: dev/content/gpu/gpu_main.cc
  #include "media/gpu/vaapi_wrapper.h"
  #endif
  
-@@ -241,7 +241,7 @@ int GpuMain(const MainFunctionParams& pa
-   GetGpuInfoFromCommandLine(gpu_info, command_line);
-   gpu_info.in_process_gpu = false;
+@@ -138,7 +138,7 @@ class ContentSandboxHelper : public gpu:
+       (void)base::RandUint64();
+     }
  
 -#if defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)
 +#if (defined(OS_LINUX) || defined(OS_CHROMEOS)) && defined(ARCH_CPU_X86_FAMILY)
-   media::VaapiWrapper::PreSandboxInitialization();
+     media::VaapiWrapper::PreSandboxInitialization();
  #endif
- 
+ #if defined(OS_WIN)
 Index: dev/content/public/common/content_switches.cc
 ===================================================================
 --- dev.orig/content/public/common/content_switches.cc
 +++ dev/content/public/common/content_switches.cc
-@@ -1001,7 +1001,9 @@ const char kDisableAudioSupportForDeskto
+@@ -976,7 +976,9 @@ const char kDisableAudioSupportForDeskto
  #if defined(OS_CHROMEOS)
  // Disables panel fitting (used for mirror mode).
  const char kDisablePanelFitting[]           = "disable-panel-fitting";
@@ -310,7 +297,7 @@ Index: dev/content/public/common/content_switches.h
 ===================================================================
 --- dev.orig/content/public/common/content_switches.h
 +++ dev/content/public/common/content_switches.h
-@@ -293,6 +293,8 @@ CONTENT_EXPORT extern const char kEnable
+@@ -285,6 +285,8 @@ CONTENT_EXPORT extern const char kEnable
  
  #if defined(OS_CHROMEOS)
  CONTENT_EXPORT extern const char kDisablePanelFitting[];
