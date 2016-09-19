@@ -64,10 +64,6 @@ GN_DEFINES += treat_warnings_as_errors=false
 GN_DEFINES += use_sysroot=false
 FFMPEG_MT_GN_DEFINES += use_sysroot=false
 
-# Disable NaCl temporarily, until new toolchain is available
-GN_DEFINES += enable_nacl=false
-FFMPEG_MT_GN_DEFINES += enable_nacl=false
-
 ifneq (,$(filter arm%,$(DEB_HOST_ARCH_CPU)))
 # Disable NaCl for arm until the toolchain is built
 GN_DEFINES += enable_nacl=false

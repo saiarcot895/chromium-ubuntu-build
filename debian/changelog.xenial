@@ -1,8 +1,9 @@
-chromium-browser (55.0.2859.0-0ubuntu1~ppa2~16.04.1) UNRELEASED; urgency=low
+chromium-browser (55.0.2859.0-0ubuntu1~ppa2~16.04.1) xenial; urgency=low
 
   * Fix patch due to conflicting typedefs.
+  * Reenable Native Client.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 18 Sep 2016 23:20:59 -0400
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 18 Sep 2016 23:22:44 -0400
 
 chromium-browser (55.0.2859.0-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
 
