@@ -1,3 +1,9 @@
+chromium-browser (55.0.2859.0-0ubuntu1~ppa5~14.04.1) UNRELEASED; urgency=low
+
+  * Add patch for Native Client to use GCC toolchain when using GCC.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 25 Sep 2016 15:53:33 -0400
+
 chromium-browser (55.0.2859.0-0ubuntu1~ppa4~14.04.1) trusty; urgency=low
 
   * Remove system clang patch that was conflicting with Native Client

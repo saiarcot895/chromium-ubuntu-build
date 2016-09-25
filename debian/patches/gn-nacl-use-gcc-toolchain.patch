@@ -1,0 +1,34 @@
+Index: dev/native_client/src/trusted/service_runtime/linux/toolchain/BUILD.gn
+===================================================================
+--- dev.orig/native_client/src/trusted/service_runtime/linux/toolchain/BUILD.gn
++++ dev/native_client/src/trusted/service_runtime/linux/toolchain/BUILD.gn
+@@ -11,12 +11,23 @@ import("//build/toolchain/gcc_toolchain.
+ # use_gold=true or use_debug_fission=true. See ../BUILD.gn for details.
+ 
+ template("nacl_bootstrap_toolchain") {
+-  clang_toolchain(target_name) {
+-    toolchain_args = {
+-      current_cpu = invoker.toolchain_cpu
+-      current_os = target_os
+-      use_debug_fission = false
+-      use_gold = false
++  if (is_clang) {
++    clang_toolchain(target_name) {
++      toolchain_args = {
++        current_cpu = invoker.toolchain_cpu
++        current_os = target_os
++        use_debug_fission = false
++        use_gold = false
++      }
++    }
++  } else {
++    gcc_toolchain(target_name) {
++      toolchain_args = {
++        current_cpu = invoker.toolchain_cpu
++        current_os = target_os
++        use_debug_fission = false
++        use_gold = false
++      }
+     }
+   }
+ }

@@ -57,3 +57,4 @@ gn-fix-for-i386-build.patch
 dont-use-gtk2.patch
 gn-fix-for-optional-neon.patch
 make-symbol-exported.patch
+gn-nacl-use-gcc-toolchain.patch
