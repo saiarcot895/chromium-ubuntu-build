@@ -40,7 +40,7 @@ Index: dev/chrome/browser/ui/views/frame/browser_view.cc
 ===================================================================
 --- dev.orig/chrome/browser/ui/views/frame/browser_view.cc
 +++ dev/chrome/browser/ui/views/frame/browser_view.cc
-@@ -687,6 +687,7 @@ void BrowserView::Show() {
+@@ -680,6 +680,7 @@ void BrowserView::Show() {
    force_location_bar_focus_ = false;
  
    browser()->OnWindowDidShow();
@@ -102,7 +102,7 @@ Index: dev/ui/aura/window_tree_host_x11.h
 ===================================================================
 --- dev.orig/ui/aura/window_tree_host_x11.h
 +++ dev/ui/aura/window_tree_host_x11.h
-@@ -38,6 +38,8 @@ class AURA_EXPORT WindowTreeHostX11 : pu
+@@ -39,6 +39,8 @@ class AURA_EXPORT WindowTreeHostX11 : pu
    bool CanDispatchEvent(const ui::PlatformEvent& event) override;
    uint32_t DispatchEvent(const ui::PlatformEvent& event) override;
  
@@ -194,7 +194,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
  #include "base/command_line.h"
  #include "base/location.h"
  #include "base/memory/ptr_util.h"
-@@ -115,6 +117,7 @@ const char* kAtomsToCache[] = {
+@@ -116,6 +118,7 @@ const char* kAtomsToCache[] = {
    "_NET_WM_WINDOW_TYPE_NORMAL",
    "_NET_WM_WINDOW_TYPE_NOTIFICATION",
    "_NET_WM_WINDOW_TYPE_TOOLTIP",
@@ -202,7 +202,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
    "XdndActionAsk",
    "XdndActionCopy",
    "XdndActionLink",
-@@ -1663,6 +1666,22 @@ void DesktopWindowTreeHostX11::UpdateMin
+@@ -1668,6 +1671,22 @@ void DesktopWindowTreeHostX11::UpdateMin
    XSetWMNormalHints(xdisplay_, xwindow_, &hints);
  }
  
@@ -229,7 +229,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
 ===================================================================
 --- dev.orig/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
 +++ dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
-@@ -82,6 +82,8 @@ class VIEWS_EXPORT DesktopWindowTreeHost
+@@ -83,6 +83,8 @@ class VIEWS_EXPORT DesktopWindowTreeHost
    // internal list of open windows.
    static void CleanUpWindowList(void (*func)(aura::Window* window));
  

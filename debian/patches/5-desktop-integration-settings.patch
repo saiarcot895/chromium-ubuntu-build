@@ -2,7 +2,7 @@ Index: dev/chrome/app/generated_resources.grd
 ===================================================================
 --- dev.orig/chrome/app/generated_resources.grd
 +++ dev/chrome/app/generated_resources.grd
-@@ -7966,6 +7966,35 @@ the Bookmarks menu.">
+@@ -8008,6 +8008,35 @@ the Bookmarks menu.">
  I don't think this site should be blocked!
        </message>
  
@@ -38,7 +38,7 @@ Index: dev/chrome/app/generated_resources.grd
        <!-- Content Settings dialog data -->
        <message name="IDS_CONTENT_SETTINGS_TITLE" desc="Title for content settings dialog">
          Content settings
-@@ -11399,6 +11428,9 @@ Tell us what happened exactly before you
+@@ -11467,6 +11496,9 @@ Tell us what happened exactly before you
        <message name="IDS_OPTIONS_ADVANCED_SECTION_TITLE_CONTENT">
          Web content
        </message>
@@ -77,7 +77,7 @@ Index: dev/chrome/browser/resources/options/browser_options.js
 ===================================================================
 --- dev.orig/chrome/browser/resources/options/browser_options.js
 +++ dev/chrome/browser/resources/options/browser_options.js
-@@ -678,6 +678,23 @@ cr.define('options', function() {
+@@ -682,6 +682,23 @@ cr.define('options', function() {
              [String(event.target.options[event.target.selectedIndex].value)]);
        };
  
@@ -101,7 +101,7 @@ Index: dev/chrome/browser/resources/options/browser_options.js
        // Languages section.
        var showLanguageOptions = function(event) {
          PageManager.showPageByName('languages');
-@@ -1842,6 +1859,24 @@ cr.define('options', function() {
+@@ -1850,6 +1867,24 @@ cr.define('options', function() {
      },
  
      /**
@@ -126,7 +126,7 @@ Index: dev/chrome/browser/resources/options/browser_options.js
       * Set the checked state of the metrics reporting checkbox.
       * @private
       */
-@@ -2329,6 +2364,7 @@ cr.define('options', function() {
+@@ -2337,6 +2372,7 @@ cr.define('options', function() {
    // Forward public APIs to private implementations.
    cr.makePublic(BrowserOptions, [
      'deleteCurrentProfile',
@@ -134,7 +134,7 @@ Index: dev/chrome/browser/resources/options/browser_options.js
      'enableCertificateButton',
      'enableDisplaySettings',
      'enableFactoryResetSection',
-@@ -2347,6 +2383,7 @@ cr.define('options', function() {
+@@ -2355,6 +2391,7 @@ cr.define('options', function() {
      'setNetworkPredictionValue',
      'setNowSectionVisible',
      'setHighContrastCheckboxState',
@@ -579,7 +579,7 @@ Index: dev/chrome/browser/resources/options/options.js
  var CreateProfileOverlay = options.CreateProfileOverlay;
  var EditDictionaryOverlay = cr.IsMac ? null : options.EditDictionaryOverlay;
  var EasyUnlockTurnOffOverlay = options.EasyUnlockTurnOffOverlay;
-@@ -137,6 +139,17 @@ function load() {
+@@ -135,6 +137,17 @@ function load() {
    PageManager.registerOverlay(FontSettings.getInstance(),
                                BrowserOptions.getInstance(),
                                [$('fontSettingsCustomizeFontsButton')]);
@@ -614,7 +614,7 @@ Index: dev/chrome/browser/ui/BUILD.gn
 ===================================================================
 --- dev.orig/chrome/browser/ui/BUILD.gn
 +++ dev/chrome/browser/ui/BUILD.gn
-@@ -2955,6 +2955,11 @@ split_static_library("ui") {
+@@ -2988,6 +2988,11 @@ split_static_library("ui") {
        "views/status_icons/status_icon_linux_wrapper.h",
        "webui/help/version_updater_basic.cc",
        "webui/help/version_updater_basic.h",
@@ -630,7 +630,7 @@ Index: dev/chrome/browser/ui/webui/options/browser_options_handler.cc
 ===================================================================
 --- dev.orig/chrome/browser/ui/webui/options/browser_options_handler.cc
 +++ dev/chrome/browser/ui/webui/options/browser_options_handler.cc
-@@ -239,6 +239,8 @@ void BrowserOptionsHandler::GetLocalized
+@@ -242,6 +242,8 @@ void BrowserOptionsHandler::GetLocalized
      { "advancedSectionTitleCloudPrint", IDS_GOOGLE_CLOUD_PRINT },
      { "advancedSectionTitleContent",
        IDS_OPTIONS_ADVANCED_SECTION_TITLE_CONTENT },
@@ -639,7 +639,7 @@ Index: dev/chrome/browser/ui/webui/options/browser_options_handler.cc
      { "advancedSectionTitleLanguages",
        IDS_OPTIONS_ADVANCED_SECTION_TITLE_LANGUAGES },
      { "advancedSectionTitleNetwork",
-@@ -262,6 +264,10 @@ void BrowserOptionsHandler::GetLocalized
+@@ -265,6 +267,10 @@ void BrowserOptionsHandler::GetLocalized
      { "defaultFontSizeLabel", IDS_OPTIONS_DEFAULT_FONT_SIZE_LABEL },
      { "defaultSearchManageEngines", IDS_OPTIONS_DEFAULTSEARCH_MANAGE_ENGINES },
      { "defaultZoomFactorLabel", IDS_OPTIONS_DEFAULT_ZOOM_LEVEL_LABEL },
@@ -650,7 +650,7 @@ Index: dev/chrome/browser/ui/webui/options/browser_options_handler.cc
      { "disableWebServices", IDS_OPTIONS_DISABLE_WEB_SERVICES },
      { "doNotTrack", IDS_OPTIONS_ENABLE_DO_NOT_TRACK },
      { "doNotTrackConfirmDisable",
-@@ -348,6 +354,8 @@ void BrowserOptionsHandler::GetLocalized
+@@ -351,6 +357,8 @@ void BrowserOptionsHandler::GetLocalized
      { "profilesManage", IDS_PROFILES_MANAGE_BUTTON_LABEL },
      { "profilesSingleUser", IDS_PROFILES_SINGLE_USER_MESSAGE,
        IDS_PRODUCT_NAME },
@@ -1021,7 +1021,7 @@ Index: dev/chrome/browser/ui/webui/options/options_ui.cc
  using content::RenderViewHost;
  
  namespace {
-@@ -368,6 +372,8 @@ OptionsUI::OptionsUI(content::WebUI* web
+@@ -366,6 +370,8 @@ OptionsUI::OptionsUI(content::WebUI* web
    AddOptionsPageUIHandler(localized_strings, new ContentSettingsHandler());
    AddOptionsPageUIHandler(localized_strings, new CookiesViewHandler());
    AddOptionsPageUIHandler(localized_strings, new CreateProfileHandler());
