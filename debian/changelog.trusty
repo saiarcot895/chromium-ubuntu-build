@@ -1,3 +1,9 @@
+chromium-browser (55.0.2868.3-0ubuntu1~ppa2~14.04.1) trusty; urgency=low
+
+  * Fix GN build.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 26 Sep 2016 02:56:53 -0400
+
 chromium-browser (55.0.2868.3-0ubuntu1~ppa1~14.04.1) trusty; urgency=low
 
   * Add patch for Native Client to use GCC toolchain when using GCC.
