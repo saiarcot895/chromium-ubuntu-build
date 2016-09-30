@@ -2,7 +2,7 @@ Index: dev/chrome/app/generated_resources.grd
 ===================================================================
 --- dev.orig/chrome/app/generated_resources.grd
 +++ dev/chrome/app/generated_resources.grd
-@@ -8008,6 +8008,35 @@ the Bookmarks menu.">
+@@ -8034,6 +8034,35 @@ the Bookmarks menu.">
  I don't think this site should be blocked!
        </message>
  
@@ -38,7 +38,7 @@ Index: dev/chrome/app/generated_resources.grd
        <!-- Content Settings dialog data -->
        <message name="IDS_CONTENT_SETTINGS_TITLE" desc="Title for content settings dialog">
          Content settings
-@@ -11467,6 +11496,9 @@ Tell us what happened exactly before you
+@@ -11493,6 +11522,9 @@ Tell us what happened exactly before you
        <message name="IDS_OPTIONS_ADVANCED_SECTION_TITLE_CONTENT">
          Web content
        </message>
@@ -614,7 +614,7 @@ Index: dev/chrome/browser/ui/BUILD.gn
 ===================================================================
 --- dev.orig/chrome/browser/ui/BUILD.gn
 +++ dev/chrome/browser/ui/BUILD.gn
-@@ -2988,6 +2988,11 @@ split_static_library("ui") {
+@@ -2992,6 +2992,11 @@ split_static_library("ui") {
        "views/status_icons/status_icon_linux_wrapper.h",
        "webui/help/version_updater_basic.cc",
        "webui/help/version_updater_basic.h",
@@ -630,7 +630,7 @@ Index: dev/chrome/browser/ui/webui/options/browser_options_handler.cc
 ===================================================================
 --- dev.orig/chrome/browser/ui/webui/options/browser_options_handler.cc
 +++ dev/chrome/browser/ui/webui/options/browser_options_handler.cc
-@@ -242,6 +242,8 @@ void BrowserOptionsHandler::GetLocalized
+@@ -243,6 +243,8 @@ void BrowserOptionsHandler::GetLocalized
      { "advancedSectionTitleCloudPrint", IDS_GOOGLE_CLOUD_PRINT },
      { "advancedSectionTitleContent",
        IDS_OPTIONS_ADVANCED_SECTION_TITLE_CONTENT },
@@ -639,7 +639,7 @@ Index: dev/chrome/browser/ui/webui/options/browser_options_handler.cc
      { "advancedSectionTitleLanguages",
        IDS_OPTIONS_ADVANCED_SECTION_TITLE_LANGUAGES },
      { "advancedSectionTitleNetwork",
-@@ -265,6 +267,10 @@ void BrowserOptionsHandler::GetLocalized
+@@ -266,6 +268,10 @@ void BrowserOptionsHandler::GetLocalized
      { "defaultFontSizeLabel", IDS_OPTIONS_DEFAULT_FONT_SIZE_LABEL },
      { "defaultSearchManageEngines", IDS_OPTIONS_DEFAULTSEARCH_MANAGE_ENGINES },
      { "defaultZoomFactorLabel", IDS_OPTIONS_DEFAULT_ZOOM_LEVEL_LABEL },
@@ -650,7 +650,7 @@ Index: dev/chrome/browser/ui/webui/options/browser_options_handler.cc
      { "disableWebServices", IDS_OPTIONS_DISABLE_WEB_SERVICES },
      { "doNotTrack", IDS_OPTIONS_ENABLE_DO_NOT_TRACK },
      { "doNotTrackConfirmDisable",
-@@ -351,6 +357,8 @@ void BrowserOptionsHandler::GetLocalized
+@@ -352,6 +358,8 @@ void BrowserOptionsHandler::GetLocalized
      { "profilesManage", IDS_PROFILES_MANAGE_BUTTON_LABEL },
      { "profilesSingleUser", IDS_PROFILES_SINGLE_USER_MESSAGE,
        IDS_PRODUCT_NAME },
