@@ -1,3 +1,9 @@
+chromium-browser (55.0.2868.3-0ubuntu1~ppa3~16.10.1) UNRELEASED; urgency=low
+
+  * Fix NaCl GCC toolchain definition.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 30 Sep 2016 18:05:53 -0400
+
 chromium-browser (55.0.2868.3-0ubuntu1~ppa2~16.10.1) yakkety; urgency=low
 
   * Fix GN build.

@@ -2,7 +2,7 @@ Index: dev/native_client/src/trusted/service_runtime/linux/toolchain/BUILD.gn
 ===================================================================
 --- dev.orig/native_client/src/trusted/service_runtime/linux/toolchain/BUILD.gn
 +++ dev/native_client/src/trusted/service_runtime/linux/toolchain/BUILD.gn
-@@ -11,12 +11,23 @@ import("//build/toolchain/gcc_toolchain.
+@@ -11,12 +11,30 @@ import("//build/toolchain/gcc_toolchain.
  # use_gold=true or use_debug_fission=true. See ../BUILD.gn for details.
  
  template("nacl_bootstrap_toolchain") {
@@ -23,6 +23,13 @@ Index: dev/native_client/src/trusted/service_runtime/linux/toolchain/BUILD.gn
 +    }
 +  } else {
 +    gcc_toolchain(target_name) {
++      cc = "gcc"
++      cxx = "g++"
++      readelf = "readelf"
++      nm = "nm"
++      ar = "ar"
++      ld = cxx
++
 +      toolchain_args = {
 +        current_cpu = invoker.toolchain_cpu
 +        current_os = target_os
