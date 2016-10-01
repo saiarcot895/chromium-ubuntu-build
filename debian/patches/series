@@ -55,3 +55,4 @@ gn-fix-for-i386-build.patch
 ### END Wayland patches ###
 gn-fix-for-optional-neon.patch
 gn-nacl-use-gcc-toolchain.patch
+gn-fix-bootstrap.patch
