@@ -1,3 +1,9 @@
+chromium-browser (55.0.2873.0-0ubuntu1~ppa4~15.10.1) wily; urgency=low
+
+  * Disable NaCl; it's not ready yet.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 04 Oct 2016 18:59:45 -0400
+
 chromium-browser (55.0.2873.0-0ubuntu1~ppa3~15.10.1) wily; urgency=low
 
   * Don't use --icf flag when linking for NaCl.
