@@ -21,7 +21,7 @@ Index: beta/chrome/chrome_tests.gypi
 ===================================================================
 --- beta.orig/chrome/chrome_tests.gypi
 +++ beta/chrome/chrome_tests.gypi
-@@ -2369,7 +2369,13 @@
+@@ -2370,7 +2370,13 @@
                'dependencies': [
                  '../native_client/src/trusted/service_runtime/linux/nacl_bootstrap.gyp:nacl_helper_bootstrap',
                  '../components/nacl.gyp:nacl_helper',

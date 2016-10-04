@@ -13,7 +13,7 @@ Index: beta/chrome/common/chrome_content_client.cc
      content::WebPluginMimeType widevine_cdm_mime_type(
          kWidevineCdmPluginMimeType, kWidevineCdmPluginExtension,
          kWidevineCdmPluginMimeTypeDescription);
-@@ -582,8 +580,7 @@ void ChromeContentClient::AddContentDecr
+@@ -546,8 +544,7 @@ void ChromeContentClient::AddContentDecr
      // CdmInfo needs |path| to be the actual Widevine library,
      // not the adapter, so adjust as necessary. It will be in the
      // same directory as the installed adapter.
