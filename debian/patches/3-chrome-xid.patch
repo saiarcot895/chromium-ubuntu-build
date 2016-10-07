@@ -52,7 +52,7 @@ Index: dev/ash/mus/non_client_frame_controller.cc
 ===================================================================
 --- dev.orig/ash/mus/non_client_frame_controller.cc
 +++ dev/ash/mus/non_client_frame_controller.cc
-@@ -259,6 +259,10 @@ class WmNativeWidgetMus : public views::
+@@ -258,6 +258,10 @@ class WmNativeWidgetMus : public views::
      shadow_->layer()->parent()->StackAtBottom(shadow_->layer());
    }
  
@@ -76,7 +76,7 @@ Index: dev/ui/aura/client/aura_constants.cc
  DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, ui::ModalType)
  DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, gfx::ImageSkia*)
  DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, gfx::Rect*)
-@@ -43,6 +45,7 @@ DEFINE_WINDOW_PROPERTY_KEY(
+@@ -44,6 +46,7 @@ DEFINE_WINDOW_PROPERTY_KEY(
  DEFINE_WINDOW_PROPERTY_KEY(int, kTopViewInset, 0);
  DEFINE_WINDOW_PROPERTY_KEY(SkColor, kTopViewColor, SK_ColorTRANSPARENT);
  DEFINE_OWNED_WINDOW_PROPERTY_KEY(gfx::ImageSkia, kWindowIconKey, nullptr);
@@ -88,7 +88,7 @@ Index: dev/ui/aura/client/aura_constants.h
 ===================================================================
 --- dev.orig/ui/aura/client/aura_constants.h
 +++ dev/ui/aura/client/aura_constants.h
-@@ -82,6 +82,9 @@ AURA_EXPORT extern const aura::WindowPro
+@@ -86,6 +86,9 @@ AURA_EXPORT extern const aura::WindowPro
  // A property key to store window icon.
  AURA_EXPORT extern const WindowProperty<gfx::ImageSkia*>* const kWindowIconKey;
  
@@ -115,7 +115,7 @@ Index: dev/ui/views/mus/native_widget_mus.cc
 ===================================================================
 --- dev.orig/ui/views/mus/native_widget_mus.cc
 +++ dev/ui/views/mus/native_widget_mus.cc
-@@ -628,6 +628,10 @@ void NativeWidgetMus::UpdateClientArea()
+@@ -640,6 +640,10 @@ void NativeWidgetMus::UpdateClientArea()
        non_client_view->bounds().width() - client_area_rect.right()));
  }
  
@@ -130,7 +130,7 @@ Index: dev/ui/views/mus/native_widget_mus.h
 ===================================================================
 --- dev.orig/ui/views/mus/native_widget_mus.h
 +++ dev/ui/views/mus/native_widget_mus.h
-@@ -94,6 +94,8 @@ class VIEWS_MUS_EXPORT NativeWidgetMus
+@@ -100,6 +100,8 @@ class VIEWS_MUS_EXPORT NativeWidgetMus
    void OnPlatformWindowClosed();
    void OnActivationChanged(bool active);
  
@@ -143,7 +143,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
 ===================================================================
 --- dev.orig/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
 +++ dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
-@@ -591,6 +591,11 @@ void DesktopNativeWidgetAura::ViewRemove
+@@ -573,6 +573,11 @@ void DesktopNativeWidgetAura::ViewRemove
    drop_helper_->ResetTargetViewIfEquals(view);
  }
  
@@ -194,7 +194,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
  #include "base/command_line.h"
  #include "base/location.h"
  #include "base/memory/ptr_util.h"
-@@ -116,6 +118,7 @@ const char* kAtomsToCache[] = {
+@@ -117,6 +119,7 @@ const char* kAtomsToCache[] = {
    "_NET_WM_WINDOW_TYPE_NORMAL",
    "_NET_WM_WINDOW_TYPE_NOTIFICATION",
    "_NET_WM_WINDOW_TYPE_TOOLTIP",
@@ -202,7 +202,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
    "XdndActionAsk",
    "XdndActionCopy",
    "XdndActionLink",
-@@ -1668,6 +1671,22 @@ void DesktopWindowTreeHostX11::UpdateMin
+@@ -1676,6 +1679,22 @@ void DesktopWindowTreeHostX11::UpdateMin
    XSetWMNormalHints(xdisplay_, xwindow_, &hints);
  }
  
@@ -229,9 +229,9 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
 ===================================================================
 --- dev.orig/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
 +++ dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
-@@ -83,6 +83,8 @@ class VIEWS_EXPORT DesktopWindowTreeHost
-   // internal list of open windows.
-   static void CleanUpWindowList(void (*func)(aura::Window* window));
+@@ -91,6 +91,8 @@ class VIEWS_EXPORT DesktopWindowTreeHost
+   // there is no dialog on the host window.
+   XID GetModalDialog();
  
 +  void SetSessionID(uint32_t sessionid);
 +
@@ -255,7 +255,7 @@ Index: dev/ui/views/widget/native_widget_aura.cc
 ===================================================================
 --- dev.orig/ui/views/widget/native_widget_aura.cc
 +++ dev/ui/views/widget/native_widget_aura.cc
-@@ -65,6 +65,8 @@
+@@ -66,6 +66,8 @@
  #include "ui/views/widget/desktop_aura/desktop_window_tree_host.h"
  #endif
  
@@ -264,7 +264,7 @@ Index: dev/ui/views/widget/native_widget_aura.cc
  namespace views {
  
  namespace {
-@@ -352,6 +354,11 @@ void NativeWidgetAura::CenterWindow(cons
+@@ -358,6 +360,11 @@ void NativeWidgetAura::CenterWindow(cons
    window_->SetBounds(window_bounds);
  }
  
@@ -280,7 +280,7 @@ Index: dev/ui/views/widget/native_widget_aura.h
 ===================================================================
 --- dev.orig/ui/views/widget/native_widget_aura.h
 +++ dev/ui/views/widget/native_widget_aura.h
-@@ -55,6 +55,8 @@ class VIEWS_EXPORT NativeWidgetAura
+@@ -56,6 +56,8 @@ class VIEWS_EXPORT NativeWidgetAura
                                       const gfx::ImageSkia& window_icon,
                                       const gfx::ImageSkia& app_icon);
  

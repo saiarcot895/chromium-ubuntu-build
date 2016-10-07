@@ -2,7 +2,7 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -364,7 +364,7 @@ config("compiler") {
+@@ -374,7 +374,7 @@ config("compiler") {
      ldflags += [ "--gcc-toolchain=$_rebased_android_toolchain_root" ]
    }
  

@@ -4,7 +4,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -972,7 +972,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -976,7 +976,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_NAME,
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
@@ -67,7 +67,7 @@ Index: dev/content/common/BUILD.gn
  source_set("common") {
    # Targets external to content should always link to the public API.
    # In addition, targets outside of the content component (shell and tests)
-@@ -502,6 +545,15 @@ source_set("common") {
+@@ -503,6 +546,15 @@ source_set("common") {
  
    if (use_seccomp_bpf) {
      defines += [ "USE_SECCOMP_BPF" ]
@@ -87,19 +87,24 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 ===================================================================
 --- dev.orig/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 +++ dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
-@@ -24,6 +24,8 @@
+@@ -24,6 +24,12 @@
  #include "base/memory/ptr_util.h"
  #include "base/strings/stringprintf.h"
  #include "build/build_config.h"
++
++#if !defined(__arm__)
 +// Auto-generated for dlopen libva libraries
 +#include "content/common/va_stubs.h"
++#endif
++
  #include "content/common/sandbox_linux/sandbox_bpf_base_policy_linux.h"
  #include "content/common/sandbox_linux/sandbox_seccomp_bpf_linux.h"
  #include "content/common/set_process_title.h"
-@@ -34,6 +36,22 @@
- #include "sandbox/linux/syscall_broker/broker_file_permission.h"
+@@ -35,6 +41,25 @@
  #include "sandbox/linux/syscall_broker/broker_process.h"
  #include "sandbox/linux/system_headers/linux_syscalls.h"
+ 
++#if !defined(__arm__)
 +#include "third_party/libva/va/va.h"
 +#include "third_party/libva/va/va_backend.h"
 +#if defined(USE_X11)
@@ -109,6 +114,7 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 +#include "third_party/libva/va/va_drm.h"
 +#include "third_party/libva/va/va_drmcommon.h"
 +#endif
++#endif
 +
 +#define DRIVER_EXTENSION        "_drv_video.so"
 +#if defined(__x86_64__)
@@ -116,13 +122,15 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 +#elif defined(__i386__)
 +#define VA_DRIVERS_PATH         "/usr/lib/i386-linux-gnu/dri"
 +#endif
- 
++
  using sandbox::arch_seccomp_data;
  using sandbox::bpf_dsl::Allow;
-@@ -43,6 +61,15 @@ using sandbox::syscall_broker::BrokerFil
+ using sandbox::bpf_dsl::ResultExpr;
+@@ -43,6 +68,17 @@ using sandbox::syscall_broker::BrokerFil
  using sandbox::syscall_broker::BrokerProcess;
  using sandbox::SyscallSets;
  
++#if !defined(__arm__)
 +using content_common::kModuleVa;
 +#if defined(USE_X11)
 +using content_common::kModuleVa_x11;
@@ -131,11 +139,12 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 +#endif
 +using content_common::InitializeStubs;
 +using content_common::StubPathMap;
++#endif
 +
  namespace content {
  
  namespace {
-@@ -97,7 +124,7 @@ inline bool UseLibV4L2() {
+@@ -97,7 +133,7 @@ inline bool UseLibV4L2() {
  
  bool IsAcceleratedVaapiVideoEncodeEnabled() {
    bool accelerated_encode_enabled = false;
@@ -144,10 +153,11 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
    const base::CommandLine& command_line =
        *base::CommandLine::ForCurrentProcess();
    accelerated_encode_enabled =
-@@ -282,6 +309,29 @@ ResultExpr GpuProcessPolicy::EvaluateSys
+@@ -282,6 +318,31 @@ ResultExpr GpuProcessPolicy::EvaluateSys
    }
  }
  
++#if !defined(__arm__)
 +static VADisplay VaapiGetVADisplay() {
 +  StubPathMap paths;
 +  VADisplay va_display;
@@ -170,11 +180,18 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 +  }
 +  return va_display;
 +}
++#endif
 +
  bool GpuProcessPolicy::PreSandboxHook() {
    // Warm up resources needed by the policy we're about to enable and
    // eventually start a broker process.
-@@ -300,24 +350,61 @@ bool GpuProcessPolicy::PreSandboxHook()
+@@ -295,32 +356,71 @@ bool GpuProcessPolicy::PreSandboxHook()
+       GpuBrokerProcessPolicy::Create,
+       std::vector<BrokerFilePermission>());  // No extra files in whitelist.
+ 
++#if !defined(__arm__)
+   if (IsArchitectureX86_64() || IsArchitectureI386()) {
+     // Accelerated video dlopen()'s some shared objects
      // inside the sandbox, so preload them now.
      if (IsAcceleratedVaapiVideoEncodeEnabled() ||
          IsAcceleratedVideoDecodeEnabled()) {
@@ -252,6 +269,10 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  #endif
      }
    }
++#endif
+ 
+   return true;
+ }
 Index: dev/content/common/va_wayland.sigs
 ===================================================================
 --- /dev/null
@@ -304,7 +325,7 @@ Index: dev/content/public/common/content_switches.cc
 ===================================================================
 --- dev.orig/content/public/common/content_switches.cc
 +++ dev/content/public/common/content_switches.cc
-@@ -983,7 +983,9 @@ const char kDisableAudioSupportForDeskto
+@@ -991,7 +991,9 @@ const char kDisableAudioSupportForDeskto
  #if defined(OS_CHROMEOS)
  // Disables panel fitting (used for mirror mode).
  const char kDisablePanelFitting[]           = "disable-panel-fitting";
@@ -318,7 +339,7 @@ Index: dev/content/public/common/content_switches.h
 ===================================================================
 --- dev.orig/content/public/common/content_switches.h
 +++ dev/content/public/common/content_switches.h
-@@ -288,6 +288,8 @@ CONTENT_EXPORT extern const char kEnable
+@@ -290,6 +290,8 @@ CONTENT_EXPORT extern const char kEnable
  
  #if defined(OS_CHROMEOS)
  CONTENT_EXPORT extern const char kDisablePanelFitting[];
@@ -362,7 +383,7 @@ Index: dev/media/BUILD.gn
      sources += [
        "filters/h264_bitstream_buffer.cc",
        "filters/h264_bitstream_buffer.h",
-@@ -655,7 +655,7 @@ test("media_unittests") {
+@@ -653,7 +653,7 @@ test("media_unittests") {
      }
    }
  
@@ -384,7 +405,7 @@ Index: dev/media/gpu/BUILD.gn
    action("libva_generate_stubs") {
      extra_header = "va_stub_header.fragment"
  
-@@ -236,7 +236,7 @@ component("gpu") {
+@@ -238,7 +238,7 @@ component("gpu") {
      }
    }
  
@@ -393,7 +414,7 @@ Index: dev/media/gpu/BUILD.gn
      sources += [
        "accelerated_video_decoder.h",
        "h264_decoder.cc",
-@@ -279,7 +279,7 @@ component("gpu") {
+@@ -281,7 +281,7 @@ component("gpu") {
          "GLESv2",
        ]
      }
@@ -464,7 +485,7 @@ Index: dev/media/gpu/ipc/service/BUILD.gn
 ===================================================================
 --- dev.orig/media/gpu/ipc/service/BUILD.gn
 +++ dev/media/gpu/ipc/service/BUILD.gn
-@@ -45,7 +45,7 @@ target(link_target_type, "service") {
+@@ -46,7 +46,7 @@ target(link_target_type, "service") {
  
    configs += [ "//media/gpu:gpu_config" ]
  
