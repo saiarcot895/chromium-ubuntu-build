@@ -1,4 +1,4 @@
-Description: Enables using VA-API hardware acceleration in Linux. The patch for bpf_gpu_policy_linux.cc initially came from https://codereview.chromium.org/15955009/diff/92001/content/common/sandbox_linux/bpf_gpu_policy_linux.cc.
+Description: Enables using VA-API hardware acceleration in Linux. The patch for bpf_gpu_policy_linux.cc initially came from https://codereview.chromium.org/15955009/diff/92001/content/common/sandbox_linux/bpf_gpu_policy_linux.cc. The code in bpf_gpu_policy_linux.cc was then updated by Steven Newbury to support Nvidia drivers.
 
 Index: dev/chrome/browser/about_flags.cc
 ===================================================================
@@ -87,52 +87,55 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 ===================================================================
 --- dev.orig/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 +++ dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
-@@ -24,6 +24,12 @@
+@@ -24,6 +24,8 @@
  #include "base/memory/ptr_util.h"
  #include "base/strings/stringprintf.h"
  #include "build/build_config.h"
-+
-+#if !defined(__arm__)
 +// Auto-generated for dlopen libva libraries
 +#include "content/common/va_stubs.h"
-+#endif
-+
  #include "content/common/sandbox_linux/sandbox_bpf_base_policy_linux.h"
  #include "content/common/sandbox_linux/sandbox_seccomp_bpf_linux.h"
  #include "content/common/set_process_title.h"
-@@ -35,6 +41,14 @@
+@@ -34,6 +36,22 @@
+ #include "sandbox/linux/syscall_broker/broker_file_permission.h"
  #include "sandbox/linux/syscall_broker/broker_process.h"
  #include "sandbox/linux/system_headers/linux_syscalls.h"
- 
-+#if !defined(__arm__)
 +#include "third_party/libva/va/va.h"
++#include "third_party/libva/va/va_backend.h"
++#if defined(USE_X11)
 +#include "third_party/libva/va/va_x11.h"
-+#if defined(USE_OZONE)
-+#include "third_party/libva/va/wayland/va_wayland.h"
-+#endif
++#include "ui/gfx/x/x11_types.h"
++#elif defined(USE_OZONE)
++#include "third_party/libva/va/va_drm.h"
++#include "third_party/libva/va/va_drmcommon.h"
 +#endif
 +
++#define DRIVER_EXTENSION        "_drv_video.so"
++#if defined(__x86_64__)
++#define VA_DRIVERS_PATH         "/usr/lib/x86_64-linux-gnu/dri"
++#elif defined(__i386__)
++#define VA_DRIVERS_PATH         "/usr/lib/i386-linux-gnu/dri"
++#endif
+ 
  using sandbox::arch_seccomp_data;
  using sandbox::bpf_dsl::Allow;
- using sandbox::bpf_dsl::ResultExpr;
-@@ -43,6 +57,16 @@ using sandbox::syscall_broker::BrokerFil
+@@ -43,6 +61,15 @@ using sandbox::syscall_broker::BrokerFil
  using sandbox::syscall_broker::BrokerProcess;
  using sandbox::SyscallSets;
  
-+#if !defined(__arm__)
 +using content_common::kModuleVa;
++#if defined(USE_X11)
 +using content_common::kModuleVa_x11;
-+#if defined(USE_OZONE)
++#elif defined(USE_OZONE)
 +using content_common::kModuleVa_drm;
 +#endif
 +using content_common::InitializeStubs;
 +using content_common::StubPathMap;
-+#endif
 +
  namespace content {
  
  namespace {
-@@ -97,7 +121,7 @@ inline bool UseLibV4L2() {
+@@ -97,7 +124,7 @@ inline bool UseLibV4L2() {
  
  bool IsAcceleratedVaapiVideoEncodeEnabled() {
    bool accelerated_encode_enabled = false;
@@ -141,13 +144,37 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
    const base::CommandLine& command_line =
        *base::CommandLine::ForCurrentProcess();
    accelerated_encode_enabled =
-@@ -295,32 +319,72 @@ bool GpuProcessPolicy::PreSandboxHook()
-       GpuBrokerProcessPolicy::Create,
-       std::vector<BrokerFilePermission>());  // No extra files in whitelist.
+@@ -282,6 +309,29 @@ ResultExpr GpuProcessPolicy::EvaluateSys
+   }
+ }
  
-+#if !defined(__arm__)
-   if (IsArchitectureX86_64() || IsArchitectureI386()) {
-     // Accelerated video dlopen()'s some shared objects
++static VADisplay VaapiGetVADisplay() {
++  StubPathMap paths;
++  VADisplay va_display;
++  paths[kModuleVa].push_back("libva.so.1");
++#if defined(USE_OZONE)
++  paths[kModuleVa_drm].push_back("libva-drm.so.1");
++#elif defined (USE_X11)
++  paths[kModuleVa_x11].push_back("libva-x11.so.1");
++#endif
++  if (!InitializeStubs(paths)) {
++    return NULL;
++  }
++#if defined(USE_OZONE)
++  va_display = vaGetDisplayDRM(drm_fd_.get());
++#elif defined(USE_X11)
++  va_display = vaGetDisplay(gfx::GetXDisplay());
++#endif
++  if (!vaDisplayIsValid(va_display)) {
++    return NULL;
++  }
++  return va_display;
++}
++
+ bool GpuProcessPolicy::PreSandboxHook() {
+   // Warm up resources needed by the policy we're about to enable and
+   // eventually start a broker process.
+@@ -300,24 +350,61 @@ bool GpuProcessPolicy::PreSandboxHook()
      // inside the sandbox, so preload them now.
      if (IsAcceleratedVaapiVideoEncodeEnabled() ||
          IsAcceleratedVideoDecodeEnabled()) {
@@ -159,78 +186,72 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 -        I965HybridDrvVideoPath = "/usr/lib64/va/drivers/hybrid_drv_video.so";
 -      } else if (IsArchitectureI386()) {
 -        I965DrvVideoPath = "/usr/lib/va/drivers/i965_drv_video.so";
-+      VLOG(1) << "Attempting to enable hardware video acceleration.";
-+      StubPathMap paths;
-+      paths[kModuleVa].push_back("libva.so.1");
-+      paths[kModuleVa_x11].push_back("libva-x11.so.1");
-+#if defined(USE_OZONE)
-+      paths[kModuleVa_drm].push_back("libva-drm.so.1");
-+#endif
-+      if (!InitializeStubs(paths)) {
-+        LOG(WARNING) << "Failed to initialize stubs";
-+        return true;
-       }
- 
+-      }
+-
 -      dlopen(I965DrvVideoPath, RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE);
 -      if (I965HybridDrvVideoPath)
 -        dlopen(I965HybridDrvVideoPath, RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE);
 -      dlopen("libva.so.1", RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE);
-+      // libva drivers won't get loaded even above two libraries get dlopened.
-+      // Thus, libva calls will fail after post sandbox stage.
-+      //
-+      // To get the va driver loaded before sandboxing, upstream simply dlopen
-+      // the hard-coded va driver path because ChromeOS is the only platform
-+      // that Google want to support libva.
-+      //
-+      // While generic linux distros ship va driver as anywhere they want.
-+      // Fortunately, the va driver will be loadded when vaInitialize() get
-+      // called.
-+      // So the following code is to call vaInitialize() before sandboxing.
++      // Init a VA Context, get driver name (and path), close context and preload
++#if defined(USE_OZONE) || defined(USE_X11)
++      VADisplay va_display = VaapiGetVADisplay();
++      if (va_display) {
++        char *va_search_path = getenv("LIBVA_DRIVERS_PATH");
++        char *va_driver_name;
++        char *saveptr, *driver_dir;
++        VADisplayContextP pDisplayContext =
++          static_cast<VADisplayContextP>(va_display);
++        pDisplayContext->vaGetDriverName(pDisplayContext, &va_driver_name);
++        if (!va_driver_name) {
++          return true;
++        }
 +
-+      VADisplay va_display = NULL;
++        if (!va_search_path) {
++          va_search_path = VA_DRIVERS_PATH;
++        }
++
++        driver_dir = strtok_r(va_search_path, ":", &saveptr);
++        while (driver_dir) {
++          void *handle = NULL;
++          std::string driver_path = base::StringPrintf("%s/%s%s", driver_dir,
++              va_driver_name, DRIVER_EXTENSION);
++
++          // attempt to dlopen() the va driver
++          if (access(driver_path.c_str(), X_OK|R_OK) != -1) {
++            LOG(WARNING) << "Attempting to pre-load " << va_driver_name << " VA driver...";
++            if (dlopen(driver_path.c_str(), RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE)) {
++              LOG(WARNING) << "VA driver \"" << driver_path << "\" opened!";
++
++              if (strcmp(va_driver_name, "nvidia") == 0) {
++                LOG(WARNING) << "Pre-loading NVIDIA VDPAU driver libraries...";
++                if (dlopen("libvdpau_nvidia.so", RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE)) {
++                  LOG(WARNING) << "Loaded libvdpau_nvidia.so";
++                }
++
++                if (dlopen("libvdpau.so", RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE)) {
++                  LOG(WARNING) << "Loaded libvdpau.so";
++                }
++              }
++              LOG(WARNING) << "Loading libva libraries...";
++              dlopen("libva.so.1", RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE);
  #if defined(USE_OZONE)
 -      dlopen("libva-drm.so.1", RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE);
--#elif defined(USE_X11)
++              dlopen("libva-drm.so.1", RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE);
+ #elif defined(USE_X11)
 -      dlopen("libva-x11.so.1", RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE);
-+      struct wl_display* wayland_display = wl_display_connect(NULL);
-+      if (wayland_display) {
-+        va_display = vaGetDisplayWl(wayland_display);
-+        if (!vaDisplayIsValid(va_display)) {
-+          LOG(WARNING) << "Failed to call vaGetDisplayWl()";
-+          va_display = NULL;
-+        }
-+      } else {
-+        LOG(WARNING) << "Failed to find Wayland display";
-+      }
++              dlopen("libva-x11.so.1", RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE);
 +#endif
++              break;
++            }
++            LOG(ERROR) << "VA driver failed to open!";
++          }
 +
-+      if (!va_display) {
-+        Display* x_display = XOpenDisplay(NULL);
-+        if (!x_display) {
-+          LOG(WARNING) << "Failed to find X-Display";
-+          return true;
-+        }
-+        va_display = vaGetDisplay(x_display);
-+        if (!vaDisplayIsValid(va_display)) {
-+          LOG(WARNING) << "Failed to call vaGetDisplay()";
-+          return true;
++          driver_dir = strtok_r(NULL, ":", &saveptr);
 +        }
 +      }
-+
-+      int major_version, minor_version;
-+      if (vaInitialize(va_display, &major_version, &minor_version)
-+          != VA_STATUS_SUCCESS) {
-+        LOG(WARNING) << "Failed to call vaInitialize()";
-+        return true;
-+      }
-+    }  // end of IsAcceleratedVaapiVideoEncodeEnabled() || IsAcceleratedVideoDecodeEnabled()
-+  }  // end of IsArchitectureX86_64() || IsArchitectureI386()
  #endif
--    }
--  }
- 
-   return true;
- }
+     }
+   }
 Index: dev/content/common/va_wayland.sigs
 ===================================================================
 --- /dev/null
