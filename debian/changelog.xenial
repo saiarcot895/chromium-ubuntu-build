@@ -1,3 +1,9 @@
+chromium-browser (55.0.2882.0-0ubuntu1~ppa2~16.04.1) UNRELEASED; urgency=low
+
+  * Remove native-client from list of dependencies.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 08 Oct 2016 13:40:00 -0400
+
 chromium-browser (55.0.2882.0-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
 
   * Use new version of enable_vaapi_on_linux.patch (with some
