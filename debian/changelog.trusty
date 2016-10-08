@@ -1,8 +1,10 @@
-chromium-browser (55.0.2882.0-0ubuntu1~ppa2~14.04.1) UNRELEASED; urgency=low
+chromium-browser (55.0.2882.0-0ubuntu1~ppa2~14.04.1) trusty; urgency=low
 
   * Remove native-client from list of dependencies.
+  * Updated enable_vaapi_on_linux.patch to fix support for aarch64, and
+    remove unused variable.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 08 Oct 2016 13:40:00 -0400
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 08 Oct 2016 14:01:59 -0400
 
 chromium-browser (55.0.2882.0-0ubuntu1~ppa1~14.04.1) trusty; urgency=low
 
