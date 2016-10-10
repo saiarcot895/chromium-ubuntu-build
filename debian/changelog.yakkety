@@ -1,3 +1,9 @@
+chromium-browser (55.0.2882.0-0ubuntu1~ppa3~16.10.1) yakkety; urgency=low
+
+  * At least one strdup() call is necessary. (Work on #2)
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 10 Oct 2016 09:46:23 -0400
+
 chromium-browser (55.0.2882.0-0ubuntu1~ppa2~16.10.1) yakkety; urgency=low
 
   * Remove native-client from list of dependencies.

@@ -187,7 +187,7 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  bool GpuProcessPolicy::PreSandboxHook() {
    // Warm up resources needed by the policy we're about to enable and
    // eventually start a broker process.
-@@ -295,32 +358,70 @@ bool GpuProcessPolicy::PreSandboxHook()
+@@ -295,32 +358,74 @@ bool GpuProcessPolicy::PreSandboxHook()
        GpuBrokerProcessPolicy::Create,
        std::vector<BrokerFilePermission>());  // No extra files in whitelist.
  
@@ -216,17 +216,20 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 +      VADisplay va_display = VaapiGetVADisplay();
 +      if (va_display) {
 +        char *va_search_path = getenv("LIBVA_DRIVERS_PATH");
-+        char *va_driver_name;
++        char *va_driver_name = getenv("LIBVA_DRIVER_NAME");
 +        char *saveptr, *driver_dir;
-+        VADisplayContextP pDisplayContext =
-+          static_cast<VADisplayContextP>(va_display);
-+        pDisplayContext->vaGetDriverName(pDisplayContext, &va_driver_name);
++        if (!va_driver_name) {
++          VADisplayContextP pDisplayContext =
++            static_cast<VADisplayContextP>(va_display);
++          pDisplayContext->vaGetDriverName(pDisplayContext, &va_driver_name);
++        }
++
 +        if (!va_driver_name) {
 +          return true;
 +        }
 +
 +        if (!va_search_path) {
-+          va_search_path = VA_DRIVERS_PATH;
++          va_search_path = strdup(VA_DRIVERS_PATH);
 +        }
 +
 +        driver_dir = strtok_r(va_search_path, ":", &saveptr);
@@ -266,6 +269,7 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 +
 +          driver_dir = strtok_r(NULL, ":", &saveptr);
 +        }
++        free(va_search_path);
 +      }
  #endif
      }
