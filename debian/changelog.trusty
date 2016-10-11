@@ -1,3 +1,10 @@
+chromium-browser (55.0.2882.0-0ubuntu1~ppa4~14.04.1) trusty; urgency=low
+
+  * Add a few more logging statements, and don't test to see if the
+    library is executable. (Work on #2)
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 11 Oct 2016 19:24:43 -0400
+
 chromium-browser (55.0.2882.0-0ubuntu1~ppa3~14.04.1) trusty; urgency=low
 
   * At least one strdup() call is necessary. (Work on #2)

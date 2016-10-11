@@ -155,7 +155,7 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
    const base::CommandLine& command_line =
        *base::CommandLine::ForCurrentProcess();
    accelerated_encode_enabled =
-@@ -282,6 +320,31 @@ ResultExpr GpuProcessPolicy::EvaluateSys
+@@ -282,6 +320,32 @@ ResultExpr GpuProcessPolicy::EvaluateSys
    }
  }
  
@@ -178,6 +178,7 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 +  va_display = vaGetDisplay(gfx::GetXDisplay());
 +#endif
 +  if (!vaDisplayIsValid(va_display)) {
++    LOG(WARNING) << "Unable to get display.";
 +    return NULL;
 +  }
 +  return va_display;
@@ -187,7 +188,7 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  bool GpuProcessPolicy::PreSandboxHook() {
    // Warm up resources needed by the policy we're about to enable and
    // eventually start a broker process.
-@@ -295,32 +358,74 @@ bool GpuProcessPolicy::PreSandboxHook()
+@@ -295,32 +359,75 @@ bool GpuProcessPolicy::PreSandboxHook()
        GpuBrokerProcessPolicy::Create,
        std::vector<BrokerFilePermission>());  // No extra files in whitelist.
  
@@ -238,7 +239,8 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 +              va_driver_name, DRIVER_EXTENSION);
 +
 +          // attempt to dlopen() the va driver
-+          if (access(driver_path.c_str(), X_OK|R_OK) != -1) {
++          LOG(INFO) << "Looking for " << driver_path << "...";
++          if (access(driver_path.c_str(), R_OK) != -1) {
 +            LOG(WARNING) << "Attempting to pre-load " << va_driver_name << " VA driver...";
 +            if (dlopen(driver_path.c_str(), RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE)) {
 +              LOG(WARNING) << "VA driver \"" << driver_path << "\" opened!";
