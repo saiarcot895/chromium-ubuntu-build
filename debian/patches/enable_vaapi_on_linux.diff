@@ -67,7 +67,7 @@ Index: beta/content/common/BUILD.gn
  source_set("common") {
    # Targets external to content should always link to the public API.
    # In addition, targets outside of the content component (shell and tests)
-@@ -192,6 +235,15 @@ source_set("common") {
+@@ -186,6 +229,15 @@ source_set("common") {
  
    if (use_seccomp_bpf) {
      defines += [ "USE_SECCOMP_BPF" ]
@@ -707,7 +707,7 @@ Index: beta/content/content_common.gypi
 ===================================================================
 --- beta.orig/content/content_common.gypi
 +++ beta/content/content_common.gypi
-@@ -640,6 +640,52 @@
+@@ -631,6 +631,52 @@
        ],
      }, {
        'defines': ['USE_SECCOMP_BPF'],
