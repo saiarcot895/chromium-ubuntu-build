@@ -1,3 +1,10 @@
+chromium-browser (54.0.2840.41-0ubuntu1~ppa2~16.10.1) UNRELEASED; urgency=medium
+
+  * Use new version of enable_vaapi_on_linux.patch (with some
+    modifications). Work on #2.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 15 Oct 2016 11:28:36 -0400
+
 chromium-browser (54.0.2840.41-0ubuntu1~ppa1~16.10.1) yakkety; urgency=low
 
   * New upstream version 54.0.2840.41
