@@ -2,7 +2,7 @@ Index: dev/chrome/app/generated_resources.grd
 ===================================================================
 --- dev.orig/chrome/app/generated_resources.grd
 +++ dev/chrome/app/generated_resources.grd
-@@ -8043,6 +8043,35 @@ the Bookmarks menu.">
+@@ -7989,6 +7989,35 @@ the Bookmarks menu.">
  I don't think this site should be blocked!
        </message>
  
@@ -38,7 +38,7 @@ Index: dev/chrome/app/generated_resources.grd
        <!-- Content Settings dialog data -->
        <message name="IDS_CONTENT_SETTINGS_TITLE" desc="Title for content settings dialog">
          Content settings
-@@ -11508,6 +11537,9 @@ Tell us what happened exactly before you
+@@ -11440,6 +11469,9 @@ Tell us what happened exactly before you
        <message name="IDS_OPTIONS_ADVANCED_SECTION_TITLE_CONTENT">
          Web content
        </message>
@@ -614,7 +614,7 @@ Index: dev/chrome/browser/ui/BUILD.gn
 ===================================================================
 --- dev.orig/chrome/browser/ui/BUILD.gn
 +++ dev/chrome/browser/ui/BUILD.gn
-@@ -2995,6 +2995,11 @@ split_static_library("ui") {
+@@ -3005,6 +3005,11 @@ split_static_library("ui") {
        "views/status_icons/status_icon_linux_wrapper.h",
        "webui/help/version_updater_basic.cc",
        "webui/help/version_updater_basic.h",
