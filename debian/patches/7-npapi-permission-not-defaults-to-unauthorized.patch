@@ -2,7 +2,7 @@ Index: dev/chrome/browser/browser_resources.grd
 ===================================================================
 --- dev.orig/chrome/browser/browser_resources.grd
 +++ dev/chrome/browser/browser_resources.grd
-@@ -352,6 +352,7 @@
+@@ -367,6 +367,7 @@
        </if>
        <if expr="desktop_linux or (is_android and enable_plugins)">
          <include name="IDR_PLUGIN_DB_JSON" file="resources\plugin_metadata\plugins_linux.json" type="BINDATA" />
@@ -14,7 +14,7 @@ Index: dev/chrome/browser/plugins/plugin_finder.cc
 ===================================================================
 --- dev.orig/chrome/browser/plugins/plugin_finder.cc
 +++ dev/chrome/browser/plugins/plugin_finder.cc
-@@ -153,44 +153,10 @@ void RecordBuiltInPluginListError(Plugin
+@@ -150,44 +150,10 @@ void RecordBuiltInPluginListError(Plugin
                              static_cast<int>(PluginListError::NUM_VALUES));
  }
  
@@ -61,7 +61,7 @@ Index: dev/chrome/browser/plugins/plugin_finder.cc
    std::string error_str;
    int error_code = base::JSONReader::JSON_NO_ERROR;
    std::unique_ptr<base::Value> value = base::JSONReader::ReadAndReturnError(
-@@ -245,6 +211,59 @@ base::DictionaryValue* PluginFinder::Loa
+@@ -242,6 +208,59 @@ base::DictionaryValue* PluginFinder::Loa
    return static_cast<base::DictionaryValue*>(value.release());
  }
  
@@ -119,9 +119,9 @@ Index: dev/chrome/browser/plugins/plugin_finder.cc
 +}
 +
  PluginFinder::~PluginFinder() {
- #if defined(ENABLE_PLUGIN_INSTALLATION)
-   base::STLDeleteValues(&installers_);
-@@ -308,15 +327,20 @@ void PluginFinder::ReinitializePlugins(
+ }
+ 
+@@ -299,15 +318,20 @@ void PluginFinder::ReinitializePlugins(
    if (version <= version_)
      return;
  
@@ -131,7 +131,7 @@ Index: dev/chrome/browser/plugins/plugin_finder.cc
 +
    version_ = version;
  
-   base::STLDeleteValues(&identifier_plugin_);
+   identifier_plugin_.clear();
  
 -  for (base::DictionaryValue::Iterator plugin_it(*plugin_list);
 +  for (base::DictionaryValue::Iterator plugin_it(*final_plugin_list);
@@ -148,7 +148,7 @@ Index: dev/chrome/browser/plugins/plugin_finder.h
 ===================================================================
 --- dev.orig/chrome/browser/plugins/plugin_finder.h
 +++ dev/chrome/browser/plugins/plugin_finder.h
-@@ -78,6 +78,15 @@ class PluginFinder {
+@@ -79,6 +79,15 @@ class PluginFinder {
    // Returns NULL if the plugin list couldn't be parsed.
    static base::DictionaryValue* LoadBuiltInPluginList();
  
@@ -161,8 +161,8 @@ Index: dev/chrome/browser/plugins/plugin_finder.h
 +  // passed as parameters.
 +  static void MergePlatformSpecificPlugins(base::DictionaryValue * plugin_list);
 +
- #if defined(ENABLE_PLUGIN_INSTALLATION)
-   std::map<std::string, PluginInstaller*> installers_;
+ #if BUILDFLAG(ENABLE_PLUGIN_INSTALLATION)
+   std::map<std::string, std::unique_ptr<PluginInstaller>> installers_;
  #endif
 Index: dev/chrome/browser/resources/plugin_metadata/plugins_ubuntu_linux.json
 ===================================================================

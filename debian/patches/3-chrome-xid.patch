@@ -2,15 +2,15 @@ Index: dev/chrome/browser/ui/views/frame/browser_frame.cc
 ===================================================================
 --- dev.orig/chrome/browser/ui/views/frame/browser_frame.cc
 +++ dev/chrome/browser/ui/views/frame/browser_frame.cc
-@@ -31,6 +31,7 @@
- #include "ui/views/controls/menu/menu_model_adapter.h"
+@@ -30,6 +30,7 @@
+ #include "ui/gfx/font_list.h"
  #include "ui/views/controls/menu/menu_runner.h"
  #include "ui/views/widget/native_widget.h"
 +#include "ui/views/widget/native_widget_aura.h"
  
  #if defined(OS_CHROMEOS)
  #include "ash/common/session/session_state_delegate.h"  // nogncheck
-@@ -143,6 +144,12 @@ BrowserNonClientFrameView* BrowserFrame:
+@@ -141,6 +142,12 @@ BrowserNonClientFrameView* BrowserFrame:
    return browser_frame_view_;
  }
  
@@ -27,7 +27,7 @@ Index: dev/chrome/browser/ui/views/frame/browser_frame.h
 ===================================================================
 --- dev.orig/chrome/browser/ui/views/frame/browser_frame.h
 +++ dev/chrome/browser/ui/views/frame/browser_frame.h
-@@ -100,6 +100,8 @@ class BrowserFrame
+@@ -95,6 +95,8 @@ class BrowserFrame
    // Called when BrowserView creates all it's child views.
    void OnBrowserViewInitViewsComplete();
  
@@ -40,7 +40,7 @@ Index: dev/chrome/browser/ui/views/frame/browser_view.cc
 ===================================================================
 --- dev.orig/chrome/browser/ui/views/frame/browser_view.cc
 +++ dev/chrome/browser/ui/views/frame/browser_view.cc
-@@ -680,6 +680,7 @@ void BrowserView::Show() {
+@@ -633,6 +633,7 @@ void BrowserView::Show() {
    force_location_bar_focus_ = false;
  
    browser()->OnWindowDidShow();
@@ -52,7 +52,7 @@ Index: dev/ash/mus/non_client_frame_controller.cc
 ===================================================================
 --- dev.orig/ash/mus/non_client_frame_controller.cc
 +++ dev/ash/mus/non_client_frame_controller.cc
-@@ -258,6 +258,10 @@ class WmNativeWidgetMus : public views::
+@@ -263,6 +263,10 @@ class WmNativeWidgetMus : public views::
      shadow_->layer()->parent()->StackAtBottom(shadow_->layer());
    }
  
@@ -115,7 +115,7 @@ Index: dev/ui/views/mus/native_widget_mus.cc
 ===================================================================
 --- dev.orig/ui/views/mus/native_widget_mus.cc
 +++ dev/ui/views/mus/native_widget_mus.cc
-@@ -640,6 +640,10 @@ void NativeWidgetMus::UpdateClientArea()
+@@ -659,6 +659,10 @@ void NativeWidgetMus::UpdateClientArea()
        non_client_view->bounds().width() - client_area_rect.right()));
  }
  
@@ -130,7 +130,7 @@ Index: dev/ui/views/mus/native_widget_mus.h
 ===================================================================
 --- dev.orig/ui/views/mus/native_widget_mus.h
 +++ dev/ui/views/mus/native_widget_mus.h
-@@ -100,6 +100,8 @@ class VIEWS_MUS_EXPORT NativeWidgetMus
+@@ -108,6 +108,8 @@ class VIEWS_MUS_EXPORT NativeWidgetMus
    void OnPlatformWindowClosed();
    void OnActivationChanged(bool active);
  
@@ -143,7 +143,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
 ===================================================================
 --- dev.orig/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
 +++ dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
-@@ -573,6 +573,11 @@ void DesktopNativeWidgetAura::ViewRemove
+@@ -574,6 +574,11 @@ void DesktopNativeWidgetAura::ViewRemove
    drop_helper_->ResetTargetViewIfEquals(view);
  }
  
@@ -194,15 +194,15 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
  #include "base/command_line.h"
  #include "base/location.h"
  #include "base/memory/ptr_util.h"
-@@ -117,6 +119,7 @@ const char* kAtomsToCache[] = {
-   "_NET_WM_WINDOW_TYPE_NORMAL",
-   "_NET_WM_WINDOW_TYPE_NOTIFICATION",
-   "_NET_WM_WINDOW_TYPE_TOOLTIP",
-+  "CHROMIUM_LINUX_SESSION_ID_PROPERTY",
-   "XdndActionAsk",
-   "XdndActionCopy",
-   "XdndActionLink",
-@@ -1676,6 +1679,22 @@ void DesktopWindowTreeHostX11::UpdateMin
+@@ -118,6 +120,7 @@ const char* kAtomsToCache[] = {"UTF8_STR
+                                "_NET_WM_WINDOW_TYPE_NORMAL",
+                                "_NET_WM_WINDOW_TYPE_NOTIFICATION",
+                                "_NET_WM_WINDOW_TYPE_TOOLTIP",
++                               "CHROMIUM_LINUX_SESSION_ID_PROPERTY",
+                                "XdndActionAsk",
+                                "XdndActionCopy",
+                                "XdndActionLink",
+@@ -1697,6 +1700,22 @@ void DesktopWindowTreeHostX11::UpdateMin
    XSetWMNormalHints(xdisplay_, xwindow_, &hints);
  }
  
@@ -229,7 +229,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
 ===================================================================
 --- dev.orig/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
 +++ dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
-@@ -91,6 +91,8 @@ class VIEWS_EXPORT DesktopWindowTreeHost
+@@ -96,6 +96,8 @@ class VIEWS_EXPORT DesktopWindowTreeHost
    // there is no dialog on the host window.
    XID GetModalDialog();
  

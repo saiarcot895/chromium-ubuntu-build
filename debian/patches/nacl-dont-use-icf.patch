@@ -2,8 +2,8 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -374,7 +374,7 @@ config("compiler") {
-     ldflags += [ "--gcc-toolchain=$_rebased_android_toolchain_root" ]
+@@ -368,7 +368,7 @@ config("compiler") {
+     ldflags += [ "-fuse-ld=bfd" ]
    }
  
 -  if (is_posix && (use_gold || (use_lld && !is_nacl)) && !using_sanitizer &&
