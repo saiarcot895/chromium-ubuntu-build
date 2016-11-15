@@ -1,6 +1,8 @@
 chromium-browser (55.0.2883.35-0ubuntu1~ppa2~14.04.1) UNRELEASED; urgency=medium
 
   * Fix crash in Yakkety. (Fixes #5)
+  * Add symlink to libffmpeg.so so that other browsers can use the
+    library. (Fixes #4)
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 14 Nov 2016 22:16:20 -0500
 
