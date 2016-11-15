@@ -289,3 +289,31 @@ Index: dev/ui/views/widget/native_widget_aura.h
    // Overridden from internal::NativeWidgetPrivate:
    void InitNativeWidget(const Widget::InitParams& params) override;
    void OnWidgetInitDone() override;
+Index: dev/ui/views/mus/desktop_window_tree_host_mus.cc
+===================================================================
+--- dev.orig/ui/views/mus/desktop_window_tree_host_mus.cc
++++ dev/ui/views/mus/desktop_window_tree_host_mus.cc
+@@ -40,6 +40,10 @@ DesktopWindowTreeHostMus::~DesktopWindow
+   desktop_native_widget_aura_->OnDesktopWindowTreeHostDestroyed(this);
+ }
+ 
++void DesktopWindowTreeHostMus::SetSessionID(uint32_t sessionid) {
++  // Do nothing.
++}
++
+ bool DesktopWindowTreeHostMus::IsDocked() const {
+   return window()->GetProperty(aura::client::kShowStateKey) ==
+          ui::SHOW_STATE_DOCKED;
+Index: dev/ui/views/mus/desktop_window_tree_host_mus.h
+===================================================================
+--- dev.orig/ui/views/mus/desktop_window_tree_host_mus.h
++++ dev/ui/views/mus/desktop_window_tree_host_mus.h
+@@ -26,6 +26,8 @@ class VIEWS_MUS_EXPORT DesktopWindowTree
+       DesktopNativeWidgetAura* desktop_native_widget_aura);
+   ~DesktopWindowTreeHostMus() override;
+ 
++  void SetSessionID(uint32_t sessionid);
++
+  private:
+   bool IsDocked() const;
+ 
