@@ -1,3 +1,10 @@
+chromium-browser (56.0.2914.3-0ubuntu1~ppa2~16.04.1) xenial; urgency=low
+
+  * Add libgtk-3-dev to list of build dependencies (it's not actually
+    used yet)
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 14 Nov 2016 22:46:37 -0500
+
 chromium-browser (56.0.2914.3-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
 
   * Fix crash in Yakkety. (Fixes #5)
