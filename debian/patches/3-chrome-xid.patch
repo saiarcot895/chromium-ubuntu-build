@@ -76,7 +76,7 @@ Index: dev/ui/aura/client/aura_constants.cc
  DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, ui::ModalType)
  DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, gfx::ImageSkia*)
  DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, gfx::Rect*)
-@@ -44,6 +46,7 @@ DEFINE_WINDOW_PROPERTY_KEY(
+@@ -47,6 +49,7 @@ DEFINE_WINDOW_PROPERTY_KEY(
  DEFINE_WINDOW_PROPERTY_KEY(int, kTopViewInset, 0);
  DEFINE_WINDOW_PROPERTY_KEY(SkColor, kTopViewColor, SK_ColorTRANSPARENT);
  DEFINE_OWNED_WINDOW_PROPERTY_KEY(gfx::ImageSkia, kWindowIconKey, nullptr);
@@ -88,8 +88,8 @@ Index: dev/ui/aura/client/aura_constants.h
 ===================================================================
 --- dev.orig/ui/aura/client/aura_constants.h
 +++ dev/ui/aura/client/aura_constants.h
-@@ -86,6 +86,9 @@ AURA_EXPORT extern const aura::WindowPro
- // A property key to store window icon.
+@@ -94,6 +94,9 @@ AURA_EXPORT extern const aura::WindowPro
+ // A property key to store the window icon, typically 16x16 for title bars.
  AURA_EXPORT extern const WindowProperty<gfx::ImageSkia*>* const kWindowIconKey;
  
 +AURA_EXPORT extern const WindowProperty<uint32_t>* const kSessionIdKey;
@@ -143,7 +143,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
 ===================================================================
 --- dev.orig/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
 +++ dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
-@@ -574,6 +574,11 @@ void DesktopNativeWidgetAura::ViewRemove
+@@ -585,6 +585,11 @@ void DesktopNativeWidgetAura::ViewRemove
    drop_helper_->ResetTargetViewIfEquals(view);
  }
  
@@ -159,7 +159,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.h
 ===================================================================
 --- dev.orig/ui/views/widget/desktop_aura/desktop_native_widget_aura.h
 +++ dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.h
-@@ -89,6 +89,8 @@ class VIEWS_EXPORT DesktopNativeWidgetAu
+@@ -94,6 +94,8 @@ class VIEWS_EXPORT DesktopNativeWidgetAu
    // we are being activated/deactivated.
    void HandleActivationChanged(bool active);
  
@@ -194,15 +194,15 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
  #include "base/command_line.h"
  #include "base/location.h"
  #include "base/memory/ptr_util.h"
-@@ -118,6 +120,7 @@ const char* kAtomsToCache[] = {"UTF8_STR
-                                "_NET_WM_WINDOW_TYPE_NORMAL",
-                                "_NET_WM_WINDOW_TYPE_NOTIFICATION",
-                                "_NET_WM_WINDOW_TYPE_TOOLTIP",
-+                               "CHROMIUM_LINUX_SESSION_ID_PROPERTY",
-                                "XdndActionAsk",
-                                "XdndActionCopy",
-                                "XdndActionLink",
-@@ -1697,6 +1700,22 @@ void DesktopWindowTreeHostX11::UpdateMin
+@@ -117,6 +119,7 @@ const char* kAtomsToCache[] = {
+   "_NET_WM_WINDOW_TYPE_NORMAL",
+   "_NET_WM_WINDOW_TYPE_NOTIFICATION",
+   "_NET_WM_WINDOW_TYPE_TOOLTIP",
++  "CHROMIUM_LINUX_SESSION_ID_PROPERTY",
+   "XdndActionAsk",
+   "XdndActionCopy",
+   "XdndActionLink",
+@@ -1672,6 +1675,22 @@ void DesktopWindowTreeHostX11::UpdateMin
    XSetWMNormalHints(xdisplay_, xwindow_, &hints);
  }
  
@@ -229,7 +229,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
 ===================================================================
 --- dev.orig/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
 +++ dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
-@@ -96,6 +96,8 @@ class VIEWS_EXPORT DesktopWindowTreeHost
+@@ -91,6 +91,8 @@ class VIEWS_EXPORT DesktopWindowTreeHost
    // there is no dialog on the host window.
    XID GetModalDialog();
  
@@ -264,7 +264,7 @@ Index: dev/ui/views/widget/native_widget_aura.cc
  namespace views {
  
  namespace {
-@@ -358,6 +360,11 @@ void NativeWidgetAura::CenterWindow(cons
+@@ -360,6 +362,11 @@ void NativeWidgetAura::CenterWindow(cons
    window_->SetBounds(window_bounds);
  }
  
