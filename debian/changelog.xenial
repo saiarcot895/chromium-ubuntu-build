@@ -1,3 +1,9 @@
+chromium-browser (56.0.2906.0-0ubuntu1~ppa2~16.04.1) UNRELEASED; urgency=low
+
+  * Fix crash in Yakkety. (Fixes #5)
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 14 Nov 2016 21:33:52 -0500
+
 chromium-browser (56.0.2906.0-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
 
   * New upstream version 56.0.2906.0
