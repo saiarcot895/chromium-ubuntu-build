@@ -16,7 +16,7 @@ Index: dev/chrome/common/chrome_paths.cc
  #endif  // defined(OS_LINUX)
  
  #if defined(OS_CHROMEOS)
-@@ -492,6 +495,9 @@ bool PathProvider(int key, base::FilePat
+@@ -486,6 +489,9 @@ bool PathProvider(int key, base::FilePat
        cur = base::FilePath(FILE_PATH_LITERAL("/etc/opt/chrome/policies"));
  #else
        cur = base::FilePath(FILE_PATH_LITERAL("/etc/chromium/policies"));
@@ -26,7 +26,7 @@ Index: dev/chrome/common/chrome_paths.cc
  #endif
        break;
      }
-@@ -507,6 +513,10 @@ bool PathProvider(int key, base::FilePat
+@@ -501,6 +507,10 @@ bool PathProvider(int key, base::FilePat
  #endif
  #if defined(OS_LINUX)
      case chrome::DIR_STANDALONE_EXTERNAL_EXTENSIONS: {
@@ -37,7 +37,7 @@ Index: dev/chrome/common/chrome_paths.cc
        cur = base::FilePath(kFilepathSinglePrefExtensions);
        break;
      }
-@@ -557,6 +567,10 @@ bool PathProvider(int key, base::FilePat
+@@ -551,6 +561,10 @@ bool PathProvider(int key, base::FilePat
  #else
        cur = base::FilePath(FILE_PATH_LITERAL(
            "/etc/chromium/native-messaging-hosts"));

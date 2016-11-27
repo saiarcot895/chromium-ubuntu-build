@@ -4,7 +4,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -958,7 +958,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -960,7 +960,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_NAME,
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
@@ -509,20 +509,20 @@ Index: dev/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
    return true;
  }
  
--#if (defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)) || defined(OS_MACOSX)
-+#if ((defined(OS_LINUX) || defined(OS_CHROMEOS)) && defined(ARCH_CPU_X86_FAMILY)) || defined(OS_MACOSX)
+-#if (defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)) || \
++#if ((defined(OS_LINUX) || defined(OS_CHROMEOS)) && defined(ARCH_CPU_X86_FAMILY)) || \
+     defined(OS_MACOSX) || defined(OS_WIN)
  static bool BindImage(const base::WeakPtr<gpu::GpuCommandBufferStub>& stub,
                        uint32_t client_texture_id,
-                       uint32_t texture_target,
-@@ -171,7 +171,7 @@ GpuVideoDecodeAccelerator::GpuVideoDecod
+@@ -172,7 +172,7 @@ GpuVideoDecodeAccelerator::GpuVideoDecod
    get_gl_context_cb_ = base::Bind(&GetGLContext, stub_->AsWeakPtr());
    make_context_current_cb_ =
        base::Bind(&MakeDecoderContextCurrent, stub_->AsWeakPtr());
--#if (defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)) || defined(OS_MACOSX)
-+#if ((defined(OS_LINUX) || defined(OS_CHROMEOS)) && defined(ARCH_CPU_X86_FAMILY)) || defined(OS_MACOSX)
+-#if (defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)) || \
++#if ((defined(OS_LINUX) || defined(OS_CHROMEOS)) && defined(ARCH_CPU_X86_FAMILY)) || \
+     defined(OS_MACOSX) || defined(OS_WIN)
    bind_image_cb_ = base::Bind(&BindImage, stub_->AsWeakPtr());
  #endif
-   get_gles2_decoder_cb_ = base::Bind(&GetGLES2Decoder, stub_->AsWeakPtr());
 Index: dev/media/gpu/va_stub_header.fragment
 ===================================================================
 --- dev.orig/media/gpu/va_stub_header.fragment

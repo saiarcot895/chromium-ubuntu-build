@@ -1,8 +1,10 @@
-chromium-browser (56.0.2914.3-0ubuntu1~ppa4~14.04.1) UNRELEASED; urgency=low
+chromium-browser (56.0.2924.3-0ubuntu1~ppa1~14.04.1) trusty; urgency=low
 
   * Add patch to not test for NEON in arm targets.
+  * New upstream version 56.0.2924.3
+  * Updated patches.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 26 Nov 2016 20:36:21 -0500
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 26 Nov 2016 22:24:17 -0500
 
 chromium-browser (56.0.2914.3-0ubuntu1~ppa3~14.04.1) trusty; urgency=low
 
