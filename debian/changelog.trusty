@@ -1,3 +1,9 @@
+chromium-browser (56.0.2914.3-0ubuntu1~ppa4~14.04.1) UNRELEASED; urgency=low
+
+  * Add patch to not test for NEON in arm targets.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 26 Nov 2016 20:36:21 -0500
+
 chromium-browser (56.0.2914.3-0ubuntu1~ppa3~14.04.1) trusty; urgency=low
 
   * Update 3-chrome-xid.patch
