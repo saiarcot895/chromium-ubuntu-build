@@ -2,7 +2,7 @@ Index: beta/chrome/app/generated_resources.grd
 ===================================================================
 --- beta.orig/chrome/app/generated_resources.grd
 +++ beta/chrome/app/generated_resources.grd
-@@ -7980,6 +7980,35 @@ the Bookmarks menu.">
+@@ -7987,6 +7987,35 @@ the Bookmarks menu.">
  I don't think this site should be blocked!
        </message>
  
@@ -38,7 +38,7 @@ Index: beta/chrome/app/generated_resources.grd
        <!-- Content Settings dialog data -->
        <message name="IDS_CONTENT_SETTINGS_TITLE" desc="Title for content settings dialog">
          Content settings
-@@ -11431,6 +11460,9 @@ Tell us what happened exactly before you
+@@ -11438,6 +11467,9 @@ Tell us what happened exactly before you
        <message name="IDS_OPTIONS_ADVANCED_SECTION_TITLE_CONTENT">
          Web content
        </message>

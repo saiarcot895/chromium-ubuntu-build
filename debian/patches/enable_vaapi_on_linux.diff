@@ -4,7 +4,7 @@ Index: beta/chrome/browser/about_flags.cc
 ===================================================================
 --- beta.orig/chrome/browser/about_flags.cc
 +++ beta/chrome/browser/about_flags.cc
-@@ -947,7 +947,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -948,7 +948,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_NAME,
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
