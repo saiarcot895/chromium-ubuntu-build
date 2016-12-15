@@ -2,7 +2,7 @@ Index: dev/chrome/app/generated_resources.grd
 ===================================================================
 --- dev.orig/chrome/app/generated_resources.grd
 +++ dev/chrome/app/generated_resources.grd
-@@ -8105,6 +8105,35 @@ the Bookmarks menu.">
+@@ -8064,6 +8064,35 @@ the Bookmarks menu.">
  I don't think this site should be blocked!
        </message>
  
@@ -38,7 +38,7 @@ Index: dev/chrome/app/generated_resources.grd
        <!-- Content Settings dialog data -->
        <message name="IDS_CONTENT_SETTINGS_TITLE" desc="Title for content settings dialog">
          Content settings
-@@ -11585,6 +11614,9 @@ Tell us what happened exactly before you
+@@ -11549,6 +11578,9 @@ Tell us what happened exactly before you
        <message name="IDS_OPTIONS_ADVANCED_SECTION_TITLE_CONTENT">
          Web content
        </message>
@@ -101,7 +101,7 @@ Index: dev/chrome/browser/resources/options/browser_options.js
        // Languages section.
        var showLanguageOptions = function(event) {
          PageManager.showPageByName('languages');
-@@ -1884,6 +1901,24 @@ cr.define('options', function() {
+@@ -1887,6 +1904,24 @@ cr.define('options', function() {
      },
  
      /**
@@ -126,7 +126,7 @@ Index: dev/chrome/browser/resources/options/browser_options.js
       * Set the checked state of the metrics reporting checkbox.
       * @private
       */
-@@ -2380,6 +2415,7 @@ cr.define('options', function() {
+@@ -2383,6 +2418,7 @@ cr.define('options', function() {
    // Forward public APIs to private implementations.
    cr.makePublic(BrowserOptions, [
      'deleteCurrentProfile',
@@ -134,7 +134,7 @@ Index: dev/chrome/browser/resources/options/browser_options.js
      'enableCertificateButton',
      'enableDisplaySettings',
      'enableFactoryResetSection',
-@@ -2396,6 +2432,7 @@ cr.define('options', function() {
+@@ -2399,6 +2435,7 @@ cr.define('options', function() {
      'setExtendedReportingEnabledCheckboxState',
      'setFontSize',
      'setHighContrastCheckboxState',
@@ -542,7 +542,7 @@ Index: dev/chrome/browser/resources/options/options.html
 ===================================================================
 --- dev.orig/chrome/browser/resources/options/options.html
 +++ dev/chrome/browser/resources/options/options.html
-@@ -28,6 +28,7 @@
+@@ -25,6 +25,7 @@
  <link rel="stylesheet" href="clear_browser_data_overlay.css">
  <link rel="stylesheet" href="content_settings.css">
  <link rel="stylesheet" href="cookies_view.css">
@@ -550,7 +550,7 @@ Index: dev/chrome/browser/resources/options/options.html
  <link rel="stylesheet" href="do_not_track_confirm_overlay.css">
  <link rel="stylesheet" href="easy_unlock_turn_off_overlay.css">
  <link rel="stylesheet" href="font_settings.css">
-@@ -123,6 +124,7 @@
+@@ -120,6 +121,7 @@
    <include src="home_page_overlay.html">
    <include src="hotword_confirm_overlay.html">
    <include src="import_data_overlay.html">
@@ -558,7 +558,7 @@ Index: dev/chrome/browser/resources/options/options.html
    <include src="language_options.html">
    <include src="manage_profile_overlay.html">
    <include src="password_manager.html">
-@@ -159,6 +161,7 @@
+@@ -156,6 +158,7 @@
    <include src="clear_browser_data_history_notice_overlay.html">
    <include src="content_settings_exceptions_area.html">
    <include src="cookies_view.html">
@@ -614,7 +614,7 @@ Index: dev/chrome/browser/ui/BUILD.gn
 ===================================================================
 --- dev.orig/chrome/browser/ui/BUILD.gn
 +++ dev/chrome/browser/ui/BUILD.gn
-@@ -3062,6 +3062,11 @@ split_static_library("ui") {
+@@ -3058,6 +3058,11 @@ split_static_library("ui") {
        "views/status_icons/status_icon_linux_wrapper.h",
        "webui/help/version_updater_basic.cc",
        "webui/help/version_updater_basic.h",

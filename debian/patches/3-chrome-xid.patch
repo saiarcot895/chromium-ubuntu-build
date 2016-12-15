@@ -27,7 +27,7 @@ Index: dev/chrome/browser/ui/views/frame/browser_frame.h
 ===================================================================
 --- dev.orig/chrome/browser/ui/views/frame/browser_frame.h
 +++ dev/chrome/browser/ui/views/frame/browser_frame.h
-@@ -95,6 +95,8 @@ class BrowserFrame
+@@ -107,6 +107,8 @@ class BrowserFrame
    // Called when BrowserView creates all it's child views.
    void OnBrowserViewInitViewsComplete();
  
@@ -52,8 +52,8 @@ Index: dev/ash/mus/non_client_frame_controller.cc
 ===================================================================
 --- dev.orig/ash/mus/non_client_frame_controller.cc
 +++ dev/ash/mus/non_client_frame_controller.cc
-@@ -263,6 +263,10 @@ class WmNativeWidgetMus : public views::
-     shadow_->layer()->parent()->StackAtBottom(shadow_->layer());
+@@ -262,6 +262,10 @@ class ClientViewMus : public views::Clie
+     return false;
    }
  
 +  void SetSessionID(uint32_t sessionid) {
@@ -61,25 +61,25 @@ Index: dev/ash/mus/non_client_frame_controller.cc
 +  }
 +
   private:
-   // The shadow, may be null.
-   std::unique_ptr<Shadow> shadow_;
+   NonClientFrameController* frame_controller_;
+ 
 Index: dev/ui/aura/client/aura_constants.cc
 ===================================================================
 --- dev.orig/ui/aura/client/aura_constants.cc
 +++ dev/ui/aura/client/aura_constants.cc
-@@ -8,6 +8,8 @@
+@@ -9,6 +9,8 @@
  #include "ui/gfx/geometry/rect.h"
  
  DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, bool)
 +// SkColor is typedef'ed to uint32_t
 +//DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, uint32_t)
+ DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, base::string16*)
  DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, ui::ModalType)
  DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, gfx::ImageSkia*)
- DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, gfx::Rect*)
-@@ -48,6 +50,7 @@ DEFINE_WINDOW_PROPERTY_KEY(
- DEFINE_WINDOW_PROPERTY_KEY(int, kTopViewInset, 0);
- DEFINE_WINDOW_PROPERTY_KEY(SkColor, kTopViewColor, SK_ColorTRANSPARENT);
- DEFINE_OWNED_WINDOW_PROPERTY_KEY(gfx::ImageSkia, kWindowIconKey, nullptr);
+@@ -56,6 +58,7 @@ DEFINE_OWNED_WINDOW_PROPERTY_KEY(gfx::Im
+ DEFINE_WINDOW_PROPERTY_KEY(ui::mojom::WindowType,
+                            kWindowTypeKey,
+                            ui::mojom::WindowType::UNKNOWN);
 +DEFINE_WINDOW_PROPERTY_KEY(uint32_t, kSessionIdKey, 0);
  
  }  // namespace client
@@ -88,9 +88,9 @@ Index: dev/ui/aura/client/aura_constants.h
 ===================================================================
 --- dev.orig/ui/aura/client/aura_constants.h
 +++ dev/ui/aura/client/aura_constants.h
-@@ -94,6 +94,9 @@ AURA_EXPORT extern const aura::WindowPro
- // A property key to store the window icon, typically 16x16 for title bars.
- AURA_EXPORT extern const WindowProperty<gfx::ImageSkia*>* const kWindowIconKey;
+@@ -109,6 +109,9 @@ AURA_EXPORT extern const WindowProperty<
+ AURA_EXPORT extern const aura::WindowProperty<ui::mojom::WindowType>* const
+     kWindowTypeKey;
  
 +AURA_EXPORT extern const WindowProperty<uint32_t>* const kSessionIdKey;
 +
@@ -115,7 +115,7 @@ Index: dev/ui/views/mus/native_widget_mus.cc
 ===================================================================
 --- dev.orig/ui/views/mus/native_widget_mus.cc
 +++ dev/ui/views/mus/native_widget_mus.cc
-@@ -659,6 +659,10 @@ void NativeWidgetMus::UpdateClientArea()
+@@ -649,6 +649,10 @@ void NativeWidgetMus::UpdateClientArea()
        non_client_view->bounds().width() - client_area_rect.right()));
  }
  
@@ -143,7 +143,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
 ===================================================================
 --- dev.orig/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
 +++ dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
-@@ -591,6 +591,11 @@ void DesktopNativeWidgetAura::ViewRemove
+@@ -593,6 +593,11 @@ void DesktopNativeWidgetAura::ViewRemove
    drop_helper_->ResetTargetViewIfEquals(view);
  }
  
@@ -172,7 +172,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host.h
 ===================================================================
 --- dev.orig/ui/views/widget/desktop_aura/desktop_window_tree_host.h
 +++ dev/ui/views/widget/desktop_aura/desktop_window_tree_host.h
-@@ -81,6 +81,8 @@ class VIEWS_EXPORT DesktopWindowTreeHost
+@@ -74,6 +74,8 @@ class VIEWS_EXPORT DesktopWindowTreeHost
  
    virtual bool IsVisible() const = 0;
  
@@ -194,7 +194,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
  #include "base/command_line.h"
  #include "base/location.h"
  #include "base/memory/ptr_util.h"
-@@ -117,6 +119,7 @@ const char* kAtomsToCache[] = {
+@@ -116,6 +118,7 @@ const char* kAtomsToCache[] = {
    "_NET_WM_WINDOW_TYPE_NORMAL",
    "_NET_WM_WINDOW_TYPE_NOTIFICATION",
    "_NET_WM_WINDOW_TYPE_TOOLTIP",
@@ -202,7 +202,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
    "XdndActionAsk",
    "XdndActionCopy",
    "XdndActionLink",
-@@ -1672,6 +1675,22 @@ void DesktopWindowTreeHostX11::UpdateMin
+@@ -1682,6 +1685,22 @@ void DesktopWindowTreeHostX11::UpdateMin
    XSetWMNormalHints(xdisplay_, xwindow_, &hints);
  }
  
@@ -229,7 +229,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
 ===================================================================
 --- dev.orig/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
 +++ dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
-@@ -90,6 +90,8 @@ class VIEWS_EXPORT DesktopWindowTreeHost
+@@ -91,6 +91,8 @@ class VIEWS_EXPORT DesktopWindowTreeHost
    // there is no dialog on the host window.
    XID GetModalDialog();
  
@@ -255,7 +255,7 @@ Index: dev/ui/views/widget/native_widget_aura.cc
 ===================================================================
 --- dev.orig/ui/views/widget/native_widget_aura.cc
 +++ dev/ui/views/widget/native_widget_aura.cc
-@@ -66,6 +66,8 @@
+@@ -69,6 +69,8 @@
  #include "ui/views/widget/desktop_aura/desktop_window_tree_host.h"
  #endif
  
@@ -264,7 +264,7 @@ Index: dev/ui/views/widget/native_widget_aura.cc
  namespace views {
  
  namespace {
-@@ -360,6 +362,11 @@ void NativeWidgetAura::CenterWindow(cons
+@@ -368,6 +370,11 @@ void NativeWidgetAura::CenterWindow(cons
    window_->SetBounds(window_bounds);
  }
  
@@ -280,7 +280,7 @@ Index: dev/ui/views/widget/native_widget_aura.h
 ===================================================================
 --- dev.orig/ui/views/widget/native_widget_aura.h
 +++ dev/ui/views/widget/native_widget_aura.h
-@@ -53,6 +53,8 @@ class VIEWS_EXPORT NativeWidgetAura
+@@ -54,6 +54,8 @@ class VIEWS_EXPORT NativeWidgetAura
                                       const gfx::ImageSkia& window_icon,
                                       const gfx::ImageSkia& app_icon);
  
@@ -293,7 +293,7 @@ Index: dev/ui/views/mus/desktop_window_tree_host_mus.cc
 ===================================================================
 --- dev.orig/ui/views/mus/desktop_window_tree_host_mus.cc
 +++ dev/ui/views/mus/desktop_window_tree_host_mus.cc
-@@ -42,6 +42,10 @@ DesktopWindowTreeHostMus::~DesktopWindow
+@@ -190,6 +190,10 @@ DesktopWindowTreeHostMus::~DesktopWindow
    desktop_native_widget_aura_->OnDesktopWindowTreeHostDestroyed(this);
  }
  
@@ -308,9 +308,9 @@ Index: dev/ui/views/mus/desktop_window_tree_host_mus.h
 ===================================================================
 --- dev.orig/ui/views/mus/desktop_window_tree_host_mus.h
 +++ dev/ui/views/mus/desktop_window_tree_host_mus.h
-@@ -28,6 +28,8 @@ class VIEWS_MUS_EXPORT DesktopWindowTree
-       const Widget::InitParams& init_params);
-   ~DesktopWindowTreeHostMus() override;
+@@ -37,6 +37,8 @@ class VIEWS_MUS_EXPORT DesktopWindowTree
+   // Called when the window was deleted on the server.
+   void ServerDestroyedWindow() { CloseNow(); }
  
 +  void SetSessionID(uint32_t sessionid);
 +

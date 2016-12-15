@@ -4,7 +4,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -960,7 +960,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -976,7 +976,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_NAME,
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
@@ -17,7 +17,7 @@ Index: dev/content/common/BUILD.gn
 ===================================================================
 --- dev.orig/content/common/BUILD.gn
 +++ dev/content/common/BUILD.gn
-@@ -11,6 +11,49 @@ if (is_mac) {
+@@ -13,6 +13,49 @@ if (is_mac) {
    import("//build/config/mac/mac_sdk.gni")
  }
  
@@ -67,10 +67,11 @@ Index: dev/content/common/BUILD.gn
  source_set("common") {
    # Targets external to content should always link to the public API.
    # In addition, targets outside of the content component (shell and tests)
-@@ -499,6 +542,15 @@ source_set("common") {
- 
-   if (use_seccomp_bpf) {
-     defines += [ "USE_SECCOMP_BPF" ]
+@@ -527,6 +570,16 @@ source_set("common") {
+         "sandbox_linux/android/sandbox_bpf_base_policy_android.h",
+       ]
+     }
++  } else {
 +    if (current_cpu != "arm" && is_desktop_linux) {
 +      sources += get_target_outputs(":libva_generate_stubs")
 +      deps += [ ":libva_generate_stubs" ]
@@ -80,9 +81,9 @@ Index: dev/content/common/BUILD.gn
 +        deps += [ "//third_party/wayland:wayland_client" ]
 +      }
 +    }
-   } else {
-     if (is_linux) {
-       sources -= [
+   }
+ 
+   if (is_mac) {
 Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 ===================================================================
 --- dev.orig/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
@@ -332,7 +333,7 @@ Index: dev/content/public/common/content_switches.cc
 ===================================================================
 --- dev.orig/content/public/common/content_switches.cc
 +++ dev/content/public/common/content_switches.cc
-@@ -986,7 +986,9 @@ const char kDisableAudioSupportForDeskto
+@@ -998,7 +998,9 @@ const char kDisableAudioSupportForDeskto
  #if defined(OS_CHROMEOS)
  // Disables panel fitting (used for mirror mode).
  const char kDisablePanelFitting[]           = "disable-panel-fitting";
@@ -346,7 +347,7 @@ Index: dev/content/public/common/content_switches.h
 ===================================================================
 --- dev.orig/content/public/common/content_switches.h
 +++ dev/content/public/common/content_switches.h
-@@ -290,6 +290,8 @@ CONTENT_EXPORT extern const char kEnable
+@@ -292,6 +292,8 @@ CONTENT_EXPORT extern const char kEnable
  
  #if defined(OS_CHROMEOS)
  CONTENT_EXPORT extern const char kDisablePanelFitting[];
@@ -381,7 +382,7 @@ Index: dev/media/BUILD.gn
 ===================================================================
 --- dev.orig/media/BUILD.gn
 +++ dev/media/BUILD.gn
-@@ -373,7 +373,7 @@ component("media") {
+@@ -376,7 +376,7 @@ component("media") {
      allow_circular_includes_from = [ "//media/base/android" ]
    }
  
@@ -390,7 +391,7 @@ Index: dev/media/BUILD.gn
      sources += [
        "filters/h264_bitstream_buffer.cc",
        "filters/h264_bitstream_buffer.h",
-@@ -650,7 +650,7 @@ source_set("unit_tests") {
+@@ -672,7 +672,7 @@ source_set("unit_tests") {
      }
    }
  
@@ -403,7 +404,7 @@ Index: dev/media/gpu/BUILD.gn
 ===================================================================
 --- dev.orig/media/gpu/BUILD.gn
 +++ dev/media/gpu/BUILD.gn
-@@ -12,7 +12,7 @@ if (is_mac) {
+@@ -18,7 +18,7 @@ if (is_mac) {
    import("//build/config/mac/mac_sdk.gni")
  }
  
@@ -412,16 +413,16 @@ Index: dev/media/gpu/BUILD.gn
    action("libva_generate_stubs") {
      extra_header = "va_stub_header.fragment"
  
-@@ -238,7 +238,7 @@ component("gpu") {
+@@ -211,7 +211,7 @@ component("gpu") {
      }
    }
  
--  if (is_chromeos) {
-+  if (is_linux) {
+-  if (is_chromeos || is_win) {
++  if (is_linux || is_win) {
      sources += [
        "accelerated_video_decoder.h",
        "h264_decoder.cc",
-@@ -281,7 +281,7 @@ component("gpu") {
+@@ -258,7 +258,7 @@ component("gpu") {
          "GLESv2",
        ]
      }
@@ -434,7 +435,7 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
 ===================================================================
 --- dev.orig/media/gpu/gpu_video_decode_accelerator_factory.cc
 +++ dev/media/gpu/gpu_video_decode_accelerator_factory.cc
-@@ -14,7 +14,7 @@
+@@ -16,7 +16,7 @@
  #include "media/gpu/dxva_video_decode_accelerator_win.h"
  #elif defined(OS_MACOSX)
  #include "media/gpu/vt_video_decode_accelerator_mac.h"
@@ -443,7 +444,7 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
  #if defined(USE_V4L2_CODEC)
  #include "media/gpu/v4l2_device.h"
  #include "media/gpu/v4l2_slice_video_decode_accelerator.h"
-@@ -79,7 +79,7 @@ GpuVideoDecodeAcceleratorFactory::GetDec
+@@ -81,7 +81,7 @@ GpuVideoDecodeAcceleratorFactory::GetDec
  #if defined(OS_WIN)
    capabilities.supported_profiles =
        DXVAVideoDecodeAccelerator::GetSupportedProfiles(gpu_preferences);
@@ -452,7 +453,7 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
    VideoDecodeAccelerator::SupportedProfiles vda_profiles;
  #if defined(USE_V4L2_CODEC)
    vda_profiles = V4L2VideoDecodeAccelerator::GetSupportedProfiles();
-@@ -131,7 +131,7 @@ GpuVideoDecodeAcceleratorFactory::Create
+@@ -134,7 +134,7 @@ GpuVideoDecodeAcceleratorFactory::Create
      &GpuVideoDecodeAcceleratorFactory::CreateV4L2VDA,
      &GpuVideoDecodeAcceleratorFactory::CreateV4L2SVDA,
  #endif
@@ -461,7 +462,7 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
      &GpuVideoDecodeAcceleratorFactory::CreateVaapiVDA,
  #endif
  #if defined(OS_MACOSX)
-@@ -199,11 +199,12 @@ GpuVideoDecodeAcceleratorFactory::Create
+@@ -217,11 +217,12 @@ GpuVideoDecodeAcceleratorFactory::Create
  }
  #endif
  
@@ -479,7 +480,7 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.h
 ===================================================================
 --- dev.orig/media/gpu/gpu_video_decode_accelerator_factory.h
 +++ dev/media/gpu/gpu_video_decode_accelerator_factory.h
-@@ -98,7 +98,7 @@ class MEDIA_GPU_EXPORT GpuVideoDecodeAcc
+@@ -101,7 +101,7 @@ class MEDIA_GPU_EXPORT GpuVideoDecodeAcc
        const gpu::GpuDriverBugWorkarounds& workarounds,
        const gpu::GpuPreferences& gpu_preferences) const;
  #endif
@@ -492,7 +493,7 @@ Index: dev/media/gpu/ipc/service/BUILD.gn
 ===================================================================
 --- dev.orig/media/gpu/ipc/service/BUILD.gn
 +++ dev/media/gpu/ipc/service/BUILD.gn
-@@ -46,7 +46,7 @@ target(link_target_type, "service") {
+@@ -47,7 +47,7 @@ target(link_target_type, "service") {
  
    configs += [ "//media/gpu:gpu_config" ]
  
