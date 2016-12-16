@@ -1,7 +1,7 @@
-Index: dev/chrome/browser/browser_resources.grd
+Index: beta/chrome/browser/browser_resources.grd
 ===================================================================
---- dev.orig/chrome/browser/browser_resources.grd
-+++ dev/chrome/browser/browser_resources.grd
+--- beta.orig/chrome/browser/browser_resources.grd
++++ beta/chrome/browser/browser_resources.grd
 @@ -374,6 +374,7 @@
        </if>
        <if expr="desktop_linux or (is_android and enable_plugins)">
@@ -10,10 +10,10 @@ Index: dev/chrome/browser/browser_resources.grd
        </if>
        <if expr="is_android">
          <then>
-Index: dev/chrome/browser/plugins/plugin_finder.cc
+Index: beta/chrome/browser/plugins/plugin_finder.cc
 ===================================================================
---- dev.orig/chrome/browser/plugins/plugin_finder.cc
-+++ dev/chrome/browser/plugins/plugin_finder.cc
+--- beta.orig/chrome/browser/plugins/plugin_finder.cc
++++ beta/chrome/browser/plugins/plugin_finder.cc
 @@ -150,44 +150,10 @@ void RecordBuiltInPluginListError(Plugin
                              static_cast<int>(PluginListError::NUM_VALUES));
  }
@@ -144,10 +144,10 @@ Index: dev/chrome/browser/plugins/plugin_finder.cc
        DCHECK(!identifier_plugin_[identifier]);
        identifier_plugin_[identifier] = CreatePluginMetadata(identifier, plugin);
  
-Index: dev/chrome/browser/plugins/plugin_finder.h
+Index: beta/chrome/browser/plugins/plugin_finder.h
 ===================================================================
---- dev.orig/chrome/browser/plugins/plugin_finder.h
-+++ dev/chrome/browser/plugins/plugin_finder.h
+--- beta.orig/chrome/browser/plugins/plugin_finder.h
++++ beta/chrome/browser/plugins/plugin_finder.h
 @@ -79,6 +79,15 @@ class PluginFinder {
    // Returns NULL if the plugin list couldn't be parsed.
    static base::DictionaryValue* LoadBuiltInPluginList();
@@ -164,10 +164,10 @@ Index: dev/chrome/browser/plugins/plugin_finder.h
  #if BUILDFLAG(ENABLE_PLUGIN_INSTALLATION)
    std::map<std::string, std::unique_ptr<PluginInstaller>> installers_;
  #endif
-Index: dev/chrome/browser/resources/plugin_metadata/plugins_ubuntu_linux.json
+Index: beta/chrome/browser/resources/plugin_metadata/plugins_ubuntu_linux.json
 ===================================================================
 --- /dev/null
-+++ dev/chrome/browser/resources/plugin_metadata/plugins_ubuntu_linux.json
++++ beta/chrome/browser/resources/plugin_metadata/plugins_ubuntu_linux.json
 @@ -0,0 +1,18 @@
 +{
 +  "libunity_npapi_plugin.so": {

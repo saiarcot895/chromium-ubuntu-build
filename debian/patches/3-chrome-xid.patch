@@ -1,7 +1,7 @@
-Index: dev/chrome/browser/ui/views/frame/browser_frame.cc
+Index: beta/chrome/browser/ui/views/frame/browser_frame.cc
 ===================================================================
---- dev.orig/chrome/browser/ui/views/frame/browser_frame.cc
-+++ dev/chrome/browser/ui/views/frame/browser_frame.cc
+--- beta.orig/chrome/browser/ui/views/frame/browser_frame.cc
++++ beta/chrome/browser/ui/views/frame/browser_frame.cc
 @@ -31,6 +31,7 @@
  #include "ui/native_theme/native_theme_dark_aura.h"
  #include "ui/views/controls/menu/menu_runner.h"
@@ -23,10 +23,10 @@ Index: dev/chrome/browser/ui/views/frame/browser_frame.cc
  bool BrowserFrame::UseCustomFrame() const {
    return native_browser_frame_->UseCustomFrame();
  }
-Index: dev/chrome/browser/ui/views/frame/browser_frame.h
+Index: beta/chrome/browser/ui/views/frame/browser_frame.h
 ===================================================================
---- dev.orig/chrome/browser/ui/views/frame/browser_frame.h
-+++ dev/chrome/browser/ui/views/frame/browser_frame.h
+--- beta.orig/chrome/browser/ui/views/frame/browser_frame.h
++++ beta/chrome/browser/ui/views/frame/browser_frame.h
 @@ -95,6 +95,8 @@ class BrowserFrame
    // Called when BrowserView creates all it's child views.
    void OnBrowserViewInitViewsComplete();
@@ -36,10 +36,10 @@ Index: dev/chrome/browser/ui/views/frame/browser_frame.h
    // Overridden from views::Widget:
    views::internal::RootView* CreateRootView() override;
    views::NonClientFrameView* CreateNonClientFrameView() override;
-Index: dev/chrome/browser/ui/views/frame/browser_view.cc
+Index: beta/chrome/browser/ui/views/frame/browser_view.cc
 ===================================================================
---- dev.orig/chrome/browser/ui/views/frame/browser_view.cc
-+++ dev/chrome/browser/ui/views/frame/browser_view.cc
+--- beta.orig/chrome/browser/ui/views/frame/browser_view.cc
++++ beta/chrome/browser/ui/views/frame/browser_view.cc
 @@ -633,6 +633,7 @@ void BrowserView::Show() {
    force_location_bar_focus_ = false;
  
@@ -48,10 +48,10 @@ Index: dev/chrome/browser/ui/views/frame/browser_view.cc
  
    chrome::MaybeShowInvertBubbleView(this);
  }
-Index: dev/ash/mus/non_client_frame_controller.cc
+Index: beta/ash/mus/non_client_frame_controller.cc
 ===================================================================
---- dev.orig/ash/mus/non_client_frame_controller.cc
-+++ dev/ash/mus/non_client_frame_controller.cc
+--- beta.orig/ash/mus/non_client_frame_controller.cc
++++ beta/ash/mus/non_client_frame_controller.cc
 @@ -263,6 +263,10 @@ class WmNativeWidgetMus : public views::
      shadow_->layer()->parent()->StackAtBottom(shadow_->layer());
    }
@@ -63,10 +63,10 @@ Index: dev/ash/mus/non_client_frame_controller.cc
   private:
    // The shadow, may be null.
    std::unique_ptr<Shadow> shadow_;
-Index: dev/ui/aura/client/aura_constants.cc
+Index: beta/ui/aura/client/aura_constants.cc
 ===================================================================
---- dev.orig/ui/aura/client/aura_constants.cc
-+++ dev/ui/aura/client/aura_constants.cc
+--- beta.orig/ui/aura/client/aura_constants.cc
++++ beta/ui/aura/client/aura_constants.cc
 @@ -8,6 +8,8 @@
  #include "ui/gfx/geometry/rect.h"
  
@@ -76,7 +76,7 @@ Index: dev/ui/aura/client/aura_constants.cc
  DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, ui::ModalType)
  DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, gfx::ImageSkia*)
  DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, gfx::Rect*)
-@@ -48,6 +50,7 @@ DEFINE_WINDOW_PROPERTY_KEY(
+@@ -49,6 +51,7 @@ DEFINE_WINDOW_PROPERTY_KEY(
  DEFINE_WINDOW_PROPERTY_KEY(int, kTopViewInset, 0);
  DEFINE_WINDOW_PROPERTY_KEY(SkColor, kTopViewColor, SK_ColorTRANSPARENT);
  DEFINE_OWNED_WINDOW_PROPERTY_KEY(gfx::ImageSkia, kWindowIconKey, nullptr);
@@ -84,11 +84,11 @@ Index: dev/ui/aura/client/aura_constants.cc
  
  }  // namespace client
  }  // namespace aura
-Index: dev/ui/aura/client/aura_constants.h
+Index: beta/ui/aura/client/aura_constants.h
 ===================================================================
---- dev.orig/ui/aura/client/aura_constants.h
-+++ dev/ui/aura/client/aura_constants.h
-@@ -94,6 +94,9 @@ AURA_EXPORT extern const aura::WindowPro
+--- beta.orig/ui/aura/client/aura_constants.h
++++ beta/ui/aura/client/aura_constants.h
+@@ -99,6 +99,9 @@ AURA_EXPORT extern const aura::WindowPro
  // A property key to store the window icon, typically 16x16 for title bars.
  AURA_EXPORT extern const WindowProperty<gfx::ImageSkia*>* const kWindowIconKey;
  
@@ -98,10 +98,10 @@ Index: dev/ui/aura/client/aura_constants.h
  // Alphabetical sort.
  
  }  // namespace client
-Index: dev/ui/aura/window_tree_host_x11.h
+Index: beta/ui/aura/window_tree_host_x11.h
 ===================================================================
---- dev.orig/ui/aura/window_tree_host_x11.h
-+++ dev/ui/aura/window_tree_host_x11.h
+--- beta.orig/ui/aura/window_tree_host_x11.h
++++ beta/ui/aura/window_tree_host_x11.h
 @@ -38,6 +38,8 @@ class AURA_EXPORT WindowTreeHostX11 : pu
    bool CanDispatchEvent(const ui::PlatformEvent& event) override;
    uint32_t DispatchEvent(const ui::PlatformEvent& event) override;
@@ -111,10 +111,10 @@ Index: dev/ui/aura/window_tree_host_x11.h
    // WindowTreeHost:
    ui::EventSource* GetEventSource() override;
    gfx::AcceleratedWidget GetAcceleratedWidget() override;
-Index: dev/ui/views/mus/native_widget_mus.cc
+Index: beta/ui/views/mus/native_widget_mus.cc
 ===================================================================
---- dev.orig/ui/views/mus/native_widget_mus.cc
-+++ dev/ui/views/mus/native_widget_mus.cc
+--- beta.orig/ui/views/mus/native_widget_mus.cc
++++ beta/ui/views/mus/native_widget_mus.cc
 @@ -659,6 +659,10 @@ void NativeWidgetMus::UpdateClientArea()
        non_client_view->bounds().width() - client_area_rect.right()));
  }
@@ -126,10 +126,10 @@ Index: dev/ui/views/mus/native_widget_mus.cc
  ////////////////////////////////////////////////////////////////////////////////
  // NativeWidgetMus, private:
  
-Index: dev/ui/views/mus/native_widget_mus.h
+Index: beta/ui/views/mus/native_widget_mus.h
 ===================================================================
---- dev.orig/ui/views/mus/native_widget_mus.h
-+++ dev/ui/views/mus/native_widget_mus.h
+--- beta.orig/ui/views/mus/native_widget_mus.h
++++ beta/ui/views/mus/native_widget_mus.h
 @@ -106,6 +106,8 @@ class VIEWS_MUS_EXPORT NativeWidgetMus
    void OnPlatformWindowClosed();
    void OnActivationChanged(bool active);
@@ -139,10 +139,10 @@ Index: dev/ui/views/mus/native_widget_mus.h
   protected:
    // Updates the client area in the ui::Window.
    virtual void UpdateClientArea();
-Index: dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
+Index: beta/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
 ===================================================================
---- dev.orig/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
-+++ dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
+--- beta.orig/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
++++ beta/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
 @@ -591,6 +591,11 @@ void DesktopNativeWidgetAura::ViewRemove
    drop_helper_->ResetTargetViewIfEquals(view);
  }
@@ -155,10 +155,10 @@ Index: dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
  void DesktopNativeWidgetAura::SetNativeWindowProperty(const char* name,
                                                        void* value) {
    if (content_window_)
-Index: dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.h
+Index: beta/ui/views/widget/desktop_aura/desktop_native_widget_aura.h
 ===================================================================
---- dev.orig/ui/views/widget/desktop_aura/desktop_native_widget_aura.h
-+++ dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.h
+--- beta.orig/ui/views/widget/desktop_aura/desktop_native_widget_aura.h
++++ beta/ui/views/widget/desktop_aura/desktop_native_widget_aura.h
 @@ -95,6 +95,8 @@ class VIEWS_EXPORT DesktopNativeWidgetAu
    // we are being activated/deactivated.
    void HandleActivationChanged(bool active);
@@ -168,10 +168,10 @@ Index: dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.h
   protected:
    // Overridden from internal::NativeWidgetPrivate:
    void InitNativeWidget(const Widget::InitParams& params) override;
-Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host.h
+Index: beta/ui/views/widget/desktop_aura/desktop_window_tree_host.h
 ===================================================================
---- dev.orig/ui/views/widget/desktop_aura/desktop_window_tree_host.h
-+++ dev/ui/views/widget/desktop_aura/desktop_window_tree_host.h
+--- beta.orig/ui/views/widget/desktop_aura/desktop_window_tree_host.h
++++ beta/ui/views/widget/desktop_aura/desktop_window_tree_host.h
 @@ -81,6 +81,8 @@ class VIEWS_EXPORT DesktopWindowTreeHost
  
    virtual bool IsVisible() const = 0;
@@ -181,10 +181,10 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host.h
    virtual void SetSize(const gfx::Size& size) = 0;
    virtual void StackAbove(aura::Window* window) = 0;
    virtual void StackAtTop() = 0;
-Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
+Index: beta/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
 ===================================================================
---- dev.orig/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
-+++ dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
+--- beta.orig/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
++++ beta/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
 @@ -12,6 +12,8 @@
  
  #include <utility>
@@ -225,10 +225,10 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
  void DesktopWindowTreeHostX11::UpdateWMUserTime(
      const ui::PlatformEvent& event) {
    if (!IsActive())
-Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
+Index: beta/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
 ===================================================================
---- dev.orig/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
-+++ dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
+--- beta.orig/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
++++ beta/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
 @@ -90,6 +90,8 @@ class VIEWS_EXPORT DesktopWindowTreeHost
    // there is no dialog on the host window.
    XID GetModalDialog();
@@ -238,10 +238,10 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
   protected:
    // Overridden from DesktopWindowTreeHost:
    void Init(aura::Window* content_window,
-Index: dev/ui/views/widget/native_widget.h
+Index: beta/ui/views/widget/native_widget.h
 ===================================================================
---- dev.orig/ui/views/widget/native_widget.h
-+++ dev/ui/views/widget/native_widget.h
+--- beta.orig/ui/views/widget/native_widget.h
++++ beta/ui/views/widget/native_widget.h
 @@ -26,6 +26,8 @@ class VIEWS_EXPORT NativeWidget {
   public:
    virtual ~NativeWidget() {}
@@ -251,10 +251,10 @@ Index: dev/ui/views/widget/native_widget.h
   private:
    friend class Widget;
  
-Index: dev/ui/views/widget/native_widget_aura.cc
+Index: beta/ui/views/widget/native_widget_aura.cc
 ===================================================================
---- dev.orig/ui/views/widget/native_widget_aura.cc
-+++ dev/ui/views/widget/native_widget_aura.cc
+--- beta.orig/ui/views/widget/native_widget_aura.cc
++++ beta/ui/views/widget/native_widget_aura.cc
 @@ -66,6 +66,8 @@
  #include "ui/views/widget/desktop_aura/desktop_window_tree_host.h"
  #endif
@@ -276,10 +276,10 @@ Index: dev/ui/views/widget/native_widget_aura.cc
  void NativeWidgetAura::GetWindowPlacement(
      gfx::Rect* bounds,
      ui::WindowShowState* show_state) const {
-Index: dev/ui/views/widget/native_widget_aura.h
+Index: beta/ui/views/widget/native_widget_aura.h
 ===================================================================
---- dev.orig/ui/views/widget/native_widget_aura.h
-+++ dev/ui/views/widget/native_widget_aura.h
+--- beta.orig/ui/views/widget/native_widget_aura.h
++++ beta/ui/views/widget/native_widget_aura.h
 @@ -53,6 +53,8 @@ class VIEWS_EXPORT NativeWidgetAura
                                       const gfx::ImageSkia& window_icon,
                                       const gfx::ImageSkia& app_icon);
@@ -289,10 +289,10 @@ Index: dev/ui/views/widget/native_widget_aura.h
    // Overridden from internal::NativeWidgetPrivate:
    void InitNativeWidget(const Widget::InitParams& params) override;
    void OnWidgetInitDone() override;
-Index: dev/ui/views/mus/desktop_window_tree_host_mus.cc
+Index: beta/ui/views/mus/desktop_window_tree_host_mus.cc
 ===================================================================
---- dev.orig/ui/views/mus/desktop_window_tree_host_mus.cc
-+++ dev/ui/views/mus/desktop_window_tree_host_mus.cc
+--- beta.orig/ui/views/mus/desktop_window_tree_host_mus.cc
++++ beta/ui/views/mus/desktop_window_tree_host_mus.cc
 @@ -42,6 +42,10 @@ DesktopWindowTreeHostMus::~DesktopWindow
    desktop_native_widget_aura_->OnDesktopWindowTreeHostDestroyed(this);
  }
@@ -304,10 +304,10 @@ Index: dev/ui/views/mus/desktop_window_tree_host_mus.cc
  bool DesktopWindowTreeHostMus::IsDocked() const {
    return window()->GetProperty(aura::client::kShowStateKey) ==
           ui::SHOW_STATE_DOCKED;
-Index: dev/ui/views/mus/desktop_window_tree_host_mus.h
+Index: beta/ui/views/mus/desktop_window_tree_host_mus.h
 ===================================================================
---- dev.orig/ui/views/mus/desktop_window_tree_host_mus.h
-+++ dev/ui/views/mus/desktop_window_tree_host_mus.h
+--- beta.orig/ui/views/mus/desktop_window_tree_host_mus.h
++++ beta/ui/views/mus/desktop_window_tree_host_mus.h
 @@ -28,6 +28,8 @@ class VIEWS_MUS_EXPORT DesktopWindowTree
        const Widget::InitParams& init_params);
    ~DesktopWindowTreeHostMus() override;

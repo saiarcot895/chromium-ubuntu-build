@@ -1,7 +1,7 @@
-Index: dev/build/toolchain/linux/BUILD.gn
+Index: beta/build/toolchain/linux/BUILD.gn
 ===================================================================
---- dev.orig/build/toolchain/linux/BUILD.gn
-+++ dev/build/toolchain/linux/BUILD.gn
+--- beta.orig/build/toolchain/linux/BUILD.gn
++++ beta/build/toolchain/linux/BUILD.gn
 @@ -39,6 +39,24 @@ gcc_toolchain("arm") {
    }
  }
@@ -27,10 +27,10 @@ Index: dev/build/toolchain/linux/BUILD.gn
  clang_toolchain("clang_x86") {
    toolchain_args = {
      current_cpu = "x86"
-Index: dev/tools/gn/args.cc
+Index: beta/tools/gn/args.cc
 ===================================================================
---- dev.orig/tools/gn/args.cc
-+++ dev/tools/gn/args.cc
+--- beta.orig/tools/gn/args.cc
++++ beta/tools/gn/args.cc
 @@ -266,6 +266,7 @@ void Args::SetSystemVarsLocked(Scope* de
    static const char kX86[] = "x86";
    static const char kX64[] = "x64";
