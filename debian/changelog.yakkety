@@ -1,3 +1,9 @@
+chromium-browser (57.0.2950.4-0ubuntu1~ppa3~16.10.1) yakkety; urgency=low
+
+  * Fix typo in patch. (Fixes: #6)
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 18 Dec 2016 13:59:16 -0500
+
 chromium-browser (57.0.2950.4-0ubuntu1~ppa2~16.10.1) yakkety; urgency=low
 
   * Fix gn build.

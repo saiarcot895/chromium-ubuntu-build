@@ -9,7 +9,7 @@ Index: dev/tools/gn/bootstrap/bootstrap.py
 -      {'ENABLE_PROFILING': 'false'})
 +      {
 +          'ENABLE_PROFILING': 'false',
-+          'ENABLE_MEMORY_TASK_PROFILE': 'false'
++          'ENABLE_MEMORY_TASK_PROFILER': 'false'
 +      })
  
    if is_mac:
