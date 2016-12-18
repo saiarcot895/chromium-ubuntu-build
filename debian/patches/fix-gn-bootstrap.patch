@@ -1,0 +1,16 @@
+Index: dev/tools/gn/bootstrap/bootstrap.py
+===================================================================
+--- dev.orig/tools/gn/bootstrap/bootstrap.py
++++ dev/tools/gn/bootstrap/bootstrap.py
+@@ -162,7 +162,10 @@ def build_gn_with_ninja_manually(tempdir
+       {'USE_EXPERIMENTAL_ALLOCATOR_SHIM': 'true' if is_linux else 'false'})
+ 
+   write_buildflag_header_manually(root_gen_dir, 'base/debug/debugging_flags.h',
+-      {'ENABLE_PROFILING': 'false'})
++      {
++          'ENABLE_PROFILING': 'false',
++          'ENABLE_MEMORY_TASK_PROFILE': 'false'
++      })
+ 
+   if is_mac:
+     # //base/build_time.cc needs base/generated_build_date.h,
