@@ -1,3 +1,9 @@
+chromium-browser (57.0.2950.4-0ubuntu1~ppa4~16.04.1) xenial; urgency=low
+
+  * Fix GN build. (Fixes: #6)
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 18 Dec 2016 15:22:44 -0500
+
 chromium-browser (57.0.2950.4-0ubuntu1~ppa3~16.04.1) xenial; urgency=low
 
   * Fix typo in patch. (Fixes: #6)

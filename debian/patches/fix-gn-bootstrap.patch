@@ -14,3 +14,19 @@ Index: dev/tools/gn/bootstrap/bootstrap.py
  
    if is_mac:
      # //base/build_time.cc needs base/generated_build_date.h,
+@@ -402,6 +405,7 @@ def write_gn_ninja(path, root_gen_dir, o
+       'base/memory/ref_counted.cc',
+       'base/memory/ref_counted_memory.cc',
+       'base/memory/singleton.cc',
++      'base/memory/shared_memory_helper.cc',
+       'base/memory/weak_ptr.cc',
+       'base/message_loop/incoming_task_queue.cc',
+       'base/message_loop/message_loop.cc',
+@@ -456,6 +460,7 @@ def write_gn_ninja(path, root_gen_dir, o
+       'base/task_scheduler/scheduler_worker_pool_impl.cc',
+       'base/task_scheduler/scheduler_worker_pool_params.cc',
+       'base/task_scheduler/scheduler_worker_stack.cc',
++      'base/task_scheduler/scoped_set_task_priority_for_current_thread.cc',
+       'base/task_scheduler/sequence.cc',
+       'base/task_scheduler/sequence_sort_key.cc',
+       'base/task_scheduler/task.cc',
