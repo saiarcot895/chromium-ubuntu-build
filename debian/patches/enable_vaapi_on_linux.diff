@@ -422,6 +422,15 @@ Index: dev/media/gpu/BUILD.gn
      sources += [
        "accelerated_video_decoder.h",
        "h264_decoder.cc",
+@@ -220,7 +220,7 @@ component("gpu") {
+       "h264_dpb.h",
+     ]
+   }
+-  if (is_chromeos) {
++  if (is_linux) {
+     sources += [
+       "vp8_decoder.cc",
+       "vp8_decoder.h",
 @@ -258,7 +258,7 @@ component("gpu") {
          "GLESv2",
        ]
