@@ -172,7 +172,7 @@ FFMPEG_MT_GN_DEFINES += is_component_build=true
 endif
 
 # Webkit library is enormous. Exclude for now.
-GN_DEFINES += remove_webcore_debug_symbols=true
+BROWSER_GN_DEFINES += remove_webcore_debug_symbols=true
 
 ifeq (1,$(WANT_DEBUG))
 BUILD_TYPE := Debug
@@ -191,7 +191,7 @@ BUILD_ARGS += -v
 endif
 
 ifeq (1,$(WANT_OZONE))
-GN_DEFINES += use_ozone=true ozone_auto_platforms=false ozone_platform_x11=true ozone_platform_wayland=true use_xkbcommon=true
+BROWSER_GN_DEFINES += use_ozone=true ozone_auto_platforms=false ozone_platform_x11=true ozone_platform_wayland=true use_xkbcommon=true
 endif
 
 subst_files = \
