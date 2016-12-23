@@ -1,3 +1,9 @@
+chromium-browser (57.0.2950.4-0ubuntu1~ppa10~14.04.1) trusty; urgency=low
+
+  * Fix order of arguments in dh call.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 23 Dec 2016 14:13:49 -0500
+
 chromium-browser (57.0.2950.4-0ubuntu1~ppa9~14.04.1) trusty; urgency=low
 
   * Update path to va_drm.h in VAAPI patch.

@@ -258,7 +258,7 @@ endif
 # Debian Policy §4.9
 binary binary-arch binary-indep build build-arch build-indep clean install install-arch install-indep patch:
 	@set -eux
-	dh --sourcedirectory=$(SRC_DIR) --builddirectory=$(SRC_DIR)/out/$(BUILD_TYPE) $@
+	dh $@ --sourcedirectory=$(SRC_DIR) --builddirectory=$(SRC_DIR)/out/$(BUILD_TYPE)
 
 # BZR build-deb rule
 get-packaged-orig-source: URL=https://commondatastorage.googleapis.com/chromium-browser-official/chromium-$(ORIG_VERSION).tar.xz

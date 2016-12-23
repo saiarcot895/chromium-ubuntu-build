@@ -1,3 +1,9 @@
+chromium-browser (57.0.2950.4-0ubuntu1~ppa10~16.10.1) yakkety; urgency=low
+
+  * Fix order of arguments in dh call.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 23 Dec 2016 14:13:50 -0500
+
 chromium-browser (57.0.2950.4-0ubuntu1~ppa9~16.10.1) yakkety; urgency=low
 
   * Update path to va_drm.h in VAAPI patch.
