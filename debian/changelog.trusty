@@ -1,3 +1,9 @@
+chromium-browser (57.0.2950.4-0ubuntu1~ppa7~14.04.1) trusty; urgency=low
+
+  * Try again.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 23 Dec 2016 01:25:06 -0500
+
 chromium-browser (57.0.2950.4-0ubuntu1~ppa6~14.04.1) trusty; urgency=low
 
   * Have a few GN defines be applied only when compiling the browser
