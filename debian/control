@@ -41,19 +41,22 @@ Build-Depends: debhelper (>= 9),
 		libexif-dev,
 		libssl-dev,
 		libkrb5-dev,
+		libva-dev,
 		libffi-dev,
+		chrpath,
 		libxkbcommon-dev,
+		libwayland-dev,
 		libegl1-mesa-dev,
-		chrpath
+		libgbm-dev
 Standards-Version: 3.9.5
 
 Package: chromium-browser
-Architecture: armhf arm64 i386 amd64
+Architecture: armhf armel i386 amd64
 Pre-Depends: dpkg (>= 1.15.6)
 Depends: ${shlibs:Depends}, ${misc:Depends},
 	xdg-utils,
 	chromium-codecs-ffmpeg-extra (= ${binary:Version}) | chromium-codecs-ffmpeg (= ${binary:Version})
-Recommends: chromium-browser-l10n, libva1, libva-x11-1
+Recommends: chromium-browser-l10n, libva1, libva-x11-1, libva-wayland1
 Suggests: webaccounts-chromium-extension,
 	unity-chromium-extension,
 	chromiumflashplugin
@@ -85,7 +88,7 @@ Description: chromium-browser language packages
  vi, zh-CN, zh-TW
 
 Package: chromium-chromedriver
-Architecture: armhf arm64 i386 amd64
+Architecture: armhf armel i386 amd64
 Pre-Depends: dpkg (>= 1.15.6)
 Depends: ${shlibs:Depends}, ${misc:Depends}, chromium-browser (= ${binary:Version})
 Description: ChromeDriver
@@ -96,9 +99,9 @@ Description: ChromeDriver
  WebDriver's wire protocol.
 
 Package: chromium-codecs-ffmpeg
-Architecture: armhf arm64 i386 amd64
+Architecture: armhf armel i386 amd64
 Pre-Depends: dpkg (>= 1.15.6)
-Depends: ${shlibs:Depends}, ${misc:Depends}, chromium-browser (= ${binary:Version})
+Depends: ${shlibs:Depends}, ${misc:Depends}, chromium-browser (>= 4.0.203.0~)
 Conflicts: chromium-codecs-ffmpeg-extra
 Replaces: chromium-codecs-ffmpeg-extra
 Description: Free ffmpeg codecs for the Chromium Browser
@@ -110,9 +113,9 @@ Description: Free ffmpeg codecs for the Chromium Browser
  included. See chromium-codecs-ffmpeg-extra for additional codecs
 
 Package: chromium-codecs-ffmpeg-extra
-Architecture: armhf arm64 i386 amd64
+Architecture: armhf armel i386 amd64
 Pre-Depends: dpkg (>= 1.15.6)
-Depends: ${shlibs:Depends}, ${misc:Depends}, chromium-browser (= ${binary:Version})
+Depends: ${shlibs:Depends}, ${misc:Depends}, chromium-browser (>= 4.0.203.0~)
 Conflicts: chromium-codecs-ffmpeg
 Replaces: chromium-codecs-ffmpeg
 Description: Extra ffmpeg codecs for the Chromium Browser

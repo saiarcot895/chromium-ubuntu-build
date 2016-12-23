@@ -1,9 +1,10 @@
-chromium-browser (57.0.2950.4-0ubuntu1~ppa6~17.04.1) UNRELEASED; urgency=low
+chromium-browser (57.0.2950.4-0ubuntu1~ppa6~17.04.1) zesty; urgency=low
 
   * Have a few GN defines be applied only when compiling the browser
     (and not GN itself or ffmpeg)
+  * Try building with ozone.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 20 Dec 2016 19:12:30 -0500
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 23 Dec 2016 00:22:13 -0500
 
 chromium-browser (57.0.2950.4-0ubuntu1~ppa5~17.04.1) zesty; urgency=low
 
