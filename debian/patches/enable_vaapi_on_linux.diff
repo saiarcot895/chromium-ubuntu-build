@@ -112,7 +112,7 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 +#include "third_party/libva/va/va_x11.h"
 +#include "ui/gfx/x/x11_types.h"
 +#elif defined(USE_OZONE)
-+#include "third_party/libva/va/va_drm.h"
++#include "third_party/libva/va/drm/va_drm.h"
 +#include "third_party/libva/va/va_drmcommon.h"
 +#endif
 +#endif

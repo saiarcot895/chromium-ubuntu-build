@@ -1,3 +1,11 @@
+chromium-browser (57.0.2950.4-0ubuntu1~ppa9~16.10.1) yakkety; urgency=low
+
+  * Update path to va_drm.h in VAAPI patch.
+  * Update compat version to 9.
+  * Exclude a binary that is probably only used for development.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 23 Dec 2016 13:58:22 -0500
+
 chromium-browser (57.0.2950.4-0ubuntu1~ppa8~16.10.1) yakkety; urgency=low
 
   * Disable desktop integration settings patch for Aura.
