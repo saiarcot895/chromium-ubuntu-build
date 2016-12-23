@@ -10,7 +10,7 @@ arm-neon.patch
 #ffmpeg-gyp-config.patch
 additional-search-engines.patch
 3-chrome-xid.patch
-5-desktop-integration-settings.patch
+#5-desktop-integration-settings.patch
 6-passwordless-install-support.patch
 7-npapi-permission-not-defaults-to-unauthorized.patch
 #breakpad
