@@ -1,9 +1,11 @@
-chromium-browser (57.0.2950.4-0ubuntu1~ppa12~16.10.1) UNRELEASED; urgency=low
+chromium-browser (57.0.2950.4-0ubuntu1~ppa12~16.10.1) yakkety; urgency=low
 
   * Fix conditional for requiring clang to match Trusty.
   * Disable ozone. It's only supported on mash shells right now.
+  * Update specify-max-reoslution patch to rely on libva returning a
+    resolution
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 26 Dec 2016 10:07:04 -0500
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 26 Dec 2016 14:00:09 -0500
 
 chromium-browser (57.0.2950.4-0ubuntu1~ppa11~16.10.1) yakkety; urgency=low
 
