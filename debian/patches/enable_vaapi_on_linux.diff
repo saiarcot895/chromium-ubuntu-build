@@ -101,7 +101,7 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  #include "content/common/sandbox_linux/sandbox_bpf_base_policy_linux.h"
  #include "content/common/sandbox_linux/sandbox_seccomp_bpf_linux.h"
  #include "content/common/set_process_title.h"
-@@ -36,6 +42,27 @@
+@@ -36,6 +42,28 @@
  #include "sandbox/linux/syscall_broker/broker_process.h"
  #include "sandbox/linux/system_headers/linux_syscalls.h"
  
@@ -112,6 +112,7 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 +#include "third_party/libva/va/va_x11.h"
 +#include "ui/gfx/x/x11_types.h"
 +#elif defined(USE_OZONE)
++#include "base/files/file.h"
 +#include "third_party/libva/va/drm/va_drm.h"
 +#include "third_party/libva/va/va_drmcommon.h"
 +#endif
@@ -129,7 +130,7 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  using sandbox::arch_seccomp_data;
  using sandbox::bpf_dsl::Allow;
  using sandbox::bpf_dsl::ResultExpr;
-@@ -44,6 +71,17 @@ using sandbox::syscall_broker::BrokerFil
+@@ -44,6 +72,17 @@ using sandbox::syscall_broker::BrokerFil
  using sandbox::syscall_broker::BrokerProcess;
  using sandbox::SyscallSets;
  
@@ -147,7 +148,7 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  namespace content {
  
  namespace {
-@@ -98,7 +136,7 @@ inline bool UseLibV4L2() {
+@@ -98,7 +137,7 @@ inline bool UseLibV4L2() {
  
  bool IsAcceleratedVaapiVideoEncodeEnabled() {
    bool accelerated_encode_enabled = false;
@@ -156,7 +157,7 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
    const base::CommandLine& command_line =
        *base::CommandLine::ForCurrentProcess();
    accelerated_encode_enabled =
-@@ -290,6 +328,32 @@ ResultExpr GpuProcessPolicy::EvaluateSys
+@@ -290,6 +329,36 @@ ResultExpr GpuProcessPolicy::EvaluateSys
    }
  }
  
@@ -174,7 +175,11 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 +    return NULL;
 +  }
 +#if defined(USE_OZONE)
-+  va_display = vaGetDisplayDRM(drm_fd_.get());
++  const char kDriRenderNode0Path[] = "/dev/dri/renderD128";
++  base::File drm_file = base::File(
++      base::FilePath::FromUTF8Unsafe(kDriRenderNode0Path),
++      base::File::FLAG_OPEN | base::File::FLAG_READ | base::File::FLAG_WRITE);
++  va_display = vaGetDisplayDRM(drm_file.GetPlatformFile());
 +#elif defined(USE_X11)
 +  va_display = vaGetDisplay(gfx::GetXDisplay());
 +#endif
@@ -189,7 +194,7 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  bool GpuProcessPolicy::PreSandboxHook() {
    // Warm up resources needed by the policy we're about to enable and
    // eventually start a broker process.
-@@ -303,32 +367,75 @@ bool GpuProcessPolicy::PreSandboxHook()
+@@ -303,32 +372,75 @@ bool GpuProcessPolicy::PreSandboxHook()
        GpuBrokerProcessPolicy::Create,
        std::vector<BrokerFilePermission>());  // No extra files in whitelist.
  

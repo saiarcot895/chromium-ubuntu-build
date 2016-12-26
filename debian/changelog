@@ -1,3 +1,9 @@
+chromium-browser (57.0.2950.4-0ubuntu1~ppa11~17.04.1) UNRELEASED; urgency=low
+
+  * Update VAAPI patch for DRM use.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 25 Dec 2016 22:57:10 -0500
+
 chromium-browser (57.0.2950.4-0ubuntu1~ppa10~17.04.1) zesty; urgency=low
 
   * Fix order of arguments in dh call.
