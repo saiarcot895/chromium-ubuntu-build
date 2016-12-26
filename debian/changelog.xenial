@@ -1,6 +1,7 @@
 chromium-browser (57.0.2950.4-0ubuntu1~ppa12~16.04.1) UNRELEASED; urgency=low
 
   * Fix conditional for requiring clang to match Trusty.
+  * Disable ozone. It's only supported on mash shells right now.
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 26 Dec 2016 10:07:04 -0500
 
