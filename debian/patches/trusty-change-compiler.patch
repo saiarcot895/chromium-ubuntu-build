@@ -1,0 +1,16 @@
+Index: dev/build/toolchain/gcc_toolchain.gni
+===================================================================
+--- dev.orig/build/toolchain/gcc_toolchain.gni
++++ dev/build/toolchain/gcc_toolchain.gni
+@@ -482,9 +482,8 @@ template("clang_toolchain") {
+   }
+ 
+   gcc_toolchain(target_name) {
+-    prefix = rebase_path("$clang_base_path/bin", root_build_dir)
+-    cc = "$prefix/clang"
+-    cxx = "$prefix/clang++"
++    cc = "clang-3.8"
++    cxx = "clang++-3.8"
+     ld = cxx
+ 
+     readelf = "${toolprefix}readelf"
