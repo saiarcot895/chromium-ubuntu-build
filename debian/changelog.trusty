@@ -1,3 +1,9 @@
+chromium-browser (57.0.2950.4-0ubuntu1~ppa12~14.04.1) UNRELEASED; urgency=low
+
+  * Fix conditional for requiring clang to match Trusty.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 26 Dec 2016 10:07:04 -0500
+
 chromium-browser (57.0.2950.4-0ubuntu1~ppa11~14.04.1) trusty; urgency=low
 
   * Update VAAPI patch for DRM use.
