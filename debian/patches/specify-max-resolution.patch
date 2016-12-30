@@ -9,7 +9,7 @@ Index: dev/media/gpu/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi_wrapper.cc
-@@ -460,9 +460,7 @@ bool VaapiWrapper::GetMaxResolution_Lock
+@@ -492,9 +492,7 @@ bool VaapiWrapper::GetMaxResolution_Lock
        resolution->set_height(attrib.value.value.i);
    }
    if (resolution->IsEmpty()) {
@@ -20,4 +20,3 @@ Index: dev/media/gpu/vaapi_wrapper.cc
    }
    return true;
  }
- 
