@@ -1,3 +1,10 @@
+chromium-browser (57.0.2950.4-0ubuntu1~ppa13~16.10.1) UNRELEASED; urgency=low
+
+  * Try to fix up debian/rules for the new debhelper compatibility
+    level.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 30 Dec 2016 11:00:28 -0500
+
 chromium-browser (57.0.2950.4-0ubuntu1~ppa12~16.10.1) yakkety; urgency=low
 
   * Fix conditional for requiring clang to match Trusty.
