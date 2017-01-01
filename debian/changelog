@@ -1,3 +1,10 @@
+chromium-browser (57.0.2950.4-0ubuntu1~ppa14~17.04.1) zesty; urgency=low
+
+  * Fix build dependency name.
+  * Don't package Packages folder or WidevineCdm folder.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 31 Dec 2016 21:09:40 -0500
+
 chromium-browser (57.0.2950.4-0ubuntu1~ppa13~17.04.1) zesty; urgency=low
 
   * Try to fix up debian/rules for the new debhelper compatibility
