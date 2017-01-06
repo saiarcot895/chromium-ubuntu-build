@@ -98,7 +98,7 @@ Description: ChromeDriver
 Package: chromium-codecs-ffmpeg
 Architecture: armhf arm64 i386 amd64
 Pre-Depends: dpkg (>= 1.15.6)
-Depends: ${shlibs:Depends}, ${misc:Depends}, chromium-browser (= ${binary:Version})
+Depends: ${shlibs:Depends}, ${misc:Depends}
 Conflicts: chromium-codecs-ffmpeg-extra
 Replaces: chromium-codecs-ffmpeg-extra
 Description: Free ffmpeg codecs for the Chromium Browser
@@ -112,7 +112,7 @@ Description: Free ffmpeg codecs for the Chromium Browser
 Package: chromium-codecs-ffmpeg-extra
 Architecture: armhf arm64 i386 amd64
 Pre-Depends: dpkg (>= 1.15.6)
-Depends: ${shlibs:Depends}, ${misc:Depends}, chromium-browser (= ${binary:Version})
+Depends: ${shlibs:Depends}, ${misc:Depends}
 Conflicts: chromium-codecs-ffmpeg
 Replaces: chromium-codecs-ffmpeg
 Description: Extra ffmpeg codecs for the Chromium Browser
