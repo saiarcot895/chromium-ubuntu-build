@@ -3,6 +3,8 @@ chromium-browser (57.0.2950.4-0ubuntu1~ppa15~14.04.1) UNRELEASED; urgency=low
   * The ffmpeg libraries don't technically depend on Chromium, and are
     used by other browsers. Therefore, don't require installing Chromium
     as well.
+  * Fix tar command for the main package, and exclude a couple of known
+    unneeded files.
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 06 Jan 2017 18:52:30 -0500
 
