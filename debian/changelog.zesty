@@ -1,12 +1,14 @@
-chromium-browser (57.0.2950.4-0ubuntu1~ppa15~17.04.1) UNRELEASED; urgency=low
+chromium-browser (57.0.2970.0-0ubuntu1~ppa1~17.04.1) zesty; urgency=low
 
   * The ffmpeg libraries don't technically depend on Chromium, and are
     used by other browsers. Therefore, don't require installing Chromium
     as well.
   * Fix tar command for the main package, and exclude a couple of known
     unneeded files.
+  * New upstream version 57.0.2970.0
+  * Updated patches.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 06 Jan 2017 18:52:34 -0500
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 06 Jan 2017 19:09:01 -0500
 
 chromium-browser (57.0.2950.4-0ubuntu1~ppa14~17.04.1) zesty; urgency=low
 

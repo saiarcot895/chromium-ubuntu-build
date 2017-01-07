@@ -10,7 +10,7 @@ Index: dev/chrome/browser/ui/views/frame/browser_frame.cc
  
  #if defined(OS_CHROMEOS)
  #include "ash/common/session/session_state_delegate.h"  // nogncheck
-@@ -137,6 +138,12 @@ BrowserNonClientFrameView* BrowserFrame:
+@@ -129,6 +130,12 @@ BrowserNonClientFrameView* BrowserFrame:
    return browser_frame_view_;
  }
  
@@ -27,7 +27,7 @@ Index: dev/chrome/browser/ui/views/frame/browser_frame.h
 ===================================================================
 --- dev.orig/chrome/browser/ui/views/frame/browser_frame.h
 +++ dev/chrome/browser/ui/views/frame/browser_frame.h
-@@ -107,6 +107,8 @@ class BrowserFrame
+@@ -98,6 +98,8 @@ class BrowserFrame
    // Called when BrowserView creates all it's child views.
    void OnBrowserViewInitViewsComplete();
  
@@ -76,7 +76,7 @@ Index: dev/ui/aura/client/aura_constants.cc
  DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, base::string16*)
  DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, ui::ModalType)
  DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, gfx::ImageSkia*)
-@@ -56,6 +58,7 @@ DEFINE_OWNED_WINDOW_PROPERTY_KEY(gfx::Im
+@@ -55,6 +57,7 @@ DEFINE_OWNED_WINDOW_PROPERTY_KEY(gfx::Im
  DEFINE_WINDOW_PROPERTY_KEY(ui::mojom::WindowType,
                             kWindowTypeKey,
                             ui::mojom::WindowType::UNKNOWN);
@@ -88,7 +88,7 @@ Index: dev/ui/aura/client/aura_constants.h
 ===================================================================
 --- dev.orig/ui/aura/client/aura_constants.h
 +++ dev/ui/aura/client/aura_constants.h
-@@ -109,6 +109,9 @@ AURA_EXPORT extern const WindowProperty<
+@@ -105,6 +105,9 @@ AURA_EXPORT extern const WindowProperty<
  AURA_EXPORT extern const aura::WindowProperty<ui::mojom::WindowType>* const
      kWindowTypeKey;
  
@@ -115,7 +115,7 @@ Index: dev/ui/views/mus/native_widget_mus.cc
 ===================================================================
 --- dev.orig/ui/views/mus/native_widget_mus.cc
 +++ dev/ui/views/mus/native_widget_mus.cc
-@@ -649,6 +649,10 @@ void NativeWidgetMus::UpdateClientArea()
+@@ -661,6 +661,10 @@ void NativeWidgetMus::UpdateClientArea()
        non_client_view->bounds().width() - client_area_rect.right()));
  }
  
@@ -130,7 +130,7 @@ Index: dev/ui/views/mus/native_widget_mus.h
 ===================================================================
 --- dev.orig/ui/views/mus/native_widget_mus.h
 +++ dev/ui/views/mus/native_widget_mus.h
-@@ -106,6 +106,8 @@ class VIEWS_MUS_EXPORT NativeWidgetMus
+@@ -107,6 +107,8 @@ class VIEWS_MUS_EXPORT NativeWidgetMus
    void OnPlatformWindowClosed();
    void OnActivationChanged(bool active);
  
@@ -143,7 +143,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
 ===================================================================
 --- dev.orig/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
 +++ dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
-@@ -593,6 +593,11 @@ void DesktopNativeWidgetAura::ViewRemove
+@@ -595,6 +595,11 @@ void DesktopNativeWidgetAura::ViewRemove
    drop_helper_->ResetTargetViewIfEquals(view);
  }
  
@@ -159,7 +159,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.h
 ===================================================================
 --- dev.orig/ui/views/widget/desktop_aura/desktop_native_widget_aura.h
 +++ dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.h
-@@ -95,6 +95,8 @@ class VIEWS_EXPORT DesktopNativeWidgetAu
+@@ -97,6 +97,8 @@ class VIEWS_EXPORT DesktopNativeWidgetAu
    // we are being activated/deactivated.
    void HandleActivationChanged(bool active);
  
@@ -172,7 +172,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host.h
 ===================================================================
 --- dev.orig/ui/views/widget/desktop_aura/desktop_window_tree_host.h
 +++ dev/ui/views/widget/desktop_aura/desktop_window_tree_host.h
-@@ -74,6 +74,8 @@ class VIEWS_EXPORT DesktopWindowTreeHost
+@@ -78,6 +78,8 @@ class VIEWS_EXPORT DesktopWindowTreeHost
  
    virtual bool IsVisible() const = 0;
  
@@ -202,7 +202,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
    "XdndActionAsk",
    "XdndActionCopy",
    "XdndActionLink",
-@@ -1682,6 +1685,22 @@ void DesktopWindowTreeHostX11::UpdateMin
+@@ -1689,6 +1692,22 @@ void DesktopWindowTreeHostX11::UpdateMin
    XSetWMNormalHints(xdisplay_, xwindow_, &hints);
  }
  
@@ -293,7 +293,7 @@ Index: dev/ui/views/mus/desktop_window_tree_host_mus.cc
 ===================================================================
 --- dev.orig/ui/views/mus/desktop_window_tree_host_mus.cc
 +++ dev/ui/views/mus/desktop_window_tree_host_mus.cc
-@@ -190,6 +190,10 @@ DesktopWindowTreeHostMus::~DesktopWindow
+@@ -200,6 +200,10 @@ DesktopWindowTreeHostMus::~DesktopWindow
    desktop_native_widget_aura_->OnDesktopWindowTreeHostDestroyed(this);
  }
  
@@ -308,9 +308,9 @@ Index: dev/ui/views/mus/desktop_window_tree_host_mus.h
 ===================================================================
 --- dev.orig/ui/views/mus/desktop_window_tree_host_mus.h
 +++ dev/ui/views/mus/desktop_window_tree_host_mus.h
-@@ -37,6 +37,8 @@ class VIEWS_MUS_EXPORT DesktopWindowTree
-   // Called when the window was deleted on the server.
-   void ServerDestroyedWindow() { CloseNow(); }
+@@ -42,6 +42,8 @@ class VIEWS_MUS_EXPORT DesktopWindowTree
+     auto_update_client_area_ = value;
+   }
  
 +  void SetSessionID(uint32_t sessionid);
 +

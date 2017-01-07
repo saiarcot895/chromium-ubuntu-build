@@ -4,11 +4,11 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -976,7 +976,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -980,7 +980,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_NAME,
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
--        kOsMac | kOsWin | kOsCrOS,
+-        kOsMac | kOsWin | kOsCrOS | kOsAndroid,
 +        kOsAll,
          SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
@@ -67,7 +67,7 @@ Index: dev/content/common/BUILD.gn
  source_set("common") {
    # Targets external to content should always link to the public API.
    # In addition, targets outside of the content component (shell and tests)
-@@ -527,6 +570,16 @@ source_set("common") {
+@@ -525,6 +568,16 @@ source_set("common") {
          "sandbox_linux/android/sandbox_bpf_base_policy_android.h",
        ]
      }
@@ -316,7 +316,7 @@ Index: dev/content/gpu/gpu_main.cc
 ===================================================================
 --- dev.orig/content/gpu/gpu_main.cc
 +++ dev/content/gpu/gpu_main.cc
-@@ -79,7 +79,7 @@
+@@ -80,7 +80,7 @@
  #include "content/common/sandbox_mac.h"
  #endif
  
@@ -325,7 +325,7 @@ Index: dev/content/gpu/gpu_main.cc
  #include "media/gpu/vaapi_wrapper.h"
  #endif
  
-@@ -134,7 +134,7 @@ class ContentSandboxHelper : public gpu:
+@@ -135,7 +135,7 @@ class ContentSandboxHelper : public gpu:
        (void)base::RandUint64();
      }
  
@@ -338,7 +338,7 @@ Index: dev/content/public/common/content_switches.cc
 ===================================================================
 --- dev.orig/content/public/common/content_switches.cc
 +++ dev/content/public/common/content_switches.cc
-@@ -998,7 +998,9 @@ const char kDisableAudioSupportForDeskto
+@@ -1003,7 +1003,9 @@ const char kDisableAudioSupportForDeskto
  #if defined(OS_CHROMEOS)
  // Disables panel fitting (used for mirror mode).
  const char kDisablePanelFitting[]           = "disable-panel-fitting";
@@ -387,7 +387,7 @@ Index: dev/media/BUILD.gn
 ===================================================================
 --- dev.orig/media/BUILD.gn
 +++ dev/media/BUILD.gn
-@@ -376,7 +376,7 @@ component("media") {
+@@ -377,7 +377,7 @@ component("media") {
      allow_circular_includes_from = [ "//media/base/android" ]
    }
  
@@ -396,7 +396,7 @@ Index: dev/media/BUILD.gn
      sources += [
        "filters/h264_bitstream_buffer.cc",
        "filters/h264_bitstream_buffer.h",
-@@ -672,7 +672,7 @@ source_set("unit_tests") {
+@@ -673,7 +673,7 @@ source_set("unit_tests") {
      }
    }
  
