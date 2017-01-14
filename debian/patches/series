@@ -57,4 +57,3 @@ gn-nacl-use-gcc-toolchain.patch
 nacl-dont-use-icf.patch
 #linux45-madvfree
 dont-assume-neon-exists.patch
-fix-gl-image.patch

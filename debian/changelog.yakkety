@@ -1,8 +1,10 @@
-chromium-browser (57.0.2970.0-0ubuntu1~ppa2~16.10.1) UNRELEASED; urgency=low
+chromium-browser (57.0.2979.0-0ubuntu1~ppa1~16.10.1) yakkety; urgency=low
 
   * Switch back to standard dependencies.
+  * New upstream version 57.0.2979.0
+  * Updated patches.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 14 Jan 2017 01:55:26 -0500
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 14 Jan 2017 11:14:40 -0500
 
 chromium-browser (57.0.2970.0-0ubuntu1~ppa1~16.10.1) yakkety; urgency=low
 

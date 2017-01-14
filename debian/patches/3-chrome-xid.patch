@@ -52,7 +52,7 @@ Index: dev/ash/mus/non_client_frame_controller.cc
 ===================================================================
 --- dev.orig/ash/mus/non_client_frame_controller.cc
 +++ dev/ash/mus/non_client_frame_controller.cc
-@@ -262,6 +262,10 @@ class ClientViewMus : public views::Clie
+@@ -263,6 +263,10 @@ class ClientViewMus : public views::Clie
      return false;
    }
  
@@ -111,34 +111,6 @@ Index: dev/ui/aura/window_tree_host_x11.h
    // WindowTreeHost:
    ui::EventSource* GetEventSource() override;
    gfx::AcceleratedWidget GetAcceleratedWidget() override;
-Index: dev/ui/views/mus/native_widget_mus.cc
-===================================================================
---- dev.orig/ui/views/mus/native_widget_mus.cc
-+++ dev/ui/views/mus/native_widget_mus.cc
-@@ -661,6 +661,10 @@ void NativeWidgetMus::UpdateClientArea()
-       non_client_view->bounds().width() - client_area_rect.right()));
- }
- 
-+void NativeWidgetMus::SetSessionID(uint32_t sessionid) {
-+  // Do nothing.
-+}
-+
- ////////////////////////////////////////////////////////////////////////////////
- // NativeWidgetMus, private:
- 
-Index: dev/ui/views/mus/native_widget_mus.h
-===================================================================
---- dev.orig/ui/views/mus/native_widget_mus.h
-+++ dev/ui/views/mus/native_widget_mus.h
-@@ -107,6 +107,8 @@ class VIEWS_MUS_EXPORT NativeWidgetMus
-   void OnPlatformWindowClosed();
-   void OnActivationChanged(bool active);
- 
-+  void SetSessionID(uint32_t sessionid);
-+
-  protected:
-   // Updates the client area in the ui::Window.
-   virtual void UpdateClientArea();
 Index: dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
 ===================================================================
 --- dev.orig/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
@@ -255,16 +227,16 @@ Index: dev/ui/views/widget/native_widget_aura.cc
 ===================================================================
 --- dev.orig/ui/views/widget/native_widget_aura.cc
 +++ dev/ui/views/widget/native_widget_aura.cc
-@@ -69,6 +69,8 @@
+@@ -71,6 +71,8 @@
  #include "ui/views/widget/desktop_aura/desktop_window_tree_host.h"
  #endif
  
 +#include <signal.h>
 +
- namespace views {
+ DECLARE_WINDOW_PROPERTY_TYPE(views::internal::NativeWidgetPrivate*)
  
- namespace {
-@@ -368,6 +370,11 @@ void NativeWidgetAura::CenterWindow(cons
+ namespace views {
+@@ -380,6 +382,11 @@ void NativeWidgetAura::CenterWindow(cons
    window_->SetBounds(window_bounds);
  }
  
