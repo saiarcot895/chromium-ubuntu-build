@@ -1,3 +1,9 @@
+chromium-browser (57.0.2970.0-0ubuntu1~ppa2~16.10.1) UNRELEASED; urgency=low
+
+  * Switch back to standard dependencies.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 14 Jan 2017 01:55:26 -0500
+
 chromium-browser (57.0.2970.0-0ubuntu1~ppa1~16.10.1) yakkety; urgency=low
 
   * The ffmpeg libraries don't technically depend on Chromium, and are
