@@ -1,8 +1,8 @@
-Index: dev/chrome/common/chrome_content_client.cc
+Index: beta/chrome/common/chrome_content_client.cc
 ===================================================================
---- dev.orig/chrome/common/chrome_content_client.cc
-+++ dev/chrome/common/chrome_content_client.cc
-@@ -210,9 +210,7 @@ void ComputeBuiltInPlugins(std::vector<c
+--- beta.orig/chrome/common/chrome_content_client.cc
++++ beta/chrome/common/chrome_content_client.cc
+@@ -211,9 +211,7 @@ void ComputeBuiltInPlugins(std::vector<c
      widevine_cdm.path = adapter_path;
      widevine_cdm.name = kWidevineCdmDisplayName;
      widevine_cdm.description =
@@ -13,7 +13,7 @@ Index: dev/chrome/common/chrome_content_client.cc
      content::WebPluginMimeType widevine_cdm_mime_type(
          kWidevineCdmPluginMimeType, kWidevineCdmPluginExtension,
          kWidevineCdmPluginMimeTypeDescription);
-@@ -545,8 +543,7 @@ void ChromeContentClient::AddContentDecr
+@@ -546,8 +544,7 @@ void ChromeContentClient::AddContentDecr
      // CdmInfo needs |path| to be the actual Widevine library,
      // not the adapter, so adjust as necessary. It will be in the
      // same directory as the installed adapter.
