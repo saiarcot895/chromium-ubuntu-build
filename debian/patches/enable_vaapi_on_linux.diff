@@ -4,7 +4,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -1005,7 +1005,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1004,7 +1004,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_NAME,
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
@@ -303,7 +303,7 @@ Index: dev/content/gpu/BUILD.gn
 ===================================================================
 --- dev.orig/content/gpu/BUILD.gn
 +++ dev/content/gpu/BUILD.gn
-@@ -91,7 +91,7 @@ target(link_target_type, "gpu_sources")
+@@ -92,7 +92,7 @@ target(link_target_type, "gpu_sources")
      ]
    }
  
@@ -316,7 +316,7 @@ Index: dev/content/gpu/gpu_main.cc
 ===================================================================
 --- dev.orig/content/gpu/gpu_main.cc
 +++ dev/content/gpu/gpu_main.cc
-@@ -80,7 +80,7 @@
+@@ -81,7 +81,7 @@
  #include "content/common/sandbox_mac.h"
  #endif
  
@@ -325,7 +325,7 @@ Index: dev/content/gpu/gpu_main.cc
  #include "media/gpu/vaapi_wrapper.h"
  #endif
  
-@@ -136,7 +136,7 @@ class ContentSandboxHelper : public gpu:
+@@ -137,7 +137,7 @@ class ContentSandboxHelper : public gpu:
        (void)base::RandUint64();
      }
  
@@ -338,7 +338,7 @@ Index: dev/content/public/common/content_switches.cc
 ===================================================================
 --- dev.orig/content/public/common/content_switches.cc
 +++ dev/content/public/common/content_switches.cc
-@@ -1011,7 +1011,9 @@ const char kDisableAudioSupportForDeskto
+@@ -1012,7 +1012,9 @@ const char kDisableAudioSupportForDeskto
  #if defined(OS_CHROMEOS)
  // Disables panel fitting (used for mirror mode).
  const char kDisablePanelFitting[]           = "disable-panel-fitting";
@@ -387,7 +387,7 @@ Index: dev/media/BUILD.gn
 ===================================================================
 --- dev.orig/media/BUILD.gn
 +++ dev/media/BUILD.gn
-@@ -377,7 +377,7 @@ component("media") {
+@@ -397,7 +397,7 @@ component("media") {
      allow_circular_includes_from = [ "//media/base/android" ]
    }
  
@@ -396,7 +396,7 @@ Index: dev/media/BUILD.gn
      sources += [
        "filters/h264_bitstream_buffer.cc",
        "filters/h264_bitstream_buffer.h",
-@@ -673,7 +673,7 @@ source_set("unit_tests") {
+@@ -668,7 +668,7 @@ source_set("unit_tests") {
      }
    }
  
@@ -557,12 +557,12 @@ Index: dev/media/gpu/vaapi_video_decode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi_video_decode_accelerator.cc
 +++ dev/media/gpu/vaapi_video_decode_accelerator.cc
-@@ -359,17 +359,17 @@ bool VaapiVideoDecodeAccelerator::Initia
+@@ -358,17 +358,17 @@ bool VaapiVideoDecodeAccelerator::Initia
  
    base::AutoLock auto_lock(lock_);
    DCHECK_EQ(state_, kUninitialized);
--  DVLOG(2) << "Initializing VAVDA, profile: " << profile;
-+  VLOG(1) << "Initializing VAVDA, profile: " << profile;
+-  DVLOG(2) << "Initializing VAVDA, profile: " << GetProfileName(profile);
++  VLOG(1) << "Initializing VAVDA, profile: " << GetProfileName(profile);
  
  #if defined(USE_X11)
    if (gl::GetGLImplementation() != gl::kGLImplementationDesktopGL) {
@@ -578,21 +578,21 @@ Index: dev/media/gpu/vaapi_video_decode_accelerator.cc
               << "EGLGLES2.";
      return false;
    }
-@@ -379,7 +379,7 @@ bool VaapiVideoDecodeAccelerator::Initia
+@@ -378,7 +378,7 @@ bool VaapiVideoDecodeAccelerator::Initia
        VaapiWrapper::kDecode, profile, base::Bind(&ReportToUMA, VAAPI_ERROR));
  
    if (!vaapi_wrapper_.get()) {
--    DVLOG(1) << "Failed initializing VAAPI for profile " << profile;
-+    VLOG(1) << "Failed initializing VAAPI for profile " << profile;
+-    DVLOG(1) << "Failed initializing VAAPI for profile "
++    VLOG(1) << "Failed initializing VAAPI for profile "
+              << GetProfileName(profile);
      return false;
    }
- 
 @@ -394,7 +394,7 @@ bool VaapiVideoDecodeAccelerator::Initia
      vp9_accelerator_.reset(new VaapiVP9Accelerator(this, vaapi_wrapper_.get()));
      decoder_.reset(new VP9Decoder(vp9_accelerator_.get()));
    } else {
--    DLOG(ERROR) << "Unsupported profile " << profile;
-+    VLOG(1) << "Unsupported profile " << profile;
+-    DLOG(ERROR) << "Unsupported profile " << GetProfileName(profile);
++    VLOG(1) << "Unsupported profile " << GetProfileName(profile);
      return false;
    }
  

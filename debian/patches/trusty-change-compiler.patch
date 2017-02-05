@@ -2,7 +2,7 @@ Index: dev/build/toolchain/gcc_toolchain.gni
 ===================================================================
 --- dev.orig/build/toolchain/gcc_toolchain.gni
 +++ dev/build/toolchain/gcc_toolchain.gni
-@@ -482,9 +482,8 @@ template("clang_toolchain") {
+@@ -483,9 +483,8 @@ template("clang_toolchain") {
    }
  
    gcc_toolchain(target_name) {
@@ -13,4 +13,4 @@ Index: dev/build/toolchain/gcc_toolchain.gni
 +    cxx = "clang++-3.8"
      ld = cxx
  
-     readelf = "${toolprefix}readelf"
+     if (use_clang_static_analyzer) {

@@ -40,7 +40,7 @@ Index: dev/chrome/browser/ui/views/frame/browser_view.cc
 ===================================================================
 --- dev.orig/chrome/browser/ui/views/frame/browser_view.cc
 +++ dev/chrome/browser/ui/views/frame/browser_view.cc
-@@ -633,6 +633,7 @@ void BrowserView::Show() {
+@@ -628,6 +628,7 @@ void BrowserView::Show() {
    force_location_bar_focus_ = false;
  
    browser()->OnWindowDidShow();
@@ -70,17 +70,17 @@ Index: dev/ui/aura/client/aura_constants.cc
 @@ -9,6 +9,8 @@
  #include "ui/gfx/geometry/rect.h"
  
- DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, bool)
+ DECLARE_EXPORTED_UI_CLASS_PROPERTY_TYPE(AURA_EXPORT, bool)
 +// SkColor is typedef'ed to uint32_t
-+//DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, uint32_t)
- DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, base::string16*)
- DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, ui::ModalType)
- DECLARE_EXPORTED_WINDOW_PROPERTY_TYPE(AURA_EXPORT, gfx::ImageSkia*)
-@@ -55,6 +57,7 @@ DEFINE_OWNED_WINDOW_PROPERTY_KEY(gfx::Im
- DEFINE_WINDOW_PROPERTY_KEY(ui::mojom::WindowType,
++//DECLARE_EXPORTED_UI_CLASS_PROPERTY_TYPE(AURA_EXPORT, uint32_t)
+ DECLARE_EXPORTED_UI_CLASS_PROPERTY_TYPE(AURA_EXPORT, base::string16*)
+ DECLARE_EXPORTED_UI_CLASS_PROPERTY_TYPE(AURA_EXPORT, ui::ModalType)
+ DECLARE_EXPORTED_UI_CLASS_PROPERTY_TYPE(AURA_EXPORT, gfx::ImageSkia*)
+@@ -59,6 +61,7 @@ DEFINE_OWNED_UI_CLASS_PROPERTY_KEY(gfx::
+ DEFINE_UI_CLASS_PROPERTY_KEY(ui::mojom::WindowType,
                             kWindowTypeKey,
                             ui::mojom::WindowType::UNKNOWN);
-+DEFINE_WINDOW_PROPERTY_KEY(uint32_t, kSessionIdKey, 0);
++DEFINE_UI_CLASS_PROPERTY_KEY(uint32_t, kSessionIdKey, 0);
  
  }  // namespace client
  }  // namespace aura
@@ -88,7 +88,7 @@ Index: dev/ui/aura/client/aura_constants.h
 ===================================================================
 --- dev.orig/ui/aura/client/aura_constants.h
 +++ dev/ui/aura/client/aura_constants.h
-@@ -105,6 +105,9 @@ AURA_EXPORT extern const WindowProperty<
+@@ -119,6 +119,9 @@ AURA_EXPORT extern const WindowProperty<
  AURA_EXPORT extern const aura::WindowProperty<ui::mojom::WindowType>* const
      kWindowTypeKey;
  
@@ -115,8 +115,8 @@ Index: dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
 ===================================================================
 --- dev.orig/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
 +++ dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
-@@ -595,6 +595,11 @@ void DesktopNativeWidgetAura::ViewRemove
-   drop_helper_->ResetTargetViewIfEquals(view);
+@@ -390,6 +390,11 @@ void DesktopNativeWidgetAura::HandleActi
+   }
  }
  
 +void DesktopNativeWidgetAura::SetSessionID(unsigned int sessionid) {
@@ -131,9 +131,9 @@ Index: dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.h
 ===================================================================
 --- dev.orig/ui/views/widget/desktop_aura/desktop_native_widget_aura.h
 +++ dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.h
-@@ -97,6 +97,8 @@ class VIEWS_EXPORT DesktopNativeWidgetAu
-   // we are being activated/deactivated.
-   void HandleActivationChanged(bool active);
+@@ -100,6 +100,8 @@ class VIEWS_EXPORT DesktopNativeWidgetAu
+   // Overridden from internal::NativeWidgetPrivate:
+   void SetNativeWindowProperty(const char* name, void* value) override;
  
 +  void SetSessionID(uint32_t sessionid);
 +
@@ -144,7 +144,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host.h
 ===================================================================
 --- dev.orig/ui/views/widget/desktop_aura/desktop_window_tree_host.h
 +++ dev/ui/views/widget/desktop_aura/desktop_window_tree_host.h
-@@ -78,6 +78,8 @@ class VIEWS_EXPORT DesktopWindowTreeHost
+@@ -81,6 +81,8 @@ class VIEWS_EXPORT DesktopWindowTreeHost
  
    virtual bool IsVisible() const = 0;
  
@@ -174,7 +174,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
    "XdndActionAsk",
    "XdndActionCopy",
    "XdndActionLink",
-@@ -1689,6 +1692,22 @@ void DesktopWindowTreeHostX11::UpdateMin
+@@ -1697,6 +1700,22 @@ void DesktopWindowTreeHostX11::UpdateMin
    XSetWMNormalHints(xdisplay_, xwindow_, &hints);
  }
  
@@ -233,10 +233,10 @@ Index: dev/ui/views/widget/native_widget_aura.cc
  
 +#include <signal.h>
 +
- DECLARE_WINDOW_PROPERTY_TYPE(views::internal::NativeWidgetPrivate*)
+ DECLARE_UI_CLASS_PROPERTY_TYPE(views::internal::NativeWidgetPrivate*)
  
  namespace views {
-@@ -380,6 +382,11 @@ void NativeWidgetAura::CenterWindow(cons
+@@ -379,6 +381,11 @@ void NativeWidgetAura::CenterWindow(cons
    window_->SetBounds(window_bounds);
  }
  
@@ -252,7 +252,7 @@ Index: dev/ui/views/widget/native_widget_aura.h
 ===================================================================
 --- dev.orig/ui/views/widget/native_widget_aura.h
 +++ dev/ui/views/widget/native_widget_aura.h
-@@ -54,6 +54,8 @@ class VIEWS_EXPORT NativeWidgetAura
+@@ -57,6 +57,8 @@ class VIEWS_EXPORT NativeWidgetAura
                                       const gfx::ImageSkia& window_icon,
                                       const gfx::ImageSkia& app_icon);
  
@@ -265,7 +265,7 @@ Index: dev/ui/views/mus/desktop_window_tree_host_mus.cc
 ===================================================================
 --- dev.orig/ui/views/mus/desktop_window_tree_host_mus.cc
 +++ dev/ui/views/mus/desktop_window_tree_host_mus.cc
-@@ -200,6 +200,10 @@ DesktopWindowTreeHostMus::~DesktopWindow
+@@ -216,6 +216,10 @@ DesktopWindowTreeHostMus::~DesktopWindow
    desktop_native_widget_aura_->OnDesktopWindowTreeHostDestroyed(this);
  }
  
@@ -273,14 +273,14 @@ Index: dev/ui/views/mus/desktop_window_tree_host_mus.cc
 +  // Do nothing.
 +}
 +
+ // TODO(afakhry): Remove Docked Windows in M58.
  bool DesktopWindowTreeHostMus::IsDocked() const {
    return window()->GetProperty(aura::client::kShowStateKey) ==
-          ui::SHOW_STATE_DOCKED;
 Index: dev/ui/views/mus/desktop_window_tree_host_mus.h
 ===================================================================
 --- dev.orig/ui/views/mus/desktop_window_tree_host_mus.h
 +++ dev/ui/views/mus/desktop_window_tree_host_mus.h
-@@ -42,6 +42,8 @@ class VIEWS_MUS_EXPORT DesktopWindowTree
+@@ -46,6 +46,8 @@ class VIEWS_MUS_EXPORT DesktopWindowTree
      auto_update_client_area_ = value;
    }
  
