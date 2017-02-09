@@ -1,3 +1,9 @@
+chromium-browser (57.0.2987.21-0ubuntu1~ppa2~16.04.1) xenial; urgency=low
+
+  * Fix include in VAAPI patch.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 08 Feb 2017 21:15:20 -0500
+
 chromium-browser (57.0.2987.21-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
 
   * New upstream version 57.0.2987.21

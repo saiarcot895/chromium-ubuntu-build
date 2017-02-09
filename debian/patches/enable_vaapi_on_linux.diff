@@ -557,6 +557,15 @@ Index: beta/media/gpu/vaapi_video_decode_accelerator.cc
 ===================================================================
 --- beta.orig/media/gpu/vaapi_video_decode_accelerator.cc
 +++ beta/media/gpu/vaapi_video_decode_accelerator.cc
+@@ -12,7 +12,7 @@
+ #include "base/files/scoped_file.h"
+ #include "base/logging.h"
+ #include "base/macros.h"
+-#include "base/metrics/histogram.h"
++#include "base/metrics/histogram_macros.h"
+ #include "base/stl_util.h"
+ #include "base/strings/string_util.h"
+ #include "base/synchronization/waitable_event.h"
 @@ -359,17 +359,17 @@ bool VaapiVideoDecodeAccelerator::Initia
  
    base::AutoLock auto_lock(lock_);
