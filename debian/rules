@@ -91,6 +91,9 @@ GN_DEFINES += enable_widevine=true
 # disable field trial tests
 GN_DEFINES += fieldtrial_testing_like_official_build=true
 
+# don't vulcanize; we don't have the node.js modules needed readily available
+GN_DEFINES += use_vulcanize=false
+
 # use gtk3
 # GN_DEFINES += use_gtk3=true
 # FFMPEG_MT_GN_DEFINES += use_gtk3=true
