@@ -4,7 +4,7 @@ Index: beta/chrome/browser/about_flags.cc
 ===================================================================
 --- beta.orig/chrome/browser/about_flags.cc
 +++ beta/chrome/browser/about_flags.cc
-@@ -1024,7 +1024,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1008,7 +1008,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_NAME,
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
@@ -674,3 +674,16 @@ Index: beta/media/gpu/vaapi_video_encode_accelerator.cc
  #include "base/numerics/safe_conversions.h"
  #include "base/single_thread_task_runner.h"
  #include "base/threading/thread_task_runner_handle.h"
+Index: beta/media/gpu/vaapi_jpeg_decode_accelerator.cc
+===================================================================
+--- beta.orig/media/gpu/vaapi_jpeg_decode_accelerator.cc
++++ beta/media/gpu/vaapi_jpeg_decode_accelerator.cc
+@@ -12,7 +12,7 @@
+ 
+ #include "base/bind.h"
+ #include "base/logging.h"
+-#include "base/metrics/histogram.h"
++#include "base/metrics/histogram_macros.h"
+ #include "base/threading/thread_task_runner_handle.h"
+ #include "base/trace_event/trace_event.h"
+ #include "gpu/ipc/service/gpu_channel.h"
