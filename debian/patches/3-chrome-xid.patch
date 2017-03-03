@@ -40,7 +40,7 @@ Index: dev/chrome/browser/ui/views/frame/browser_view.cc
 ===================================================================
 --- dev.orig/chrome/browser/ui/views/frame/browser_view.cc
 +++ dev/chrome/browser/ui/views/frame/browser_view.cc
-@@ -628,6 +628,7 @@ void BrowserView::Show() {
+@@ -642,6 +642,7 @@ void BrowserView::Show() {
    force_location_bar_focus_ = false;
  
    browser()->OnWindowDidShow();
@@ -52,7 +52,7 @@ Index: dev/ash/mus/non_client_frame_controller.cc
 ===================================================================
 --- dev.orig/ash/mus/non_client_frame_controller.cc
 +++ dev/ash/mus/non_client_frame_controller.cc
-@@ -263,6 +263,10 @@ class ClientViewMus : public views::Clie
+@@ -234,6 +234,10 @@ class ClientViewMus : public views::Clie
      return false;
    }
  
@@ -76,7 +76,7 @@ Index: dev/ui/aura/client/aura_constants.cc
  DECLARE_EXPORTED_UI_CLASS_PROPERTY_TYPE(AURA_EXPORT, base::string16*)
  DECLARE_EXPORTED_UI_CLASS_PROPERTY_TYPE(AURA_EXPORT, ui::ModalType)
  DECLARE_EXPORTED_UI_CLASS_PROPERTY_TYPE(AURA_EXPORT, gfx::ImageSkia*)
-@@ -59,6 +61,7 @@ DEFINE_OWNED_UI_CLASS_PROPERTY_KEY(gfx::
+@@ -61,6 +63,7 @@ DEFINE_OWNED_UI_CLASS_PROPERTY_KEY(gfx::
  DEFINE_UI_CLASS_PROPERTY_KEY(ui::mojom::WindowType,
                             kWindowTypeKey,
                             ui::mojom::WindowType::UNKNOWN);
@@ -88,7 +88,7 @@ Index: dev/ui/aura/client/aura_constants.h
 ===================================================================
 --- dev.orig/ui/aura/client/aura_constants.h
 +++ dev/ui/aura/client/aura_constants.h
-@@ -119,6 +119,9 @@ AURA_EXPORT extern const WindowProperty<
+@@ -125,6 +125,9 @@ AURA_EXPORT extern const aura::WindowPro
  AURA_EXPORT extern const aura::WindowProperty<ui::mojom::WindowType>* const
      kWindowTypeKey;
  
@@ -115,8 +115,8 @@ Index: dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
 ===================================================================
 --- dev.orig/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
 +++ dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
-@@ -390,6 +390,11 @@ void DesktopNativeWidgetAura::HandleActi
-   }
+@@ -588,6 +588,11 @@ void DesktopNativeWidgetAura::ViewRemove
+   drop_helper_->ResetTargetViewIfEquals(view);
  }
  
 +void DesktopNativeWidgetAura::SetSessionID(unsigned int sessionid) {
@@ -133,7 +133,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.h
 +++ dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.h
 @@ -100,6 +100,8 @@ class VIEWS_EXPORT DesktopNativeWidgetAu
    // Overridden from internal::NativeWidgetPrivate:
-   void SetNativeWindowProperty(const char* name, void* value) override;
+   gfx::NativeWindow GetNativeWindow() const override;
  
 +  void SetSessionID(uint32_t sessionid);
 +
@@ -174,7 +174,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
    "XdndActionAsk",
    "XdndActionCopy",
    "XdndActionLink",
-@@ -1697,6 +1700,22 @@ void DesktopWindowTreeHostX11::UpdateMin
+@@ -1701,6 +1704,22 @@ void DesktopWindowTreeHostX11::UpdateMin
    XSetWMNormalHints(xdisplay_, xwindow_, &hints);
  }
  
@@ -201,9 +201,9 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
 ===================================================================
 --- dev.orig/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
 +++ dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
-@@ -91,6 +91,8 @@ class VIEWS_EXPORT DesktopWindowTreeHost
-   // there is no dialog on the host window.
-   XID GetModalDialog();
+@@ -87,6 +87,8 @@ class VIEWS_EXPORT DesktopWindowTreeHost
+   // Disables event listening to make |dialog| modal.
+   std::unique_ptr<base::Closure> DisableEventListening();
  
 +  void SetSessionID(uint32_t sessionid);
 +
@@ -236,7 +236,7 @@ Index: dev/ui/views/widget/native_widget_aura.cc
  DECLARE_UI_CLASS_PROPERTY_TYPE(views::internal::NativeWidgetPrivate*)
  
  namespace views {
-@@ -379,6 +381,11 @@ void NativeWidgetAura::CenterWindow(cons
+@@ -386,6 +388,11 @@ void NativeWidgetAura::CenterWindow(cons
    window_->SetBounds(window_bounds);
  }
  
@@ -252,9 +252,9 @@ Index: dev/ui/views/widget/native_widget_aura.h
 ===================================================================
 --- dev.orig/ui/views/widget/native_widget_aura.h
 +++ dev/ui/views/widget/native_widget_aura.h
-@@ -57,6 +57,8 @@ class VIEWS_EXPORT NativeWidgetAura
-                                      const gfx::ImageSkia& window_icon,
-                                      const gfx::ImageSkia& app_icon);
+@@ -62,6 +62,8 @@ class VIEWS_EXPORT NativeWidgetAura
+       aura::Window* window,
+       const Widget::InitParams& params);
  
 +  virtual void SetSessionID(uint32_t sessionid) override;
 +

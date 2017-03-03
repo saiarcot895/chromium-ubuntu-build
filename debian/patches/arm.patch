@@ -2,16 +2,16 @@ Index: dev/ui/base/resource/data_pack.cc
 ===================================================================
 --- dev.orig/ui/base/resource/data_pack.cc
 +++ dev/ui/base/resource/data_pack.cc
-@@ -156,9 +156,11 @@ bool DataPack::LoadImpl() {
+@@ -237,9 +237,11 @@ bool DataPack::LoadImpl(std::unique_ptr<
    // 2) Verify the entries are within the appropriate bounds. There's an extra
    // entry after the last item which gives us the length of the last item.
    for (size_t i = 0; i < resource_count_ + 1; ++i) {
 +    uint32_t t;
      const DataPackEntry* entry = reinterpret_cast<const DataPackEntry*>(
-         mmap_->data() + kHeaderLength + (i * sizeof(DataPackEntry)));
--    if (entry->file_offset > mmap_->length()) {
+         data_source->GetData() + kHeaderLength + (i * sizeof(DataPackEntry)));
+-    if (entry->file_offset > data_source->GetLength()) {
 +    memcpy(&t, &entry->file_offset, 32/8);
-+    if (t > mmap_->length()) {
++    if (t > data_source->GetLength()) {
        LOG(ERROR) << "Entry #" << i << " in data pack points off end of file. "
                   << "Was the file corrupted?";
-       UMA_HISTOGRAM_ENUMERATION("DataPack.Load", ENTRY_NOT_FOUND,
+       LogDataPackError(ENTRY_NOT_FOUND);

@@ -4,7 +4,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -992,7 +992,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1057,7 +1057,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_NAME,
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
@@ -67,7 +67,7 @@ Index: dev/content/common/BUILD.gn
  source_set("common") {
    # Targets external to content should always link to the public API.
    # In addition, targets outside of the content component (shell and tests)
-@@ -522,6 +565,16 @@ source_set("common") {
+@@ -525,6 +568,16 @@ source_set("common") {
          "sandbox_linux/android/sandbox_bpf_base_policy_android.h",
        ]
      }
@@ -316,8 +316,8 @@ Index: dev/content/gpu/gpu_main.cc
 ===================================================================
 --- dev.orig/content/gpu/gpu_main.cc
 +++ dev/content/gpu/gpu_main.cc
-@@ -81,7 +81,7 @@
- #include "content/common/sandbox_mac.h"
+@@ -85,7 +85,7 @@
+ #include "ui/ozone/public/ozone_platform.h"
  #endif
  
 -#if defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)
@@ -325,7 +325,7 @@ Index: dev/content/gpu/gpu_main.cc
  #include "media/gpu/vaapi_wrapper.h"
  #endif
  
-@@ -137,7 +137,7 @@ class ContentSandboxHelper : public gpu:
+@@ -141,7 +141,7 @@ class ContentSandboxHelper : public gpu:
        (void)base::RandUint64();
      }
  
@@ -338,7 +338,7 @@ Index: dev/content/public/common/content_switches.cc
 ===================================================================
 --- dev.orig/content/public/common/content_switches.cc
 +++ dev/content/public/common/content_switches.cc
-@@ -1012,7 +1012,9 @@ const char kDisableAudioSupportForDeskto
+@@ -1000,7 +1000,9 @@ const char kDisableAudioSupportForDeskto
  #if defined(OS_CHROMEOS)
  // Disables panel fitting (used for mirror mode).
  const char kDisablePanelFitting[]           = "disable-panel-fitting";
@@ -352,7 +352,7 @@ Index: dev/content/public/common/content_switches.h
 ===================================================================
 --- dev.orig/content/public/common/content_switches.h
 +++ dev/content/public/common/content_switches.h
-@@ -294,6 +294,8 @@ CONTENT_EXPORT extern const char kEnable
+@@ -291,6 +291,8 @@ CONTENT_EXPORT extern const char kEnable
  
  #if defined(OS_CHROMEOS)
  CONTENT_EXPORT extern const char kDisablePanelFitting[];
@@ -365,7 +365,7 @@ Index: dev/gpu/config/software_rendering_list_json.cc
 ===================================================================
 --- dev.orig/gpu/config/software_rendering_list_json.cc
 +++ dev/gpu/config/software_rendering_list_json.cc
-@@ -415,17 +415,6 @@ const char kSoftwareRenderingListJson[]
+@@ -395,17 +395,6 @@ const char kSoftwareRenderingListJson[]
        ]
      },
      {
@@ -382,12 +382,12 @@ Index: dev/gpu/config/software_rendering_list_json.cc
 -    {
        "id": 50,
        "description": "Disable VMware software renderer on older Mesa",
-       "cr_bugs": [145531, 332596, 571899],
+       "cr_bugs": [145531, 332596, 571899, 629434],
 Index: dev/media/BUILD.gn
 ===================================================================
 --- dev.orig/media/BUILD.gn
 +++ dev/media/BUILD.gn
-@@ -397,7 +397,7 @@ component("media") {
+@@ -389,7 +389,7 @@ component("media") {
      allow_circular_includes_from = [ "//media/base/android" ]
    }
  
@@ -396,7 +396,7 @@ Index: dev/media/BUILD.gn
      sources += [
        "filters/h264_bitstream_buffer.cc",
        "filters/h264_bitstream_buffer.h",
-@@ -668,7 +668,7 @@ source_set("unit_tests") {
+@@ -660,7 +660,7 @@ source_set("unit_tests") {
      }
    }
  
@@ -458,7 +458,7 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
  #if defined(USE_V4L2_CODEC)
  #include "media/gpu/v4l2_device.h"
  #include "media/gpu/v4l2_slice_video_decode_accelerator.h"
-@@ -81,7 +81,7 @@ GpuVideoDecodeAcceleratorFactory::GetDec
+@@ -82,7 +82,7 @@ GpuVideoDecodeAcceleratorFactory::GetDec
  #if defined(OS_WIN)
    capabilities.supported_profiles =
        DXVAVideoDecodeAccelerator::GetSupportedProfiles(gpu_preferences);
@@ -467,7 +467,7 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
    VideoDecodeAccelerator::SupportedProfiles vda_profiles;
  #if defined(USE_V4L2_CODEC)
    vda_profiles = V4L2VideoDecodeAccelerator::GetSupportedProfiles();
-@@ -134,7 +134,7 @@ GpuVideoDecodeAcceleratorFactory::Create
+@@ -135,7 +135,7 @@ GpuVideoDecodeAcceleratorFactory::Create
      &GpuVideoDecodeAcceleratorFactory::CreateV4L2VDA,
      &GpuVideoDecodeAcceleratorFactory::CreateV4L2SVDA,
  #endif
@@ -476,7 +476,7 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
      &GpuVideoDecodeAcceleratorFactory::CreateVaapiVDA,
  #endif
  #if defined(OS_MACOSX)
-@@ -217,11 +217,12 @@ GpuVideoDecodeAcceleratorFactory::Create
+@@ -218,11 +218,12 @@ GpuVideoDecodeAcceleratorFactory::Create
  }
  #endif
  
@@ -600,16 +600,16 @@ Index: dev/media/gpu/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi_wrapper.cc
-@@ -194,7 +194,7 @@ scoped_refptr<VaapiWrapper> VaapiWrapper
+@@ -188,7 +188,7 @@ scoped_refptr<VaapiWrapper> VaapiWrapper
      VAProfile va_profile,
      const base::Closure& report_error_to_uma_cb) {
-   if (!profile_infos_.Get().IsProfileSupported(mode, va_profile)) {
+   if (!GetProfileInfos()->IsProfileSupported(mode, va_profile)) {
 -    DVLOG(1) << "Unsupported va_profile: " << va_profile;
 +    VLOG(1) << "Unsupported va_profile: " << va_profile;
      return nullptr;
    }
  
-@@ -347,15 +347,17 @@ VaapiWrapper::GetSupportedProfileInfosFo
+@@ -340,15 +340,17 @@ VaapiWrapper::GetSupportedProfileInfosFo
  bool VaapiWrapper::VaInitialize(const base::Closure& report_error_to_uma_cb) {
    static bool vaapi_functions_initialized = PostSandboxInitialization();
    if (!vaapi_functions_initialized) {
@@ -632,7 +632,7 @@ Index: dev/media/gpu/vaapi_wrapper.cc
      else
        DVLOG(1) << kErrorMsg;
      return false;
-@@ -421,7 +423,7 @@ bool VaapiWrapper::IsEntrypointSupported
+@@ -407,7 +409,7 @@ bool VaapiWrapper::IsEntrypointSupported
  
    if (std::find(supported_entrypoints.begin(), supported_entrypoints.end(),
                  entrypoint) == supported_entrypoints.end()) {
@@ -641,7 +641,7 @@ Index: dev/media/gpu/vaapi_wrapper.cc
      return false;
    }
    return true;
-@@ -445,8 +447,8 @@ bool VaapiWrapper::AreAttribsSupported_L
+@@ -431,8 +433,8 @@ bool VaapiWrapper::AreAttribsSupported_L
      if (attribs[i].type != required_attribs[i].type ||
          (attribs[i].value & required_attribs[i].value) !=
              required_attribs[i].value) {
