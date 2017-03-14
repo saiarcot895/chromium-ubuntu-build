@@ -9,8 +9,8 @@ Index: dev/chrome/browser/ui/views/frame/browser_frame.cc
 +#include "ui/views/widget/native_widget_aura.h"
  
  #if defined(OS_CHROMEOS)
- #include "ash/common/session/session_state_delegate.h"  // nogncheck
-@@ -129,6 +130,12 @@ BrowserNonClientFrameView* BrowserFrame:
+ #include "components/user_manager/user_manager.h"
+@@ -128,6 +129,12 @@ BrowserNonClientFrameView* BrowserFrame:
    return browser_frame_view_;
  }
  

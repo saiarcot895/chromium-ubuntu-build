@@ -4,7 +4,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -1057,7 +1057,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1044,7 +1044,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_NAME,
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
@@ -387,7 +387,7 @@ Index: dev/media/BUILD.gn
 ===================================================================
 --- dev.orig/media/BUILD.gn
 +++ dev/media/BUILD.gn
-@@ -389,7 +389,7 @@ component("media") {
+@@ -396,7 +396,7 @@ component("media") {
      allow_circular_includes_from = [ "//media/base/android" ]
    }
  
@@ -396,7 +396,7 @@ Index: dev/media/BUILD.gn
      sources += [
        "filters/h264_bitstream_buffer.cc",
        "filters/h264_bitstream_buffer.h",
-@@ -660,7 +660,7 @@ source_set("unit_tests") {
+@@ -667,7 +667,7 @@ source_set("unit_tests") {
      }
    }
  
@@ -418,7 +418,7 @@ Index: dev/media/gpu/BUILD.gn
    action("libva_generate_stubs") {
      extra_header = "va_stub_header.fragment"
  
-@@ -211,7 +211,7 @@ component("gpu") {
+@@ -212,7 +212,7 @@ component("gpu") {
      }
    }
  
@@ -427,7 +427,7 @@ Index: dev/media/gpu/BUILD.gn
      sources += [
        "accelerated_video_decoder.h",
        "h264_decoder.cc",
-@@ -220,7 +220,7 @@ component("gpu") {
+@@ -221,7 +221,7 @@ component("gpu") {
        "h264_dpb.h",
      ]
    }
@@ -436,7 +436,7 @@ Index: dev/media/gpu/BUILD.gn
      sources += [
        "vp8_decoder.cc",
        "vp8_decoder.h",
-@@ -258,7 +258,7 @@ component("gpu") {
+@@ -259,7 +259,7 @@ component("gpu") {
          "GLESv2",
        ]
      }
