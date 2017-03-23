@@ -1,3 +1,10 @@
+chromium-browser (58.0.3029.14-0ubuntu1~ppa3~17.04.1) zesty; urgency=low
+
+  * Use clang instead of GCC. GCC is having an internal error when
+    compiling a certain file on some amd64 and arm64 builds.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 23 Mar 2017 15:49:24 -0400
+
 chromium-browser (58.0.3029.14-0ubuntu1~ppa2~17.04.1) zesty; urgency=low
 
   * Fix gn build.
