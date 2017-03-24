@@ -2,6 +2,7 @@ chromium-browser (59.0.3047.0-0ubuntu1~ppa1~17.04.1) UNRELEASED; urgency=low
 
   * Add workaround to clang issue involving constructing an object
     without explicitly initializing const fields.
+  * Allow using both Clang 3.8 and 4.0.
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 24 Mar 2017 19:36:22 -0400
 

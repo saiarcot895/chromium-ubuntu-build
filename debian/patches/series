@@ -31,7 +31,7 @@ nacl-loosen-fd-check.patch
 tcmalloc-add-support-for-arm64.patch
 gn-dont-use-git.patch
 gn-fix-for-i386-build.patch
-trusty-change-compiler.patch
+clang-change-path.patch
 
 ### BEGIN Wayland patches ###
 #wayland-0001-Browser-Support-Desktop-Aura-creation-on-Ozone.patch
