@@ -4,7 +4,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -1044,7 +1044,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1093,7 +1093,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_NAME,
          IDS_FLAGS_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
@@ -17,8 +17,8 @@ Index: dev/content/common/BUILD.gn
 ===================================================================
 --- dev.orig/content/common/BUILD.gn
 +++ dev/content/common/BUILD.gn
-@@ -13,6 +13,49 @@ if (is_mac) {
-   import("//build/config/mac/mac_sdk.gni")
+@@ -23,6 +23,49 @@ buildflag_header("features") {
+   flags = [ "USE_EXTERNAL_POPUP_MENU=$use_external_popup_menu" ]
  }
  
 +if ((is_desktop_linux || is_chromeos) && current_cpu != "arm") {
@@ -67,7 +67,7 @@ Index: dev/content/common/BUILD.gn
  source_set("common") {
    # Targets external to content should always link to the public API.
    # In addition, targets outside of the content component (shell and tests)
-@@ -525,6 +568,16 @@ source_set("common") {
+@@ -533,6 +576,16 @@ source_set("common") {
          "sandbox_linux/android/sandbox_bpf_base_policy_android.h",
        ]
      }
@@ -100,10 +100,10 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 +
  #include "content/common/sandbox_linux/sandbox_bpf_base_policy_linux.h"
  #include "content/common/sandbox_linux/sandbox_seccomp_bpf_linux.h"
- #include "content/common/set_process_title.h"
+ #include "content/public/common/content_switches.h"
 @@ -36,6 +42,28 @@
- #include "sandbox/linux/syscall_broker/broker_process.h"
  #include "sandbox/linux/system_headers/linux_syscalls.h"
+ #include "services/service_manager/embedder/set_process_title.h"
  
 +#if !defined(__arm__)
 +#include "third_party/libva/va/va.h"
@@ -303,7 +303,7 @@ Index: dev/content/gpu/BUILD.gn
 ===================================================================
 --- dev.orig/content/gpu/BUILD.gn
 +++ dev/content/gpu/BUILD.gn
-@@ -92,7 +92,7 @@ target(link_target_type, "gpu_sources")
+@@ -99,7 +99,7 @@ target(link_target_type, "gpu_sources")
      ]
    }
  
@@ -387,8 +387,8 @@ Index: dev/media/BUILD.gn
 ===================================================================
 --- dev.orig/media/BUILD.gn
 +++ dev/media/BUILD.gn
-@@ -396,7 +396,7 @@ component("media") {
-     allow_circular_includes_from = [ "//media/base/android" ]
+@@ -391,7 +391,7 @@ component("media") {
+     ]
    }
  
 -  if (current_cpu != "arm" && is_chromeos) {
@@ -396,7 +396,7 @@ Index: dev/media/BUILD.gn
      sources += [
        "filters/h264_bitstream_buffer.cc",
        "filters/h264_bitstream_buffer.h",
-@@ -667,7 +667,7 @@ source_set("unit_tests") {
+@@ -662,7 +662,7 @@ source_set("unit_tests") {
      }
    }
  
@@ -418,7 +418,7 @@ Index: dev/media/gpu/BUILD.gn
    action("libva_generate_stubs") {
      extra_header = "va_stub_header.fragment"
  
-@@ -212,7 +212,7 @@ component("gpu") {
+@@ -218,7 +218,7 @@ component("gpu") {
      }
    }
  
@@ -427,7 +427,7 @@ Index: dev/media/gpu/BUILD.gn
      sources += [
        "accelerated_video_decoder.h",
        "h264_decoder.cc",
-@@ -221,7 +221,7 @@ component("gpu") {
+@@ -227,7 +227,7 @@ component("gpu") {
        "h264_dpb.h",
      ]
    }
@@ -436,7 +436,7 @@ Index: dev/media/gpu/BUILD.gn
      sources += [
        "vp8_decoder.cc",
        "vp8_decoder.h",
-@@ -259,7 +259,7 @@ component("gpu") {
+@@ -265,7 +265,7 @@ component("gpu") {
          "GLESv2",
        ]
      }

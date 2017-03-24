@@ -1,3 +1,10 @@
+chromium-browser (59.0.3047.0-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
+
+  * New upstream version 59.0.3047.0
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 23 Mar 2017 20:07:13 -0400
+
 chromium-browser (58.0.3029.14-0ubuntu1~ppa2~16.04.1) xenial; urgency=low
 
   * Fix gn build.
