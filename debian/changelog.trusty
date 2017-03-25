@@ -1,3 +1,9 @@
+chromium-browser (59.0.3047.0-0ubuntu1~ppa3~14.04.1) trusty; urgency=low
+
+  * Add necessary GN flags for building ffmpeg.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 25 Mar 2017 02:23:23 -0400
+
 chromium-browser (59.0.3047.0-0ubuntu1~ppa2~14.04.1) trusty; urgency=low
 
   * Add workaround to clang issue involving constructing an object
