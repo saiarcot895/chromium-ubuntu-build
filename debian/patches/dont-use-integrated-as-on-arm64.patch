@@ -1,0 +1,13 @@
+Index: dev/third_party/boringssl/BUILD.gn
+===================================================================
+--- dev.orig/third_party/boringssl/BUILD.gn
++++ dev/third_party/boringssl/BUILD.gn
+@@ -65,7 +65,7 @@ if (is_win && !is_msan) {
+     include_dirs = [ "src/include" ]
+ 
+     if ((current_cpu == "arm" || current_cpu == "arm64") && is_clang) {
+-      if (current_cpu == "arm") {
++      if (current_cpu == "arm" || (current_cpu == "arm64" && is_linux)) {
+         # TODO(hans) Enable integrated-as (crbug.com/124610).
+         asmflags += [ "-fno-integrated-as" ]
+       }

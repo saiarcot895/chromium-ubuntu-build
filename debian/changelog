@@ -1,10 +1,11 @@
-chromium-browser (59.0.3047.0-0ubuntu1~ppa1~17.04.1) UNRELEASED; urgency=low
+chromium-browser (59.0.3047.0-0ubuntu1~ppa2~17.04.1) zesty; urgency=low
 
   * Add workaround to clang issue involving constructing an object
     without explicitly initializing const fields.
   * Allow using both Clang 3.8 and 4.0.
+  * Don't use integrated assembler for arm64.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 24 Mar 2017 19:36:22 -0400
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 24 Mar 2017 19:58:04 -0400
 
 chromium-browser (59.0.3047.0-0ubuntu1~ppa1~17.04.1) zesty; urgency=low
 
