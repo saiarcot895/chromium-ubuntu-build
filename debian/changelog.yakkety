@@ -1,3 +1,10 @@
+chromium-browser (59.0.3053.3-0ubuntu1~ppa4~16.10.1) yakkety; urgency=low
+
+  * Add dependency on linux kernel headers.
+  * Enable using gtk3.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 03 Apr 2017 17:54:49 -0400
+
 chromium-browser (59.0.3053.3-0ubuntu1~ppa3~16.10.1) yakkety; urgency=low
 
   * Fix GN build.

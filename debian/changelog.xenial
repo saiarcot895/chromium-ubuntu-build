@@ -1,3 +1,10 @@
+chromium-browser (59.0.3053.3-0ubuntu1~ppa4~16.04.1) xenial; urgency=low
+
+  * Add dependency on linux kernel headers.
+  * Enable using gtk3.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 03 Apr 2017 17:54:48 -0400
+
 chromium-browser (59.0.3053.3-0ubuntu1~ppa3~16.04.1) xenial; urgency=low
 
   * Fix GN build.
