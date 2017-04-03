@@ -10,3 +10,11 @@ Index: dev/tools/gn/bootstrap/bootstrap.py
        'base/trace_event/trace_event_argument.cc',
        'base/trace_event/trace_event_filter.cc',
        'base/trace_event/trace_event_impl.cc',
+@@ -612,6 +613,7 @@ def write_gn_ninja(path, root_gen_dir, o
+         'base/process/internal_linux.cc',
+         'base/process/memory_linux.cc',
+         'base/process/process_handle_linux.cc',
++        'base/process/process_info_linux.cc',
+         'base/process/process_iterator_linux.cc',
+         'base/process/process_linux.cc',
+         'base/process/process_metrics_linux.cc',
