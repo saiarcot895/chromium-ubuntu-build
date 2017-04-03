@@ -40,7 +40,7 @@ Index: dev/chrome/browser/ui/views/frame/browser_view.cc
 ===================================================================
 --- dev.orig/chrome/browser/ui/views/frame/browser_view.cc
 +++ dev/chrome/browser/ui/views/frame/browser_view.cc
-@@ -642,6 +642,7 @@ void BrowserView::Show() {
+@@ -643,6 +643,7 @@ void BrowserView::Show() {
    force_location_bar_focus_ = false;
  
    browser()->OnWindowDidShow();
@@ -115,7 +115,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
 ===================================================================
 --- dev.orig/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
 +++ dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
-@@ -599,6 +599,11 @@ void DesktopNativeWidgetAura::ViewRemove
+@@ -598,6 +598,11 @@ void DesktopNativeWidgetAura::ViewRemove
    drop_helper_->ResetTargetViewIfEquals(view);
  }
  
@@ -265,7 +265,7 @@ Index: dev/ui/views/mus/desktop_window_tree_host_mus.cc
 ===================================================================
 --- dev.orig/ui/views/mus/desktop_window_tree_host_mus.cc
 +++ dev/ui/views/mus/desktop_window_tree_host_mus.cc
-@@ -216,6 +216,10 @@ DesktopWindowTreeHostMus::~DesktopWindow
+@@ -218,6 +218,10 @@ DesktopWindowTreeHostMus::~DesktopWindow
    desktop_native_widget_aura_->OnDesktopWindowTreeHostDestroyed(this);
  }
  
@@ -273,19 +273,19 @@ Index: dev/ui/views/mus/desktop_window_tree_host_mus.cc
 +  // Do nothing.
 +}
 +
- // TODO(afakhry): Remove Docked Windows in M58.
- bool DesktopWindowTreeHostMus::IsDocked() const {
-   return window()->GetProperty(aura::client::kShowStateKey) ==
+ void DesktopWindowTreeHostMus::SendClientAreaToServer() {
+   if (!ShouldSendClientAreaToServer())
+     return;
 Index: dev/ui/views/mus/desktop_window_tree_host_mus.h
 ===================================================================
 --- dev.orig/ui/views/mus/desktop_window_tree_host_mus.h
 +++ dev/ui/views/mus/desktop_window_tree_host_mus.h
-@@ -46,6 +46,8 @@ class VIEWS_MUS_EXPORT DesktopWindowTree
+@@ -47,6 +47,8 @@ class VIEWS_MUS_EXPORT DesktopWindowTree
      auto_update_client_area_ = value;
    }
  
 +  void SetSessionID(uint32_t sessionid);
 +
   private:
-   bool IsDocked() const;
- 
+   void SendClientAreaToServer();
+   void SendHitTestMaskToServer();
