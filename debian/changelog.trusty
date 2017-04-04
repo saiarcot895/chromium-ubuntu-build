@@ -1,3 +1,9 @@
+chromium-browser (59.0.3053.3-0ubuntu1~ppa6~14.04.1) trusty; urgency=low
+
+  * Don't depend on the linux kernel.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 03 Apr 2017 20:09:56 -0400
+
 chromium-browser (59.0.3053.3-0ubuntu1~ppa5~14.04.1) trusty; urgency=low
 
   * Try again.
