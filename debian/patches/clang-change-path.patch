@@ -13,4 +13,4 @@ Index: dev/build/toolchain/gcc_toolchain.gni
 +    cxx = "clang++"
      ld = cxx
      readelf = "${toolprefix}readelf"
-     ar = "${toolprefix}ar"
+     ar = "${prefix}/llvm-ar"

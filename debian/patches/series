@@ -59,5 +59,4 @@ nacl-dont-use-icf.patch
 dont-assume-neon-exists.patch
 fix-clang-compile.patch
 dont-use-integrated-as-on-arm64.patch
-fix-gn-build.patch
 remove-linux-kernel-dependency.patch

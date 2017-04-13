@@ -4,15 +4,15 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -1111,7 +1111,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1184,7 +1184,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
-         IDS_FLAGS_ACCELERATED_VIDEO_DECODE_NAME,
-         IDS_FLAGS_ACCELERATED_VIDEO_DECODE_DESCRIPTION,
+         flag_descriptions::kAcceleratedVideoDecodeName,
+         flag_descriptions::kAcceleratedVideoDecodeDescription,
 -        kOsMac | kOsWin | kOsCrOS | kOsAndroid,
 +        kOsAll,
          SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
- #if defined(USE_ASH)
+ #if defined(OS_WIN)
 Index: dev/content/common/BUILD.gn
 ===================================================================
 --- dev.orig/content/common/BUILD.gn
@@ -67,7 +67,7 @@ Index: dev/content/common/BUILD.gn
  source_set("common") {
    # Targets external to content should always link to the public API.
    # In addition, targets outside of the content component (shell and tests)
-@@ -537,6 +580,16 @@ source_set("common") {
+@@ -534,6 +577,16 @@ source_set("common") {
          "sandbox_linux/android/sandbox_bpf_base_policy_android.h",
        ]
      }
@@ -303,7 +303,7 @@ Index: dev/content/gpu/BUILD.gn
 ===================================================================
 --- dev.orig/content/gpu/BUILD.gn
 +++ dev/content/gpu/BUILD.gn
-@@ -99,7 +99,7 @@ target(link_target_type, "gpu_sources")
+@@ -100,7 +100,7 @@ target(link_target_type, "gpu_sources")
      ]
    }
  
@@ -316,7 +316,7 @@ Index: dev/content/gpu/gpu_main.cc
 ===================================================================
 --- dev.orig/content/gpu/gpu_main.cc
 +++ dev/content/gpu/gpu_main.cc
-@@ -85,7 +85,7 @@
+@@ -83,7 +83,7 @@
  #include "ui/ozone/public/ozone_platform.h"
  #endif
  
@@ -325,7 +325,7 @@ Index: dev/content/gpu/gpu_main.cc
  #include "media/gpu/vaapi_wrapper.h"
  #endif
  
-@@ -141,7 +141,7 @@ class ContentSandboxHelper : public gpu:
+@@ -139,7 +139,7 @@ class ContentSandboxHelper : public gpu:
        (void)base::RandUint64();
      }
  
@@ -338,7 +338,7 @@ Index: dev/content/public/common/content_switches.cc
 ===================================================================
 --- dev.orig/content/public/common/content_switches.cc
 +++ dev/content/public/common/content_switches.cc
-@@ -1001,7 +1001,9 @@ const char kDisableAudioSupportForDeskto
+@@ -997,7 +997,9 @@ const char kDisableAudioSupportForDeskto
  #if defined(OS_CHROMEOS)
  // Disables panel fitting (used for mirror mode).
  const char kDisablePanelFitting[]           = "disable-panel-fitting";
@@ -352,7 +352,7 @@ Index: dev/content/public/common/content_switches.h
 ===================================================================
 --- dev.orig/content/public/common/content_switches.h
 +++ dev/content/public/common/content_switches.h
-@@ -291,6 +291,8 @@ CONTENT_EXPORT extern const char kEnable
+@@ -290,6 +290,8 @@ CONTENT_EXPORT extern const char kEnable
  
  #if defined(OS_CHROMEOS)
  CONTENT_EXPORT extern const char kDisablePanelFitting[];
@@ -361,11 +361,11 @@ Index: dev/content/public/common/content_switches.h
  CONTENT_EXPORT extern const char kDisableVaapiAcceleratedVideoEncode[];
  #endif
  
-Index: dev/gpu/config/software_rendering_list_json.cc
+Index: dev/gpu/config/software_rendering_list.json
 ===================================================================
---- dev.orig/gpu/config/software_rendering_list_json.cc
-+++ dev/gpu/config/software_rendering_list_json.cc
-@@ -395,17 +395,6 @@ const char kSoftwareRenderingListJson[]
+--- dev.orig/gpu/config/software_rendering_list.json
++++ dev/gpu/config/software_rendering_list.json
+@@ -371,17 +371,6 @@
        ]
      },
      {
@@ -387,7 +387,7 @@ Index: dev/media/BUILD.gn
 ===================================================================
 --- dev.orig/media/BUILD.gn
 +++ dev/media/BUILD.gn
-@@ -391,7 +391,7 @@ component("media") {
+@@ -393,7 +393,7 @@ component("media") {
      ]
    }
  
@@ -396,7 +396,7 @@ Index: dev/media/BUILD.gn
      sources += [
        "filters/h264_bitstream_buffer.cc",
        "filters/h264_bitstream_buffer.h",
-@@ -662,7 +662,7 @@ source_set("unit_tests") {
+@@ -665,7 +665,7 @@ source_set("unit_tests") {
      }
    }
  
@@ -418,7 +418,7 @@ Index: dev/media/gpu/BUILD.gn
    action("libva_generate_stubs") {
      extra_header = "va_stub_header.fragment"
  
-@@ -218,7 +218,7 @@ component("gpu") {
+@@ -222,7 +222,7 @@ component("gpu") {
      }
    }
  
@@ -427,7 +427,7 @@ Index: dev/media/gpu/BUILD.gn
      sources += [
        "accelerated_video_decoder.h",
        "h264_decoder.cc",
-@@ -227,7 +227,7 @@ component("gpu") {
+@@ -231,7 +231,7 @@ component("gpu") {
        "h264_dpb.h",
      ]
    }
@@ -436,7 +436,7 @@ Index: dev/media/gpu/BUILD.gn
      sources += [
        "vp8_decoder.cc",
        "vp8_decoder.h",
-@@ -265,7 +265,7 @@ component("gpu") {
+@@ -269,7 +269,7 @@ component("gpu") {
          "GLESv2",
        ]
      }
@@ -652,3 +652,40 @@ Index: dev/media/gpu/vaapi_wrapper.cc
        return false;
      }
    }
+Index: dev/gpu/config/software_rendering_list_autogen.cc
+===================================================================
+--- dev.orig/gpu/config/software_rendering_list_autogen.cc
++++ dev/gpu/config/software_rendering_list_autogen.cc
+@@ -489,32 +489,6 @@ const GpuControlList::Entry kSoftwareRen
+         nullptr,  // exceptions
+     },
+     {
+-        48,  // id
+-        "Accelerated video decode is unavailable on Linux",
+-        arraysize(kFeatureListForEntry48),  // features size
+-        kFeatureListForEntry48,             // features
+-        0,                                  // DisabledExtensions size
+-        nullptr,                            // DisabledExtensions
+-        arraysize(kCrBugsForEntry48),       // CrBugs size
+-        kCrBugsForEntry48,                  // CrBugs
+-        {
+-            GpuControlList::kOsLinux,  // os_type
+-            {GpuControlList::kUnknown, GpuControlList::kVersionStyleNumerical,
+-             nullptr, nullptr},                     // os_version
+-            0x00,                                   // vendor_id
+-            0,                                      // DeviceIDs size
+-            nullptr,                                // DeviceIDs
+-            GpuControlList::kMultiGpuCategoryNone,  // multi_gpu_category
+-            GpuControlList::kMultiGpuStyleNone,     // multi_gpu_style
+-            nullptr,                                // driver info
+-            nullptr,                                // GL strings
+-            nullptr,                                // machine model info
+-            nullptr,                                // more conditions
+-        },
+-        0,        // exceptions count
+-        nullptr,  // exceptions
+-    },
+-    {
+         50,  // id
+         "Disable VMware software renderer on older Mesa",
+         arraysize(kFeatureListForEntry50),  // features size
