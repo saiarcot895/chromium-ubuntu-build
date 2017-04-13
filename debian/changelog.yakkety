@@ -1,3 +1,10 @@
+chromium-browser (58.0.3029.68-0ubuntu1~ppa1~16.10.1) yakkety; urgency=low
+
+  * New upstream version 58.0.3029.68
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 13 Apr 2017 10:18:59 -0400
+
 chromium-browser (58.0.3029.14-0ubuntu1~ppa2~16.10.1) yakkety; urgency=low
 
   * Fix gn build.
