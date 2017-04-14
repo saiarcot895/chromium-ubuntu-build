@@ -1,3 +1,9 @@
+chromium-browser (59.0.3067.0-0ubuntu1~ppa2~17.04.1) zesty; urgency=low
+
+  * Update clang patch.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 14 Apr 2017 01:15:32 -0400
+
 chromium-browser (59.0.3067.0-0ubuntu1~ppa1~17.04.1) zesty; urgency=low
 
   * New upstream version 59.0.3067.0

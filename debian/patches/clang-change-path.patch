@@ -2,7 +2,7 @@ Index: dev/build/toolchain/gcc_toolchain.gni
 ===================================================================
 --- dev.orig/build/toolchain/gcc_toolchain.gni
 +++ dev/build/toolchain/gcc_toolchain.gni
-@@ -548,9 +548,8 @@ template("clang_toolchain") {
+@@ -548,12 +548,11 @@ template("clang_toolchain") {
    }
  
    gcc_toolchain(target_name) {
@@ -13,4 +13,8 @@ Index: dev/build/toolchain/gcc_toolchain.gni
 +    cxx = "clang++"
      ld = cxx
      readelf = "${toolprefix}readelf"
-     ar = "${prefix}/llvm-ar"
+-    ar = "${prefix}/llvm-ar"
++    ar = "${toolprefix}ar"
+     nm = "${toolprefix}nm"
+ 
+     forward_variables_from(invoker,
