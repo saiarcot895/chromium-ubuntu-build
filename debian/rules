@@ -58,6 +58,7 @@ endif
 
 # Don't fail on compilation warnings
 GN_DEFINES += treat_warnings_as_errors=false
+FFMPEG_MT_GN_DEFINES += treat_warnings_as_errors=false
 
 # We are never using a sysroot-based toolchain; override the wrong
 # autodetection for arm.
@@ -90,6 +91,7 @@ GN_DEFINES += enable_widevine=true
 
 # disable field trial tests
 GN_DEFINES += fieldtrial_testing_like_official_build=true
+FFMPEG_MT_GN_DEFINES += fieldtrial_testing_like_official_build=true
 
 # don't vulcanize; we don't have the node.js modules needed readily available
 GN_DEFINES += use_vulcanize=false

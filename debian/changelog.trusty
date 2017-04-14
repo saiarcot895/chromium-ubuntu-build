@@ -1,3 +1,9 @@
+chromium-browser (58.0.3029.68-0ubuntu1~ppa4~14.04.1) trusty; urgency=low
+
+  * Add necessary GN flags for building ffmpeg.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 14 Apr 2017 01:07:19 -0400
+
 chromium-browser (58.0.3029.68-0ubuntu1~ppa3~14.04.1) trusty; urgency=low
 
   * Try again.
