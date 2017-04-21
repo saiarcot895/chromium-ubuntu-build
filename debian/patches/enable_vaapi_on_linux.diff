@@ -4,7 +4,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -1184,7 +1184,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1225,7 +1225,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
          flag_descriptions::kAcceleratedVideoDecodeDescription,
@@ -67,7 +67,7 @@ Index: dev/content/common/BUILD.gn
  source_set("common") {
    # Targets external to content should always link to the public API.
    # In addition, targets outside of the content component (shell and tests)
-@@ -534,6 +577,16 @@ source_set("common") {
+@@ -530,6 +573,16 @@ source_set("common") {
          "sandbox_linux/android/sandbox_bpf_base_policy_android.h",
        ]
      }
@@ -338,7 +338,7 @@ Index: dev/content/public/common/content_switches.cc
 ===================================================================
 --- dev.orig/content/public/common/content_switches.cc
 +++ dev/content/public/common/content_switches.cc
-@@ -997,7 +997,9 @@ const char kDisableAudioSupportForDeskto
+@@ -1000,7 +1000,9 @@ const char kDisableAudioSupportForDeskto
  #if defined(OS_CHROMEOS)
  // Disables panel fitting (used for mirror mode).
  const char kDisablePanelFitting[]           = "disable-panel-fitting";
@@ -352,7 +352,7 @@ Index: dev/content/public/common/content_switches.h
 ===================================================================
 --- dev.orig/content/public/common/content_switches.h
 +++ dev/content/public/common/content_switches.h
-@@ -290,6 +290,8 @@ CONTENT_EXPORT extern const char kEnable
+@@ -291,6 +291,8 @@ CONTENT_EXPORT extern const char kEnable
  
  #if defined(OS_CHROMEOS)
  CONTENT_EXPORT extern const char kDisablePanelFitting[];
@@ -387,7 +387,7 @@ Index: dev/media/BUILD.gn
 ===================================================================
 --- dev.orig/media/BUILD.gn
 +++ dev/media/BUILD.gn
-@@ -393,7 +393,7 @@ component("media") {
+@@ -394,7 +394,7 @@ component("media") {
      ]
    }
  
@@ -652,40 +652,3 @@ Index: dev/media/gpu/vaapi_wrapper.cc
        return false;
      }
    }
-Index: dev/gpu/config/software_rendering_list_autogen.cc
-===================================================================
---- dev.orig/gpu/config/software_rendering_list_autogen.cc
-+++ dev/gpu/config/software_rendering_list_autogen.cc
-@@ -489,32 +489,6 @@ const GpuControlList::Entry kSoftwareRen
-         nullptr,  // exceptions
-     },
-     {
--        48,  // id
--        "Accelerated video decode is unavailable on Linux",
--        arraysize(kFeatureListForEntry48),  // features size
--        kFeatureListForEntry48,             // features
--        0,                                  // DisabledExtensions size
--        nullptr,                            // DisabledExtensions
--        arraysize(kCrBugsForEntry48),       // CrBugs size
--        kCrBugsForEntry48,                  // CrBugs
--        {
--            GpuControlList::kOsLinux,  // os_type
--            {GpuControlList::kUnknown, GpuControlList::kVersionStyleNumerical,
--             nullptr, nullptr},                     // os_version
--            0x00,                                   // vendor_id
--            0,                                      // DeviceIDs size
--            nullptr,                                // DeviceIDs
--            GpuControlList::kMultiGpuCategoryNone,  // multi_gpu_category
--            GpuControlList::kMultiGpuStyleNone,     // multi_gpu_style
--            nullptr,                                // driver info
--            nullptr,                                // GL strings
--            nullptr,                                // machine model info
--            nullptr,                                // more conditions
--        },
--        0,        // exceptions count
--        nullptr,  // exceptions
--    },
--    {
-         50,  // id
-         "Disable VMware software renderer on older Mesa",
-         arraysize(kFeatureListForEntry50),  // features size

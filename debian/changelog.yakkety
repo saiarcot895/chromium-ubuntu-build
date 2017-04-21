@@ -1,3 +1,10 @@
+chromium-browser (59.0.3071.15-0ubuntu1~ppa1~16.10.1) yakkety; urgency=low
+
+  * New upstream version 59.0.3071.15
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 21 Apr 2017 14:50:28 -0400
+
 chromium-browser (59.0.3067.0-0ubuntu1~ppa2~16.10.1) yakkety; urgency=low
 
   * Update clang patch.
