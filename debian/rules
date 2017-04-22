@@ -66,8 +66,8 @@ GN_DEFINES += use_sysroot=false
 FFMPEG_MT_GN_DEFINES += use_sysroot=false
 
 # NaCl isn't ready yet
-GN_DEFINES += enable_nacl=false
-FFMPEG_MT_GN_DEFINES += enable_nacl=false
+GN_DEFINES += enable_nacl=false use_swiftshader_with_subzero=false
+FFMPEG_MT_GN_DEFINES += enable_nacl=false use_swiftshader_with_subzero=false
 
 ifneq (,$(filter arm%,$(DEB_HOST_ARCH_CPU)))
 # Disable NaCl for arm until the toolchain is built
