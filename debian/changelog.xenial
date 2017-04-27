@@ -1,10 +1,12 @@
-chromium-browser (59.0.3071.15-0ubuntu1~ppa3~16.04.1) UNRELEASED; urgency=low
+chromium-browser (59.0.3071.25-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
 
   * Bring in some patches from Ubuntu
   * Remove unmaintained wayland patches.
   * Add build dependency on GCC 4.8 for trusty.
+  * New upstream version 59.0.3071.25
+  * Updated patches.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 27 Apr 2017 12:07:45 -0400
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 27 Apr 2017 12:18:05 -0400
 
 chromium-browser (59.0.3071.15-0ubuntu1~ppa2~16.04.1) xenial; urgency=low
 
