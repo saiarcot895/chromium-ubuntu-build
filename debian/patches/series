@@ -12,17 +12,15 @@ additional-search-engines.patch
 3-chrome-xid.patch
 #5-desktop-integration-settings.patch
 6-passwordless-install-support.patch
-7-npapi-permission-not-defaults-to-unauthorized.patch
+#7-npapi-permission-not-defaults-to-unauthorized.patch
 #breakpad
 #gsettings-display-scaling
 touch-v35
 #display-scaling-default-value
 flash-redirection
 notifications-nicer
-#disable-sse2
+disable-sse2
 #gyp-icu-m32-test
-#mir-support
-#mir-ozone-module
 enable_vaapi_on_linux.diff
 fix_building_widevinecdm_with_chromium.patch
 widevine-other-locations
@@ -32,26 +30,6 @@ tcmalloc-add-support-for-arm64.patch
 gn-dont-use-git.patch
 gn-fix-for-i386-build.patch
 clang-change-path.patch
-
-### BEGIN Wayland patches ###
-#wayland-0001-Browser-Support-Desktop-Aura-creation-on-Ozone.patch
-#wayland-0002-Remove-usage-of-DesktopFactory.patch
-#wayland-0003-Add-support-to-provide-external-ozone-files-in-views.patch
-## wayland-0004-Add-support-for-checking-DesktopWindow-with-Ozone-an.patch
-#wayland-0005-Media-Build-VaapiPictureWayland-as-part-of-Media.patch
-#wayland-0006-Fix-crash-when-switching-to-console-VT-mode.patch
-#wayland-0007-Add-needed-support-in-PlatformWindow.patch
-#wayland-0008-Add-file-picker-support-using-WebUI.patch
-#wayland-0009-Media-Use-upstream-Video-Accelerator.patch
-#wayland-0010-Remove-ATK-dependency.patch
-#wayland-0011-Gardening-Adopt-to-https-codereview.chromium.org-129.patch
-#wayland-0012-Use-InputMethodAuraLinux-for-Ozone-implementations-o.patch
-#wayland-0013-Add-drag-and-drop-interfaces-to-PlatformWindowDelega.patch
-## wayland-0014-Adapt-to-https-codereview.chromium.org-1409823002.patch
-#wayland-0015-implement-new-methods.patch
-#wayland-0016-fix-dependencies.patch
-#wayland-0017-switch-to-stdint.patch
-### END Wayland patches ###
 gn-fix-for-optional-neon.patch
 gn-nacl-use-gcc-toolchain.patch
 nacl-dont-use-icf.patch
@@ -60,3 +38,5 @@ dont-assume-neon-exists.patch
 fix-clang-compile.patch
 dont-use-integrated-as-on-arm64.patch
 remove-linux-kernel-dependency.patch
+stdatomic
+arm64-vpx-alignment

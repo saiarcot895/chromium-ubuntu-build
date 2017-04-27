@@ -1,0 +1,15 @@
+Description: Yakkety and lower workaround for "unaligned opcodes"
+
+Index: dev/third_party/libvpx/BUILD.gn
+===================================================================
+--- dev.orig/third_party/libvpx/BUILD.gn
++++ dev/third_party/libvpx/BUILD.gn
+@@ -313,6 +313,8 @@ static_library("libvpx") {
+       sources = libvpx_srcs_arm
+     }
+   } else if (current_cpu == "arm64") {
++    configs -= [ "//build/config/compiler:default_symbols" ]
++    configs += [ "//build/config/compiler:no_symbols" ]
+     sources = libvpx_srcs_arm64
+   }
+ 
