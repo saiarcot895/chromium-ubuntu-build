@@ -1,6 +1,7 @@
 chromium-browser (59.0.3071.15-0ubuntu1~ppa3~17.04.1) UNRELEASED; urgency=low
 
   * Bring in some patches from Ubuntu
+  * Remove unmaintained wayland patches.
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 27 Apr 2017 12:07:46 -0400
 
