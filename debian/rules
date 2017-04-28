@@ -254,7 +254,7 @@ CROSS_BUILD = CC=$(shell which gcc) CXX=$(shell which g++)
 GN_DEFINES += is_clang=false
 FFMPEG_MT_GN_DEFINES += is_clang=false
 else
-CROSS_BUILD = CC=$(shell which clang) CXX=$(shell which clang++)
+CROSS_BUILD = CC=$(shell which clang clang-4.0 | head -n 1) CXX=$(shell which clang++ clang++-4.0 | head -n 1)
 GN_DEFINES += is_clang=true clang_use_chrome_plugins=false
 FFMPEG_MT_GN_DEFINES += is_clang=true clang_use_chrome_plugins=false
 endif

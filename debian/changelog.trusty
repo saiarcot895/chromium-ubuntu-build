@@ -1,3 +1,9 @@
+chromium-browser (59.0.3071.25-0ubuntu1~ppa3~14.04.1) trusty; urgency=low
+
+  * Use clang-4.0 and clang++-4.0.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 27 Apr 2017 22:24:06 -0400
+
 chromium-browser (59.0.3071.25-0ubuntu1~ppa2~14.04.1) trusty; urgency=low
 
   * Fix build dependencies to use Clang on Xenial and newer.
