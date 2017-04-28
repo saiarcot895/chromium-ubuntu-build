@@ -1,3 +1,9 @@
+chromium-browser (59.0.3071.25-0ubuntu1~ppa2~16.04.1) xenial; urgency=low
+
+  * Fix build dependencies to use Clang on Xenial and newer.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 27 Apr 2017 22:04:27 -0400
+
 chromium-browser (59.0.3071.25-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
 
   * Bring in some patches from Ubuntu
