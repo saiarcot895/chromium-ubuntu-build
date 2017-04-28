@@ -1,7 +1,7 @@
-Index: dev/chrome/common/extensions/permissions/chrome_api_permissions.cc
+Index: beta/chrome/common/extensions/permissions/chrome_api_permissions.cc
 ===================================================================
---- dev.orig/chrome/common/extensions/permissions/chrome_api_permissions.cc
-+++ dev/chrome/common/extensions/permissions/chrome_api_permissions.cc
+--- beta.orig/chrome/common/extensions/permissions/chrome_api_permissions.cc
++++ beta/chrome/common/extensions/permissions/chrome_api_permissions.cc
 @@ -27,6 +27,8 @@ APIPermission* CreateAPIPermission(const
  
  }  // namespace
@@ -11,10 +11,10 @@ Index: dev/chrome/common/extensions/permissions/chrome_api_permissions.cc
  std::vector<std::unique_ptr<APIPermissionInfo>>
  ChromeAPIPermissions::GetAllPermissions() const {
    // WARNING: If you are modifying a permission message in this list, be sure to
-Index: dev/chrome/common/extensions/permissions/chrome_api_permissions.h
+Index: beta/chrome/common/extensions/permissions/chrome_api_permissions.h
 ===================================================================
---- dev.orig/chrome/common/extensions/permissions/chrome_api_permissions.h
-+++ dev/chrome/common/extensions/permissions/chrome_api_permissions.h
+--- beta.orig/chrome/common/extensions/permissions/chrome_api_permissions.h
++++ beta/chrome/common/extensions/permissions/chrome_api_permissions.h
 @@ -15,6 +15,7 @@ namespace extensions {
  // Registers the permissions used in Chrome with the PermissionsInfo global.
  class ChromeAPIPermissions : public PermissionsProvider {
@@ -23,10 +23,10 @@ Index: dev/chrome/common/extensions/permissions/chrome_api_permissions.h
    std::vector<std::unique_ptr<APIPermissionInfo>> GetAllPermissions()
        const override;
  };
-Index: dev/extensions/common/permissions/extensions_api_permissions.cc
+Index: beta/extensions/common/permissions/extensions_api_permissions.cc
 ===================================================================
---- dev.orig/extensions/common/permissions/extensions_api_permissions.cc
-+++ dev/extensions/common/permissions/extensions_api_permissions.cc
+--- beta.orig/extensions/common/permissions/extensions_api_permissions.cc
++++ beta/extensions/common/permissions/extensions_api_permissions.cc
 @@ -27,6 +27,8 @@ APIPermission* CreateAPIPermission(const
  
  }  // namespace
@@ -36,10 +36,10 @@ Index: dev/extensions/common/permissions/extensions_api_permissions.cc
  std::vector<std::unique_ptr<APIPermissionInfo>>
  ExtensionsAPIPermissions::GetAllPermissions() const {
    // WARNING: If you are modifying a permission message in this list, be sure to
-Index: dev/extensions/common/permissions/extensions_api_permissions.h
+Index: beta/extensions/common/permissions/extensions_api_permissions.h
 ===================================================================
---- dev.orig/extensions/common/permissions/extensions_api_permissions.h
-+++ dev/extensions/common/permissions/extensions_api_permissions.h
+--- beta.orig/extensions/common/permissions/extensions_api_permissions.h
++++ beta/extensions/common/permissions/extensions_api_permissions.h
 @@ -12,6 +12,7 @@ namespace extensions {
  
  class ExtensionsAPIPermissions : public PermissionsProvider {

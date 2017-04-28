@@ -1,9 +1,11 @@
-chromium-browser (59.0.3071.25-0ubuntu1~ppa4~14.04.1) UNRELEASED; urgency=low
+chromium-browser (59.0.3071.29-0ubuntu1~ppa1~14.04.1) trusty; urgency=low
 
   * Disable position-independent code in i386 Trusty, and don't build
     swiftshader on i386.
+  * New upstream version 59.0.3071.29
+  * Updated patches.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 28 Apr 2017 10:16:52 -0400
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 28 Apr 2017 10:34:43 -0400
 
 chromium-browser (59.0.3071.25-0ubuntu1~ppa3~14.04.1) trusty; urgency=low
 
