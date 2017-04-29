@@ -40,3 +40,4 @@ dont-use-integrated-as-on-arm64.patch
 remove-linux-kernel-dependency.patch
 stdatomic
 arm64-vpx-alignment
+fix-gn-build.patch
