@@ -1,0 +1,15 @@
+Taken from https://chromium.googlesource.com/chromium/src.git/+/c47196bd73aa1a84ef4603c510dcd2175703cb75
+
+Index: dev/base/containers/flat_set.h
+===================================================================
+--- dev.orig/base/containers/flat_set.h
++++ dev/base/containers/flat_set.h
+@@ -5,6 +5,8 @@
+ #ifndef BASE_CONTAINERS_FLAT_SET_H_
+ #define BASE_CONTAINERS_FLAT_SET_H_
+ 
++#include <functional>
++
+ #include "base/containers/flat_tree.h"
+ 
+ namespace base {

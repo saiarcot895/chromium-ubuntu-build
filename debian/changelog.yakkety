@@ -1,3 +1,11 @@
+chromium-browser (60.0.3080.5-0ubuntu1~ppa4~16.10.1) yakkety; urgency=low
+
+  * Add patch to fix general compile error.
+  * Add patch to use actual mutex in swiftshader instead of faked mutex,
+    to get around compile error on Trusty.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 29 Apr 2017 11:56:39 -0400
+
 chromium-browser (60.0.3080.5-0ubuntu1~ppa3~16.10.1) yakkety; urgency=low
 
   * Fix VAAPI patch

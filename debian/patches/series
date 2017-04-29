@@ -41,3 +41,5 @@ remove-linux-kernel-dependency.patch
 stdatomic
 arm64-vpx-alignment
 fix-gn-build.patch
+fix-compile-error.patch
+swiftshader-use-mutex.patch

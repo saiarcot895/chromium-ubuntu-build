@@ -260,11 +260,6 @@ FFMPEG_MT_GN_DEFINES += is_clang=true clang_use_chrome_plugins=false
 endif
 endif
 
-ifeq (i386,$(DEB_HOST_ARCH_CPU))
-GN_DEFINES += enable_swiftshader=false
-FFMPEG_MT_GN_DEFINES += enable_swiftshader=false
-endif
-
 ifneq (,$(filter 14.04%,$(UBUNTU_DIST)))
 ifeq (i386,$(DEB_HOST_ARCH_CPU))
 GN_DEFINES += use_pic=false

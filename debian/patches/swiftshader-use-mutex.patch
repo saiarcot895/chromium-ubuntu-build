@@ -1,0 +1,138 @@
+Index: dev/third_party/swiftshader/src/Common/MutexLock.hpp
+===================================================================
+--- dev.orig/third_party/swiftshader/src/Common/MutexLock.hpp
++++ dev/third_party/swiftshader/src/Common/MutexLock.hpp
+@@ -17,9 +17,6 @@
+ 
+ #include "Thread.hpp"
+ 
+-#ifdef __ANDROID__
+-// Use an actual mutex on Android. Since many processes may use SwiftShader
+-// at the same time it's best to just have the scheduler overhead.
+ #include <pthread.h>
+ 
+ namespace sw
+@@ -57,123 +54,6 @@ namespace sw
+ 	};
+ }
+ 
+-#else   // !__ANDROID__
+-
+-#include <atomic>
+-
+-namespace sw
+-{
+-	class BackoffLock
+-	{
+-	public:
+-		BackoffLock()
+-		{
+-			mutex = 0;
+-		}
+-
+-		bool attemptLock()
+-		{
+-			if(!isLocked())
+-			{
+-				if(mutex.exchange(true) == false)
+-				{
+-					return true;
+-				}
+-			}
+-
+-			return false;
+-		}
+-
+-		void lock()
+-		{
+-			int backoff = 1;
+-
+-			while(!attemptLock())
+-			{
+-				if(backoff <= 64)
+-				{
+-					for(int i = 0; i < backoff; i++)
+-					{
+-						nop();
+-						nop();
+-						nop();
+-						nop();
+-						nop();
+-
+-						nop();
+-						nop();
+-						nop();
+-						nop();
+-						nop();
+-
+-						nop();
+-						nop();
+-						nop();
+-						nop();
+-						nop();
+-
+-						nop();
+-						nop();
+-						nop();
+-						nop();
+-						nop();
+-
+-						nop();
+-						nop();
+-						nop();
+-						nop();
+-						nop();
+-
+-						nop();
+-						nop();
+-						nop();
+-						nop();
+-						nop();
+-
+-						nop();
+-						nop();
+-						nop();
+-						nop();
+-						nop();
+-					}
+-
+-					backoff *= 2;
+-				}
+-				else
+-				{
+-					Thread::yield();
+-
+-					backoff = 1;
+-				}
+-			};
+-		}
+-
+-		void unlock()
+-		{
+-			mutex.store(false, std::memory_order_release);
+-		}
+-
+-		bool isLocked()
+-		{
+-			return mutex.load(std::memory_order_acquire);
+-		}
+-
+-	private:
+-		struct
+-		{
+-			// Ensure that the mutex variable is on its own 64-byte cache line to avoid false sharing
+-			// Padding must be public to avoid compiler warnings
+-			volatile int padding1[16];
+-			std::atomic<bool> mutex;
+-			volatile int padding2[15];
+-		};
+-	};
+-
+-	using MutexLock = BackoffLock;
+-}
+-
+-#endif   // !__ANDROID__
+-
+ class LockGuard
+ {
+ public:
