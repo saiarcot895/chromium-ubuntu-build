@@ -17,7 +17,7 @@ Index: dev/content/common/BUILD.gn
 ===================================================================
 --- dev.orig/content/common/BUILD.gn
 +++ dev/content/common/BUILD.gn
-@@ -23,6 +23,49 @@ buildflag_header("features") {
+@@ -23,6 +23,53 @@ buildflag_header("features") {
    flags = [ "USE_EXTERNAL_POPUP_MENU=$use_external_popup_menu" ]
  }
  
@@ -27,15 +27,19 @@ Index: dev/content/common/BUILD.gn
 +
 +    script = "../../tools/generate_stubs/generate_stubs.py"
 +    sources = [
-+      "../../media/gpu/va.sigs",
++      "../../media/gpu/vaapi/va.sigs",
 +    ]
 +    inputs = [
 +      extra_header,
 +    ]
-+    sources += [ "../../media/gpu/va_x11.sigs" ]
++    if (use_x11) {
++      sources += [
++        "../../media/gpu/vaapi/va_x11.sigs",
++      ]
++    }
 +    if (use_ozone) {
 +      sources += [
-+        "../../media/gpu/va_drm.sigs",
++        "../../media/gpu/vaapi/va_drm.sigs",
 +        "va_wayland.sigs",
 +      ]
 +    }
@@ -67,7 +71,7 @@ Index: dev/content/common/BUILD.gn
  source_set("common") {
    # Targets external to content should always link to the public API.
    # In addition, targets outside of the content component (shell and tests)
-@@ -530,6 +573,16 @@ source_set("common") {
+@@ -530,6 +577,16 @@ source_set("common") {
          "sandbox_linux/android/sandbox_bpf_base_policy_android.h",
        ]
      }

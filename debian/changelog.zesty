@@ -1,3 +1,9 @@
+chromium-browser (60.0.3080.5-0ubuntu1~ppa3~17.04.1) zesty; urgency=low
+
+  * Fix VAAPI patch
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 28 Apr 2017 23:10:06 -0400
+
 chromium-browser (60.0.3080.5-0ubuntu1~ppa2~17.04.1) zesty; urgency=low
 
   * Fix GN Build
