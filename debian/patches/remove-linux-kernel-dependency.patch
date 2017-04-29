@@ -8,24 +8,23 @@ Index: dev/ui/gfx/linux/client_native_pixmap_dmabuf.cc
  #include <fcntl.h>
 -#include <linux/version.h>
  #include <stddef.h>
+ #include <sys/ioctl.h>
  #include <sys/mman.h>
- #include <xf86drm.h>
-@@ -17,7 +16,6 @@
+@@ -19,9 +18,6 @@
  #include "base/strings/stringprintf.h"
  #include "base/trace_event/trace_event.h"
  
--#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 6, 0)
+-#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 6, 0)
+-#include <linux/dma-buf.h>
+-#else
  #include <linux/types.h>
  
- struct local_dma_buf_sync {
-@@ -35,10 +33,6 @@ struct local_dma_buf_sync {
- #define LOCAL_DMA_BUF_IOCTL_SYNC \
-   _IOW(LOCAL_DMA_BUF_BASE, 0, struct local_dma_buf_sync)
+ struct dma_buf_sync {
+@@ -36,7 +32,6 @@ struct dma_buf_sync {
  
--#else
--#include <linux/dma-buf.h>
+ #define DMA_BUF_BASE 'b'
+ #define DMA_BUF_IOCTL_SYNC _IOW(DMA_BUF_BASE, 0, struct dma_buf_sync)
 -#endif
--
+ 
  namespace gfx {
  
- namespace {

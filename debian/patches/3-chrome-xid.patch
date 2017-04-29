@@ -40,7 +40,7 @@ Index: dev/chrome/browser/ui/views/frame/browser_view.cc
 ===================================================================
 --- dev.orig/chrome/browser/ui/views/frame/browser_view.cc
 +++ dev/chrome/browser/ui/views/frame/browser_view.cc
-@@ -644,6 +644,7 @@ void BrowserView::Show() {
+@@ -643,6 +643,7 @@ void BrowserView::Show() {
    force_location_bar_focus_ = false;
  
    browser()->OnWindowDidShow();
@@ -265,7 +265,7 @@ Index: dev/ui/views/mus/desktop_window_tree_host_mus.cc
 ===================================================================
 --- dev.orig/ui/views/mus/desktop_window_tree_host_mus.cc
 +++ dev/ui/views/mus/desktop_window_tree_host_mus.cc
-@@ -221,6 +221,10 @@ DesktopWindowTreeHostMus::~DesktopWindow
+@@ -219,6 +219,10 @@ DesktopWindowTreeHostMus::~DesktopWindow
    desktop_native_widget_aura_->OnDesktopWindowTreeHostDestroyed(this);
  }
  
@@ -280,7 +280,7 @@ Index: dev/ui/views/mus/desktop_window_tree_host_mus.h
 ===================================================================
 --- dev.orig/ui/views/mus/desktop_window_tree_host_mus.h
 +++ dev/ui/views/mus/desktop_window_tree_host_mus.h
-@@ -47,6 +47,8 @@ class VIEWS_MUS_EXPORT DesktopWindowTree
+@@ -46,6 +46,8 @@ class VIEWS_MUS_EXPORT DesktopWindowTree
      auto_update_client_area_ = value;
    }
  

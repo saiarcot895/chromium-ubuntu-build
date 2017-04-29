@@ -4,7 +4,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -1249,7 +1249,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1261,7 +1261,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
          flag_descriptions::kAcceleratedVideoDecodeDescription,
@@ -436,15 +436,15 @@ Index: dev/media/gpu/BUILD.gn
      sources += [
        "vp8_decoder.cc",
        "vp8_decoder.h",
-@@ -269,7 +269,7 @@ component("gpu") {
+@@ -266,7 +266,7 @@ component("gpu") {
+         "EGL",
          "GLESv2",
        ]
-     }
--    if (current_cpu == "arm") {
-+    if (current_cpu == "arm" && is_chromeos) {
-       sources += [
-         "tegra_v4l2_device.cc",
-         "tegra_v4l2_device.h",
+-      if (current_cpu == "arm") {
++      if (current_cpu == "arm" && is_chromeos) {
+         sources += [
+           "tegra_v4l2_device.cc",
+           "tegra_v4l2_device.h",
 Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
 ===================================================================
 --- dev.orig/media/gpu/gpu_video_decode_accelerator_factory.cc
