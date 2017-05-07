@@ -1,3 +1,10 @@
+chromium-browser (59.0.3071.36-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
+
+  * New upstream version 59.0.3071.36
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 07 May 2017 00:35:58 -0400
+
 chromium-browser (59.0.3071.29-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
 
   * Disable position-independent code in i386 Trusty, and don't build
