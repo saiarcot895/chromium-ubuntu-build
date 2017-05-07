@@ -4,7 +4,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -1261,7 +1261,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1287,7 +1287,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
          flag_descriptions::kAcceleratedVideoDecodeDescription,
@@ -71,7 +71,7 @@ Index: dev/content/common/BUILD.gn
  source_set("common") {
    # Targets external to content should always link to the public API.
    # In addition, targets outside of the content component (shell and tests)
-@@ -530,6 +577,16 @@ source_set("common") {
+@@ -531,6 +578,16 @@ source_set("common") {
          "sandbox_linux/android/sandbox_bpf_base_policy_android.h",
        ]
      }
@@ -342,7 +342,7 @@ Index: dev/content/public/common/content_switches.cc
 ===================================================================
 --- dev.orig/content/public/common/content_switches.cc
 +++ dev/content/public/common/content_switches.cc
-@@ -1000,7 +1000,9 @@ const char kDisableAudioSupportForDeskto
+@@ -998,7 +998,9 @@ const char kDisableAudioSupportForDeskto
  #if defined(OS_CHROMEOS)
  // Disables panel fitting (used for mirror mode).
  const char kDisablePanelFitting[]           = "disable-panel-fitting";
@@ -356,7 +356,7 @@ Index: dev/content/public/common/content_switches.h
 ===================================================================
 --- dev.orig/content/public/common/content_switches.h
 +++ dev/content/public/common/content_switches.h
-@@ -291,6 +291,8 @@ CONTENT_EXPORT extern const char kEnable
+@@ -289,6 +289,8 @@ CONTENT_EXPORT extern const char kEnable
  
  #if defined(OS_CHROMEOS)
  CONTENT_EXPORT extern const char kDisablePanelFitting[];
@@ -604,7 +604,7 @@ Index: dev/media/gpu/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi_wrapper.cc
-@@ -188,7 +188,7 @@ scoped_refptr<VaapiWrapper> VaapiWrapper
+@@ -189,7 +189,7 @@ scoped_refptr<VaapiWrapper> VaapiWrapper
      VAProfile va_profile,
      const base::Closure& report_error_to_uma_cb) {
    if (!GetProfileInfos()->IsProfileSupported(mode, va_profile)) {
@@ -613,7 +613,7 @@ Index: dev/media/gpu/vaapi_wrapper.cc
      return nullptr;
    }
  
-@@ -340,15 +340,17 @@ VaapiWrapper::GetSupportedProfileInfosFo
+@@ -341,15 +341,17 @@ VaapiWrapper::GetSupportedProfileInfosFo
  bool VaapiWrapper::VaInitialize(const base::Closure& report_error_to_uma_cb) {
    static bool vaapi_functions_initialized = PostSandboxInitialization();
    if (!vaapi_functions_initialized) {
@@ -636,7 +636,7 @@ Index: dev/media/gpu/vaapi_wrapper.cc
      else
        DVLOG(1) << kErrorMsg;
      return false;
-@@ -407,7 +409,7 @@ bool VaapiWrapper::IsEntrypointSupported
+@@ -408,7 +410,7 @@ bool VaapiWrapper::IsEntrypointSupported
  
    if (std::find(supported_entrypoints.begin(), supported_entrypoints.end(),
                  entrypoint) == supported_entrypoints.end()) {
@@ -645,7 +645,7 @@ Index: dev/media/gpu/vaapi_wrapper.cc
      return false;
    }
    return true;
-@@ -431,8 +433,8 @@ bool VaapiWrapper::AreAttribsSupported_L
+@@ -432,8 +434,8 @@ bool VaapiWrapper::AreAttribsSupported_L
      if (attribs[i].type != required_attribs[i].type ||
          (attribs[i].value & required_attribs[i].value) !=
              required_attribs[i].value) {
