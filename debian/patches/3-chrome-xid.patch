@@ -76,7 +76,7 @@ Index: dev/ui/aura/client/aura_constants.cc
  DECLARE_EXPORTED_UI_CLASS_PROPERTY_TYPE(AURA_EXPORT, base::string16*)
  DECLARE_EXPORTED_UI_CLASS_PROPERTY_TYPE(AURA_EXPORT, ui::ModalType)
  DECLARE_EXPORTED_UI_CLASS_PROPERTY_TYPE(AURA_EXPORT, gfx::ImageSkia*)
-@@ -68,6 +70,7 @@ DEFINE_OWNED_UI_CLASS_PROPERTY_KEY(gfx::
+@@ -67,6 +69,7 @@ DEFINE_OWNED_UI_CLASS_PROPERTY_KEY(gfx::
  DEFINE_UI_CLASS_PROPERTY_KEY(ui::mojom::WindowType,
                             kWindowTypeKey,
                             ui::mojom::WindowType::UNKNOWN);
@@ -88,7 +88,7 @@ Index: dev/ui/aura/client/aura_constants.h
 ===================================================================
 --- dev.orig/ui/aura/client/aura_constants.h
 +++ dev/ui/aura/client/aura_constants.h
-@@ -139,6 +139,9 @@ AURA_EXPORT extern const WindowProperty<
+@@ -136,6 +136,9 @@ AURA_EXPORT extern const WindowProperty<
  AURA_EXPORT extern const WindowProperty<ui::mojom::WindowType>* const
      kWindowTypeKey;
  
@@ -174,7 +174,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
    "XdndActionAsk",
    "XdndActionCopy",
    "XdndActionLink",
-@@ -1703,6 +1706,22 @@ void DesktopWindowTreeHostX11::UpdateMin
+@@ -1706,6 +1709,22 @@ void DesktopWindowTreeHostX11::UpdateMin
    XSetWMNormalHints(xdisplay_, xwindow_, &hints);
  }
  
@@ -227,7 +227,7 @@ Index: dev/ui/views/widget/native_widget_aura.cc
 ===================================================================
 --- dev.orig/ui/views/widget/native_widget_aura.cc
 +++ dev/ui/views/widget/native_widget_aura.cc
-@@ -71,6 +71,8 @@
+@@ -72,6 +72,8 @@
  #include "ui/views/widget/desktop_aura/desktop_window_tree_host.h"
  #endif
  
@@ -236,7 +236,7 @@ Index: dev/ui/views/widget/native_widget_aura.cc
  DECLARE_UI_CLASS_PROPERTY_TYPE(views::internal::NativeWidgetPrivate*)
  
  namespace views {
-@@ -386,6 +388,11 @@ void NativeWidgetAura::CenterWindow(cons
+@@ -395,6 +397,11 @@ void NativeWidgetAura::CenterWindow(cons
    window_->SetBounds(window_bounds);
  }
  

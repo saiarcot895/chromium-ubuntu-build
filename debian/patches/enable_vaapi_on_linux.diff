@@ -4,7 +4,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -1287,7 +1287,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1348,7 +1348,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
          flag_descriptions::kAcceleratedVideoDecodeDescription,
@@ -71,7 +71,7 @@ Index: dev/content/common/BUILD.gn
  source_set("common") {
    # Targets external to content should always link to the public API.
    # In addition, targets outside of the content component (shell and tests)
-@@ -531,6 +578,16 @@ source_set("common") {
+@@ -540,6 +587,16 @@ source_set("common") {
          "sandbox_linux/android/sandbox_bpf_base_policy_android.h",
        ]
      }
@@ -391,7 +391,7 @@ Index: dev/media/BUILD.gn
 ===================================================================
 --- dev.orig/media/BUILD.gn
 +++ dev/media/BUILD.gn
-@@ -394,7 +394,7 @@ component("media") {
+@@ -389,7 +389,7 @@ component("media") {
      ]
    }
  
@@ -400,7 +400,7 @@ Index: dev/media/BUILD.gn
      sources += [
        "filters/h264_bitstream_buffer.cc",
        "filters/h264_bitstream_buffer.h",
-@@ -665,7 +665,7 @@ source_set("unit_tests") {
+@@ -684,7 +684,7 @@ source_set("unit_tests") {
      }
    }
  
@@ -422,7 +422,7 @@ Index: dev/media/gpu/BUILD.gn
    action("libva_generate_stubs") {
      extra_header = "va_stub_header.fragment"
  
-@@ -222,7 +222,7 @@ component("gpu") {
+@@ -225,7 +225,7 @@ component("gpu") {
      }
    }
  
@@ -431,7 +431,7 @@ Index: dev/media/gpu/BUILD.gn
      sources += [
        "accelerated_video_decoder.h",
        "h264_decoder.cc",
-@@ -231,7 +231,7 @@ component("gpu") {
+@@ -234,7 +234,7 @@ component("gpu") {
        "h264_dpb.h",
      ]
    }
@@ -440,7 +440,7 @@ Index: dev/media/gpu/BUILD.gn
      sources += [
        "vp8_decoder.cc",
        "vp8_decoder.h",
-@@ -266,7 +266,7 @@ component("gpu") {
+@@ -269,7 +269,7 @@ component("gpu") {
          "EGL",
          "GLESv2",
        ]
@@ -462,16 +462,16 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
  #if defined(USE_V4L2_CODEC)
  #include "media/gpu/v4l2_device.h"
  #include "media/gpu/v4l2_slice_video_decode_accelerator.h"
-@@ -82,7 +82,7 @@ GpuVideoDecodeAcceleratorFactory::GetDec
- #if defined(OS_WIN)
+@@ -85,7 +85,7 @@ GpuVideoDecodeAcceleratorFactory::GetDec
    capabilities.supported_profiles =
-       DXVAVideoDecodeAccelerator::GetSupportedProfiles(gpu_preferences);
+       DXVAVideoDecodeAccelerator::GetSupportedProfiles(gpu_preferences,
+                                                        workarounds);
 -#elif defined(OS_CHROMEOS)
 +#elif defined(OS_CHROMEOS) || defined(OS_LINUX)
    VideoDecodeAccelerator::SupportedProfiles vda_profiles;
  #if defined(USE_V4L2_CODEC)
    vda_profiles = V4L2VideoDecodeAccelerator::GetSupportedProfiles();
-@@ -135,7 +135,7 @@ GpuVideoDecodeAcceleratorFactory::Create
+@@ -138,7 +138,7 @@ GpuVideoDecodeAcceleratorFactory::Create
      &GpuVideoDecodeAcceleratorFactory::CreateV4L2VDA,
      &GpuVideoDecodeAcceleratorFactory::CreateV4L2SVDA,
  #endif
@@ -480,7 +480,7 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
      &GpuVideoDecodeAcceleratorFactory::CreateVaapiVDA,
  #endif
  #if defined(OS_MACOSX)
-@@ -218,11 +218,12 @@ GpuVideoDecodeAcceleratorFactory::Create
+@@ -221,11 +221,12 @@ GpuVideoDecodeAcceleratorFactory::Create
  }
  #endif
  
@@ -498,7 +498,7 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.h
 ===================================================================
 --- dev.orig/media/gpu/gpu_video_decode_accelerator_factory.h
 +++ dev/media/gpu/gpu_video_decode_accelerator_factory.h
-@@ -101,7 +101,7 @@ class MEDIA_GPU_EXPORT GpuVideoDecodeAcc
+@@ -102,7 +102,7 @@ class MEDIA_GPU_EXPORT GpuVideoDecodeAcc
        const gpu::GpuDriverBugWorkarounds& workarounds,
        const gpu::GpuPreferences& gpu_preferences) const;
  #endif
