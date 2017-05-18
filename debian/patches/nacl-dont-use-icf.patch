@@ -2,12 +2,12 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -405,7 +405,7 @@ config("compiler") {
+@@ -400,7 +400,7 @@ config("compiler") {
      ldflags += [ "-fuse-ld=bfd" ]
    }
  
 -  if (is_posix && (use_gold || (use_lld && !is_nacl)) && !using_sanitizer &&
 +  if (is_posix && !is_nacl && (use_gold || use_lld) && !using_sanitizer &&
        !(is_android && use_order_profiling)) {
-     # TODO(crbug.com/576197) - gcc on x86 platforms + gold + icf=all
-     # doesn't currently work on non-chromeos platforms.
+     # TODO(thakis): Remove `!is_android` below once NDK gold has been rolled
+     # with the fix for https://sourceware.org/bugzilla/show_bug.cgi?id=17704
