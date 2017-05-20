@@ -1,3 +1,9 @@
+chromium-browser (60.0.3100.0-0ubuntu1~ppa2~17.04.1) zesty; urgency=low
+
+  * Fix build for Trusty.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 20 May 2017 12:26:10 -0400
+
 chromium-browser (60.0.3100.0-0ubuntu1~ppa1~17.04.1) zesty; urgency=low
 
   * New upstream version 60.0.3100.0
