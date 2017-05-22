@@ -6,7 +6,7 @@ Index: dev/third_party/angle/src/vulkan_support/BUILD.gn
      ":vulkan_loader_config",
    ]
    configs -= vulkan_undefine_configs
-+  cflags += [ "-std=gnu11" ]
++  cflags_c = [ "-std=gnu11" ]
  }
  
  # SPIRV-tools

@@ -1,3 +1,9 @@
+chromium-browser (60.0.3100.0-0ubuntu1~ppa4~16.04.1) xenial; urgency=low
+
+  * Fix my patch (again).
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 22 May 2017 12:23:27 -0400
+
 chromium-browser (60.0.3100.0-0ubuntu1~ppa3~16.04.1) xenial; urgency=low
 
   * Fix my patch.
