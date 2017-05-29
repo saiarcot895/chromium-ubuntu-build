@@ -4,7 +4,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -1348,7 +1348,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1406,7 +1406,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
          flag_descriptions::kAcceleratedVideoDecodeDescription,
@@ -71,7 +71,7 @@ Index: dev/content/common/BUILD.gn
  source_set("common") {
    # Targets external to content should always link to the public API.
    # In addition, targets outside of the content component (shell and tests)
-@@ -539,6 +586,16 @@ source_set("common") {
+@@ -540,6 +587,16 @@ source_set("common") {
          "sandbox_linux/android/sandbox_bpf_base_policy_android.h",
        ]
      }
@@ -307,7 +307,7 @@ Index: dev/content/gpu/BUILD.gn
 ===================================================================
 --- dev.orig/content/gpu/BUILD.gn
 +++ dev/content/gpu/BUILD.gn
-@@ -101,7 +101,7 @@ target(link_target_type, "gpu_sources")
+@@ -102,7 +102,7 @@ target(link_target_type, "gpu_sources")
      ]
    }
  
@@ -391,7 +391,7 @@ Index: dev/media/BUILD.gn
 ===================================================================
 --- dev.orig/media/BUILD.gn
 +++ dev/media/BUILD.gn
-@@ -389,7 +389,7 @@ component("media") {
+@@ -391,7 +391,7 @@ component("media") {
      ]
    }
  
@@ -400,7 +400,7 @@ Index: dev/media/BUILD.gn
      sources += [
        "filters/h264_bitstream_buffer.cc",
        "filters/h264_bitstream_buffer.h",
-@@ -684,7 +684,7 @@ source_set("unit_tests") {
+@@ -687,7 +687,7 @@ source_set("unit_tests") {
      }
    }
  
@@ -422,7 +422,7 @@ Index: dev/media/gpu/BUILD.gn
    action("libva_generate_stubs") {
      extra_header = "va_stub_header.fragment"
  
-@@ -226,7 +226,7 @@ component("gpu") {
+@@ -229,7 +229,7 @@ component("gpu") {
      }
    }
  
@@ -431,7 +431,7 @@ Index: dev/media/gpu/BUILD.gn
      sources += [
        "accelerated_video_decoder.h",
        "h264_decoder.cc",
-@@ -235,7 +235,7 @@ component("gpu") {
+@@ -238,7 +238,7 @@ component("gpu") {
        "h264_dpb.h",
      ]
    }
@@ -440,7 +440,7 @@ Index: dev/media/gpu/BUILD.gn
      sources += [
        "vp8_decoder.cc",
        "vp8_decoder.h",
-@@ -270,7 +270,7 @@ component("gpu") {
+@@ -273,7 +273,7 @@ component("gpu") {
          "EGL",
          "GLESv2",
        ]
@@ -533,7 +533,7 @@ Index: dev/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
      defined(OS_MACOSX) || defined(OS_WIN)
  static bool BindImage(const base::WeakPtr<gpu::GpuCommandBufferStub>& stub,
                        uint32_t client_texture_id,
-@@ -174,7 +174,7 @@ GpuVideoDecodeAccelerator::GpuVideoDecod
+@@ -175,7 +175,7 @@ GpuVideoDecodeAccelerator::GpuVideoDecod
    get_gl_context_cb_ = base::Bind(&GetGLContext, stub_->AsWeakPtr());
    make_context_current_cb_ =
        base::Bind(&MakeDecoderContextCurrent, stub_->AsWeakPtr());

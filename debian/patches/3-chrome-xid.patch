@@ -76,7 +76,7 @@ Index: dev/ui/aura/client/aura_constants.cc
  DECLARE_EXPORTED_UI_CLASS_PROPERTY_TYPE(AURA_EXPORT, base::string16*)
  DECLARE_EXPORTED_UI_CLASS_PROPERTY_TYPE(AURA_EXPORT, ui::ModalType)
  DECLARE_EXPORTED_UI_CLASS_PROPERTY_TYPE(AURA_EXPORT, gfx::ImageSkia*)
-@@ -67,6 +69,7 @@ DEFINE_OWNED_UI_CLASS_PROPERTY_KEY(gfx::
+@@ -68,6 +70,7 @@ DEFINE_OWNED_UI_CLASS_PROPERTY_KEY(gfx::
  DEFINE_UI_CLASS_PROPERTY_KEY(ui::mojom::WindowType,
                             kWindowTypeKey,
                             ui::mojom::WindowType::UNKNOWN);
@@ -88,7 +88,7 @@ Index: dev/ui/aura/client/aura_constants.h
 ===================================================================
 --- dev.orig/ui/aura/client/aura_constants.h
 +++ dev/ui/aura/client/aura_constants.h
-@@ -136,6 +136,9 @@ AURA_EXPORT extern const WindowProperty<
+@@ -140,6 +140,9 @@ AURA_EXPORT extern const WindowProperty<
  AURA_EXPORT extern const WindowProperty<ui::mojom::WindowType>* const
      kWindowTypeKey;
  
