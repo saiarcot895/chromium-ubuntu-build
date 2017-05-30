@@ -1,3 +1,9 @@
+chromium-browser (60.0.3107.4-0ubuntu1~ppa6~16.04.1) xenial; urgency=low
+
+  * Disable ozone; it's not ready yet.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 30 May 2017 11:00:00 -0400
+
 chromium-browser (60.0.3107.4-0ubuntu1~ppa5~16.04.1) xenial; urgency=low
 
   * Fix Wayland build.
