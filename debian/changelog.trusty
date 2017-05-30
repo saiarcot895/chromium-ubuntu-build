@@ -1,3 +1,9 @@
+chromium-browser (60.0.3107.4-0ubuntu1~ppa5~14.04.1) trusty; urgency=low
+
+  * Fix Wayland build.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 29 May 2017 21:31:17 -0400
+
 chromium-browser (60.0.3107.4-0ubuntu1~ppa4~14.04.1) trusty; urgency=low
 
   * Try again.

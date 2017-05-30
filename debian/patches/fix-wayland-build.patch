@@ -2,7 +2,13 @@ Index: dev/ui/ozone/platform/wayland/BUILD.gn
 ===================================================================
 --- dev.orig/ui/ozone/platform/wayland/BUILD.gn
 +++ dev/ui/ozone/platform/wayland/BUILD.gn
-@@ -10,6 +10,12 @@ pkg_config("wayland-egl") {
+@@ -5,11 +5,18 @@
+ visibility = [ "//ui/ozone/*" ]
+ 
+ import("//build/config/linux/pkg_config.gni")
++import("//ui/base/ui_features.gni")
+ 
+ pkg_config("wayland-egl") {
    packages = [ "wayland-egl" ]
  }
  
@@ -15,7 +21,7 @@ Index: dev/ui/ozone/platform/wayland/BUILD.gn
  source_set("wayland") {
    sources = [
      "client_native_pixmap_factory_wayland.cc",
-@@ -66,6 +72,10 @@ source_set("wayland") {
+@@ -66,6 +73,10 @@ source_set("wayland") {
      ":wayland-egl",
      "//third_party/khronos:khronos_headers",
    ]
