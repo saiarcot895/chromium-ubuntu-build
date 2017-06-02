@@ -9,7 +9,33 @@ Index: dev/media/gpu/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi_wrapper.cc
-@@ -479,9 +479,7 @@ bool VaapiWrapper::GetMaxResolution_Lock
+@@ -460,7 +460,11 @@ bool VaapiWrapper::GetMaxResolution_Lock
+   unsigned int num_attribs;
+   va_res = vaQuerySurfaceAttributes(va_display_, va_config_id, nullptr,
+                                     &num_attribs);
+-  VA_SUCCESS_OR_RETURN(va_res, "vaQuerySurfaceAttributes failed", false);
++  if (va_res != VA_STATUS_SUCCESS) {
++    LOG_VA_ERROR_AND_REPORT(va_res, "vaQuerySurfaceAttributes failed, returning hardcoded resolution");
++    resolution->SetSize(1920, 1088); // Yes, this should be 1088.
++    return true;
++  }
+   if (!num_attribs)
+     return false;
+ 
+@@ -469,7 +473,11 @@ bool VaapiWrapper::GetMaxResolution_Lock
+ 
+   va_res = vaQuerySurfaceAttributes(va_display_, va_config_id, &attrib_list[0],
+                                     &num_attribs);
+-  VA_SUCCESS_OR_RETURN(va_res, "vaQuerySurfaceAttributes failed", false);
++  if (va_res != VA_STATUS_SUCCESS) {
++    LOG_VA_ERROR_AND_REPORT(va_res, "vaQuerySurfaceAttributes failed, returning hardcoded resolution");
++    resolution->SetSize(1920, 1088); // Yes, this should be 1088.
++    return true;
++  }
+ 
+   resolution->SetSize(0, 0);
+   for (const auto& attrib : attrib_list) {
+@@ -479,9 +487,7 @@ bool VaapiWrapper::GetMaxResolution_Lock
        resolution->set_height(attrib.value.value.i);
    }
    if (resolution->IsEmpty()) {
