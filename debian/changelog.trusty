@@ -1,3 +1,9 @@
+chromium-browser (60.0.3107.4-0ubuntu1~ppa7~14.04.1) UNRELEASED; urgency=low
+
+  * Use mash when compiling for Ozone.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 02 Jun 2017 10:14:04 -0400
+
 chromium-browser (60.0.3107.4-0ubuntu1~ppa6~14.04.1) trusty; urgency=low
 
   * Disable ozone; it's not ready yet.

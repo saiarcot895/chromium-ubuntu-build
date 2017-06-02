@@ -196,7 +196,7 @@ BUILD_ARGS += -v
 endif
 
 ifeq (1,$(WANT_OZONE))
-BROWSER_GN_DEFINES += use_ozone=true use_xkbcommon=true
+BROWSER_GN_DEFINES += use_ozone=true use_xkbcommon=true enable_package_mash_services=true
 endif
 
 subst_files = \
