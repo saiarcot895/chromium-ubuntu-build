@@ -5,10 +5,10 @@ In the change introduced by https://codereview.chromium.org/872623002, Chromium 
 There is a patch in libva (http://cgit.freedesktop.org/vaapi/intel-driver/commit/?id=9a20d6c34cb65e5b85dd16d6c8b3a215c5972b18) that asks what the maximum resolution supported by the hardware is. This change should be present in Xenial and newer, so rely on libva on returning a resolution. If it doesn't, then hardcode it to 1920x1088.
 
 
-Index: dev/media/gpu/vaapi_wrapper.cc
+Index: beta/media/gpu/vaapi_wrapper.cc
 ===================================================================
---- dev.orig/media/gpu/vaapi_wrapper.cc
-+++ dev/media/gpu/vaapi_wrapper.cc
+--- beta.orig/media/gpu/vaapi_wrapper.cc
++++ beta/media/gpu/vaapi_wrapper.cc
 @@ -460,7 +460,11 @@ bool VaapiWrapper::GetMaxResolution_Lock
    unsigned int num_attribs;
    va_res = vaQuerySurfaceAttributes(va_display_, va_config_id, nullptr,

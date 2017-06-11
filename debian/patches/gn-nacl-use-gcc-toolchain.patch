@@ -1,7 +1,7 @@
-Index: dev/native_client/src/trusted/service_runtime/linux/toolchain/BUILD.gn
+Index: beta/native_client/src/trusted/service_runtime/linux/toolchain/BUILD.gn
 ===================================================================
---- dev.orig/native_client/src/trusted/service_runtime/linux/toolchain/BUILD.gn
-+++ dev/native_client/src/trusted/service_runtime/linux/toolchain/BUILD.gn
+--- beta.orig/native_client/src/trusted/service_runtime/linux/toolchain/BUILD.gn
++++ beta/native_client/src/trusted/service_runtime/linux/toolchain/BUILD.gn
 @@ -11,12 +11,30 @@ import("//build/toolchain/gcc_toolchain.
  # use_gold=true or use_debug_fission=true. See ../BUILD.gn for details.
  

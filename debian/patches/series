@@ -42,5 +42,4 @@ stdatomic
 arm64-vpx-alignment
 fix-compile-error.patch
 specify-gcc-standard.patch
-fix-gn-build.patch
 fix-wayland-build.patch

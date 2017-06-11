@@ -1,7 +1,7 @@
-Index: dev/third_party/boringssl/BUILD.gn
+Index: beta/third_party/boringssl/BUILD.gn
 ===================================================================
---- dev.orig/third_party/boringssl/BUILD.gn
-+++ dev/third_party/boringssl/BUILD.gn
+--- beta.orig/third_party/boringssl/BUILD.gn
++++ beta/third_party/boringssl/BUILD.gn
 @@ -65,7 +65,7 @@ if (is_win && !is_msan) {
      include_dirs = [ "src/include" ]
  
