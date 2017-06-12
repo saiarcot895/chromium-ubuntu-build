@@ -4,7 +4,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -1406,7 +1406,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1437,7 +1437,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
          flag_descriptions::kAcceleratedVideoDecodeDescription,
@@ -71,7 +71,7 @@ Index: dev/content/common/BUILD.gn
  source_set("common") {
    # Targets external to content should always link to the public API.
    # In addition, targets outside of the content component (shell and tests)
-@@ -540,6 +587,16 @@ source_set("common") {
+@@ -548,6 +595,16 @@ source_set("common") {
          "sandbox_linux/android/sandbox_bpf_base_policy_android.h",
        ]
      }
@@ -342,7 +342,7 @@ Index: dev/content/public/common/content_switches.cc
 ===================================================================
 --- dev.orig/content/public/common/content_switches.cc
 +++ dev/content/public/common/content_switches.cc
-@@ -1000,7 +1000,9 @@ const char kDisableAudioSupportForDeskto
+@@ -991,7 +991,9 @@ const char kDisableAudioSupportForDeskto
  #if defined(OS_CHROMEOS)
  // Disables panel fitting (used for mirror mode).
  const char kDisablePanelFitting[]           = "disable-panel-fitting";
@@ -356,7 +356,7 @@ Index: dev/content/public/common/content_switches.h
 ===================================================================
 --- dev.orig/content/public/common/content_switches.h
 +++ dev/content/public/common/content_switches.h
-@@ -290,6 +290,8 @@ CONTENT_EXPORT extern const char kEnable
+@@ -288,6 +288,8 @@ CONTENT_EXPORT extern const char kEnable
  
  #if defined(OS_CHROMEOS)
  CONTENT_EXPORT extern const char kDisablePanelFitting[];
@@ -391,7 +391,7 @@ Index: dev/media/BUILD.gn
 ===================================================================
 --- dev.orig/media/BUILD.gn
 +++ dev/media/BUILD.gn
-@@ -391,7 +391,7 @@ component("media") {
+@@ -354,7 +354,7 @@ component("media") {
      ]
    }
  
@@ -400,7 +400,7 @@ Index: dev/media/BUILD.gn
      sources += [
        "filters/h264_bitstream_buffer.cc",
        "filters/h264_bitstream_buffer.h",
-@@ -687,7 +687,7 @@ source_set("unit_tests") {
+@@ -583,7 +583,7 @@ source_set("unit_tests") {
      }
    }
  
@@ -422,7 +422,7 @@ Index: dev/media/gpu/BUILD.gn
    action("libva_generate_stubs") {
      extra_header = "va_stub_header.fragment"
  
-@@ -229,7 +229,7 @@ component("gpu") {
+@@ -234,7 +234,7 @@ component("gpu") {
      }
    }
  
@@ -431,7 +431,7 @@ Index: dev/media/gpu/BUILD.gn
      sources += [
        "accelerated_video_decoder.h",
        "h264_decoder.cc",
-@@ -238,7 +238,7 @@ component("gpu") {
+@@ -243,7 +243,7 @@ component("gpu") {
        "h264_dpb.h",
      ]
    }
@@ -440,7 +440,7 @@ Index: dev/media/gpu/BUILD.gn
      sources += [
        "vp8_decoder.cc",
        "vp8_decoder.h",
-@@ -273,7 +273,7 @@ component("gpu") {
+@@ -278,7 +278,7 @@ component("gpu") {
          "EGL",
          "GLESv2",
        ]
@@ -480,7 +480,7 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
      &GpuVideoDecodeAcceleratorFactory::CreateVaapiVDA,
  #endif
  #if defined(OS_MACOSX)
-@@ -222,11 +222,12 @@ GpuVideoDecodeAcceleratorFactory::Create
+@@ -220,11 +220,12 @@ GpuVideoDecodeAcceleratorFactory::Create
  }
  #endif
  
@@ -511,7 +511,7 @@ Index: dev/media/gpu/ipc/service/BUILD.gn
 ===================================================================
 --- dev.orig/media/gpu/ipc/service/BUILD.gn
 +++ dev/media/gpu/ipc/service/BUILD.gn
-@@ -47,7 +47,7 @@ target(link_target_type, "service") {
+@@ -48,7 +48,7 @@ target(link_target_type, "service") {
  
    configs += [ "//media/gpu:gpu_config" ]
  

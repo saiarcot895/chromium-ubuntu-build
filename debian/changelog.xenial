@@ -1,10 +1,12 @@
-chromium-browser (60.0.3107.4-0ubuntu1~ppa7~16.04.1) UNRELEASED; urgency=low
+chromium-browser (61.0.3124.4-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
 
   * Use mash when compiling for Ozone.
   * Fix max resolution patch to return default value on Nvidia (if the
     VA commands aren't supported). (Fixes: #13)
+  * New upstream version 61.0.3124.4
+  * Updated patches.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 02 Jun 2017 10:14:04 -0400
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 12 Jun 2017 11:40:49 -0400
 
 chromium-browser (60.0.3107.4-0ubuntu1~ppa6~16.04.1) xenial; urgency=low
 

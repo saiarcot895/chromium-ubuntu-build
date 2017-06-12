@@ -40,7 +40,7 @@ Index: dev/chrome/browser/ui/views/frame/browser_view.cc
 ===================================================================
 --- dev.orig/chrome/browser/ui/views/frame/browser_view.cc
 +++ dev/chrome/browser/ui/views/frame/browser_view.cc
-@@ -642,6 +642,7 @@ void BrowserView::Show() {
+@@ -632,6 +632,7 @@ void BrowserView::Show() {
    force_location_bar_focus_ = false;
  
    browser()->OnWindowDidShow();
@@ -52,7 +52,7 @@ Index: dev/ash/mus/non_client_frame_controller.cc
 ===================================================================
 --- dev.orig/ash/mus/non_client_frame_controller.cc
 +++ dev/ash/mus/non_client_frame_controller.cc
-@@ -256,6 +256,10 @@ class ClientViewMus : public views::Clie
+@@ -257,6 +257,10 @@ class ClientViewMus : public views::Clie
      return false;
    }
  
@@ -76,7 +76,7 @@ Index: dev/ui/aura/client/aura_constants.cc
  DECLARE_EXPORTED_UI_CLASS_PROPERTY_TYPE(AURA_EXPORT, base::string16*)
  DECLARE_EXPORTED_UI_CLASS_PROPERTY_TYPE(AURA_EXPORT, ui::ModalType)
  DECLARE_EXPORTED_UI_CLASS_PROPERTY_TYPE(AURA_EXPORT, gfx::ImageSkia*)
-@@ -68,6 +70,7 @@ DEFINE_OWNED_UI_CLASS_PROPERTY_KEY(gfx::
+@@ -69,6 +71,7 @@ DEFINE_OWNED_UI_CLASS_PROPERTY_KEY(gfx::
  DEFINE_UI_CLASS_PROPERTY_KEY(ui::mojom::WindowType,
                             kWindowTypeKey,
                             ui::mojom::WindowType::UNKNOWN);
@@ -88,7 +88,7 @@ Index: dev/ui/aura/client/aura_constants.h
 ===================================================================
 --- dev.orig/ui/aura/client/aura_constants.h
 +++ dev/ui/aura/client/aura_constants.h
-@@ -140,6 +140,9 @@ AURA_EXPORT extern const WindowProperty<
+@@ -144,6 +144,9 @@ AURA_EXPORT extern const WindowProperty<
  AURA_EXPORT extern const WindowProperty<ui::mojom::WindowType>* const
      kWindowTypeKey;
  
@@ -102,7 +102,7 @@ Index: dev/ui/aura/window_tree_host_x11.h
 ===================================================================
 --- dev.orig/ui/aura/window_tree_host_x11.h
 +++ dev/ui/aura/window_tree_host_x11.h
-@@ -38,6 +38,8 @@ class AURA_EXPORT WindowTreeHostX11 : pu
+@@ -37,6 +37,8 @@ class AURA_EXPORT WindowTreeHostX11 : pu
    bool CanDispatchEvent(const ui::PlatformEvent& event) override;
    uint32_t DispatchEvent(const ui::PlatformEvent& event) override;
  
@@ -115,7 +115,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
 ===================================================================
 --- dev.orig/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
 +++ dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
-@@ -393,6 +393,11 @@ gfx::NativeWindow DesktopNativeWidgetAur
+@@ -400,6 +400,11 @@ gfx::NativeWindow DesktopNativeWidgetAur
    return content_window_;
  }
  
@@ -166,15 +166,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
  #include "base/command_line.h"
  #include "base/location.h"
  #include "base/memory/ptr_util.h"
-@@ -116,6 +118,7 @@ const char* kAtomsToCache[] = {
-   "_NET_WM_WINDOW_TYPE_NORMAL",
-   "_NET_WM_WINDOW_TYPE_NOTIFICATION",
-   "_NET_WM_WINDOW_TYPE_TOOLTIP",
-+  "CHROMIUM_LINUX_SESSION_ID_PROPERTY",
-   "XdndActionAsk",
-   "XdndActionCopy",
-   "XdndActionLink",
-@@ -1706,6 +1709,22 @@ void DesktopWindowTreeHostX11::UpdateMin
+@@ -1632,6 +1634,22 @@ void DesktopWindowTreeHostX11::UpdateMin
    XSetWMNormalHints(xdisplay_, xwindow_, &hints);
  }
  
@@ -201,7 +193,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
 ===================================================================
 --- dev.orig/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
 +++ dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
-@@ -87,6 +87,8 @@ class VIEWS_EXPORT DesktopWindowTreeHost
+@@ -86,6 +86,8 @@ class VIEWS_EXPORT DesktopWindowTreeHost
    // Disables event listening to make |dialog| modal.
    std::unique_ptr<base::Closure> DisableEventListening();
  
@@ -252,7 +244,7 @@ Index: dev/ui/views/widget/native_widget_aura.h
 ===================================================================
 --- dev.orig/ui/views/widget/native_widget_aura.h
 +++ dev/ui/views/widget/native_widget_aura.h
-@@ -62,6 +62,8 @@ class VIEWS_EXPORT NativeWidgetAura
+@@ -61,6 +61,8 @@ class VIEWS_EXPORT NativeWidgetAura : pu
        aura::Window* window,
        const Widget::InitParams& params);
  
@@ -289,3 +281,15 @@ Index: dev/ui/views/mus/desktop_window_tree_host_mus.h
   private:
    void SendClientAreaToServer();
    void SendHitTestMaskToServer();
+Index: dev/ui/gfx/x/x11_atom_cache.cc
+===================================================================
+--- dev.orig/ui/gfx/x/x11_atom_cache.cc
++++ dev/ui/gfx/x/x11_atom_cache.cc
+@@ -45,6 +45,7 @@ const char* kAtomsToCache[] = {"Abs Dbl
+                                "CHROME_SELECTION",
+                                "_CHROMIUM_DRAG_RECEIVER",
+                                "chromium/filename",
++                               "CHROMIUM_LINUX_SESSION_ID_PROPERTY",
+                                "CHROMIUM_TIMESTAMP",
+                                "chromium/x-bookmark-entries",
+                                "chromium/x-browser-actions",
