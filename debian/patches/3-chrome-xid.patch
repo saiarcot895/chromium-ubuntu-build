@@ -40,7 +40,7 @@ Index: beta/chrome/browser/ui/views/frame/browser_view.cc
 ===================================================================
 --- beta.orig/chrome/browser/ui/views/frame/browser_view.cc
 +++ beta/chrome/browser/ui/views/frame/browser_view.cc
-@@ -642,6 +642,7 @@ void BrowserView::Show() {
+@@ -643,6 +643,7 @@ void BrowserView::Show() {
    force_location_bar_focus_ = false;
  
    browser()->OnWindowDidShow();
@@ -115,8 +115,8 @@ Index: beta/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
 ===================================================================
 --- beta.orig/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
 +++ beta/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
-@@ -393,6 +393,11 @@ gfx::NativeWindow DesktopNativeWidgetAur
-   return content_window_;
+@@ -598,6 +598,11 @@ void DesktopNativeWidgetAura::ViewRemove
+   drop_helper_->ResetTargetViewIfEquals(view);
  }
  
 +void DesktopNativeWidgetAura::SetSessionID(unsigned int sessionid) {
@@ -131,9 +131,9 @@ Index: beta/ui/views/widget/desktop_aura/desktop_native_widget_aura.h
 ===================================================================
 --- beta.orig/ui/views/widget/desktop_aura/desktop_native_widget_aura.h
 +++ beta/ui/views/widget/desktop_aura/desktop_native_widget_aura.h
-@@ -101,6 +101,8 @@ class VIEWS_EXPORT DesktopNativeWidgetAu
+@@ -100,6 +100,8 @@ class VIEWS_EXPORT DesktopNativeWidgetAu
+   // Overridden from internal::NativeWidgetPrivate:
    gfx::NativeWindow GetNativeWindow() const override;
-   void SetNativeWindowProperty(const char* name, void* value) override;
  
 +  void SetSessionID(uint32_t sessionid);
 +
