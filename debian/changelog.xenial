@@ -1,3 +1,10 @@
+chromium-browser (61.0.3128.3-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
+
+  * New upstream version 61.0.3128.3
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 16 Jun 2017 18:33:53 -0400
+
 chromium-browser (61.0.3124.4-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
 
   * Use mash when compiling for Ozone.
