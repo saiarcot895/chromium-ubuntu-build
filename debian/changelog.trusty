@@ -1,3 +1,9 @@
+chromium-browser (60.0.3112.32-0ubuntu1~ppa2~14.04.1) trusty; urgency=low
+
+  * Try again.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 17 Jun 2017 11:05:32 -0400
+
 chromium-browser (60.0.3112.32-0ubuntu1~ppa1~14.04.1) trusty; urgency=low
 
   * New upstream version 60.0.3112.32
