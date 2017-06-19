@@ -174,7 +174,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
 +  if (session_id != 0) {
 +    XChangeProperty(xdisplay_,
 +                    xwindow_,
-+                    atom_cache_.GetAtom("CHROMIUM_LINUX_SESSION_ID_PROPERTY"),
++                    gfx::GetAtom("CHROMIUM_LINUX_SESSION_ID_PROPERTY"),
 +                    XA_CARDINAL,
 +                    32,
 +                    PropModeReplace,
