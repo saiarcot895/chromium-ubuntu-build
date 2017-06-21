@@ -5,44 +5,109 @@ In the change introduced by https://codereview.chromium.org/872623002, Chromium 
 There is a patch in libva (http://cgit.freedesktop.org/vaapi/intel-driver/commit/?id=9a20d6c34cb65e5b85dd16d6c8b3a215c5972b18) that asks what the maximum resolution supported by the hardware is. This change should be present in Xenial and newer, so rely on libva on returning a resolution. If it doesn't, then hardcode it to 1920x1088.
 
 
-Index: beta/media/gpu/vaapi_wrapper.cc
+Index: chromium-browser-60.0.3107.4/media/gpu/vaapi_wrapper.cc
 ===================================================================
---- beta.orig/media/gpu/vaapi_wrapper.cc
-+++ beta/media/gpu/vaapi_wrapper.cc
-@@ -460,7 +460,11 @@ bool VaapiWrapper::GetMaxResolution_Lock
+--- chromium-browser-60.0.3107.4.orig/media/gpu/vaapi_wrapper.cc
++++ chromium-browser-60.0.3107.4/media/gpu/vaapi_wrapper.cc
+@@ -7,6 +7,11 @@
+ #include <dlfcn.h>
+ #include <string.h>
+ 
++#include <string>
++#include <fstream>
++#include <sstream>
++#include <iostream>
++
+ #include "base/bind.h"
+ #include "base/callback_helpers.h"
+ #include "base/logging.h"
+@@ -442,6 +447,15 @@ bool VaapiWrapper::AreAttribsSupported_L
+   return true;
+ }
+ 
++#define VA_FB_RES_DEFAULT_WIDTH 1920
++#define VA_FB_RES_DEFAULT_HEIGHT 1088 // Yes, this should be 1088.
++int va_fb_res_width=VA_FB_RES_DEFAULT_WIDTH, va_fb_res_height=VA_FB_RES_DEFAULT_HEIGHT;
++
++void VASetFallbackResolution(gfx::Size* resolution)
++{
++  resolution->SetSize(va_fb_res_width, va_fb_res_height);
++}
++
+ bool VaapiWrapper::GetMaxResolution_Locked(
+     VAProfile va_profile,
+     VAEntrypoint entrypoint,
+@@ -460,7 +474,11 @@ bool VaapiWrapper::GetMaxResolution_Lock
    unsigned int num_attribs;
    va_res = vaQuerySurfaceAttributes(va_display_, va_config_id, nullptr,
                                      &num_attribs);
 -  VA_SUCCESS_OR_RETURN(va_res, "vaQuerySurfaceAttributes failed", false);
 +  if (va_res != VA_STATUS_SUCCESS) {
-+    LOG_VA_ERROR_AND_REPORT(va_res, "vaQuerySurfaceAttributes failed, returning hardcoded resolution");
-+    resolution->SetSize(1920, 1088); // Yes, this should be 1088.
++    LOG_VA_ERROR_AND_REPORT(va_res, "vaQuerySurfaceAttributes failed, returning fallback resolution");
++    VASetFallbackResolution(resolution);
 +    return true;
 +  }
    if (!num_attribs)
      return false;
  
-@@ -469,7 +473,11 @@ bool VaapiWrapper::GetMaxResolution_Lock
+@@ -469,7 +487,11 @@ bool VaapiWrapper::GetMaxResolution_Lock
  
    va_res = vaQuerySurfaceAttributes(va_display_, va_config_id, &attrib_list[0],
                                      &num_attribs);
 -  VA_SUCCESS_OR_RETURN(va_res, "vaQuerySurfaceAttributes failed", false);
 +  if (va_res != VA_STATUS_SUCCESS) {
-+    LOG_VA_ERROR_AND_REPORT(va_res, "vaQuerySurfaceAttributes failed, returning hardcoded resolution");
-+    resolution->SetSize(1920, 1088); // Yes, this should be 1088.
++    LOG_VA_ERROR_AND_REPORT(va_res, "vaQuerySurfaceAttributes failed, returning fallback resolution");
++    VASetFallbackResolution(resolution);
 +    return true;
 +  }
  
    resolution->SetSize(0, 0);
    for (const auto& attrib : attrib_list) {
-@@ -479,9 +487,7 @@ bool VaapiWrapper::GetMaxResolution_Lock
+@@ -479,9 +501,7 @@ bool VaapiWrapper::GetMaxResolution_Lock
        resolution->set_height(attrib.value.value.i);
    }
    if (resolution->IsEmpty()) {
 -    LOG(ERROR) << "Codec resolution " << resolution->ToString()
 -               << " cannot be zero.";
 -    return false;
-+    resolution->SetSize(1920, 1088); // Yes, this should be 1088.
++    VASetFallbackResolution(resolution);
    }
    return true;
  }
+@@ -1126,6 +1146,36 @@ void VaapiWrapper::DeinitializeVpp() {
+ 
+ // static
+ void VaapiWrapper::PreSandboxInitialization() {
++  int w=VA_FB_RES_DEFAULT_WIDTH, h=VA_FB_RES_DEFAULT_HEIGHT;
++  std::string VA_FALLBACK_RESOLUTION_FILENAME("/etc/chromium-browser/va_fallback_resolution");
++  std::string line;
++  // Open fallback resolution file before sandbox initialization
++  std::ifstream va_fb_res_file(VA_FALLBACK_RESOLUTION_FILENAME);
++  // If the file exists, open and read the resolution
++  // If not successful, use default values
++  if(va_fb_res_file.is_open()){
++    std::cout << "Opened fallback resolution file: " << VA_FALLBACK_RESOLUTION_FILENAME << "\n";
++    if(std::getline(va_fb_res_file,line)){
++      std::istringstream iss(line);
++      if(!((iss >> w) && (iss >> h))){
++        w=VA_FB_RES_DEFAULT_WIDTH;
++        h=VA_FB_RES_DEFAULT_HEIGHT;
++      }
++      else if( w<1 || h<1)
++      {
++        w=VA_FB_RES_DEFAULT_WIDTH;
++        h=VA_FB_RES_DEFAULT_HEIGHT;
++      }
++    }
++    else
++      std::cout << "Failed to read resolution" << "\n";
++  }
++  else
++    std::cout << "Failed to open fallback resolution file: " << VA_FALLBACK_RESOLUTION_FILENAME << "\n";
++  va_fb_res_file.close();
++  std::cout << "Resolution used: " << w << " x " << h << "\n";
++  va_fb_res_width = w;
++  va_fb_res_height = h;
+ #if defined(USE_OZONE)
+   const char kDriRenderNode0Path[] = "/dev/dri/renderD128";
+   base::File drm_file = base::File(
