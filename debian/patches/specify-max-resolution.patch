@@ -9,27 +9,31 @@ Index: chromium-browser-60.0.3107.4/media/gpu/vaapi_wrapper.cc
 ===================================================================
 --- chromium-browser-60.0.3107.4.orig/media/gpu/vaapi_wrapper.cc
 +++ chromium-browser-60.0.3107.4/media/gpu/vaapi_wrapper.cc
-@@ -7,6 +7,11 @@
+@@ -7,6 +7,10 @@
  #include <dlfcn.h>
  #include <string.h>
  
 +#include <string>
 +#include <fstream>
 +#include <sstream>
-+#include <iostream>
 +
  #include "base/bind.h"
  #include "base/callback_helpers.h"
  #include "base/logging.h"
-@@ -442,6 +447,15 @@ bool VaapiWrapper::AreAttribsSupported_L
+@@ -442,6 +446,20 @@ bool VaapiWrapper::AreAttribsSupported_L
    return true;
  }
  
-+#define VA_FB_RES_DEFAULT_WIDTH 1920
-+#define VA_FB_RES_DEFAULT_HEIGHT 1088 // Yes, this should be 1088.
-+int va_fb_res_width=VA_FB_RES_DEFAULT_WIDTH, va_fb_res_height=VA_FB_RES_DEFAULT_HEIGHT;
++int VaapiWrapper::va_fb_res_width = VA_FB_RES_DEFAULT_WIDTH;
++int VaapiWrapper::va_fb_res_height = VA_FB_RES_DEFAULT_HEIGHT;
 +
-+void VASetFallbackResolution(gfx::Size* resolution)
++void VaapiWrapper::SetFallbackResolution(int w, int h)
++{
++  va_fb_res_width = w;
++  va_fb_res_height = h;
++}
++
++void VaapiWrapper::GetFallbackResolution(gfx::Size* resolution)
 +{
 +  resolution->SetSize(va_fb_res_width, va_fb_res_height);
 +}
@@ -37,77 +41,108 @@ Index: chromium-browser-60.0.3107.4/media/gpu/vaapi_wrapper.cc
  bool VaapiWrapper::GetMaxResolution_Locked(
      VAProfile va_profile,
      VAEntrypoint entrypoint,
-@@ -460,7 +474,11 @@ bool VaapiWrapper::GetMaxResolution_Lock
+@@ -460,7 +478,11 @@ bool VaapiWrapper::GetMaxResolution_Lock
    unsigned int num_attribs;
    va_res = vaQuerySurfaceAttributes(va_display_, va_config_id, nullptr,
                                      &num_attribs);
 -  VA_SUCCESS_OR_RETURN(va_res, "vaQuerySurfaceAttributes failed", false);
 +  if (va_res != VA_STATUS_SUCCESS) {
 +    LOG_VA_ERROR_AND_REPORT(va_res, "vaQuerySurfaceAttributes failed, returning fallback resolution");
-+    VASetFallbackResolution(resolution);
++    GetFallbackResolution(resolution);
 +    return true;
 +  }
    if (!num_attribs)
      return false;
  
-@@ -469,7 +487,11 @@ bool VaapiWrapper::GetMaxResolution_Lock
+@@ -469,7 +491,11 @@ bool VaapiWrapper::GetMaxResolution_Lock
  
    va_res = vaQuerySurfaceAttributes(va_display_, va_config_id, &attrib_list[0],
                                      &num_attribs);
 -  VA_SUCCESS_OR_RETURN(va_res, "vaQuerySurfaceAttributes failed", false);
 +  if (va_res != VA_STATUS_SUCCESS) {
 +    LOG_VA_ERROR_AND_REPORT(va_res, "vaQuerySurfaceAttributes failed, returning fallback resolution");
-+    VASetFallbackResolution(resolution);
++    GetFallbackResolution(resolution);
 +    return true;
 +  }
  
    resolution->SetSize(0, 0);
    for (const auto& attrib : attrib_list) {
-@@ -479,9 +501,7 @@ bool VaapiWrapper::GetMaxResolution_Lock
+@@ -479,9 +505,7 @@ bool VaapiWrapper::GetMaxResolution_Lock
        resolution->set_height(attrib.value.value.i);
    }
    if (resolution->IsEmpty()) {
 -    LOG(ERROR) << "Codec resolution " << resolution->ToString()
 -               << " cannot be zero.";
 -    return false;
-+    VASetFallbackResolution(resolution);
++    GetFallbackResolution(resolution);
    }
    return true;
  }
-@@ -1126,6 +1146,36 @@ void VaapiWrapper::DeinitializeVpp() {
+@@ -1126,6 +1150,39 @@ void VaapiWrapper::DeinitializeVpp() {
  
  // static
  void VaapiWrapper::PreSandboxInitialization() {
 +  int w=VA_FB_RES_DEFAULT_WIDTH, h=VA_FB_RES_DEFAULT_HEIGHT;
-+  std::string VA_FALLBACK_RESOLUTION_FILENAME("/etc/chromium-browser/va_fallback_resolution");
 +  std::string line;
 +  // Open fallback resolution file before sandbox initialization
 +  std::ifstream va_fb_res_file(VA_FALLBACK_RESOLUTION_FILENAME);
 +  // If the file exists, open and read the resolution
 +  // If not successful, use default values
 +  if(va_fb_res_file.is_open()){
-+    std::cout << "Opened fallback resolution file: " << VA_FALLBACK_RESOLUTION_FILENAME << "\n";
++    LOG(INFO) << "Opened fallback resolution file: " << VA_FALLBACK_RESOLUTION_FILENAME;
 +    if(std::getline(va_fb_res_file,line)){
 +      std::istringstream iss(line);
 +      if(!((iss >> w) && (iss >> h))){
 +        w=VA_FB_RES_DEFAULT_WIDTH;
 +        h=VA_FB_RES_DEFAULT_HEIGHT;
++        LOG(ERROR) << "Could not read values. Please check that\
++         the first line has two space separated integers indicating\
++         the width and height in that order.";
 +      }
 +      else if( w<1 || h<1)
 +      {
 +        w=VA_FB_RES_DEFAULT_WIDTH;
 +        h=VA_FB_RES_DEFAULT_HEIGHT;
++        LOG(WARNING) << "Non-positive dimension(s) specified. \
++        Using default values instead.";
 +      }
 +    }
 +    else
-+      std::cout << "Failed to read resolution" << "\n";
++      LOG(ERROR) << "Failed to read resolution";
 +  }
 +  else
-+    std::cout << "Failed to open fallback resolution file: " << VA_FALLBACK_RESOLUTION_FILENAME << "\n";
++    LOG(ERROR) << "Failed to open fallback resolution file: " << VA_FALLBACK_RESOLUTION_FILENAME;
 +  va_fb_res_file.close();
-+  std::cout << "Resolution used: " << w << " x " << h << "\n";
-+  va_fb_res_width = w;
-+  va_fb_res_height = h;
++  LOG(INFO) << "Resolution used: " << w << " x " << h;
++  SetFallbackResolution(w,h);
  #if defined(USE_OZONE)
    const char kDriRenderNode0Path[] = "/dev/dri/renderD128";
    base::File drm_file = base::File(
+Index: chromium-browser-60.0.3107.4/media/gpu/vaapi_wrapper.h
+===================================================================
+--- chromium-browser-60.0.3107.4.orig/media/gpu/vaapi_wrapper.h
++++ chromium-browser-60.0.3107.4/media/gpu/vaapi_wrapper.h
+@@ -41,6 +41,10 @@ class NativePixmap;
+ }
+ #endif
+ 
++#define VA_FB_RES_DEFAULT_WIDTH 1920
++#define VA_FB_RES_DEFAULT_HEIGHT 1088 // Yes, this should be 1088.
++#define VA_FALLBACK_RESOLUTION_FILENAME "/etc/chromium-browser/va_fallback_resolution"
++
+ namespace media {
+ 
+ // This class handles VA-API calls and ensures proper locking of VA-API calls
+@@ -301,6 +305,12 @@ class MEDIA_GPU_EXPORT VaapiWrapper
+       VAProfile va_profile,
+       VAEntrypoint entrypoint,
+       const std::vector<VAConfigAttrib>& required_attribs);
++  
++  static int va_fb_res_width, va_fb_res_height;
++  // Set the maximum fallback resolution
++  static void SetFallbackResolution(int w, int h);
++  // Get the maximum fallback resolution
++  static void GetFallbackResolution(gfx::Size* resolution);
+ 
+   // Get maximum resolution for |va_profile| and |entrypoint| with
+   // |required_attribs|. If return value is true, |resolution| is the maximum
