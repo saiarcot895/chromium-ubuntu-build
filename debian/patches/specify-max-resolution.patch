@@ -5,10 +5,10 @@ In the change introduced by https://codereview.chromium.org/872623002, Chromium 
 There is a patch in libva (http://cgit.freedesktop.org/vaapi/intel-driver/commit/?id=9a20d6c34cb65e5b85dd16d6c8b3a215c5972b18) that asks what the maximum resolution supported by the hardware is. This change should be present in Xenial and newer, so rely on libva on returning a resolution. If it doesn't, then hardcode it to 1920x1088.
 
 
-Index: chromium-browser-60.0.3107.4/media/gpu/vaapi_wrapper.cc
+Index: beta/media/gpu/vaapi_wrapper.cc
 ===================================================================
---- chromium-browser-60.0.3107.4.orig/media/gpu/vaapi_wrapper.cc
-+++ chromium-browser-60.0.3107.4/media/gpu/vaapi_wrapper.cc
+--- beta.orig/media/gpu/vaapi_wrapper.cc
++++ beta/media/gpu/vaapi_wrapper.cc
 @@ -7,6 +7,10 @@
  #include <dlfcn.h>
  #include <string.h>
@@ -118,10 +118,10 @@ Index: chromium-browser-60.0.3107.4/media/gpu/vaapi_wrapper.cc
  #if defined(USE_OZONE)
    const char kDriRenderNode0Path[] = "/dev/dri/renderD128";
    base::File drm_file = base::File(
-Index: chromium-browser-60.0.3107.4/media/gpu/vaapi_wrapper.h
+Index: beta/media/gpu/vaapi_wrapper.h
 ===================================================================
---- chromium-browser-60.0.3107.4.orig/media/gpu/vaapi_wrapper.h
-+++ chromium-browser-60.0.3107.4/media/gpu/vaapi_wrapper.h
+--- beta.orig/media/gpu/vaapi_wrapper.h
++++ beta/media/gpu/vaapi_wrapper.h
 @@ -41,6 +41,10 @@ class NativePixmap;
  }
  #endif
