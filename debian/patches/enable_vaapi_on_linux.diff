@@ -4,7 +4,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -1442,7 +1442,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1388,7 +1388,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
          flag_descriptions::kAcceleratedVideoDecodeDescription,
@@ -71,7 +71,7 @@ Index: dev/content/common/BUILD.gn
  source_set("common") {
    # Targets external to content should always link to the public API.
    # In addition, targets outside of the content component (shell and tests)
-@@ -548,6 +595,16 @@ source_set("common") {
+@@ -551,6 +598,16 @@ source_set("common") {
          "sandbox_linux/android/sandbox_bpf_base_policy_android.h",
        ]
      }
@@ -307,7 +307,7 @@ Index: dev/content/gpu/BUILD.gn
 ===================================================================
 --- dev.orig/content/gpu/BUILD.gn
 +++ dev/content/gpu/BUILD.gn
-@@ -102,7 +102,7 @@ target(link_target_type, "gpu_sources")
+@@ -103,7 +103,7 @@ target(link_target_type, "gpu_sources")
      ]
    }
  
@@ -329,7 +329,7 @@ Index: dev/content/gpu/gpu_main.cc
  #include "media/gpu/vaapi_wrapper.h"
  #endif
  
-@@ -139,7 +139,7 @@ class ContentSandboxHelper : public gpu:
+@@ -134,7 +134,7 @@ class ContentSandboxHelper : public gpu:
        (void)base::RandUint64();
      }
  
@@ -342,7 +342,7 @@ Index: dev/content/public/common/content_switches.cc
 ===================================================================
 --- dev.orig/content/public/common/content_switches.cc
 +++ dev/content/public/common/content_switches.cc
-@@ -991,7 +991,9 @@ const char kDisableAudioSupportForDeskto
+@@ -979,7 +979,9 @@ const char kDisableAudioSupportForDeskto
  #if defined(OS_CHROMEOS)
  // Disables panel fitting (used for mirror mode).
  const char kDisablePanelFitting[]           = "disable-panel-fitting";
@@ -356,7 +356,7 @@ Index: dev/content/public/common/content_switches.h
 ===================================================================
 --- dev.orig/content/public/common/content_switches.h
 +++ dev/content/public/common/content_switches.h
-@@ -288,6 +288,8 @@ CONTENT_EXPORT extern const char kEnable
+@@ -284,6 +284,8 @@ CONTENT_EXPORT extern const char kEnable
  
  #if defined(OS_CHROMEOS)
  CONTENT_EXPORT extern const char kDisablePanelFitting[];
@@ -422,7 +422,7 @@ Index: dev/media/gpu/BUILD.gn
    action("libva_generate_stubs") {
      extra_header = "va_stub_header.fragment"
  
-@@ -234,7 +234,7 @@ component("gpu") {
+@@ -239,7 +239,7 @@ component("gpu") {
      }
    }
  
@@ -431,7 +431,7 @@ Index: dev/media/gpu/BUILD.gn
      sources += [
        "accelerated_video_decoder.h",
        "h264_decoder.cc",
-@@ -243,7 +243,7 @@ component("gpu") {
+@@ -248,7 +248,7 @@ component("gpu") {
        "h264_dpb.h",
      ]
    }
@@ -440,7 +440,7 @@ Index: dev/media/gpu/BUILD.gn
      sources += [
        "vp8_decoder.cc",
        "vp8_decoder.h",
-@@ -278,7 +278,7 @@ component("gpu") {
+@@ -283,7 +283,7 @@ component("gpu") {
          "EGL",
          "GLESv2",
        ]
@@ -462,7 +462,7 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
  #if defined(USE_V4L2_CODEC)
  #include "media/gpu/v4l2_device.h"
  #include "media/gpu/v4l2_slice_video_decode_accelerator.h"
-@@ -86,7 +86,7 @@ GpuVideoDecodeAcceleratorFactory::GetDec
+@@ -87,7 +87,7 @@ GpuVideoDecodeAcceleratorFactory::GetDec
    capabilities.supported_profiles =
        DXVAVideoDecodeAccelerator::GetSupportedProfiles(gpu_preferences,
                                                         workarounds);
@@ -471,7 +471,7 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
    VideoDecodeAccelerator::SupportedProfiles vda_profiles;
  #if defined(USE_V4L2_CODEC)
    vda_profiles = V4L2VideoDecodeAccelerator::GetSupportedProfiles();
-@@ -139,7 +139,7 @@ GpuVideoDecodeAcceleratorFactory::Create
+@@ -140,7 +140,7 @@ GpuVideoDecodeAcceleratorFactory::Create
      &GpuVideoDecodeAcceleratorFactory::CreateV4L2VDA,
      &GpuVideoDecodeAcceleratorFactory::CreateV4L2SVDA,
  #endif
@@ -480,7 +480,7 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
      &GpuVideoDecodeAcceleratorFactory::CreateVaapiVDA,
  #endif
  #if defined(OS_MACOSX)
-@@ -220,11 +220,12 @@ GpuVideoDecodeAcceleratorFactory::Create
+@@ -221,11 +221,12 @@ GpuVideoDecodeAcceleratorFactory::Create
  }
  #endif
  
@@ -511,7 +511,7 @@ Index: dev/media/gpu/ipc/service/BUILD.gn
 ===================================================================
 --- dev.orig/media/gpu/ipc/service/BUILD.gn
 +++ dev/media/gpu/ipc/service/BUILD.gn
-@@ -48,7 +48,7 @@ target(link_target_type, "service") {
+@@ -51,7 +51,7 @@ target(link_target_type, "service") {
  
    configs += [ "//media/gpu:gpu_config" ]
  
@@ -561,7 +561,7 @@ Index: dev/media/gpu/vaapi_video_decode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi_video_decode_accelerator.cc
 +++ dev/media/gpu/vaapi_video_decode_accelerator.cc
-@@ -358,17 +358,17 @@ bool VaapiVideoDecodeAccelerator::Initia
+@@ -364,17 +364,17 @@ bool VaapiVideoDecodeAccelerator::Initia
  
    base::AutoLock auto_lock(lock_);
    DCHECK_EQ(state_, kUninitialized);
@@ -582,7 +582,7 @@ Index: dev/media/gpu/vaapi_video_decode_accelerator.cc
               << "EGLGLES2.";
      return false;
    }
-@@ -378,7 +378,7 @@ bool VaapiVideoDecodeAccelerator::Initia
+@@ -384,7 +384,7 @@ bool VaapiVideoDecodeAccelerator::Initia
        VaapiWrapper::kDecode, profile, base::Bind(&ReportToUMA, VAAPI_ERROR));
  
    if (!vaapi_wrapper_.get()) {
@@ -591,7 +591,7 @@ Index: dev/media/gpu/vaapi_video_decode_accelerator.cc
               << GetProfileName(profile);
      return false;
    }
-@@ -394,7 +394,7 @@ bool VaapiVideoDecodeAccelerator::Initia
+@@ -400,7 +400,7 @@ bool VaapiVideoDecodeAccelerator::Initia
      vp9_accelerator_.reset(new VaapiVP9Accelerator(this, vaapi_wrapper_.get()));
      decoder_.reset(new VP9Decoder(vp9_accelerator_.get()));
    } else {

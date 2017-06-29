@@ -220,7 +220,7 @@ Index: dev/third_party/WebKit/Source/platform/audio/SincResampler.cpp
  #include <emmintrin.h>
  #endif
  
-@@ -273,7 +273,7 @@ void SincResampler::Process(AudioSourceP
+@@ -275,7 +275,7 @@ void SincResampler::Process(AudioSourceP
        {
          float input;
  

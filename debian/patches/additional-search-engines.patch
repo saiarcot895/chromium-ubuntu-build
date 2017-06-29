@@ -10,7 +10,7 @@ Index: dev/components/search_engines/prepopulated_engines.json
  //
  // NOTES:
  //   - CHANGE THE ABOVE NUMBERS IF YOU ADD A NEW ENGINE; ID conflicts = bad!
-@@ -26,7 +27,7 @@
+@@ -28,7 +29,7 @@
    "int_variables": {
      // The following id is for UMA stats only. Please update it if you add new
      // engines outside the current range or it will not be counted in stats.
@@ -19,7 +19,7 @@ Index: dev/components/search_engines/prepopulated_engines.json
  
      // Increment this if you change the data in ways that mean users with
      // existing data should get a new version.
-@@ -108,6 +109,16 @@
+@@ -110,6 +111,16 @@
        "id": 68
      },
  
