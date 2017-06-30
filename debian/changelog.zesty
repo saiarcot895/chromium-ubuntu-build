@@ -1,3 +1,9 @@
+chromium-browser (61.0.3141.7-0ubuntu1~ppa2~17.04.1) zesty; urgency=low
+
+  * FIx GN build.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 30 Jun 2017 00:58:14 -0400
+
 chromium-browser (61.0.3141.7-0ubuntu1~ppa1~17.04.1) zesty; urgency=low
 
   * New upstream version 61.0.3141.7
