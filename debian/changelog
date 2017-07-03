@@ -1,8 +1,9 @@
-chromium-browser (61.0.3141.7-0ubuntu1~ppa3~17.04.1) UNRELEASED; urgency=low
+chromium-browser (61.0.3141.7-0ubuntu1~ppa3~17.04.1) zesty; urgency=low
 
   * Fix build on arm64.
+  * Add VAAPI patch which somehow got missed in the last build.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 02 Jul 2017 20:47:05 -0400
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 02 Jul 2017 20:54:37 -0400
 
 chromium-browser (61.0.3141.7-0ubuntu1~ppa2~17.04.1) zesty; urgency=low
 
