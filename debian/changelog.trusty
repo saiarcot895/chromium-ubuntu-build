@@ -1,3 +1,9 @@
+chromium-browser (61.0.3141.7-0ubuntu1~ppa3~14.04.1) UNRELEASED; urgency=low
+
+  * Fix build on arm64.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 02 Jul 2017 20:47:04 -0400
+
 chromium-browser (61.0.3141.7-0ubuntu1~ppa2~14.04.1) trusty; urgency=low
 
   * FIx GN build.
