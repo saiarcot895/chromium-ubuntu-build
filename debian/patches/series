@@ -1,4 +1,5 @@
 #gyp-make-generator-reenabled
+fix-gn-build.patch
 title-bar-default-system.patch-v35
 #third-party-cookies-off-by-default.patch
 search-credit.patch

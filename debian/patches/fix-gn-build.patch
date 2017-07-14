@@ -1,0 +1,12 @@
+Index: dev/tools/gn/bootstrap/bootstrap.py
+===================================================================
+--- dev.orig/tools/gn/bootstrap/bootstrap.py
++++ dev/tools/gn/bootstrap/bootstrap.py
+@@ -467,7 +467,6 @@ def write_gn_ninja(path, root_gen_dir, o
+       'base/process/process_metrics.cc',
+       'base/profiler/scoped_profile.cc',
+       'base/profiler/scoped_tracker.cc',
+-      'base/profiler/tracked_time.cc',
+       'base/rand_util.cc',
+       'base/run_loop.cc',
+       'base/sequence_token.cc',
