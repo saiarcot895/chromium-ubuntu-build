@@ -4,7 +4,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -1388,7 +1388,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1468,7 +1468,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
          flag_descriptions::kAcceleratedVideoDecodeDescription,
@@ -17,8 +17,8 @@ Index: dev/content/common/BUILD.gn
 ===================================================================
 --- dev.orig/content/common/BUILD.gn
 +++ dev/content/common/BUILD.gn
-@@ -23,6 +23,53 @@ buildflag_header("features") {
-   flags = [ "USE_EXTERNAL_POPUP_MENU=$use_external_popup_menu" ]
+@@ -26,6 +26,53 @@ buildflag_header("features") {
+   ]
  }
  
 +if ((is_desktop_linux || is_chromeos) && current_cpu != "arm") {
@@ -71,8 +71,8 @@ Index: dev/content/common/BUILD.gn
  source_set("common") {
    # Targets external to content should always link to the public API.
    # In addition, targets outside of the content component (shell and tests)
-@@ -551,6 +598,16 @@ source_set("common") {
-         "sandbox_linux/android/sandbox_bpf_base_policy_android.h",
+@@ -540,6 +587,16 @@ source_set("common") {
+         "sandbox_linux/sandbox_bpf_base_policy_linux.h",
        ]
      }
 +  } else {
@@ -320,7 +320,7 @@ Index: dev/content/gpu/gpu_main.cc
 ===================================================================
 --- dev.orig/content/gpu/gpu_main.cc
 +++ dev/content/gpu/gpu_main.cc
-@@ -83,7 +83,7 @@
+@@ -84,7 +84,7 @@
  #include "ui/ozone/public/ozone_platform.h"
  #endif
  
@@ -329,7 +329,7 @@ Index: dev/content/gpu/gpu_main.cc
  #include "media/gpu/vaapi_wrapper.h"
  #endif
  
-@@ -134,7 +134,7 @@ class ContentSandboxHelper : public gpu:
+@@ -135,7 +135,7 @@ class ContentSandboxHelper : public gpu:
        (void)base::RandUint64();
      }
  
@@ -342,7 +342,7 @@ Index: dev/content/public/common/content_switches.cc
 ===================================================================
 --- dev.orig/content/public/common/content_switches.cc
 +++ dev/content/public/common/content_switches.cc
-@@ -979,7 +979,9 @@ const char kDisableAudioSupportForDeskto
+@@ -976,7 +976,9 @@ const char kDisableAudioSupportForDeskto
  #if defined(OS_CHROMEOS)
  // Disables panel fitting (used for mirror mode).
  const char kDisablePanelFitting[]           = "disable-panel-fitting";
@@ -356,7 +356,7 @@ Index: dev/content/public/common/content_switches.h
 ===================================================================
 --- dev.orig/content/public/common/content_switches.h
 +++ dev/content/public/common/content_switches.h
-@@ -284,6 +284,8 @@ CONTENT_EXPORT extern const char kEnable
+@@ -282,6 +282,8 @@ CONTENT_EXPORT extern const char kEnable
  
  #if defined(OS_CHROMEOS)
  CONTENT_EXPORT extern const char kDisablePanelFitting[];
@@ -391,17 +391,8 @@ Index: dev/media/BUILD.gn
 ===================================================================
 --- dev.orig/media/BUILD.gn
 +++ dev/media/BUILD.gn
-@@ -354,7 +354,7 @@ component("media") {
-     ]
-   }
- 
--  if (current_cpu != "arm" && is_chromeos) {
-+  if (current_cpu != "arm" && (is_chromeos || is_desktop_linux)) {
-     sources += [
-       "filters/h264_bitstream_buffer.cc",
-       "filters/h264_bitstream_buffer.h",
-@@ -583,7 +583,7 @@ source_set("unit_tests") {
-     }
+@@ -387,7 +387,7 @@ source_set("unit_tests") {
+     sources += [ "filters/vpx_video_decoder_unittest.cc" ]
    }
  
 -  if (current_cpu != "arm" && is_chromeos) {
@@ -422,25 +413,16 @@ Index: dev/media/gpu/BUILD.gn
    action("libva_generate_stubs") {
      extra_header = "va_stub_header.fragment"
  
-@@ -239,7 +239,7 @@ component("gpu") {
+@@ -249,7 +249,7 @@ component("gpu") {
      }
    }
  
--  if (is_chromeos || is_win) {
-+  if (is_linux || is_win) {
-     sources += [
-       "accelerated_video_decoder.h",
-       "h264_decoder.cc",
-@@ -248,7 +248,7 @@ component("gpu") {
-       "h264_dpb.h",
-     ]
-   }
 -  if (is_chromeos) {
 +  if (is_linux) {
      sources += [
        "vp8_decoder.cc",
        "vp8_decoder.h",
-@@ -283,7 +283,7 @@ component("gpu") {
+@@ -284,7 +284,7 @@ component("gpu") {
          "EGL",
          "GLESv2",
        ]
@@ -511,7 +493,7 @@ Index: dev/media/gpu/ipc/service/BUILD.gn
 ===================================================================
 --- dev.orig/media/gpu/ipc/service/BUILD.gn
 +++ dev/media/gpu/ipc/service/BUILD.gn
-@@ -51,7 +51,7 @@ target(link_target_type, "service") {
+@@ -50,7 +50,7 @@ target(link_target_type, "service") {
  
    configs += [ "//media/gpu:gpu_config" ]
  

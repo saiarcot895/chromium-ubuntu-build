@@ -98,7 +98,7 @@ Index: dev/media/base/vector_math.cc
  #include <xmmintrin.h>
  // Don't use custom SSE versions where the auto-vectorized C version performs
  // better, which is anywhere clang is used.
-@@ -89,7 +89,7 @@ std::pair<float, float> EWMAAndMaxPower_
+@@ -91,7 +91,7 @@ std::pair<float, float> EWMAAndMaxPower_
    return result;
  }
  
@@ -181,19 +181,19 @@ Index: dev/third_party/WebKit/Source/platform/audio/DirectConvolver.cpp
 --- dev.orig/third_party/WebKit/Source/platform/audio/DirectConvolver.cpp
 +++ dev/third_party/WebKit/Source/platform/audio/DirectConvolver.cpp
 @@ -35,7 +35,7 @@
- #include "platform/audio/VectorMath.h"
- #include "platform/wtf/CPU.h"
+ #include <Accelerate/Accelerate.h>
+ #endif
  
--#if (CPU(X86) || CPU(X86_64)) && !OS(MACOSX)
-+#if (CPU(X86_64)) && !OS(MACOSX)
+-#if defined(ARCH_CPU_X86_FAMILY) && !defined(OS_MACOSX)
++#if (CPU(X86_64)) && !defined(OS_MACOSX)
  #include <emmintrin.h>
  #endif
  
 @@ -83,7 +83,7 @@ void DirectConvolver::Process(AudioFloat
- #endif  // CPU(X86)
+ #endif  // ARCH_CPU_X86
  #else
    size_t i = 0;
--#if CPU(X86) || CPU(X86_64)
+-#if defined(ARCH_CPU_X86_FAMILY)
 +#if CPU(X86_64)
    // Convolution using SSE2. Currently only do this if both |kernelSize| and
    // |framesToProcess| are multiples of 4. If not, use the straightforward loop
@@ -202,29 +202,29 @@ Index: dev/third_party/WebKit/Source/platform/audio/DirectConvolver.cpp
        }
        dest_p[i++] = sum;
      }
--#if CPU(X86) || CPU(X86_64)
+-#if defined(ARCH_CPU_X86_FAMILY)
 +#if CPU(X86_64)
    }
  #endif
- #endif  // OS(MACOSX)
+ #endif  // OS_MACOSX
 Index: dev/third_party/WebKit/Source/platform/audio/SincResampler.cpp
 ===================================================================
 --- dev.orig/third_party/WebKit/Source/platform/audio/SincResampler.cpp
 +++ dev/third_party/WebKit/Source/platform/audio/SincResampler.cpp
-@@ -31,7 +31,7 @@
- #include "platform/wtf/CPU.h"
+@@ -32,7 +32,7 @@
+ #include "platform/audio/AudioBus.h"
  #include "platform/wtf/MathExtras.h"
  
--#if CPU(X86) || CPU(X86_64)
+-#if defined(ARCH_CPU_X86_FAMILY)
 +#if CPU(X86_64)
  #include <emmintrin.h>
  #endif
  
-@@ -275,7 +275,7 @@ void SincResampler::Process(AudioSourceP
+@@ -276,7 +276,7 @@ void SincResampler::Process(AudioSourceP
        {
          float input;
  
--#if CPU(X86) || CPU(X86_64)
+-#if defined(ARCH_CPU_X86_FAMILY)
 +#if CPU(X86_64)
          // If the sourceP address is not 16-byte aligned, the first several
          // frames (at most three) should be processed seperately.
@@ -233,92 +233,92 @@ Index: dev/third_party/WebKit/Source/platform/audio/VectorMath.cpp
 ===================================================================
 --- dev.orig/third_party/WebKit/Source/platform/audio/VectorMath.cpp
 +++ dev/third_party/WebKit/Source/platform/audio/VectorMath.cpp
-@@ -34,7 +34,7 @@
+@@ -35,7 +35,7 @@
  #include <Accelerate/Accelerate.h>
  #endif
  
--#if CPU(X86) || CPU(X86_64)
+-#if defined(ARCH_CPU_X86_FAMILY)
 +#if CPU(X86_64)
  #include <emmintrin.h>
  #endif
  
-@@ -176,7 +176,7 @@ void Vsma(const float* source_p,
+@@ -177,7 +177,7 @@ void Vsma(const float* source_p,
            size_t frames_to_process) {
    int n = frames_to_process;
  
--#if CPU(X86) || CPU(X86_64)
+-#if defined(ARCH_CPU_X86_FAMILY)
 +#if CPU(X86_64)
    if ((source_stride == 1) && (dest_stride == 1)) {
      float k = *scale;
  
-@@ -274,7 +274,7 @@ void Vsmul(const float* source_p,
+@@ -275,7 +275,7 @@ void Vsmul(const float* source_p,
             size_t frames_to_process) {
    int n = frames_to_process;
  
--#if CPU(X86) || CPU(X86_64)
+-#if defined(ARCH_CPU_X86_FAMILY)
 +#if CPU(X86_64)
    if ((source_stride == 1) && (dest_stride == 1)) {
      float k = *scale;
  
-@@ -363,7 +363,7 @@ void Vsmul(const float* source_p,
+@@ -364,7 +364,7 @@ void Vsmul(const float* source_p,
        source_p += source_stride;
        dest_p += dest_stride;
      }
--#if CPU(X86) || CPU(X86_64)
+-#if defined(ARCH_CPU_X86_FAMILY)
 +#if CPU(X86_64)
    }
  #endif
  }
-@@ -377,7 +377,7 @@ void Vadd(const float* source1p,
+@@ -378,7 +378,7 @@ void Vadd(const float* source1p,
            size_t frames_to_process) {
    int n = frames_to_process;
  
--#if CPU(X86) || CPU(X86_64)
+-#if defined(ARCH_CPU_X86_FAMILY)
 +#if CPU(X86_64)
    if ((source_stride1 == 1) && (source_stride2 == 1) && (dest_stride == 1)) {
      // If the sourceP address is not 16-byte aligned, the first several frames
      // (at most three) should be processed separately.
-@@ -504,7 +504,7 @@ void Vadd(const float* source1p,
+@@ -505,7 +505,7 @@ void Vadd(const float* source1p,
        source2p += source_stride2;
        dest_p += dest_stride;
      }
--#if CPU(X86) || CPU(X86_64)
+-#if defined(ARCH_CPU_X86_FAMILY)
 +#if CPU(X86_64)
    }
  #endif
  }
-@@ -518,7 +518,7 @@ void Vmul(const float* source1p,
+@@ -519,7 +519,7 @@ void Vmul(const float* source1p,
            size_t frames_to_process) {
    int n = frames_to_process;
  
--#if CPU(X86) || CPU(X86_64)
+-#if defined(ARCH_CPU_X86_FAMILY)
 +#if CPU(X86_64)
    if ((source_stride1 == 1) && (source_stride2 == 1) && (dest_stride == 1)) {
      // If the source1P address is not 16-byte aligned, the first several frames
      // (at most three) should be processed separately.
-@@ -618,7 +618,7 @@ void Zvmul(const float* real1p,
+@@ -619,7 +619,7 @@ void Zvmul(const float* real1p,
             float* imag_dest_p,
             size_t frames_to_process) {
    unsigned i = 0;
--#if CPU(X86) || CPU(X86_64)
+-#if defined(ARCH_CPU_X86_FAMILY)
 +#if CPU(X86_64)
    // Only use the SSE optimization in the very common case that all addresses
    // are 16-byte aligned.  Otherwise, fall through to the scalar code below.
    if (!(reinterpret_cast<uintptr_t>(real1p) & 0x0F) &&
-@@ -677,7 +677,7 @@ void Vsvesq(const float* source_p,
+@@ -678,7 +678,7 @@ void Vsvesq(const float* source_p,
    int n = frames_to_process;
    float sum = 0;
  
--#if CPU(X86) || CPU(X86_64)
+-#if defined(ARCH_CPU_X86_FAMILY)
 +#if CPU(X86_64)
    if (source_stride == 1) {
      // If the sourceP address is not 16-byte aligned, the first several frames
      // (at most three) should be processed separately.
-@@ -746,7 +746,7 @@ void Vmaxmgv(const float* source_p,
+@@ -747,7 +747,7 @@ void Vmaxmgv(const float* source_p,
    int n = frames_to_process;
    float max = 0;
  
--#if CPU(X86) || CPU(X86_64)
+-#if defined(ARCH_CPU_X86_FAMILY)
 +#if CPU(X86_64)
    if (source_stride == 1) {
      // If the sourceP address is not 16-byte aligned, the first several frames
@@ -327,69 +327,69 @@ Index: dev/third_party/WebKit/Source/platform/graphics/cpu/x86/WebGLImageConvers
 ===================================================================
 --- dev.orig/third_party/WebKit/Source/platform/graphics/cpu/x86/WebGLImageConversionSSE.h
 +++ dev/third_party/WebKit/Source/platform/graphics/cpu/x86/WebGLImageConversionSSE.h
-@@ -5,7 +5,7 @@
- #ifndef WebGLImageConversionSSE_h
- #define WebGLImageConversionSSE_h
+@@ -7,7 +7,7 @@
  
--#if CPU(X86) || CPU(X86_64)
+ #include "build/build_config.h"
+ 
+-#if defined(ARCH_CPU_X86_FAMILY)
 +#if CPU(X86_64)
- 
  #include <emmintrin.h>
  
+ namespace blink {
 Index: dev/third_party/WebKit/Source/platform/graphics/gpu/WebGLImageConversion.cpp
 ===================================================================
 --- dev.orig/third_party/WebKit/Source/platform/graphics/gpu/WebGLImageConversion.cpp
 +++ dev/third_party/WebKit/Source/platform/graphics/gpu/WebGLImageConversion.cpp
-@@ -442,7 +442,7 @@ void Unpack<WebGLImageConversion::kDataF
+@@ -443,7 +443,7 @@ void Unpack<WebGLImageConversion::kDataF
    const uint32_t* source32 = reinterpret_cast_ptr<const uint32_t*>(source);
    uint32_t* destination32 = reinterpret_cast_ptr<uint32_t*>(destination);
  
--#if CPU(X86) || CPU(X86_64)
+-#if defined(ARCH_CPU_X86_FAMILY)
 +#if CPU(X86_64)
    SIMD::UnpackOneRowOfBGRA8LittleToRGBA8(source32, destination32,
                                           pixels_per_row);
  #endif
-@@ -470,7 +470,7 @@ void Unpack<WebGLImageConversion::kDataF
+@@ -471,7 +471,7 @@ void Unpack<WebGLImageConversion::kDataF
      const uint16_t* source,
      uint8_t* destination,
      unsigned pixels_per_row) {
--#if CPU(X86) || CPU(X86_64)
+-#if defined(ARCH_CPU_X86_FAMILY)
 +#if CPU(X86_64)
    SIMD::UnpackOneRowOfRGBA5551LittleToRGBA8(source, destination,
                                              pixels_per_row);
  #endif
-@@ -500,7 +500,7 @@ void Unpack<WebGLImageConversion::kDataF
+@@ -501,7 +501,7 @@ void Unpack<WebGLImageConversion::kDataF
      const uint16_t* source,
      uint8_t* destination,
      unsigned pixels_per_row) {
--#if CPU(X86) || CPU(X86_64)
+-#if defined(ARCH_CPU_X86_FAMILY)
 +#if CPU(X86_64)
    SIMD::UnpackOneRowOfRGBA4444LittleToRGBA8(source, destination,
                                              pixels_per_row);
  #endif
-@@ -716,7 +716,7 @@ void Pack<WebGLImageConversion::kDataFor
+@@ -717,7 +717,7 @@ void Pack<WebGLImageConversion::kDataFor
            uint8_t>(const uint8_t* source,
                     uint8_t* destination,
                     unsigned pixels_per_row) {
--#if CPU(X86) || CPU(X86_64)
+-#if defined(ARCH_CPU_X86_FAMILY)
 +#if CPU(X86_64)
    SIMD::PackOneRowOfRGBA8LittleToR8(source, destination, pixels_per_row);
  #endif
  #if HAVE(MIPS_MSA_INTRINSICS)
-@@ -773,7 +773,7 @@ void Pack<WebGLImageConversion::kDataFor
+@@ -774,7 +774,7 @@ void Pack<WebGLImageConversion::kDataFor
            uint8_t>(const uint8_t* source,
                     uint8_t* destination,
                     unsigned pixels_per_row) {
--#if CPU(X86) || CPU(X86_64)
+-#if defined(ARCH_CPU_X86_FAMILY)
 +#if CPU(X86_64)
    SIMD::PackOneRowOfRGBA8LittleToRA8(source, destination, pixels_per_row);
  #endif
  #if HAVE(MIPS_MSA_INTRINSICS)
-@@ -885,7 +885,7 @@ void Pack<WebGLImageConversion::kDataFor
+@@ -886,7 +886,7 @@ void Pack<WebGLImageConversion::kDataFor
            uint8_t>(const uint8_t* source,
                     uint8_t* destination,
                     unsigned pixels_per_row) {
--#if CPU(X86) || CPU(X86_64)
+-#if defined(ARCH_CPU_X86_FAMILY)
 +#if CPU(X86_64)
    SIMD::PackOneRowOfRGBA8LittleToRGBA8(source, destination, pixels_per_row);
  #endif
@@ -398,56 +398,56 @@ Index: dev/third_party/WebKit/Source/modules/webaudio/AudioParamTimeline.cpp
 ===================================================================
 --- dev.orig/third_party/WebKit/Source/modules/webaudio/AudioParamTimeline.cpp
 +++ dev/third_party/WebKit/Source/modules/webaudio/AudioParamTimeline.cpp
-@@ -33,7 +33,7 @@
+@@ -35,7 +35,7 @@
  #include "platform/wtf/MathExtras.h"
  #include "platform/wtf/PtrUtil.h"
  
--#if CPU(X86) || CPU(X86_64)
+-#if defined(ARCH_CPU_X86_FAMILY)
 +#if CPU(X86_64)
  #include <emmintrin.h>
  #endif
  
-@@ -1288,7 +1288,7 @@ std::tuple<size_t, float, unsigned> Audi
+@@ -1290,7 +1290,7 @@ std::tuple<size_t, float, unsigned> Audi
      size_t current_frame,
      float value,
      unsigned write_index) {
--#if CPU(X86) || CPU(X86_64)
+-#if defined(ARCH_CPU_X86_FAMILY)
 +#if CPU(X86_64)
    auto number_of_values = current_state.number_of_values;
  #endif
    auto fill_to_frame = current_state.fill_to_frame;
-@@ -1301,7 +1301,7 @@ std::tuple<size_t, float, unsigned> Audi
+@@ -1303,7 +1303,7 @@ std::tuple<size_t, float, unsigned> Audi
    double delta_time = time2 - time1;
    float k = delta_time > 0 ? 1 / delta_time : 0;
    const float value_delta = value2 - value1;
--#if CPU(X86) || CPU(X86_64)
+-#if defined(ARCH_CPU_X86_FAMILY)
 +#if CPU(X86_64)
    if (fill_to_frame > write_index) {
      // Minimize in-loop operations. Calculate starting value and increment.
      // Next step: value += inc.
-@@ -1429,7 +1429,7 @@ std::tuple<size_t, float, unsigned> Audi
+@@ -1431,7 +1431,7 @@ std::tuple<size_t, float, unsigned> Audi
      size_t current_frame,
      float value,
      unsigned write_index) {
--#if CPU(X86) || CPU(X86_64)
+-#if defined(ARCH_CPU_X86_FAMILY)
 +#if CPU(X86_64)
    auto number_of_values = current_state.number_of_values;
  #endif
    auto fill_to_frame = current_state.fill_to_frame;
-@@ -1480,7 +1480,7 @@ std::tuple<size_t, float, unsigned> Audi
+@@ -1482,7 +1482,7 @@ std::tuple<size_t, float, unsigned> Audi
      for (; write_index < fill_to_frame; ++write_index)
        values[write_index] = target;
    } else {
--#if CPU(X86) || CPU(X86_64)
+-#if defined(ARCH_CPU_X86_FAMILY)
 +#if CPU(X86_64)
      if (fill_to_frame > write_index) {
        // Resolve recursion by expanding constants to achieve a 4-step
        // loop unrolling.
-@@ -1614,7 +1614,7 @@ std::tuple<size_t, float, unsigned> Audi
+@@ -1616,7 +1616,7 @@ std::tuple<size_t, float, unsigned> Audi
    // Oversampled curve data can be provided if sharp discontinuities are
    // desired.
    unsigned k = 0;
--#if CPU(X86) || CPU(X86_64)
+-#if defined(ARCH_CPU_X86_FAMILY)
 +#if CPU(X86_64)
    if (fill_to_frame > write_index) {
      const __m128 v_curve_virtual_index = _mm_set_ps1(curve_virtual_index);

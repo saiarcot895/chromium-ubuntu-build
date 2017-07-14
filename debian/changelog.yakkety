@@ -1,3 +1,10 @@
+chromium-browser (61.0.3153.4-0ubuntu1~ppa1~16.10.1) yakkety; urgency=low
+
+  * New upstream version 61.0.3153.4
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 13 Jul 2017 21:38:04 -0400
+
 chromium-browser (61.0.3141.7-0ubuntu1~ppa3~16.10.1) yakkety; urgency=low
 
   * Fix build on arm64.
