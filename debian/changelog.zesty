@@ -1,3 +1,10 @@
+chromium-browser (61.0.3153.4-0ubuntu1~ppa3~17.04.1) zesty; urgency=low
+
+  * Require version 1.7.2 of ninja.
+  * Fix VAAPI build.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 18 Jul 2017 01:39:50 -0400
+
 chromium-browser (61.0.3153.4-0ubuntu1~ppa2~17.04.1) zesty; urgency=low
 
   * Fix GN Build
