@@ -174,7 +174,7 @@ Index: beta/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
    "XdndActionAsk",
    "XdndActionCopy",
    "XdndActionLink",
-@@ -1706,6 +1709,22 @@ void DesktopWindowTreeHostX11::UpdateMin
+@@ -1713,6 +1716,22 @@ void DesktopWindowTreeHostX11::UpdateMin
    XSetWMNormalHints(xdisplay_, xwindow_, &hints);
  }
  
