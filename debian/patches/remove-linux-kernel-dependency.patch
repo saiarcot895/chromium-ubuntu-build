@@ -10,7 +10,7 @@ Index: dev/ui/gfx/linux/client_native_pixmap_dmabuf.cc
  #include <stddef.h>
  #include <sys/ioctl.h>
  #include <sys/mman.h>
-@@ -19,9 +18,6 @@
+@@ -17,9 +16,6 @@
  #include "base/strings/stringprintf.h"
  #include "base/trace_event/trace_event.h"
  
@@ -20,7 +20,7 @@ Index: dev/ui/gfx/linux/client_native_pixmap_dmabuf.cc
  #include <linux/types.h>
  
  struct dma_buf_sync {
-@@ -36,7 +32,6 @@ struct dma_buf_sync {
+@@ -34,7 +30,6 @@ struct dma_buf_sync {
  
  #define DMA_BUF_BASE 'b'
  #define DMA_BUF_IOCTL_SYNC _IOW(DMA_BUF_BASE, 0, struct dma_buf_sync)

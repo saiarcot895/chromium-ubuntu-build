@@ -78,7 +78,7 @@ Index: dev/media/gpu/vaapi_wrapper.cc
    }
    return true;
  }
-@@ -1126,6 +1150,39 @@ void VaapiWrapper::DeinitializeVpp() {
+@@ -1101,6 +1125,39 @@ void VaapiWrapper::DeinitializeVpp() {
  
  // static
  void VaapiWrapper::PreSandboxInitialization() {
@@ -133,7 +133,7 @@ Index: dev/media/gpu/vaapi_wrapper.h
  namespace media {
  
  // This class handles VA-API calls and ensures proper locking of VA-API calls
-@@ -301,6 +305,12 @@ class MEDIA_GPU_EXPORT VaapiWrapper
+@@ -295,6 +299,12 @@ class MEDIA_GPU_EXPORT VaapiWrapper
        VAProfile va_profile,
        VAEntrypoint entrypoint,
        const std::vector<VAConfigAttrib>& required_attribs);

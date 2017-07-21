@@ -185,7 +185,7 @@ Index: dev/third_party/WebKit/Source/platform/audio/DirectConvolver.cpp
  #endif
  
 -#if defined(ARCH_CPU_X86_FAMILY) && !defined(OS_MACOSX)
-+#if (CPU(X86_64)) && !defined(OS_MACOSX)
++#if defined(ARCH_CPU_X86_64) && !defined(OS_MACOSX)
  #include <emmintrin.h>
  #endif
  
@@ -194,7 +194,7 @@ Index: dev/third_party/WebKit/Source/platform/audio/DirectConvolver.cpp
  #else
    size_t i = 0;
 -#if defined(ARCH_CPU_X86_FAMILY)
-+#if CPU(X86_64)
++#if defined(ARCH_CPU_X86_64)
    // Convolution using SSE2. Currently only do this if both |kernelSize| and
    // |framesToProcess| are multiples of 4. If not, use the straightforward loop
    // below.
@@ -203,7 +203,7 @@ Index: dev/third_party/WebKit/Source/platform/audio/DirectConvolver.cpp
        dest_p[i++] = sum;
      }
 -#if defined(ARCH_CPU_X86_FAMILY)
-+#if CPU(X86_64)
++#if defined(ARCH_CPU_X86_64)
    }
  #endif
  #endif  // OS_MACOSX
@@ -216,7 +216,7 @@ Index: dev/third_party/WebKit/Source/platform/audio/SincResampler.cpp
  #include "platform/wtf/MathExtras.h"
  
 -#if defined(ARCH_CPU_X86_FAMILY)
-+#if CPU(X86_64)
++#if defined(ARCH_CPU_X86_64)
  #include <emmintrin.h>
  #endif
  
@@ -225,7 +225,7 @@ Index: dev/third_party/WebKit/Source/platform/audio/SincResampler.cpp
          float input;
  
 -#if defined(ARCH_CPU_X86_FAMILY)
-+#if CPU(X86_64)
++#if defined(ARCH_CPU_X86_64)
          // If the sourceP address is not 16-byte aligned, the first several
          // frames (at most three) should be processed seperately.
          while ((reinterpret_cast<uintptr_t>(input_p) & 0x0F) && n) {
@@ -238,7 +238,7 @@ Index: dev/third_party/WebKit/Source/platform/audio/VectorMath.cpp
  #endif
  
 -#if defined(ARCH_CPU_X86_FAMILY)
-+#if CPU(X86_64)
++#if defined(ARCH_CPU_X86_64)
  #include <emmintrin.h>
  #endif
  
@@ -247,7 +247,7 @@ Index: dev/third_party/WebKit/Source/platform/audio/VectorMath.cpp
    int n = frames_to_process;
  
 -#if defined(ARCH_CPU_X86_FAMILY)
-+#if CPU(X86_64)
++#if defined(ARCH_CPU_X86_64)
    if ((source_stride == 1) && (dest_stride == 1)) {
      float k = *scale;
  
@@ -256,7 +256,7 @@ Index: dev/third_party/WebKit/Source/platform/audio/VectorMath.cpp
    int n = frames_to_process;
  
 -#if defined(ARCH_CPU_X86_FAMILY)
-+#if CPU(X86_64)
++#if defined(ARCH_CPU_X86_64)
    if ((source_stride == 1) && (dest_stride == 1)) {
      float k = *scale;
  
@@ -265,7 +265,7 @@ Index: dev/third_party/WebKit/Source/platform/audio/VectorMath.cpp
        dest_p += dest_stride;
      }
 -#if defined(ARCH_CPU_X86_FAMILY)
-+#if CPU(X86_64)
++#if defined(ARCH_CPU_X86_64)
    }
  #endif
  }
@@ -274,7 +274,7 @@ Index: dev/third_party/WebKit/Source/platform/audio/VectorMath.cpp
    int n = frames_to_process;
  
 -#if defined(ARCH_CPU_X86_FAMILY)
-+#if CPU(X86_64)
++#if defined(ARCH_CPU_X86_64)
    if ((source_stride1 == 1) && (source_stride2 == 1) && (dest_stride == 1)) {
      // If the sourceP address is not 16-byte aligned, the first several frames
      // (at most three) should be processed separately.
@@ -283,7 +283,7 @@ Index: dev/third_party/WebKit/Source/platform/audio/VectorMath.cpp
        dest_p += dest_stride;
      }
 -#if defined(ARCH_CPU_X86_FAMILY)
-+#if CPU(X86_64)
++#if defined(ARCH_CPU_X86_64)
    }
  #endif
  }
@@ -292,7 +292,7 @@ Index: dev/third_party/WebKit/Source/platform/audio/VectorMath.cpp
    int n = frames_to_process;
  
 -#if defined(ARCH_CPU_X86_FAMILY)
-+#if CPU(X86_64)
++#if defined(ARCH_CPU_X86_64)
    if ((source_stride1 == 1) && (source_stride2 == 1) && (dest_stride == 1)) {
      // If the source1P address is not 16-byte aligned, the first several frames
      // (at most three) should be processed separately.
@@ -301,7 +301,7 @@ Index: dev/third_party/WebKit/Source/platform/audio/VectorMath.cpp
             size_t frames_to_process) {
    unsigned i = 0;
 -#if defined(ARCH_CPU_X86_FAMILY)
-+#if CPU(X86_64)
++#if defined(ARCH_CPU_X86_64)
    // Only use the SSE optimization in the very common case that all addresses
    // are 16-byte aligned.  Otherwise, fall through to the scalar code below.
    if (!(reinterpret_cast<uintptr_t>(real1p) & 0x0F) &&
@@ -310,7 +310,7 @@ Index: dev/third_party/WebKit/Source/platform/audio/VectorMath.cpp
    float sum = 0;
  
 -#if defined(ARCH_CPU_X86_FAMILY)
-+#if CPU(X86_64)
++#if defined(ARCH_CPU_X86_64)
    if (source_stride == 1) {
      // If the sourceP address is not 16-byte aligned, the first several frames
      // (at most three) should be processed separately.
@@ -319,7 +319,7 @@ Index: dev/third_party/WebKit/Source/platform/audio/VectorMath.cpp
    float max = 0;
  
 -#if defined(ARCH_CPU_X86_FAMILY)
-+#if CPU(X86_64)
++#if defined(ARCH_CPU_X86_64)
    if (source_stride == 1) {
      // If the sourceP address is not 16-byte aligned, the first several frames
      // (at most three) should be processed separately.
@@ -332,7 +332,7 @@ Index: dev/third_party/WebKit/Source/platform/graphics/cpu/x86/WebGLImageConvers
  #include "build/build_config.h"
  
 -#if defined(ARCH_CPU_X86_FAMILY)
-+#if CPU(X86_64)
++#if defined(ARCH_CPU_X86_64)
  #include <emmintrin.h>
  
  namespace blink {
@@ -345,7 +345,7 @@ Index: dev/third_party/WebKit/Source/platform/graphics/gpu/WebGLImageConversion.
    uint32_t* destination32 = reinterpret_cast_ptr<uint32_t*>(destination);
  
 -#if defined(ARCH_CPU_X86_FAMILY)
-+#if CPU(X86_64)
++#if defined(ARCH_CPU_X86_64)
    SIMD::UnpackOneRowOfBGRA8LittleToRGBA8(source32, destination32,
                                           pixels_per_row);
  #endif
@@ -354,7 +354,7 @@ Index: dev/third_party/WebKit/Source/platform/graphics/gpu/WebGLImageConversion.
      uint8_t* destination,
      unsigned pixels_per_row) {
 -#if defined(ARCH_CPU_X86_FAMILY)
-+#if CPU(X86_64)
++#if defined(ARCH_CPU_X86_64)
    SIMD::UnpackOneRowOfRGBA5551LittleToRGBA8(source, destination,
                                              pixels_per_row);
  #endif
@@ -363,7 +363,7 @@ Index: dev/third_party/WebKit/Source/platform/graphics/gpu/WebGLImageConversion.
      uint8_t* destination,
      unsigned pixels_per_row) {
 -#if defined(ARCH_CPU_X86_FAMILY)
-+#if CPU(X86_64)
++#if defined(ARCH_CPU_X86_64)
    SIMD::UnpackOneRowOfRGBA4444LittleToRGBA8(source, destination,
                                              pixels_per_row);
  #endif
@@ -372,7 +372,7 @@ Index: dev/third_party/WebKit/Source/platform/graphics/gpu/WebGLImageConversion.
                     uint8_t* destination,
                     unsigned pixels_per_row) {
 -#if defined(ARCH_CPU_X86_FAMILY)
-+#if CPU(X86_64)
++#if defined(ARCH_CPU_X86_64)
    SIMD::PackOneRowOfRGBA8LittleToR8(source, destination, pixels_per_row);
  #endif
  #if HAVE(MIPS_MSA_INTRINSICS)
@@ -381,7 +381,7 @@ Index: dev/third_party/WebKit/Source/platform/graphics/gpu/WebGLImageConversion.
                     uint8_t* destination,
                     unsigned pixels_per_row) {
 -#if defined(ARCH_CPU_X86_FAMILY)
-+#if CPU(X86_64)
++#if defined(ARCH_CPU_X86_64)
    SIMD::PackOneRowOfRGBA8LittleToRA8(source, destination, pixels_per_row);
  #endif
  #if HAVE(MIPS_MSA_INTRINSICS)
@@ -390,7 +390,7 @@ Index: dev/third_party/WebKit/Source/platform/graphics/gpu/WebGLImageConversion.
                     uint8_t* destination,
                     unsigned pixels_per_row) {
 -#if defined(ARCH_CPU_X86_FAMILY)
-+#if CPU(X86_64)
++#if defined(ARCH_CPU_X86_64)
    SIMD::PackOneRowOfRGBA8LittleToRGBA8(source, destination, pixels_per_row);
  #endif
  #if HAVE(MIPS_MSA_INTRINSICS)
@@ -403,7 +403,7 @@ Index: dev/third_party/WebKit/Source/modules/webaudio/AudioParamTimeline.cpp
  #include "platform/wtf/PtrUtil.h"
  
 -#if defined(ARCH_CPU_X86_FAMILY)
-+#if CPU(X86_64)
++#if defined(ARCH_CPU_X86_64)
  #include <emmintrin.h>
  #endif
  
@@ -412,7 +412,7 @@ Index: dev/third_party/WebKit/Source/modules/webaudio/AudioParamTimeline.cpp
      float value,
      unsigned write_index) {
 -#if defined(ARCH_CPU_X86_FAMILY)
-+#if CPU(X86_64)
++#if defined(ARCH_CPU_X86_64)
    auto number_of_values = current_state.number_of_values;
  #endif
    auto fill_to_frame = current_state.fill_to_frame;
@@ -421,7 +421,7 @@ Index: dev/third_party/WebKit/Source/modules/webaudio/AudioParamTimeline.cpp
    float k = delta_time > 0 ? 1 / delta_time : 0;
    const float value_delta = value2 - value1;
 -#if defined(ARCH_CPU_X86_FAMILY)
-+#if CPU(X86_64)
++#if defined(ARCH_CPU_X86_64)
    if (fill_to_frame > write_index) {
      // Minimize in-loop operations. Calculate starting value and increment.
      // Next step: value += inc.
@@ -430,7 +430,7 @@ Index: dev/third_party/WebKit/Source/modules/webaudio/AudioParamTimeline.cpp
      float value,
      unsigned write_index) {
 -#if defined(ARCH_CPU_X86_FAMILY)
-+#if CPU(X86_64)
++#if defined(ARCH_CPU_X86_64)
    auto number_of_values = current_state.number_of_values;
  #endif
    auto fill_to_frame = current_state.fill_to_frame;
@@ -439,7 +439,7 @@ Index: dev/third_party/WebKit/Source/modules/webaudio/AudioParamTimeline.cpp
        values[write_index] = target;
    } else {
 -#if defined(ARCH_CPU_X86_FAMILY)
-+#if CPU(X86_64)
++#if defined(ARCH_CPU_X86_64)
      if (fill_to_frame > write_index) {
        // Resolve recursion by expanding constants to achieve a 4-step
        // loop unrolling.
@@ -448,7 +448,7 @@ Index: dev/third_party/WebKit/Source/modules/webaudio/AudioParamTimeline.cpp
    // desired.
    unsigned k = 0;
 -#if defined(ARCH_CPU_X86_FAMILY)
-+#if CPU(X86_64)
++#if defined(ARCH_CPU_X86_64)
    if (fill_to_frame > write_index) {
      const __m128 v_curve_virtual_index = _mm_set_ps1(curve_virtual_index);
      const __m128 v_curve_points_per_frame = _mm_set_ps1(curve_points_per_frame);

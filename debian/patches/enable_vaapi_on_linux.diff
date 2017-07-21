@@ -4,7 +4,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -1468,7 +1468,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1476,7 +1476,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
          flag_descriptions::kAcceleratedVideoDecodeDescription,
@@ -21,7 +21,7 @@ Index: dev/content/common/BUILD.gn
    ]
  }
  
-+if ((is_desktop_linux || is_chromeos) && current_cpu != "arm") {
++if (is_desktop_linux || (is_chromeos && current_cpu != "arm")) {
 +  action("libva_generate_stubs") {
 +    extra_header = "../../media/gpu/va_stub_header.fragment"
 +
@@ -76,7 +76,7 @@ Index: dev/content/common/BUILD.gn
        ]
      }
 +  } else {
-+    if (current_cpu != "arm" && is_desktop_linux) {
++    if (is_desktop_linux) {
 +      sources += get_target_outputs(":libva_generate_stubs")
 +      deps += [ ":libva_generate_stubs" ]
 +      configs += [ "//third_party/libva:libva_config" ]
@@ -92,24 +92,21 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 ===================================================================
 --- dev.orig/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 +++ dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
-@@ -25,6 +25,12 @@
+@@ -25,6 +25,10 @@
  #include "base/memory/ptr_util.h"
  #include "base/strings/stringprintf.h"
  #include "build/build_config.h"
 +
-+#if !defined(__arm__)
 +// Auto-generated for dlopen libva libraries
 +#include "content/common/va_stubs.h"
-+#endif
 +
  #include "content/common/sandbox_linux/sandbox_bpf_base_policy_linux.h"
  #include "content/common/sandbox_linux/sandbox_seccomp_bpf_linux.h"
  #include "content/public/common/content_switches.h"
-@@ -36,6 +42,28 @@
+@@ -36,6 +40,26 @@
  #include "sandbox/linux/system_headers/linux_syscalls.h"
  #include "services/service_manager/embedder/set_process_title.h"
  
-+#if !defined(__arm__)
 +#include "third_party/libva/va/va.h"
 +#include "third_party/libva/va/va_backend.h"
 +#if defined(USE_X11)
@@ -119,7 +116,6 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 +#include "base/files/file.h"
 +#include "third_party/libva/va/drm/va_drm.h"
 +#include "third_party/libva/va/va_drmcommon.h"
-+#endif
 +#endif
 +
 +#define DRIVER_EXTENSION        "_drv_video.so"
@@ -134,11 +130,10 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  using sandbox::arch_seccomp_data;
  using sandbox::bpf_dsl::Allow;
  using sandbox::bpf_dsl::ResultExpr;
-@@ -44,6 +72,17 @@ using sandbox::syscall_broker::BrokerFil
+@@ -44,6 +68,15 @@ using sandbox::syscall_broker::BrokerFil
  using sandbox::syscall_broker::BrokerProcess;
  using sandbox::SyscallSets;
  
-+#if !defined(__arm__)
 +using content_common::kModuleVa;
 +#if defined(USE_X11)
 +using content_common::kModuleVa_x11;
@@ -147,12 +142,11 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 +#endif
 +using content_common::InitializeStubs;
 +using content_common::StubPathMap;
-+#endif
 +
  namespace content {
  
  namespace {
-@@ -98,7 +137,7 @@ inline bool UseLibV4L2() {
+@@ -98,7 +131,7 @@ inline bool UseLibV4L2() {
  
  bool IsAcceleratedVaapiVideoEncodeEnabled() {
    bool accelerated_encode_enabled = false;
@@ -161,7 +155,7 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
    const base::CommandLine& command_line =
        *base::CommandLine::ForCurrentProcess();
    accelerated_encode_enabled =
-@@ -290,6 +329,36 @@ ResultExpr GpuProcessPolicy::EvaluateSys
+@@ -290,6 +323,36 @@ ResultExpr GpuProcessPolicy::EvaluateSys
    }
  }
  
@@ -198,16 +192,15 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
  bool GpuProcessPolicy::PreSandboxHook() {
    // Warm up resources needed by the policy we're about to enable and
    // eventually start a broker process.
-@@ -303,32 +372,75 @@ bool GpuProcessPolicy::PreSandboxHook()
+@@ -303,31 +366,70 @@ bool GpuProcessPolicy::PreSandboxHook()
        GpuBrokerProcessPolicy::Create,
        std::vector<BrokerFilePermission>());  // No extra files in whitelist.
  
-+#if !defined(__arm__)
-   if (IsArchitectureX86_64() || IsArchitectureI386()) {
-     // Accelerated video dlopen()'s some shared objects
-     // inside the sandbox, so preload them now.
-     if (IsAcceleratedVaapiVideoEncodeEnabled() ||
-         IsAcceleratedVideoDecodeEnabled()) {
+-  if (IsArchitectureX86_64() || IsArchitectureI386()) {
+-    // Accelerated video dlopen()'s some shared objects
+-    // inside the sandbox, so preload them now.
+-    if (IsAcceleratedVaapiVideoEncodeEnabled() ||
+-        IsAcceleratedVideoDecodeEnabled()) {
 -      const char* I965DrvVideoPath = NULL;
 -      const char* I965HybridDrvVideoPath = NULL;
 -
@@ -216,80 +209,79 @@ Index: dev/content/common/sandbox_linux/bpf_gpu_policy_linux.cc
 -        I965HybridDrvVideoPath = "/usr/lib64/va/drivers/hybrid_drv_video.so";
 -      } else if (IsArchitectureI386()) {
 -        I965DrvVideoPath = "/usr/lib/va/drivers/i965_drv_video.so";
--      }
--
++  // Accelerated video dlopen()'s some shared objects
++  // inside the sandbox, so preload them now.
++  if (IsAcceleratedVaapiVideoEncodeEnabled() ||
++      IsAcceleratedVideoDecodeEnabled()) {
++    // Init a VA Context, get driver name (and path), close context and preload
++#if defined(USE_OZONE) || defined(USE_X11)
++    VADisplay va_display = VaapiGetVADisplay();
++    if (va_display) {
++      char *va_search_path = getenv("LIBVA_DRIVERS_PATH");
++      char *va_driver_name = getenv("LIBVA_DRIVER_NAME");
++      char *saveptr, *driver_dir;
++      if (!va_driver_name) {
++        VADisplayContextP pDisplayContext =
++          static_cast<VADisplayContextP>(va_display);
++        pDisplayContext->vaGetDriverName(pDisplayContext, &va_driver_name);
+       }
+ 
 -      dlopen(I965DrvVideoPath, RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE);
 -      if (I965HybridDrvVideoPath)
 -        dlopen(I965HybridDrvVideoPath, RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE);
 -      dlopen("libva.so.1", RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE);
-+      // Init a VA Context, get driver name (and path), close context and preload
-+#if defined(USE_OZONE) || defined(USE_X11)
-+      VADisplay va_display = VaapiGetVADisplay();
-+      if (va_display) {
-+        char *va_search_path = getenv("LIBVA_DRIVERS_PATH");
-+        char *va_driver_name = getenv("LIBVA_DRIVER_NAME");
-+        char *saveptr, *driver_dir;
-+        if (!va_driver_name) {
-+          VADisplayContextP pDisplayContext =
-+            static_cast<VADisplayContextP>(va_display);
-+          pDisplayContext->vaGetDriverName(pDisplayContext, &va_driver_name);
-+        }
++      if (!va_driver_name) {
++        return true;
++      }
 +
-+        if (!va_driver_name) {
-+          return true;
-+        }
++      if (!va_search_path) {
++        va_search_path = strdup(VA_DRIVERS_PATH);
++      }
 +
-+        if (!va_search_path) {
-+          va_search_path = strdup(VA_DRIVERS_PATH);
-+        }
++      driver_dir = strtok_r(va_search_path, ":", &saveptr);
++      while (driver_dir) {
++        std::string driver_path = base::StringPrintf("%s/%s%s", driver_dir,
++            va_driver_name, DRIVER_EXTENSION);
 +
-+        driver_dir = strtok_r(va_search_path, ":", &saveptr);
-+        while (driver_dir) {
-+          std::string driver_path = base::StringPrintf("%s/%s%s", driver_dir,
-+              va_driver_name, DRIVER_EXTENSION);
++        // attempt to dlopen() the va driver
++        LOG(INFO) << "Looking for " << driver_path << "...";
++        if (access(driver_path.c_str(), R_OK) != -1) {
++          LOG(WARNING) << "Attempting to pre-load " << va_driver_name << " VA driver...";
++          if (dlopen(driver_path.c_str(), RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE)) {
++            LOG(WARNING) << "VA driver \"" << driver_path << "\" opened!";
 +
-+          // attempt to dlopen() the va driver
-+          LOG(INFO) << "Looking for " << driver_path << "...";
-+          if (access(driver_path.c_str(), R_OK) != -1) {
-+            LOG(WARNING) << "Attempting to pre-load " << va_driver_name << " VA driver...";
-+            if (dlopen(driver_path.c_str(), RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE)) {
-+              LOG(WARNING) << "VA driver \"" << driver_path << "\" opened!";
-+
-+              if (strcmp(va_driver_name, "nvidia") == 0) {
-+                LOG(WARNING) << "Pre-loading NVIDIA VDPAU driver libraries...";
-+                if (dlopen("libvdpau_nvidia.so", RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE)) {
-+                  LOG(WARNING) << "Loaded libvdpau_nvidia.so";
-+                }
-+
-+                if (dlopen("libvdpau.so", RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE)) {
-+                  LOG(WARNING) << "Loaded libvdpau.so";
-+                }
++            if (strcmp(va_driver_name, "nvidia") == 0) {
++              LOG(WARNING) << "Pre-loading NVIDIA VDPAU driver libraries...";
++              if (dlopen("libvdpau_nvidia.so", RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE)) {
++                LOG(WARNING) << "Loaded libvdpau_nvidia.so";
 +              }
-+              LOG(WARNING) << "Loading libva libraries...";
-+              dlopen("libva.so.1", RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE);
++
++              if (dlopen("libvdpau.so", RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE)) {
++                LOG(WARNING) << "Loaded libvdpau.so";
++              }
++            }
++            LOG(WARNING) << "Loading libva libraries...";
++            dlopen("libva.so.1", RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE);
  #if defined(USE_OZONE)
 -      dlopen("libva-drm.so.1", RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE);
-+              dlopen("libva-drm.so.1", RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE);
++            dlopen("libva-drm.so.1", RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE);
  #elif defined(USE_X11)
 -      dlopen("libva-x11.so.1", RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE);
-+              dlopen("libva-x11.so.1", RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE);
-+#endif
-+              break;
-+            }
-+            LOG(ERROR) << "VA driver failed to open!";
-+          }
-+
-+          driver_dir = strtok_r(NULL, ":", &saveptr);
-+        }
-+        free(va_search_path);
-+      }
++            dlopen("libva-x11.so.1", RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE);
  #endif
++            break;
++          }
++          LOG(ERROR) << "VA driver failed to open!";
++        }
++
++        driver_dir = strtok_r(NULL, ":", &saveptr);
++      }
++      free(va_search_path);
      }
-   }
 +#endif
+   }
  
    return true;
- }
 Index: dev/content/common/va_wayland.sigs
 ===================================================================
 --- /dev/null
@@ -312,7 +304,7 @@ Index: dev/content/gpu/BUILD.gn
    }
  
 -  if (is_chromeos && current_cpu != "arm") {
-+  if ((is_desktop_linux || is_chromeos) && current_cpu != "arm") {
++  if (is_desktop_linux || (is_chromeos && current_cpu != "arm")) {
      configs += [ "//third_party/libva:libva_config" ]
    }
  
@@ -325,7 +317,7 @@ Index: dev/content/gpu/gpu_main.cc
  #endif
  
 -#if defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)
-+#if (defined(OS_LINUX) || defined(OS_CHROMEOS)) && defined(ARCH_CPU_X86_FAMILY)
++#if defined(OS_LINUX) || (defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY))
  #include "media/gpu/vaapi_wrapper.h"
  #endif
  
@@ -334,7 +326,7 @@ Index: dev/content/gpu/gpu_main.cc
      }
  
 -#if defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)
-+#if (defined(OS_LINUX) || defined(OS_CHROMEOS)) && defined(ARCH_CPU_X86_FAMILY)
++#if defined(OS_LINUX) || (defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY))
      media::VaapiWrapper::PreSandboxInitialization();
  #endif
  #if defined(OS_WIN)
@@ -342,7 +334,7 @@ Index: dev/content/public/common/content_switches.cc
 ===================================================================
 --- dev.orig/content/public/common/content_switches.cc
 +++ dev/content/public/common/content_switches.cc
-@@ -976,7 +976,9 @@ const char kDisableAudioSupportForDeskto
+@@ -1000,7 +1000,9 @@ const char kDisableAudioSupportForDeskto
  #if defined(OS_CHROMEOS)
  // Disables panel fitting (used for mirror mode).
  const char kDisablePanelFitting[]           = "disable-panel-fitting";
@@ -356,7 +348,7 @@ Index: dev/content/public/common/content_switches.h
 ===================================================================
 --- dev.orig/content/public/common/content_switches.h
 +++ dev/content/public/common/content_switches.h
-@@ -282,6 +282,8 @@ CONTENT_EXPORT extern const char kEnable
+@@ -284,6 +284,8 @@ CONTENT_EXPORT extern const char kEnable
  
  #if defined(OS_CHROMEOS)
  CONTENT_EXPORT extern const char kDisablePanelFitting[];
@@ -391,12 +383,12 @@ Index: dev/media/BUILD.gn
 ===================================================================
 --- dev.orig/media/BUILD.gn
 +++ dev/media/BUILD.gn
-@@ -387,7 +387,7 @@ source_set("unit_tests") {
+@@ -330,7 +330,7 @@ source_set("unit_tests") {
      sources += [ "filters/vpx_video_decoder_unittest.cc" ]
    }
  
 -  if (current_cpu != "arm" && is_chromeos) {
-+  if (current_cpu != "arm" && (is_chromeos || is_desktop_linux)) {
++  if ((current_cpu != "arm" && is_chromeos) || is_desktop_linux) {
      sources += [ "filters/h264_bitstream_buffer_unittest.cc" ]
    }
  
@@ -409,7 +401,7 @@ Index: dev/media/gpu/BUILD.gn
  }
  
 -if (is_chromeos && current_cpu != "arm") {
-+if ((is_desktop_linux || is_chromeos) && current_cpu != "arm") {
++if (is_desktop_linux || (is_chromeos && current_cpu != "arm")) {
    action("libva_generate_stubs") {
      extra_header = "va_stub_header.fragment"
  
@@ -458,7 +450,7 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
      &GpuVideoDecodeAcceleratorFactory::CreateV4L2SVDA,
  #endif
 -#if defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)
-+#if (defined(OS_LINUX) || defined(OS_CHROMEOS)) && defined(ARCH_CPU_X86_FAMILY)
++#if defined(OS_LINUX) || (defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY))
      &GpuVideoDecodeAcceleratorFactory::CreateVaapiVDA,
  #endif
  #if defined(OS_MACOSX)
@@ -467,7 +459,7 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
  #endif
  
 -#if defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)
-+#if (defined(OS_LINUX) || defined(OS_CHROMEOS)) && defined(ARCH_CPU_X86_FAMILY)
++#if defined(OS_LINUX) || (defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY))
  std::unique_ptr<VideoDecodeAccelerator>
  GpuVideoDecodeAcceleratorFactory::CreateVaapiVDA(
      const gpu::GpuDriverBugWorkarounds& workarounds,
@@ -485,7 +477,7 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.h
        const gpu::GpuPreferences& gpu_preferences) const;
  #endif
 -#if defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)
-+#if (defined(OS_LINUX) || defined(OS_CHROMEOS)) && defined(ARCH_CPU_X86_FAMILY)
++#if defined(OS_LINUX) || (defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY))
    std::unique_ptr<VideoDecodeAccelerator> CreateVaapiVDA(
        const gpu::GpuDriverBugWorkarounds& workarounds,
        const gpu::GpuPreferences& gpu_preferences) const;
@@ -498,7 +490,7 @@ Index: dev/media/gpu/ipc/service/BUILD.gn
    configs += [ "//media/gpu:gpu_config" ]
  
 -  if (is_chromeos && current_cpu != "arm") {
-+  if ((is_desktop_linux || is_chromeos) && current_cpu != "arm") {
++  if (is_desktop_linux || (is_chromeos && current_cpu != "arm")) {
      configs += [ "//third_party/libva:libva_config" ]
    }
  
@@ -511,7 +503,7 @@ Index: dev/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
  }
  
 -#if (defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)) || \
-+#if ((defined(OS_LINUX) || defined(OS_CHROMEOS)) && defined(ARCH_CPU_X86_FAMILY)) || \
++#if defined(OS_LINUX) || (defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)) || \
      defined(OS_MACOSX) || defined(OS_WIN)
  static bool BindImage(const base::WeakPtr<gpu::GpuCommandBufferStub>& stub,
                        uint32_t client_texture_id,
@@ -520,7 +512,7 @@ Index: dev/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
    make_context_current_cb_ =
        base::Bind(&MakeDecoderContextCurrent, stub_->AsWeakPtr());
 -#if (defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)) || \
-+#if ((defined(OS_LINUX) || defined(OS_CHROMEOS)) && defined(ARCH_CPU_X86_FAMILY)) || \
++#if defined(OS_LINUX) || (defined(OS_CHROMEOS) && defined(ARCH_CPU_X86_FAMILY)) || \
      defined(OS_MACOSX) || defined(OS_WIN)
    bind_image_cb_ = base::Bind(&BindImage, stub_->AsWeakPtr());
  #endif
@@ -642,12 +634,12 @@ Index: dev/media/filters/BUILD.gn
 ===================================================================
 --- dev.orig/media/filters/BUILD.gn
 +++ dev/media/filters/BUILD.gn
-@@ -257,7 +257,7 @@ source_set("filters") {
+@@ -214,7 +214,7 @@ source_set("filters") {
      ]
    }
  
 -  if (current_cpu != "arm" && is_chromeos) {
-+  if (current_cpu != "arm" && (is_chromeos || is_desktop_linux)) {
++  if ((current_cpu != "arm" && is_chromeos) || is_desktop_linux) {
      sources += [
        "h264_bitstream_buffer.cc",
        "h264_bitstream_buffer.h",
