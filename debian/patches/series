@@ -1,5 +1,4 @@
 #gyp-make-generator-reenabled
-fix-gn-build.patch
 title-bar-default-system.patch-v35
 #third-party-cookies-off-by-default.patch
 search-credit.patch
@@ -45,3 +44,4 @@ fix-compile-error.patch
 specify-gcc-standard.patch
 fix-wayland-build.patch
 fix-skia-arm64.patch
+fix-gn-build.patch

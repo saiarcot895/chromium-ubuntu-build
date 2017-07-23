@@ -10,3 +10,11 @@ Index: dev/tools/gn/bootstrap/bootstrap.py
        'base/rand_util.cc',
        'base/run_loop.cc',
        'base/sequence_token.cc',
+@@ -568,6 +567,7 @@ def write_gn_ninja(path, root_gen_dir, o
+       'base/tracking_info.cc',
+       'base/unguessable_token.cc',
+       'base/values.cc',
++      'base/value_iterators.cc',
+       'base/vlog.cc',
+   ])
+ 
