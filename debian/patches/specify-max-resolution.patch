@@ -20,7 +20,7 @@ Index: dev/media/gpu/vaapi_wrapper.cc
  #include "base/bind.h"
  #include "base/callback_helpers.h"
  #include "base/logging.h"
-@@ -442,6 +446,20 @@ bool VaapiWrapper::AreAttribsSupported_L
+@@ -441,6 +445,20 @@ bool VaapiWrapper::AreAttribsSupported_L
    return true;
  }
  
@@ -41,7 +41,7 @@ Index: dev/media/gpu/vaapi_wrapper.cc
  bool VaapiWrapper::GetMaxResolution_Locked(
      VAProfile va_profile,
      VAEntrypoint entrypoint,
-@@ -460,7 +478,11 @@ bool VaapiWrapper::GetMaxResolution_Lock
+@@ -459,7 +477,11 @@ bool VaapiWrapper::GetMaxResolution_Lock
    unsigned int num_attribs;
    va_res = vaQuerySurfaceAttributes(va_display_, va_config_id, nullptr,
                                      &num_attribs);
@@ -54,7 +54,7 @@ Index: dev/media/gpu/vaapi_wrapper.cc
    if (!num_attribs)
      return false;
  
-@@ -469,7 +491,11 @@ bool VaapiWrapper::GetMaxResolution_Lock
+@@ -468,7 +490,11 @@ bool VaapiWrapper::GetMaxResolution_Lock
  
    va_res = vaQuerySurfaceAttributes(va_display_, va_config_id, &attrib_list[0],
                                      &num_attribs);
@@ -67,7 +67,7 @@ Index: dev/media/gpu/vaapi_wrapper.cc
  
    resolution->SetSize(0, 0);
    for (const auto& attrib : attrib_list) {
-@@ -479,9 +505,7 @@ bool VaapiWrapper::GetMaxResolution_Lock
+@@ -478,9 +504,7 @@ bool VaapiWrapper::GetMaxResolution_Lock
        resolution->set_height(attrib.value.value.i);
    }
    if (resolution->IsEmpty()) {
@@ -78,7 +78,7 @@ Index: dev/media/gpu/vaapi_wrapper.cc
    }
    return true;
  }
-@@ -1101,6 +1125,39 @@ void VaapiWrapper::DeinitializeVpp() {
+@@ -1100,6 +1124,39 @@ void VaapiWrapper::DeinitializeVpp() {
  
  // static
  void VaapiWrapper::PreSandboxInitialization() {
@@ -133,7 +133,7 @@ Index: dev/media/gpu/vaapi_wrapper.h
  namespace media {
  
  // This class handles VA-API calls and ensures proper locking of VA-API calls
-@@ -295,6 +299,12 @@ class MEDIA_GPU_EXPORT VaapiWrapper
+@@ -292,6 +296,12 @@ class MEDIA_GPU_EXPORT VaapiWrapper
        VAProfile va_profile,
        VAEntrypoint entrypoint,
        const std::vector<VAConfigAttrib>& required_attribs);

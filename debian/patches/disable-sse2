@@ -242,7 +242,7 @@ Index: dev/third_party/WebKit/Source/platform/audio/VectorMath.cpp
  #include <emmintrin.h>
  #endif
  
-@@ -177,7 +177,7 @@ void Vsma(const float* source_p,
+@@ -178,7 +178,7 @@ void Vsma(const float* source_p,
            size_t frames_to_process) {
    int n = frames_to_process;
  
@@ -251,7 +251,7 @@ Index: dev/third_party/WebKit/Source/platform/audio/VectorMath.cpp
    if ((source_stride == 1) && (dest_stride == 1)) {
      float k = *scale;
  
-@@ -275,7 +275,7 @@ void Vsmul(const float* source_p,
+@@ -276,7 +276,7 @@ void Vsmul(const float* source_p,
             size_t frames_to_process) {
    int n = frames_to_process;
  
@@ -260,7 +260,7 @@ Index: dev/third_party/WebKit/Source/platform/audio/VectorMath.cpp
    if ((source_stride == 1) && (dest_stride == 1)) {
      float k = *scale;
  
-@@ -364,7 +364,7 @@ void Vsmul(const float* source_p,
+@@ -365,7 +365,7 @@ void Vsmul(const float* source_p,
        source_p += source_stride;
        dest_p += dest_stride;
      }
@@ -269,7 +269,7 @@ Index: dev/third_party/WebKit/Source/platform/audio/VectorMath.cpp
    }
  #endif
  }
-@@ -378,7 +378,7 @@ void Vadd(const float* source1p,
+@@ -379,7 +379,7 @@ void Vadd(const float* source1p,
            size_t frames_to_process) {
    int n = frames_to_process;
  
@@ -278,7 +278,7 @@ Index: dev/third_party/WebKit/Source/platform/audio/VectorMath.cpp
    if ((source_stride1 == 1) && (source_stride2 == 1) && (dest_stride == 1)) {
      // If the sourceP address is not 16-byte aligned, the first several frames
      // (at most three) should be processed separately.
-@@ -505,7 +505,7 @@ void Vadd(const float* source1p,
+@@ -506,7 +506,7 @@ void Vadd(const float* source1p,
        source2p += source_stride2;
        dest_p += dest_stride;
      }
@@ -287,7 +287,7 @@ Index: dev/third_party/WebKit/Source/platform/audio/VectorMath.cpp
    }
  #endif
  }
-@@ -519,7 +519,7 @@ void Vmul(const float* source1p,
+@@ -520,7 +520,7 @@ void Vmul(const float* source1p,
            size_t frames_to_process) {
    int n = frames_to_process;
  
@@ -296,7 +296,7 @@ Index: dev/third_party/WebKit/Source/platform/audio/VectorMath.cpp
    if ((source_stride1 == 1) && (source_stride2 == 1) && (dest_stride == 1)) {
      // If the source1P address is not 16-byte aligned, the first several frames
      // (at most three) should be processed separately.
-@@ -619,7 +619,7 @@ void Zvmul(const float* real1p,
+@@ -620,7 +620,7 @@ void Zvmul(const float* real1p,
             float* imag_dest_p,
             size_t frames_to_process) {
    unsigned i = 0;
@@ -305,7 +305,7 @@ Index: dev/third_party/WebKit/Source/platform/audio/VectorMath.cpp
    // Only use the SSE optimization in the very common case that all addresses
    // are 16-byte aligned.  Otherwise, fall through to the scalar code below.
    if (!(reinterpret_cast<uintptr_t>(real1p) & 0x0F) &&
-@@ -678,7 +678,7 @@ void Vsvesq(const float* source_p,
+@@ -679,7 +679,7 @@ void Vsvesq(const float* source_p,
    int n = frames_to_process;
    float sum = 0;
  
@@ -314,7 +314,7 @@ Index: dev/third_party/WebKit/Source/platform/audio/VectorMath.cpp
    if (source_stride == 1) {
      // If the sourceP address is not 16-byte aligned, the first several frames
      // (at most three) should be processed separately.
-@@ -747,7 +747,7 @@ void Vmaxmgv(const float* source_p,
+@@ -748,7 +748,7 @@ void Vmaxmgv(const float* source_p,
    int n = frames_to_process;
    float max = 0;
  
