@@ -21,7 +21,7 @@ flash-redirection
 notifications-nicer
 disable-sse2
 #gyp-icu-m32-test
-enable_vaapi_on_linux.diff
+#enable_vaapi_on_linux.diff
 fix_building_widevinecdm_with_chromium.patch
 widevine-other-locations
 specify-max-resolution.patch
@@ -45,3 +45,4 @@ specify-gcc-standard.patch
 fix-wayland-build.patch
 fix-skia-arm64.patch
 fix-gn-build.patch
+enable_vaapi_on_linux_2.diff
