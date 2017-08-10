@@ -1,3 +1,10 @@
+chromium-browser (62.0.3178.0-0ubuntu1~ppa3~16.04.1) xenial; urgency=low
+
+  * Enable VAAPI.
+  * Fix GN files.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 10 Aug 2017 10:55:47 -0400
+
 chromium-browser (62.0.3178.0-0ubuntu1~ppa2~16.04.1) xenial; urgency=low
 
   * Fix GN build.

@@ -539,7 +539,7 @@ Index: dev/content/gpu/BUILD.gn
      deps += [ "//gpu/vulkan" ]
    }
 +
-+  if (is_desktop_linux) {
++  if (is_desktop_linux && use_vaapi) {
 +    public_configs = [ "//media/gpu:libva_config" ]
 +  }
  }
