@@ -55,49 +55,50 @@ Index: dev/components/search_engines/template_url_prepopulate_data.cc
 @@ -50,7 +50,7 @@ namespace {
  
  // Default (for countries with no better engine set)
- const PrepopulatedEngine* engines_default[] =
--    { &google, &bing, &yahoo, };
-+    { &google, &bing, &yahoo, &duckduckgo, };
+ const PrepopulatedEngine* const engines_default[] = {
+-    &google, &bing, &yahoo,
++    &google, &bing, &yahoo, &duckduckgo,
+ };
  
  // United Arab Emirates
- const PrepopulatedEngine* engines_AE[] =
-@@ -142,7 +142,7 @@ const PrepopulatedEngine* engines_CZ[] =
+@@ -165,7 +165,7 @@ const PrepopulatedEngine* const engines_
  
  // Germany
- const PrepopulatedEngine* engines_DE[] =
--    { &google, &bing, &yahoo_de };
-+    { &google, &bing, &yahoo_de, &duckduckgo, };
+ const PrepopulatedEngine* const engines_DE[] = {
+-    &google, &bing, &yahoo_de,
++    &google, &bing, &yahoo_de, &duckduckgo,
+ };
  
  // Denmark
- const PrepopulatedEngine* engines_DK[] =
-@@ -182,11 +182,11 @@ const PrepopulatedEngine* engines_FI[] =
+@@ -215,12 +215,12 @@ const PrepopulatedEngine* const engines_
  
  // France
- const PrepopulatedEngine* engines_FR[] =
--    { &google, &bing, &yahoo_fr, };
-+    { &google, &bing, &yahoo_fr, &duckduckgo, };
+ const PrepopulatedEngine* const engines_FR[] = {
+-    &google, &bing, &yahoo_fr,
++    &google, &bing, &yahoo_fr, &duckduckgo,
+ };
  
  // United Kingdom
- const PrepopulatedEngine* engines_GB[] =
--    { &google, &bing, &yahoo_uk, &ask_uk, };
-+    { &google, &bing, &yahoo_uk, &ask_uk, &duckduckgo, };
+ const PrepopulatedEngine* const engines_GB[] = {
+-    &google, &bing, &yahoo_uk, &ask_uk,
++    &google, &bing, &yahoo_uk, &ask_uk, &duckduckgo,
+ };
  
  // Greece
- const PrepopulatedEngine* engines_GR[] =
-@@ -454,7 +454,7 @@ const PrepopulatedEngine* engines_UA[] =
+@@ -555,7 +555,7 @@ const PrepopulatedEngine* const engines_
  
  // United States
- const PrepopulatedEngine* engines_US[] =
--    { &google, &bing, &yahoo, &aol, &ask, };
-+    { &google, &bing, &yahoo, &aol, &ask, &duckduckgo, };
+ const PrepopulatedEngine* const engines_US[] = {
+-    &google, &bing, &yahoo, &aol, &ask,
++    &google, &bing, &yahoo, &aol, &ask, &duckduckgo,
+ };
  
  // Uruguay
- const PrepopulatedEngine* engines_UY[] =
-@@ -485,6 +485,7 @@ const PrepopulatedEngine* kAllEngines[]
-   // Prepopulated engines:
-   &aol,          &ask,          &ask_br,       &ask_uk,       &baidu,
-   &bing,         &daum,         &google,       &kvasir,       &mail_ru,
-+  &duckduckgo,
-   &najdi,        &naver,        &onet,         &seznam,       &sogou,
-   &vinden,       &virgilio,     &yahoo,        &yahoo_ar,     &yahoo_at,
-   &yahoo_au,     &yahoo_br,     &yahoo_ca,     &yahoo_ch,     &yahoo_cl,
+@@ -592,6 +592,7 @@ const PrepopulatedEngine* const engines_
+ const PrepopulatedEngine* const kAllEngines[] = {
+     // Prepopulated engines:
+     &aol, &ask, &ask_br, &ask_uk, &baidu, &bing, &daum, &google, &kvasir,
++    &duckduckgo,
+     &mail_ru, &najdi, &naver, &onet, &seznam, &sogou, &vinden, &virgilio,
+     &yahoo, &yahoo_ar, &yahoo_at, &yahoo_au, &yahoo_br, &yahoo_ca, &yahoo_ch,
+     &yahoo_cl, &yahoo_co, &yahoo_de, &yahoo_dk, &yahoo_es, &yahoo_fi, &yahoo_fr,

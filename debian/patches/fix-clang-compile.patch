@@ -27,7 +27,7 @@ Index: dev/extensions/common/permissions/extensions_api_permissions.cc
 ===================================================================
 --- dev.orig/extensions/common/permissions/extensions_api_permissions.cc
 +++ dev/extensions/common/permissions/extensions_api_permissions.cc
-@@ -27,6 +27,8 @@ APIPermission* CreateAPIPermission(const
+@@ -28,6 +28,8 @@ APIPermission* CreateAPIPermission(const
  
  }  // namespace
  

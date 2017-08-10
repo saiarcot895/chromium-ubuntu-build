@@ -3,7 +3,7 @@ Index: dev/chrome/common/chrome_paths.cc
 --- dev.orig/chrome/common/chrome_paths.cc
 +++ dev/chrome/common/chrome_paths.cc
 @@ -378,6 +378,14 @@ bool PathProvider(int key, base::FilePat
- #if defined(WIDEVINE_CDM_AVAILABLE) && BUILDFLAG(ENABLE_PEPPER_CDMS)
+ #if defined(WIDEVINE_CDM_AVAILABLE) && BUILDFLAG(ENABLE_LIBRARY_CDMS)
  #if defined(WIDEVINE_CDM_IS_COMPONENT)
      case chrome::DIR_COMPONENT_WIDEVINE_CDM:
 +      if (base::PathExists(base::FilePath("/opt/google/chrome-unstable/libwidevinecdm.so"))) {

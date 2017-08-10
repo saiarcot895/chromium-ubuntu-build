@@ -375,7 +375,7 @@ Index: dev/third_party/WebKit/Source/platform/graphics/gpu/WebGLImageConversion.
 +#if defined(ARCH_CPU_X86_64)
    SIMD::PackOneRowOfRGBA8LittleToR8(source, destination, pixels_per_row);
  #endif
- #if HAVE(MIPS_MSA_INTRINSICS)
+ #if HAVE_MIPS_MSA_INTRINSICS
 @@ -774,7 +774,7 @@ void Pack<WebGLImageConversion::kDataFor
            uint8_t>(const uint8_t* source,
                     uint8_t* destination,
@@ -384,7 +384,7 @@ Index: dev/third_party/WebKit/Source/platform/graphics/gpu/WebGLImageConversion.
 +#if defined(ARCH_CPU_X86_64)
    SIMD::PackOneRowOfRGBA8LittleToRA8(source, destination, pixels_per_row);
  #endif
- #if HAVE(MIPS_MSA_INTRINSICS)
+ #if HAVE_MIPS_MSA_INTRINSICS
 @@ -886,7 +886,7 @@ void Pack<WebGLImageConversion::kDataFor
            uint8_t>(const uint8_t* source,
                     uint8_t* destination,
@@ -393,7 +393,7 @@ Index: dev/third_party/WebKit/Source/platform/graphics/gpu/WebGLImageConversion.
 +#if defined(ARCH_CPU_X86_64)
    SIMD::PackOneRowOfRGBA8LittleToRGBA8(source, destination, pixels_per_row);
  #endif
- #if HAVE(MIPS_MSA_INTRINSICS)
+ #if HAVE_MIPS_MSA_INTRINSICS
 Index: dev/third_party/WebKit/Source/modules/webaudio/AudioParamTimeline.cpp
 ===================================================================
 --- dev.orig/third_party/WebKit/Source/modules/webaudio/AudioParamTimeline.cpp

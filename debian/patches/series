@@ -5,7 +5,7 @@ search-credit.patch
 chromium_useragent.patch
 chromedriver_revision.patch
 configuration-directory.patch
-arm.patch
+#arm.patch
 arm-neon.patch
 #ffmpeg-gyp-config.patch
 additional-search-engines.patch

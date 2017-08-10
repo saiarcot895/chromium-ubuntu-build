@@ -9,9 +9,9 @@ Index: dev/media/gpu/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi_wrapper.cc
-@@ -7,6 +7,10 @@
- #include <dlfcn.h>
- #include <string.h>
+@@ -9,6 +9,10 @@
+ 
+ #include <va/va.h>
  
 +#include <string>
 +#include <fstream>
@@ -20,7 +20,7 @@ Index: dev/media/gpu/vaapi_wrapper.cc
  #include "base/bind.h"
  #include "base/callback_helpers.h"
  #include "base/logging.h"
-@@ -441,6 +445,20 @@ bool VaapiWrapper::AreAttribsSupported_L
+@@ -443,6 +447,20 @@ bool VaapiWrapper::AreAttribsSupported_L
    return true;
  }
  
@@ -41,7 +41,7 @@ Index: dev/media/gpu/vaapi_wrapper.cc
  bool VaapiWrapper::GetMaxResolution_Locked(
      VAProfile va_profile,
      VAEntrypoint entrypoint,
-@@ -459,7 +477,11 @@ bool VaapiWrapper::GetMaxResolution_Lock
+@@ -461,7 +479,11 @@ bool VaapiWrapper::GetMaxResolution_Lock
    unsigned int num_attribs;
    va_res = vaQuerySurfaceAttributes(va_display_, va_config_id, nullptr,
                                      &num_attribs);
@@ -54,7 +54,7 @@ Index: dev/media/gpu/vaapi_wrapper.cc
    if (!num_attribs)
      return false;
  
-@@ -468,7 +490,11 @@ bool VaapiWrapper::GetMaxResolution_Lock
+@@ -470,7 +492,11 @@ bool VaapiWrapper::GetMaxResolution_Lock
  
    va_res = vaQuerySurfaceAttributes(va_display_, va_config_id, &attrib_list[0],
                                      &num_attribs);
@@ -67,7 +67,7 @@ Index: dev/media/gpu/vaapi_wrapper.cc
  
    resolution->SetSize(0, 0);
    for (const auto& attrib : attrib_list) {
-@@ -478,9 +504,7 @@ bool VaapiWrapper::GetMaxResolution_Lock
+@@ -480,9 +506,7 @@ bool VaapiWrapper::GetMaxResolution_Lock
        resolution->set_height(attrib.value.value.i);
    }
    if (resolution->IsEmpty()) {
@@ -78,7 +78,7 @@ Index: dev/media/gpu/vaapi_wrapper.cc
    }
    return true;
  }
-@@ -1100,6 +1124,39 @@ void VaapiWrapper::DeinitializeVpp() {
+@@ -1102,6 +1126,39 @@ void VaapiWrapper::DeinitializeVpp() {
  
  // static
  void VaapiWrapper::PreSandboxInitialization() {
