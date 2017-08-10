@@ -1,3 +1,9 @@
+chromium-browser (62.0.3178.0-0ubuntu1~ppa2~16.10.1) yakkety; urgency=low
+
+  * Fix GN build.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 10 Aug 2017 02:02:54 -0400
+
 chromium-browser (62.0.3178.0-0ubuntu1~ppa1~16.10.1) yakkety; urgency=low
 
   * New upstream version 62.0.3178.0
