@@ -44,6 +44,7 @@ Build-Depends: debhelper (>= 9),
 		libffi-dev,
 		libxkbcommon-dev,
 		libegl1-mesa-dev,
+		libva-dev,
 		chrpath
 Standards-Version: 3.9.5
 

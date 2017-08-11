@@ -1,10 +1,10 @@
 Description: Upstream doesn't use gcc. The gcc in Trusty- doesn't have stdatomic.h
   See https://bugs.launchpad.net/oxide/+bug/1668614
 
-Index: dev/third_party/ffmpeg/libavutil/cpu.c
+Index: beta/third_party/ffmpeg/libavutil/cpu.c
 ===================================================================
---- dev.orig/third_party/ffmpeg/libavutil/cpu.c
-+++ dev/third_party/ffmpeg/libavutil/cpu.c
+--- beta.orig/third_party/ffmpeg/libavutil/cpu.c
++++ beta/third_party/ffmpeg/libavutil/cpu.c
 @@ -17,7 +17,12 @@
   */
  

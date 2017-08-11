@@ -1,7 +1,7 @@
-Index: dev/ui/base/resource/data_pack.cc
+Index: beta/ui/base/resource/data_pack.cc
 ===================================================================
---- dev.orig/ui/base/resource/data_pack.cc
-+++ dev/ui/base/resource/data_pack.cc
+--- beta.orig/ui/base/resource/data_pack.cc
++++ beta/ui/base/resource/data_pack.cc
 @@ -237,9 +237,11 @@ bool DataPack::LoadImpl(std::unique_ptr<
    // 2) Verify the entries are within the appropriate bounds. There's an extra
    // entry after the last item which gives us the length of the last item.

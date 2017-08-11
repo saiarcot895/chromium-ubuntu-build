@@ -1,5 +1,12 @@
 chromium-browser (61.0.3163.25-0ubuntu1~ppa1~14.04.1) trusty; urgency=low
 
+  * New upstream version 61.0.3163.25
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 11 Aug 2017 18:31:08 -0400
+
+chromium-browser (61.0.3163.25-0ubuntu1~ppa1~14.04.1) trusty; urgency=low
+
   * Change VAAPI patch used to the one that is expected to be merged in
     soon.
   * New upstream version 61.0.3163.25
