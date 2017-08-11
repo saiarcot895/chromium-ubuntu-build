@@ -526,7 +526,15 @@ Index: dev/content/gpu/BUILD.gn
 ===================================================================
 --- dev.orig/content/gpu/BUILD.gn
 +++ dev/content/gpu/BUILD.gn
-@@ -45,7 +45,6 @@ target(link_target_type, "gpu_sources")
+@@ -5,6 +5,7 @@
+ import("//build/config/ui.gni")
+ import("//gpu/vulkan/features.gni")
+ import("//media/media_options.gni")
++import("//media/gpu/args.gni")
+ import("//ui/ozone/ozone.gni")
+ 
+ # See //content/BUILD.gn for how this works.
+@@ -45,7 +46,6 @@ target(link_target_type, "gpu_sources")
    ]
  
    configs += [ "//content:content_implementation" ]
@@ -534,7 +542,7 @@ Index: dev/content/gpu/BUILD.gn
    deps = [
      "//base",
      "//base/third_party/dynamic_annotations",
-@@ -114,4 +113,8 @@ target(link_target_type, "gpu_sources")
+@@ -114,4 +114,8 @@ target(link_target_type, "gpu_sources")
    if (enable_vulkan) {
      deps += [ "//gpu/vulkan" ]
    }
