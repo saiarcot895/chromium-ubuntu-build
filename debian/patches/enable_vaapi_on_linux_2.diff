@@ -770,7 +770,7 @@ Index: dev/media/filters/BUILD.gn
    }
  
 -  if (current_cpu != "arm" && is_chromeos) {
-+  if (current_cpu != "arm" && (is_chromeos || is_desktop_linux)) {
++  if (use_vaapi) {
      sources += [
        "h264_bitstream_buffer.cc",
        "h264_bitstream_buffer.h",
@@ -782,7 +782,7 @@ Index: dev/media/gpu/BUILD.gn
    import("//build/config/mac/mac_sdk.gni")
  }
  
-+if (is_desktop_linux && use_vaapi) {
++if (use_vaapi) {
 +  import("//build/config/linux/pkg_config.gni")
 +
 +  pkg_config("libva_config") {
@@ -806,7 +806,7 @@ Index: dev/media/gpu/BUILD.gn
          "vaapi_drm_picture.h",
        ]
      }
-+    if (is_desktop_linux) {
++    if (use_vaapi) {
 +      public_configs = [ ":libva_config" ]
 +    }
    }

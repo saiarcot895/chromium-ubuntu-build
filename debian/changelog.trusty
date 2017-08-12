@@ -1,3 +1,10 @@
+chromium-browser (62.0.3178.0-0ubuntu1~ppa6~14.04.1) trusty; urgency=low
+
+  * Fix BUILD.GN files
+  * Compile only with C++11.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 11 Aug 2017 23:37:21 -0400
+
 chromium-browser (62.0.3178.0-0ubuntu1~ppa5~14.04.1) trusty; urgency=low
 
   * Quick-fix a BUILD.gn file.

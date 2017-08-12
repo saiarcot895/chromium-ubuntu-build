@@ -99,6 +99,9 @@ GN_DEFINES += use_vulcanize=false
 # Enable VAAPI
 GN_DEFINES += use_vaapi=true
 
+# Use C++11 only
+GN_DEFINES += use_cxx11=true
+
 # use gtk3
 # GN_DEFINES += use_gtk3=true
 # FFMPEG_MT_GN_DEFINES += use_gtk3=true
