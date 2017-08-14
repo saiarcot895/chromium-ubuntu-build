@@ -765,7 +765,15 @@ Index: dev/media/filters/BUILD.gn
 ===================================================================
 --- dev.orig/media/filters/BUILD.gn
 +++ dev/media/filters/BUILD.gn
-@@ -195,7 +195,7 @@ source_set("filters") {
+@@ -3,6 +3,7 @@
+ # found in the LICENSE file.
+ 
+ import("//media/media_options.gni")
++import("//media/gpu/args.gni")
+ 
+ source_set("filters") {
+   visibility = [ "//media/*" ]
+@@ -195,7 +196,7 @@ source_set("filters") {
      ]
    }
  
@@ -778,11 +786,10 @@ Index: dev/media/gpu/BUILD.gn
 ===================================================================
 --- dev.orig/media/gpu/BUILD.gn
 +++ dev/media/gpu/BUILD.gn
-@@ -22,6 +22,14 @@ if (is_mac) {
-   import("//build/config/mac/mac_sdk.gni")
+@@ -23,6 +23,14 @@ if (is_mac) {
  }
  
-+if (use_vaapi) {
+ if (use_vaapi) {
 +  import("//build/config/linux/pkg_config.gni")
 +
 +  pkg_config("libva_config") {
@@ -790,9 +797,10 @@ Index: dev/media/gpu/BUILD.gn
 +  }
 +}
 +
- if (use_vaapi) {
++if (use_vaapi) {
    action("libva_generate_stubs") {
      extra_header = "va_stub_header.fragment"
+ 
 @@ -256,7 +264,7 @@ component("gpu") {
      }
    }
