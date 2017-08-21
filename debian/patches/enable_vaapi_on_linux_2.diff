@@ -770,10 +770,11 @@ Index: beta/media/gpu/BUILD.gn
 ===================================================================
 --- beta.orig/media/gpu/BUILD.gn
 +++ beta/media/gpu/BUILD.gn
-@@ -18,6 +18,14 @@ if (is_mac) {
+@@ -18,7 +18,15 @@ if (is_mac) {
    import("//build/config/mac/mac_sdk.gni")
  }
  
+-if (is_chromeos && current_cpu != "arm") {
 +if (is_desktop_linux && use_vaapi) {
 +  import("//build/config/linux/pkg_config.gni")
 +
@@ -782,9 +783,10 @@ Index: beta/media/gpu/BUILD.gn
 +  }
 +}
 +
- if (is_chromeos && current_cpu != "arm") {
++if ((is_chromeos || is_desktop_linux) && current_cpu != "arm") {
    action("libva_generate_stubs") {
      extra_header = "va_stub_header.fragment"
+ 
 @@ -250,7 +258,7 @@ component("gpu") {
      }
    }
