@@ -1,3 +1,10 @@
+chromium-browser (62.0.3188.2-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
+
+  * New upstream version 62.0.3188.2
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 21 Aug 2017 02:32:31 -0400
+
 chromium-browser (62.0.3178.0-0ubuntu1~ppa7~16.04.1) xenial; urgency=low
 
   * Fix BUILD.gn file
