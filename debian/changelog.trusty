@@ -1,3 +1,9 @@
+chromium-browser (61.0.3163.49-0ubuntu1~ppa3~14.04.1) trusty; urgency=low
+
+  * Update debian/rules.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 21 Aug 2017 10:11:46 -0400
+
 chromium-browser (61.0.3163.49-0ubuntu1~ppa2~14.04.1) trusty; urgency=low
 
   * Fix VAAPI patch.
