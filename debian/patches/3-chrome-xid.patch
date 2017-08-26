@@ -157,7 +157,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
  #include "base/command_line.h"
  #include "base/location.h"
  #include "base/memory/ptr_util.h"
-@@ -1668,6 +1670,22 @@ void DesktopWindowTreeHostX11::UpdateMin
+@@ -1671,6 +1673,22 @@ void DesktopWindowTreeHostX11::UpdateMin
    XSetWMNormalHints(xdisplay_, xwindow_, &hints);
  }
  
@@ -210,7 +210,7 @@ Index: dev/ui/views/widget/native_widget_aura.cc
 ===================================================================
 --- dev.orig/ui/views/widget/native_widget_aura.cc
 +++ dev/ui/views/widget/native_widget_aura.cc
-@@ -73,6 +73,8 @@
+@@ -72,6 +72,8 @@
  #include "ui/views/widget/desktop_aura/desktop_window_tree_host.h"
  #endif
  
@@ -219,7 +219,7 @@ Index: dev/ui/views/widget/native_widget_aura.cc
  DECLARE_UI_CLASS_PROPERTY_TYPE(views::internal::NativeWidgetPrivate*)
  
  namespace views {
-@@ -399,6 +401,11 @@ void NativeWidgetAura::CenterWindow(cons
+@@ -398,6 +400,11 @@ void NativeWidgetAura::CenterWindow(cons
    window_->SetBounds(window_bounds);
  }
  
