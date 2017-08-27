@@ -45,3 +45,4 @@ fix-compile-error.patch
 specify-gcc-standard.patch
 fix-wayland-build.patch
 fix-gn-build.patch
+fix-atk-variable.patch

@@ -1,3 +1,9 @@
+chromium-browser (61.0.3163.59-0ubuntu1~ppa2~17.10.1) artful; urgency=low
+
+  * Fix atk variable use.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 27 Aug 2017 11:45:48 -0400
+
 chromium-browser (61.0.3163.59-0ubuntu1~ppa1~17.10.1) artful; urgency=low
 
   * New upstream version 61.0.3163.59

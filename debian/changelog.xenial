@@ -1,3 +1,9 @@
+chromium-browser (61.0.3163.59-0ubuntu1~ppa2~16.04.1) xenial; urgency=low
+
+  * Fix atk variable use.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 27 Aug 2017 11:45:48 -0400
+
 chromium-browser (61.0.3163.59-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
 
   * New upstream version 61.0.3163.59
