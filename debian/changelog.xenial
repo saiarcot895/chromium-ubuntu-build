@@ -1,3 +1,9 @@
+chromium-browser (61.0.3163.59-0ubuntu1~ppa3~16.04.1) xenial; urgency=low
+
+  * Add workaround for VAAPI patch.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 30 Aug 2017 15:05:50 -0400
+
 chromium-browser (61.0.3163.59-0ubuntu1~ppa2~16.04.1) xenial; urgency=low
 
   * Fix atk variable use.
