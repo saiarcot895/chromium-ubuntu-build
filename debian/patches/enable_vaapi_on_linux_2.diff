@@ -786,22 +786,20 @@ Index: dev/media/gpu/BUILD.gn
 ===================================================================
 --- dev.orig/media/gpu/BUILD.gn
 +++ dev/media/gpu/BUILD.gn
-@@ -22,7 +22,14 @@ if (is_mac) {
+@@ -22,6 +22,12 @@ if (is_mac) {
    import("//build/config/mac/mac_sdk.gni")
  }
  
++import("//build/config/linux/pkg_config.gni")
++
 +pkg_config("libva_config") {
 +  packages = [ "libva" ]
 +}
 +
  if (use_vaapi) {
-+  import("//build/config/linux/pkg_config.gni")
-+
-+
    action("libva_generate_stubs") {
      extra_header = "va_stub_header.fragment"
- 
-@@ -256,7 +263,7 @@ component("gpu") {
+@@ -256,7 +262,7 @@ component("gpu") {
      }
    }
  
@@ -810,7 +808,7 @@ Index: dev/media/gpu/BUILD.gn
      sources += [
        "vp8_decoder.cc",
        "vp8_decoder.h",
-@@ -339,6 +346,7 @@ component("gpu") {
+@@ -339,6 +345,7 @@ component("gpu") {
          "vaapi_drm_picture.h",
        ]
      }
@@ -818,7 +816,7 @@ Index: dev/media/gpu/BUILD.gn
    }
  
    if (is_win) {
-@@ -385,7 +393,7 @@ component("gpu") {
+@@ -385,7 +392,7 @@ component("gpu") {
  }
  
  # TODO(watk): Run this on bots. http://crbug.com/461437
@@ -827,7 +825,7 @@ Index: dev/media/gpu/BUILD.gn
    test("video_decode_accelerator_unittest") {
      sources = [
        "video_accelerator_unittest_helpers.h",
-@@ -497,7 +505,7 @@ source_set("android_video_decode_acceler
+@@ -497,7 +504,7 @@ source_set("android_video_decode_acceler
    }
  }
  
@@ -836,7 +834,7 @@ Index: dev/media/gpu/BUILD.gn
    test("video_encode_accelerator_unittest") {
      deps = [
        "//base",
-@@ -528,7 +536,7 @@ if (is_chromeos || is_mac || is_win) {
+@@ -528,7 +535,7 @@ if (is_chromeos || is_mac || is_win) {
    }
  }
  
