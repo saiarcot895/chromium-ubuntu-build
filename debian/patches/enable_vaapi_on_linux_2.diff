@@ -52,7 +52,7 @@ Index: beta/chrome/browser/about_flags.cc
 ===================================================================
 --- beta.orig/chrome/browser/about_flags.cc
 +++ beta/chrome/browser/about_flags.cc
-@@ -1161,12 +1161,14 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1162,12 +1162,14 @@ const FeatureEntry kFeatureEntries[] = {
       flag_descriptions::kUiPartialSwapDescription, kOsAll,
       SINGLE_DISABLE_VALUE_TYPE(switches::kUIDisablePartialSwap)},
  #if BUILDFLAG(ENABLE_WEBRTC)
@@ -67,7 +67,7 @@ Index: beta/chrome/browser/about_flags.cc
      {"enable-webrtc-hw-h264-encoding",
       flag_descriptions::kWebrtcHwH264EncodingName,
       flag_descriptions::kWebrtcHwH264EncodingDescription, kOsAndroid | kOsCrOS,
-@@ -1479,6 +1481,13 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1480,6 +1482,13 @@ const FeatureEntry kFeatureEntries[] = {
       flag_descriptions::kMultideviceDescription, kOsCrOS,
       FEATURE_VALUE_TYPE(features::kMultidevice)},
  #endif  // OS_CHROMEOS
@@ -81,7 +81,7 @@ Index: beta/chrome/browser/about_flags.cc
      {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
-@@ -1486,6 +1495,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1487,6 +1496,7 @@ const FeatureEntry kFeatureEntries[] = {
          kOsMac | kOsWin | kOsCrOS | kOsAndroid,
          SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
@@ -89,7 +89,7 @@ Index: beta/chrome/browser/about_flags.cc
  #if defined(OS_WIN)
      {
          "enable-hdr", flag_descriptions::kEnableHDRName,
-@@ -2132,12 +2142,17 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -2133,12 +2143,17 @@ const FeatureEntry kFeatureEntries[] = {
       FEATURE_VALUE_TYPE(chrome::android::kWebVrAutopresent)},
  #endif  // OS_ANDROID
  #endif  // ENABLE_VR
@@ -178,7 +178,7 @@ Index: beta/chrome/browser/flag_descriptions.cc
  
  const char kWebrtcHwH264EncodingName[] = "WebRTC hardware h264 video encoding";
  const char kWebrtcHwH264EncodingDescription[] =
-@@ -2108,7 +2117,7 @@ const char kAppWindowCyclingDescription[
+@@ -2113,7 +2122,7 @@ const char kAppWindowCyclingDescription[
  
  #endif  // defined(OS_MACOSX)
  
@@ -187,7 +187,7 @@ Index: beta/chrome/browser/flag_descriptions.cc
  
  const char kAcceleratedMjpegDecodeName[] =
      "Hardware-accelerated mjpeg decode for captured frame";
-@@ -2117,7 +2126,7 @@ const char kAcceleratedMjpegDecodeDescri
+@@ -2122,7 +2131,7 @@ const char kAcceleratedMjpegDecodeDescri
      "Enable hardware-accelerated mjpeg decode for captured frame where "
      "available.";
  
