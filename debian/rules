@@ -399,6 +399,9 @@ override_dh_install-indep: build-stamp
 	install --owner=root --mode=0644 --no-target-directory debian/chromium-browser-customization-flash-staleness debian/chromium-browser/etc/chromium-browser/customizations/09-flash-staleness-check
 	find debian/chromium-browser-l10n/$(LIB_DIR)/locales -name en-US.pak -print -delete
 
+override_dh_auto_test:
+	# No tests to run
+
 override_dh_clean:
 	@set -eux
 	rm -rf debian/*-stamp debian/stamp-* debian/tmp-*

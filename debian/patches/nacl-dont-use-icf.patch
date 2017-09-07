@@ -2,7 +2,7 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -407,7 +407,7 @@ config("compiler") {
+@@ -409,7 +409,7 @@ config("compiler") {
      ldflags += [ "-fuse-ld=bfd" ]
    }
  

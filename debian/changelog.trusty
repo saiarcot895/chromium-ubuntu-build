@@ -1,3 +1,10 @@
+chromium-browser (62.0.3202.9-0ubuntu1~ppa1~14.04.1) trusty; urgency=low
+
+  * New upstream version 62.0.3202.9
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 07 Sep 2017 00:27:35 -0400
+
 chromium-browser (62.0.3192.0-0ubuntu1~ppa5~14.04.1) trusty; urgency=low
 
   * Fix VAAPI typo.
