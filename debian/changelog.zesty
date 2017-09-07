@@ -1,3 +1,9 @@
+chromium-browser (62.0.3202.9-0ubuntu1~ppa2~17.04.1) zesty; urgency=low
+
+  * Fix GN bootstrap
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 07 Sep 2017 12:05:13 -0400
+
 chromium-browser (62.0.3202.9-0ubuntu1~ppa1~17.04.1) zesty; urgency=low
 
   * New upstream version 62.0.3202.9

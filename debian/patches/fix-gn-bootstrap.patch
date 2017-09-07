@@ -1,0 +1,28 @@
+Index: dev/tools/gn/bootstrap/bootstrap.py
+===================================================================
+--- dev.orig/tools/gn/bootstrap/bootstrap.py
++++ dev/tools/gn/bootstrap/bootstrap.py
+@@ -458,6 +458,7 @@ def write_gn_ninja(path, root_gen_dir, o
+       'base/metrics/bucket_ranges.cc',
+       'base/metrics/field_trial.cc',
+       'base/metrics/field_trial_param_associator.cc',
++      'base/metrics/field_trial_params.cc',
+       'base/metrics/histogram.cc',
+       'base/metrics/histogram_base.cc',
+       'base/metrics/histogram_functions.cc',
+@@ -507,6 +508,7 @@ def write_gn_ninja(path, root_gen_dir, o
+       'base/task_scheduler/scheduler_lock_impl.cc',
+       'base/task_scheduler/scheduler_single_thread_task_runner_manager.cc',
+       'base/task_scheduler/scheduler_worker.cc',
++      'base/task_scheduler/scheduler_worker_pool.cc',
+       'base/task_scheduler/scheduler_worker_pool_impl.cc',
+       'base/task_scheduler/scheduler_worker_pool_params.cc',
+       'base/task_scheduler/scheduler_worker_stack.cc',
+@@ -523,6 +525,7 @@ def write_gn_ninja(path, root_gen_dir, o
+       'base/third_party/icu/icu_utf.cc',
+       'base/third_party/nspr/prtime.cc',
+       'base/threading/post_task_and_reply_impl.cc',
++      'base/threading/scoped_blocking_call',
+       'base/threading/sequence_local_storage_map.cc',
+       'base/threading/sequenced_task_runner_handle.cc',
+       'base/threading/sequenced_worker_pool.cc',
