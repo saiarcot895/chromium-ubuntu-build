@@ -22,7 +22,23 @@ Index: dev/tools/gn/bootstrap/bootstrap.py
        'base/third_party/icu/icu_utf.cc',
        'base/third_party/nspr/prtime.cc',
        'base/threading/post_task_and_reply_impl.cc',
-+      'base/threading/scoped_blocking_call',
++      'base/threading/scoped_blocking_call.cc',
        'base/threading/sequence_local_storage_map.cc',
        'base/threading/sequenced_task_runner_handle.cc',
        'base/threading/sequenced_worker_pool.cc',
+@@ -579,7 +582,6 @@ def write_gn_ninja(path, root_gen_dir, o
+       'base/unguessable_token.cc',
+       'base/value_iterators.cc',
+       'base/values.cc',
+-      'base/value_iterators.cc',
+       'base/vlog.cc',
+   ])
+ 
+@@ -652,7 +654,6 @@ def write_gn_ninja(path, root_gen_dir, o
+     static_libraries['base']['sources'].extend([
+         'base/memory/shared_memory_handle_posix.cc',
+         'base/memory/shared_memory_posix.cc',
+-        'base/memory/shared_memory_tracker.cc',
+         'base/nix/xdg_util.cc',
+         'base/process/internal_linux.cc',
+         'base/process/memory_linux.cc',
