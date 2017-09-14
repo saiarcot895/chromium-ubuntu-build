@@ -1,3 +1,10 @@
+chromium-browser (63.0.3213.3-0ubuntu1~ppa1~17.10.1) artful; urgency=low
+
+  * New upstream version 63.0.3213.3
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 14 Sep 2017 02:30:57 -0400
+
 chromium-browser (62.0.3202.9-0ubuntu1~ppa3~17.10.1) artful; urgency=low
 
   * Fix GN bootstrap
