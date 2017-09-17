@@ -1,7 +1,7 @@
-Index: dev/build/config/compiler/BUILD.gn
+Index: beta/build/config/compiler/BUILD.gn
 ===================================================================
---- dev.orig/build/config/compiler/BUILD.gn
-+++ dev/build/config/compiler/BUILD.gn
+--- beta.orig/build/config/compiler/BUILD.gn
++++ beta/build/config/compiler/BUILD.gn
 @@ -259,6 +259,10 @@ config("compiler") {
      }
    }

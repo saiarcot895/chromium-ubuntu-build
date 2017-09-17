@@ -1,7 +1,7 @@
-Index: dev/tools/gn/bootstrap/bootstrap.py
+Index: beta/tools/gn/bootstrap/bootstrap.py
 ===================================================================
---- dev.orig/tools/gn/bootstrap/bootstrap.py
-+++ dev/tools/gn/bootstrap/bootstrap.py
+--- beta.orig/tools/gn/bootstrap/bootstrap.py
++++ beta/tools/gn/bootstrap/bootstrap.py
 @@ -458,6 +458,7 @@ def write_gn_ninja(path, root_gen_dir, o
        'base/metrics/bucket_ranges.cc',
        'base/metrics/field_trial.cc',

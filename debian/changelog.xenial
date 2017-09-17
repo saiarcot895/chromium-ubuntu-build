@@ -1,3 +1,10 @@
+chromium-browser (62.0.3202.18-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
+
+  * New upstream version 62.0.3202.18
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 17 Sep 2017 01:32:32 -0400
+
 chromium-browser (62.0.3202.9-0ubuntu1~ppa3~16.04.1) xenial; urgency=low
 
   * Fix GN bootstrap

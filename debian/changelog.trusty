@@ -1,3 +1,10 @@
+chromium-browser (62.0.3202.18-0ubuntu1~ppa1~14.04.1) trusty; urgency=low
+
+  * New upstream version 62.0.3202.18
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 17 Sep 2017 01:32:31 -0400
+
 chromium-browser (62.0.3202.9-0ubuntu1~ppa3~14.04.1) trusty; urgency=low
 
   * Fix GN bootstrap

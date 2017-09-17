@@ -1,7 +1,7 @@
-Index: dev/tools/gn/last_commit_position.py
+Index: beta/tools/gn/last_commit_position.py
 ===================================================================
---- dev.orig/tools/gn/last_commit_position.py
-+++ dev/tools/gn/last_commit_position.py
+--- beta.orig/tools/gn/last_commit_position.py
++++ beta/tools/gn/last_commit_position.py
 @@ -51,25 +51,7 @@ def RunGitCommand(directory, command):
  
  

@@ -1,9 +1,9 @@
 Description: Yakkety and lower workaround for "unaligned opcodes"
 
-Index: dev/third_party/libvpx/BUILD.gn
+Index: beta/third_party/libvpx/BUILD.gn
 ===================================================================
---- dev.orig/third_party/libvpx/BUILD.gn
-+++ dev/third_party/libvpx/BUILD.gn
+--- beta.orig/third_party/libvpx/BUILD.gn
++++ beta/third_party/libvpx/BUILD.gn
 @@ -313,6 +313,8 @@ static_library("libvpx") {
        sources = libvpx_srcs_arm
      }
