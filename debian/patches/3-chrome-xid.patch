@@ -40,7 +40,7 @@ Index: dev/chrome/browser/ui/views/frame/browser_view.cc
 ===================================================================
 --- dev.orig/chrome/browser/ui/views/frame/browser_view.cc
 +++ dev/chrome/browser/ui/views/frame/browser_view.cc
-@@ -613,6 +613,7 @@ void BrowserView::Show() {
+@@ -614,6 +614,7 @@ void BrowserView::Show() {
    force_location_bar_focus_ = false;
  
    browser()->OnWindowDidShow();
@@ -67,7 +67,7 @@ Index: dev/ui/aura/client/aura_constants.cc
 ===================================================================
 --- dev.orig/ui/aura/client/aura_constants.cc
 +++ dev/ui/aura/client/aura_constants.cc
-@@ -73,6 +73,7 @@ DEFINE_OWNED_UI_CLASS_PROPERTY_KEY(gfx::
+@@ -76,6 +76,7 @@ DEFINE_OWNED_UI_CLASS_PROPERTY_KEY(gfx::
  DEFINE_UI_CLASS_PROPERTY_KEY(ui::mojom::WindowType,
                             kWindowTypeKey,
                             ui::mojom::WindowType::UNKNOWN);
@@ -79,7 +79,7 @@ Index: dev/ui/aura/client/aura_constants.h
 ===================================================================
 --- dev.orig/ui/aura/client/aura_constants.h
 +++ dev/ui/aura/client/aura_constants.h
-@@ -150,6 +150,9 @@ AURA_EXPORT extern const WindowProperty<
+@@ -155,6 +155,9 @@ AURA_EXPORT extern const WindowProperty<
  AURA_EXPORT extern const WindowProperty<ui::mojom::WindowType>* const
      kWindowTypeKey;
  
@@ -248,7 +248,7 @@ Index: dev/ui/views/mus/desktop_window_tree_host_mus.cc
 ===================================================================
 --- dev.orig/ui/views/mus/desktop_window_tree_host_mus.cc
 +++ dev/ui/views/mus/desktop_window_tree_host_mus.cc
-@@ -236,6 +236,10 @@ DesktopWindowTreeHostMus::~DesktopWindow
+@@ -234,6 +234,10 @@ DesktopWindowTreeHostMus::~DesktopWindow
    desktop_native_widget_aura_->OnDesktopWindowTreeHostDestroyed(this);
  }
  
@@ -263,7 +263,7 @@ Index: dev/ui/views/mus/desktop_window_tree_host_mus.h
 ===================================================================
 --- dev.orig/ui/views/mus/desktop_window_tree_host_mus.h
 +++ dev/ui/views/mus/desktop_window_tree_host_mus.h
-@@ -46,6 +46,8 @@ class VIEWS_MUS_EXPORT DesktopWindowTree
+@@ -44,6 +44,8 @@ class VIEWS_MUS_EXPORT DesktopWindowTree
      auto_update_client_area_ = value;
    }
  

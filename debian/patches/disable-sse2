@@ -28,8 +28,8 @@ Index: dev/media/base/sinc_resampler.cc
 ===================================================================
 --- dev.orig/media/base/sinc_resampler.cc
 +++ dev/media/base/sinc_resampler.cc
-@@ -84,7 +84,7 @@
- #include "base/logging.h"
+@@ -81,7 +81,7 @@
+ #include "base/numerics/math_constants.h"
  #include "build/build_config.h"
  
 -#if defined(ARCH_CPU_X86_FAMILY)
@@ -37,7 +37,7 @@ Index: dev/media/base/sinc_resampler.cc
  #include <xmmintrin.h>
  #define CONVOLVE_FUNC Convolve_SSE
  #elif defined(ARCH_CPU_ARM_FAMILY) && defined(USE_NEON)
-@@ -328,7 +328,7 @@ float SincResampler::Convolve_C(const fl
+@@ -326,7 +326,7 @@ float SincResampler::Convolve_C(const fl
        kernel_interpolation_factor * sum2);
  }
  
@@ -76,7 +76,7 @@ Index: dev/media/base/sinc_resampler_unittest.cc
 ===================================================================
 --- dev.orig/media/base/sinc_resampler_unittest.cc
 +++ dev/media/base/sinc_resampler_unittest.cc
-@@ -153,7 +153,7 @@ TEST(SincResamplerTest, DISABLED_SetRati
+@@ -150,7 +150,7 @@ TEST(SincResamplerTest, DISABLED_SetRati
  
  
  // Define platform independent function name for Convolve* tests.
@@ -137,7 +137,7 @@ Index: dev/media/base/vector_math_unittest.cc
 ===================================================================
 --- dev.orig/media/base/vector_math_unittest.cc
 +++ dev/media/base/vector_math_unittest.cc
-@@ -76,7 +76,7 @@ TEST_F(VectorMathTest, FMAC) {
+@@ -73,7 +73,7 @@ TEST_F(VectorMathTest, FMAC) {
      VerifyOutput(kResult);
    }
  
@@ -146,7 +146,7 @@ Index: dev/media/base/vector_math_unittest.cc
    {
      SCOPED_TRACE("FMAC_SSE");
      FillTestVectors(kInputFillValue, kOutputFillValue);
-@@ -117,7 +117,7 @@ TEST_F(VectorMathTest, FMUL) {
+@@ -114,7 +114,7 @@ TEST_F(VectorMathTest, FMUL) {
      VerifyOutput(kResult);
    }
  
@@ -155,7 +155,7 @@ Index: dev/media/base/vector_math_unittest.cc
    {
      SCOPED_TRACE("FMUL_SSE");
      FillTestVectors(kInputFillValue, kOutputFillValue);
-@@ -225,7 +225,7 @@ class EWMATestScenario {
+@@ -222,7 +222,7 @@ class EWMATestScenario {
        EXPECT_NEAR(expected_max_, result.second, 0.0000001f);
      }
  

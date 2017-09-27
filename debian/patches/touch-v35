@@ -6,7 +6,7 @@ Index: dev/ui/events/devices/x11/touch_factory_x11.cc
 ===================================================================
 --- dev.orig/ui/events/devices/x11/touch_factory_x11.cc
 +++ dev/ui/events/devices/x11/touch_factory_x11.cc
-@@ -327,8 +327,12 @@ void TouchFactory::CacheTouchscreenIds(i
+@@ -347,8 +347,12 @@ void TouchFactory::CacheTouchscreenIds(i
                       return touchscreen.id == device_id;
                     });
    // Internal displays will have a vid and pid of 0. Ignore them.

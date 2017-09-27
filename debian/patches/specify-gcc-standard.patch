@@ -2,7 +2,7 @@ Index: dev/third_party/angle/src/vulkan_support/BUILD.gn
 ===================================================================
 --- dev.orig/third_party/angle/src/vulkan_support/BUILD.gn
 +++ dev/third_party/angle/src/vulkan_support/BUILD.gn
-@@ -226,6 +226,7 @@ static_library("vulkan_loader") {
+@@ -225,6 +225,7 @@ static_library("vulkan_loader") {
      ":vulkan_loader_config",
    ]
    configs -= vulkan_undefine_configs
