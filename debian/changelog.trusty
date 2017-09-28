@@ -1,3 +1,9 @@
+chromium-browser (63.0.3223.8-0ubuntu1~ppa4~14.04.1) trusty; urgency=low
+
+  * Remove unavailable clang option.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 28 Sep 2017 11:59:10 -0400
+
 chromium-browser (63.0.3223.8-0ubuntu1~ppa3~14.04.1) trusty; urgency=low
 
   * Fix GN bootstrap.
