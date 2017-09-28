@@ -1,0 +1,20 @@
+Index: dev/tools/gn/bootstrap/bootstrap.py
+===================================================================
+--- dev.orig/tools/gn/bootstrap/bootstrap.py
++++ dev/tools/gn/bootstrap/bootstrap.py
+@@ -605,7 +605,6 @@ def write_gn_ninja(path, root_gen_dir, o
+         'base/strings/string16.cc',
+         'base/synchronization/condition_variable_posix.cc',
+         'base/synchronization/lock_impl_posix.cc',
+-        'base/synchronization/read_write_lock_posix.cc',
+         'base/sys_info_posix.cc',
+         'base/task_scheduler/task_tracker_posix.cc',
+         'base/threading/platform_thread_internal_posix.cc',
+@@ -764,7 +763,6 @@ def write_gn_ninja(path, root_gen_dir, o
+         'base/sync_socket_win.cc',
+         'base/synchronization/condition_variable_win.cc',
+         'base/synchronization/lock_impl_win.cc',
+-        'base/synchronization/read_write_lock_win.cc',
+         'base/synchronization/waitable_event_watcher_win.cc',
+         'base/synchronization/waitable_event_win.cc',
+         'base/sys_info_win.cc',
