@@ -45,3 +45,4 @@ specify-gcc-standard.patch
 fix-wayland-build.patch
 fix-gn-bootstrap.patch
 remove-unavailable-clang-option.patch
+fix-build-on-arm64.patch

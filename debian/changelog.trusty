@@ -1,3 +1,9 @@
+chromium-browser (63.0.3223.8-0ubuntu1~ppa6~14.04.1) trusty; urgency=low
+
+  * Fix build on arm64.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 29 Sep 2017 12:15:04 -0400
+
 chromium-browser (63.0.3223.8-0ubuntu1~ppa5~14.04.1) trusty; urgency=low
 
   * Change use_vulcanize -> optimize_webui.

@@ -1,3 +1,9 @@
+chromium-browser (63.0.3223.8-0ubuntu1~ppa6~17.10.1) artful; urgency=low
+
+  * Fix build on arm64.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 29 Sep 2017 12:15:05 -0400
+
 chromium-browser (63.0.3223.8-0ubuntu1~ppa5~17.10.1) artful; urgency=low
 
   * Change use_vulcanize -> optimize_webui.
