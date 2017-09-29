@@ -94,7 +94,7 @@ GN_DEFINES += fieldtrial_testing_like_official_build=true
 FFMPEG_MT_GN_DEFINES += fieldtrial_testing_like_official_build=true
 
 # don't vulcanize; we don't have the node.js modules needed readily available
-GN_DEFINES += use_vulcanize=false
+GN_DEFINES += optimize_webui=false
 
 # Enable VAAPI
 GN_DEFINES += use_vaapi=true
