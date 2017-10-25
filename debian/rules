@@ -326,7 +326,7 @@ override_dh_shlibdeps:
 	dh_shlibdeps -l$(CURDIR)/debian/chromium-browser/usr/lib/chromium-browser/ |grep -v "dpkg-shlibdeps: warning: can't extract name and version from library name" || true
 
 override_dh_install-arch: PKG_DIRS := $(addprefix debian/,$(shell dh_listpackages))
-override_dh_install-arch: TRASH := .deps gen obj.host obj.target \*.lock obj build.\* .landmines mksnapshot.ia32 mksnapshot protoc pyproto re2c resources xdg-mime xdg-settings yasm \*.TOC \*.stamp product_logo_\*png gen\* libvpx_obj_int_extract libwidevinecdm.so libwidevinecdmadapter.so .ninja\* \*.ninja args.gn chrome-wrapper \*.breakpad.\* java_mojo dump_syms \*.cmd \*.debug \*.debug.raw character_data_generator flatc WidevineCdm Packages mkpeephole \*.service
+override_dh_install-arch: TRASH := .deps gen obj.host obj.target \*.lock obj build.\* .landmines mksnapshot.ia32 mksnapshot protoc pyproto re2c resources xdg-mime xdg-settings yasm \*.TOC \*.stamp product_logo_\*png gen\* libvpx_obj_int_extract libwidevinecdm.so libwidevinecdmadapter.so .ninja\* \*.ninja args.gn chrome-wrapper \*.breakpad.\* java_mojo dump_syms \*.cmd \*.debug \*.debug.raw character_data_generator flatc WidevineCdm Packages mkpeephole \*.service brotli proto_zero_plugin transport_security_state_generator
 override_dh_install-arch: build-stamp build-stamp-ffmpeg-std build-stamp-ffmpeg-extra
 	@set -eux
 	# Two stages: Install out of source tree. Copy to packaging.

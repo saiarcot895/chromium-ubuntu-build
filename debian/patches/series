@@ -29,7 +29,7 @@ nacl-loosen-fd-check.patch
 tcmalloc-add-support-for-arm64.patch
 gn-dont-use-git.patch
 gn-fix-for-i386-build.patch
-clang-change-path.patch
+use-clang-versioned.patch
 gn-fix-for-optional-neon.patch
 gn-nacl-use-gcc-toolchain.patch
 nacl-dont-use-icf.patch
@@ -46,3 +46,4 @@ fix-wayland-build.patch
 fix-gn-bootstrap.patch
 remove-unavailable-clang-option.patch
 fix-build-on-arm64.patch
+enable-chromecast-by-default.patch

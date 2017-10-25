@@ -336,11 +336,19 @@ Index: dev/third_party/WebKit/Source/platform/graphics/cpu/x86/WebGLImageConvers
  #include <emmintrin.h>
  
  namespace blink {
+@@ -195,6 +195,6 @@ ALWAYS_INLINE void PackOneRowOfRGBA8Litt
+ }  // namespace SIMD
+ }  // namespace blink
+ 
+-#endif  // ARCH_CPU_X86_FAMILY
++#endif  // ARCH_CPU_X86_64
+ 
+ #endif  // WebGLImageConversionSSE_h
 Index: dev/third_party/WebKit/Source/platform/graphics/gpu/WebGLImageConversion.cpp
 ===================================================================
 --- dev.orig/third_party/WebKit/Source/platform/graphics/gpu/WebGLImageConversion.cpp
 +++ dev/third_party/WebKit/Source/platform/graphics/gpu/WebGLImageConversion.cpp
-@@ -443,7 +443,7 @@ void Unpack<WebGLImageConversion::kDataF
+@@ -444,7 +444,7 @@ void Unpack<WebGLImageConversion::kDataF
    const uint32_t* source32 = reinterpret_cast_ptr<const uint32_t*>(source);
    uint32_t* destination32 = reinterpret_cast_ptr<uint32_t*>(destination);
  
@@ -349,7 +357,7 @@ Index: dev/third_party/WebKit/Source/platform/graphics/gpu/WebGLImageConversion.
    SIMD::UnpackOneRowOfBGRA8LittleToRGBA8(source32, destination32,
                                           pixels_per_row);
  #endif
-@@ -471,7 +471,7 @@ void Unpack<WebGLImageConversion::kDataF
+@@ -472,7 +472,7 @@ void Unpack<WebGLImageConversion::kDataF
      const uint16_t* source,
      uint8_t* destination,
      unsigned pixels_per_row) {
@@ -358,7 +366,7 @@ Index: dev/third_party/WebKit/Source/platform/graphics/gpu/WebGLImageConversion.
    SIMD::UnpackOneRowOfRGBA5551LittleToRGBA8(source, destination,
                                              pixels_per_row);
  #endif
-@@ -501,7 +501,7 @@ void Unpack<WebGLImageConversion::kDataF
+@@ -502,7 +502,7 @@ void Unpack<WebGLImageConversion::kDataF
      const uint16_t* source,
      uint8_t* destination,
      unsigned pixels_per_row) {
@@ -367,7 +375,7 @@ Index: dev/third_party/WebKit/Source/platform/graphics/gpu/WebGLImageConversion.
    SIMD::UnpackOneRowOfRGBA4444LittleToRGBA8(source, destination,
                                              pixels_per_row);
  #endif
-@@ -717,7 +717,7 @@ void Pack<WebGLImageConversion::kDataFor
+@@ -718,7 +718,7 @@ void Pack<WebGLImageConversion::kDataFor
            uint8_t>(const uint8_t* source,
                     uint8_t* destination,
                     unsigned pixels_per_row) {
@@ -376,7 +384,7 @@ Index: dev/third_party/WebKit/Source/platform/graphics/gpu/WebGLImageConversion.
    SIMD::PackOneRowOfRGBA8LittleToR8(source, destination, pixels_per_row);
  #endif
  #if HAVE_MIPS_MSA_INTRINSICS
-@@ -774,7 +774,7 @@ void Pack<WebGLImageConversion::kDataFor
+@@ -775,7 +775,7 @@ void Pack<WebGLImageConversion::kDataFor
            uint8_t>(const uint8_t* source,
                     uint8_t* destination,
                     unsigned pixels_per_row) {
@@ -385,7 +393,7 @@ Index: dev/third_party/WebKit/Source/platform/graphics/gpu/WebGLImageConversion.
    SIMD::PackOneRowOfRGBA8LittleToRA8(source, destination, pixels_per_row);
  #endif
  #if HAVE_MIPS_MSA_INTRINSICS
-@@ -886,7 +886,7 @@ void Pack<WebGLImageConversion::kDataFor
+@@ -887,7 +887,7 @@ void Pack<WebGLImageConversion::kDataFor
            uint8_t>(const uint8_t* source,
                     uint8_t* destination,
                     unsigned pixels_per_row) {
@@ -407,7 +415,7 @@ Index: dev/third_party/WebKit/Source/modules/webaudio/AudioParamTimeline.cpp
  #include <emmintrin.h>
  #endif
  
-@@ -1290,7 +1290,7 @@ std::tuple<size_t, float, unsigned> Audi
+@@ -1291,7 +1291,7 @@ std::tuple<size_t, float, unsigned> Audi
      size_t current_frame,
      float value,
      unsigned write_index) {
@@ -416,7 +424,7 @@ Index: dev/third_party/WebKit/Source/modules/webaudio/AudioParamTimeline.cpp
    auto number_of_values = current_state.number_of_values;
  #endif
    auto fill_to_frame = current_state.fill_to_frame;
-@@ -1303,7 +1303,7 @@ std::tuple<size_t, float, unsigned> Audi
+@@ -1304,7 +1304,7 @@ std::tuple<size_t, float, unsigned> Audi
    double delta_time = time2 - time1;
    float k = delta_time > 0 ? 1 / delta_time : 0;
    const float value_delta = value2 - value1;
@@ -425,7 +433,7 @@ Index: dev/third_party/WebKit/Source/modules/webaudio/AudioParamTimeline.cpp
    if (fill_to_frame > write_index) {
      // Minimize in-loop operations. Calculate starting value and increment.
      // Next step: value += inc.
-@@ -1431,7 +1431,7 @@ std::tuple<size_t, float, unsigned> Audi
+@@ -1432,7 +1432,7 @@ std::tuple<size_t, float, unsigned> Audi
      size_t current_frame,
      float value,
      unsigned write_index) {
@@ -434,7 +442,7 @@ Index: dev/third_party/WebKit/Source/modules/webaudio/AudioParamTimeline.cpp
    auto number_of_values = current_state.number_of_values;
  #endif
    auto fill_to_frame = current_state.fill_to_frame;
-@@ -1482,7 +1482,7 @@ std::tuple<size_t, float, unsigned> Audi
+@@ -1483,7 +1483,7 @@ std::tuple<size_t, float, unsigned> Audi
      for (; write_index < fill_to_frame; ++write_index)
        values[write_index] = target;
    } else {
@@ -443,7 +451,7 @@ Index: dev/third_party/WebKit/Source/modules/webaudio/AudioParamTimeline.cpp
      if (fill_to_frame > write_index) {
        // Resolve recursion by expanding constants to achieve a 4-step
        // loop unrolling.
-@@ -1616,7 +1616,7 @@ std::tuple<size_t, float, unsigned> Audi
+@@ -1617,7 +1617,7 @@ std::tuple<size_t, float, unsigned> Audi
    // Oversampled curve data can be provided if sharp discontinuities are
    // desired.
    unsigned k = 0;
