@@ -2,10 +2,10 @@ description: don't set sse2 compiler flags on i386
 author: Michael Gilbert <mgilbert@debian.org>
 debian-bug: http://bugs.debian.org/750361
 
-Index: dev/cc/raster/texture_compressor.cc
+Index: beta/cc/raster/texture_compressor.cc
 ===================================================================
---- dev.orig/cc/raster/texture_compressor.cc
-+++ dev/cc/raster/texture_compressor.cc
+--- beta.orig/cc/raster/texture_compressor.cc
++++ beta/cc/raster/texture_compressor.cc
 @@ -8,7 +8,7 @@
  #include "base/memory/ptr_util.h"
  #include "cc/raster/texture_compressor_etc1.h"
@@ -24,10 +24,10 @@ Index: dev/cc/raster/texture_compressor.cc
        base::CPU cpu;
        if (cpu.has_sse2()) {
          return base::WrapUnique(new TextureCompressorETC1SSE());
-Index: dev/media/base/sinc_resampler.cc
+Index: beta/media/base/sinc_resampler.cc
 ===================================================================
---- dev.orig/media/base/sinc_resampler.cc
-+++ dev/media/base/sinc_resampler.cc
+--- beta.orig/media/base/sinc_resampler.cc
++++ beta/media/base/sinc_resampler.cc
 @@ -81,7 +81,7 @@
  #include "base/numerics/math_constants.h"
  #include "build/build_config.h"
@@ -46,10 +46,10 @@ Index: dev/media/base/sinc_resampler.cc
  float SincResampler::Convolve_SSE(const float* input_ptr, const float* k1,
                                    const float* k2,
                                    double kernel_interpolation_factor) {
-Index: dev/media/base/sinc_resampler.h
+Index: beta/media/base/sinc_resampler.h
 ===================================================================
---- dev.orig/media/base/sinc_resampler.h
-+++ dev/media/base/sinc_resampler.h
+--- beta.orig/media/base/sinc_resampler.h
++++ beta/media/base/sinc_resampler.h
 @@ -96,7 +96,7 @@ class MEDIA_EXPORT SincResampler {
    // ARM, NEON support is chosen at compile time based on compilation flags.
    static float Convolve_C(const float* input_ptr, const float* k1,
@@ -59,10 +59,10 @@ Index: dev/media/base/sinc_resampler.h
    static float Convolve_SSE(const float* input_ptr, const float* k1,
                              const float* k2,
                              double kernel_interpolation_factor);
-Index: dev/media/base/sinc_resampler_perftest.cc
+Index: beta/media/base/sinc_resampler_perftest.cc
 ===================================================================
---- dev.orig/media/base/sinc_resampler_perftest.cc
-+++ dev/media/base/sinc_resampler_perftest.cc
+--- beta.orig/media/base/sinc_resampler_perftest.cc
++++ beta/media/base/sinc_resampler_perftest.cc
 @@ -22,7 +22,7 @@ static const double kKernelInterpolation
  static void DoNothing(int frames, float* destination) {}
  
@@ -72,10 +72,10 @@ Index: dev/media/base/sinc_resampler_perftest.cc
  #define CONVOLVE_FUNC Convolve_SSE
  #elif defined(ARCH_CPU_ARM_FAMILY) && defined(USE_NEON)
  #define CONVOLVE_FUNC Convolve_NEON
-Index: dev/media/base/sinc_resampler_unittest.cc
+Index: beta/media/base/sinc_resampler_unittest.cc
 ===================================================================
---- dev.orig/media/base/sinc_resampler_unittest.cc
-+++ dev/media/base/sinc_resampler_unittest.cc
+--- beta.orig/media/base/sinc_resampler_unittest.cc
++++ beta/media/base/sinc_resampler_unittest.cc
 @@ -150,7 +150,7 @@ TEST(SincResamplerTest, DISABLED_SetRati
  
  
@@ -85,10 +85,10 @@ Index: dev/media/base/sinc_resampler_unittest.cc
  #define CONVOLVE_FUNC Convolve_SSE
  #elif defined(ARCH_CPU_ARM_FAMILY) && defined(USE_NEON)
  #define CONVOLVE_FUNC Convolve_NEON
-Index: dev/media/base/vector_math.cc
+Index: beta/media/base/vector_math.cc
 ===================================================================
---- dev.orig/media/base/vector_math.cc
-+++ dev/media/base/vector_math.cc
+--- beta.orig/media/base/vector_math.cc
++++ beta/media/base/vector_math.cc
 @@ -11,7 +11,7 @@
  #include "build/build_config.h"
  
@@ -107,10 +107,10 @@ Index: dev/media/base/vector_math.cc
  void FMUL_SSE(const float src[], float scale, int len, float dest[]) {
    const int rem = len % 4;
    const int last_index = len - rem;
-Index: dev/media/base/vector_math_perftest.cc
+Index: beta/media/base/vector_math_perftest.cc
 ===================================================================
---- dev.orig/media/base/vector_math_perftest.cc
-+++ dev/media/base/vector_math_perftest.cc
+--- beta.orig/media/base/vector_math_perftest.cc
++++ beta/media/base/vector_math_perftest.cc
 @@ -83,7 +83,7 @@ class VectorMathPerfTest : public testin
  };
  
@@ -120,10 +120,10 @@ Index: dev/media/base/vector_math_perftest.cc
  #define FMAC_FUNC FMAC_SSE
  #define FMUL_FUNC FMUL_SSE
  #define EWMAAndMaxPower_FUNC EWMAAndMaxPower_SSE
-Index: dev/media/base/vector_math_testing.h
+Index: beta/media/base/vector_math_testing.h
 ===================================================================
---- dev.orig/media/base/vector_math_testing.h
-+++ dev/media/base/vector_math_testing.h
+--- beta.orig/media/base/vector_math_testing.h
++++ beta/media/base/vector_math_testing.h
 @@ -28,7 +28,7 @@ MEDIA_SHMEM_EXPORT std::pair<float, floa
      int len,
      float smoothing_factor);
@@ -133,10 +133,10 @@ Index: dev/media/base/vector_math_testing.h
  MEDIA_SHMEM_EXPORT void FMAC_SSE(const float src[],
                                   float scale,
                                   int len,
-Index: dev/media/base/vector_math_unittest.cc
+Index: beta/media/base/vector_math_unittest.cc
 ===================================================================
---- dev.orig/media/base/vector_math_unittest.cc
-+++ dev/media/base/vector_math_unittest.cc
+--- beta.orig/media/base/vector_math_unittest.cc
++++ beta/media/base/vector_math_unittest.cc
 @@ -73,7 +73,7 @@ TEST_F(VectorMathTest, FMAC) {
      VerifyOutput(kResult);
    }
@@ -164,10 +164,10 @@ Index: dev/media/base/vector_math_unittest.cc
      {
        SCOPED_TRACE("EWMAAndMaxPower_SSE");
        const std::pair<float, float>& result = vector_math::EWMAAndMaxPower_SSE(
-Index: dev/skia/ext/convolver.h
+Index: beta/skia/ext/convolver.h
 ===================================================================
---- dev.orig/skia/ext/convolver.h
-+++ dev/skia/ext/convolver.h
+--- beta.orig/skia/ext/convolver.h
++++ beta/skia/ext/convolver.h
 @@ -17,7 +17,6 @@
  // We can build SSE2 optimized versions for all x86 CPUs
  // except when building for the IOS emulator.
@@ -176,10 +176,10 @@ Index: dev/skia/ext/convolver.h
  #define SIMD_PADDING 8  // 8 * int16_t
  #endif
  
-Index: dev/third_party/WebKit/Source/platform/audio/DirectConvolver.cpp
+Index: beta/third_party/WebKit/Source/platform/audio/DirectConvolver.cpp
 ===================================================================
---- dev.orig/third_party/WebKit/Source/platform/audio/DirectConvolver.cpp
-+++ dev/third_party/WebKit/Source/platform/audio/DirectConvolver.cpp
+--- beta.orig/third_party/WebKit/Source/platform/audio/DirectConvolver.cpp
++++ beta/third_party/WebKit/Source/platform/audio/DirectConvolver.cpp
 @@ -35,7 +35,7 @@
  #include <Accelerate/Accelerate.h>
  #endif
@@ -207,10 +207,10 @@ Index: dev/third_party/WebKit/Source/platform/audio/DirectConvolver.cpp
    }
  #endif
  #endif  // OS_MACOSX
-Index: dev/third_party/WebKit/Source/platform/audio/SincResampler.cpp
+Index: beta/third_party/WebKit/Source/platform/audio/SincResampler.cpp
 ===================================================================
---- dev.orig/third_party/WebKit/Source/platform/audio/SincResampler.cpp
-+++ dev/third_party/WebKit/Source/platform/audio/SincResampler.cpp
+--- beta.orig/third_party/WebKit/Source/platform/audio/SincResampler.cpp
++++ beta/third_party/WebKit/Source/platform/audio/SincResampler.cpp
 @@ -32,7 +32,7 @@
  #include "platform/audio/AudioBus.h"
  #include "platform/wtf/MathExtras.h"
@@ -229,10 +229,10 @@ Index: dev/third_party/WebKit/Source/platform/audio/SincResampler.cpp
          // If the sourceP address is not 16-byte aligned, the first several
          // frames (at most three) should be processed seperately.
          while ((reinterpret_cast<uintptr_t>(input_p) & 0x0F) && n) {
-Index: dev/third_party/WebKit/Source/platform/audio/VectorMath.cpp
+Index: beta/third_party/WebKit/Source/platform/audio/VectorMath.cpp
 ===================================================================
---- dev.orig/third_party/WebKit/Source/platform/audio/VectorMath.cpp
-+++ dev/third_party/WebKit/Source/platform/audio/VectorMath.cpp
+--- beta.orig/third_party/WebKit/Source/platform/audio/VectorMath.cpp
++++ beta/third_party/WebKit/Source/platform/audio/VectorMath.cpp
 @@ -35,7 +35,7 @@
  #include <Accelerate/Accelerate.h>
  #endif
@@ -323,10 +323,10 @@ Index: dev/third_party/WebKit/Source/platform/audio/VectorMath.cpp
    if (source_stride == 1) {
      // If the sourceP address is not 16-byte aligned, the first several frames
      // (at most three) should be processed separately.
-Index: dev/third_party/WebKit/Source/platform/graphics/cpu/x86/WebGLImageConversionSSE.h
+Index: beta/third_party/WebKit/Source/platform/graphics/cpu/x86/WebGLImageConversionSSE.h
 ===================================================================
---- dev.orig/third_party/WebKit/Source/platform/graphics/cpu/x86/WebGLImageConversionSSE.h
-+++ dev/third_party/WebKit/Source/platform/graphics/cpu/x86/WebGLImageConversionSSE.h
+--- beta.orig/third_party/WebKit/Source/platform/graphics/cpu/x86/WebGLImageConversionSSE.h
++++ beta/third_party/WebKit/Source/platform/graphics/cpu/x86/WebGLImageConversionSSE.h
 @@ -7,7 +7,7 @@
  
  #include "build/build_config.h"
@@ -344,10 +344,10 @@ Index: dev/third_party/WebKit/Source/platform/graphics/cpu/x86/WebGLImageConvers
 +#endif  // ARCH_CPU_X86_64
  
  #endif  // WebGLImageConversionSSE_h
-Index: dev/third_party/WebKit/Source/platform/graphics/gpu/WebGLImageConversion.cpp
+Index: beta/third_party/WebKit/Source/platform/graphics/gpu/WebGLImageConversion.cpp
 ===================================================================
---- dev.orig/third_party/WebKit/Source/platform/graphics/gpu/WebGLImageConversion.cpp
-+++ dev/third_party/WebKit/Source/platform/graphics/gpu/WebGLImageConversion.cpp
+--- beta.orig/third_party/WebKit/Source/platform/graphics/gpu/WebGLImageConversion.cpp
++++ beta/third_party/WebKit/Source/platform/graphics/gpu/WebGLImageConversion.cpp
 @@ -444,7 +444,7 @@ void Unpack<WebGLImageConversion::kDataF
    const uint32_t* source32 = reinterpret_cast_ptr<const uint32_t*>(source);
    uint32_t* destination32 = reinterpret_cast_ptr<uint32_t*>(destination);
@@ -402,10 +402,10 @@ Index: dev/third_party/WebKit/Source/platform/graphics/gpu/WebGLImageConversion.
    SIMD::PackOneRowOfRGBA8LittleToRGBA8(source, destination, pixels_per_row);
  #endif
  #if HAVE_MIPS_MSA_INTRINSICS
-Index: dev/third_party/WebKit/Source/modules/webaudio/AudioParamTimeline.cpp
+Index: beta/third_party/WebKit/Source/modules/webaudio/AudioParamTimeline.cpp
 ===================================================================
---- dev.orig/third_party/WebKit/Source/modules/webaudio/AudioParamTimeline.cpp
-+++ dev/third_party/WebKit/Source/modules/webaudio/AudioParamTimeline.cpp
+--- beta.orig/third_party/WebKit/Source/modules/webaudio/AudioParamTimeline.cpp
++++ beta/third_party/WebKit/Source/modules/webaudio/AudioParamTimeline.cpp
 @@ -35,7 +35,7 @@
  #include "platform/wtf/MathExtras.h"
  #include "platform/wtf/PtrUtil.h"
