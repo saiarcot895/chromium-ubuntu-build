@@ -1,3 +1,10 @@
+chromium-browser (64.0.3251.0-0ubuntu1~ppa1~17.04.1) zesty; urgency=low
+
+  * New upstream version 64.0.3251.0
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 28 Oct 2017 13:15:35 -0400
+
 chromium-browser (63.0.3239.9-0ubuntu1~ppa1~17.04.1) zesty; urgency=low
 
   * New upstream version 63.0.3239.9

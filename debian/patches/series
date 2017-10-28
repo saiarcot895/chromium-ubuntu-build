@@ -39,11 +39,8 @@ fix-clang-compile.patch
 dont-use-integrated-as-on-arm64.patch
 remove-linux-kernel-dependency.patch
 stdatomic
-arm64-vpx-alignment
 fix-compile-error.patch
 specify-gcc-standard.patch
 fix-wayland-build.patch
 fix-gn-bootstrap.patch
-remove-unavailable-clang-option.patch
-fix-build-on-arm64.patch
 enable-chromecast-by-default.patch

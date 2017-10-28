@@ -406,7 +406,7 @@ Index: dev/third_party/WebKit/Source/modules/webaudio/AudioParamTimeline.cpp
 ===================================================================
 --- dev.orig/third_party/WebKit/Source/modules/webaudio/AudioParamTimeline.cpp
 +++ dev/third_party/WebKit/Source/modules/webaudio/AudioParamTimeline.cpp
-@@ -35,7 +35,7 @@
+@@ -36,7 +36,7 @@
  #include "platform/wtf/MathExtras.h"
  #include "platform/wtf/PtrUtil.h"
  
@@ -415,7 +415,7 @@ Index: dev/third_party/WebKit/Source/modules/webaudio/AudioParamTimeline.cpp
  #include <emmintrin.h>
  #endif
  
-@@ -1291,7 +1291,7 @@ std::tuple<size_t, float, unsigned> Audi
+@@ -1292,7 +1292,7 @@ std::tuple<size_t, float, unsigned> Audi
      size_t current_frame,
      float value,
      unsigned write_index) {
@@ -424,7 +424,7 @@ Index: dev/third_party/WebKit/Source/modules/webaudio/AudioParamTimeline.cpp
    auto number_of_values = current_state.number_of_values;
  #endif
    auto fill_to_frame = current_state.fill_to_frame;
-@@ -1304,7 +1304,7 @@ std::tuple<size_t, float, unsigned> Audi
+@@ -1305,7 +1305,7 @@ std::tuple<size_t, float, unsigned> Audi
    double delta_time = time2 - time1;
    float k = delta_time > 0 ? 1 / delta_time : 0;
    const float value_delta = value2 - value1;
@@ -433,7 +433,7 @@ Index: dev/third_party/WebKit/Source/modules/webaudio/AudioParamTimeline.cpp
    if (fill_to_frame > write_index) {
      // Minimize in-loop operations. Calculate starting value and increment.
      // Next step: value += inc.
-@@ -1432,7 +1432,7 @@ std::tuple<size_t, float, unsigned> Audi
+@@ -1433,7 +1433,7 @@ std::tuple<size_t, float, unsigned> Audi
      size_t current_frame,
      float value,
      unsigned write_index) {
@@ -442,7 +442,7 @@ Index: dev/third_party/WebKit/Source/modules/webaudio/AudioParamTimeline.cpp
    auto number_of_values = current_state.number_of_values;
  #endif
    auto fill_to_frame = current_state.fill_to_frame;
-@@ -1483,7 +1483,7 @@ std::tuple<size_t, float, unsigned> Audi
+@@ -1484,7 +1484,7 @@ std::tuple<size_t, float, unsigned> Audi
      for (; write_index < fill_to_frame; ++write_index)
        values[write_index] = target;
    } else {
@@ -451,7 +451,7 @@ Index: dev/third_party/WebKit/Source/modules/webaudio/AudioParamTimeline.cpp
      if (fill_to_frame > write_index) {
        // Resolve recursion by expanding constants to achieve a 4-step
        // loop unrolling.
-@@ -1617,7 +1617,7 @@ std::tuple<size_t, float, unsigned> Audi
+@@ -1618,7 +1618,7 @@ std::tuple<size_t, float, unsigned> Audi
    // Oversampled curve data can be provided if sharp discontinuities are
    // desired.
    unsigned k = 0;
