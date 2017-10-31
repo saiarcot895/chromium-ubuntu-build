@@ -80,8 +80,8 @@ GN_DEFINES += use_gcc_glibc=false use_clang_newlib=false
 endif
 
 # use gold, do not use bundled binutils
-GN_DEFINES += use_gold=true linux_use_bundled_binutils=false
-FFMPEG_MT_GN_DEFINES += use_gold=true linux_use_bundled_binutils=false
+GN_DEFINES += use_lld=false use_gold=true linux_use_bundled_binutils=false
+FFMPEG_MT_GN_DEFINES += use_lld=false use_gold=true linux_use_bundled_binutils=false
 
 # get resources for high dpi and touch
 # GN_DEFINES += enable_hidpi=true

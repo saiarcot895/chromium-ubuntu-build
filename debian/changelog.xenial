@@ -1,3 +1,13 @@
+chromium-browser (64.0.3251.0-0ubuntu1~ppa3~16.04.1) xenial; urgency=low
+
+  * Add revert-Xclang-instcombine-lower-dbg-declare.patch to remove
+    unknown clang option.
+  * Add suppress-newer-clang-warning-flags.patch to suppress warning
+    options not present in the clang binary used.
+  * Specify use_lld=false to make sure gold is used always.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 31 Oct 2017 11:18:36 -0400
+
 chromium-browser (64.0.3251.0-0ubuntu1~ppa2~16.04.1) xenial; urgency=low
 
   * Fix clang-use-versioned to use the full path to the binary. Clang is

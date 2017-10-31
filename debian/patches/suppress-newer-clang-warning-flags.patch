@@ -1,0 +1,35 @@
+Author: Olivier Tilloy <olivier.tilloy@canonical.com>
+Description: Do not use warning flags that require a newer Clang
+
+Index: dev/build/config/compiler/BUILD.gn
+===================================================================
+--- dev.orig/build/config/compiler/BUILD.gn
++++ dev/build/config/compiler/BUILD.gn
+@@ -1254,22 +1254,22 @@ config("default_warnings") {
+         "-Wno-address-of-packed-member",
+ 
+         # TODO(hans): https://crbug.com/681136
+-        "-Wno-unused-lambda-capture",
++        #"-Wno-unused-lambda-capture",
+ 
+         # TODO(thakis ): https://crbug.com/683349
+         "-Wno-user-defined-warnings",
+ 
+         # TODO(thakis): https://crbug.com/753973
+-        "-Wno-enum-compare-switch",
++        #"-Wno-enum-compare-switch",
+ 
+         # TODO(hans): https://crbug.com/763392
+-        "-Wno-tautological-unsigned-zero-compare",
++        #"-Wno-tautological-unsigned-zero-compare",
+ 
+         # TODO(hans): https://crbug.com/766891
+-        "-Wno-null-pointer-arithmetic",
++        #"-Wno-null-pointer-arithmetic",
+ 
+         # TODO(hans): https://crbug.com/767059
+-        "-Wno-tautological-unsigned-enum-zero-compare",
++        #"-Wno-tautological-unsigned-enum-zero-compare",
+       ]
+       if (llvm_force_head_revision) {
+         cflags += [
