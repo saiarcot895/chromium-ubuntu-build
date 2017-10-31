@@ -1,3 +1,10 @@
+chromium-browser (63.0.3239.18-0ubuntu1~ppa2~14.04.1) trusty; urgency=low
+
+  * Fix clang-use-versioned to use the full path to the binary. Clang is
+    weird.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 31 Oct 2017 02:20:00 -0400
+
 chromium-browser (63.0.3239.18-0ubuntu1~ppa1~14.04.1) trusty; urgency=low
 
   * New upstream version 63.0.3239.18
