@@ -45,3 +45,5 @@ fix-wayland-build.patch
 fix-gn-bootstrap.patch
 remove-unavailable-clang-option.patch
 enable-chromecast-by-default.patch
+suppress-newer-clang-warning-flags.patch
+fix-webrtc-build.patch

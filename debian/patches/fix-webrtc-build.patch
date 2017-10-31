@@ -1,0 +1,13 @@
+Index: beta/third_party/webrtc/p2p/base/port.cc
+===================================================================
+--- beta.orig/third_party/webrtc/p2p/base/port.cc
++++ beta/third_party/webrtc/p2p/base/port.cc
+@@ -10,6 +10,8 @@
+ 
+ #include "p2p/base/port.h"
+ 
++#include <math.h>
++
+ #include <algorithm>
+ #include <vector>
+ 
