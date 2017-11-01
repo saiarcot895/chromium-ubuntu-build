@@ -1,3 +1,9 @@
+chromium-browser (64.0.3251.0-0ubuntu1~ppa4~17.10.1) artful; urgency=low
+
+  * Add patch to fix missing header.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 31 Oct 2017 22:58:12 -0400
+
 chromium-browser (64.0.3251.0-0ubuntu1~ppa3~17.10.1) artful; urgency=low
 
   * Add revert-Xclang-instcombine-lower-dbg-declare.patch to remove
