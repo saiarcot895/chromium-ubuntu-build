@@ -1,3 +1,10 @@
+chromium-browser (63.0.3239.40-0ubuntu1~ppa1~17.04.1) zesty; urgency=low
+
+  * New upstream version 63.0.3239.40
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 12 Nov 2017 15:05:49 -0500
+
 chromium-browser (63.0.3239.18-0ubuntu1~ppa3~17.04.1) zesty; urgency=low
 
   * Add suppress-newer-clang-warning-flags.patch to suppress warning

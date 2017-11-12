@@ -175,7 +175,7 @@ Index: beta/chrome/browser/flag_descriptions.cc
  
  const char kAcceleratedMjpegDecodeName[] =
      "Hardware-accelerated mjpeg decode for captured frame";
-@@ -2635,7 +2644,7 @@ const char kWakeOnPacketsName[] = "Wake
+@@ -2639,7 +2648,7 @@ const char kWakeOnPacketsName[] = "Wake
  const char kWakeOnPacketsDescription[] =
      "Enables waking the device based on the receipt of some network packets.";
  
@@ -382,7 +382,7 @@ Index: beta/content/browser/renderer_host/render_process_host_impl.cc
 ===================================================================
 --- beta.orig/content/browser/renderer_host/render_process_host_impl.cc
 +++ beta/content/browser/renderer_host/render_process_host_impl.cc
-@@ -2509,7 +2509,11 @@ void RenderProcessHostImpl::PropagateBro
+@@ -2526,7 +2526,11 @@ void RenderProcessHostImpl::PropagateBro
      switches::kDefaultTileHeight,
      switches::kDisable2dCanvasImageChromium,
      switches::kDisableAcceleratedJpegDecoding,
@@ -394,7 +394,7 @@ Index: beta/content/browser/renderer_host/render_process_host_impl.cc
      switches::kDisableBackgroundTimerThrottling,
      switches::kDisableBreakpad,
      switches::kDisableBrowserSideNavigation,
-@@ -2663,8 +2667,10 @@ void RenderProcessHostImpl::PropagateBro
+@@ -2680,8 +2684,10 @@ void RenderProcessHostImpl::PropagateBro
      switches::kDisableMojoRenderer,
  #endif
  #if BUILDFLAG(ENABLE_WEBRTC)
