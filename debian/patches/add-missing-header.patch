@@ -2,9 +2,9 @@ Index: dev/components/machine_intelligence/generic_logistic_regression_inference
 ===================================================================
 --- dev.orig/components/machine_intelligence/generic_logistic_regression_inference.cc
 +++ dev/components/machine_intelligence/generic_logistic_regression_inference.cc
-@@ -4,6 +4,8 @@
+@@ -6,6 +6,8 @@
  
- #include "components/machine_intelligence/generic_logistic_regression_inference.h"
+ #include <cmath>
  
 +#include <math.h>
 +

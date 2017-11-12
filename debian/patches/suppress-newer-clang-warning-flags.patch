@@ -5,7 +5,7 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -1254,22 +1254,22 @@ config("default_warnings") {
+@@ -1276,25 +1276,25 @@ config("default_warnings") {
          "-Wno-address-of-packed-member",
  
          # TODO(hans): https://crbug.com/681136
@@ -30,6 +30,10 @@ Index: dev/build/config/compiler/BUILD.gn
          # TODO(hans): https://crbug.com/767059
 -        "-Wno-tautological-unsigned-enum-zero-compare",
 +        #"-Wno-tautological-unsigned-enum-zero-compare",
+ 
+         # TODO(hans): https://crbug.com/767059
+-        "-Wno-tautological-constant-compare",
++        #"-Wno-tautological-constant-compare",
        ]
-       if (llvm_force_head_revision) {
-         cflags += [
+     } else if (use_xcode_clang && xcode_version_int >= 830) {
+       # This is necessary to allow a progressive transition from using xcode 8.0

@@ -1,3 +1,10 @@
+chromium-browser (64.0.3260.2-0ubuntu1~ppa1~14.04.1) trusty; urgency=low
+
+  * New upstream version 64.0.3260.2
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 12 Nov 2017 14:05:09 -0500
+
 chromium-browser (64.0.3251.0-0ubuntu1~ppa4~14.04.1) trusty; urgency=low
 
   * Add patch to fix missing header.

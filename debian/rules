@@ -374,10 +374,15 @@ endif
 	mv debian/$(DEBIAN_NAME)/$(LIB_DIR)/chrome_sandbox debian/$(DEBIAN_NAME)/$(LIB_DIR)/chrome-sandbox
 	chmod 4755 debian/$(DEBIAN_NAME)/$(LIB_DIR)/chrome-sandbox
 	
-	# Manpage is for wrong program name, and it's in a weird place.  Use and destroy.
+	# Generate the manpage and install it
 	mkdir -p debian/chromium-browser/usr/share/man/man1
-	mv debian/chromium-browser/$(LIB_DIR)/chrome.1 debian/chromium-browser/usr/share/man/man1/$(DEBIAN_NAME).1
-	gzip -9 debian/chromium-browser/usr/share/man/man1/chromium-browser.1
+	sed \
+	  -e "s:/@@PACKAGE@@:/chromium:g" \
+	  -e "s:@@PACKAGE@@:chromium-browser:g" \
+	  -e "s:@@MENUNAME@@:Chromium:g" \
+	  chrome/app/resources/manpage.1.in \
+	  > debian/chromium-browser/usr/share/man/man1/chromium-browser.1
+	gzip -9n debian/chromium-browser/usr/share/man/man1/chromium-browser.1
 	
 	# Locales: only keep en-US in the main deb
 	# Discard everything except en-US
