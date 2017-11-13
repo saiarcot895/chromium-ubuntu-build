@@ -224,7 +224,7 @@ Index: dev/content/browser/gpu/compositor_util.cc
 ===================================================================
 --- dev.orig/content/browser/gpu/compositor_util.cc
 +++ dev/content/browser/gpu/compositor_util.cc
-@@ -103,7 +103,11 @@ const GpuFeatureInfo GetGpuFeatureInfo(s
+@@ -103,11 +103,15 @@ const GpuFeatureInfo GetGpuFeatureInfo(s
      {"video_decode",
       manager->IsFeatureBlacklisted(
           gpu::GPU_FEATURE_TYPE_ACCELERATED_VIDEO_DECODE),
@@ -236,6 +236,11 @@ Index: dev/content/browser/gpu/compositor_util.cc
       "Accelerated video decode has been disabled, either via blacklist,"
       " about:flags or the command line.",
       true},
+-#if BUILDFLAG(ENABLE_WEBRTC)
++#if BUILDFLAG(ENABLE_WEBRTC) && defined(OS_CHROMEOS)
+     {"video_encode",
+      manager->IsFeatureBlacklisted(
+          gpu::GPU_FEATURE_TYPE_ACCELERATED_VIDEO_ENCODE),
 Index: dev/content/browser/gpu/gpu_data_manager_impl_private.cc
 ===================================================================
 --- dev.orig/content/browser/gpu/gpu_data_manager_impl_private.cc
