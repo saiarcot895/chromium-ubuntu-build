@@ -47,3 +47,4 @@ enable-chromecast-by-default.patch
 revert-Xclang-instcombine-lower-dbg-declare.patch
 suppress-newer-clang-warning-flags.patch
 add-missing-header.patch
+fix-arm-build-libangle.patch

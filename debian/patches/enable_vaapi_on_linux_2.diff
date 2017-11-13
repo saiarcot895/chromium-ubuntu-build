@@ -245,11 +245,12 @@ Index: dev/content/browser/gpu/gpu_data_manager_impl_private.cc
 ===================================================================
 --- dev.orig/content/browser/gpu/gpu_data_manager_impl_private.cc
 +++ dev/content/browser/gpu/gpu_data_manager_impl_private.cc
-@@ -717,7 +717,9 @@ void GpuDataManagerImplPrivate::AppendRe
+@@ -716,8 +716,10 @@ void GpuDataManagerImplPrivate::AppendRe
+     base::CommandLine* command_line) const {
    DCHECK(command_line);
  
-   if (ShouldDisableAcceleratedVideoDecode(command_line))
 +#if !defined(OS_LINUX) || defined(OS_CHROMEOS) || defined(OS_ANDROID)
+   if (ShouldDisableAcceleratedVideoDecode(command_line))
      command_line->AppendSwitch(switches::kDisableAcceleratedVideoDecode);
 +#endif
  }
