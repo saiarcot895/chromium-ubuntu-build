@@ -1,3 +1,10 @@
+chromium-browser (64.0.3269.3-0ubuntu1~ppa1~17.10.1) artful; urgency=low
+
+  * New upstream version 64.0.3269.3
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 19 Nov 2017 02:24:03 -0500
+
 chromium-browser (64.0.3260.2-0ubuntu1~ppa4~17.10.1) artful; urgency=low
 
   * Fix VAAPI patch (again).

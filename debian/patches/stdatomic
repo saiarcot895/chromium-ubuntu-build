@@ -5,9 +5,9 @@ Index: dev/third_party/ffmpeg/libavutil/cpu.c
 ===================================================================
 --- dev.orig/third_party/ffmpeg/libavutil/cpu.c
 +++ dev/third_party/ffmpeg/libavutil/cpu.c
-@@ -17,7 +17,12 @@
-  */
+@@ -18,7 +18,12 @@
  
+ #include <stddef.h>
  #include <stdint.h>
 +// Ubuntu 14.04 gcc doesn't provide stdatomic.h, so use the compat version
 +#if defined(__GNUC__) && __GNUC__ == 4 && __GNUC_MINOR__ == 8
@@ -16,5 +16,5 @@ Index: dev/third_party/ffmpeg/libavutil/cpu.c
  #include <stdatomic.h>
 +#endif
  
+ #include "attributes.h"
  #include "cpu.h"
- #include "cpu_internal.h"

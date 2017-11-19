@@ -40,7 +40,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -1252,12 +1252,14 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1212,12 +1212,14 @@ const FeatureEntry kFeatureEntries[] = {
       flag_descriptions::kUiPartialSwapDescription, kOsAll,
       SINGLE_DISABLE_VALUE_TYPE(switches::kUIDisablePartialSwap)},
  #if BUILDFLAG(ENABLE_WEBRTC)
@@ -55,9 +55,9 @@ Index: dev/chrome/browser/about_flags.cc
      {"enable-webrtc-hw-h264-encoding",
       flag_descriptions::kWebrtcHwH264EncodingName,
       flag_descriptions::kWebrtcHwH264EncodingDescription, kOsAndroid | kOsCrOS,
-@@ -1554,6 +1556,13 @@ const FeatureEntry kFeatureEntries[] = {
-      flag_descriptions::kSpuriousPowerButtonLidAngleChangeDescription, kOsCrOS,
-      MULTI_VALUE_TYPE(kSpuriousPowerButtonLidAngleChangeChoices)},
+@@ -1494,6 +1496,13 @@ const FeatureEntry kFeatureEntries[] = {
+      flag_descriptions::kShowTouchHudDescription, kOsAll,
+      SINGLE_VALUE_TYPE(ash::switches::kAshTouchHud)},
  #endif  // OS_CHROMEOS
 +#if defined(OS_LINUX) && !defined(OS_CHROMEOS) && !defined(OS_ANDROID)
 +    {
@@ -69,7 +69,7 @@ Index: dev/chrome/browser/about_flags.cc
      {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
-@@ -1561,6 +1570,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1501,6 +1510,7 @@ const FeatureEntry kFeatureEntries[] = {
          kOsMac | kOsWin | kOsCrOS | kOsAndroid,
          SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
@@ -77,7 +77,7 @@ Index: dev/chrome/browser/about_flags.cc
      {"mojo-video-encode-accelerator",
       flag_descriptions::kMojoVideoEncodeAcceleratorName,
       flag_descriptions::kMojoVideoEncodeAcceleratorDescription,
-@@ -2247,12 +2257,17 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -2195,12 +2205,17 @@ const FeatureEntry kFeatureEntries[] = {
       FEATURE_VALUE_TYPE(features::kWebVrVsyncAlign)},
  #endif  // OS_ANDROID
  #endif  // ENABLE_VR
@@ -150,7 +150,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
  const char kAcceleratedVideoDecodeName[] = "Hardware-accelerated video decode";
  const char kAcceleratedVideoDecodeDescription[] =
      "Hardware-accelerated video decode where available.";
-@@ -1546,6 +1553,7 @@ const char kWebrtcEchoCanceller3Name[] =
+@@ -1570,6 +1577,7 @@ const char kWebrtcEchoCanceller3Name[] =
  const char kWebrtcEchoCanceller3Description[] =
      "Experimental WebRTC echo canceller (AEC3).";
  
@@ -158,7 +158,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
  const char kWebrtcHwDecodingName[] = "WebRTC hardware video decoding";
  const char kWebrtcHwDecodingDescription[] =
      "Support in WebRTC for decoding video streams using platform hardware.";
-@@ -1553,6 +1561,7 @@ const char kWebrtcHwDecodingDescription[
+@@ -1577,6 +1585,7 @@ const char kWebrtcHwDecodingDescription[
  const char kWebrtcHwEncodingName[] = "WebRTC hardware video encoding";
  const char kWebrtcHwEncodingDescription[] =
      "Support in WebRTC for encoding video streams using platform hardware.";
@@ -166,7 +166,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
  
  const char kWebrtcHwH264EncodingName[] = "WebRTC hardware h264 video encoding";
  const char kWebrtcHwH264EncodingDescription[] =
-@@ -2332,7 +2341,7 @@ const char kPermissionPromptPersistenceT
+@@ -2366,7 +2375,7 @@ const char kPermissionPromptPersistenceT
  
  // Chrome OS -------------------------------------------------------------------
  
@@ -175,7 +175,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
  
  const char kAcceleratedMjpegDecodeName[] =
      "Hardware-accelerated mjpeg decode for captured frame";
-@@ -2679,7 +2688,7 @@ const char kWakeOnPacketsName[] = "Wake
+@@ -2689,7 +2698,7 @@ const char kWakeOnPacketsName[] = "Wake
  const char kWakeOnPacketsDescription[] =
      "Enables waking the device based on the receipt of some network packets.";
  
@@ -199,7 +199,7 @@ Index: dev/chrome/browser/flag_descriptions.h
  extern const char kAcceleratedVideoDecodeName[];
  extern const char kAcceleratedVideoDecodeDescription[];
  
-@@ -1434,13 +1438,17 @@ extern const char kPermissionPromptPersi
+@@ -1452,13 +1456,17 @@ extern const char kPermissionPromptPersi
  
  #endif  // defined(OS_MACOSX)
  
@@ -224,7 +224,7 @@ Index: dev/content/browser/gpu/compositor_util.cc
 ===================================================================
 --- dev.orig/content/browser/gpu/compositor_util.cc
 +++ dev/content/browser/gpu/compositor_util.cc
-@@ -103,11 +103,15 @@ const GpuFeatureInfo GetGpuFeatureInfo(s
+@@ -103,7 +103,11 @@ const GpuFeatureInfo GetGpuFeatureInfo(s
      {"video_decode",
       manager->IsFeatureBlacklisted(
           gpu::GPU_FEATURE_TYPE_ACCELERATED_VIDEO_DECODE),
@@ -236,16 +236,11 @@ Index: dev/content/browser/gpu/compositor_util.cc
       "Accelerated video decode has been disabled, either via blacklist,"
       " about:flags or the command line.",
       true},
--#if BUILDFLAG(ENABLE_WEBRTC)
-+#if BUILDFLAG(ENABLE_WEBRTC) && defined(OS_CHROMEOS)
-     {"video_encode",
-      manager->IsFeatureBlacklisted(
-          gpu::GPU_FEATURE_TYPE_ACCELERATED_VIDEO_ENCODE),
 Index: dev/content/browser/gpu/gpu_data_manager_impl_private.cc
 ===================================================================
 --- dev.orig/content/browser/gpu/gpu_data_manager_impl_private.cc
 +++ dev/content/browser/gpu/gpu_data_manager_impl_private.cc
-@@ -716,8 +716,10 @@ void GpuDataManagerImplPrivate::AppendRe
+@@ -708,8 +708,10 @@ void GpuDataManagerImplPrivate::AppendRe
      base::CommandLine* command_line) const {
    DCHECK(command_line);
  
@@ -256,9 +251,9 @@ Index: dev/content/browser/gpu/gpu_data_manager_impl_private.cc
  }
  
  void GpuDataManagerImplPrivate::AppendGpuCommandLine(
-@@ -822,7 +824,12 @@ void GpuDataManagerImplPrivate::UpdateRe
-   const base::CommandLine* command_line =
-       base::CommandLine::ForCurrentProcess();
+@@ -810,7 +812,12 @@ void GpuDataManagerImplPrivate::UpdateRe
+     prefs->accelerated_2d_canvas_enabled = false;
+   }
    if (!ShouldDisableAcceleratedVideoDecode(command_line) &&
 -      !command_line->HasSwitch(switches::kDisableAcceleratedVideoDecode)) {
 +#if !defined(OS_LINUX) || defined(OS_CHROMEOS) || defined(OS_ANDROID)
@@ -270,7 +265,7 @@ Index: dev/content/browser/gpu/gpu_data_manager_impl_private.cc
      prefs->pepper_accelerated_video_decode_enabled = true;
    }
  }
-@@ -982,7 +989,13 @@ bool GpuDataManagerImplPrivate::CanUseGp
+@@ -959,7 +966,13 @@ bool GpuDataManagerImplPrivate::UpdateAc
  
  bool GpuDataManagerImplPrivate::ShouldDisableAcceleratedVideoDecode(
      const base::CommandLine* command_line) const {
@@ -289,7 +284,7 @@ Index: dev/content/browser/gpu/gpu_process_host.cc
 ===================================================================
 --- dev.orig/content/browser/gpu/gpu_process_host.cc
 +++ dev/content/browser/gpu/gpu_process_host.cc
-@@ -122,7 +122,7 @@ static const char* const kSwitchNames[]
+@@ -120,7 +120,7 @@ static const char* const kSwitchNames[]
      switches::kDisableGLExtensions,
      switches::kDisableLogging,
      switches::kDisableShaderNameHashing,
@@ -350,7 +345,7 @@ Index: dev/content/browser/renderer_host/render_process_host_impl.cc
 ===================================================================
 --- dev.orig/content/browser/renderer_host/render_process_host_impl.cc
 +++ dev/content/browser/renderer_host/render_process_host_impl.cc
-@@ -2512,7 +2512,11 @@ void RenderProcessHostImpl::PropagateBro
+@@ -2515,7 +2515,11 @@ void RenderProcessHostImpl::PropagateBro
      switches::kDefaultTileHeight,
      switches::kDisable2dCanvasImageChromium,
      switches::kDisableAcceleratedJpegDecoding,
@@ -362,7 +357,7 @@ Index: dev/content/browser/renderer_host/render_process_host_impl.cc
      switches::kDisableBackgroundTimerThrottling,
      switches::kDisableBreakpad,
      switches::kDisableBrowserSideNavigation,
-@@ -2663,8 +2667,10 @@ void RenderProcessHostImpl::PropagateBro
+@@ -2666,8 +2670,10 @@ void RenderProcessHostImpl::PropagateBro
      switches::kDisableMojoRenderer,
  #endif
  #if BUILDFLAG(ENABLE_WEBRTC)
@@ -416,12 +411,14 @@ Index: dev/content/gpu/gpu_sandbox_hook_linux.cc
 -}
 -
  inline bool IsArchitectureArm() {
- #if defined(__arm__) || defined(__aarch64__)
+ #if defined(ARCH_CPU_ARM_FAMILY)
    return true;
-@@ -268,33 +252,6 @@ bool GpuPreSandboxHook(sandbox::bpf_dsl:
-           std::vector<BrokerFilePermission>(),
-           options.accelerated_video_decode_enabled));
+@@ -242,34 +226,6 @@ void LoadV4L2Libraries() {
+   }
+ }
  
+-void LoadStandardLibraries(
+-    const service_manager::SandboxSeccompBPF::Options& options) {
 -  if (IsArchitectureX86_64() || IsArchitectureI386()) {
 -    // Accelerated video dlopen()'s some shared objects
 -    // inside the sandbox, so preload them now.
@@ -429,26 +426,33 @@ Index: dev/content/gpu/gpu_sandbox_hook_linux.cc
 -        options.accelerated_video_decode_enabled) {
 -      const char* I965DrvVideoPath = nullptr;
 -      const char* I965HybridDrvVideoPath = nullptr;
--
 -      if (IsArchitectureX86_64()) {
 -        I965DrvVideoPath = "/usr/lib64/va/drivers/i965_drv_video.so";
 -        I965HybridDrvVideoPath = "/usr/lib64/va/drivers/hybrid_drv_video.so";
 -      } else if (IsArchitectureI386()) {
 -        I965DrvVideoPath = "/usr/lib/va/drivers/i965_drv_video.so";
 -      }
--
--      dlopen(I965DrvVideoPath, RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE);
+-      dlopen(I965DrvVideoPath, dlopen_flag);
 -      if (I965HybridDrvVideoPath)
--        dlopen(I965HybridDrvVideoPath, RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE);
--      dlopen("libva.so.1", RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE);
+-        dlopen(I965HybridDrvVideoPath, dlopen_flag);
+-      dlopen("libva.so.1", dlopen_flag);
 -#if defined(USE_OZONE)
--      dlopen("libva-drm.so.1", RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE);
+-      dlopen("libva-drm.so.1", dlopen_flag);
 -#elif defined(USE_X11)
--      dlopen("libva-x11.so.1", RTLD_NOW | RTLD_GLOBAL | RTLD_NODELETE);
+-      dlopen("libva-x11.so.1", dlopen_flag);
 -#endif
 -    }
 -  }
+-}
 -
+ bool LoadLibrariesForGpu(
+     const service_manager::SandboxSeccompBPF::Options& options) {
+   if (IsChromeOS()) {
+@@ -282,7 +238,6 @@ bool LoadLibrariesForGpu(
+     if (options.use_amd_specific_policies)
+       return LoadAmdGpuLibraries();
+   }
+-  LoadStandardLibraries(options);
    return true;
  }
  
@@ -604,7 +608,7 @@ Index: dev/content/public/common/content_switches.h
  CONTENT_EXPORT extern const char kEnableAggressiveDOMStorageFlushing[];
  CONTENT_EXPORT extern const char kEnableAutomation[];
  CONTENT_EXPORT extern const char kEnablePreferCompositingToLCDText[];
-@@ -251,8 +258,10 @@ CONTENT_EXPORT extern const char kZygote
+@@ -250,8 +257,10 @@ CONTENT_EXPORT extern const char kZygote
  
  #if BUILDFLAG(ENABLE_WEBRTC)
  CONTENT_EXPORT extern const char kDisableWebRtcEncryption[];
@@ -619,7 +623,7 @@ Index: dev/content/renderer/media/webrtc/peer_connection_dependency_factory.cc
 ===================================================================
 --- dev.orig/content/renderer/media/webrtc/peer_connection_dependency_factory.cc
 +++ dev/content/renderer/media/webrtc/peer_connection_dependency_factory.cc
-@@ -240,10 +240,19 @@ void PeerConnectionDependencyFactory::In
+@@ -243,10 +243,19 @@ void PeerConnectionDependencyFactory::In
  
    const base::CommandLine* cmd_line = base::CommandLine::ForCurrentProcess();
    if (gpu_factories && gpu_factories->IsGpuVideoAcceleratorEnabled()) {
@@ -644,7 +648,7 @@ Index: dev/content/renderer/render_thread_impl.cc
 ===================================================================
 --- dev.orig/content/renderer/render_thread_impl.cc
 +++ dev/content/renderer/render_thread_impl.cc
-@@ -1517,7 +1517,11 @@ media::GpuVideoAcceleratorFactories* Ren
+@@ -1520,7 +1520,11 @@ media::GpuVideoAcceleratorFactories* Ren
    scoped_refptr<base::SingleThreadTaskRunner> media_task_runner =
        GetMediaThreadTaskRunner();
    const bool enable_video_accelerator =
@@ -729,8 +733,8 @@ Index: dev/media/gpu/BUILD.gn
  if (use_vaapi) {
    action("libva_generate_stubs") {
      extra_header = "vaapi/va_stub_header.fragment"
-@@ -338,6 +344,7 @@ component("gpu") {
-         "vaapi_drm_picture.h",
+@@ -342,6 +348,7 @@ component("gpu") {
+         "vaapi/vaapi_drm_picture.h",
        ]
      }
 +    public_configs = [ ":libva_config" ]
@@ -753,7 +757,7 @@ Index: dev/media/gpu/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi_wrapper.cc
-@@ -1184,6 +1184,7 @@ void VaapiWrapper::PreSandboxInitializat
+@@ -201,6 +201,7 @@ void VADisplayState::PreSandboxInitializ
    if (drm_file.IsValid())
      VADisplayState::Get()->SetDrmFd(drm_file.GetPlatformFile());
  #endif
@@ -765,7 +769,7 @@ Index: dev/components/viz/service/main/viz_main_impl.cc
 ===================================================================
 --- dev.orig/components/viz/service/main/viz_main_impl.cc
 +++ dev/components/viz/service/main/viz_main_impl.cc
-@@ -28,7 +28,7 @@ std::unique_ptr<base::Thread> CreateAndS
+@@ -32,7 +32,7 @@ std::unique_ptr<base::Thread> CreateAndS
    auto thread = std::make_unique<base::Thread>("CompositorThread");
    base::Thread::Options thread_options;
    thread_options.message_loop_type = base::MessageLoop::TYPE_DEFAULT;
@@ -774,7 +778,7 @@ Index: dev/components/viz/service/main/viz_main_impl.cc
    thread_options.priority = base::ThreadPriority::DISPLAY;
  #endif
    CHECK(thread->StartWithOptions(thread_options));
-@@ -40,7 +40,7 @@ std::unique_ptr<base::Thread> CreateAndS
+@@ -44,7 +44,7 @@ std::unique_ptr<base::Thread> CreateAndS
    // It should be possible to use |main_task_runner_| for doing IO tasks.
    base::Thread::Options thread_options(base::MessageLoop::TYPE_IO, 0);
    thread_options.priority = base::ThreadPriority::NORMAL;

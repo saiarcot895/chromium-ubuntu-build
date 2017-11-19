@@ -40,7 +40,7 @@ Index: dev/chrome/browser/ui/views/frame/browser_view.cc
 ===================================================================
 --- dev.orig/chrome/browser/ui/views/frame/browser_view.cc
 +++ dev/chrome/browser/ui/views/frame/browser_view.cc
-@@ -616,6 +616,7 @@ void BrowserView::Show() {
+@@ -618,6 +618,7 @@ void BrowserView::Show() {
    force_location_bar_focus_ = false;
  
    browser()->OnWindowDidShow();
@@ -106,7 +106,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
 ===================================================================
 --- dev.orig/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
 +++ dev/ui/views/widget/desktop_aura/desktop_native_widget_aura.cc
-@@ -593,6 +593,11 @@ void DesktopNativeWidgetAura::ViewRemove
+@@ -594,6 +594,11 @@ void DesktopNativeWidgetAura::ViewRemove
    drop_helper_->ResetTargetViewIfEquals(view);
  }
  
@@ -148,7 +148,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
 ===================================================================
 --- dev.orig/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
 +++ dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
-@@ -12,6 +12,8 @@
+@@ -6,6 +6,8 @@
  
  #include <utility>
  
@@ -157,7 +157,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.cc
  #include "base/command_line.h"
  #include "base/location.h"
  #include "base/memory/ptr_util.h"
-@@ -1679,6 +1681,22 @@ void DesktopWindowTreeHostX11::UpdateMin
+@@ -1683,6 +1685,22 @@ void DesktopWindowTreeHostX11::UpdateMin
    XSetWMNormalHints(xdisplay_, xwindow_, &hints);
  }
  
@@ -248,7 +248,7 @@ Index: dev/ui/views/mus/desktop_window_tree_host_mus.cc
 ===================================================================
 --- dev.orig/ui/views/mus/desktop_window_tree_host_mus.cc
 +++ dev/ui/views/mus/desktop_window_tree_host_mus.cc
-@@ -234,6 +234,10 @@ DesktopWindowTreeHostMus::~DesktopWindow
+@@ -233,6 +233,10 @@ DesktopWindowTreeHostMus::~DesktopWindow
    desktop_native_widget_aura_->OnDesktopWindowTreeHostDestroyed(this);
  }
  
