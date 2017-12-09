@@ -1,3 +1,9 @@
+chromium-browser (64.0.3282.14-0ubuntu1~ppa2~17.04.1) zesty; urgency=low
+
+  * Fix build error.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 09 Dec 2017 02:53:23 -0500
+
 chromium-browser (64.0.3282.14-0ubuntu1~ppa1~17.04.1) zesty; urgency=low
 
   * New upstream version 64.0.3282.14
