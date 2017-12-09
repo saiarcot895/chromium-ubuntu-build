@@ -47,3 +47,4 @@ enable-chromecast-by-default.patch
 revert-Xclang-instcombine-lower-dbg-declare.patch
 suppress-newer-clang-warning-flags.patch
 fix-build-errors.patch
+fix-ffmpeg-build.patch

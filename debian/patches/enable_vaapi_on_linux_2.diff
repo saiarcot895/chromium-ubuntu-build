@@ -778,7 +778,7 @@ Index: dev/media/gpu/vaapi_wrapper.cc
        base::File::FLAG_OPEN | base::File::FLAG_READ | base::File::FLAG_WRITE);
    if (drm_file.IsValid())
      VADisplayState::Get()->SetDrmFd(drm_file.GetPlatformFile());
-+  LazyProfileInfos::Get();  // dlopen all necessary libraries
++  VASupportedProfiles::Get();  // dlopen all necessary libraries
  }
  
  // static

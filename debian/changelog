@@ -1,3 +1,9 @@
+chromium-browser (64.0.3282.14-0ubuntu1~ppa3~17.10.1) artful; urgency=low
+
+  * Fix build errors.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 09 Dec 2017 10:52:11 -0500
+
 chromium-browser (64.0.3282.14-0ubuntu1~ppa2~17.10.1) artful; urgency=low
 
   * Fix build error.
