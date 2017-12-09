@@ -2,7 +2,7 @@ Index: dev/tools/gn/bootstrap/bootstrap.py
 ===================================================================
 --- dev.orig/tools/gn/bootstrap/bootstrap.py
 +++ dev/tools/gn/bootstrap/bootstrap.py
-@@ -771,7 +771,6 @@ def write_gn_ninja(path, root_gen_dir, o
+@@ -775,7 +775,6 @@ def write_gn_ninja(path, root_gen_dir, o
          'base/sync_socket_win.cc',
          'base/synchronization/condition_variable_win.cc',
          'base/synchronization/lock_impl_win.cc',

@@ -2,7 +2,7 @@ Index: dev/third_party/boringssl/BUILD.gn
 ===================================================================
 --- dev.orig/third_party/boringssl/BUILD.gn
 +++ dev/third_party/boringssl/BUILD.gn
-@@ -68,7 +68,7 @@ if (is_win && !is_msan) {
+@@ -69,7 +69,7 @@ if (is_win && !is_msan) {
  
      if ((current_cpu == "arm" || current_cpu == "arm64") && is_clang &&
          !is_ios) {

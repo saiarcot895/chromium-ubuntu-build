@@ -48,11 +48,11 @@ Index: dev/chrome/browser/ui/views/frame/browser_view.cc
  
    chrome::MaybeShowInvertBubbleView(this);
  }
-Index: dev/ash/mus/non_client_frame_controller.cc
+Index: dev/ash/wm/non_client_frame_controller.cc
 ===================================================================
---- dev.orig/ash/mus/non_client_frame_controller.cc
-+++ dev/ash/mus/non_client_frame_controller.cc
-@@ -256,6 +256,10 @@ class ClientViewMus : public views::Clie
+--- dev.orig/ash/wm/non_client_frame_controller.cc
++++ dev/ash/wm/non_client_frame_controller.cc
+@@ -254,6 +254,10 @@ class ClientViewMus : public views::Clie
      return false;
    }
  
@@ -184,7 +184,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
 ===================================================================
 --- dev.orig/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
 +++ dev/ui/views/widget/desktop_aura/desktop_window_tree_host_x11.h
-@@ -86,6 +86,8 @@ class VIEWS_EXPORT DesktopWindowTreeHost
+@@ -84,6 +84,8 @@ class VIEWS_EXPORT DesktopWindowTreeHost
    // Disables event listening to make |dialog| modal.
    std::unique_ptr<base::Closure> DisableEventListening();
  
@@ -276,11 +276,11 @@ Index: dev/ui/gfx/x/x11_atom_cache.cc
 ===================================================================
 --- dev.orig/ui/gfx/x/x11_atom_cache.cc
 +++ dev/ui/gfx/x/x11_atom_cache.cc
-@@ -117,6 +117,7 @@ const char* kAtomsToCache[] = {"Abs Dbl
-                                "CHROME_SELECTION",
-                                "_CHROMIUM_DRAG_RECEIVER",
-                                "chromium/filename",
-+                               "CHROMIUM_LINUX_SESSION_ID_PROPERTY",
-                                "CHROMIUM_TIMESTAMP",
-                                "chromium/x-bookmark-entries",
-                                "chromium/x-browser-actions",
+@@ -119,6 +119,7 @@ constexpr const char* kAtomsToCache[] =
+     "CHROME_SELECTION",
+     "_CHROMIUM_DRAG_RECEIVER",
+     "chromium/filename",
++    "CHROMIUM_LINUX_SESSION_ID_PROPERTY",
+     "CHROMIUM_TIMESTAMP",
+     "chromium/x-bookmark-entries",
+     "chromium/x-browser-actions",
