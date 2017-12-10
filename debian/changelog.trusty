@@ -1,3 +1,9 @@
+chromium-browser (64.0.3282.14-0ubuntu1~ppa4~14.04.1) trusty; urgency=low
+
+  * Fix VAAPI build errors.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 09 Dec 2017 21:20:18 -0500
+
 chromium-browser (64.0.3282.14-0ubuntu1~ppa3~14.04.1) trusty; urgency=low
 
   * Fix build errors.
