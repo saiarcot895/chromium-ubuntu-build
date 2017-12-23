@@ -1,7 +1,7 @@
-Index: dev/third_party/angle/src/vulkan_support/BUILD.gn
+Index: beta/third_party/angle/src/vulkan_support/BUILD.gn
 ===================================================================
---- dev.orig/third_party/angle/src/vulkan_support/BUILD.gn
-+++ dev/third_party/angle/src/vulkan_support/BUILD.gn
+--- beta.orig/third_party/angle/src/vulkan_support/BUILD.gn
++++ beta/third_party/angle/src/vulkan_support/BUILD.gn
 @@ -232,6 +232,7 @@ static_library("vulkan_loader") {
      ":vulkan_loader_config",
    ]

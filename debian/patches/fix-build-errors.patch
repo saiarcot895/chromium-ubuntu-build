@@ -1,7 +1,7 @@
-Index: dev/cc/paint/raw_memory_transfer_cache_entry.cc
+Index: beta/cc/paint/raw_memory_transfer_cache_entry.cc
 ===================================================================
---- dev.orig/cc/paint/raw_memory_transfer_cache_entry.cc
-+++ dev/cc/paint/raw_memory_transfer_cache_entry.cc
+--- beta.orig/cc/paint/raw_memory_transfer_cache_entry.cc
++++ beta/cc/paint/raw_memory_transfer_cache_entry.cc
 @@ -4,6 +4,8 @@
  
  #include "cc/paint/raw_memory_transfer_cache_entry.h"
