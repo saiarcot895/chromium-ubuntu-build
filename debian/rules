@@ -103,6 +103,10 @@ GN_DEFINES += use_vaapi=true
 GN_DEFINES += use_custom_libcxx=false
 FFMPEG_MT_GN_DEFINES += use_custom_libcxx=false
 
+# Unbundle harfbuzz
+GN_DEFINES += use_bundled_fontconfig=false
+FFMPEG_MT_GN_DEFINES += use_bundled_fontconfig=false
+
 # use gtk3
 # GN_DEFINES += use_gtk3=true
 # FFMPEG_MT_GN_DEFINES += use_gtk3=true

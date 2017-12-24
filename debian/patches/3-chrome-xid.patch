@@ -46,7 +46,7 @@ Index: dev/chrome/browser/ui/views/frame/browser_view.cc
    browser()->OnWindowDidShow();
 +  frame_->SendSessionIdToWindow();
  
-   chrome::MaybeShowInvertBubbleView(this);
+   MaybeShowInvertBubbleView(this);
  }
 Index: dev/ash/wm/non_client_frame_controller.cc
 ===================================================================
@@ -216,7 +216,7 @@ Index: dev/ui/views/widget/native_widget_aura.cc
  
 +#include <signal.h>
 +
- DECLARE_UI_CLASS_PROPERTY_TYPE(views::internal::NativeWidgetPrivate*)
+ DEFINE_UI_CLASS_PROPERTY_TYPE(views::internal::NativeWidgetPrivate*)
  
  namespace views {
 @@ -398,6 +400,11 @@ void NativeWidgetAura::CenterWindow(cons
