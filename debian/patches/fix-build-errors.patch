@@ -1,13 +1,13 @@
-Index: dev/cc/paint/raw_memory_transfer_cache_entry.cc
+Index: dev/ui/views/view.h
 ===================================================================
---- dev.orig/cc/paint/raw_memory_transfer_cache_entry.cc
-+++ dev/cc/paint/raw_memory_transfer_cache_entry.cc
-@@ -6,6 +6,8 @@
+--- dev.orig/ui/views/view.h
++++ dev/ui/views/view.h
+@@ -530,7 +530,7 @@ class VIEWS_EXPORT View : public ui::Lay
+     SetLayoutManagerImpl(std::move(layout_manager));
+     return lm;
+   }
+-  void SetLayoutManager(nullptr_t);
++  void SetLayoutManager(std::nullptr_t);
+   // DEPRECATED version that takes ownership of a raw pointer.
+   void SetLayoutManager(LayoutManager* layout);
  
- #include <string.h>
- 
-+#include <string.h>
-+
- namespace cc {
- 
- ClientRawMemoryTransferCacheEntry::ClientRawMemoryTransferCacheEntry(
