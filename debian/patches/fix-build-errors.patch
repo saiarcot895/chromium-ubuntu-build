@@ -11,3 +11,16 @@ Index: dev/ui/views/view.h
    // DEPRECATED version that takes ownership of a raw pointer.
    void SetLayoutManager(LayoutManager* layout);
  
+Index: dev/ui/views/view.cc
+===================================================================
+--- dev.orig/ui/views/view.cc
++++ dev/ui/views/view.cc
+@@ -631,7 +631,7 @@ LayoutManager* View::GetLayoutManager()
+   return layout_manager_.get();
+ }
+ 
+-void View::SetLayoutManager(nullptr_t) {
++void View::SetLayoutManager(std::nullptr_t) {
+   SetLayoutManagerImpl(nullptr);
+ }
+ 
