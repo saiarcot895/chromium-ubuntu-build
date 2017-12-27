@@ -1,3 +1,9 @@
+chromium-browser (65.0.3298.3-0ubuntu1~ppa4~17.10.1) artful; urgency=low
+
+  * Fix VAAPI patch.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 27 Dec 2017 09:49:20 -0500
+
 chromium-browser (65.0.3298.3-0ubuntu1~ppa3~17.10.1) artful; urgency=low
 
   * Fix build.

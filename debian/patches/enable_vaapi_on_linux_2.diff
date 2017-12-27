@@ -826,7 +826,7 @@ Index: dev/content/browser/renderer_host/render_view_host_impl.cc
  
    prefs.accelerated_video_decode_enabled =
 +#if defined(OS_LINUX) && !defined(OS_CHROMEOS) && !defined(OS_ANDROID)
-+      command_line->HasSwitch(switches::kEnableAcceleratedVideo);
++      command_line.HasSwitch(switches::kEnableAcceleratedVideo);
 +#else
        !command_line.HasSwitch(switches::kDisableAcceleratedVideoDecode);
 +#endif
