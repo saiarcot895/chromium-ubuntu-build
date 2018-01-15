@@ -19,7 +19,7 @@ Index: dev/components/search_engines/prepopulated_engines.json
  
      // Increment this if you change the data in ways that mean users with
      // existing data should get a new version.
-@@ -110,6 +111,16 @@
+@@ -114,6 +115,16 @@
        "id": 68
      },
  
@@ -52,7 +52,7 @@ Index: dev/components/search_engines/template_url_prepopulate_data.cc
 ===================================================================
 --- dev.orig/components/search_engines/template_url_prepopulate_data.cc
 +++ dev/components/search_engines/template_url_prepopulate_data.cc
-@@ -50,7 +50,7 @@ namespace {
+@@ -51,7 +51,7 @@ namespace {
  
  // Default (for countries with no better engine set)
  const PrepopulatedEngine* const engines_default[] = {
@@ -61,7 +61,7 @@ Index: dev/components/search_engines/template_url_prepopulate_data.cc
  };
  
  // United Arab Emirates
-@@ -165,7 +165,7 @@ const PrepopulatedEngine* const engines_
+@@ -166,7 +166,7 @@ const PrepopulatedEngine* const engines_
  
  // Germany
  const PrepopulatedEngine* const engines_DE[] = {
@@ -70,7 +70,7 @@ Index: dev/components/search_engines/template_url_prepopulate_data.cc
  };
  
  // Denmark
-@@ -215,12 +215,12 @@ const PrepopulatedEngine* const engines_
+@@ -216,12 +216,12 @@ const PrepopulatedEngine* const engines_
  
  // France
  const PrepopulatedEngine* const engines_FR[] = {
@@ -85,7 +85,7 @@ Index: dev/components/search_engines/template_url_prepopulate_data.cc
  };
  
  // Greece
-@@ -555,7 +555,7 @@ const PrepopulatedEngine* const engines_
+@@ -556,7 +556,7 @@ const PrepopulatedEngine* const engines_
  
  // United States
  const PrepopulatedEngine* const engines_US[] = {
@@ -94,7 +94,7 @@ Index: dev/components/search_engines/template_url_prepopulate_data.cc
  };
  
  // Uruguay
-@@ -592,6 +592,7 @@ const PrepopulatedEngine* const engines_
+@@ -593,6 +593,7 @@ const PrepopulatedEngine* const engines_
  const PrepopulatedEngine* const kAllEngines[] = {
      // Prepopulated engines:
      &aol, &ask, &ask_br, &ask_uk, &baidu, &bing, &daum, &google, &kvasir,

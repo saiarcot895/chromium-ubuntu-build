@@ -1,3 +1,11 @@
+chromium-browser (65.0.3315.3-0ubuntu1~ppa1~14.04.1) trusty; urgency=low
+
+  * New upstream version 65.0.3315.3
+  * Updated patches, and removed some unused patches.
+  * Update startup script. (Fixes: #24).
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 15 Jan 2018 18:06:32 -0500
+
 chromium-browser (65.0.3298.3-0ubuntu1~ppa4~14.04.1) trusty; urgency=low
 
   * Fix VAAPI patch.
