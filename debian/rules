@@ -237,7 +237,7 @@ BUILD_TARGETS += \
 	chrome_sandbox \
 	chromedriver \
 	widevinecdmadapter \
-	clearkeycdm \
+	clear_key_cdm \
 	$(NULL)
 
 # Needed to preserve the suid and make the sandbox happy
