@@ -1,3 +1,11 @@
+chromium-browser (64.0.3282.85-0ubuntu1~ppa1~17.10.1) artful; urgency=low
+
+  * New upstream version 64.0.3282.85
+  * Updated patches, and removed some unused patches.
+  * Update startup script. (Fixes: #24).
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 15 Jan 2018 18:59:57 -0500
+
 chromium-browser (64.0.3282.39-0ubuntu1~ppa1~17.10.1) artful; urgency=low
 
   * New upstream version 64.0.3282.39
