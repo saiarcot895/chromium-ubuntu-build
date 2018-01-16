@@ -1,3 +1,9 @@
+chromium-browser (65.0.3315.3-0ubuntu1~ppa4~14.04.1) trusty; urgency=low
+
+  * Fix packaging rule.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 16 Jan 2018 12:00:51 -0500
+
 chromium-browser (65.0.3315.3-0ubuntu1~ppa3~14.04.1) trusty; urgency=low
 
   * Update clear key target name.

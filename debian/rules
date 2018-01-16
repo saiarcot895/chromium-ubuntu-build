@@ -222,13 +222,15 @@ BROWSER_GN_DEFINES += \
 	$(NULL)
 FFMPEG_MT_STD_GN_DEFINES    = ffmpeg_branding="Chromium"
 FFMPEG_MT_EXTRA_GN_DEFINES  = ffmpeg_branding="Chrome"
+DEB_DH_SHLIBDEPS_ARGS_chromium-codecs-ffmpeg := -ldebian/chromium-codecs-ffmpeg/$(LIB_DIR)
+DEB_DH_SHLIBDEPS_ARGS_chromium-codecs-ffmpeg-extra := -ldebian/chromium-codecs-ffmpeg-extra/$(LIB_DIR)
 
 # enable compile-time dependency on gnome-keyring
 # TODO: do this?
 
 # controlling the use of GConf (the classic GNOME configuration
 # and GIO, which contains GSettings (the new GNOME config system)
-GN_DEFINES += use_gconf=true use_gio=true
+GN_DEFINES += use_gio=true
 
 # Build chrome and chrome_sandbox, and chromedriver
 BUILD_TARGETS += \
@@ -325,54 +327,44 @@ override_dh_install-arch: build-stamp build-stamp-ffmpeg-std build-stamp-ffmpeg-
 	@set -eux
 	# Two stages: Install out of source tree. Copy to packaging.
 	mkdir -p debian/tmp/$(LIB_DIR)
-	(cd $(SRC_DIR)/out/$(BUILD_TYPE) && tar -cf - $(foreach excl,$(TRASH),--exclude=$(excl) ) .;) | (cd debian/tmp/$(LIB_DIR) && tar -xvf -;)
+	(cd $(SRC_DIR)/out/$(BUILD_TYPE) && tar -cf - $(foreach excl,$(TRASH),--exclude=$(excl) ) --dereference .;) | (cd debian/tmp/$(LIB_DIR) && tar -xvf -;)
+	(cd $(SRC_DIR)/out/$(BUILD_TYPE) && tar -cf - $$(find *locales -type f -name en-US.pak) --dereference;) | (cd debian/tmp/$(LIB_DIR) && tar xvf -;)
 	rm debian/tmp/$(LIB_DIR)/libffmpeg.so
-ifeq (1,$(COMPONENT_SHARED_LIB_BUILD))
-#	mkdir -p debian/tmp/$(LIB_DIR)/libs
-#	cp $(SRC_DIR)/out/$(BUILD_TYPE)/*.so debian/tmp/$(LIB_DIR)/libs/
-#	rm debian/tmp/$(LIB_DIR)/libs/libffmpeg.so
-#	mv debian/tmp/$(LIB_DIR)/libs/libclearkeycdm.so debian/tmp/$(LIB_DIR)/libs/libEGL.so debian/tmp/$(LIB_DIR)/libs/libGLESv2.so debian/tmp/$(LIB_DIR)/
-endif
 	
 	# Icons
 	dh_installdirs --package=$(DEBIAN_NAME) usr/share/pixmaps
 	cp -a $(SRC_DIR)/chrome/app/theme/chromium/product_logo_48.png debian/$(DEBIAN_NAME)/usr/share/pixmaps/$(DEBIAN_NAME).png
-	for size in 22 24 48 64 128 256 ; do \
-	  dh_installdirs --package=$(DEBIAN_NAME) usr/share/icons/hicolor/$${size}x$${size}/apps ; \
-	  cp -a $(SRC_DIR)/chrome/app/theme/chromium/product_logo_$$size.png  \
-	    debian/$(DEBIAN_NAME)/usr/share/icons/hicolor/$${size}x$${size}/apps/$(DEBIAN_NAME).png ; \
+	for size in 22 24 32 48 64 128 256 ; do \
+		if test -f "chrome/app/theme/chromium/product_logo_$$size.png"; then \
+			dh_installdirs --package=chromium-browser usr/share/icons/hicolor/$${size}x$${size}/apps ; \
+			cp -a chrome/app/theme/chromium/product_logo_$$size.png  \
+				debian/chromium-browser/usr/share/icons/hicolor/$${size}x$${size}/apps/chromium-browser.png ; \
+		else \
+			echo "There is no size $${size} icon. We expected one."; \
+		fi; \
 	done
 	mkdir -p debian/$(DEBIAN_NAME)/usr/share/icons/hicolor/scalable/apps
 	cp -a debian/chromium-browser.svg debian/$(DEBIAN_NAME)/usr/share/icons/hicolor/scalable/apps
-
+	
 	##### Copy installed to package ####
 	(cd debian/tmp/$(LIB_DIR); tar cf - --exclude=chromedriver .;) | (cd debian/chromium-browser/$(LIB_DIR); tar xvf -;)
-#	# prev missed "libs"
-#	(cd debian/tmp/$(LIB_DIR)/libs; tar cf - .;) | (cd debian/chromium-browser/$(LIB_DIR)/libs/; tar xvf -;)
-	
-ifeq (1,$(COMPONENT_SHARED_LIB_BUILD))
-#	# Set the directory for looking up component libraries.
-#	find debian/*/$(LIB_DIR)/libs             -type f -name \*.so             -execdir chrpath --replace "\$$ORIGIN" {} \;
-#	find debian/*/$(LIB_DIR)      -maxdepth 1 -type f -name \*.so             -execdir chrpath --replace "\$$ORIGIN/libs" {} \;
-#	find debian/*/$(LIB_DIR)      -maxdepth 1 -type f             -executable -execdir chrpath --replace "\$$ORIGIN/libs" {} \;
-endif
-	
-	# Launcher script
-	cp -a debian/$(DEBIAN_NAME).sh debian/$(DEBIAN_NAME)/usr/bin/$(DEBIAN_NAME)
-	chmod 755 debian/$(DEBIAN_NAME)/usr/bin/$(DEBIAN_NAME)
 	
 	# Preferences
-	cp -a debian/$(DEBIAN_NAME).default debian/$(DEBIAN_NAME)/etc/$(DEBIAN_NAME)/default
+	install -T -m 644 debian/chromium-browser.default debian/chromium-browser/etc/chromium-browser/default
 	
 	# Rename the binary from chrome to $(DEBIAN_NAME), this is required
 	# as chromium dereferences all symlinks before starting its children
 	# making the Gnome System Monitor confused with icons
-	mv debian/$(DEBIAN_NAME)/$(LIB_DIR)/chrome debian/$(DEBIAN_NAME)/$(LIB_DIR)/$(DEBIAN_NAME)
+	install -T -m 555 debian/tmp/$(LIB_DIR)/chrome debian/chromium-browser/$(LIB_DIR)/chromium-browser
+	rm                debian/tmp/$(LIB_DIR)/chrome
 	
 	# "you have to change the underscore from the build target into a hyphen".
 	# https://code.google.com/p/chromium/wiki/LinuxSUIDSandbox
-	mv debian/$(DEBIAN_NAME)/$(LIB_DIR)/chrome_sandbox debian/$(DEBIAN_NAME)/$(LIB_DIR)/chrome-sandbox
-	chmod 4755 debian/$(DEBIAN_NAME)/$(LIB_DIR)/chrome-sandbox
+	install -T -m 4555 debian/tmp/$(LIB_DIR)/chrome_sandbox debian/chromium-browser/$(LIB_DIR)/chrome-sandbox
+	rm                 debian/tmp/$(LIB_DIR)/chrome_sandbox
+	
+	# Launcher script
+	install -T -m 755 debian/chromium-browser.sh debian/chromium-browser/usr/bin/chromium-browser
 	
 	# Generate the manpage and install it
 	mkdir -p debian/chromium-browser/usr/share/man/man1
@@ -395,7 +387,6 @@ override_dh_install-indep: build-stamp
 	dh_install -i
 	install --directory debian/chromium-browser/etc/chromium-browser/customizations
 	install --owner=root --mode=0644 --no-target-directory debian/chromium-browser-customization-example debian/chromium-browser/etc/chromium-browser/customizations/00-example
-	install --owner=root --mode=0644 --no-target-directory debian/chromium-browser-customization-flash-staleness debian/chromium-browser/etc/chromium-browser/customizations/09-flash-staleness-check
 	find debian/chromium-browser-l10n/$(LIB_DIR)/locales -name en-US.pak -print -delete
 
 override_dh_auto_test:

@@ -1,3 +1,9 @@
+chromium-browser (65.0.3315.3-0ubuntu1~ppa4~18.04.1) bionic; urgency=low
+
+  * Fix packaging rule.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 16 Jan 2018 12:00:52 -0500
+
 chromium-browser (65.0.3315.3-0ubuntu1~ppa3~18.04.1) bionic; urgency=low
 
   * Update clear key target name.
