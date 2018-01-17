@@ -1,0 +1,93 @@
+Description: Vulkan: Allow for no .git directory in build.
+Bug: https://bugs.chromium.org/p/chromium/issues/detail?id=799620
+Origin: https://chromium.googlesource.com/angle/angle/+/949b4f07fd1ef5b208136fe38327c28c95f18928
+
+Index: dev/third_party/angle/src/commit_id.py
+===================================================================
+--- dev.orig/third_party/angle/src/commit_id.py
++++ dev/third_party/angle/src/commit_id.py
+@@ -23,6 +23,9 @@ if operation == 'check':
+         print("0")
+     sys.exit(0)
+ 
++if len(sys.argv) < 4 or operation != 'gen':
++    sys.exit(usage)
++
+ output_file = sys.argv[3]
+ commit_id_size = 12
+ 
+Index: dev/third_party/angle/src/vulkan_support/BUILD.gn
+===================================================================
+--- dev.orig/third_party/angle/src/vulkan_support/BUILD.gn
++++ dev/third_party/angle/src/vulkan_support/BUILD.gn
+@@ -145,21 +145,40 @@ foreach(script_and_dep, helper_script_an
+   }
+ }
+ 
+-# This could be generalized to a foreach if other revisions are added.
+-action("spirv_tools_external_revision_generate") {
+-  script = "$vulkan_layers_dir/scripts/external_revision_generator.py"
+-  inputs = [
+-    "$spirv_tools_dir/.git/HEAD",
+-    "$spirv_tools_dir/.git/index",
+-  ]
+-  outputs = [
+-    "$vulkan_gen_dir/spirv_tools_commit_id.h",
+-  ]
+-  args = [
+-    "$raw_spirv_tools_dir",
+-    "SPIRV_TOOLS_COMMIT_ID",
+-    "$raw_vulkan_gen_dir/spirv_tools_commit_id.h",
+-  ]
++spirv_git_is_present = exec_script("$angle_root/src/commit_id.py",
++                                   [
++                                     "check",
++                                     raw_spirv_tools_dir,
++                                   ],
++                                   "value")
++
++spirv_use_commit_id = spirv_git_is_present == 1
++
++if (spirv_use_commit_id) {
++  # This could be generalized to a foreach if other revisions are added.
++  action("spirv_tools_external_revision_generate") {
++    script = "$vulkan_layers_dir/scripts/external_revision_generator.py"
++    inputs = [
++      "$angle_root/DEPS",
++    ]
++    outputs = [
++      "$vulkan_gen_dir/spirv_tools_commit_id.h",
++    ]
++    args = [
++      "$raw_spirv_tools_dir",
++      "SPIRV_TOOLS_COMMIT_ID",
++      "$raw_vulkan_gen_dir/spirv_tools_commit_id.h",
++    ]
++  }
++} else {
++  copy("spirv_tools_external_revision_generate") {
++    sources = [
++      "dummy_spirv_tools_commit_id.h",
++    ]
++    outputs = [
++      "$vulkan_gen_dir/spirv_tools_commit_id.h",
++    ]
++  }
+ }
+ 
+ config("vulkan_generate_helper_files_config") {
+Index: dev/third_party/angle/src/vulkan_support/dummy_spirv_tools_commit_id.h
+===================================================================
+--- /dev/null
++++ dev/third_party/angle/src/vulkan_support/dummy_spirv_tools_commit_id.h
+@@ -0,0 +1,10 @@
++//
++// Copyright 2018 The ANGLE Project Authors. All rights reserved.
++// Use of this source code is governed by a BSD-style license that can be
++// found in the LICENSE file.
++//
++// This file is a dummy file to enable building SPIRV tools when git is absent.
++
++#pragma once
++
++#define SPIRV_TOOLS_COMMIT_ID "0000000000000000000000000000000000000000"

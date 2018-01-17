@@ -1,3 +1,9 @@
+chromium-browser (65.0.3315.3-0ubuntu1~ppa5~16.04.1) xenial; urgency=low
+
+  * Fix build.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 17 Jan 2018 02:28:16 -0500
+
 chromium-browser (65.0.3315.3-0ubuntu1~ppa4~16.04.1) xenial; urgency=low
 
   * Fix packaging rule.
