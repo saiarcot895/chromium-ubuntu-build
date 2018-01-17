@@ -1,3 +1,9 @@
+chromium-browser (65.0.3315.3-0ubuntu1~ppa6~18.04.1) bionic; urgency=low
+
+  * Fix build.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 17 Jan 2018 10:37:30 -0500
+
 chromium-browser (65.0.3315.3-0ubuntu1~ppa5~18.04.1) bionic; urgency=low
 
   * Fix build.
