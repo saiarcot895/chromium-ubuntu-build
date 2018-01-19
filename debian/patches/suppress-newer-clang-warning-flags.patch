@@ -5,7 +5,7 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -1314,26 +1314,26 @@ config("default_warnings") {
+@@ -1310,26 +1310,26 @@ config("default_warnings") {
          "-Wno-address-of-packed-member",
  
          # TODO(hans): https://crbug.com/681136

@@ -35,9 +35,8 @@ stdatomic
 fix-compile-error.patch
 specify-gcc-standard.patch
 fix-wayland-build.patch
-fix-gn-bootstrap.patch
 enable-chromecast-by-default.patch
 revert-Xclang-instcombine-lower-dbg-declare.patch
 suppress-newer-clang-warning-flags.patch
 fix-ffmpeg-build.patch
-vulkan-allow-no-git.patch
+fix-build-on-older-gcc.patch

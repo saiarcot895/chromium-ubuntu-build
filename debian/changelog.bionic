@@ -1,3 +1,10 @@
+chromium-browser (65.0.3322.3-0ubuntu1~ppa1~18.04.1) bionic; urgency=low
+
+  * New upstream version 65.0.3322.3
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 19 Jan 2018 01:42:04 -0500
+
 chromium-browser (65.0.3315.3-0ubuntu1~ppa6~18.04.1) bionic; urgency=low
 
   * Fix build.
