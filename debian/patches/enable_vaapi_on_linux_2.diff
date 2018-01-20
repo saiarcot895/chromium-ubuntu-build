@@ -357,7 +357,7 @@ Index: beta/content/browser/renderer_host/render_process_host_impl.cc
      switches::kDisableBackgroundTimerThrottling,
      switches::kDisableBreakpad,
      switches::kDisableBrowserSideNavigation,
-@@ -2675,8 +2679,10 @@ void RenderProcessHostImpl::PropagateBro
+@@ -2674,8 +2678,10 @@ void RenderProcessHostImpl::PropagateBro
      switches::kDisableMojoRenderer,
  #endif
  #if BUILDFLAG(ENABLE_WEBRTC)
