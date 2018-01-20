@@ -7,7 +7,7 @@ Index: dev/device/u2f/u2f_ble_transaction.cc
  void U2fBleTransaction::OnError() {
    request_frame_.reset();
 -  request_cont_fragments_ = {};
-+  request_cont_fragments_.clear();
++  request_cont_fragments_ = base::queue<U2fBleFrameContinuationFragment>();
    response_frame_assembler_.reset();
    std::move(callback_).Run(base::nullopt);
  }

@@ -1,3 +1,9 @@
+chromium-browser (65.0.3322.3-0ubuntu1~ppa2~17.10.1) artful; urgency=low
+
+  * Fix build.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 20 Jan 2018 14:17:11 -0500
+
 chromium-browser (65.0.3322.3-0ubuntu1~ppa1~17.10.1) artful; urgency=low
 
   * New upstream version 65.0.3322.3
