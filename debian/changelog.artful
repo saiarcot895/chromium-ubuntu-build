@@ -1,3 +1,10 @@
+chromium-browser (65.0.3322.3-0ubuntu1~ppa3~17.10.1) artful; urgency=low
+
+  * Fix build due to VAAPI API change.
+  * Fix build due to old GCC/libc version/standards issue.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 21 Jan 2018 13:45:51 -0500
+
 chromium-browser (65.0.3322.3-0ubuntu1~ppa2~17.10.1) artful; urgency=low
 
   * Fix build.
