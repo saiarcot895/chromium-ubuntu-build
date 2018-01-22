@@ -1,3 +1,9 @@
+chromium-browser (65.0.3322.3-0ubuntu1~ppa4~16.04.1) xenial; urgency=low
+
+  * Fix build due to old GCC (again).
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 22 Jan 2018 11:23:51 -0500
+
 chromium-browser (65.0.3322.3-0ubuntu1~ppa3~16.04.1) xenial; urgency=low
 
   * Fix build due to VAAPI API change.

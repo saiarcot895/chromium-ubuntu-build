@@ -103,6 +103,8 @@ Index: dev/gpu/command_buffer/service/texture_manager.cc
 -        {GL_DEPTH_COMPONENT24, GL_DEPTH_COMPONENT, GL_UNSIGNED_INT},
 -        {GL_DEPTH_COMPONENT32F, GL_DEPTH_COMPONENT, GL_FLOAT},
 -        {GL_DEPTH24_STENCIL8, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8},
+-        {GL_DEPTH32F_STENCIL8, GL_DEPTH_STENCIL,
+-         GL_FLOAT_32_UNSIGNED_INT_24_8_REV},
 +        std::make_tuple(GL_R8, GL_RED, GL_UNSIGNED_BYTE),
 +        std::make_tuple(GL_R8_SNORM, GL_RED, GL_BYTE),
 +        std::make_tuple(GL_R16F, GL_RED, GL_HALF_FLOAT),
@@ -169,8 +171,8 @@ Index: dev/gpu/command_buffer/service/texture_manager.cc
 +        std::make_tuple(GL_DEPTH_COMPONENT24, GL_DEPTH_COMPONENT, GL_UNSIGNED_INT),
 +        std::make_tuple(GL_DEPTH_COMPONENT32F, GL_DEPTH_COMPONENT, GL_FLOAT),
 +        std::make_tuple(GL_DEPTH24_STENCIL8, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8),
-         {GL_DEPTH32F_STENCIL8, GL_DEPTH_STENCIL,
-          GL_FLOAT_32_UNSIGNED_INT_24_8_REV},
++        std::make_tuple(GL_DEPTH32F_STENCIL8, GL_DEPTH_STENCIL,
++         GL_FLOAT_32_UNSIGNED_INT_24_8_REV),
  
          // Exposed by GL_APPLE_texture_format_BGRA8888 for TexStorage*
          // TODO(kainino): this actually exposes it for (Copy)TexImage* as well,
@@ -245,3 +247,12 @@ Index: dev/gpu/command_buffer/service/texture_manager.cc
      };
  
      for (size_t ii = 0; ii < arraysize(kSupportedFormatTypes); ++ii) {
+@@ -269,7 +269,7 @@ class FormatTypeValidator {
+   // This may be accessed from multiple threads.
+   bool IsValid(ContextType context_type, GLenum internal_format, GLenum format,
+                GLenum type) const {
+-    FormatType query = { internal_format, format, type };
++    FormatType query = std::make_tuple(internal_format, format, type);
+     if (supported_combinations_.find(query) != supported_combinations_.end()) {
+       return true;
+     }

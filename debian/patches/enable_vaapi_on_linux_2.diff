@@ -766,7 +766,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
    va_attrib_extbuf.num_planes = num_planes;
  
-+#if VA_CHECK_VERSION(2,0,0)
++#if VA_CHECK_VERSION(1, 0, 0)
 +  std::vector<uintptr_t> fds(num_fds);
 +#else
    std::vector<unsigned long> fds(num_fds);
