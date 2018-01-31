@@ -1,3 +1,10 @@
+chromium-browser (65.0.3325.31-0ubuntu1~ppa1~14.04.1) trusty; urgency=low
+
+  * New upstream version 65.0.3325.31
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 31 Jan 2018 11:41:12 -0500
+
 chromium-browser (65.0.3322.3-0ubuntu1~ppa4~14.04.1) trusty; urgency=low
 
   * Fix build due to old GCC (again).
