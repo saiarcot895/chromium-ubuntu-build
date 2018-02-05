@@ -1,15 +1,15 @@
-Taken from https://chromium.googlesource.com/chromium/src.git/+/c47196bd73aa1a84ef4603c510dcd2175703cb75
+Taken from https://chromium.googlesource.com/chromium/src.git/+/9f63f94a11abc34d40ede8b8712fa15b5844a8c0
 
-Index: dev/base/containers/flat_set.h
+Index: dev/components/assist_ranker/ranker_example_util.cc
 ===================================================================
---- dev.orig/base/containers/flat_set.h
-+++ dev/base/containers/flat_set.h
-@@ -7,6 +7,8 @@
+--- dev.orig/components/assist_ranker/ranker_example_util.cc
++++ dev/components/assist_ranker/ranker_example_util.cc
+@@ -2,6 +2,8 @@
+ // Use of this source code is governed by a BSD-style license that can be
+ // found in the LICENSE file.
  
- #include <functional>
- 
-+#include <functional>
++#include <math.h>
 +
- #include "base/containers/flat_tree.h"
- #include "base/template_util.h"
- 
+ #include "components/assist_ranker/ranker_example_util.h"
+ #include "base/bit_cast.h"
+ #include "base/format_macros.h"
