@@ -13,3 +13,15 @@ Index: dev/components/assist_ranker/ranker_example_util.cc
  #include "components/assist_ranker/ranker_example_util.h"
  #include "base/bit_cast.h"
  #include "base/format_macros.h"
+Index: dev/chrome/browser/vr/sample_queue.h
+===================================================================
+--- dev.orig/chrome/browser/vr/sample_queue.h
++++ dev/chrome/browser/vr/sample_queue.h
+@@ -6,6 +6,7 @@
+ #define CHROME_BROWSER_VR_SAMPLE_QUEUE_H_
+ 
+ #include <vector>
++#include <math.h>
+ 
+ #include "base/macros.h"
+ 

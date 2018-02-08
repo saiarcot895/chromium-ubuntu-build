@@ -592,4 +592,4 @@ patch-translations:
 	quilt refresh -pab "$(PATCH_FILE)"
 	@echo "Patch needs committing."
 
-.PHONY: install get-packaged-orig-source gos override_dh_* local_install_* patch-translations compare_*
+.PHONY: binary binary-arch binary-indep build build-arch build-indep clean install install-arch install-indep patch get-packaged-orig-source gos override_dh_* local-install-* patch-translations compare-*
