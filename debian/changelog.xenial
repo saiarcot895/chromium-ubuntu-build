@@ -1,3 +1,9 @@
+chromium-browser (65.0.3325.31-0ubuntu1~ppa5~16.04.1) xenial; urgency=low
+
+  * Fix PHONY targets, and add an explicit build target. (Fixes: #25)
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 09 Feb 2018 11:19:47 -0500
+
 chromium-browser (65.0.3325.31-0ubuntu1~ppa4~16.04.1) xenial; urgency=low
 
   * Fix PHONY targets. (Fixes: #25)

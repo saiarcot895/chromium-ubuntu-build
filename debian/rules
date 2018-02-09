@@ -277,6 +277,12 @@ endif
 	@set -eux
 	dh $@ --sourcedirectory=$(SRC_DIR) --builddirectory=$(SRC_DIR)/out/$(BUILD_TYPE)
 
+# There's a build directory in the source tree that may or may not be interpreted as a target.
+# As a result, make will do nothing. As a workaround, define an explicit target.
+build:
+	@set -eux
+	dh $@ --sourcedirectory=$(SRC_DIR) --builddirectory=$(SRC_DIR)/out/$(BUILD_TYPE)
+
 # BZR build-deb rule
 get-packaged-orig-source: URL=https://commondatastorage.googleapis.com/chromium-browser-official/chromium-$(ORIG_VERSION).tar.xz
 get-packaged-orig-source: SUMURL=https://commondatastorage.googleapis.com/chromium-browser-official/chromium-$(ORIG_VERSION).tar.xz.hashes
@@ -592,4 +598,4 @@ patch-translations:
 	quilt refresh -pab "$(PATCH_FILE)"
 	@echo "Patch needs committing."
 
-.PHONY: build configure clean install install-arch install-indep patch get-packaged-orig-source gos override_dh_* local-install-* patch-translations compare-*
+.PHONY: build get-packaged-orig-source override_dh_* local-install-* patch-translations compare-*
