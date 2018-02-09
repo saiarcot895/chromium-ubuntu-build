@@ -1,3 +1,9 @@
+chromium-browser (65.0.3325.31-0ubuntu1~ppa4~17.10.1) artful; urgency=low
+
+  * Fix PHONY targets. (Fixes: #25)
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 09 Feb 2018 10:38:35 -0500
+
 chromium-browser (65.0.3325.31-0ubuntu1~ppa3~17.10.1) artful; urgency=low
 
   * Fix build.
