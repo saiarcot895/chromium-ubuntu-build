@@ -1,7 +1,7 @@
-Index: dev/ui/ozone/platform/wayland/BUILD.gn
+Index: beta/ui/ozone/platform/wayland/BUILD.gn
 ===================================================================
---- dev.orig/ui/ozone/platform/wayland/BUILD.gn
-+++ dev/ui/ozone/platform/wayland/BUILD.gn
+--- beta.orig/ui/ozone/platform/wayland/BUILD.gn
++++ beta/ui/ozone/platform/wayland/BUILD.gn
 @@ -5,11 +5,18 @@
  visibility = [ "//ui/ozone/*" ]
  

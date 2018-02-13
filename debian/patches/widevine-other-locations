@@ -1,7 +1,7 @@
-Index: dev/chrome/common/chrome_paths.cc
+Index: beta/chrome/common/chrome_paths.cc
 ===================================================================
---- dev.orig/chrome/common/chrome_paths.cc
-+++ dev/chrome/common/chrome_paths.cc
+--- beta.orig/chrome/common/chrome_paths.cc
++++ beta/chrome/common/chrome_paths.cc
 @@ -380,6 +380,14 @@ bool PathProvider(int key, base::FilePat
      // In the component case, this is the source adapter. Otherwise, it is the
      // actual Pepper module that gets loaded.

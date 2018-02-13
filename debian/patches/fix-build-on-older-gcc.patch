@@ -1,7 +1,7 @@
-Index: dev/device/u2f/u2f_ble_transaction.cc
+Index: beta/device/u2f/u2f_ble_transaction.cc
 ===================================================================
---- dev.orig/device/u2f/u2f_ble_transaction.cc
-+++ dev/device/u2f/u2f_ble_transaction.cc
+--- beta.orig/device/u2f/u2f_ble_transaction.cc
++++ beta/device/u2f/u2f_ble_transaction.cc
 @@ -131,7 +131,7 @@ void U2fBleTransaction::StopTimeout() {
  
  void U2fBleTransaction::OnError() {
@@ -11,10 +11,10 @@ Index: dev/device/u2f/u2f_ble_transaction.cc
    response_frame_assembler_.reset();
    std::move(callback_).Run(base::nullopt);
  }
-Index: dev/gpu/command_buffer/service/texture_manager.cc
+Index: beta/gpu/command_buffer/service/texture_manager.cc
 ===================================================================
---- dev.orig/gpu/command_buffer/service/texture_manager.cc
-+++ dev/gpu/command_buffer/service/texture_manager.cc
+--- beta.orig/gpu/command_buffer/service/texture_manager.cc
++++ beta/gpu/command_buffer/service/texture_manager.cc
 @@ -131,130 +131,130 @@ class FormatTypeValidator {
    FormatTypeValidator() {
      static const FormatType kSupportedFormatTypes[] = {

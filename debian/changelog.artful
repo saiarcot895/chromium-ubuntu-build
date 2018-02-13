@@ -1,3 +1,10 @@
+chromium-browser (65.0.3325.51-0ubuntu1~ppa1~17.10.1) artful; urgency=low
+
+  * New upstream version 65.0.3325.51
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 13 Feb 2018 11:07:09 -0500
+
 chromium-browser (65.0.3325.31-0ubuntu1~ppa5~17.10.1) artful; urgency=low
 
   * Fix PHONY targets, and add an explicit build target. (Fixes: #25)
