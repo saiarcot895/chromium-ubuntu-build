@@ -54,7 +54,7 @@ Pre-Depends: dpkg (>= 1.15.6)
 Depends: ${shlibs:Depends}, ${misc:Depends},
 	xdg-utils,
 	chromium-codecs-ffmpeg-extra (= ${binary:Version}) | chromium-codecs-ffmpeg (= ${binary:Version})
-Recommends: chromium-browser-l10n, libva1, libva-x11-1
+Recommends: chromium-browser-l10n, libva2 | libva1, libva-x11-2 | libva-x11-1, libva-wayland2 | libva-wayland1
 Suggests: webaccounts-chromium-extension,
 	unity-chromium-extension,
 	chromiumflashplugin
