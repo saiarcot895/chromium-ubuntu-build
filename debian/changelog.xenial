@@ -1,3 +1,9 @@
+chromium-browser (65.0.3325.51-0ubuntu1~ppa2~16.04.1) xenial; urgency=low
+
+  * Rebuild with correct packaging.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 13 Feb 2018 12:00:58 -0500
+
 chromium-browser (65.0.3325.51-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
 
   * New upstream version 65.0.3325.51

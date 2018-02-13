@@ -1,94 +1,93 @@
-chromium-browser (65.0.3325.51-0ubuntu1~ppa1~17.10.1) artful; urgency=low
+chromium-browser (65.0.3325.51-0ubuntu1~ppa2~18.04.1) bionic; urgency=low
 
-  * New upstream version 65.0.3325.51
-  * Updated patches.
+  * Rebuild with correct packaging.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 13 Feb 2018 11:07:09 -0500
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 13 Feb 2018 12:00:58 -0500
 
-chromium-browser (65.0.3325.31-0ubuntu1~ppa5~17.10.1) artful; urgency=low
+chromium-browser (65.0.3325.31-0ubuntu1~ppa5~18.04.1) bionic; urgency=low
 
   * Fix PHONY targets, and add an explicit build target. (Fixes: #25)
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 09 Feb 2018 11:19:48 -0500
 
-chromium-browser (65.0.3325.31-0ubuntu1~ppa4~17.10.1) artful; urgency=low
+chromium-browser (65.0.3325.31-0ubuntu1~ppa4~18.04.1) bionic; urgency=low
 
   * Fix PHONY targets. (Fixes: #25)
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 09 Feb 2018 10:38:35 -0500
 
-chromium-browser (65.0.3325.31-0ubuntu1~ppa3~17.10.1) artful; urgency=low
+chromium-browser (65.0.3325.31-0ubuntu1~ppa3~18.04.1) bionic; urgency=low
 
   * Fix build.
   * Specify additiona PHONY targets. (Fixes: #25)
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 08 Feb 2018 11:12:38 -0500
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 08 Feb 2018 11:12:39 -0500
 
-chromium-browser (65.0.3325.31-0ubuntu1~ppa2~17.10.1) artful; urgency=low
+chromium-browser (65.0.3325.31-0ubuntu1~ppa2~18.04.1) bionic; urgency=low
 
   * Fix build.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 05 Feb 2018 10:50:47 -0500
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 05 Feb 2018 10:50:48 -0500
 
-chromium-browser (65.0.3325.31-0ubuntu1~ppa1~17.10.1) artful; urgency=low
+chromium-browser (65.0.3325.31-0ubuntu1~ppa1~18.04.1) bionic; urgency=low
 
   * New upstream version 65.0.3325.31
   * Updated patches.
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 31 Jan 2018 11:41:13 -0500
 
-chromium-browser (65.0.3322.3-0ubuntu1~ppa4~17.10.1) artful; urgency=low
+chromium-browser (65.0.3322.3-0ubuntu1~ppa4~18.04.1) bionic; urgency=low
 
   * Fix build due to old GCC (again).
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 22 Jan 2018 11:23:52 -0500
 
-chromium-browser (65.0.3322.3-0ubuntu1~ppa3~17.10.1) artful; urgency=low
+chromium-browser (65.0.3322.3-0ubuntu1~ppa3~18.04.1) bionic; urgency=low
 
   * Fix build due to VAAPI API change.
   * Fix build due to old GCC/libc version/standards issue.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 21 Jan 2018 13:45:51 -0500
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 21 Jan 2018 13:45:52 -0500
 
-chromium-browser (65.0.3322.3-0ubuntu1~ppa2~17.10.1) artful; urgency=low
+chromium-browser (65.0.3322.3-0ubuntu1~ppa2~18.04.1) bionic; urgency=low
 
   * Fix build.
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 20 Jan 2018 14:17:11 -0500
 
-chromium-browser (65.0.3322.3-0ubuntu1~ppa1~17.10.1) artful; urgency=low
+chromium-browser (65.0.3322.3-0ubuntu1~ppa1~18.04.1) bionic; urgency=low
 
   * New upstream version 65.0.3322.3
   * Updated patches.
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 19 Jan 2018 01:42:04 -0500
 
-chromium-browser (65.0.3315.3-0ubuntu1~ppa6~17.10.1) artful; urgency=low
+chromium-browser (65.0.3315.3-0ubuntu1~ppa6~18.04.1) bionic; urgency=low
 
   * Fix build.
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 17 Jan 2018 10:37:30 -0500
 
-chromium-browser (65.0.3315.3-0ubuntu1~ppa5~17.10.1) artful; urgency=low
+chromium-browser (65.0.3315.3-0ubuntu1~ppa5~18.04.1) bionic; urgency=low
 
   * Fix build.
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 17 Jan 2018 02:28:16 -0500
 
-chromium-browser (65.0.3315.3-0ubuntu1~ppa4~17.10.1) artful; urgency=low
+chromium-browser (65.0.3315.3-0ubuntu1~ppa4~18.04.1) bionic; urgency=low
 
   * Fix packaging rule.
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 16 Jan 2018 12:00:52 -0500
 
-chromium-browser (65.0.3315.3-0ubuntu1~ppa3~17.10.1) artful; urgency=low
+chromium-browser (65.0.3315.3-0ubuntu1~ppa3~18.04.1) bionic; urgency=low
 
   * Update clear key target name.
   * Don't apply a clang patch on Bionic.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 16 Jan 2018 11:25:55 -0500
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 16 Jan 2018 11:25:56 -0500
 
-chromium-browser (65.0.3315.3-0ubuntu1~ppa2~17.10.1) artful; urgency=low
+chromium-browser (65.0.3315.3-0ubuntu1~ppa2~18.04.1) bionic; urgency=low
 
   * Fix gn bootstrap.
   * Start bionic builds.
