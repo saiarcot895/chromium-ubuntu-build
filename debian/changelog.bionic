@@ -1,3 +1,9 @@
+chromium-browser (65.0.3325.51-0ubuntu1~ppa3~18.04.1) bionic; urgency=low
+
+  * Readd necessary patch.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 13 Feb 2018 21:48:38 -0500
+
 chromium-browser (65.0.3325.51-0ubuntu1~ppa2~18.04.1) bionic; urgency=low
 
   * Rebuild with correct packaging.

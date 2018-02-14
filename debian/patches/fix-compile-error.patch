@@ -1,0 +1,15 @@
+Taken from https://chromium.googlesource.com/chromium/src.git/+/9f63f94a11abc34d40ede8b8712fa15b5844a8c0
+
+Index: beta/components/assist_ranker/ranker_example_util.cc
+===================================================================
+--- beta.orig/components/assist_ranker/ranker_example_util.cc
++++ beta/components/assist_ranker/ranker_example_util.cc
+@@ -2,6 +2,8 @@
+ // Use of this source code is governed by a BSD-style license that can be
+ // found in the LICENSE file.
+ 
++#include <math.h>
++
+ #include "components/assist_ranker/ranker_example_util.h"
+ #include "base/bit_cast.h"
+ #include "base/format_macros.h"
