@@ -314,7 +314,7 @@ Index: beta/content/browser/renderer_host/render_process_host_impl.cc
 ===================================================================
 --- beta.orig/content/browser/renderer_host/render_process_host_impl.cc
 +++ beta/content/browser/renderer_host/render_process_host_impl.cc
-@@ -2525,7 +2525,11 @@ void RenderProcessHostImpl::PropagateBro
+@@ -2530,7 +2530,11 @@ void RenderProcessHostImpl::PropagateBro
      switches::kDefaultTileHeight,
      switches::kDisable2dCanvasImageChromium,
      switches::kDisableAcceleratedJpegDecoding,
@@ -326,7 +326,7 @@ Index: beta/content/browser/renderer_host/render_process_host_impl.cc
      switches::kDisableBackgroundTimerThrottling,
      switches::kDisableBreakpad,
      switches::kDisableCompositorUkmForTests,
-@@ -2658,8 +2662,10 @@ void RenderProcessHostImpl::PropagateBro
+@@ -2663,8 +2667,10 @@ void RenderProcessHostImpl::PropagateBro
      switches::kDisableMojoRenderer,
  #endif
  #if BUILDFLAG(ENABLE_WEBRTC)

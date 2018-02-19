@@ -1,3 +1,10 @@
+chromium-browser (65.0.3325.73-0ubuntu1~ppa1~14.04.1) trusty; urgency=low
+
+  * New upstream version 65.0.3325.73
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 19 Feb 2018 18:42:31 -0500
+
 chromium-browser (65.0.3325.51-0ubuntu1~ppa3~14.04.1) trusty; urgency=low
 
   * Readd necessary patch.
