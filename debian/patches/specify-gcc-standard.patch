@@ -1,12 +1,12 @@
-Index: dev/third_party/angle/src/vulkan_support/BUILD.gn
+Index: dev/third_party/angle/third_party/vulkan-validation-layers/BUILD.gn
 ===================================================================
---- dev.orig/third_party/angle/src/vulkan_support/BUILD.gn
-+++ dev/third_party/angle/src/vulkan_support/BUILD.gn
-@@ -307,6 +307,7 @@ static_library("vulkan_loader") {
-     ":vulkan_loader_config",
+--- dev.orig/third_party/angle/third_party/vulkan-validation-layers/BUILD.gn
++++ dev/third_party/angle/third_party/vulkan-validation-layers/BUILD.gn
+@@ -546,6 +546,7 @@ source_set("vulkan_layer_utils") {
+     ":vulkan_generate_helper_files",
    ]
    configs -= vulkan_undefine_configs
 +  cflags_c = [ "-std=gnu11" ]
  }
  
- # SPIRV-tools
+ config("vulkan_core_validation_config") {

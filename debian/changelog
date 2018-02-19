@@ -1,3 +1,10 @@
+chromium-browser (66.0.3346.8-0ubuntu1~ppa1~18.04.1) bionic; urgency=low
+
+  * New upstream version 66.0.3346.8
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 19 Feb 2018 17:47:49 -0500
+
 chromium-browser (65.0.3325.31-0ubuntu1~ppa5~18.04.1) bionic; urgency=low
 
   * Fix PHONY targets, and add an explicit build target. (Fixes: #25)

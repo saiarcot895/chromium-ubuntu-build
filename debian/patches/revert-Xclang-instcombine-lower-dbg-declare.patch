@@ -5,7 +5,7 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -470,18 +470,6 @@ config("compiler") {
+@@ -468,18 +468,6 @@ config("compiler") {
      cflags += [ "-fcolor-diagnostics" ]
    }
  

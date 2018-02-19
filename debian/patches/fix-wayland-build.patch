@@ -21,7 +21,7 @@ Index: dev/ui/ozone/platform/wayland/BUILD.gn
  source_set("wayland") {
    sources = [
      "client_native_pixmap_factory_wayland.cc",
-@@ -76,6 +83,10 @@ source_set("wayland") {
+@@ -77,6 +84,10 @@ source_set("wayland") {
      ":wayland-egl",
      "//third_party/khronos:khronos_headers",
    ]
