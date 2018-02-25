@@ -256,3 +256,16 @@ Index: beta/gpu/command_buffer/service/texture_manager.cc
      if (supported_combinations_.find(query) != supported_combinations_.end()) {
        return true;
      }
+Index: beta/content/browser/accessibility/accessibility_tree_formatter_blink.cc
+===================================================================
+--- beta.orig/content/browser/accessibility/accessibility_tree_formatter_blink.cc
++++ beta/content/browser/accessibility/accessibility_tree_formatter_blink.cc
+@@ -194,7 +194,7 @@ void AccessibilityTreeFormatterBlink::Ad
+        attr_index <= ui::AX_FLOAT_ATTRIBUTE_LAST;
+        ++attr_index) {
+     auto attr = static_cast<ui::AXFloatAttribute>(attr_index);
+-    if (node.HasFloatAttribute(attr) && isfinite(node.GetFloatAttribute(attr)))
++    if (node.HasFloatAttribute(attr) && std::isfinite(node.GetFloatAttribute(attr)))
+       dict->SetDouble(ui::ToString(attr), node.GetFloatAttribute(attr));
+   }
+ 
