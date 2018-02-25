@@ -8,11 +8,7 @@ DEBIAN_DIST		:= $(shell lsb_release -ds | tr -d '()' | sed -e 's/\#/ /g')
 DEBIAN_DIST_NAME	:= $(shell lsb_release -si | sed -e 's/\#/ /g')
 DEBIAN_DIST_VERSION	:= $(shell lsb_release -sr | sed -e 's/\#/ /g')
 
-DEBIAN_CODECS_NAME      := $(subst browser,codecs-ffmpeg,$(DEBIAN_NAME))
-DEBIAN_DRIVER_NAME      := $(subst browser,chromedriver,$(DEBIAN_NAME))
-
 DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
-DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 DEB_HOST_ARCH_CPU ?= $(shell dpkg-architecture -qDEB_HOST_ARCH_CPU)
 DEB_BUILD_ARCH ?= $(shell dpkg-architecture -qDEB_BUILD_ARCH)
 DEB_BUILD_ARCH_BITS ?= $(shell dpkg-architecture -qDEB_BUILD_ARCH_BITS)
@@ -25,6 +21,7 @@ LIB_DIR        := usr/lib/$(DEBIAN_NAME)
 FFMPEG_DIR     := third_party/ffmpeg
 FFMPEG_SRC_DIR := $(SRC_DIR)/$(FFMPEG_DIR)
 NINJA          := ninja
+BUILD_TYPE     := final
 
 # Whitelist LP provided new langs only in release builds, PPAs ship them all
 WANT_ONLY_WHITELISTED_NEW_LANGS ?= 0
@@ -38,180 +35,62 @@ ifneq (,$(findstring Debian,$(DEBIAN_DIST)))
 DISTRIBUTION=DEBIAN
 endif
 
-WANT_DEBUG       := 0
 WANT_OZONE       := 0
 
-# System libs off. Rationalle: We usually want to use as many system libraries
-# as possible, as a security measure. If there's a security problem in one, the
-# security team can replace it in the distro and everything magically starts
-# working. Chromium is an exception. It moves quickly emough that testing that
-# system libraries actually work is too hard, and upstream does a pretty good
-# job of fixing known security problems soon.  As long as we keep the package
-# fresh, no system libs is the smarter move.
-WANT_SYSTEM_LIBS ?= 0
-WANT_SHARED_LIBS ?= 0
-VERBOSE          := 1
-PROCESSORS       ?= $(shell grep -ic ^processor /proc/cpuinfo)
-ifeq (0,$(PROCESSORS))
-PROCESSORS := 1
-endif
+common_defines :=
+browser_defines :=
+ffmpeg_std_defines :=
+ffmpeg_extra_defines :=
 
-# Don't fail on compilation warnings
-GN_DEFINES += treat_warnings_as_errors=false
-FFMPEG_MT_GN_DEFINES += treat_warnings_as_errors=false
+# enable verbose build messages
+export DH_VERBOSE=1
 
-# We are never using a sysroot-based toolchain; override the wrong
-# autodetection for arm.
-GN_DEFINES += use_sysroot=false
-FFMPEG_MT_GN_DEFINES += use_sysroot=false
-
-# NaCl isn't ready yet
-GN_DEFINES += enable_nacl=false use_swiftshader_with_subzero=false
-FFMPEG_MT_GN_DEFINES += enable_nacl=false use_swiftshader_with_subzero=false
-
-ifneq (,$(filter arm%,$(DEB_HOST_ARCH_CPU)))
-# Disable NaCl for arm until the toolchain is built
-GN_DEFINES += enable_nacl=false
-FFMPEG_MT_GN_DEFINES += enable_nacl=false
-else
-# Don't build anything related to newlib or glibc, as it's not needed for the
-# core NaCl
-GN_DEFINES += use_gcc_glibc=false use_clang_newlib=false
-endif
-
-# use gold, do not use bundled binutils
-GN_DEFINES += use_lld=false use_gold=true linux_use_bundled_binutils=false
-FFMPEG_MT_GN_DEFINES += use_lld=false use_gold=true linux_use_bundled_binutils=false
-
-# get resources for high dpi and touch
-# GN_DEFINES += enable_hidpi=true
-
-# add support and stubbed implementation of widevine (needed for EME)
-GN_DEFINES += enable_widevine=true
-
-# disable field trial tests
-GN_DEFINES += fieldtrial_testing_like_official_build=true
-FFMPEG_MT_GN_DEFINES += fieldtrial_testing_like_official_build=true
-
-# don't vulcanize; we don't have the node.js modules needed readily available
-GN_DEFINES += optimize_webui=false
-
-# Enable VAAPI
-GN_DEFINES += use_vaapi=true
-
-# Don't use custom libc++
-GN_DEFINES += use_custom_libcxx=false
-FFMPEG_MT_GN_DEFINES += use_custom_libcxx=false
-
-# Unbundle harfbuzz
-GN_DEFINES += use_bundled_fontconfig=false
-FFMPEG_MT_GN_DEFINES += use_bundled_fontconfig=false
-
-# DIsable VR support, it doesn't work anyways
-GN_DEFINES += enable_vr=false
-
-# Intentional configuration, not bug work-arounds.
-ifeq (arm,$(DEB_HOST_ARCH_CPU))
-
-GN_DEFINES += \
-	arm_use_neon=false \
-	target_cpu="arm" \
-	use_cups=true \
-	$(NULL)
-FFMPEG_MT_GN_DEFINES += \
-	arm_use_neon=false \
-	target_cpu="arm" \
-	use_cups=true \
-	$(NULL)
-
- ifeq (armel,$(DEB_HOST_ARCH))
-GN_DEFINES += \
-	arm_float_abi="soft" \
-	arm_use_thumb=false \
-	arm_version=6 \
-	$(NULL)
- endif
- ifeq (armhf,$(DEB_HOST_ARCH))
-# ARN Neon optional flag is off because it causes build errors, AND testing
-# /proc/cpuinfo contents can't work with a sandbox anyway.
-# In addition, some componenets appear to assume that Neon always exists.
-GN_DEFINES += \
-	arm_optionally_use_neon=false \
-	arm_fpu="vfpv3-d16" \
-	arm_float_abi="hard" \
-	arm_use_thumb=true \
-	arm_version=7 \
-	$(NULL)
-FFMPEG_MT_GN_DEFINES += \
-	arm_optionally_use_neon=false \
-	arm_fpu="vfpv3-d16" \
-	arm_float_abi="hard" \
-	arm_use_thumb=true \
-	arm_version=7 \
-	$(NULL)
- endif
-endif
-ifeq (arm64,$(DEB_HOST_ARCH))
-GN_DEFINES += \
-	target_cpu="arm64" \
-	use_cups=true \
-	use_allocator="none" \
-	$(NULL)
-FFMPEG_MT_GN_DEFINES += \
-	target_cpu="arm64" \
-	use_cups=true \
-	use_allocator="none" \
-	$(NULL)
-endif
-ifeq (amd64,$(DEB_HOST_ARCH))
-GN_DEFINES += target_cpu="x64"
-FFMPEG_MT_GN_DEFINES += target_cpu="x64"
-endif
-ifeq (i386,$(DEB_HOST_ARCH))
-GN_DEFINES += target_cpu="x86"
-FFMPEG_MT_GN_DEFINES += target_cpu="x86"
-# SEGV on component builds, 2013-05
-GN_DEFINES += use_allocator="none"
-endif
-ifeq (arm64,$(DEB_HOST_ARCH))
-GN_DEFINES += use_allocator="none"
-endif
-
-# Do this for every architecture. More than 4GB of memory is too much to expect
-# of builders.
-COMPONENT_SHARED_LIB_BUILD := 1
-
-ifeq (1,$(COMPONENT_SHARED_LIB_BUILD))
-BROWSER_GN_DEFINES += is_component_build=true
-FFMPEG_MT_GN_DEFINES += is_component_build=true
-endif
-
-# Webkit library is enormous. Exclude for now.
-BROWSER_GN_DEFINES += remove_webcore_debug_symbols=true
-
-ifeq (1,$(WANT_DEBUG))
-BUILD_TYPE := Debug
-else
-BUILD_TYPE := Release
-# Add symbols
-GN_DEFINES += is_debug=false symbol_level=1
-FFMPEG_MT_GN_DEFINES += is_debug=false symbol_level=2
-endif
-
-BUILD_ARGS += -C $(SRC_DIR)/out/$(BUILD_TYPE)
-
-# Verbose?
-ifeq (1,$(VERBOSE))
-BUILD_ARGS += -v
-endif
-
-ifeq (1,$(WANT_OZONE))
-BROWSER_GN_DEFINES += use_ozone=true use_xkbcommon=true enable_package_mash_services=true
-endif
-
-subst_files = \
-	debian/$(DEBIAN_NAME).sh \
-	$(NULL)
+common_defines+= \
+				enable_google_now=false \
+				enable_hangout_services_extension=true \
+				enable_mdns=true \
+				enable_nacl=false \
+				enable_vr=false \
+				enable_wayland_server=false \
+				enable_webrtc=true \
+				enable_widevine=true \
+				fieldtrial_testing_like_official_build=true \
+				is_component_build=true \
+				is_component_ffmpeg=true \
+				is_debug=false \
+				is_desktop_linux=true \
+				linux_use_bundled_binutils=false \
+				remove_webcore_debug_symbols=true \
+				symbol_level=1 \
+				treat_warnings_as_errors=false \
+				use_allocator="none" \
+				use_alsa=true \
+				use_aura=true \
+				use_bundled_fontconfig=false \
+				use_cups=true \
+				use_custom_libcxx=false \
+				use_dbus=true \
+				use_gio=true \
+				use_glib=true \
+				use_gold=true \
+				use_gtk3=true \
+				use_libpci=true \
+				use_pulseaudio=true \
+				use_sysroot=false \
+				use_system_harfbuzz=false \
+				use_system_libjpeg=false \
+				use_vaapi=true \
+				rtc_enable_protobuf=false \
+				is_clang=true \
+				clang_base_path="/usr" \
+				clang_use_chrome_plugins=false \
+				use_lld=false \
+				is_cfi=false \
+				use_thin_lto=false \
+				fatal_linker_warnings=false \
+				target_os="linux" \
+				current_os="linux" \
+				optimize_webui=false
 
 # FFmpeg-mt
 # Ignore the version built as part of chromium. Build it separately twice, once with
@@ -219,21 +98,50 @@ subst_files = \
 # The ffmpeg_branding variable controls which codecs are built inside the sumo lib.
 # By default, ffmpeg_branding equals to "Chromium" and only builds the ogg/vorbis/theora codecs.
 # When set to "Chrome", it also builds aac/ac3/mpeg4audio/h264/mov/mp3
-BROWSER_GN_DEFINES += \
-	proprietary_codecs=true \
-	ffmpeg_branding="Chrome" \
+ffmpeg_std_defines   += proprietary_codecs=false
+ffmpeg_extra_defines += proprietary_codecs=true ffmpeg_branding="Chrome"
+
+## Debian got this name wrong. DEB_HOST is not the hosting machine of
+## compilation, but the destination of the resulting compiled programs.
+## DEB_HOST = target. DEB_BUILD = hosting machine. Someone forgot what 
+## "to host" means, and thought of "host" as "computery thing".
+
+ifeq (armel,$(DEB_HOST_ARCH))
+common_defines += target_cpu="arm"
+common_defines += arm_use_neon=false
+common_defines += v8_use_arm_eabi_hardfloat=false
+common_defines += arm_float_abi="soft" arm_use_thumb=false
+else ifeq (armhf,$(DEB_HOST_ARCH))
+common_defines += target_cpu="arm"
+common_defines += arm_use_neon=false
+common_defines += arm_float_abi="hard" arm_use_thumb=true
+else ifeq (arm64,$(DEB_HOST_ARCH))
+common_defines += target_cpu="arm64"
+else ifeq (i386,$(DEB_HOST_ARCH))
+common_defines += target_cpu="x86"
+else ifeq (amd64,$(DEB_HOST_ARCH))
+common_defines += target_cpu="x64"
+else ifeq (mipsel,$(DEB_HOST_ARCH))
+common_defines += target_cpu="mipsel"
+else ifeq ($(DEB_HOST_ARCH),)
+else
+$(warning unanticipated arch $(DEB_HOST_ARCH))
+common_defines += target_arch="$(DEB_HOST_ARCH)"
+endif
+
+ifeq (1,$(WANT_OZONE))
+common_defines += use_ozone=true use_xkbcommon=true enable_package_mash_services=true
+endif
+
+subst_files = \
+	debian/$(DEBIAN_NAME).sh \
 	$(NULL)
-FFMPEG_MT_STD_GN_DEFINES    = ffmpeg_branding="Chromium"
-FFMPEG_MT_EXTRA_GN_DEFINES  = ffmpeg_branding="Chrome"
+
 DEB_DH_SHLIBDEPS_ARGS_chromium-codecs-ffmpeg := -ldebian/chromium-codecs-ffmpeg/$(LIB_DIR)
 DEB_DH_SHLIBDEPS_ARGS_chromium-codecs-ffmpeg-extra := -ldebian/chromium-codecs-ffmpeg-extra/$(LIB_DIR)
 
 # enable compile-time dependency on gnome-keyring
 # TODO: do this?
-
-# controlling the use of GConf (the classic GNOME configuration
-# and GIO, which contains GSettings (the new GNOME config system)
-GN_DEFINES += use_gio=true
 
 # Build chrome and chrome_sandbox, and chromedriver
 BUILD_TARGETS += \
@@ -249,27 +157,17 @@ BUILD_TARGETS += \
 DEB_FIXPERMS_EXCLUDE := chrome-sandbox
 
 ifneq (,$(GOOGLEAPI_APIKEY_$(DISTRIBUTION)))
-GYP_DEFINES += \
-	-Dgoogle_api_key='$(GOOGLEAPI_APIKEY_$(DISTRIBUTION))' \
-	-Dgoogle_default_client_id='$(GOOGLEAPI_CLIENTID_$(DISTRIBUTION))' \
-	-Dgoogle_default_client_secret='$(GOOGLEAPI_CLIENTSECRET_$(DISTRIBUTION))'
+common_defines += \
+	google_api_key="$(GOOGLEAPI_APIKEY_$(DISTRIBUTION))" \
+	google_default_client_id="$(GOOGLEAPI_CLIENTID_$(DISTRIBUTION))" \
+	google_default_client_secret="$(GOOGLEAPI_CLIENTSECRET_$(DISTRIBUTION))"
 else
 $(warning Google API info is not set in build variables GOOGLEAPI_APIKEY_$(DISTRIBUTION) GOOGLEAPI_CLIENTID_$(DISTRIBUTION) GOOGLEAPI_CLIENTSECRET_$(DISTRIBUTION))
 endif
 
-ifneq ($(DEB_HOST_ARCH),$(DEB_BUILD_ARCH))
-$(note Cross compiling for $(DEB_HOST_ARCH), from this $(DEB_BUILD_ARCH))
-CROSS_BUILD = PKG_CONFIG_PATH=/usr/lib/$(DEB_HOST_MULTIARCH)/pkgconfig:/usr/$(DEB_HOST_MULTIARCH)/lib/pkgconfig CXX=$(DEB_HOST_GNU_TYPE)-$(CXX)
-else
-CROSS_BUILD = CC=$(shell which clang clang-4.0 | head -n 1) CXX=$(shell which clang++ clang++-4.0 | head -n 1)
-GN_DEFINES += is_clang=true clang_use_chrome_plugins=false
-FFMPEG_MT_GN_DEFINES += is_clang=true clang_use_chrome_plugins=false
-endif
-
 ifneq (,$(filter 14.04%,$(UBUNTU_DIST)))
 ifeq (i386,$(DEB_HOST_ARCH_CPU))
-GN_DEFINES += use_pic=false
-FFMPEG_MT_GN_DEFINES += use_pic=false
+common_defines += use_pic=false
 endif
 endif
 
@@ -312,11 +210,15 @@ get-orig-source-beta:
 ### Below here, rules that support those above required ones. "override_dh_"*
 ### are of course DH customizations
 
-override_dh_auto_configure:
-	# Don't configure here. We configure and build many times in 'build'.
+override_dh_auto_configure: $(SRC_DIR)/gn
+	$(SRC_DIR)/gn gen --args='$(common_defines) $(browser_defines) $(ffmpeg_extra_defines)' $(SRC_DIR)/out/$(BUILD_TYPE)
+	$(SRC_DIR)/gn gen --args='$(common_defines) $(ffmpeg_extra_defines)' $(SRC_DIR)/out/$(BUILD_TYPE)-ffmpeg-extra
+	$(SRC_DIR)/gn gen --args='$(common_defines) $(ffmpeg_std_defines)' $(SRC_DIR)/out/$(BUILD_TYPE)-ffmpeg-std
 
-# There are three things to build. Standard, ffmpeg simple, and ffmpeg full.
-override_dh_auto_build: build-stamp-gn build-stamp build-stamp-ffmpeg-std build-stamp-ffmpeg-extra
+override_dh_auto_build:
+	ninja -v -C $(SRC_DIR)/out/$(BUILD_TYPE) $(BUILD_TARGETS)
+	ninja -v -C $(SRC_DIR)/out/$(BUILD_TYPE)-ffmpeg-extra third_party/ffmpeg
+	ninja -v -C $(SRC_DIR)/out/$(BUILD_TYPE)-ffmpeg-std third_party/ffmpeg
 
 override_dh_fixperms:
 	dh_fixperms --exclude $(DEB_FIXPERMS_EXCLUDE)
@@ -332,7 +234,7 @@ override_dh_shlibdeps:
 
 override_dh_install-arch: PKG_DIRS := $(addprefix debian/,$(shell dh_listpackages))
 override_dh_install-arch: TRASH := .deps gen obj obj.host obj.target \*.lock build.\* .landmines mksnapshot\* protoc pyproto re2c resources yasm \*.TOC product_logo_\*png gen\* lib/\* lib libvpx_obj_int_extract .ninja\* chrome-wrapper \*.breakpad.\* java_mojo dump_syms browser_test_resources ar_sample_test_driver unittests app_streaming/dev locales remoting_locales v8_build_config.json v8_context_snapshot_generator args.gn gn \*.ninja angledata brotli character_data_generator \*.pak.info flatc \*.service libEGL.so libGLESv2.so libVkLayer_\* libwidevinecdm\*
-override_dh_install-arch: build-stamp build-stamp-ffmpeg-std build-stamp-ffmpeg-extra
+override_dh_install-arch:
 	@set -eux
 	# Two stages: Install out of source tree. Copy to packaging.
 	mkdir -p debian/tmp/$(LIB_DIR)
@@ -391,7 +293,7 @@ override_dh_install-arch: build-stamp build-stamp-ffmpeg-std build-stamp-ffmpeg-
 	
 	dh_install -a
 
-override_dh_install-indep: build-stamp
+override_dh_install-indep:
 	@set -eux
 	dh_install -i
 	install --directory debian/chromium-browser/etc/chromium-browser/customizations
@@ -417,25 +319,11 @@ override_dh_clean:
 	dh_clean
 
 # By default, Chromium expects a binary file that generates the build files. Fortunately,
-# the source files for gn (the binary) are present in the source tree. This section
-# disables the default behavior, falls back to gyp, builds gn, and use that as the binary.
-configure-stamp-gn:
-	if [ -d chromium-$(DEBIAN_UPSTREAM_VERSION) ]; then \
-		mv chromium-$(DEBIAN_UPSTREAM_VERSION)/* . ; \
-		rm -r chromium-$(DEBIAN_UPSTREAM_VERSION); \
-	fi
-	
-	touch $@
-
-build-stamp-gn: configure-stamp-gn
-	@set -eux
-	
-	$(CROSS_BUILD) tools/gn/bootstrap/bootstrap.py -v --gn-gen-args '$(GN_DEFINES)'
-	cp $(SRC_DIR)/out/Release/gn $(SRC_DIR)
-	
+# the source files for gn (the binary) are present in the source tree.
+$(SRC_DIR)/gn:
+	tools/gn/bootstrap/bootstrap.py -v --gn-gen-args '$(common_defines)'
+	cp $(SRC_DIR)/out/Release/gn $(SRC_DIR)/gn
 	rm -rf $(SRC_DIR)/out
-	
-	touch $@
 
 debian/chromium-browser.sh: debian/chromium-browser.sh.in
 	@set -eux
@@ -445,39 +333,6 @@ debian/chromium-browser.sh: debian/chromium-browser.sh.in
 	    -e 's/@BUILD_DIST_VERSION@/$(DEBIAN_DIST_VERSION)/g' \
 	    -e 's/@UPSTREAM_VERSION@/$(DEBIAN_UPSTREAM_VERSION)/g' \
 	    $< > $@
-
-configure: configure-stamp
-configure-stamp: debian/chromium-browser.sh build-stamp-gn
-	@set -eux
-	if [ -d chromium-$(DEBIAN_UPSTREAM_VERSION) ]; then \
-		mv chromium-$(DEBIAN_UPSTREAM_VERSION)/* . ; \
-		rm -r chromium-$(DEBIAN_UPSTREAM_VERSION); \
-	fi
-	
-	# Add symlink to Native Client toolchain
-	ln -s /usr/lib/$(DEB_HOST_MULTIARCH)/native-client/ native_client/toolchain
-	
-	$(SRC_DIR)/gn gen $(SRC_DIR)/out/$(BUILD_TYPE) --args='$(GN_DEFINES) $(BROWSER_GN_DEFINES)'
-	
-	touch $@
-
-build-stamp: configure-stamp
-	@set -eux
-	$(NINJA) $(BUILD_ARGS) $(BUILD_TARGETS)
-	touch $@
-
-configure-stamp-ffmpeg-%: GYP_DEFINES += $(FFMPEG_MT_$(subst std,STD,$(subst extra,EXTRA,$*))_GYP_DEFINES) $(FFMPEG_MT_GYP_DEFINES)
-configure-stamp-ffmpeg-%: build-stamp-gn
-	@set -eux
-	$(SRC_DIR)/gn gen $(SRC_DIR)/out/$(BUILD_TYPE)-ffmpeg-$* --args='$(FFMPEG_MT_$(subst std,STD,$(subst extra,EXTRA,$*))_GN_DEFINES) $(FFMPEG_MT_GN_DEFINES)'
-	touch $@
-
-build-stamp-ffmpeg-%: configure-stamp-ffmpeg-%
-	@set -eux
-	$(NINJA) -v -C $(SRC_DIR)/out/$(BUILD_TYPE)-ffmpeg-$* third_party/ffmpeg
-	mkdir -p debian/tmp-$*/$(LIB_DIR)
-	cp $(SRC_DIR)/out/$(BUILD_TYPE)-ffmpeg-$*/libffmpeg.so $(CURDIR)/debian/tmp-$*/$(LIB_DIR)
-	touch $@
 
 # These are (leading-slash-less) files that are created by upstream builder,
 # but intentionally not packaged.  The should match very specifically so we
