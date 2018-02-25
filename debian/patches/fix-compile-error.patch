@@ -1,15 +1,15 @@
 Taken from https://chromium.googlesource.com/chromium/src.git/+/9f63f94a11abc34d40ede8b8712fa15b5844a8c0
 
-Index: dev/components/assist_ranker/ranker_example_util.cc
+Index: dev/third_party/webrtc/api/audio/audio_frame.cc
 ===================================================================
---- dev.orig/components/assist_ranker/ranker_example_util.cc
-+++ dev/components/assist_ranker/ranker_example_util.cc
-@@ -4,6 +4,8 @@
+--- dev.orig/third_party/webrtc/api/audio/audio_frame.cc
++++ dev/third_party/webrtc/api/audio/audio_frame.cc
+@@ -10,6 +10,8 @@
  
- #include <math.h>
+ #include "api/audio/audio_frame.h"
  
-+#include <math.h>
++#include <string.h>
 +
- #include "components/assist_ranker/ranker_example_util.h"
- #include "base/bit_cast.h"
- #include "base/format_macros.h"
+ #include "rtc_base/checks.h"
+ #include "rtc_base/numerics/safe_conversions.h"
+ #include "rtc_base/timeutils.h"
