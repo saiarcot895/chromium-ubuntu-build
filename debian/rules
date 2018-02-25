@@ -45,7 +45,7 @@ ffmpeg_extra_defines :=
 # enable verbose build messages
 export DH_VERBOSE=1
 
-common_defines+= \
+common_defines += \
 				enable_google_now=false \
 				enable_hangout_services_extension=true \
 				enable_mdns=true \
@@ -55,7 +55,6 @@ common_defines+= \
 				enable_webrtc=true \
 				enable_widevine=true \
 				fieldtrial_testing_like_official_build=true \
-				is_component_build=true \
 				is_component_ffmpeg=true \
 				is_debug=false \
 				is_desktop_linux=true \
@@ -91,6 +90,7 @@ common_defines+= \
 				target_os="linux" \
 				current_os="linux" \
 				optimize_webui=false
+browser_defines += is_component_build=true
 
 # FFmpeg-mt
 # Ignore the version built as part of chromium. Build it separately twice, once with
