@@ -1,3 +1,11 @@
+chromium-browser (66.0.3350.0-0ubuntu1~ppa4~17.10.1) artful; urgency=low
+
+  * Fix build for older distros (hopefully).
+  * Add patch to not compile libc++/libc++abi when building GN to the
+    series files.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 26 Feb 2018 16:02:23 -0500
+
 chromium-browser (66.0.3350.0-0ubuntu1~ppa3~17.10.1) artful; urgency=low
 
   * Fix build.

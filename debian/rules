@@ -103,7 +103,7 @@ ffmpeg_extra_defines += proprietary_codecs=true ffmpeg_branding="Chrome"
 
 ## Debian got this name wrong. DEB_HOST is not the hosting machine of
 ## compilation, but the destination of the resulting compiled programs.
-## DEB_HOST = target. DEB_BUILD = hosting machine. Someone forgot what 
+## DEB_HOST = target. DEB_BUILD = hosting machine. Someone forgot what
 ## "to host" means, and thought of "host" as "computery thing".
 
 ifeq (armel,$(DEB_HOST_ARCH))
@@ -232,9 +232,8 @@ override_dh_strip:
 override_dh_shlibdeps:
 	dh_shlibdeps -l$(CURDIR)/debian/chromium-browser/usr/lib/chromium-browser/ |grep -v "dpkg-shlibdeps: warning: can't extract name and version from library name" || true
 
-override_dh_install-arch: PKG_DIRS := $(addprefix debian/,$(shell dh_listpackages))
 override_dh_install-arch: TRASH := .deps gen obj obj.host obj.target \*.lock build.\* .landmines mksnapshot\* protoc pyproto re2c resources yasm \*.TOC product_logo_\*png gen\* lib/\* lib libvpx_obj_int_extract .ninja\* chrome-wrapper \*.breakpad.\* java_mojo dump_syms browser_test_resources ar_sample_test_driver unittests app_streaming/dev locales remoting_locales v8_build_config.json v8_context_snapshot_generator args.gn gn \*.ninja angledata brotli character_data_generator \*.pak.info flatc \*.service libEGL.so libGLESv2.so libVkLayer_\* libwidevinecdm\*
-override_dh_install-arch:
+override_dh_install-arch: debian/chromium_browser.sh
 	@set -eux
 	# Two stages: Install out of source tree. Copy to packaging.
 	mkdir -p debian/tmp/$(LIB_DIR)
@@ -306,9 +305,6 @@ override_dh_auto_test:
 override_dh_clean:
 	@set -eux
 	rm -rf debian/*-stamp debian/stamp-* debian/tmp-*
-	rm -f build-stamp build-stamp-ffmpeg-std build-stamp-ffmpeg-extra \
-		configure-stamp-ffmpeg-std configure-stamp-ffmpeg-extra \
-		configure-stamp-gn build-stamp-gn
 	rm -f $(subst_files)
 	rm -rf $(SRC_DIR)/out $(FFMPEG_SRC_DIR)/yasm $(FFMPEG_SRC_DIR)/out $(FFMPEG_SRC_DIR)/*.mk
 	find $(SRC_DIR) \( -name \*.pyc -o -name \*.pyo -name \*.o \) -delete
@@ -432,8 +428,8 @@ patch-translations: GRIT_WHITELISTED_LANGS ?= ca@valencia eu gl ug gd
 patch-translations: TRANSLATIONS_TOOLS_BRANCH  := http://bazaar.launchpad.net/~chromium-team/chromium-browser/chromium-translations-tools.head
 patch-translations: TRANSLATIONS_EXPORT_BRANCH := http://bazaar.launchpad.net/~chromium-team/chromium-browser/chromium-translations-exports.head
 patch-translations: GRIT_TEMPLATES := chrome/app/chromium_strings.grd chrome/app/generated_resources.grd components/policy/resources/policy_templates.grd ui/strings/ui_strings.grd
-patch-translations: OTHER_GRIT_TEMPLATES := ui/strings/app_locale_settings.grd chrome/app/resources/locale_settings.grd chrome/app/resources/locale_settings_linux.grd 
-patch-translations: MAPPED_GRIT_TEMPLATES := --map-template-names ui/strings/ui_strings.grd=ui/strings/app_strings.grd 
+patch-translations: OTHER_GRIT_TEMPLATES := ui/strings/app_locale_settings.grd chrome/app/resources/locale_settings.grd chrome/app/resources/locale_settings_linux.grd
+patch-translations: MAPPED_GRIT_TEMPLATES := --map-template-names ui/strings/ui_strings.grd=ui/strings/app_strings.grd
 patch-translations: GRIT_CONVERTER_FLAGS := --create-patches translations-patches --import-gettext ../translations-export --export-grit $(T)/translations-grit --build-gyp-file build/common.gypi --other-grd-files $(shell echo $(OTHER_GRIT_TEMPLATES) | tr ' ' ',') $(MAPPED_GRIT_TEMPLATES) 
 ifeq (1,$(WANT_ONLY_WHITELISTED_NEW_LANGS))
 patch-translations: GRIT_CONVERTER_FLAGS += --whitelisted-new-langs $(shell echo $(GRIT_WHITELISTED_LANGS) | tr ' ' ',')

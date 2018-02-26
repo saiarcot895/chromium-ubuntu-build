@@ -256,3 +256,19 @@ Index: dev/device/fido/u2f_ble_transaction.cc
    response_frame_assembler_.reset();
    std::move(callback_).Run(base::nullopt);
  }
+Index: dev/chrome/browser/media/router/providers/wired_display/wired_display_media_route_provider.cc
+===================================================================
+--- dev.orig/chrome/browser/media/router/providers/wired_display/wired_display_media_route_provider.cc
++++ dev/chrome/browser/media/router/providers/wired_display/wired_display_media_route_provider.cc
+@@ -127,8 +127,10 @@ void WiredDisplayMediaRouteProvider::Cre
+   route.set_incognito(profile_->IsOffTheRecord());
+   route.set_controller_type(RouteControllerType::kGeneric);
+ 
++  Presentation new_presentation(route);
++
+   Presentation& presentation =
+-      presentations_.emplace(presentation_id, route).first->second;
++      presentations_.emplace(presentation_id, new_presentation).first->second;
+   presentation.set_receiver(
+       CreatePresentationReceiver(presentation_id, &presentation, *display));
+   presentation.receiver()->Start(presentation_id, GURL(media_source));

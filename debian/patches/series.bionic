@@ -40,3 +40,4 @@ revert-Xclang-instcombine-lower-dbg-declare.patch
 suppress-newer-clang-warning-flags.patch
 fix-ffmpeg-build.patch
 fix-build-on-older-gcc.patch
+gn-remove-sysroot-use.patch
