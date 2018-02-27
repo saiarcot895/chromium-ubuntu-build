@@ -272,3 +272,56 @@ Index: dev/chrome/browser/media/router/providers/wired_display/wired_display_med
    presentation.set_receiver(
        CreatePresentationReceiver(presentation_id, &presentation, *display));
    presentation.receiver()->Start(presentation_id, GURL(media_source));
+Index: dev/content/browser/accessibility/accessibility_tree_formatter_blink.cc
+===================================================================
+--- dev.orig/content/browser/accessibility/accessibility_tree_formatter_blink.cc
++++ dev/content/browser/accessibility/accessibility_tree_formatter_blink.cc
+@@ -198,7 +198,7 @@ void AccessibilityTreeFormatterBlink::Ad
+        attr_index <= static_cast<int32_t>(ax::mojom::FloatAttribute::kLast);
+        ++attr_index) {
+     auto attr = static_cast<ax::mojom::FloatAttribute>(attr_index);
+-    if (node.HasFloatAttribute(attr) && isfinite(node.GetFloatAttribute(attr)))
++    if (node.HasFloatAttribute(attr) && std::isfinite(node.GetFloatAttribute(attr)))
+       dict->SetDouble(ui::ToString(attr), node.GetFloatAttribute(attr));
+   }
+ 
+Index: dev/third_party/WebKit/Source/modules/accessibility/AXNodeObject.cpp
+===================================================================
+--- dev.orig/third_party/WebKit/Source/modules/accessibility/AXNodeObject.cpp
++++ dev/third_party/WebKit/Source/modules/accessibility/AXNodeObject.cpp
+@@ -1520,7 +1520,7 @@ bool AXNodeObject::ValueForRange(float*
+ 
+   if (IsNativeSlider() || IsNativeSpinButton()) {
+     *out_value = ToHTMLInputElement(*GetNode()).valueAsNumber();
+-    return isfinite(*out_value);
++    return std::isfinite(*out_value);
+   }
+ 
+   if (auto* meter = ToHTMLMeterElementOrNull(GetNode())) {
+@@ -1566,7 +1566,7 @@ bool AXNodeObject::MaxValueForRange(floa
+ 
+   if (IsNativeSlider() || IsNativeSpinButton()) {
+     *out_value = static_cast<float>(ToHTMLInputElement(*GetNode()).Maximum());
+-    return isfinite(*out_value);
++    return std::isfinite(*out_value);
+   }
+ 
+   if (auto* meter = ToHTMLMeterElementOrNull(GetNode())) {
+@@ -1599,7 +1599,7 @@ bool AXNodeObject::MinValueForRange(floa
+ 
+   if (IsNativeSlider() || IsNativeSpinButton()) {
+     *out_value = static_cast<float>(ToHTMLInputElement(*GetNode()).Minimum());
+-    return isfinite(*out_value);
++    return std::isfinite(*out_value);
+   }
+ 
+   if (auto* meter = ToHTMLMeterElementOrNull(GetNode())) {
+@@ -1628,7 +1628,7 @@ bool AXNodeObject::StepValueForRange(flo
+     Decimal step =
+         ToHTMLInputElement(*GetNode()).CreateStepRange(kRejectAny).Step();
+     *out_value = step.ToString().ToFloat();
+-    return isfinite(*out_value);
++    return std::isfinite(*out_value);
+   }
+ 
+   switch (AriaRoleAttribute()) {

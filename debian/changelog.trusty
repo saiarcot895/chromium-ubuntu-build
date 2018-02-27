@@ -1,3 +1,10 @@
+chromium-browser (66.0.3350.0-0ubuntu1~ppa6~14.04.1) trusty; urgency=low
+
+  * Fix build in older distros.
+  * Fix dependency on chromium-browser.sh.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 27 Feb 2018 10:16:15 -0500
+
 chromium-browser (66.0.3350.0-0ubuntu1~ppa5~14.04.1) trusty; urgency=low
 
   * Try again to fix build.
