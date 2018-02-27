@@ -1,3 +1,9 @@
+chromium-browser (66.0.3350.0-0ubuntu1~ppa5~17.10.1) artful; urgency=low
+
+  * Try again to fix build.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 27 Feb 2018 01:06:08 -0500
+
 chromium-browser (66.0.3350.0-0ubuntu1~ppa4~17.10.1) artful; urgency=low
 
   * Fix build for older distros (hopefully).
