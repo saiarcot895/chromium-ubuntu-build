@@ -290,6 +290,12 @@ override_dh_install-arch: debian/chromium-browser.sh
 	# Discard everything except en-US
 	find debian/chromium-browser/$(LIB_DIR)/locales -type f \! -name en-US.pak -print -delete
 	
+	dh_installdirs --package=chromium-codecs-ffmpeg usr/lib/chromium-browser
+	cp $(SRC_DIR)/out/$(BUILD_TYPE)-ffmpeg-std/libffmpeg.so debian/chromium-codecs-ffmpeg/usr/lib/chromium-browser/
+	
+	dh_installdirs --package=chromium-codecs-ffmpeg-extra usr/lib/chromium-browser
+	cp $(SRC_DIR)/out/$(BUILD_TYPE)-ffmpeg-extra/libffmpeg.so debian/chromium-codecs-ffmpeg-extra/usr/lib/chromium-browser/
+	
 	dh_install -a
 
 override_dh_install-indep:

@@ -1,3 +1,9 @@
+chromium-browser (66.0.3350.0-0ubuntu1~ppa7~14.04.1) trusty; urgency=low
+
+  * Fix ffmpeg file missing.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 28 Feb 2018 02:40:35 -0500
+
 chromium-browser (66.0.3350.0-0ubuntu1~ppa6~14.04.1) trusty; urgency=low
 
   * Fix build in older distros.
