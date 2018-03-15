@@ -147,7 +147,6 @@ DEB_DH_SHLIBDEPS_ARGS_chromium-codecs-ffmpeg-extra := -ldebian/chromium-codecs-f
 BUILD_TARGETS += \
 	pdf \
 	chrome \
-	chrome_sandbox \
 	chromedriver \
 	widevinecdmadapter \
 	clear_key_cdm \
@@ -220,14 +219,8 @@ override_dh_auto_build:
 	ninja -v -C $(SRC_DIR)/out/$(BUILD_TYPE)-ffmpeg-extra third_party/ffmpeg
 	ninja -v -C $(SRC_DIR)/out/$(BUILD_TYPE)-ffmpeg-std third_party/ffmpeg
 
-override_dh_fixperms:
-	dh_fixperms --exclude $(DEB_FIXPERMS_EXCLUDE)
-
 override_dh_builddeb:
 	dh_builddeb -- -Zxz
-
-override_dh_strip:
-	dh_strip -Xnacl_irt_ -Xpnacl -X"Mojo Applications"
 
 override_dh_shlibdeps:
 	dh_shlibdeps -l$(CURDIR)/debian/chromium-browser/usr/lib/chromium-browser/ |grep -v "dpkg-shlibdeps: warning: can't extract name and version from library name" || true
@@ -244,7 +237,7 @@ override_dh_install-arch: debian/chromium-browser.sh
 	# Icons
 	dh_installdirs --package=$(DEBIAN_NAME) usr/share/pixmaps
 	cp -a $(SRC_DIR)/chrome/app/theme/chromium/product_logo_48.png debian/$(DEBIAN_NAME)/usr/share/pixmaps/$(DEBIAN_NAME).png
-	for size in 22 24 32 48 64 128 256 ; do \
+	for size in 22 24 48 64 128 256 ; do \
 		if test -f "chrome/app/theme/chromium/product_logo_$$size.png"; then \
 			dh_installdirs --package=chromium-browser usr/share/icons/hicolor/$${size}x$${size}/apps ; \
 			cp -a chrome/app/theme/chromium/product_logo_$$size.png  \
@@ -265,13 +258,7 @@ override_dh_install-arch: debian/chromium-browser.sh
 	# Rename the binary from chrome to $(DEBIAN_NAME), this is required
 	# as chromium dereferences all symlinks before starting its children
 	# making the Gnome System Monitor confused with icons
-	install -T -m 555 debian/tmp/$(LIB_DIR)/chrome debian/chromium-browser/$(LIB_DIR)/chromium-browser
-	rm                debian/tmp/$(LIB_DIR)/chrome
-	
-	# "you have to change the underscore from the build target into a hyphen".
-	# https://code.google.com/p/chromium/wiki/LinuxSUIDSandbox
-	install -T -m 4555 debian/tmp/$(LIB_DIR)/chrome_sandbox debian/chromium-browser/$(LIB_DIR)/chrome-sandbox
-	rm                 debian/tmp/$(LIB_DIR)/chrome_sandbox
+	mv debian/chromium-browser/$(LIB_DIR)/chrome debian/chromium-browser/$(LIB_DIR)/chromium-browser
 	
 	# Launcher script
 	install -T -m 755 debian/chromium-browser.sh debian/chromium-browser/usr/bin/chromium-browser
@@ -286,10 +273,6 @@ override_dh_install-arch: debian/chromium-browser.sh
 	  > debian/chromium-browser/usr/share/man/man1/chromium-browser.1
 	gzip -9n debian/chromium-browser/usr/share/man/man1/chromium-browser.1
 	
-	# Locales: only keep en-US in the main deb
-	# Discard everything except en-US
-	find debian/chromium-browser/$(LIB_DIR)/locales -type f \! -name en-US.pak -print -delete
-	
 	dh_installdirs --package=chromium-codecs-ffmpeg usr/lib/chromium-browser
 	cp $(SRC_DIR)/out/$(BUILD_TYPE)-ffmpeg-std/libffmpeg.so debian/chromium-codecs-ffmpeg/usr/lib/chromium-browser/
 	
@@ -301,9 +284,9 @@ override_dh_install-arch: debian/chromium-browser.sh
 override_dh_install-indep:
 	@set -eux
 	dh_install -i
+	(cd $(SRC_DIR)/out/$(BUILD_TYPE) && tar -cf - $$(find *locales -type f ! -name en-US.pak) --dereference;) | (cd debian/chromium-browser-l10n/$(LIB_DIR) && tar xvf -;)
 	install --directory debian/chromium-browser/etc/chromium-browser/customizations
 	install --owner=root --mode=0644 --no-target-directory debian/chromium-browser-customization-example debian/chromium-browser/etc/chromium-browser/customizations/00-example
-	find debian/chromium-browser-l10n/$(LIB_DIR)/locales -name en-US.pak -print -delete
 
 override_dh_auto_test:
 	# No tests to run

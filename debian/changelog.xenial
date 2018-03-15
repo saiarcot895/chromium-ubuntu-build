@@ -1,3 +1,10 @@
+chromium-browser (66.0.3359.26-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
+
+  * New upstream version 66.0.3359.26
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 14 Mar 2018 21:11:03 -0400
+
 chromium-browser (66.0.3350.0-0ubuntu1~ppa7~16.04.1) xenial; urgency=low
 
   * Fix ffmpeg file missing.

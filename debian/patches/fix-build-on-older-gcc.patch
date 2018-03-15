@@ -260,7 +260,7 @@ Index: dev/chrome/browser/media/router/providers/wired_display/wired_display_med
 ===================================================================
 --- dev.orig/chrome/browser/media/router/providers/wired_display/wired_display_media_route_provider.cc
 +++ dev/chrome/browser/media/router/providers/wired_display/wired_display_media_route_provider.cc
-@@ -127,8 +127,10 @@ void WiredDisplayMediaRouteProvider::Cre
+@@ -128,8 +128,10 @@ void WiredDisplayMediaRouteProvider::Cre
    route.set_incognito(profile_->IsOffTheRecord());
    route.set_controller_type(RouteControllerType::kGeneric);
  
@@ -276,7 +276,7 @@ Index: dev/content/browser/accessibility/accessibility_tree_formatter_blink.cc
 ===================================================================
 --- dev.orig/content/browser/accessibility/accessibility_tree_formatter_blink.cc
 +++ dev/content/browser/accessibility/accessibility_tree_formatter_blink.cc
-@@ -198,7 +198,7 @@ void AccessibilityTreeFormatterBlink::Ad
+@@ -212,7 +212,7 @@ void AccessibilityTreeFormatterBlink::Ad
         attr_index <= static_cast<int32_t>(ax::mojom::FloatAttribute::kLast);
         ++attr_index) {
      auto attr = static_cast<ax::mojom::FloatAttribute>(attr_index);
@@ -289,7 +289,7 @@ Index: dev/third_party/WebKit/Source/modules/accessibility/AXNodeObject.cpp
 ===================================================================
 --- dev.orig/third_party/WebKit/Source/modules/accessibility/AXNodeObject.cpp
 +++ dev/third_party/WebKit/Source/modules/accessibility/AXNodeObject.cpp
-@@ -1520,7 +1520,7 @@ bool AXNodeObject::ValueForRange(float*
+@@ -1533,7 +1533,7 @@ bool AXNodeObject::ValueForRange(float*
  
    if (IsNativeSlider() || IsNativeSpinButton()) {
      *out_value = ToHTMLInputElement(*GetNode()).valueAsNumber();
@@ -298,7 +298,7 @@ Index: dev/third_party/WebKit/Source/modules/accessibility/AXNodeObject.cpp
    }
  
    if (auto* meter = ToHTMLMeterElementOrNull(GetNode())) {
-@@ -1566,7 +1566,7 @@ bool AXNodeObject::MaxValueForRange(floa
+@@ -1579,7 +1579,7 @@ bool AXNodeObject::MaxValueForRange(floa
  
    if (IsNativeSlider() || IsNativeSpinButton()) {
      *out_value = static_cast<float>(ToHTMLInputElement(*GetNode()).Maximum());
@@ -307,7 +307,7 @@ Index: dev/third_party/WebKit/Source/modules/accessibility/AXNodeObject.cpp
    }
  
    if (auto* meter = ToHTMLMeterElementOrNull(GetNode())) {
-@@ -1599,7 +1599,7 @@ bool AXNodeObject::MinValueForRange(floa
+@@ -1612,7 +1612,7 @@ bool AXNodeObject::MinValueForRange(floa
  
    if (IsNativeSlider() || IsNativeSpinButton()) {
      *out_value = static_cast<float>(ToHTMLInputElement(*GetNode()).Minimum());
@@ -316,7 +316,7 @@ Index: dev/third_party/WebKit/Source/modules/accessibility/AXNodeObject.cpp
    }
  
    if (auto* meter = ToHTMLMeterElementOrNull(GetNode())) {
-@@ -1628,7 +1628,7 @@ bool AXNodeObject::StepValueForRange(flo
+@@ -1641,7 +1641,7 @@ bool AXNodeObject::StepValueForRange(flo
      Decimal step =
          ToHTMLInputElement(*GetNode()).CreateStepRange(kRejectAny).Step();
      *out_value = step.ToString().ToFloat();
