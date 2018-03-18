@@ -325,3 +325,17 @@ Index: dev/third_party/WebKit/Source/modules/accessibility/AXNodeObject.cpp
    }
  
    switch (AriaRoleAttribute()) {
+Index: dev/extensions/common/api/web_request.json
+===================================================================
+--- dev.orig/extensions/common/api/web_request.json
++++ dev/extensions/common/api/web_request.json
+@@ -198,8 +198,7 @@
+                     "description": "If the request method is POST and the body is a sequence of key-value pairs encoded in UTF8, encoded as either multipart/form-data, or application/x-www-form-urlencoded, this dictionary is present and for each key contains the list of all values for that key. If the data is of another media type, or if it is malformed, the dictionary is not present. An example value of this dictionary is {'key': ['value1', 'value2']}.",
+                     "properties": {},
+                     "additionalProperties": {
+-                      "type": "array",
+-                      "items": { "$ref": "FormDataItem" }
++                      "type": "any"
+                     }
+                   },
+                   "raw" : {
