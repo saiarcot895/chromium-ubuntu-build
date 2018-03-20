@@ -1,7 +1,7 @@
-Index: dev/gpu/command_buffer/service/texture_manager.cc
+Index: beta/gpu/command_buffer/service/texture_manager.cc
 ===================================================================
---- dev.orig/gpu/command_buffer/service/texture_manager.cc
-+++ dev/gpu/command_buffer/service/texture_manager.cc
+--- beta.orig/gpu/command_buffer/service/texture_manager.cc
++++ beta/gpu/command_buffer/service/texture_manager.cc
 @@ -131,130 +131,130 @@ class FormatTypeValidator {
    FormatTypeValidator() {
      static const FormatType kSupportedFormatTypes[] = {
@@ -243,10 +243,10 @@ Index: dev/gpu/command_buffer/service/texture_manager.cc
      if (supported_combinations_.find(query) != supported_combinations_.end()) {
        return true;
      }
-Index: dev/device/fido/u2f_ble_transaction.cc
+Index: beta/device/fido/u2f_ble_transaction.cc
 ===================================================================
---- dev.orig/device/fido/u2f_ble_transaction.cc
-+++ dev/device/fido/u2f_ble_transaction.cc
+--- beta.orig/device/fido/u2f_ble_transaction.cc
++++ beta/device/fido/u2f_ble_transaction.cc
 @@ -131,7 +131,7 @@ void U2fBleTransaction::StopTimeout() {
  
  void U2fBleTransaction::OnError() {
@@ -256,10 +256,10 @@ Index: dev/device/fido/u2f_ble_transaction.cc
    response_frame_assembler_.reset();
    std::move(callback_).Run(base::nullopt);
  }
-Index: dev/chrome/browser/media/router/providers/wired_display/wired_display_media_route_provider.cc
+Index: beta/chrome/browser/media/router/providers/wired_display/wired_display_media_route_provider.cc
 ===================================================================
---- dev.orig/chrome/browser/media/router/providers/wired_display/wired_display_media_route_provider.cc
-+++ dev/chrome/browser/media/router/providers/wired_display/wired_display_media_route_provider.cc
+--- beta.orig/chrome/browser/media/router/providers/wired_display/wired_display_media_route_provider.cc
++++ beta/chrome/browser/media/router/providers/wired_display/wired_display_media_route_provider.cc
 @@ -128,8 +128,10 @@ void WiredDisplayMediaRouteProvider::Cre
    route.set_incognito(profile_->IsOffTheRecord());
    route.set_controller_type(RouteControllerType::kGeneric);
@@ -272,10 +272,10 @@ Index: dev/chrome/browser/media/router/providers/wired_display/wired_display_med
    presentation.set_receiver(
        CreatePresentationReceiver(presentation_id, &presentation, *display));
    presentation.receiver()->Start(presentation_id, GURL(media_source));
-Index: dev/content/browser/accessibility/accessibility_tree_formatter_blink.cc
+Index: beta/content/browser/accessibility/accessibility_tree_formatter_blink.cc
 ===================================================================
---- dev.orig/content/browser/accessibility/accessibility_tree_formatter_blink.cc
-+++ dev/content/browser/accessibility/accessibility_tree_formatter_blink.cc
+--- beta.orig/content/browser/accessibility/accessibility_tree_formatter_blink.cc
++++ beta/content/browser/accessibility/accessibility_tree_formatter_blink.cc
 @@ -212,7 +212,7 @@ void AccessibilityTreeFormatterBlink::Ad
         attr_index <= static_cast<int32_t>(ax::mojom::FloatAttribute::kLast);
         ++attr_index) {
@@ -285,10 +285,10 @@ Index: dev/content/browser/accessibility/accessibility_tree_formatter_blink.cc
        dict->SetDouble(ui::ToString(attr), node.GetFloatAttribute(attr));
    }
  
-Index: dev/third_party/WebKit/Source/modules/accessibility/AXNodeObject.cpp
+Index: beta/third_party/WebKit/Source/modules/accessibility/AXNodeObject.cpp
 ===================================================================
---- dev.orig/third_party/WebKit/Source/modules/accessibility/AXNodeObject.cpp
-+++ dev/third_party/WebKit/Source/modules/accessibility/AXNodeObject.cpp
+--- beta.orig/third_party/WebKit/Source/modules/accessibility/AXNodeObject.cpp
++++ beta/third_party/WebKit/Source/modules/accessibility/AXNodeObject.cpp
 @@ -1533,7 +1533,7 @@ bool AXNodeObject::ValueForRange(float*
  
    if (IsNativeSlider() || IsNativeSpinButton()) {
@@ -325,10 +325,10 @@ Index: dev/third_party/WebKit/Source/modules/accessibility/AXNodeObject.cpp
    }
  
    switch (AriaRoleAttribute()) {
-Index: dev/extensions/common/api/web_request.json
+Index: beta/extensions/common/api/web_request.json
 ===================================================================
---- dev.orig/extensions/common/api/web_request.json
-+++ dev/extensions/common/api/web_request.json
+--- beta.orig/extensions/common/api/web_request.json
++++ beta/extensions/common/api/web_request.json
 @@ -198,8 +198,7 @@
                      "description": "If the request method is POST and the body is a sequence of key-value pairs encoded in UTF8, encoded as either multipart/form-data, or application/x-www-form-urlencoded, this dictionary is present and for each key contains the list of all values for that key. If the data is of another media type, or if it is malformed, the dictionary is not present. An example value of this dictionary is {'key': ['value1', 'value2']}.",
                      "properties": {},

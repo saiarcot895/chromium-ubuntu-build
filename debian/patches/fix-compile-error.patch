@@ -1,9 +1,9 @@
 Taken from https://chromium.googlesource.com/chromium/src.git/+/9f63f94a11abc34d40ede8b8712fa15b5844a8c0
 
-Index: dev/third_party/webrtc/api/audio/audio_frame.cc
+Index: beta/third_party/webrtc/api/audio/audio_frame.cc
 ===================================================================
---- dev.orig/third_party/webrtc/api/audio/audio_frame.cc
-+++ dev/third_party/webrtc/api/audio/audio_frame.cc
+--- beta.orig/third_party/webrtc/api/audio/audio_frame.cc
++++ beta/third_party/webrtc/api/audio/audio_frame.cc
 @@ -12,6 +12,8 @@
  
  #include "api/audio/audio_frame.h"
