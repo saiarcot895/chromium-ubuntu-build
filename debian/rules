@@ -90,7 +90,6 @@ common_defines += \
 				target_os="linux" \
 				current_os="linux" \
 				optimize_webui=false
-browser_defines += is_component_build=true
 
 # FFmpeg-mt
 # Ignore the version built as part of chromium. Build it separately twice, once with
