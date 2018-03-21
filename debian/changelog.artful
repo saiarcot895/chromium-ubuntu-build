@@ -1,3 +1,9 @@
+chromium-browser (67.0.3371.0-0ubuntu1~ppa2~17.10.1) artful; urgency=low
+
+  * Allow Widevine on Linux.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 21 Mar 2018 00:05:48 -0400
+
 chromium-browser (67.0.3371.0-0ubuntu1~ppa1~17.10.1) artful; urgency=low
 
   * New upstream version 67.0.3371.0

@@ -1,0 +1,17 @@
+Index: dev/third_party/widevine/cdm/BUILD.gn
+===================================================================
+--- dev.orig/third_party/widevine/cdm/BUILD.gn
++++ dev/third_party/widevine/cdm/BUILD.gn
+@@ -10,12 +10,6 @@ import("//media/cdm/library_cdm/ppapi_cd
+ import("//media/media_options.gni")
+ import("//third_party/widevine/cdm/widevine.gni")
+ 
+-# Internal Cast builds set enable_widevine=true to bring in Widevine support.
+-# TODO(xhwang): Support component updated CDM on other platforms and remove this
+-# assert.
+-assert(!enable_widevine || is_win || is_mac || is_chromecast,
+-       "Component updated CDM only supported on Windows and Mac for now.")
+-
+ widevine_arch = current_cpu
+ if (widevine_arch == "x86") {
+   widevine_arch = "ia32"
