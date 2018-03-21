@@ -1,3 +1,9 @@
+chromium-browser (67.0.3371.0-0ubuntu1~ppa4~16.04.1) xenial; urgency=low
+
+  * Remove widevinecdmadapter from list of targets to build.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 21 Mar 2018 11:46:26 -0400
+
 chromium-browser (67.0.3371.0-0ubuntu1~ppa3~16.04.1) xenial; urgency=low
 
   * Allow Widevine to be used without using the sysroot (upstream

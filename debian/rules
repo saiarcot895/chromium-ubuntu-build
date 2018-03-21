@@ -147,7 +147,6 @@ BUILD_TARGETS += \
 	pdf \
 	chrome \
 	chromedriver \
-	widevinecdmadapter \
 	clear_key_cdm \
 	$(NULL)
 
