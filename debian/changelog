@@ -1,3 +1,12 @@
+chromium-browser (67.0.3371.0-0ubuntu1~ppa3~18.04.1) bionic; urgency=low
+
+  * Allow Widevine to be used without using the sysroot (upstream
+    patch).
+  * Don't build the widevine adapter, in the hopes of fixing a build
+    error (upstream patch).
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 21 Mar 2018 11:17:38 -0400
+
 chromium-browser (67.0.3371.0-0ubuntu1~ppa2~18.04.1) bionic; urgency=low
 
   * Allow Widevine on Linux.
