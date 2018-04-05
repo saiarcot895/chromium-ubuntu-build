@@ -1,3 +1,10 @@
+chromium-browser (66.0.3359.81-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
+
+  * New upstream version 66.0.3359.81
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 05 Apr 2018 02:24:11 -0400
+
 chromium-browser (66.0.3359.33-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
 
   * New upstream version 66.0.3359.33
