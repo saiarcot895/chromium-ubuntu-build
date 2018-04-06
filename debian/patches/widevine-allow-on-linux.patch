@@ -2,7 +2,7 @@ Index: dev/third_party/widevine/cdm/BUILD.gn
 ===================================================================
 --- dev.orig/third_party/widevine/cdm/BUILD.gn
 +++ dev/third_party/widevine/cdm/BUILD.gn
-@@ -10,12 +10,6 @@ import("//media/cdm/library_cdm/ppapi_cd
+@@ -8,12 +8,6 @@ import("//media/cdm/library_cdm/cdm_path
  import("//media/media_options.gni")
  import("//third_party/widevine/cdm/widevine.gni")
  

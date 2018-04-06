@@ -5,7 +5,7 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -1327,16 +1327,16 @@ config("default_warnings") {
+@@ -1320,20 +1320,20 @@ config("default_warnings") {
          "-Wno-address-of-packed-member",
  
          # TODO(hans): https://crbug.com/681136
@@ -22,6 +22,11 @@ Index: dev/build/config/compiler/BUILD.gn
          # TODO(hans): https://crbug.com/766891
 -        "-Wno-null-pointer-arithmetic",
 +        #"-Wno-null-pointer-arithmetic",
+ 
+         # Ignore warnings about MSVC optimization pragmas.
+         # TODO(thakis): Only for no_chromium_code? http://crbug.com/505314
+-        "-Wno-ignored-pragma-optimize",
++        #"-Wno-ignored-pragma-optimize",
        ]
      } else if (use_xcode_clang) {
        cflags += [

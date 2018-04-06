@@ -1,3 +1,10 @@
+chromium-browser (67.0.3386.1-0ubuntu1~ppa1~17.10.1) artful; urgency=low
+
+  * New upstream version 67.0.3386.1
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 06 Apr 2018 01:26:26 -0400
+
 chromium-browser (67.0.3371.0-0ubuntu1~ppa4~17.10.1) artful; urgency=low
 
   * Remove widevinecdmadapter from list of targets to build.
