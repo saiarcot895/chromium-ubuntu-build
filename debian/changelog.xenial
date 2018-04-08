@@ -1,3 +1,9 @@
+chromium-browser (67.0.3386.1-0ubuntu1~ppa2~16.04.1) xenial; urgency=low
+
+  * Fix GN bootstrap
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 08 Apr 2018 14:25:27 -0400
+
 chromium-browser (67.0.3386.1-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
 
   * New upstream version 67.0.3386.1
