@@ -1,0 +1,51 @@
+From 3a20d34ac356ba4dbfffff5c77433695cecb16e3 Mon Sep 17 00:00:00 2001
+From: Tom Anderson <thomasanderson@chromium.org>
+Date: Thu, 05 Apr 2018 18:10:48 -0700
+Subject: [PATCH] Fix build with glibc 2.27
+
+Glibc now defines PTRACE_GET_THREAD_AREA as an enum value.  Trying to define our
+own will result in an error:
+
+../../third_party/crashpad/crashpad/compat/linux/sys/ptrace.h:25:35: error: redefinition of 'PTRACE_GET_THREAD_AREA' as different kind of symbol
+static constexpr __ptrace_request PTRACE_GET_THREAD_AREA =
+                                  ^
+../../build/linux/debian_sid_amd64-sysroot/usr/include/x86_64-linux-gnu/sys/ptrace.h:110:3: note: previous definition is here
+  PTRACE_GET_THREAD_AREA = 25,
+
+However, glibc also defines a new macro for the corresponding value, so it's
+possible to detect this case:
+
+----- ptrace.h -----
+  /* Get a TLS entry in the GDT.  */
+  PTRACE_GET_THREAD_AREA = 25,
+#define PT_GET_THREAD_AREA PTRACE_GET_THREAD_AREA
+----- ptrace.h -----
+
+This CL prevents defining our own PTRACE_GET_THREAD_AREA when PT_GET_THREAD_AREA
+is defined.
+
+Bug: None
+Change-Id: Idf931e54dadd57788f04da47f12f0f0588a255cc
+Reviewed-on: https://chromium-review.googlesource.com/999161
+Commit-Queue: Mark Mentovai <mark@chromium.org>
+Reviewed-by: Mark Mentovai <mark@chromium.org>
+---
+
+Index: dev/third_party/crashpad/crashpad/compat/linux/sys/ptrace.h
+===================================================================
+--- dev.orig/third_party/crashpad/crashpad/compat/linux/sys/ptrace.h
++++ dev/third_party/crashpad/crashpad/compat/linux/sys/ptrace.h
+@@ -20,11 +20,11 @@
+ #include <sys/cdefs.h>
+ 
+ // https://sourceware.org/bugzilla/show_bug.cgi?id=22433
+-#if !defined(PTRACE_GET_THREAD_AREA) && \
++#if !defined(PTRACE_GET_THREAD_AREA) && !defined(PT_GET_THREAD_AREA) && \
+     defined(__GLIBC__) && (defined(__i386__) || defined(__x86_64__))
+ static constexpr __ptrace_request PTRACE_GET_THREAD_AREA =
+     static_cast<__ptrace_request>(25);
+ #define PTRACE_GET_THREAD_AREA PTRACE_GET_THREAD_AREA
+-#endif  // !PTRACE_GET_THREAD_AREA && __GLIBC__ && (__i386__ || __x86_64__)
++#endif  // !PTRACE_GET_THREAD_AREA && __GLIBC__ && (__i386__ || __x86_64__) && !PT_GET_THREAD_AREA
+ 
+ #endif  // CRASHPAD_COMPAT_LINUX_SYS_PTRACE_H_

@@ -1,0 +1,32 @@
+Description: set rpath on chromium-browser and v8_context_snapshot_generator executables so that they can locate libffmpeg.so
+Author: Olivier Tilloy <olivier.tilloy@canonical.com>
+Bug-Ubuntu: https://launchpad.net/bugs/1718885
+
+Index: dev/chrome/BUILD.gn
+===================================================================
+--- dev.orig/chrome/BUILD.gn
++++ dev/chrome/BUILD.gn
+@@ -286,6 +286,8 @@ if (!is_android && !is_mac) {
+                        rebase_path(version_script, root_build_dir) ]
+         }
+ 
++        configs += [ "//build/config/gcc:rpath_for_built_shared_libraries" ]
++
+         if (use_x11) {
+           configs += [
+             "//build/config/linux:x11",
+Index: dev/tools/v8_context_snapshot/BUILD.gn
+===================================================================
+--- dev.orig/tools/v8_context_snapshot/BUILD.gn
++++ dev/tools/v8_context_snapshot/BUILD.gn
+@@ -106,6 +106,10 @@ if (use_v8_context_snapshot) {
+       "//v8",
+     ]
+ 
++    if (is_linux) {
++      configs += [ "//build/config/gcc:rpath_for_built_shared_libraries" ]
++    }
++
+     if (is_linux && (is_component_build || using_sanitizer) &&
+         use_custom_libcxx) {
+       deps += [ "//buildtools/third_party/libc++:libc++" ]

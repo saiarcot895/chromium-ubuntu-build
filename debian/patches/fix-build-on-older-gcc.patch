@@ -273,3 +273,16 @@ Index: dev/extensions/common/api/web_request.json
                      }
                    },
                    "raw" : {
+Index: dev/content/browser/webui/web_ui_impl.cc
+===================================================================
+--- dev.orig/content/browser/webui/web_ui_impl.cc
++++ dev/content/browser/webui/web_ui_impl.cc
+@@ -241,7 +241,7 @@ void WebUIImpl::CallJavascriptFunctionUn
+ 
+ void WebUIImpl::RegisterMessageCallback(base::StringPiece message,
+                                         const MessageCallback& callback) {
+-  message_callbacks_.emplace(message, callback);
++  message_callbacks_.emplace(message.as_string(), callback);
+ }
+ 
+ void WebUIImpl::ProcessWebUIMessage(const GURL& source_url,
