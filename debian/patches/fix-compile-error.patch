@@ -17,9 +17,9 @@ Index: dev/components/policy/core/common/cloud/cloud_policy_util.cc
 ===================================================================
 --- dev.orig/components/policy/core/common/cloud/cloud_policy_util.cc
 +++ dev/components/policy/core/common/cloud/cloud_policy_util.cc
-@@ -6,6 +6,8 @@
+@@ -8,6 +8,8 @@
  
- #include "build/build_config.h"
+ #include <limits.h>
  
 +#include <limits.h>
 +
