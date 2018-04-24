@@ -286,3 +286,18 @@ Index: dev/content/browser/webui/web_ui_impl.cc
  }
  
  void WebUIImpl::ProcessWebUIMessage(const GURL& source_url,
+Index: dev/third_party/blink/renderer/modules/canvas/canvas2d/base_rendering_context_2d.cc
+===================================================================
+--- dev.orig/third_party/blink/renderer/modules/canvas/canvas2d/base_rendering_context_2d.cc
++++ dev/third_party/blink/renderer/modules/canvas/canvas2d/base_rendering_context_2d.cc
+@@ -618,8 +618,8 @@ void BaseRenderingContext2D::DrawPathInt
+ 
+   SkPath sk_path = path.GetSkPath();
+   FloatRect bounds = path.BoundingRect();
+-  if (isnan(bounds.X()) || isnan(bounds.Y()) || isnan(bounds.Width()) ||
+-      isnan(bounds.Height()))
++  if (std::isnan(bounds.X()) || std::isnan(bounds.Y()) || std::isnan(bounds.Width()) ||
++      std::isnan(bounds.Height()))
+     return;
+   sk_path.setFillType(fill_type);
+ 

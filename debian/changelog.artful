@@ -1,3 +1,9 @@
+chromium-browser (67.0.3396.10-0ubuntu1~ppa2~17.10.1) artful; urgency=low
+
+  * Fix build on Bionic and Xenial.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 24 Apr 2018 02:05:30 -0400
+
 chromium-browser (67.0.3396.10-0ubuntu1~ppa1~17.10.1) artful; urgency=low
 
   * New upstream version 67.0.3396.10
