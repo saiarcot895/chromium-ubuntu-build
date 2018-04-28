@@ -1,7 +1,7 @@
-Index: dev/third_party/crashpad/crashpad/compat/linux/sys/ptrace.h
+Index: beta/third_party/crashpad/crashpad/compat/linux/sys/ptrace.h
 ===================================================================
---- dev.orig/third_party/crashpad/crashpad/compat/linux/sys/ptrace.h
-+++ dev/third_party/crashpad/crashpad/compat/linux/sys/ptrace.h
+--- beta.orig/third_party/crashpad/crashpad/compat/linux/sys/ptrace.h
++++ beta/third_party/crashpad/crashpad/compat/linux/sys/ptrace.h
 @@ -20,7 +20,8 @@
  #include <sys/cdefs.h>
  

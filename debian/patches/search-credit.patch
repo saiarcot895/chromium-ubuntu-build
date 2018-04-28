@@ -1,10 +1,10 @@
 Description: Add Ubuntu id into search queries to get credit.
 Author: Chad Miller <chad.miller@canonical.com>
 
-Index: dev/components/search_engines/prepopulated_engines.json
+Index: beta/components/search_engines/prepopulated_engines.json
 ===================================================================
---- dev.orig/components/search_engines/prepopulated_engines.json
-+++ dev/components/search_engines/prepopulated_engines.json
+--- beta.orig/components/search_engines/prepopulated_engines.json
++++ beta/components/search_engines/prepopulated_engines.json
 @@ -85,7 +85,7 @@
        "name": "\u767e\u5ea6",
        "keyword": "baidu.com",
@@ -14,10 +14,10 @@ Index: dev/components/search_engines/prepopulated_engines.json
        "suggest_url": "http://suggestion.baidu.com/su?wd={searchTerms}&action=opensearch&ie={inputEncoding}",
        "type": "SEARCH_ENGINE_BAIDU",
        "id": 21
-Index: dev/components/search_engines/template_url.cc
+Index: beta/components/search_engines/template_url.cc
 ===================================================================
---- dev.orig/components/search_engines/template_url.cc
-+++ dev/components/search_engines/template_url.cc
+--- beta.orig/components/search_engines/template_url.cc
++++ beta/components/search_engines/template_url.cc
 @@ -1071,7 +1071,7 @@ std::string TemplateURLRef::HandleReplac
  
        case GOOGLE_SEARCH_CLIENT: {
