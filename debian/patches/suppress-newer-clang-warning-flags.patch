@@ -5,7 +5,7 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -1369,20 +1369,20 @@ config("default_warnings") {
+@@ -1379,20 +1379,20 @@ config("default_warnings") {
          "-Wno-address-of-packed-member",
  
          # TODO(hans): https://crbug.com/681136
@@ -28,5 +28,5 @@ Index: dev/build/config/compiler/BUILD.gn
 -        "-Wno-ignored-pragma-optimize",
 +        #"-Wno-ignored-pragma-optimize",
        ]
-       if (llvm_force_head_revision) {
-         cflags += [
+     } else if (use_xcode_clang) {
+       cflags += [

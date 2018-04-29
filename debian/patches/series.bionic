@@ -38,9 +38,8 @@ fix-wayland-build.patch
 enable-chromecast-by-default.patch
 revert-Xclang-instcombine-lower-dbg-declare.patch
 suppress-newer-clang-warning-flags.patch
-fix-ffmpeg-build.patch
+#fix-ffmpeg-build.patch
 fix-build-on-older-gcc.patch
 gn-remove-sysroot-use.patch
 widevine-allow-on-linux.patch
 set-rpath-on-chromium-executables.patch
-fix-crashpad-build.patch

@@ -277,7 +277,7 @@ Index: dev/content/browser/webui/web_ui_impl.cc
 ===================================================================
 --- dev.orig/content/browser/webui/web_ui_impl.cc
 +++ dev/content/browser/webui/web_ui_impl.cc
-@@ -241,7 +241,7 @@ void WebUIImpl::CallJavascriptFunctionUn
+@@ -242,7 +242,7 @@ void WebUIImpl::CallJavascriptFunctionUn
  
  void WebUIImpl::RegisterMessageCallback(base::StringPiece message,
                                          const MessageCallback& callback) {

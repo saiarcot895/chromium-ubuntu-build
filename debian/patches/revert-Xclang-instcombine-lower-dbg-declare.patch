@@ -5,19 +5,25 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -468,18 +468,6 @@ config("compiler") {
+@@ -478,24 +478,6 @@ config("compiler") {
      cflags += [ "-fcolor-diagnostics" ]
    }
  
--  # TODO(hans): Remove this once Clang generates better optimized debug info by
--  # default. https://crbug.com/765793
 -  if (is_clang && !is_nacl && current_toolchain == host_toolchain &&
 -      target_os != "chromeos") {
 -    cflags += [
+-      # TODO(hans): Remove this once Clang generates better optimized debug info
+-      # by default. https://crbug.com/765793
 -      "-Xclang",
 -      "-mllvm",
 -      "-Xclang",
 -      "-instcombine-lower-dbg-declare=0",
+-
+-      # TODO(rnk): Remove this once it's the default. https://crbug.com/793819
+-      "-Xclang",
+-      "-mllvm",
+-      "-Xclang",
+-      "-fast-isel-sink-local-values=1",
 -    ]
 -  }
 -
