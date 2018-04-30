@@ -2,7 +2,12 @@ Index: dev/tools/gn/bootstrap/bootstrap.py
 ===================================================================
 --- dev.orig/tools/gn/bootstrap/bootstrap.py
 +++ dev/tools/gn/bootstrap/bootstrap.py
-@@ -529,6 +529,7 @@ def write_gn_ninja(path, root_gen_dir, o
+@@ -525,10 +525,12 @@ def write_gn_ninja(path, root_gen_dir, o
+       'base/location.cc',
+       'base/logging.cc',
+       'base/md5.cc',
++      'base/memory/read_only_shared_memory_region.cc',
+       'base/memory/ref_counted.cc',
        'base/memory/ref_counted_memory.cc',
        'base/memory/shared_memory_handle.cc',
        'base/memory/shared_memory_tracker.cc',
