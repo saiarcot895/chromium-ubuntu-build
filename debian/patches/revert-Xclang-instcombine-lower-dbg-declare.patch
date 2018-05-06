@@ -5,8 +5,8 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -478,24 +478,6 @@ config("compiler") {
-     cflags += [ "-fcolor-diagnostics" ]
+@@ -491,24 +491,6 @@ config("compiler") {
+     cflags += [ "-fmerge-all-constants" ]
    }
  
 -  if (is_clang && !is_nacl && current_toolchain == host_toolchain &&

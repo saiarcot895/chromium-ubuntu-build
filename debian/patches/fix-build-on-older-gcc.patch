@@ -277,7 +277,7 @@ Index: dev/content/browser/webui/web_ui_impl.cc
 ===================================================================
 --- dev.orig/content/browser/webui/web_ui_impl.cc
 +++ dev/content/browser/webui/web_ui_impl.cc
-@@ -242,7 +242,7 @@ void WebUIImpl::CallJavascriptFunctionUn
+@@ -250,7 +250,7 @@ void WebUIImpl::CallJavascriptFunctionUn
  
  void WebUIImpl::RegisterMessageCallback(base::StringPiece message,
                                          const MessageCallback& callback) {
@@ -290,7 +290,7 @@ Index: dev/third_party/blink/renderer/modules/canvas/canvas2d/base_rendering_con
 ===================================================================
 --- dev.orig/third_party/blink/renderer/modules/canvas/canvas2d/base_rendering_context_2d.cc
 +++ dev/third_party/blink/renderer/modules/canvas/canvas2d/base_rendering_context_2d.cc
-@@ -618,8 +618,8 @@ void BaseRenderingContext2D::DrawPathInt
+@@ -640,8 +640,8 @@ void BaseRenderingContext2D::DrawPathInt
  
    SkPath sk_path = path.GetSkPath();
    FloatRect bounds = path.BoundingRect();
