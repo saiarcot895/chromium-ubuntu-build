@@ -43,3 +43,4 @@ fix-build-on-older-gcc.patch
 gn-remove-sysroot-use.patch
 widevine-allow-on-linux.patch
 set-rpath-on-chromium-executables.patch
+fix-build.patch

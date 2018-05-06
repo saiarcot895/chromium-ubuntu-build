@@ -1,3 +1,9 @@
+chromium-browser (68.0.3418.2-0ubuntu1~ppa2~14.04.1) trusty; urgency=low
+
+  * Fix build.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 06 May 2018 12:01:41 -0400
+
 chromium-browser (68.0.3418.2-0ubuntu1~ppa1~14.04.1) trusty; urgency=low
 
   * New upstream version 68.0.3418.2
