@@ -1,3 +1,10 @@
+chromium-browser (68.0.3423.2-0ubuntu1~ppa3~14.04.1) trusty; urgency=low
+
+  * Fix build error for amd64.
+  * Re-disable use of EBP in libavcodec for i386.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 13 May 2018 13:55:40 -0400
+
 chromium-browser (68.0.3423.2-0ubuntu1~ppa2~14.04.1) trusty; urgency=low
 
   * Use HAS_FEATURE macro.

@@ -674,3 +674,19 @@ Index: dev/media/base/media_switches.h
  
  MEDIA_EXPORT extern const char kEnableInbandTextTracks[];
  
+Index: dev/content/browser/utility_process_host.cc
+===================================================================
+--- dev.orig/content/browser/utility_process_host.cc
++++ dev/content/browser/utility_process_host.cc
+@@ -276,7 +276,11 @@ bool UtilityProcessHost::StartProcess()
+       switches::kOverrideUseSoftwareGLForTests,
+       switches::kOverrideEnabledCdmInterfaceVersion,
+       switches::kProxyServer,
++#if defined(OS_LINUX) && !defined(OS_CHROMEOS) && !defined(OS_ANDROID)
++      switches::kEnableAcceleratedMjpegDecode,
++#else
+       switches::kDisableAcceleratedMjpegDecode,
++#endif
+       switches::kUseFakeDeviceForMediaStream,
+       switches::kUseFakeJpegDecodeAccelerator,
+       switches::kUseFileForFakeVideoCapture,
