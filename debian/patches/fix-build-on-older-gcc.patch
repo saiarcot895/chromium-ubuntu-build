@@ -301,3 +301,17 @@ Index: dev/third_party/blink/renderer/modules/canvas/canvas2d/base_rendering_con
      return;
    sk_path.setFillType(fill_type);
  
+Index: dev/content/renderer/input/input_event_prediction.cc
+===================================================================
+--- dev.orig/content/renderer/input/input_event_prediction.cc
++++ dev/content/renderer/input/input_event_prediction.cc
+@@ -119,7 +119,8 @@ void InputEventPrediction::UpdateSingleP
+     if (predictor != pointer_id_predictor_map_.end()) {
+       predictor->second->Update(data);
+     } else {
+-      pointer_id_predictor_map_.insert({event.id, SetUpPredictor()});
++      std::unique_ptr<ui::InputPredictor> newPredictor = SetUpPredictor();
++      pointer_id_predictor_map_.insert({event.id, std::move(newPredictor)});
+       pointer_id_predictor_map_[event.id]->Update(data);
+     }
+   }
