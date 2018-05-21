@@ -1,3 +1,9 @@
+chromium-browser (68.0.3423.2-0ubuntu1~ppa5~18.04.1) bionic; urgency=low
+
+  * Fix build error.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 21 May 2018 11:16:43 -0400
+
 chromium-browser (68.0.3423.2-0ubuntu1~ppa4~18.04.1) bionic; urgency=low
 
   * Try to fix build on older GCCs

@@ -311,7 +311,7 @@ Index: dev/content/renderer/input/input_event_prediction.cc
      } else {
 -      pointer_id_predictor_map_.insert({event.id, SetUpPredictor()});
 +      std::unique_ptr<ui::InputPredictor> newPredictor = SetUpPredictor();
-+      pointer_id_predictor_map_.insert({event.id, std::move(newPredictor)});
++      pointer_id_predictor_map_[event.id] = std::move(newPredictor);
        pointer_id_predictor_map_[event.id]->Update(data);
      }
    }
