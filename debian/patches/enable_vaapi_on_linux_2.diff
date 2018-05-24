@@ -150,7 +150,7 @@ Index: beta/chrome/browser/flag_descriptions.cc
  const char kAcceleratedVideoDecodeName[] = "Hardware-accelerated video decode";
  const char kAcceleratedVideoDecodeDescription[] =
      "Hardware-accelerated video decode where available.";
-@@ -1731,6 +1738,7 @@ const char kWebrtcEchoCanceller3Name[] =
+@@ -1742,6 +1749,7 @@ const char kWebrtcEchoCanceller3Name[] =
  const char kWebrtcEchoCanceller3Description[] =
      "Experimental WebRTC echo canceller (AEC3).";
  
@@ -158,7 +158,7 @@ Index: beta/chrome/browser/flag_descriptions.cc
  const char kWebrtcHwDecodingName[] = "WebRTC hardware video decoding";
  const char kWebrtcHwDecodingDescription[] =
      "Support in WebRTC for decoding video streams using platform hardware.";
-@@ -1738,6 +1746,7 @@ const char kWebrtcHwDecodingDescription[
+@@ -1749,6 +1757,7 @@ const char kWebrtcHwDecodingDescription[
  const char kWebrtcHwEncodingName[] = "WebRTC hardware video encoding";
  const char kWebrtcHwEncodingDescription[] =
      "Support in WebRTC for encoding video streams using platform hardware.";
@@ -166,7 +166,7 @@ Index: beta/chrome/browser/flag_descriptions.cc
  
  const char kWebrtcHwH264EncodingName[] = "WebRTC hardware h264 video encoding";
  const char kWebrtcHwH264EncodingDescription[] =
-@@ -2579,7 +2588,7 @@ const char kTabStripKeyboardFocusDescrip
+@@ -2590,7 +2599,7 @@ const char kTabStripKeyboardFocusDescrip
  
  // Chrome OS -------------------------------------------------------------------
  
@@ -175,7 +175,7 @@ Index: beta/chrome/browser/flag_descriptions.cc
  
  const char kAcceleratedMjpegDecodeName[] =
      "Hardware-accelerated mjpeg decode for captured frame";
-@@ -2949,7 +2958,7 @@ const char kEnableHomeLauncherName[] = "
+@@ -2960,7 +2969,7 @@ const char kEnableHomeLauncherName[] = "
  const char kEnableHomeLauncherDescription[] =
      "Enable home launcher in tablet mode.";
  
@@ -199,7 +199,7 @@ Index: beta/chrome/browser/flag_descriptions.h
  extern const char kAcceleratedVideoDecodeName[];
  extern const char kAcceleratedVideoDecodeDescription[];
  
-@@ -1582,13 +1586,17 @@ extern const char kPermissionPromptPersi
+@@ -1589,13 +1593,17 @@ extern const char kPermissionPromptPersi
  
  #endif  // defined(OS_MACOSX)
  
@@ -301,7 +301,7 @@ Index: beta/content/browser/renderer_host/render_process_host_impl.cc
 ===================================================================
 --- beta.orig/content/browser/renderer_host/render_process_host_impl.cc
 +++ beta/content/browser/renderer_host/render_process_host_impl.cc
-@@ -2693,7 +2693,11 @@ void RenderProcessHostImpl::PropagateBro
+@@ -2703,7 +2703,11 @@ void RenderProcessHostImpl::PropagateBro
      switches::kDefaultTileHeight,
      switches::kDisable2dCanvasImageChromium,
      switches::kDisableAcceleratedJpegDecoding,
@@ -313,7 +313,7 @@ Index: beta/content/browser/renderer_host/render_process_host_impl.cc
      switches::kDisableBackgroundTasks,
      switches::kDisableBackgroundTimerThrottling,
      switches::kDisableBreakpad,
-@@ -2830,8 +2834,10 @@ void RenderProcessHostImpl::PropagateBro
+@@ -2840,8 +2844,10 @@ void RenderProcessHostImpl::PropagateBro
      switches::kDisableMojoRenderer,
  #endif
  #if BUILDFLAG(ENABLE_WEBRTC)
