@@ -5,8 +5,8 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -491,24 +491,6 @@ config("compiler") {
-     cflags += [ "-fmerge-all-constants" ]
+@@ -492,18 +492,6 @@ config("compiler") {
+     }
    }
  
 -  if (is_clang && !is_nacl && current_toolchain == host_toolchain &&
@@ -18,12 +18,6 @@ Index: dev/build/config/compiler/BUILD.gn
 -      "-mllvm",
 -      "-Xclang",
 -      "-instcombine-lower-dbg-declare=0",
--
--      # TODO(rnk): Remove this once it's the default. https://crbug.com/793819
--      "-Xclang",
--      "-mllvm",
--      "-Xclang",
--      "-fast-isel-sink-local-values=1",
 -    ]
 -  }
 -

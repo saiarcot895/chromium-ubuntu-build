@@ -42,4 +42,4 @@ fix-build-on-older-gcc.patch
 gn-remove-sysroot-use.patch
 widevine-allow-on-linux.patch
 set-rpath-on-chromium-executables.patch
-use-has-feature.patch
+ozone-wayland-support.patch

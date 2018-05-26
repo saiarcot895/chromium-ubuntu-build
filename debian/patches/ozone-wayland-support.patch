@@ -1,0 +1,3603 @@
+Index: dev/README.md
+===================================================================
+--- dev.orig/README.md
++++ dev/README.md
+@@ -1,11 +1,108 @@
+-# ![Logo](chrome/app/theme/chromium/product_logo_64.png) Chromium
++# Chromium for Wayland
+ 
+-Chromium is an open-source browser project that aims to build a safer, faster,
+-and more stable way for all users to experience the web.
++The goal of this project is to enable
++[Chromium browser](https://www.chromium.org/) to run on
++[Wayland](https://wayland.freedesktop.org/). Note that contrary to
++[01.org/ozone-wayland](https://github.com/01org/ozone-wayland), the idea is
++to keep it very close to upstream developments as well as aligned on Google's own
++plans. In particular, this fork is rebased against
++[Chromium ToT](https://chromium.googlesource.com/chromium/src.git) each week
++and patches are upstreamed as soon as possible.
+ 
+-The project's web site is https://www.chromium.org.
++The implementation also relies on actively developed Chromium technologies:
++
++* [Aura](https://www.chromium.org/developers/design-documents/aura/aura-overview) for the user interface and windowing.
++* [Ozone](https://chromium.googlesource.com/chromium/src/+/master/docs/ozone_overview.md) as a platform abstraction layer together with the [upstream Wayland backend](https://chromium.googlesource.com/chromium/src.git/+/master/ui/ozone/platform/wayland/).
++* [Mojo](https://chromium.googlesource.com/chromium/src/+/master/mojo) to perform IPC communication.
++
++Notice that the effort done here is also useful to run Chromium with Ozone on
++Linux Desktop for X11/Wayland.
++
++# What is Chromium browser?
++
++![Logo](chrome/app/theme/chromium/product_logo_64.png) Chromium
++
++[Chromium](https://www.chromium.org) is an open-source browser project that aims to build a safer, faster,
++and more stable way for all users to experience the Web.
+ 
+ Documentation in the source is rooted in [docs/README.md](docs/README.md).
+ 
+ Learn how to [Get Around the Chromium Source Code Directory Structure
+ ](https://www.chromium.org/developers/how-tos/getting-around-the-chrome-source-code).
++
++# Building Chromium
++
++General information is provided by the upstream documentation for
++[Chromium on Linux](https://chromium.googlesource.com/chromium/src/+/master/docs/linux_build_instructions.md)
++and
++[Ozone](https://chromium.googlesource.com/chromium/src/+/master/docs/ozone_overview.md).
++Here is the summary of commands to build and run Chrome for Wayland:
++
++```
++gn args out/Ozone --args="use_ozone=true use_xkbcommon=true"
++ninja -C out/Ozone chrome
++./out/Ozone/chrome --ozone-platform=wayland --in-process-gpu
++
++Note that GN defaults to debug builds, which naturally take longer to finish and produce slower binaries at runtime. The 'is_debug=false' GN arguments disables it.
++
++Also note that some touch oriented Web pages like Google Maps, work better when the Touch Event API is explicitly enabled
++in chrome://flags or a command line argument --touch-events=enabled is passed.
++
++It is also possible to enable proprietary codecs (so that mp4, h264 medias play) with the following GN args: 'proprietary_codecs=true ffmpeg_branding=\"Chrome\"'.
++```
++
++By default, the `headless`, `x11` and `wayland` Ozone backends are
++compiled and X11 is selected when `--ozone-platform` is not specified.
++Please refer to the
++[GN Configuration notes](https://chromium.googlesource.com/chromium/src/+/master/docs/ozone_overview.md#GN-Configuration-notes) for details on how to change
++that behavior.
++
++# Running Tests
++
++To be added.
++
++# Rebase Strategy
++
++The fork is rebased every week against Chromium ToT.
++The goal is to be as close as possible to the latest code, which is
++constantly receiving performance and stability fixes.
++
++Here is the current process:
++
++* Every week, a member of the Igalia Chromium team takes the rebase shift.
++
++* Commits that are complementary of each other, receive a "fixup!" prefix on
++the commit title, and keep the rest of original commit title unchanged.
++
++For example:
++
++```
++$ git log --oneline
++commit 1
++commit 2
++commit 3
++fixup! commit 1
++fixup! commit 2
++commit 4
++fixup! commit 2
++(..)
++```
++
++This allows an easy identification of "fixup" commits, which should be squashed into
++their original counterpart commit as part of the next rebase cycle. That way we keep
++our Git history clean, and commits as atomic as possible, for when upstreaming.
++
++Git has [an optimized flow for this](http://fle.github.io/git-tip-keep-your-branch-clean-with-fixup-and-autosquash.html) as well.
++
++* We always keep the 'ozone-wayland-dev-refactoring' branch as our primarily development branch.
++
++This means that force pushes will happen. So every time one of the team members
++rebases our branch, the developer should first back up the existing ozone-wayland-dev
++browser, with the following naming: ozone-wayland-dev-refactoring-rXXXX, where XXXX is the respective
++Chromium baseline of the branch.
++
++* Branch acceptance criteria
++
++To be added.
++
++* Keep [our internal buildbot](https://build-chromium.igalia.com/) green.
+Index: dev/chrome/browser/ui/browser_command_controller.cc
+===================================================================
+--- dev.orig/chrome/browser/ui/browser_command_controller.cc
++++ dev/chrome/browser/ui/browser_command_controller.cc
+@@ -835,7 +835,7 @@ void BrowserCommandController::InitComma
+   command_updater_.UpdateCommandEnabled(IDC_VISIT_DESKTOP_OF_LRU_USER_2, true);
+   command_updater_.UpdateCommandEnabled(IDC_VISIT_DESKTOP_OF_LRU_USER_3, true);
+ #endif
+-#if defined(OS_LINUX) && !defined(OS_CHROMEOS)
++#if defined(OS_LINUX) && !defined(OS_CHROMEOS) && !defined(USE_OZONE)
+   command_updater_.UpdateCommandEnabled(IDC_MINIMIZE_WINDOW, true);
+   command_updater_.UpdateCommandEnabled(IDC_MAXIMIZE_WINDOW, true);
+   command_updater_.UpdateCommandEnabled(IDC_RESTORE_WINDOW, true);
+Index: dev/chrome/browser/ui/browser_view_prefs.cc
+===================================================================
+--- dev.orig/chrome/browser/ui/browser_view_prefs.cc
++++ dev/chrome/browser/ui/browser_view_prefs.cc
+@@ -30,10 +30,14 @@ void RegisterBrowserViewLocalPrefs(PrefR
+ 
+ void RegisterBrowserViewProfilePrefs(
+     user_prefs::PrefRegistrySyncable* registry) {
++#if defined(OS_LINUX) && !defined(OS_CHROMEOS)
++  bool custom_frame_pref_default = true;
+ #if defined(USE_X11)
++  custom_frame_pref_default = ui::GetCustomFramePrefDefault();
++#endif  // USE_X11
+   registry->RegisterBooleanPref(prefs::kUseCustomChromeFrame,
+-                                ui::GetCustomFramePrefDefault());
+-#endif
++                                custom_frame_pref_default);
++#endif  // OS_LINUX && !OS_CHROMEOS
+ }
+ 
+ void MigrateBrowserTabStripPrefs(PrefService* prefs) {
+Index: dev/chrome/browser/ui/views/tabs/window_finder_ozone.cc
+===================================================================
+--- dev.orig/chrome/browser/ui/views/tabs/window_finder_ozone.cc
++++ dev/chrome/browser/ui/views/tabs/window_finder_ozone.cc
+@@ -2,8 +2,37 @@
+ // Use of this source code is governed by a BSD-style license that can be
+ // found in the LICENSE file.
+ 
++#include "chrome/browser/ui/browser_list.h"
++#include "chrome/browser/ui/browser_window.h"
+ #include "chrome/browser/ui/views/tabs/window_finder.h"
+ #include "chrome/browser/ui/views/tabs/window_finder_mus.h"
++#include "ui/views/widget/widget.h"
++
++namespace {
++
++gfx::NativeWindow GetLocalProcessWindowAtPointOzone(
++    const gfx::Point& screen_point,
++    const std::set<gfx::NativeWindow>& ignore) {
++  std::set<aura::Window*> root_windows;
++  for (auto* browser : *BrowserList::GetInstance())
++    root_windows.insert(browser->window()->GetNativeWindow());
++
++  for (aura::Window* root : root_windows) {
++    views::Widget* widget = views::Widget::GetWidgetForNativeView(root);
++    if (widget && widget->GetWindowBoundsInScreen().Contains(screen_point)) {
++      aura::Window* content_window = widget->GetNativeWindow();
++
++      // If we were instructed to ignore this window, ignore it.
++      if (base::ContainsKey(ignore, content_window))
++        continue;
++
++      return content_window;
++    }
++  }
++  return nullptr;
++}
++
++}  // namespace
+ 
+ gfx::NativeWindow WindowFinder::GetLocalProcessWindowAtPoint(
+     const gfx::Point& screen_point,
+@@ -12,6 +41,5 @@ gfx::NativeWindow WindowFinder::GetLocal
+   if (GetLocalProcessWindowAtPointMus(screen_point, ignore, &mus_result))
+     return mus_result;
+ 
+-  NOTREACHED() << "For Ozone builds, only mash launch is supported for now.";
+-  return nullptr;
++  return GetLocalProcessWindowAtPointOzone(screen_point, ignore);
+ }
+Index: dev/media/gpu/BUILD.gn
+===================================================================
+--- dev.orig/media/gpu/BUILD.gn
++++ dev/media/gpu/BUILD.gn
+@@ -16,6 +16,7 @@ buildflag_header("buildflags") {
+     "USE_VAAPI=$use_vaapi",
+     "USE_V4L2_CODEC=$use_v4l2_codec",
+     "USE_LIBV4L2=$use_v4lplugin",
++    "USE_LINUX_V4L2=$use_linux_v4l2_only",
+   ]
+ }
+ 
+@@ -23,7 +24,7 @@ if (is_mac) {
+   import("//build/config/mac/mac_sdk.gni")
+ }
+ 
+-if (is_chromeos && use_v4lplugin) {
++if (use_v4lplugin) {
+   action("libv4l2_generate_stubs") {
+     extra_header = "v4l2/v4l2_stub_header.fragment"
+ 
+@@ -215,12 +216,11 @@ component("gpu") {
+     }
+   }
+ 
+-  if (use_v4lplugin) {
+-    sources += get_target_outputs(":libv4l2_generate_stubs")
+-    deps += [ ":libv4l2_generate_stubs" ]
+-  }
+-
+   if (use_v4l2_codec) {
++    if (use_v4lplugin) {
++      sources += get_target_outputs(":libv4l2_generate_stubs")
++      deps += [ ":libv4l2_generate_stubs" ]
++    }
+     deps += [
+       "//third_party/libyuv",
+       "//ui/ozone",
+@@ -232,15 +232,19 @@ component("gpu") {
+       "v4l2/v4l2_device.h",
+       "v4l2/v4l2_image_processor.cc",
+       "v4l2/v4l2_image_processor.h",
+-      "v4l2/v4l2_jpeg_decode_accelerator.cc",
+-      "v4l2/v4l2_jpeg_decode_accelerator.h",
+-      "v4l2/v4l2_slice_video_decode_accelerator.cc",
+-      "v4l2/v4l2_slice_video_decode_accelerator.h",
+       "v4l2/v4l2_video_decode_accelerator.cc",
+       "v4l2/v4l2_video_decode_accelerator.h",
+       "v4l2/v4l2_video_encode_accelerator.cc",
+       "v4l2/v4l2_video_encode_accelerator.h",
+     ]
++    if (!use_linux_v4l2_only) {
++      sources += [
++        "v4l2_jpeg_decode_accelerator.cc",
++        "v4l2_jpeg_decode_accelerator.h",
++        "v4l2_slice_video_decode_accelerator.cc",
++        "v4l2_slice_video_decode_accelerator.h",
++      ]
++    }
+     libs = [
+       "EGL",
+       "GLESv2",
+Index: dev/media/gpu/args.gni
+===================================================================
+--- dev.orig/media/gpu/args.gni
++++ dev/media/gpu/args.gni
+@@ -10,6 +10,10 @@ declare_args() {
+   # platforms which have v4l2 hardware encoder / decoder.
+   use_v4l2_codec = false
+ 
++  # Indicates that only definitions available in the mainline linux kernel
++  # will be used.
++  use_linux_v4l2_only = false
++
+   # Indicates if VA-API-based hardware acceleration is to be used. This
+   # is typically the case on x86-based ChromeOS devices.
+   use_vaapi = false
+Index: dev/media/gpu/gpu_jpeg_decode_accelerator_factory.cc
+===================================================================
+--- dev.orig/media/gpu/gpu_jpeg_decode_accelerator_factory.cc
++++ dev/media/gpu/gpu_jpeg_decode_accelerator_factory.cc
+@@ -13,7 +13,7 @@
+ #include "media/gpu/buildflags.h"
+ #include "media/gpu/fake_jpeg_decode_accelerator.h"
+ 
+-#if BUILDFLAG(USE_V4L2_CODEC) && defined(ARCH_CPU_ARM_FAMILY)
++#if BUILDFLAG(USE_V4L2_CODEC) && defined(ARCH_CPU_ARM_FAMILY) && !BUILDFLAG(USE_LINUX_V4L2)
+ #define USE_V4L2_JDA
+ #endif
+ 
+Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
+===================================================================
+--- dev.orig/media/gpu/gpu_video_decode_accelerator_factory.cc
++++ dev/media/gpu/gpu_video_decode_accelerator_factory.cc
+@@ -24,7 +24,9 @@
+ #endif
+ #if BUILDFLAG(USE_V4L2_CODEC)
+ #include "media/gpu/v4l2/v4l2_device.h"
++#if !BUILDFLAG(USE_LINUX_V4L2)
+ #include "media/gpu/v4l2/v4l2_slice_video_decode_accelerator.h"
++#endif
+ #include "media/gpu/v4l2/v4l2_video_decode_accelerator.h"
+ #include "ui/gl/gl_surface_egl.h"
+ #endif
+@@ -99,10 +101,12 @@ GpuVideoDecodeAcceleratorFactory::GetDec
+   vda_profiles = V4L2VideoDecodeAccelerator::GetSupportedProfiles();
+   GpuVideoAcceleratorUtil::InsertUniqueDecodeProfiles(
+       vda_profiles, &capabilities.supported_profiles);
++#if !BUILDFLAG(USE_LINUX_V4L2)
+   vda_profiles = V4L2SliceVideoDecodeAccelerator::GetSupportedProfiles();
+   GpuVideoAcceleratorUtil::InsertUniqueDecodeProfiles(
+       vda_profiles, &capabilities.supported_profiles);
+ #endif
++#endif
+ #if BUILDFLAG(USE_VAAPI)
+   vda_profiles = VaapiVideoDecodeAccelerator::GetSupportedProfiles();
+   GpuVideoAcceleratorUtil::InsertUniqueDecodeProfiles(
+@@ -145,8 +149,10 @@ GpuVideoDecodeAcceleratorFactory::Create
+ #endif
+ #if BUILDFLAG(USE_V4L2_CODEC)
+     &GpuVideoDecodeAcceleratorFactory::CreateV4L2VDA,
++#if !BUILDFLAG(USE_LINUX_V4L2)
+     &GpuVideoDecodeAcceleratorFactory::CreateV4L2SVDA,
+ #endif
++#endif
+ #if BUILDFLAG(USE_VAAPI)
+     &GpuVideoDecodeAcceleratorFactory::CreateVaapiVDA,
+ #endif
+@@ -200,6 +206,7 @@ GpuVideoDecodeAcceleratorFactory::Create
+   return decoder;
+ }
+ 
++#if !BUILDFLAG(USE_LINUX_V4L2)
+ std::unique_ptr<VideoDecodeAccelerator>
+ GpuVideoDecodeAcceleratorFactory::CreateV4L2SVDA(
+     const gpu::GpuDriverBugWorkarounds& workarounds,
+@@ -215,6 +222,7 @@ GpuVideoDecodeAcceleratorFactory::Create
+   return decoder;
+ }
+ #endif
++#endif
+ 
+ #if BUILDFLAG(USE_VAAPI)
+ std::unique_ptr<VideoDecodeAccelerator>
+Index: dev/media/gpu/gpu_video_decode_accelerator_factory.h
+===================================================================
+--- dev.orig/media/gpu/gpu_video_decode_accelerator_factory.h
++++ dev/media/gpu/gpu_video_decode_accelerator_factory.h
+@@ -108,11 +108,13 @@ class MEDIA_GPU_EXPORT GpuVideoDecodeAcc
+       const gpu::GpuDriverBugWorkarounds& workarounds,
+       const gpu::GpuPreferences& gpu_preferences,
+       MediaLog* media_log) const;
++#if !BUILDFLAG(USE_LINUX_V4L2)
+   std::unique_ptr<VideoDecodeAccelerator> CreateV4L2SVDA(
+       const gpu::GpuDriverBugWorkarounds& workarounds,
+       const gpu::GpuPreferences& gpu_preferences,
+       MediaLog* media_log) const;
+ #endif
++#endif
+ #if BUILDFLAG(USE_VAAPI)
+   std::unique_ptr<VideoDecodeAccelerator> CreateVaapiVDA(
+       const gpu::GpuDriverBugWorkarounds& workarounds,
+Index: dev/media/gpu/v4l2/generic_v4l2_device.cc
+===================================================================
+--- dev.orig/media/gpu/v4l2/generic_v4l2_device.cc
++++ dev/media/gpu/v4l2/generic_v4l2_device.cc
+@@ -102,10 +102,20 @@ void* GenericV4L2Device::Mmap(void* addr
+                               int flags,
+                               unsigned int offset) {
+   DCHECK(device_fd_.is_valid());
++#if BUILDFLAG(USE_LIBV4L2)
++  if (use_libv4l2_)
++    return v4l2_mmap(addr, len, prot, flags, device_fd_.get(), offset);
++#endif
+   return mmap(addr, len, prot, flags, device_fd_.get(), offset);
+ }
+ 
+ void GenericV4L2Device::Munmap(void* addr, unsigned int len) {
++#if BUILDFLAG(USE_LIBV4L2)
++  if (use_libv4l2_) {
++    v4l2_munmap(addr, len);
++    return;
++  }
++#endif
+   munmap(addr, len);
+ }
+ 
+@@ -474,7 +484,11 @@ bool GenericV4L2Device::OpenDevicePath(c
+     return false;
+ 
+ #if BUILDFLAG(USE_LIBV4L2)
++#if BUILDFLAG(USE_LINUX_V4L2)
++  if (
++#else
+   if (type == Type::kEncoder &&
++#endif
+       HANDLE_EINTR(v4l2_fd_open(device_fd_.get(), V4L2_DISABLE_CONVERSION)) !=
+           -1) {
+     VLOGF(2) << "Using libv4l2 for " << path;
+Index: dev/media/gpu/v4l2/v4l2.sig
+===================================================================
+--- dev.orig/media/gpu/v4l2/v4l2.sig
++++ dev/media/gpu/v4l2/v4l2.sig
+@@ -8,3 +8,5 @@
+ LIBV4L_PUBLIC int v4l2_close(int fd);
+ LIBV4L_PUBLIC int v4l2_ioctl(int fd, unsigned long int request, ...);
+ LIBV4L_PUBLIC int v4l2_fd_open(int fd, int v4l2_flags);
++LIBV4L_PUBLIC void *v4l2_mmap(void *start, size_t length, int prot, int flags, int fd, int64_t offset);
++LIBV4L_PUBLIC int v4l2_munmap(void *_start, size_t length);
+Index: dev/media/gpu/v4l2/v4l2_device.cc
+===================================================================
+--- dev.orig/media/gpu/v4l2/v4l2_device.cc
++++ dev/media/gpu/v4l2/v4l2_device.cc
+@@ -93,6 +93,19 @@ uint32_t V4L2Device::VideoPixelFormatToV
+ }
+ 
+ // static
++#if BUILDFLAG(USE_LINUX_V4L2)
++uint32_t V4L2Device::VideoCodecProfileToV4L2PixFmt(VideoCodecProfile profile,
++                                                  bool slice_based) {
++  if (profile >= H264PROFILE_MIN && profile <= H264PROFILE_MAX) {
++    return V4L2_PIX_FMT_H264;
++  } else if (profile >= VP8PROFILE_MIN && profile <= VP8PROFILE_MAX) {
++    return V4L2_PIX_FMT_VP8;
++  } else {
++    LOG(FATAL) << "Add more cases as needed";
++    return 0;
++  }
++}
++#else
+ uint32_t V4L2Device::VideoCodecProfileToV4L2PixFmt(VideoCodecProfile profile,
+                                                    bool slice_based) {
+   if (profile >= H264PROFILE_MIN && profile <= H264PROFILE_MAX) {
+@@ -115,6 +128,7 @@ uint32_t V4L2Device::VideoCodecProfileTo
+     return 0;
+   }
+ }
++#endif
+ 
+ // static
+ std::vector<VideoCodecProfile> V4L2Device::V4L2PixFmtToVideoCodecProfiles(
+@@ -125,7 +139,9 @@ std::vector<VideoCodecProfile> V4L2Devic
+ 
+   switch (pix_fmt) {
+     case V4L2_PIX_FMT_H264:
++#if !BUILDFLAG(USE_LINUX_V4L2)
+     case V4L2_PIX_FMT_H264_SLICE:
++#endif
+       if (is_encoder) {
+         // TODO(posciak): need to query the device for supported H.264 profiles,
+         // for now choose Main as a sensible default.
+@@ -138,11 +154,14 @@ std::vector<VideoCodecProfile> V4L2Devic
+       break;
+ 
+     case V4L2_PIX_FMT_VP8:
++#if !BUILDFLAG(USE_LINUX_V4L2)
+     case V4L2_PIX_FMT_VP8_FRAME:
++#endif
+       min_profile = VP8PROFILE_MIN;
+       max_profile = VP8PROFILE_MAX;
+       break;
+ 
++#if !BUILDFLAG(USE_LINUX_V4L2)
+     case V4L2_PIX_FMT_VP9:
+     case V4L2_PIX_FMT_VP9_FRAME:
+       // TODO(posciak): https://crbug.com/819930 Query supported profiles.
+@@ -150,6 +169,7 @@ std::vector<VideoCodecProfile> V4L2Devic
+       min_profile = VP9PROFILE_PROFILE0;
+       max_profile = VP9PROFILE_PROFILE0;
+       break;
++#endif
+ 
+     default:
+       VLOGF(1) << "Unhandled pixelformat " << std::hex << "0x" << pix_fmt;
+@@ -179,8 +199,10 @@ uint32_t V4L2Device::V4L2PixFmtToDrmForm
+     case V4L2_PIX_FMT_RGB32:
+       return DRM_FORMAT_ARGB8888;
+ 
++#if !BUILDFLAG(USE_LINUX_V4L2)
+     case V4L2_PIX_FMT_MT21:
+       return DRM_FORMAT_MT21;
++#endif
+ 
+     default:
+       DVLOGF(1) << "Unrecognized format " << std::hex << "0x" << format;
+Index: dev/media/gpu/v4l2/v4l2_video_decode_accelerator.cc
+===================================================================
+--- dev.orig/media/gpu/v4l2/v4l2_video_decode_accelerator.cc
++++ dev/media/gpu/v4l2/v4l2_video_decode_accelerator.cc
+@@ -24,6 +24,7 @@
+ #include "build/build_config.h"
+ #include "media/base/media_switches.h"
+ #include "media/gpu/shared_memory_region.h"
++#include "media/gpu/features.h"
+ #include "media/video/h264_parser.h"
+ #include "ui/gfx/geometry/rect.h"
+ #include "ui/gl/gl_context.h"
+@@ -64,7 +65,10 @@ namespace media {
+ 
+ // static
+ const uint32_t V4L2VideoDecodeAccelerator::supported_input_fourccs_[] = {
+-    V4L2_PIX_FMT_H264, V4L2_PIX_FMT_VP8, V4L2_PIX_FMT_VP9,
++    V4L2_PIX_FMT_H264, V4L2_PIX_FMT_VP8,
++#if !BUILDFLAG(USE_LINUX_V4L2)
++    V4L2_PIX_FMT_VP9,
++#endif
+ };
+ 
+ struct V4L2VideoDecodeAccelerator::BitstreamBufferRef {
+Index: dev/ui/aura/env_input_state_controller.cc
+===================================================================
+--- dev.orig/ui/aura/env_input_state_controller.cc
++++ dev/ui/aura/env_input_state_controller.cc
+@@ -16,7 +16,14 @@ void EnvInputStateController::UpdateStat
+     const ui::MouseEvent& event) {
+   switch (event.type()) {
+     case ui::ET_MOUSE_PRESSED:
+-      Env::GetInstance()->set_mouse_button_flags(event.button_flags());
++      // Do not set mouse flags, when clicking on the non-client area.
++      // Reason: when doing an interactive window drag or resize, we delegate
++      // to the host window manager to perform the action. At the end, the
++      // window manager does not notify the action is ended (mouse release
++      // event), and browser gets stuck with non-zero aura::Env::mouse_button_flags_
++      // until the next mouse down/up.
++      if (!(event.flags() & ui::EF_IS_NON_CLIENT))
++        Env::GetInstance()->set_mouse_button_flags(event.button_flags());
+       break;
+     case ui::ET_MOUSE_RELEASED:
+       Env::GetInstance()->set_mouse_button_flags(
+Index: dev/ui/aura/window_tree_host_platform.cc
+===================================================================
+--- dev.orig/ui/aura/window_tree_host_platform.cc
++++ dev/ui/aura/window_tree_host_platform.cc
+@@ -73,6 +73,12 @@ void WindowTreeHostPlatform::CreateAndSe
+ #endif
+ }
+ 
++void WindowTreeHostPlatform::CreateAndSetPlatformWindowWithProperties(
++    InitProperties& properties) {
++  properties_ = properties;
++  CreateAndSetDefaultPlatformWindow();
++}
++
+ void WindowTreeHostPlatform::SetPlatformWindow(
+     std::unique_ptr<ui::PlatformWindow> window) {
+   platform_window_ = std::move(window);
+@@ -249,4 +255,39 @@ void WindowTreeHostPlatform::OnActivatio
+     OnHostActivated();
+ }
+ 
++void WindowTreeHostPlatform::GetWindowType(
++    ui::PlatformWindowType* window_type) {
++  DCHECK(window_type);
++  switch (properties_.window_type) {
++    case client::WindowType::WINDOW_TYPE_MENU:
++      *window_type = ui::PlatformWindowType::PLATFORM_WINDOW_TYPE_MENU;
++      break;
++    case client::WindowType::WINDOW_TYPE_POPUP:
++      *window_type = ui::PlatformWindowType::PLATFORM_WINDOW_TYPE_POPUP;
++      break;
++    case client::WindowType::WINDOW_TYPE_TOOLTIP:
++      *window_type = ui::PlatformWindowType::PLATFORM_WINDOW_TYPE_TOOLTIP;
++      break;
++    default:
++      *window_type = ui::PlatformWindowType::PLATFORM_WINDOW_TYPE_WINDOW;
++      break;
++  }
++}
++
++void WindowTreeHostPlatform::GetParentWindowAcceleratedWidget(
++    gfx::AcceleratedWidget* widget) {
++  DCHECK(widget);
++  if (properties_.parent_window_widget_id == gfx::kNullAcceleratedWidget)
++    return;
++
++  *widget = properties_.parent_window_widget_id;
++}
++
++WindowTreeHostPlatform::InitProperties::InitProperties() = default;
++
++WindowTreeHostPlatform::InitProperties::InitProperties(
++    const InitProperties& other) = default;
++
++WindowTreeHostPlatform::InitProperties::~InitProperties() = default;
++
+ }  // namespace aura
+Index: dev/ui/aura/window_tree_host_platform.h
+===================================================================
+--- dev.orig/ui/aura/window_tree_host_platform.h
++++ dev/ui/aura/window_tree_host_platform.h
+@@ -10,6 +10,7 @@
+ #include "base/compiler_specific.h"
+ #include "base/macros.h"
+ #include "ui/aura/aura_export.h"
++#include "ui/aura/client/window_types.h"
+ #include "ui/aura/window_tree_host.h"
+ #include "ui/gfx/native_widget_types.h"
+ #include "ui/platform_window/platform_window.h"
+@@ -29,6 +30,16 @@ class WindowPort;
+ class AURA_EXPORT WindowTreeHostPlatform : public WindowTreeHost,
+                                            public ui::PlatformWindowDelegate {
+  public:
++  struct AURA_EXPORT InitProperties {
++    InitProperties();
++    InitProperties(const InitProperties& other);
++    ~InitProperties();
++
++    client::WindowType window_type;
++    gfx::AcceleratedWidget parent_window_widget_id =
++        gfx::kNullAcceleratedWidget;
++  };
++
+   explicit WindowTreeHostPlatform(const gfx::Rect& bounds);
+   ~WindowTreeHostPlatform() override;
+ 
+@@ -57,6 +68,7 @@ class AURA_EXPORT WindowTreeHostPlatform
+   // Creates a ui::PlatformWindow appropriate for the current platform and
+   // installs it at as the PlatformWindow for this WindowTreeHostPlatform.
+   void CreateAndSetDefaultPlatformWindow();
++  void CreateAndSetPlatformWindowWithProperties(InitProperties& properties);
+ 
+   void SetPlatformWindow(std::unique_ptr<ui::PlatformWindow> window);
+   ui::PlatformWindow* platform_window() { return platform_window_.get(); }
+@@ -77,6 +89,9 @@ class AURA_EXPORT WindowTreeHostPlatform
+   void OnAcceleratedWidgetDestroying() override;
+   void OnAcceleratedWidgetDestroyed() override;
+   void OnActivationChanged(bool active) override;
++  void GetWindowType(ui::PlatformWindowType* window_type) override;
++  void GetParentWindowAcceleratedWidget(
++      gfx::AcceleratedWidget* widget) override;
+ 
+   // Overridden from aura::WindowTreeHost:
+   bool CaptureSystemKeyEventsImpl(
+@@ -100,6 +115,7 @@ class AURA_EXPORT WindowTreeHostPlatform
+   // by WindowTreeHost.
+   viz::LocalSurfaceId pending_local_surface_id_;
+   gfx::Size pending_size_;
++  InitProperties properties_;
+ 
+   DISALLOW_COPY_AND_ASSIGN(WindowTreeHostPlatform);
+ };
+Index: dev/ui/base/BUILD.gn
+===================================================================
+--- dev.orig/ui/base/BUILD.gn
++++ dev/ui/base/BUILD.gn
+@@ -895,7 +895,11 @@ test("ui_base_unittests") {
+       "ime/win/tsf_text_store_unittest.cc",
+     ]
+     if (is_linux && use_aura && !is_chromeos) {
+-      sources += [ "ime/input_method_auralinux_unittest.cc" ]
++      if (use_x11) {
++        sources += [ "ime/input_method_auralinux_unittest.cc" ]
++      } else {
++        sources += [ "ime/input_method_minimal_unittest.cc" ]
++      }
+     }
+     if (use_x11) {
+       sources += [ "ime/composition_text_util_pango_unittest.cc" ]
+Index: dev/ui/base/ime/input_method_minimal.cc
+===================================================================
+--- dev.orig/ui/base/ime/input_method_minimal.cc
++++ dev/ui/base/ime/input_method_minimal.cc
+@@ -27,7 +27,8 @@ ui::EventDispatchDetails InputMethodMini
+ 
+   // Insert the character.
+   ui::EventDispatchDetails dispatch_details = DispatchKeyEventPostIME(event);
+-  if (!dispatch_details.dispatcher_destroyed &&
++  if (!event->stopped_propagation() &&
++      !dispatch_details.dispatcher_destroyed &&
+       event->type() == ET_KEY_PRESSED && GetTextInputClient()) {
+     const uint16_t ch = event->GetCharacter();
+     if (ch) {
+Index: dev/ui/base/ime/input_method_minimal_unittest.cc
+===================================================================
+--- /dev/null
++++ dev/ui/base/ime/input_method_minimal_unittest.cc
+@@ -0,0 +1,82 @@
++// Copyright 2018 The Chromium Authors. All rights reserved.
++// Use of this source code is governed by a BSD-style license that can be
++// found in the LICENSE file.
++
++#include "ui/base/ime/input_method_minimal.h"
++
++#include "base/macros.h"
++#include "testing/gtest/include/gtest/gtest.h"
++#include "ui/base/ime/dummy_text_input_client.h"
++#include "ui/base/ime/input_method_delegate.h"
++#include "ui/base/ime/input_method_initializer.h"
++#include "ui/events/event.h"
++
++namespace ui {
++namespace {
++
++class InputMethodDelegateForTesting : public internal::InputMethodDelegate {
++ public:
++  InputMethodDelegateForTesting(bool propagation)
++      : propagation_post_ime_(propagation) {}
++  ~InputMethodDelegateForTesting() override {}
++
++  ui::EventDispatchDetails DispatchKeyEventPostIME(
++      ui::KeyEvent* key_event) override {
++    if (!propagation_post_ime_)
++      key_event->StopPropagation();
++    return ui::EventDispatchDetails();
++  }
++
++ private:
++  bool propagation_post_ime_;
++
++  DISALLOW_COPY_AND_ASSIGN(InputMethodDelegateForTesting);
++};
++
++class InputMethodMinimalTest : public testing::Test {
++ protected:
++  InputMethodMinimalTest() = default;
++  ~InputMethodMinimalTest() override = default;
++
++  void SetUp() override {
++    delegate_ = std::make_unique<InputMethodDelegateForTesting>(true);
++    input_method_minimal_ =
++        std::make_unique<InputMethodMinimal>(delegate_.get());
++    input_method_minimal_->OnFocus();
++  }
++
++  std::unique_ptr<InputMethodMinimal> input_method_minimal_;
++  std::unique_ptr<InputMethodDelegateForTesting> delegate_;
++
++  DISALLOW_COPY_AND_ASSIGN(InputMethodMinimalTest);
++};
++
++TEST_F(InputMethodMinimalTest, StopPropagationTest) {
++  std::unique_ptr<DummyTextInputClient> client =
++      std::make_unique<DummyTextInputClient>();
++  input_method_minimal_->SetFocusedTextInputClient(client.get());
++  input_method_minimal_->OnTextInputTypeChanged(client.get());
++
++  KeyEvent key(ET_KEY_PRESSED, VKEY_TAB, 0);
++  input_method_minimal_->DispatchKeyEvent(&key);
++
++  EXPECT_EQ(1, client->insert_char_count());
++  EXPECT_EQ(9, client->last_insert_char());
++
++  KeyEvent key_a(ET_KEY_PRESSED, VKEY_A, 0);
++  input_method_minimal_->DispatchKeyEvent(&key_a);
++
++  EXPECT_EQ(2, client->insert_char_count());
++  EXPECT_EQ(97, client->last_insert_char());
++
++  std::unique_ptr<InputMethodDelegateForTesting> delegate_no_propagation =
++      std::make_unique<InputMethodDelegateForTesting>(false);
++  input_method_minimal_->SetDelegate(delegate_no_propagation.get());
++  input_method_minimal_->DispatchKeyEvent(&key);
++
++  EXPECT_EQ(2, client->insert_char_count());
++  EXPECT_EQ(97, client->last_insert_char());
++}
++
++}  // namespace
++}  // namespace ui
+Index: dev/ui/ozone/platform/drm/host/drm_window_host.cc
+===================================================================
+--- dev.orig/ui/ozone/platform/drm/host/drm_window_host.cc
++++ dev/ui/ozone/platform/drm/host/drm_window_host.cc
+@@ -137,6 +137,15 @@ PlatformImeController* DrmWindowHost::Ge
+   return nullptr;
+ }
+ 
++void DrmWindowHost::StartWindowMoveOrResize(int hittest,
++                                            gfx::Point pointer_location) {}
++
++bool DrmWindowHost::RunMoveLoop(const gfx::Vector2d& drag_offset) {
++  return false;
++}
++
++void DrmWindowHost::StopMoveLoop() {}
++
+ bool DrmWindowHost::CanDispatchEvent(const PlatformEvent& event) {
+   DCHECK(event);
+ 
+Index: dev/ui/ozone/platform/drm/host/drm_window_host.h
+===================================================================
+--- dev.orig/ui/ozone/platform/drm/host/drm_window_host.h
++++ dev/ui/ozone/platform/drm/host/drm_window_host.h
+@@ -77,6 +77,10 @@ class DrmWindowHost : public PlatformWin
+   void MoveCursorTo(const gfx::Point& location) override;
+   void ConfineCursorToBounds(const gfx::Rect& bounds) override;
+   PlatformImeController* GetPlatformImeController() override;
++  void StartWindowMoveOrResize(int hittest,
++                               gfx::Point pointer_location) override;
++  bool RunMoveLoop(const gfx::Vector2d& drag_offset) override;
++  void StopMoveLoop() override;
+ 
+   // PlatformEventDispatcher:
+   bool CanDispatchEvent(const PlatformEvent& event) override;
+Index: dev/ui/ozone/platform/wayland/BUILD.gn
+===================================================================
+--- dev.orig/ui/ozone/platform/wayland/BUILD.gn
++++ dev/ui/ozone/platform/wayland/BUILD.gn
+@@ -54,6 +54,11 @@ source_set("wayland") {
+     "wayland_window.cc",
+     "wayland_window.h",
+     "xdg_surface_wrapper.cc",
++    "xdg_popup_wrapper.h",
++    "xdg_popup_wrapper_v5.cc",
++    "xdg_popup_wrapper_v5.h",
++    "xdg_popup_wrapper_v6.cc",
++    "xdg_popup_wrapper_v6.h",
+     "xdg_surface_wrapper.h",
+     "xdg_surface_wrapper_v5.cc",
+     "xdg_surface_wrapper_v5.h",
+Index: dev/ui/ozone/platform/wayland/wayland_connection.cc
+===================================================================
+--- dev.orig/ui/ozone/platform/wayland/wayland_connection.cc
++++ dev/ui/ozone/platform/wayland/wayland_connection.cc
+@@ -29,7 +29,9 @@ const uint32_t kMaxXdgShellVersion = 1;
+ 
+ WaylandConnection::WaylandConnection() : controller_(FROM_HERE) {}
+ 
+-WaylandConnection::~WaylandConnection() {}
++WaylandConnection::~WaylandConnection() {
++  DCHECK(window_map_.empty());
++}
+ 
+ bool WaylandConnection::Initialize() {
+   static const wl_registry_listener registry_listener = {
+@@ -105,6 +107,15 @@ WaylandWindow* WaylandConnection::GetWin
+   return it == window_map_.end() ? nullptr : it->second;
+ }
+ 
++WaylandWindow* WaylandConnection::GetCurrentFocusedWindow() {
++  for (auto entry : window_map_) {
++    WaylandWindow* window = entry.second;
++    if (window->has_pointer_focus())
++      return window;
++  }
++  return nullptr;
++}
++
+ void WaylandConnection::AddWindow(gfx::AcceleratedWidget widget,
+                                   WaylandWindow* window) {
+   window_map_[widget] = window;
+@@ -168,6 +179,11 @@ bool WaylandConnection::IsSelectionOwner
+   return !!data_source_;
+ }
+ 
++void WaylandConnection::ResetPointerFlags() {
++  if (pointer_)
++    pointer_->ResetFlags();
++}
++
+ void WaylandConnection::GetAvailableMimeTypes(
+     ClipboardDelegate::GetMimeTypesClosure callback) {
+   std::move(callback).Run(data_device_->GetAvailableMimeTypes());
+@@ -242,6 +258,11 @@ void WaylandConnection::Global(void* dat
+         registry, name, std::min(version, kMaxCompositorVersion));
+     if (!connection->compositor_)
+       LOG(ERROR) << "Failed to bind to wl_compositor global";
++  } else if (!connection->subcompositor_ &&
++             strcmp(interface, "wl_subcompositor") == 0) {
++    connection->subcompositor_ = wl::Bind<wl_subcompositor>(registry, name, 1);
++    if (!connection->subcompositor_)
++      LOG(ERROR) << "Failed to bind to wl_subcompositor global";
+   } else if (!connection->shm_ && strcmp(interface, "wl_shm") == 0) {
+     connection->shm_ =
+         wl::Bind<wl_shm>(registry, name, std::min(version, kMaxShmVersion));
+Index: dev/ui/ozone/platform/wayland/wayland_connection.h
+===================================================================
+--- dev.orig/ui/ozone/platform/wayland/wayland_connection.h
++++ dev/ui/ozone/platform/wayland/wayland_connection.h
+@@ -39,6 +39,7 @@ class WaylandConnection : public Platfor
+ 
+   wl_display* display() { return display_.get(); }
+   wl_compositor* compositor() { return compositor_.get(); }
++  wl_subcompositor* subcompositor() { return subcompositor_.get(); }
+   wl_shm* shm() { return shm_.get(); }
+   xdg_shell* shell() { return shell_.get(); }
+   zxdg_shell_v6* shell_v6() { return shell_v6_.get(); }
+@@ -46,6 +47,7 @@ class WaylandConnection : public Platfor
+   wl_data_device* data_device() { return data_device_->data_device(); }
+ 
+   WaylandWindow* GetWindow(gfx::AcceleratedWidget widget);
++  WaylandWindow* GetCurrentFocusedWindow();
+   void AddWindow(gfx::AcceleratedWidget widget, WaylandWindow* window);
+   void RemoveWindow(gfx::AcceleratedWidget widget);
+ 
+@@ -82,6 +84,13 @@ class WaylandConnection : public Platfor
+       ClipboardDelegate::GetMimeTypesClosure callback) override;
+   bool IsSelectionOwner() override;
+ 
++  // Resets flags and keyboard modifiers.
++  //
++  // This method is specially handy for cases when the WaylandPointer state is
++  // modified by a POINTER_DOWN event, but the respective POINTER_UP event is
++  // not delivered.
++  void ResetPointerFlags();
++
+  private:
+   void Flush();
+   void DispatchUiEvent(Event* event);
+@@ -116,6 +125,7 @@ class WaylandConnection : public Platfor
+   wl::Object<wl_display> display_;
+   wl::Object<wl_registry> registry_;
+   wl::Object<wl_compositor> compositor_;
++  wl::Object<wl_subcompositor> subcompositor_;
+   wl::Object<wl_seat> seat_;
+   wl::Object<wl_shm> shm_;
+   wl::Object<xdg_shell> shell_;
+Index: dev/ui/ozone/platform/wayland/wayland_keyboard.cc
+===================================================================
+--- dev.orig/ui/ozone/platform/wayland/wayland_keyboard.cc
++++ dev/ui/ozone/platform/wayland/wayland_keyboard.cc
+@@ -82,20 +82,26 @@ void WaylandKeyboard::Enter(void* data,
+                             uint32_t serial,
+                             wl_surface* surface,
+                             wl_array* keys) {
+-  WaylandWindow::FromSurface(surface)->set_keyboard_focus(true);
++  if (surface)
++    WaylandWindow::FromSurface(surface)->set_keyboard_focus(true);
+ }
+ 
+ void WaylandKeyboard::Leave(void* data,
+                             wl_keyboard* obj,
+                             uint32_t serial,
+                             wl_surface* surface) {
+-  WaylandWindow::FromSurface(surface)->set_keyboard_focus(false);
++  if (surface)
++    WaylandWindow::FromSurface(surface)->set_keyboard_focus(false);
+ 
+   WaylandKeyboard* keyboard = static_cast<WaylandKeyboard*>(data);
+   DCHECK(keyboard);
+ 
+   // Upon window focus lose, reset the key repeat timers.
+   keyboard->auto_repeat_handler_.StopKeyRepeat();
++
++  // Reset all modifiers once focus is lost. Otherwise, the modifiers may be
++  // left with old flags, which are no longer valid.
++  keyboard->event_modifiers_.ResetKeyboardModifiers();
+ }
+ 
+ void WaylandKeyboard::Key(void* data,
+Index: dev/ui/ozone/platform/wayland/wayland_object.cc
+===================================================================
+--- dev.orig/ui/ozone/platform/wayland/wayland_object.cc
++++ dev/ui/ozone/platform/wayland/wayland_object.cc
+@@ -103,6 +103,16 @@ void (*ObjectTraits<wl_shm_pool>::delete
+ const wl_interface* ObjectTraits<wl_surface>::interface = &wl_surface_interface;
+ void (*ObjectTraits<wl_surface>::deleter)(wl_surface*) = &wl_surface_destroy;
+ 
++const wl_interface* ObjectTraits<wl_subcompositor>::interface =
++    &wl_subcompositor_interface;
++void (*ObjectTraits<wl_subcompositor>::deleter)(wl_subcompositor*) =
++    &wl_subcompositor_destroy;
++
++const wl_interface* ObjectTraits<wl_subsurface>::interface =
++    &wl_subsurface_interface;
++void (*ObjectTraits<wl_subsurface>::deleter)(wl_subsurface*) =
++    &wl_subsurface_destroy;
++
+ const wl_interface* ObjectTraits<wl_touch>::interface = &wl_touch_interface;
+ void (*ObjectTraits<wl_touch>::deleter)(wl_touch*) = &delete_touch;
+ 
+@@ -113,6 +123,9 @@ const wl_interface* ObjectTraits<xdg_sur
+     &xdg_surface_interface;
+ void (*ObjectTraits<xdg_surface>::deleter)(xdg_surface*) = &xdg_surface_destroy;
+ 
++const wl_interface* ObjectTraits<xdg_popup>::interface = &xdg_popup_interface;
++void (*ObjectTraits<xdg_popup>::deleter)(xdg_popup*) = &xdg_popup_destroy;
++
+ const wl_interface* ObjectTraits<zxdg_shell_v6>::interface =
+     &zxdg_shell_v6_interface;
+ void (*ObjectTraits<zxdg_shell_v6>::deleter)(zxdg_shell_v6*) =
+@@ -128,4 +141,14 @@ const wl_interface* ObjectTraits<zxdg_to
+ void (*ObjectTraits<zxdg_toplevel_v6>::deleter)(zxdg_toplevel_v6*) =
+     &zxdg_toplevel_v6_destroy;
+ 
++const wl_interface* ObjectTraits<zxdg_popup_v6>::interface =
++    &zxdg_popup_v6_interface;
++void (*ObjectTraits<zxdg_popup_v6>::deleter)(zxdg_popup_v6*) =
++    &zxdg_popup_v6_destroy;
++
++const wl_interface* ObjectTraits<zxdg_positioner_v6>::interface =
++    &zxdg_positioner_v6_interface;
++void (*ObjectTraits<zxdg_positioner_v6>::deleter)(zxdg_positioner_v6*) =
++    &zxdg_positioner_v6_destroy;
++
+ }  // namespace wl
+Index: dev/ui/ozone/platform/wayland/wayland_object.h
+===================================================================
+--- dev.orig/ui/ozone/platform/wayland/wayland_object.h
++++ dev/ui/ozone/platform/wayland/wayland_object.h
+@@ -23,13 +23,18 @@ struct wl_registry;
+ struct wl_seat;
+ struct wl_shm;
+ struct wl_shm_pool;
++struct wl_subcompositor;
++struct wl_subsurface;
+ struct wl_surface;
+ struct wl_touch;
+ struct xdg_shell;
+ struct xdg_surface;
++struct xdg_popup;
+ struct zxdg_shell_v6;
+ struct zxdg_surface_v6;
+ struct zxdg_toplevel_v6;
++struct zxdg_popup_v6;
++struct zxdg_positioner_v6;
+ 
+ namespace wl {
+ 
+@@ -127,6 +132,18 @@ struct ObjectTraits<wl_shm_pool> {
+ };
+ 
+ template <>
++struct ObjectTraits<wl_subcompositor> {
++  static const wl_interface* interface;
++  static void (*deleter)(wl_subcompositor*);
++};
++
++template <>
++struct ObjectTraits<wl_subsurface> {
++  static const wl_interface* interface;
++  static void (*deleter)(wl_subsurface*);
++};
++
++template <>
+ struct ObjectTraits<wl_surface> {
+   static const wl_interface* interface;
+   static void (*deleter)(wl_surface*);
+@@ -151,6 +168,12 @@ struct ObjectTraits<xdg_surface> {
+ };
+ 
+ template <>
++struct ObjectTraits<xdg_popup> {
++  static const wl_interface* interface;
++  static void (*deleter)(xdg_popup*);
++};
++
++template <>
+ struct ObjectTraits<zxdg_shell_v6> {
+   static const wl_interface* interface;
+   static void (*deleter)(zxdg_shell_v6*);
+@@ -168,6 +191,18 @@ struct ObjectTraits<zxdg_toplevel_v6> {
+   static void (*deleter)(zxdg_toplevel_v6*);
+ };
+ 
++template <>
++struct ObjectTraits<zxdg_popup_v6> {
++  static const wl_interface* interface;
++  static void (*deleter)(zxdg_popup_v6*);
++};
++
++template <>
++struct ObjectTraits<zxdg_positioner_v6> {
++  static const wl_interface* interface;
++  static void (*deleter)(zxdg_positioner_v6*);
++};
++
+ struct Deleter {
+   template <typename T>
+   void operator()(T* obj) {
+Index: dev/ui/ozone/platform/wayland/wayland_pointer.cc
+===================================================================
+--- dev.orig/ui/ozone/platform/wayland/wayland_pointer.cc
++++ dev/ui/ozone/platform/wayland/wayland_pointer.cc
+@@ -94,8 +94,8 @@ void WaylandPointer::Motion(void* data,
+   pointer->location_.SetPoint(wl_fixed_to_double(surface_x),
+                               wl_fixed_to_double(surface_y));
+   MouseEvent event(ET_MOUSE_MOVED, gfx::Point(), gfx::Point(),
+-                   base::TimeTicks() + base::TimeDelta::FromMilliseconds(time),
+-                   pointer->GetFlagsWithKeyboardModifiers(), 0);
++                   EventTimeForNow(), pointer->GetFlagsWithKeyboardModifiers(),
++                   0);
+   event.set_location_f(pointer->location_);
+   event.set_root_location_f(pointer->location_);
+   pointer->callback_.Run(&event);
+@@ -147,9 +147,7 @@ void WaylandPointer::Button(void* data,
+   // MouseEvent's flags should contain the button that was released too.
+   const int flags = pointer->GetFlagsWithKeyboardModifiers() | changed_button;
+   MouseEvent event(type, gfx::Point(), gfx::Point(),
+-                   base::TimeTicks() + base::TimeDelta::FromMilliseconds(time),
+-                   flags, changed_button);
+-
++                   EventTimeForNow(), flags, changed_button);
+   event.set_location_f(pointer->location_);
+   event.set_root_location_f(pointer->location_);
+ 
+@@ -189,8 +187,8 @@ void WaylandPointer::Axis(void* data,
+     return;
+   MouseWheelEvent event(
+       offset, gfx::Point(), gfx::Point(),
+-      base::TimeTicks() + base::TimeDelta::FromMilliseconds(time),
+-      pointer->GetFlagsWithKeyboardModifiers(), 0);
++      EventTimeForNow(), pointer->GetFlagsWithKeyboardModifiers(),
++      0);
+   event.set_location_f(pointer->location_);
+   event.set_root_location_f(pointer->location_);
+   pointer->callback_.Run(&event);
+@@ -216,4 +214,9 @@ int WaylandPointer::GetFlagsWithKeyboard
+   return flags_;
+ }
+ 
++void WaylandPointer::ResetFlags() {
++  flags_ = 0;
++  keyboard_modifiers_ = 0;
++}
++
+ }  // namespace ui
+Index: dev/ui/ozone/platform/wayland/wayland_pointer.h
+===================================================================
+--- dev.orig/ui/ozone/platform/wayland/wayland_pointer.h
++++ dev/ui/ozone/platform/wayland/wayland_pointer.h
+@@ -15,6 +15,7 @@
+ namespace ui {
+ 
+ class WaylandWindow;
++class WaylandConnection;
+ 
+ class WaylandPointer {
+  public:
+@@ -27,6 +28,7 @@ class WaylandPointer {
+   }
+ 
+   int GetFlagsWithKeyboardModifiers();
++  void ResetFlags();
+ 
+   WaylandCursor* cursor() { return cursor_.get(); }
+ 
+Index: dev/ui/ozone/platform/wayland/wayland_window.cc
+===================================================================
+--- dev.orig/ui/ozone/platform/wayland/wayland_window.cc
++++ dev/ui/ozone/platform/wayland/wayland_window.cc
+@@ -8,10 +8,14 @@
+ 
+ #include "base/bind.h"
+ #include "ui/base/cursor/ozone/bitmap_cursor_factory_ozone.h"
++#include "ui/base/hit_test.h"
+ #include "ui/events/event.h"
++#include "ui/events/event_utils.h"
+ #include "ui/events/ozone/events_ozone.h"
+ #include "ui/ozone/platform/wayland/wayland_connection.h"
+ #include "ui/ozone/platform/wayland/wayland_pointer.h"
++#include "ui/ozone/platform/wayland/xdg_popup_wrapper_v5.h"
++#include "ui/ozone/platform/wayland/xdg_popup_wrapper_v6.h"
+ #include "ui/ozone/platform/wayland/xdg_surface_wrapper_v5.h"
+ #include "ui/ozone/platform/wayland/xdg_surface_wrapper_v6.h"
+ 
+@@ -35,10 +39,33 @@ class XDGShellObjectFactory {
+     return std::make_unique<XDGSurfaceWrapperV5>(wayland_window);
+   }
+ 
++  std::unique_ptr<XDGPopupWrapper> CreateXDGPopup(
++      WaylandConnection* connection,
++      WaylandWindow* wayland_window) {
++    if (connection->shell_v6()) {
++      std::unique_ptr<XDGSurfaceWrapper> surface =
++          CreateXDGSurface(connection, wayland_window);
++      surface->Initialize(connection, wayland_window->surface(), false);
++      return std::make_unique<XDGPopupWrapperV6>(std::move(surface),
++                                                 wayland_window);
++    }
++    DCHECK(connection->shell());
++    return std::make_unique<XDGPopupWrapperV5>(wayland_window);
++  }
++
+  private:
+   DISALLOW_COPY_AND_ASSIGN(XDGShellObjectFactory);
+ };
+ 
++// TODO(msisov, tonikitoo): fix customization according to screen resolution
++// once we are able to get global coordinates of wayland windows.
++gfx::Rect TranslateBoundsToScreenCoordinates(const gfx::Rect& child_bounds,
++                                             const gfx::Rect& parent_bounds) {
++  int x = child_bounds.x() - parent_bounds.x();
++  int y = child_bounds.y() - parent_bounds.y();
++  return gfx::Rect(gfx::Point(x, y), child_bounds.size());
++}
++
+ }  // namespace
+ 
+ WaylandWindow::WaylandWindow(PlatformWindowDelegate* delegate,
+@@ -53,13 +80,14 @@ WaylandWindow::WaylandWindow(PlatformWin
+ WaylandWindow::~WaylandWindow() {
+   delegate_->OnAcceleratedWidgetDestroying();
+ 
+-  if (xdg_surface_) {
+-    PlatformEventSource::GetInstance()->RemovePlatformEventDispatcher(this);
+-    connection_->RemoveWindow(surface_.id());
+-  }
+   if (has_pointer_focus_)
+     connection_->pointer()->reset_window_with_pointer_focus();
+ 
++  PlatformEventSource::GetInstance()->RemovePlatformEventDispatcher(this);
++  connection_->RemoveWindow(surface_.id());
++  if (parent_window_)
++    parent_window_->set_child_window(nullptr);
++
+   surface_.reset();
+   delegate_->OnAcceleratedWidgetDestroyed();
+ }
+@@ -80,7 +108,31 @@ bool WaylandWindow::Initialize() {
+   }
+   wl_surface_set_user_data(surface_.get(), this);
+ 
+-  CreateXdgSurface();
++  // There is now default initialization for this type. Initialize it
++  // to ::WINDOW here. It will be changed by delelgate if it know the
++  // type of the window.
++  ui::PlatformWindowType ui_window_type =
++      ui::PlatformWindowType::PLATFORM_WINDOW_TYPE_WINDOW;
++  delegate_->GetWindowType(&ui_window_type);
++  switch (ui_window_type) {
++    case ui::PlatformWindowType::PLATFORM_WINDOW_TYPE_MENU:
++    case ui::PlatformWindowType::PLATFORM_WINDOW_TYPE_POPUP:
++      // TODO(msisov, tonikitoo): Handle notification windows, which are marked
++      // as popup windows as well. Those are the windows that do not have
++      // parents and popup when a browser receive a notification.
++      CreateXdgPopup();
++      break;
++    case ui::PlatformWindowType::PLATFORM_WINDOW_TYPE_TOOLTIP:
++      // Tooltips subsurfaces are created on demand, uppon ::Show calls.
++      is_tooltip_ = true;
++      break;
++    case ui::PlatformWindowType::PLATFORM_WINDOW_TYPE_WINDOW:
++      CreateXdgSurface();
++      break;
++    default:
++      NOTREACHED() << "Not supported window type: type=" << ui_window_type;
++      break;
++  }
+ 
+   connection_->ScheduleFlush();
+ 
+@@ -91,14 +143,64 @@ bool WaylandWindow::Initialize() {
+   return true;
+ }
+ 
++void WaylandWindow::CreateXdgPopup() {
++  if (bounds_.IsEmpty())
++    return;
++
++  if (!parent_window_)
++    parent_window_ = GetParentWindow();
++
++  DCHECK(parent_window_);
++
++  gfx::Rect bounds =
++      TranslateBoundsToScreenCoordinates(bounds_, parent_window_->GetBounds());
++
++  xdg_popup_ = xdg_shell_objects_factory_->CreateXDGPopup(connection_, this);
++  if (!xdg_popup_ ||
++      !xdg_popup_->Initialize(connection_, surface(), parent_window_, bounds)) {
++    CHECK(false) << "Failed to create xdg_popup";
++  }
++
++  parent_window_->set_child_window(this);
++  // Release explicit capture set in mus for the main chromium window, so that
++  // events are forwarded correctly after popup is dead.
++  if (!parent_window_->is_popup())
++    parent_window_->delegate()->OnLostCapture();
++}
++
+ void WaylandWindow::CreateXdgSurface() {
+   xdg_surface_ =
+       xdg_shell_objects_factory_->CreateXDGSurface(connection_, this);
+-  if (!xdg_surface_ || !xdg_surface_->Initialize(connection_, surface_.get())) {
++  if (!xdg_surface_ ||
++      !xdg_surface_->Initialize(connection_, surface_.get(), true)) {
+     CHECK(false) << "Failed to create xdg_surface";
+   }
+ }
+ 
++void WaylandWindow::CreateTooltipSubSurface() {
++  parent_window_ = GetParentWindow();
++
++  // Tooltip creation is an async operation. By the time Mus actually start to
++  // create the tooltip, it is possible that user has already moved the
++  // mouse/pointer out of the window who triggered the tooptip. In this case,
++  // parent_window_ is NULL.
++  if (!parent_window_) {
++    Hide();
++    return;
++  }
++
++  wl_subcompositor* subcompositor = connection_->subcompositor();
++  DCHECK(subcompositor);
++  tooltip_subsurface_.reset(wl_subcompositor_get_subsurface(
++      subcompositor, surface_.get(), parent_window_->surface()));
++
++  wl_subsurface_set_position(tooltip_subsurface_.get(), bounds_.x(),
++                             bounds_.y());
++  wl_subsurface_set_desync(tooltip_subsurface_.get());
++  wl_surface_commit(parent_window_->surface());
++  connection_->ScheduleFlush();
++}
++
+ void WaylandWindow::ApplyPendingBounds() {
+   if (pending_bounds_.IsEmpty())
+     return;
+@@ -111,10 +213,40 @@ void WaylandWindow::ApplyPendingBounds()
+   connection_->ScheduleFlush();
+ }
+ 
+-void WaylandWindow::Show() {}
++void WaylandWindow::Show() {
++  if (xdg_surface_)
++    return;
++  if (is_tooltip_) {
++    if (!tooltip_subsurface_)
++      CreateTooltipSubSurface();
++    return;
++  }
++  if (!xdg_popup_) {
++    CreateXdgPopup();
++    connection_->ScheduleFlush();
++  }
++}
+ 
+ void WaylandWindow::Hide() {
+-  NOTIMPLEMENTED();
++  if (is_tooltip_) {
++    wl_surface_attach(surface_.get(), NULL, 0, 0);
++    wl_surface_commit(surface_.get());
++    // Tooltip subsurface must be reset only after the buffer is detached.
++    // Otherwise, gnome shell, for example, can end up with broken event
++    // pipe.
++    tooltip_subsurface_.reset();
++    return;
++  }
++  if (child_window_)
++    child_window_->Hide();
++  if (xdg_popup_) {
++    parent_window_->set_child_window(nullptr);
++    xdg_popup_.reset();
++    // Detach buffer from surface in order to completely shutdown popups and
++    // release resources.
++    wl_surface_attach(surface_.get(), NULL, 0, 0);
++    wl_surface_commit(surface_.get());
++  }
+ }
+ 
+ void WaylandWindow::Close() {
+@@ -142,18 +274,16 @@ void WaylandWindow::SetTitle(const base:
+ 
+ void WaylandWindow::SetCapture() {
+   // Wayland does implicit grabs, and doesn't allow for explicit grabs. The
+-  // exception to that seems to be popups, which can do a grab during show. Need
+-  // to evaluate under what circumstances we need this.
+-  NOTIMPLEMENTED();
++  // exception to that are popups, but we explicitly send events to a
++  // parent popup if such exists.
+ }
+ 
+ void WaylandWindow::ReleaseCapture() {
+   // See comment in SetCapture() for details on wayland and grabs.
+-  NOTIMPLEMENTED();
+ }
+ 
+ bool WaylandWindow::HasCapture() const {
+-  return has_implicit_grab_;
++  return is_popup() ? true : has_implicit_grab_;
+ }
+ 
+ void WaylandWindow::ToggleFullscreen() {
+@@ -254,7 +384,32 @@ PlatformImeController* WaylandWindow::Ge
+   return nullptr;
+ }
+ 
++void WaylandWindow::StartWindowMoveOrResize(int hittest,
++                                            gfx::Point pointer_location) {
++  DCHECK(xdg_surface_);
++
++  connection_->ResetPointerFlags();
++
++  if (hittest == HTCAPTION)
++    xdg_surface_->SurfaceMove(connection_);
++  else
++    xdg_surface_->SurfaceResize(connection_, hittest);
++}
++
++bool WaylandWindow::RunMoveLoop(const gfx::Vector2d& drag_offset) {
++  return true;
++}
++
++void WaylandWindow::StopMoveLoop() {}
++
+ bool WaylandWindow::CanDispatchEvent(const PlatformEvent& event) {
++  if (child_window_ && child_window_->is_popup())
++    return is_popup();
++
++  // If another window has capture, return early before checking focus.
++  if (HasCapture())
++    return true;
++
+   if (event->IsMouseEvent())
+     return has_pointer_focus_;
+   if (event->IsKeyEvent())
+@@ -265,6 +420,17 @@ bool WaylandWindow::CanDispatchEvent(con
+ }
+ 
+ uint32_t WaylandWindow::DispatchEvent(const PlatformEvent& native_event) {
++  Event* event = static_cast<Event*>(native_event);
++  if (event->IsLocatedEvent() && !has_pointer_focus_) {
++    DCHECK(connection_);
++    WaylandWindow* window = connection_->GetCurrentFocusedWindow();
++    if (window) {
++      ConvertEventLocationToTargetWindowLocation(GetBounds().origin(),
++                                                 window->GetBounds().origin(),
++                                                 event->AsLocatedEvent());
++    }
++  }
++
+   DispatchEventFromNativeUiEvent(
+       native_event, base::BindOnce(&PlatformWindowDelegate::DispatchEvent,
+                                    base::Unretained(delegate_)));
+@@ -313,7 +479,10 @@ void WaylandWindow::HandleSurfaceConfigu
+ }
+ 
+ void WaylandWindow::OnCloseRequest() {
+-  NOTIMPLEMENTED();
++  // Before calling OnCloseRequest, the |xdg_popup_| must become hidden and
++  // only then call OnCloseRequest().
++  DCHECK(!xdg_popup_);
++  delegate_->OnCloseRequest();
+ }
+ 
+ bool WaylandWindow::IsMinimized() const {
+@@ -349,4 +518,25 @@ void WaylandWindow::SetPendingBounds(int
+     restored_bounds_ = gfx::Rect();
+ }
+ 
++WaylandWindow* WaylandWindow::GetParentWindow() {
++  gfx::AcceleratedWidget widget = gfx::kNullAcceleratedWidget;
++  delegate_->GetParentWindowAcceleratedWidget(&widget);
++  WaylandWindow* parent_window = connection_->GetWindow(widget);
++
++  // If propagated parent has already had a child, it means that |this| is a
++  // submenu of a 3-dot menu. In aura, the parent of a 3-dot menu and its
++  // submenu is the main native widget, which is the main window. In contrast,
++  // Wayland requires a menu window to be a parent of a submenu window. Thus,
++  // check if the suggested parent has a child. If yes, take its child as a
++  // parent of |this|.
++  // Another case is a notifcation window or a drop down window, which do not
++  // have a parent in aura. In this case, take the current focused window as a
++  // parent.
++  if (parent_window && parent_window->child_window_)
++    return parent_window->child_window_;
++  if (!parent_window)
++    return connection_->GetCurrentFocusedWindow();
++  return parent_window;
++}
++
+ }  // namespace ui
+Index: dev/ui/ozone/platform/wayland/wayland_window.h
+===================================================================
+--- dev.orig/ui/ozone/platform/wayland/wayland_window.h
++++ dev/ui/ozone/platform/wayland/wayland_window.h
+@@ -18,6 +18,7 @@ namespace ui {
+ class BitmapCursorOzone;
+ class PlatformWindowDelegate;
+ class WaylandConnection;
++class XDGPopupWrapper;
+ class XDGSurfaceWrapper;
+ 
+ namespace {
+@@ -36,6 +37,8 @@ class WaylandWindow : public PlatformWin
+   bool Initialize();
+ 
+   wl_surface* surface() const { return surface_.get(); }
++  XDGSurfaceWrapper* xdg_surface() { return xdg_surface_.get(); }
++  XDGPopupWrapper* xdg_popup() { return xdg_popup_.get(); }
+ 
+   // Apply the bounds specified in the most recent configure event. This should
+   // be called after processing all pending events in the wayland connection.
+@@ -51,6 +54,17 @@ class WaylandWindow : public PlatformWin
+   // Set whether this window has touch focus and should dispatch touch events.
+   void set_touch_focus(bool focus) { has_touch_focus_ = focus; }
+ 
++  // Tells if it is a focused popup.
++  bool is_focused_popup() { return is_popup() && has_pointer_focus(); }
++
++  // Tells if this is a popup.
++  bool is_popup() const { return !!xdg_popup_.get(); }
++
++  // Set a child of this window. It is very important in case of nested
++  // xdg_popups as long as we must destroy the very last first and only then
++  // its parent.
++  void set_child_window(WaylandWindow* window) { child_window_ = window; }
++
+   // Set whether this window has an implicit grab (often referred to as capture
+   // in Chrome code). Implicit grabs happen while a pointer is down.
+   void set_has_implicit_grab(bool value) { has_implicit_grab_ = value; }
+@@ -68,6 +82,7 @@ class WaylandWindow : public PlatformWin
+   void SetTitle(const base::string16& title) override;
+   void SetCapture() override;
+   void ReleaseCapture() override;
++  // Tells if |this| has capture.
+   bool HasCapture() const override;
+   void ToggleFullscreen() override;
+   void Maximize() override;
+@@ -78,6 +93,10 @@ class WaylandWindow : public PlatformWin
+   void MoveCursorTo(const gfx::Point& location) override;
+   void ConfineCursorToBounds(const gfx::Rect& bounds) override;
+   PlatformImeController* GetPlatformImeController() override;
++  void StartWindowMoveOrResize(int hittest,
++                               gfx::Point pointer_location) override;
++  bool RunMoveLoop(const gfx::Vector2d& drag_offset) override;
++  void StopMoveLoop() override;
+ 
+   // PlatformEventDispatcher
+   bool CanDispatchEvent(const PlatformEvent& event) override;
+@@ -91,6 +110,9 @@ class WaylandWindow : public PlatformWin
+ 
+   void OnCloseRequest();
+ 
++ protected:
++  PlatformWindowDelegate* delegate() { return delegate_; }
++
+  private:
+   bool IsMinimized() const;
+   bool IsMaximized() const;
+@@ -98,20 +120,31 @@ class WaylandWindow : public PlatformWin
+ 
+   void SetPendingBounds(int32_t width, int32_t height);
+ 
++  // Creates a popup window, which is visible as a menu window.
++  void CreateXdgPopup();
+   // Creates a surface window, which is visible as a main window.
+   void CreateXdgSurface();
++  // Creates a subsurface window, to host tooltip's content.
++  void CreateTooltipSubSurface();
++
++  // Gets a parent window for this window.
++  WaylandWindow* GetParentWindow();
+ 
+   PlatformWindowDelegate* delegate_;
+   WaylandConnection* connection_;
++  WaylandWindow* parent_window_ = nullptr;
++  WaylandWindow* child_window_ = nullptr;
+ 
+   // Creates xdg objects based on xdg shell version.
+   std::unique_ptr<XDGShellObjectFactory> xdg_shell_objects_factory_;
+ 
+   wl::Object<wl_surface> surface_;
++  wl::Object<wl_subsurface> tooltip_subsurface_;
+ 
+-  // Wrapper around xdg v5 and xdg v6 objects. WaylandWindow doesn't
++  // Wrappers around xdg v5 and xdg v6 objects. WaylandWindow doesn't
+   // know anything about the version.
+   std::unique_ptr<XDGSurfaceWrapper> xdg_surface_;
++  std::unique_ptr<XDGPopupWrapper> xdg_popup_;
+ 
+   // The current cursor bitmap (immutable).
+   scoped_refptr<BitmapCursorOzone> bitmap_;
+@@ -131,6 +164,8 @@ class WaylandWindow : public PlatformWin
+   bool is_active_ = false;
+   bool is_minimizing_ = false;
+ 
++  bool is_tooltip_ = false;
++
+   DISALLOW_COPY_AND_ASSIGN(WaylandWindow);
+ };
+ 
+Index: dev/ui/ozone/platform/wayland/xdg_popup_wrapper.h
+===================================================================
+--- /dev/null
++++ dev/ui/ozone/platform/wayland/xdg_popup_wrapper.h
+@@ -0,0 +1,30 @@
++// Copyright 2017 The Chromium Authors. All rights reserved.
++// Use of this source code is governed by a BSD-style license that can be
++// found in the LICENSE file.
++
++#ifndef UI_OZONE_PLATFORM_WAYLAND_XDG_POPUP_WRAPPER_H_
++#define UI_OZONE_PLATFORM_WAYLAND_XDG_POPUP_WRAPPER_H_
++
++#include "ui/gfx/geometry/rect.h"
++#include "ui/ozone/platform/wayland/wayland_object.h"
++
++namespace ui {
++
++class WaylandConnection;
++class WaylandWindow;
++
++// A wrapper around different versions of xdg popups.
++class XDGPopupWrapper {
++ public:
++  virtual ~XDGPopupWrapper() {}
++
++  // Creates actual xdg popup object and sets a listener to it.
++  virtual bool Initialize(WaylandConnection* connection,
++                          wl_surface* surface,
++                          WaylandWindow* parent_window,
++                          const gfx::Rect& bounds) = 0;
++};
++
++}  // namespace ui
++
++#endif  // UI_OZONE_PLATFORM_WAYLAND_XDG_POPUP_WRAPPER_H_
+Index: dev/ui/ozone/platform/wayland/xdg_popup_wrapper_v5.cc
+===================================================================
+--- /dev/null
++++ dev/ui/ozone/platform/wayland/xdg_popup_wrapper_v5.cc
+@@ -0,0 +1,51 @@
++// Copyright 2017 The Chromium Authors. All rights reserved.
++// Use of this source code is governed by a BSD-style license that can be
++// found in the LICENSE file.
++
++#include "ui/ozone/platform/wayland/xdg_popup_wrapper_v5.h"
++
++#include <xdg-shell-unstable-v5-client-protocol.h>
++
++#include "ui/gfx/geometry/rect.h"
++#include "ui/ozone/platform/wayland/wayland_connection.h"
++#include "ui/ozone/platform/wayland/wayland_window.h"
++
++namespace ui {
++
++XDGPopupWrapperV5::XDGPopupWrapperV5(WaylandWindow* wayland_window)
++    : wayland_window_(wayland_window) {}
++
++XDGPopupWrapperV5::~XDGPopupWrapperV5() {
++  wl_surface_attach(surface_, NULL, 0, 0);
++  wl_surface_commit(surface_);
++}
++
++bool XDGPopupWrapperV5::Initialize(WaylandConnection* connection,
++                                   wl_surface* surface,
++                                   WaylandWindow* parent_window,
++                                   const gfx::Rect& bounds) {
++  DCHECK(connection && surface && parent_window);
++  static const xdg_popup_listener xdg_popup_listener = {
++      &XDGPopupWrapperV5::PopupDone,
++  };
++
++  surface_ = surface;
++  xdg_popup_.reset(xdg_shell_get_xdg_popup(
++      connection->shell(), surface, parent_window->surface(),
++      connection->seat(), connection->serial(), bounds.x(), bounds.y()));
++
++  xdg_popup_add_listener(xdg_popup_.get(), &xdg_popup_listener, this);
++
++  return true;
++}
++
++// static
++void XDGPopupWrapperV5::PopupDone(void* data, xdg_popup* obj) {
++  WaylandWindow* window =
++      static_cast<XDGPopupWrapperV5*>(data)->wayland_window_;
++  DCHECK(window);
++  window->Hide();
++  window->OnCloseRequest();
++}
++
++}  // namespace ui
+Index: dev/ui/ozone/platform/wayland/xdg_popup_wrapper_v5.h
+===================================================================
+--- /dev/null
++++ dev/ui/ozone/platform/wayland/xdg_popup_wrapper_v5.h
+@@ -0,0 +1,38 @@
++// Copyright 2017 The Chromium Authors. All rights reserved.
++// Use of this source code is governed by a BSD-style license that can be
++// found in the LICENSE file.
++
++#ifndef UI_OZONE_PLATFORM_WAYLAND_XDG_POPUP_WRAPPER_V5_H_
++#define UI_OZONE_PLATFORM_WAYLAND_XDG_POPUP_WRAPPER_V5_H_
++
++#include "ui/ozone/platform/wayland/xdg_popup_wrapper.h"
++
++namespace ui {
++
++class WaylandConnection;
++class WaylandWindow;
++
++class XDGPopupWrapperV5 : public XDGPopupWrapper {
++ public:
++  XDGPopupWrapperV5(WaylandWindow* wayland_window);
++  ~XDGPopupWrapperV5() override;
++
++  bool Initialize(WaylandConnection* connection,
++                  wl_surface* surface,
++                  WaylandWindow* parent_window,
++                  const gfx::Rect& bounds) override;
++
++  // xdg_popup_listener
++  static void PopupDone(void* data, xdg_popup* obj);
++
++ private:
++  WaylandWindow* wayland_window_;
++  wl_surface* surface_;
++  wl::Object<xdg_popup> xdg_popup_;
++
++  DISALLOW_COPY_AND_ASSIGN(XDGPopupWrapperV5);
++};
++
++}  // namespace ui
++
++#endif  // UI_OZONE_PLATFORM_WAYLAND_XDG_POPUP_WRAPPER_V5_H_
+Index: dev/ui/ozone/platform/wayland/xdg_popup_wrapper_v6.cc
+===================================================================
+--- /dev/null
++++ dev/ui/ozone/platform/wayland/xdg_popup_wrapper_v6.cc
+@@ -0,0 +1,115 @@
++// Copyright 2017 The Chromium Authors. All rights reserved.
++// Use of this source code is governed by a BSD-style license that can be
++// found in the LICENSE file.
++
++#include "ui/ozone/platform/wayland/xdg_popup_wrapper_v6.h"
++
++#include <xdg-shell-unstable-v6-client-protocol.h>
++
++#include "ui/gfx/geometry/rect.h"
++#include "ui/ozone/platform/wayland/wayland_connection.h"
++#include "ui/ozone/platform/wayland/wayland_window.h"
++#include "ui/ozone/platform/wayland/xdg_surface_wrapper_v6.h"
++
++namespace ui {
++
++XDGPopupWrapperV6::XDGPopupWrapperV6(std::unique_ptr<XDGSurfaceWrapper> surface,
++                                     WaylandWindow* wayland_window)
++    : wayland_window_(wayland_window), zxdg_surface_v6_(std::move(surface)) {
++  DCHECK(zxdg_surface_v6_);
++}
++
++XDGPopupWrapperV6::~XDGPopupWrapperV6() {}
++
++bool XDGPopupWrapperV6::Initialize(WaylandConnection* connection,
++                                   wl_surface* surface,
++                                   WaylandWindow* parent_window,
++                                   const gfx::Rect& bounds) {
++  DCHECK(connection && surface && parent_window);
++  static const struct zxdg_popup_v6_listener zxdg_popup_v6_listener = {
++      &XDGPopupWrapperV6::Configure, &XDGPopupWrapperV6::PopupDone,
++  };
++
++  XDGSurfaceWrapperV6* xdg_surface =
++      static_cast<XDGSurfaceWrapperV6*>(zxdg_surface_v6_.get());
++  if (!xdg_surface)
++    return false;
++
++  XDGSurfaceWrapperV6* parent_xdg_surface;
++  // If the parent window is a popup, the surface of that popup must be used as
++  // a parent.
++  if (parent_window->is_popup()) {
++    XDGPopupWrapperV6* popup =
++        reinterpret_cast<XDGPopupWrapperV6*>(parent_window->xdg_popup());
++    parent_xdg_surface =
++        reinterpret_cast<XDGSurfaceWrapperV6*>(popup->xdg_surface());
++  } else {
++    parent_xdg_surface =
++        reinterpret_cast<XDGSurfaceWrapperV6*>(parent_window->xdg_surface());
++  }
++  if (!parent_xdg_surface)
++    return false;
++
++  zxdg_positioner_v6* positioner = CreatePositioner(connection, bounds);
++  if (!positioner)
++    return false;
++
++  xdg_popup_.reset(zxdg_surface_v6_get_popup(xdg_surface->xdg_surface(),
++                                             parent_xdg_surface->xdg_surface(),
++                                             positioner));
++  if (!xdg_popup_)
++    return false;
++
++  zxdg_positioner_v6_destroy(positioner);
++
++  zxdg_popup_v6_grab(xdg_popup_.get(), connection->seat(),
++                     connection->serial());
++  zxdg_popup_v6_add_listener(xdg_popup_.get(), &zxdg_popup_v6_listener, this);
++
++  wl_surface_commit(surface);
++  return true;
++}
++
++zxdg_positioner_v6* XDGPopupWrapperV6::CreatePositioner(
++    WaylandConnection* connection,
++    const gfx::Rect& bounds) {
++  struct zxdg_positioner_v6* positioner;
++  positioner = zxdg_shell_v6_create_positioner(connection->shell_v6());
++  if (!positioner)
++    return nullptr;
++
++  zxdg_positioner_v6_set_anchor_rect(positioner, bounds.x(), bounds.y(), 1, 1);
++  zxdg_positioner_v6_set_size(positioner, bounds.width(), bounds.height());
++  zxdg_positioner_v6_set_anchor(
++      positioner,
++      ZXDG_POSITIONER_V6_ANCHOR_TOP | ZXDG_POSITIONER_V6_ANCHOR_RIGHT);
++  zxdg_positioner_v6_set_gravity(
++      positioner,
++      ZXDG_POSITIONER_V6_ANCHOR_BOTTOM | ZXDG_POSITIONER_V6_ANCHOR_RIGHT);
++  return positioner;
++}
++
++// static
++void XDGPopupWrapperV6::Configure(void* data,
++                                  struct zxdg_popup_v6* zxdg_popup_v6,
++                                  int32_t x,
++                                  int32_t y,
++                                  int32_t width,
++                                  int32_t height) {}
++
++// static
++void XDGPopupWrapperV6::PopupDone(void* data,
++                                  struct zxdg_popup_v6* zxdg_popup_v6) {
++  WaylandWindow* window =
++      static_cast<XDGPopupWrapperV6*>(data)->wayland_window_;
++  DCHECK(window);
++  window->Hide();
++  window->OnCloseRequest();
++}
++
++XDGSurfaceWrapper* XDGPopupWrapperV6::xdg_surface() {
++  DCHECK(zxdg_surface_v6_.get());
++  return zxdg_surface_v6_.get();
++}
++
++}  // namespace ui
+Index: dev/ui/ozone/platform/wayland/xdg_popup_wrapper_v6.h
+===================================================================
+--- /dev/null
++++ dev/ui/ozone/platform/wayland/xdg_popup_wrapper_v6.h
+@@ -0,0 +1,52 @@
++// Copyright 2017 The Chromium Authors. All rights reserved.
++// Use of this source code is governed by a BSD-style license that can be
++// found in the LICENSE file.
++
++#ifndef UI_OZONE_PLATFORM_WAYLAND_XDG_POPUP_WRAPPER_V6_H_
++#define UI_OZONE_PLATFORM_WAYLAND_XDG_POPUP_WRAPPER_V6_H_
++
++#include "ui/ozone/platform/wayland/xdg_popup_wrapper.h"
++
++namespace ui {
++
++class XDGSurfaceWrapper;
++class WaylandConnection;
++class WaylandWindow;
++
++class XDGPopupWrapperV6 : public XDGPopupWrapper {
++ public:
++  XDGPopupWrapperV6(std::unique_ptr<XDGSurfaceWrapper> surface,
++                    WaylandWindow* wayland_window);
++  ~XDGPopupWrapperV6() override;
++
++  // XDGPopupWrapper:
++  bool Initialize(WaylandConnection* connection,
++                  wl_surface* surface,
++                  WaylandWindow* parent_window,
++                  const gfx::Rect& bounds) override;
++
++  zxdg_positioner_v6* CreatePositioner(WaylandConnection* connection,
++                                       const gfx::Rect& bounds);
++
++  // xdg_popup_listener
++  static void Configure(void* data,
++                        struct zxdg_popup_v6* zxdg_popup_v6,
++                        int32_t x,
++                        int32_t y,
++                        int32_t width,
++                        int32_t height);
++  static void PopupDone(void* data, struct zxdg_popup_v6* zxdg_popup_v6);
++
++  XDGSurfaceWrapper* xdg_surface();
++
++ private:
++  WaylandWindow* wayland_window_;
++  std::unique_ptr<XDGSurfaceWrapper> zxdg_surface_v6_;
++  wl::Object<zxdg_popup_v6> xdg_popup_;
++
++  DISALLOW_COPY_AND_ASSIGN(XDGPopupWrapperV6);
++};
++
++}  // namespace ui
++
++#endif  // UI_OZONE_PLATFORM_WAYLAND_XDG_POPUP_WRAPPER_V6_H_
+Index: dev/ui/ozone/platform/wayland/xdg_surface_wrapper.h
+===================================================================
+--- dev.orig/ui/ozone/platform/wayland/xdg_surface_wrapper.h
++++ dev/ui/ozone/platform/wayland/xdg_surface_wrapper.h
+@@ -21,9 +21,11 @@ class XDGSurfaceWrapper {
+  public:
+   virtual ~XDGSurfaceWrapper() {}
+ 
+-  // Initializes the surface.
++  // Initializes the surface. If |with_toplevel| is true, the surface is
++  // assigned a top level role, which results in a normal native window.
+   virtual bool Initialize(WaylandConnection* connection,
+-                          wl_surface* surface) = 0;
++                          wl_surface* surface,
++                          bool with_toplevel) = 0;
+ 
+   // Sets a native window to maximized state.
+   virtual void SetMaximized() = 0;
+Index: dev/ui/ozone/platform/wayland/xdg_surface_wrapper_v5.cc
+===================================================================
+--- dev.orig/ui/ozone/platform/wayland/xdg_surface_wrapper_v5.cc
++++ dev/ui/ozone/platform/wayland/xdg_surface_wrapper_v5.cc
+@@ -7,18 +7,60 @@
+ #include <xdg-shell-unstable-v5-client-protocol.h>
+ 
+ #include "base/strings/utf_string_conversions.h"
++#include "ui/base/hit_test.h"
+ #include "ui/ozone/platform/wayland/wayland_connection.h"
+ #include "ui/ozone/platform/wayland/wayland_window.h"
+ 
+ namespace ui {
+ 
++namespace {
++
++// Identifies the direction of the "hittest" for Wayland.
++bool IdentifyDirection(int hittest, int* direction) {
++  DCHECK(direction);
++  *direction = -1;
++  switch (hittest) {
++    case HTBOTTOM:
++      *direction = xdg_surface_resize_edge::XDG_SURFACE_RESIZE_EDGE_BOTTOM;
++      break;
++    case HTBOTTOMLEFT:
++      *direction = xdg_surface_resize_edge::XDG_SURFACE_RESIZE_EDGE_BOTTOM_LEFT;
++      break;
++    case HTBOTTOMRIGHT:
++      *direction =
++          xdg_surface_resize_edge::XDG_SURFACE_RESIZE_EDGE_BOTTOM_RIGHT;
++      break;
++    case HTLEFT:
++      *direction = xdg_surface_resize_edge::XDG_SURFACE_RESIZE_EDGE_LEFT;
++      break;
++    case HTRIGHT:
++      *direction = xdg_surface_resize_edge::XDG_SURFACE_RESIZE_EDGE_RIGHT;
++      break;
++    case HTTOP:
++      *direction = xdg_surface_resize_edge::XDG_SURFACE_RESIZE_EDGE_TOP;
++      break;
++    case HTTOPLEFT:
++      *direction = xdg_surface_resize_edge::XDG_SURFACE_RESIZE_EDGE_TOP_LEFT;
++      break;
++    case HTTOPRIGHT:
++      *direction = xdg_surface_resize_edge::XDG_SURFACE_RESIZE_EDGE_TOP_RIGHT;
++      break;
++    default:
++      return false;
++  }
++  return true;
++}
++
++}  // namespace
++
+ XDGSurfaceWrapperV5::XDGSurfaceWrapperV5(WaylandWindow* wayland_window)
+     : wayland_window_(wayland_window) {}
+ 
+ XDGSurfaceWrapperV5::~XDGSurfaceWrapperV5() {}
+ 
+ bool XDGSurfaceWrapperV5::Initialize(WaylandConnection* connection,
+-                                     wl_surface* surface) {
++                                     wl_surface* surface,
++                                     bool with_toplevel /* not used */) {
+   static const xdg_surface_listener xdg_surface_listener = {
+       &XDGSurfaceWrapperV5::Configure, &XDGSurfaceWrapperV5::Close,
+   };
+@@ -52,20 +94,17 @@ void XDGSurfaceWrapperV5::SetMinimized()
+ }
+ 
+ void XDGSurfaceWrapperV5::SurfaceMove(WaylandConnection* connection) {
+-  NOTIMPLEMENTED();
++  xdg_surface_move(xdg_surface_.get(), connection->seat(),
++                   connection->serial());
+ }
+ 
+ void XDGSurfaceWrapperV5::SurfaceResize(WaylandConnection* connection,
+                                         uint32_t hittest) {
+-  // TODO(msisov): implement resizing.
+-  /*
+-   * int direction;
+-   * if (!IdentifyDirection(hittest, &direction))
+-   *   return;
+-   * xdg_surface_resize(xdg_surface_.get(), connection->seat(),
+-   *                    connection->serial(), direction);
+-   */
+-  NOTIMPLEMENTED();
++  int direction;
++  if (!IdentifyDirection(hittest, &direction))
++    return;
++  xdg_surface_resize(xdg_surface_.get(), connection->seat(),
++                     connection->serial(), direction);
+ }
+ 
+ void XDGSurfaceWrapperV5::SetTitle(const base::string16& title) {
+Index: dev/ui/ozone/platform/wayland/xdg_surface_wrapper_v5.h
+===================================================================
+--- dev.orig/ui/ozone/platform/wayland/xdg_surface_wrapper_v5.h
++++ dev/ui/ozone/platform/wayland/xdg_surface_wrapper_v5.h
+@@ -20,7 +20,9 @@ class XDGSurfaceWrapperV5 : public XDGSu
+   ~XDGSurfaceWrapperV5() override;
+ 
+   // XDGSurfaceWrapper:
+-  bool Initialize(WaylandConnection* connection, wl_surface* surface) override;
++  bool Initialize(WaylandConnection* connection,
++                  wl_surface* surface,
++                  bool with_toplevel /* not used */) override;
+   void SetMaximized() override;
+   void UnSetMaximized() override;
+   void SetFullscreen() override;
+Index: dev/ui/ozone/platform/wayland/xdg_surface_wrapper_v6.cc
+===================================================================
+--- dev.orig/ui/ozone/platform/wayland/xdg_surface_wrapper_v6.cc
++++ dev/ui/ozone/platform/wayland/xdg_surface_wrapper_v6.cc
+@@ -7,18 +7,67 @@
+ #include <xdg-shell-unstable-v6-client-protocol.h>
+ 
+ #include "base/strings/utf_string_conversions.h"
++#include "ui/base/hit_test.h"
+ #include "ui/ozone/platform/wayland/wayland_connection.h"
+ #include "ui/ozone/platform/wayland/wayland_window.h"
+ 
+ namespace ui {
+ 
++namespace {
++
++// Identifies the direction of the "hittest" for Wayland.
++bool IdentifyDirection(int hittest, int* direction) {
++  DCHECK(direction);
++  *direction = -1;
++  switch (hittest) {
++    case HTBOTTOM:
++      *direction =
++          zxdg_toplevel_v6_resize_edge::ZXDG_TOPLEVEL_V6_RESIZE_EDGE_BOTTOM;
++      break;
++    case HTBOTTOMLEFT:
++      *direction = zxdg_toplevel_v6_resize_edge::
++          ZXDG_TOPLEVEL_V6_RESIZE_EDGE_BOTTOM_LEFT;
++      break;
++    case HTBOTTOMRIGHT:
++      *direction = zxdg_toplevel_v6_resize_edge::
++          ZXDG_TOPLEVEL_V6_RESIZE_EDGE_BOTTOM_RIGHT;
++      break;
++    case HTLEFT:
++      *direction =
++          zxdg_toplevel_v6_resize_edge::ZXDG_TOPLEVEL_V6_RESIZE_EDGE_LEFT;
++      break;
++    case HTRIGHT:
++      *direction =
++          zxdg_toplevel_v6_resize_edge::ZXDG_TOPLEVEL_V6_RESIZE_EDGE_RIGHT;
++      break;
++    case HTTOP:
++      *direction =
++          zxdg_toplevel_v6_resize_edge::ZXDG_TOPLEVEL_V6_RESIZE_EDGE_TOP;
++      break;
++    case HTTOPLEFT:
++      *direction =
++          zxdg_toplevel_v6_resize_edge::ZXDG_TOPLEVEL_V6_RESIZE_EDGE_TOP_LEFT;
++      break;
++    case HTTOPRIGHT:
++      *direction =
++          zxdg_toplevel_v6_resize_edge::ZXDG_TOPLEVEL_V6_RESIZE_EDGE_TOP_RIGHT;
++      break;
++    default:
++      return false;
++  }
++  return true;
++}
++
++}  // namespace
++
+ XDGSurfaceWrapperV6::XDGSurfaceWrapperV6(WaylandWindow* wayland_window)
+     : wayland_window_(wayland_window) {}
+ 
+ XDGSurfaceWrapperV6::~XDGSurfaceWrapperV6() {}
+ 
+ bool XDGSurfaceWrapperV6::Initialize(WaylandConnection* connection,
+-                                     wl_surface* surface) {
++                                     wl_surface* surface,
++                                     bool with_toplevel) {
+   static const zxdg_surface_v6_listener zxdg_surface_v6_listener = {
+       &XDGSurfaceWrapperV6::Configure,
+   };
+@@ -27,6 +76,10 @@ bool XDGSurfaceWrapperV6::Initialize(Way
+       &XDGSurfaceWrapperV6::CloseTopLevel,
+   };
+ 
++  // If this surface is created for the popup role, mark it like that as long as
++  // acknowledge configure must be sent back on each configure event.
++  surface_for_popup_ = !with_toplevel;
++
+   zxdg_surface_v6_.reset(
+       zxdg_shell_v6_get_xdg_surface(connection->shell_v6(), surface));
+   if (!zxdg_surface_v6_) {
+@@ -35,6 +88,10 @@ bool XDGSurfaceWrapperV6::Initialize(Way
+   }
+   zxdg_surface_v6_add_listener(zxdg_surface_v6_.get(),
+                                &zxdg_surface_v6_listener, this);
++  // XDGPopupV6 requires a separate surface to be created, so this is just a
++  // request to get an xdg_surface for it.
++  if (surface_for_popup_)
++    return true;
+ 
+   zxdg_toplevel_v6_.reset(zxdg_surface_v6_get_toplevel(zxdg_surface_v6_.get()));
+   if (!zxdg_toplevel_v6_) {
+@@ -73,20 +130,19 @@ void XDGSurfaceWrapperV6::SetMinimized()
+ }
+ 
+ void XDGSurfaceWrapperV6::SurfaceMove(WaylandConnection* connection) {
+-  NOTIMPLEMENTED();
++  DCHECK(zxdg_toplevel_v6_);
++  zxdg_toplevel_v6_move(zxdg_toplevel_v6_.get(), connection->seat(),
++                        connection->serial());
+ }
+ 
+ void XDGSurfaceWrapperV6::SurfaceResize(WaylandConnection* connection,
+                                         uint32_t hittest) {
+-  // TODO(msisov): implement resizing.
+-  /*
+-   * int direction;
+-   * if (!IdentifyDirection(hittest, &direction))
+-   *   return;
+-   * xdg_surface_resize(xdg_surface_.get(), connection->seat(),
+-   *                    connection->serial(), direction);
+-   */
+-  NOTIMPLEMENTED();
++  int direction;
++  if (!IdentifyDirection(hittest, &direction))
++    return;
++  DCHECK(zxdg_toplevel_v6_);
++  zxdg_toplevel_v6_resize(zxdg_toplevel_v6_.get(), connection->seat(),
++                          connection->serial(), direction);
+ }
+ 
+ void XDGSurfaceWrapperV6::SetTitle(const base::string16& title) {
+@@ -114,6 +170,9 @@ void XDGSurfaceWrapperV6::Configure(void
+                                     uint32_t serial) {
+   XDGSurfaceWrapperV6* surface = static_cast<XDGSurfaceWrapperV6*>(data);
+   surface->pending_configure_serial_ = serial;
++
++  if (surface->surface_for_popup_)
++    surface->AckConfigure();
+ }
+ 
+ // static
+@@ -143,4 +202,9 @@ void XDGSurfaceWrapperV6::CloseTopLevel(
+   NOTIMPLEMENTED();
+ }
+ 
++zxdg_surface_v6* XDGSurfaceWrapperV6::xdg_surface() const {
++  DCHECK(zxdg_surface_v6_);
++  return zxdg_surface_v6_.get();
++}
++
+ }  // namespace ui
+Index: dev/ui/ozone/platform/wayland/xdg_surface_wrapper_v6.h
+===================================================================
+--- dev.orig/ui/ozone/platform/wayland/xdg_surface_wrapper_v6.h
++++ dev/ui/ozone/platform/wayland/xdg_surface_wrapper_v6.h
+@@ -23,7 +23,9 @@ class XDGSurfaceWrapperV6 : public XDGSu
+   XDGSurfaceWrapperV6(WaylandWindow* wayland_window);
+   ~XDGSurfaceWrapperV6() override;
+ 
+-  bool Initialize(WaylandConnection* connection, wl_surface* surface) override;
++  bool Initialize(WaylandConnection* connection,
++                  wl_surface* surface,
++                  bool with_toplevel) override;
+   void SetMaximized() override;
+   void UnSetMaximized() override;
+   void SetFullscreen() override;
+@@ -49,12 +51,16 @@ class XDGSurfaceWrapperV6 : public XDGSu
+   static void CloseTopLevel(void* data,
+                             struct zxdg_toplevel_v6* zxdg_toplevel_v6);
+ 
++  zxdg_surface_v6* xdg_surface() const;
++
+  private:
+   WaylandWindow* wayland_window_;
+   uint32_t pending_configure_serial_;
+   wl::Object<zxdg_surface_v6> zxdg_surface_v6_;
+   wl::Object<zxdg_toplevel_v6> zxdg_toplevel_v6_;
+ 
++  bool surface_for_popup_ = false;
++
+   DISALLOW_COPY_AND_ASSIGN(XDGSurfaceWrapperV6);
+ };
+ 
+Index: dev/ui/ozone/platform/x11/BUILD.gn
+===================================================================
+--- dev.orig/ui/ozone/platform/x11/BUILD.gn
++++ dev/ui/ozone/platform/x11/BUILD.gn
+@@ -28,6 +28,8 @@ source_set("x11") {
+     "x11_window_manager_ozone.h",
+     "x11_window_ozone.cc",
+     "x11_window_ozone.h",
++    "x11_native_display_delegate.h",
++    "x11_native_display_delegate.cc",
+   ]
+ 
+   deps = [
+Index: dev/ui/ozone/platform/x11/ozone_platform_x11.cc
+===================================================================
+--- dev.orig/ui/ozone/platform/x11/ozone_platform_x11.cc
++++ dev/ui/ozone/platform/x11/ozone_platform_x11.cc
+@@ -10,12 +10,12 @@
+ #include "base/message_loop/message_loop.h"
+ #include "base/strings/utf_string_conversions.h"
+ #include "ui/base/x/x11_util.h"
+-#include "ui/display/manager/fake_display_delegate.h"
+ #include "ui/events/devices/x11/touch_factory_x11.h"
+ #include "ui/events/platform/x11/x11_event_source_libevent.h"
+ #include "ui/events/system_input_injector.h"
+ #include "ui/gfx/x/x11.h"
+ #include "ui/ozone/common/stub_overlay_manager.h"
++#include "ui/ozone/platform/x11/x11_native_display_delegate.h"
+ #include "ui/ozone/platform/x11/x11_cursor_factory_ozone.h"
+ #include "ui/ozone/platform/x11/x11_surface_factory.h"
+ #include "ui/ozone/platform/x11/x11_window_manager_ozone.h"
+@@ -72,7 +72,7 @@ class OzonePlatformX11 : public OzonePla
+ 
+   std::unique_ptr<display::NativeDisplayDelegate> CreateNativeDisplayDelegate()
+       override {
+-    return std::make_unique<display::FakeDisplayDelegate>();
++    return std::make_unique<X11NativeDisplayDelegate>();
+   }
+ 
+   void InitializeUI(const InitParams& params) override {
+Index: dev/ui/ozone/platform/x11/x11_native_display_delegate.cc
+===================================================================
+--- /dev/null
++++ dev/ui/ozone/platform/x11/x11_native_display_delegate.cc
+@@ -0,0 +1,104 @@
++// Copyright 2018 The Chromium Authors. All rights reserved.
++// Use of this source code is governed by a BSD-style license that can be
++// found in the LICENSE file.
++
++#include "ui/ozone/platform/x11/x11_native_display_delegate.h"
++
++#include "ui/display/types/display_snapshot.h"
++#include "ui/display/types/native_display_observer.h"
++#include "ui/gfx/x/x11.h"
++#include "ui/gfx/x/x11_types.h"
++
++namespace ui {
++
++X11NativeDisplayDelegate::X11NativeDisplayDelegate() = default;
++
++X11NativeDisplayDelegate::~X11NativeDisplayDelegate() = default;
++
++void X11NativeDisplayDelegate::Initialize() {
++  // This shouldn't be called twice.
++  DCHECK(!current_snapshot_);
++
++  XDisplay* display = gfx::GetXDisplay();
++  Screen* screen = DefaultScreenOfDisplay(display);
++  current_snapshot_.reset(new display::DisplaySnapshot(
++      XScreenNumberOfScreen(screen), gfx::Point(0, 0),
++      gfx::Size(WidthOfScreen(screen), HeightOfScreen(screen)),
++      display::DisplayConnectionType::DISPLAY_CONNECTION_TYPE_NONE, false,
++      false, false, gfx::ColorSpace(), "", base::FilePath(),
++      display::DisplaySnapshot::DisplayModeList(), std::vector<uint8_t>(),
++      nullptr, nullptr, 0, 0, gfx::Size()));
++  const int default_refresh = 60;
++  current_mode_.reset(new display::DisplayMode(
++      gfx::Size(WidthOfScreen(screen), HeightOfScreen(screen)), false,
++      default_refresh));
++  current_snapshot_->set_current_mode(current_mode_.get());
++
++  for (display::NativeDisplayObserver& observer : observers_)
++    observer.OnConfigurationChanged();
++}
++
++void X11NativeDisplayDelegate::TakeDisplayControl(
++    display::DisplayControlCallback callback) {
++  NOTREACHED();
++}
++
++void X11NativeDisplayDelegate::RelinquishDisplayControl(
++    display::DisplayControlCallback callback) {
++  NOTREACHED();
++}
++
++void X11NativeDisplayDelegate::GetDisplays(
++    display::GetDisplaysCallback callback) {
++  // TODO(msisov): Add support for multiple displays and dynamic display data
++  // change.
++  std::vector<display::DisplaySnapshot*> snapshot;
++  snapshot.push_back(current_snapshot_.get());
++  std::move(callback).Run(snapshot);
++}
++
++void X11NativeDisplayDelegate::Configure(const display::DisplaySnapshot& output,
++                                         const display::DisplayMode* mode,
++                                         const gfx::Point& origin,
++                                         display::ConfigureCallback callback) {
++  NOTREACHED();
++}
++
++void X11NativeDisplayDelegate::GetHDCPState(
++    const display::DisplaySnapshot& output,
++    display::GetHDCPStateCallback callback) {
++  NOTREACHED();
++}
++
++void X11NativeDisplayDelegate::SetHDCPState(
++    const display::DisplaySnapshot& output,
++    display::HDCPState state,
++    display::SetHDCPStateCallback callback) {
++  NOTREACHED();
++}
++
++bool X11NativeDisplayDelegate::SetColorCorrection(
++    const display::DisplaySnapshot& output,
++    const std::vector<display::GammaRampRGBEntry>& degamma_lut,
++    const std::vector<display::GammaRampRGBEntry>& gamma_lut,
++    const std::vector<float>& correction_matrix) {
++  NOTREACHED();
++  return false;
++}
++
++void X11NativeDisplayDelegate::AddObserver(
++    display::NativeDisplayObserver* observer) {
++  observers_.AddObserver(observer);
++}
++
++void X11NativeDisplayDelegate::RemoveObserver(
++    display::NativeDisplayObserver* observer) {
++  observers_.RemoveObserver(observer);
++}
++
++display::FakeDisplayController*
++X11NativeDisplayDelegate::GetFakeDisplayController() {
++  return nullptr;
++}
++
++}  // namespace ui
+Index: dev/ui/ozone/platform/x11/x11_native_display_delegate.h
+===================================================================
+--- /dev/null
++++ dev/ui/ozone/platform/x11/x11_native_display_delegate.h
+@@ -0,0 +1,55 @@
++// Copyright 2018 The Chromium Authors. All rights reserved.
++// Use of this source code is governed by a BSD-style license that can be
++// found in the LICENSE file.
++
++#ifndef UI_OZONE_PLATFORM_X11_X11_NATIVE_DISPLAY_DELEGATE_H_
++#define UI_OZONE_PLATFORM_X11_X11_NATIVE_DISPLAY_DELEGATE_H_
++
++#include "base/macros.h"
++#include "base/observer_list.h"
++#include "ui/display/types/native_display_delegate.h"
++#include "ui/display/types/display_snapshot.h"
++
++namespace ui {
++
++class X11NativeDisplayDelegate : public display::NativeDisplayDelegate {
++ public:
++  X11NativeDisplayDelegate();
++  ~X11NativeDisplayDelegate();
++
++  // display::NativeDisplayDelegate overrides:
++  void Initialize() override;
++  void TakeDisplayControl(display::DisplayControlCallback callback) override;
++  void RelinquishDisplayControl(
++      display::DisplayControlCallback callback) override;
++  void GetDisplays(display::GetDisplaysCallback callback) override;
++  void Configure(const display::DisplaySnapshot& output,
++                 const display::DisplayMode* mode,
++                 const gfx::Point& origin,
++                 display::ConfigureCallback callback) override;
++  void GetHDCPState(const display::DisplaySnapshot& output,
++                    display::GetHDCPStateCallback callback) override;
++  void SetHDCPState(const display::DisplaySnapshot& output,
++                    display::HDCPState state,
++                    display::SetHDCPStateCallback callback) override;
++  bool SetColorCorrection(
++      const display::DisplaySnapshot& output,
++      const std::vector<display::GammaRampRGBEntry>& degamma_lut,
++      const std::vector<display::GammaRampRGBEntry>& gamma_lut,
++      const std::vector<float>& correction_matrix) override;
++  void AddObserver(display::NativeDisplayObserver* observer) override;
++  void RemoveObserver(display::NativeDisplayObserver* observer) override;
++  display::FakeDisplayController* GetFakeDisplayController() override;
++
++ private:
++  std::unique_ptr<display::DisplaySnapshot> current_snapshot_;
++  std::unique_ptr<display::DisplayMode> current_mode_;
++ 
++  base::ObserverList<display::NativeDisplayObserver> observers_;
++
++  DISALLOW_COPY_AND_ASSIGN(X11NativeDisplayDelegate);
++};
++
++}  // namespace ui
++
++#endif  // UI_OZONE_PLATFORM_X11_X11_NATIVE_DISPLAY_DELEGATE_H_
+Index: dev/ui/ozone/platform/x11/x11_window_ozone.cc
+===================================================================
+--- dev.orig/ui/ozone/platform/x11/x11_window_ozone.cc
++++ dev/ui/ozone/platform/x11/x11_window_ozone.cc
+@@ -24,6 +24,11 @@ X11WindowOzone::X11WindowOzone(X11Window
+   auto* event_source = X11EventSourceLibevent::GetInstance();
+   if (event_source)
+     event_source->AddXEventDispatcher(this);
++
++// TODO(msisov, tonikitoo): Add a dummy implementation for chromeos.
++#if !defined(OS_CHROMEOS)
++  move_loop_client_.reset(new WindowMoveLoopClient());
++#endif
+ }
+ 
+ X11WindowOzone::~X11WindowOzone() {
+@@ -49,6 +54,24 @@ void X11WindowOzone::SetCursor(PlatformC
+   XDefineCursor(xdisplay(), xwindow(), cursor_ozone->xcursor());
+ }
+ 
++bool X11WindowOzone::RunMoveLoop(const gfx::Vector2d& drag_offset) {
++// TODO(msisov, tonikitoo): Add a dummy implementation for chromeos.
++#if !defined(OS_CHROMEOS)
++  DCHECK(move_loop_client_);
++  ReleaseCapture();
++  return move_loop_client_->RunMoveLoop(this, drag_offset);
++#endif
++  return true;
++}
++
++void X11WindowOzone::StopMoveLoop() {
++// TODO(msisov, tonikitoo): Add a dummy implementation for chromeos.
++#if !defined(OS_CHROMEOS)
++  ReleaseCapture();
++  move_loop_client_->EndMoveLoop();
++#endif
++}
++
+ void X11WindowOzone::CheckCanDispatchNextPlatformEvent(XEvent* xev) {
+   handle_next_event_ = xwindow() == x11::None ? false : IsEventForXWindow(*xev);
+ }
+@@ -69,8 +92,14 @@ bool X11WindowOzone::DispatchXEvent(XEve
+   return true;
+ }
+ 
+-bool X11WindowOzone::CanDispatchEvent(const PlatformEvent& event) {
+-  return handle_next_event_;
++bool X11WindowOzone::CanDispatchEvent(const PlatformEvent& platform_event) {
++  bool in_move_loop =
++#if !defined(OS_CHROMEOS)
++      move_loop_client_->IsInMoveLoop();
++#else
++      false;
++#endif
++  return handle_next_event_ || in_move_loop;
+ }
+ 
+ uint32_t X11WindowOzone::DispatchEvent(const PlatformEvent& event) {
+Index: dev/ui/ozone/platform/x11/x11_window_ozone.h
+===================================================================
+--- dev.orig/ui/ozone/platform/x11/x11_window_ozone.h
++++ dev/ui/ozone/platform/x11/x11_window_ozone.h
+@@ -8,6 +8,7 @@
+ #include "base/macros.h"
+ #include "ui/events/platform/platform_event_dispatcher.h"
+ #include "ui/events/platform/x11/x11_event_source_libevent.h"
++#include "ui/platform_window/x11/window_move_loop_client.h"
+ #include "ui/platform_window/x11/x11_window_base.h"
+ 
+ namespace ui {
+@@ -30,8 +31,11 @@ class X11WindowOzone : public X11WindowB
+   // PlatformWindow:
+   void PrepareForShutdown() override;
+   void SetCapture() override;
++
+   void ReleaseCapture() override;
+   void SetCursor(PlatformCursor cursor) override;
++  bool RunMoveLoop(const gfx::Vector2d& drag_offset) override;
++  void StopMoveLoop() override;
+ 
+   // XEventDispatcher:
+   void CheckCanDispatchNextPlatformEvent(XEvent* xev) override;
+@@ -46,6 +50,11 @@ class X11WindowOzone : public X11WindowB
+ 
+   X11WindowManagerOzone* window_manager_;
+ 
++// TODO(msisov, tonikitoo): Add a dummy implementation for chromeos.
++#if !defined(OS_CHROMEOS)
++  std::unique_ptr<WindowMoveLoopClient> move_loop_client_;
++#endif
++
+   // Tells if this dispatcher can process next translated event based on a
+   // previous check in ::CheckCanDispatchNextPlatformEvent based on a XID
+   // target.
+Index: dev/ui/platform_window/platform_window.h
+===================================================================
+--- dev.orig/ui/platform_window/platform_window.h
++++ dev/ui/platform_window/platform_window.h
+@@ -66,6 +66,16 @@ class PlatformWindow {
+   // The PlatformImeController is owned by the PlatformWindow, the ownership is
+   // not transferred.
+   virtual PlatformImeController* GetPlatformImeController() = 0;
++
++  // The window manager starts interactive drag or resize of a window based on
++  // the |hittest|.
++  virtual void StartWindowMoveOrResize(int hittest,
++                                       gfx::Point pointer_location) = 0;
++
++  // Asks to window move client to start move loop.
++  virtual bool RunMoveLoop(const gfx::Vector2d& drag_offset) = 0;
++
++  virtual void StopMoveLoop() = 0;
+ };
+ 
+ }  // namespace ui
+Index: dev/ui/platform_window/platform_window_delegate.h
+===================================================================
+--- dev.orig/ui/platform_window/platform_window_delegate.h
++++ dev/ui/platform_window/platform_window_delegate.h
+@@ -14,6 +14,7 @@ class Rect;
+ namespace ui {
+ 
+ class Event;
++class PlatformWindow;
+ 
+ enum PlatformWindowState {
+   PLATFORM_WINDOW_STATE_UNKNOWN,
+@@ -23,6 +24,14 @@ enum PlatformWindowState {
+   PLATFORM_WINDOW_STATE_FULLSCREEN,
+ };
+ 
++enum PlatformWindowType {
++  PLATFORM_WINDOW_TYPE_WINDOW,
++  PLATFORM_WINDOW_TYPE_MENU,
++  PLATFORM_WINDOW_TYPE_TOOLTIP,
++  PLATFORM_WINDOW_TYPE_POPUP,
++  PLATFORM_WINDOW_TYPE_DRAG,
++};
++
+ class PlatformWindowDelegate {
+  public:
+   virtual ~PlatformWindowDelegate() {}
+@@ -55,6 +64,14 @@ class PlatformWindowDelegate {
+   virtual void OnAcceleratedWidgetDestroyed() = 0;
+ 
+   virtual void OnActivationChanged(bool active) = 0;
++
++  // TODO(tonikitoo,msisov): Adding this method with an out parameter so that
++  // we can have a default implementation here and not need to add stubs to
++  // all subclasses. To be discussed when upstraming.
++  virtual void GetWindowType(PlatformWindowType* window_type) {}
++
++  virtual void GetParentWindowAcceleratedWidget(
++      gfx::AcceleratedWidget* widget) {}
+ };
+ 
+ }  // namespace ui
+Index: dev/ui/platform_window/stub/stub_window.cc
+===================================================================
+--- dev.orig/ui/platform_window/stub/stub_window.cc
++++ dev/ui/platform_window/stub/stub_window.cc
+@@ -86,4 +86,13 @@ PlatformImeController* StubWindow::GetPl
+   return nullptr;
+ }
+ 
++void StubWindow::StartWindowMoveOrResize(int hittest,
++                                         gfx::Point pointer_location) {}
++
++bool StubWindow::RunMoveLoop(const gfx::Vector2d& drag_offset) {
++  return false;
++}
++
++void StubWindow::StopMoveLoop() {}
++
+ }  // namespace ui
+Index: dev/ui/platform_window/stub/stub_window.h
+===================================================================
+--- dev.orig/ui/platform_window/stub/stub_window.h
++++ dev/ui/platform_window/stub/stub_window.h
+@@ -48,6 +48,10 @@ class STUB_WINDOW_EXPORT StubWindow : pu
+   void MoveCursorTo(const gfx::Point& location) override;
+   void ConfineCursorToBounds(const gfx::Rect& bounds) override;
+   PlatformImeController* GetPlatformImeController() override;
++  void StartWindowMoveOrResize(int hittest,
++                               gfx::Point pointer_location) override;
++  bool RunMoveLoop(const gfx::Vector2d& drag_offset) override;
++  void StopMoveLoop() override;
+ 
+   PlatformWindowDelegate* delegate_;
+   gfx::Rect bounds_;
+Index: dev/ui/platform_window/x11/BUILD.gn
+===================================================================
+--- dev.orig/ui/platform_window/x11/BUILD.gn
++++ dev/ui/platform_window/x11/BUILD.gn
+@@ -34,7 +34,18 @@ jumbo_component("x11") {
+     "x11_window_export.h",
+   ]
+ 
+-  if (use_x11) {
++  if (ozone_platform_x11) {
++    sources += [
++      "whole_screen_move_loop.cc",
++      "whole_screen_move_loop.h",
++      "window_move_loop_client.cc",
++      "window_move_loop_client.h",
++    ]
++    deps += [
++      "//ui/base",
++      "//ui/base/x",
++    ]
++  } else if (use_x11) {
+     sources += [
+       "x11_window.cc",
+       "x11_window.h",
+Index: dev/ui/platform_window/x11/whole_screen_move_loop.cc
+===================================================================
+--- /dev/null
++++ dev/ui/platform_window/x11/whole_screen_move_loop.cc
+@@ -0,0 +1,228 @@
++// Copyright (c) 2018 The Chromium Authors. All rights reserved.
++// Use of this source code is governed by a BSD-style license that can be
++// found in the LICENSE file.
++
++#include "ui/platform_window/x11/whole_screen_move_loop.h"
++
++#include <stddef.h>
++#include <utility>
++
++#include "base/bind.h"
++#include "base/logging.h"
++#include "base/macros.h"
++#include "base/message_loop/message_loop.h"
++#include "base/run_loop.h"
++#include "base/single_thread_task_runner.h"
++#include "base/threading/thread_task_runner_handle.h"
++#include "ui/aura/client/capture_client.h"
++#include "ui/aura/env.h"
++#include "ui/aura/window.h"
++#include "ui/aura/window_event_dispatcher.h"
++#include "ui/aura/window_tree_host.h"
++#include "ui/base/x/x11_pointer_grab.h"
++#include "ui/base/x/x11_util.h"
++#include "ui/base/x/x11_window_event_manager.h"
++#include "ui/events/event.h"
++#include "ui/events/event_utils.h"
++#include "ui/events/keycodes/keyboard_code_conversion_x.h"
++#include "ui/events/ozone/events_ozone.h"
++#include "ui/events/platform/platform_event_source.h"
++#include "ui/events/platform/scoped_event_dispatcher.h"
++#include "ui/events/platform/x11/x11_event_source.h"
++#include "ui/events/platform/x11/x11_event_source_libevent.h"
++#include "ui/gfx/x/x11.h"
++#include "ui/platform_window/platform_window_delegate.h"
++
++namespace ui {
++
++// XGrabKey requires the modifier mask to explicitly be specified.
++const unsigned int kModifiersMasks[] = {0,         // No additional modifier.
++                                        Mod2Mask,  // Num lock
++                                        LockMask,  // Caps lock
++                                        Mod5Mask,  // Scroll lock
++                                        Mod2Mask | LockMask,
++                                        Mod2Mask | Mod5Mask,
++                                        LockMask | Mod5Mask,
++                                        Mod2Mask | LockMask | Mod5Mask};
++
++WholeScreenMoveLoop::WholeScreenMoveLoop(views::X11MoveLoopDelegate* delegate)
++    : delegate_(delegate),
++      in_move_loop_(false),
++      grab_input_window_(x11::None),
++      grabbed_pointer_(false),
++      canceled_(false),
++      weak_factory_(this) {}
++
++WholeScreenMoveLoop::~WholeScreenMoveLoop() {}
++
++void WholeScreenMoveLoop::DispatchMouseMovement() {
++  if (!last_motion_in_screen_ && !last_motion_in_screen_->IsLocatedEvent())
++    return;
++  delegate_->OnMouseMovement(
++      last_motion_in_screen_->AsLocatedEvent()->location(),
++      last_motion_in_screen_->flags(), last_motion_in_screen_->time_stamp());
++  last_motion_in_screen_.reset();
++}
++
++////////////////////////////////////////////////////////////////////////////////
++// DesktopWindowTreeHostLinux, ui::PlatformEventDispatcher implementation:
++
++bool WholeScreenMoveLoop::CanDispatchEvent(const ui::PlatformEvent& event) {
++  return in_move_loop_;
++}
++
++uint32_t WholeScreenMoveLoop::DispatchEvent(
++    const ui::PlatformEvent& platform_event) {
++  DCHECK(base::MessageLoopForUI::IsCurrent());
++
++  // This method processes all events while the move loop is active.
++  if (!in_move_loop_)
++    return ui::POST_DISPATCH_PERFORM_DEFAULT;
++
++  auto* event = static_cast<ui::Event*>(platform_event);
++  switch (event->type()) {
++    case ui::ET_MOUSE_MOVED:
++    case ui::ET_MOUSE_DRAGGED: {
++      bool can_send = !last_motion_in_screen_.get();
++
++      ui::MouseEvent* mouse_event = event->AsMouseEvent();
++      gfx::Point root_location = mouse_event->root_location();
++      mouse_event->set_location(root_location);
++
++      last_motion_in_screen_ = ui::Event::Clone(*event);
++      DCHECK(last_motion_in_screen_->IsMouseEvent());
++
++      if (can_send)
++        DispatchMouseMovement();
++      return ui::POST_DISPATCH_PERFORM_DEFAULT;
++    }
++    case ui::ET_MOUSE_RELEASED: {
++      ui::MouseEvent* mouse_event = event->AsMouseEvent();
++      gfx::Point root_location = mouse_event->root_location();
++      mouse_event->set_location(root_location);
++
++      last_motion_in_screen_ = ui::Event::Clone(*event);
++      DCHECK(last_motion_in_screen_->IsMouseEvent());
++
++      EndMoveLoop();
++      return ui::POST_DISPATCH_PERFORM_DEFAULT;
++    }
++    case ui::ET_KEY_PRESSED:
++      canceled_ = true;
++      EndMoveLoop();
++      return ui::POST_DISPATCH_NONE;
++    default:
++      break;
++  }
++  return ui::POST_DISPATCH_PERFORM_DEFAULT;
++}
++
++bool WholeScreenMoveLoop::RunMoveLoop() {
++  DCHECK(!in_move_loop_);  // Can only handle one nested loop at a time.
++
++  CreateDragInputWindow(gfx::GetXDisplay());
++
++  if (!GrabPointer()) {
++    XDestroyWindow(gfx::GetXDisplay(), grab_input_window_);
++    CHECK(false) << "failed to grab pointer";
++    return false;
++  }
++
++  GrabEscKey();
++
++  std::unique_ptr<ui::ScopedEventDispatcher> old_dispatcher =
++      std::move(nested_dispatcher_);
++  nested_dispatcher_ =
++      ui::PlatformEventSource::GetInstance()->OverrideDispatcher(this);
++
++  base::WeakPtr<WholeScreenMoveLoop> alive(weak_factory_.GetWeakPtr());
++
++  in_move_loop_ = true;
++  canceled_ = false;
++  base::MessageLoop::ScopedNestableTaskAllower allow_nested;
++  base::RunLoop run_loop;
++  quit_closure_ = run_loop.QuitClosure();
++  run_loop.Run();
++
++  if (!alive)
++    return false;
++
++  nested_dispatcher_ = std::move(old_dispatcher);
++  return !canceled_;
++}
++
++void WholeScreenMoveLoop::UpdateCursor() {}
++
++void WholeScreenMoveLoop::EndMoveLoop() {
++  if (!in_move_loop_)
++    return;
++
++  // Prevent DispatchMouseMovement from dispatching any posted motion event.
++  last_motion_in_screen_.reset();
++
++  // TODO(erg): Is this ungrab the cause of having to click to give input focus
++  // on drawn out windows? Not ungrabbing here screws the X server until I kill
++  // the chrome process.
++
++  // Ungrab before we let go of the window.
++  if (grabbed_pointer_)
++    ui::UngrabPointer();
++  else
++    UpdateCursor();
++
++  XDisplay* display = gfx::GetXDisplay();
++  unsigned int esc_keycode = XKeysymToKeycode(display, XK_Escape);
++  for (size_t i = 0; i < arraysize(kModifiersMasks); ++i) {
++    XUngrabKey(display, esc_keycode, kModifiersMasks[i], grab_input_window_);
++  }
++
++  // Restore the previous dispatcher.
++  nested_dispatcher_.reset();
++  grab_input_window_events_.reset();
++  XDestroyWindow(display, grab_input_window_);
++  grab_input_window_ = x11::None;
++  in_move_loop_ = false;
++  quit_closure_.Run();
++}
++
++bool WholeScreenMoveLoop::GrabPointer() {
++  XDisplay* display = gfx::GetXDisplay();
++
++  // Pass "owner_events" as false so that X sends all mouse events to
++  // |grab_input_window_|.
++  int ret = ui::GrabPointer(grab_input_window_, false, x11::None);
++  if (ret != GrabSuccess) {
++    DLOG(ERROR) << "Grabbing pointer for dragging failed: "
++                << ui::GetX11ErrorString(display, ret);
++  }
++  XFlush(display);
++  return ret == GrabSuccess;
++}
++
++void WholeScreenMoveLoop::GrabEscKey() {
++  XDisplay* display = gfx::GetXDisplay();
++  unsigned int esc_keycode = XKeysymToKeycode(display, XK_Escape);
++  for (size_t i = 0; i < arraysize(kModifiersMasks); ++i) {
++    XGrabKey(display, esc_keycode, kModifiersMasks[i], grab_input_window_,
++             x11::False, GrabModeAsync, GrabModeAsync);
++  }
++}
++
++void WholeScreenMoveLoop::CreateDragInputWindow(XDisplay* display) {
++  unsigned long attribute_mask = CWEventMask | CWOverrideRedirect;
++  XSetWindowAttributes swa;
++  memset(&swa, 0, sizeof(swa));
++  swa.override_redirect = x11::True;
++  grab_input_window_ = XCreateWindow(display, DefaultRootWindow(display), -100,
++                                     -100, 10, 10, 0, CopyFromParent, InputOnly,
++                                     CopyFromParent, attribute_mask, &swa);
++  uint32_t event_mask = ButtonPressMask | ButtonReleaseMask |
++                        PointerMotionMask | KeyPressMask | KeyReleaseMask |
++                        StructureNotifyMask;
++  grab_input_window_events_.reset(
++      new ui::XScopedEventSelector(grab_input_window_, event_mask));
++
++  XMapRaised(display, grab_input_window_);
++}
++
++}  // namespace ui
+Index: dev/ui/platform_window/x11/whole_screen_move_loop.h
+===================================================================
+--- /dev/null
++++ dev/ui/platform_window/x11/whole_screen_move_loop.h
+@@ -0,0 +1,90 @@
++// Copyright (c) 2018 The Chromium Authors. All rights reserved.
++// Use of this source code is governed by a BSD-style license that can be
++// found in the LICENSE file.
++
++#ifndef UI_PLATFORM_WINDOW_X11_WHOLE_SCREEN_MOVE_LOOP_H_
++#define UI_PLATFORM_WINDOW_X11_WHOLE_SCREEN_MOVE_LOOP_H_
++
++#include <stdint.h>
++
++#include "base/callback.h"
++#include "base/compiler_specific.h"
++#include "base/macros.h"
++#include "base/memory/weak_ptr.h"
++#include "ui/base/cursor/cursor.h"
++#include "ui/events/platform/platform_event_dispatcher.h"
++#include "ui/gfx/geometry/vector2d_f.h"
++#include "ui/gfx/image/image_skia.h"
++#include "ui/gfx/native_widget_types.h"
++#include "ui/gfx/x/x11_types.h"
++#include "ui/views/widget/desktop_aura/x11_move_loop.h"
++#include "ui/views/widget/desktop_aura/x11_move_loop_delegate.h"
++
++namespace ui {
++class MouseEvent;
++class ScopedEventDispatcher;
++class XScopedEventSelector;
++class PlatformWindowDelegate;
++
++// Runs a nested run loop and grabs the mouse. This is used to implement
++// dragging.
++class WholeScreenMoveLoop : public ui::PlatformEventDispatcher {
++ public:
++  explicit WholeScreenMoveLoop(views::X11MoveLoopDelegate* delegate);
++  ~WholeScreenMoveLoop() override;
++
++  // ui:::PlatformEventDispatcher:
++  bool CanDispatchEvent(const ui::PlatformEvent& event) override;
++  uint32_t DispatchEvent(const ui::PlatformEvent& platform_event) override;
++
++  // X11MoveLoop:
++  bool RunMoveLoop();
++  void UpdateCursor();
++  void EndMoveLoop();
++
++  bool in_move_loop() { return in_move_loop_; }
++
++ private:
++  // Grabs the pointer, setting the mouse cursor to |cursor|. Returns true if
++  // successful.
++  bool GrabPointer();
++
++  void GrabEscKey();
++
++  // Creates an input-only window to be used during the drag.
++  void CreateDragInputWindow(XDisplay* display);
++
++  // Dispatch mouse movement event to |delegate_| in a posted task.
++  void DispatchMouseMovement();
++
++  views::X11MoveLoopDelegate* delegate_;
++
++  // Are we running a nested run loop from RunMoveLoop()?
++  bool in_move_loop_;
++  std::unique_ptr<ui::ScopedEventDispatcher> nested_dispatcher_;
++
++  // An invisible InputOnly window. Keyboard grab and sometimes mouse grab
++  // are set on this window.
++  XID grab_input_window_;
++
++  // Events selected on |grab_input_window_|.
++  std::unique_ptr<ui::XScopedEventSelector> grab_input_window_events_;
++
++  // Whether the pointer was grabbed on |grab_input_window_|.
++  bool grabbed_pointer_;
++
++  base::Closure quit_closure_;
++
++  // Keeps track of whether the move-loop is cancled by the user (e.g. by
++  // pressing escape).
++  bool canceled_;
++
++  std::unique_ptr<ui::Event> last_motion_in_screen_;
++  base::WeakPtrFactory<WholeScreenMoveLoop> weak_factory_;
++
++  DISALLOW_COPY_AND_ASSIGN(WholeScreenMoveLoop);
++};
++
++}  // namespace ui
++
++#endif  // UI_PLATFORM_WINDOW_X11_WHOLE_SCREEN_MOVE_LOOP_H_
+Index: dev/ui/platform_window/x11/window_move_loop_client.cc
+===================================================================
+--- /dev/null
++++ dev/ui/platform_window/x11/window_move_loop_client.cc
+@@ -0,0 +1,62 @@
++// Copyright (c) 2018 The Chromium Authors. All rights reserved.
++// Use of this source code is governed by a BSD-style license that can be
++// found in the LICENSE file.
++
++#include "ui/platform_window/x11/window_move_loop_client.h"
++
++#include <X11/Xlib.h>
++
++#include "base/debug/stack_trace.h"
++#include "base/message_loop/message_loop.h"
++#include "base/run_loop.h"
++#include "ui/aura/env.h"
++#include "ui/aura/window.h"
++#include "ui/aura/window_tree_host.h"
++#include "ui/base/x/x11_util.h"
++#include "ui/events/event.h"
++
++#include "ui/platform_window/platform_window.h"
++
++namespace ui {
++
++WindowMoveLoopClient::WindowMoveLoopClient()
++    : move_loop_(this), window_(nullptr) {}
++
++WindowMoveLoopClient::~WindowMoveLoopClient() {}
++
++void WindowMoveLoopClient::OnMouseMovement(const gfx::Point& screen_point,
++                                           int flags,
++                                           base::TimeTicks event_time) {
++  gfx::Point system_loc = screen_point - window_offset_;
++  window_->SetBounds(gfx::Rect(system_loc, gfx::Size()));
++}
++
++void WindowMoveLoopClient::OnMouseReleased() {
++  EndMoveLoop();
++}
++
++void WindowMoveLoopClient::OnMoveLoopEnded() {
++  window_ = nullptr;
++}
++
++////////////////////////////////////////////////////////////////////////////////
++// DesktopWindowTreeHostLinux, wm::WindowMoveClient implementation:
++
++bool WindowMoveLoopClient::RunMoveLoop(PlatformWindow* window,
++                                       const gfx::Vector2d& drag_offset) {
++  window_offset_ = drag_offset;
++  window_ = window;
++  window_->SetCapture();
++  return move_loop_.RunMoveLoop();
++}
++
++void WindowMoveLoopClient::EndMoveLoop() {
++  window_->ReleaseCapture();
++  move_loop_.EndMoveLoop();
++}
++
++bool WindowMoveLoopClient::IsInMoveLoop() {
++  return move_loop_.in_move_loop();
++}
++
++}  // namespace ui
+Index: dev/ui/platform_window/x11/window_move_loop_client.h
+===================================================================
+--- /dev/null
++++ dev/ui/platform_window/x11/window_move_loop_client.h
+@@ -0,0 +1,56 @@
++// Copyright (c) 2018 The Chromium Authors. All rights reserved.
++// Use of this source code is governed by a BSD-style license that can be
++// found in the LICENSE file.
++
++#ifndef UI_PLATFORM_WINDOW_X11_WINDOW_MOVE_LOOP_CLIENT_H_
++#define UI_PLATFORM_WINDOW_X11_WINDOW_MOVE_LOOP_CLIENT_H_
++
++#include <X11/Xlib.h>
++
++#include "base/callback.h"
++#include "base/compiler_specific.h"
++#include "base/message_loop/message_loop.h"
++#include "ui/gfx/geometry/point.h"
++#include "ui/platform_window/x11/whole_screen_move_loop.h"
++#include "ui/platform_window/x11/x11_window_export.h"
++#include "ui/views/views_export.h"
++#include "ui/wm/public/window_move_client.h"
++
++namespace ui {
++
++class PlatformWindow;
++
++// When we're dragging tabs, we need to manually position our window.
++class X11_WINDOW_EXPORT WindowMoveLoopClient : public views::X11MoveLoopDelegate {
++ public:
++  WindowMoveLoopClient();
++  ~WindowMoveLoopClient() override;
++
++  // Overridden from X11MoveLoopDelegate:
++  void OnMouseMovement(const gfx::Point& screen_point,
++                       int flags,
++                       base::TimeTicks event_time) override;
++  void OnMouseReleased() override;
++  void OnMoveLoopEnded() override;
++
++  bool RunMoveLoop(PlatformWindow* window, const gfx::Vector2d& drag_offset);
++  void EndMoveLoop();
++
++  bool IsInMoveLoop();
++
++ private:
++  WholeScreenMoveLoop move_loop_;
++
++  // We need to keep track of this so we can actually move it when reacting to
++  // mouse events.
++  PlatformWindow* window_;
++
++  // Our cursor offset from the top left window origin when the drag
++  // started. Used to calculate the window's new bounds relative to the current
++  // location of the cursor.
++  gfx::Vector2d window_offset_;
++};
++
++}  // namespace ui
++
++#endif  // UI_PLATFORM_WINDOW_X11_WINDOW_MOVE_LOOP_CLIENT_H_
+Index: dev/ui/platform_window/x11/x11_window_base.cc
+===================================================================
+--- dev.orig/ui/platform_window/x11/x11_window_base.cc
++++ dev/ui/platform_window/x11/x11_window_base.cc
+@@ -7,6 +7,7 @@
+ #include <string>
+ 
+ #include "base/strings/utf_string_conversions.h"
++#include "ui/base/hit_test.h"
+ #include "ui/base/platform_window_defaults.h"
+ #include "ui/base/x/x11_util.h"
+ #include "ui/base/x/x11_window_event_manager.h"
+@@ -23,6 +24,56 @@ namespace ui {
+ 
+ namespace {
+ 
++// These constants are defined in the Extended Window Manager Hints
++// standard...and aren't in any header that I can find.
++const int k_NET_WM_MOVERESIZE_SIZE_TOPLEFT = 0;
++const int k_NET_WM_MOVERESIZE_SIZE_TOP = 1;
++const int k_NET_WM_MOVERESIZE_SIZE_TOPRIGHT = 2;
++const int k_NET_WM_MOVERESIZE_SIZE_RIGHT = 3;
++const int k_NET_WM_MOVERESIZE_SIZE_BOTTOMRIGHT = 4;
++const int k_NET_WM_MOVERESIZE_SIZE_BOTTOM = 5;
++const int k_NET_WM_MOVERESIZE_SIZE_BOTTOMLEFT = 6;
++const int k_NET_WM_MOVERESIZE_SIZE_LEFT = 7;
++const int k_NET_WM_MOVERESIZE_MOVE = 8;
++
++// Identifies the direction of the "hittest" for X11.
++bool IdentifyDirection(int hittest, int* direction) {
++  DCHECK(direction);
++  *direction = -1;
++  switch (hittest) {
++    case HTBOTTOM:
++      *direction = k_NET_WM_MOVERESIZE_SIZE_BOTTOM;
++      break;
++    case HTBOTTOMLEFT:
++      *direction = k_NET_WM_MOVERESIZE_SIZE_BOTTOMLEFT;
++      break;
++    case HTBOTTOMRIGHT:
++      *direction = k_NET_WM_MOVERESIZE_SIZE_BOTTOMRIGHT;
++      break;
++    case HTCAPTION:
++      *direction = k_NET_WM_MOVERESIZE_MOVE;
++      break;
++    case HTLEFT:
++      *direction = k_NET_WM_MOVERESIZE_SIZE_LEFT;
++      break;
++    case HTRIGHT:
++      *direction = k_NET_WM_MOVERESIZE_SIZE_RIGHT;
++      break;
++    case HTTOP:
++      *direction = k_NET_WM_MOVERESIZE_SIZE_TOP;
++      break;
++    case HTTOPLEFT:
++      *direction = k_NET_WM_MOVERESIZE_SIZE_TOPLEFT;
++      break;
++    case HTTOPRIGHT:
++      *direction = k_NET_WM_MOVERESIZE_SIZE_TOPRIGHT;
++      break;
++    default:
++      return false;
++  }
++  return true;
++}
++
+ XID FindXEventTarget(const XEvent& xev) {
+   XID target = xev.xany.window;
+   if (xev.type == GenericEvent)
+@@ -37,7 +88,7 @@ X11WindowBase::X11WindowBase(PlatformWin
+     : delegate_(delegate),
+       xdisplay_(gfx::GetXDisplay()),
+       xroot_window_(DefaultRootWindow(xdisplay_)),
+-      bounds_(bounds),
++      bounds_(bounds.IsEmpty() ? gfx::Rect(800,600) : bounds),
+       state_(ui::PlatformWindowState::PLATFORM_WINDOW_STATE_UNKNOWN) {
+   DCHECK(delegate_);
+   Create();
+@@ -71,6 +122,32 @@ void X11WindowBase::Create() {
+   swa.background_pixmap = x11::None;
+   swa.bit_gravity = NorthWestGravity;
+   swa.override_redirect = UseTestConfigForPlatformWindows();
++
++  ::Atom window_type;
++  // There is now default initialization for this type. Initialize it
++  // to ::WINDOW here. It will be changed by delelgate if it know the
++  // type of the window.
++  ui::PlatformWindowType ui_window_type =
++      ui::PlatformWindowType::PLATFORM_WINDOW_TYPE_WINDOW;
++  delegate_->GetWindowType(&ui_window_type);
++  switch (ui_window_type) {
++    case ui::PlatformWindowType::PLATFORM_WINDOW_TYPE_MENU:
++      window_type = gfx::GetAtom("_NET_WM_WINDOW_TYPE_MENU");
++      swa.override_redirect = x11::True;
++      break;
++    case ui::PlatformWindowType::PLATFORM_WINDOW_TYPE_TOOLTIP:
++      window_type = gfx::GetAtom("_NET_WM_WINDOW_TYPE_TOOLTIP");
++      swa.override_redirect = x11::True;
++      break;
++    case ui::PlatformWindowType::PLATFORM_WINDOW_TYPE_POPUP:
++      swa.override_redirect = x11::True;
++      window_type = gfx::GetAtom("_NET_WM_WINDOW_TYPE_NOTIFICATION");
++      break;
++    default:
++      window_type = gfx::GetAtom("_NET_WM_WINDOW_TYPE_NORMAL");
++      break;
++  }
++
+   xwindow_ =
+       XCreateWindow(xdisplay_, xroot_window_, bounds_.x(), bounds_.y(),
+                     bounds_.width(), bounds_.height(),
+@@ -80,12 +157,17 @@ void X11WindowBase::Create() {
+                     CopyFromParent,  // visual
+                     CWBackPixmap | CWBitGravity | CWOverrideRedirect, &swa);
+ 
++  XChangeProperty(xdisplay_, xwindow_, gfx::GetAtom("_NET_WM_WINDOW_TYPE"),
++                  XA_ATOM, 32, PropModeReplace,
++                  reinterpret_cast<unsigned char*>(&window_type), 1);
++
+   // Setup XInput event mask.
+   long event_mask = ButtonPressMask | ButtonReleaseMask | FocusChangeMask |
+-                    KeyPressMask | KeyReleaseMask | EnterWindowMask |
+-                    LeaveWindowMask | ExposureMask | VisibilityChangeMask |
+-                    StructureNotifyMask | PropertyChangeMask |
+-                    PointerMotionMask;
++                    KeyPressMask | KeyReleaseMask | ExposureMask |
++                    EnterWindowMask | LeaveWindowMask |
++                    VisibilityChangeMask | StructureNotifyMask |
++                    PropertyChangeMask | PointerMotionMask;
++
+   xwindow_events_.reset(new ui::XScopedEventSelector(xwindow_, event_mask));
+ 
+   // Setup XInput2 event mask.
+@@ -138,6 +220,13 @@ void X11WindowBase::Create() {
+   size_hints.win_gravity = StaticGravity;
+   XSetWMNormalHints(xdisplay_, xwindow_, &size_hints);
+ 
++// Disable native frame by default in non-ChromeOS builds for now.
++// TODO(msisov, tonikitoo): check if native frame should be used by checking
++// Widget::InitParams::remove_standard_frame.
++#if !defined(OS_CHROMEOS)
++  ui::SetUseOSWindowFrame(xwindow_, false);
++#endif
++
+   // TODO(sky): provide real scale factor.
+   delegate_->OnAcceleratedWidgetAvailable(xwindow_, 1.f);
+ }
+@@ -169,7 +258,7 @@ void X11WindowBase::SetBounds(const gfx:
+     XWindowChanges changes = {0};
+     unsigned value_mask = 0;
+ 
+-    if (bounds_.size() != bounds.size()) {
++    if (!bounds.size().IsEmpty() && bounds_.size() != bounds.size()) {
+       changes.width = bounds.width();
+       changes.height = bounds.height();
+       value_mask |= CWHeight | CWWidth;
+@@ -189,8 +278,13 @@ void X11WindowBase::SetBounds(const gfx:
+   // case if we're running without a window manager.  If there's a window
+   // manager, it can modify or ignore the request, but (per ICCCM) we'll get a
+   // (possibly synthetic) ConfigureNotify about the actual size and correct
+-  // |bounds_| later.
++  // |bounds_| later. If |bounds| came with zero size, use the previous size
++  // of |bounds_|.
++  gfx::Size size = bounds_.size();
++  if (!bounds.size().IsEmpty())
++    size = bounds_.size();
+   bounds_ = bounds;
++  bounds_.set_size(size);
+ 
+   // Even if the pixel bounds didn't change this call to the delegate should
+   // still happen. The device scale factor may have changed which effectively
+@@ -298,6 +392,41 @@ PlatformImeController* X11WindowBase::Ge
+   return nullptr;
+ }
+ 
++void X11WindowBase::StartWindowMoveOrResize(int hittest,
++                                            gfx::Point pointer_location) {
++  int direction;
++  if (!IdentifyDirection(hittest, &direction))
++    return;
++
++  // We most likely have an implicit grab right here. We need to dump it
++  // because what we're about to do is tell the window manager
++  // that it's now responsible for moving the window around; it immediately
++  // grabs when it receives the event below.
++  XUngrabPointer(xdisplay_, x11::CurrentTime);
++
++  XEvent event;
++  memset(&event, 0, sizeof(event));
++  event.xclient.type = ClientMessage;
++  event.xclient.display = xdisplay_;
++  event.xclient.window = xwindow_;
++  event.xclient.message_type = gfx::GetAtom("_NET_WM_MOVERESIZE");
++  event.xclient.format = 32;
++  event.xclient.data.l[0] = pointer_location.x();
++  event.xclient.data.l[1] = pointer_location.y();
++  event.xclient.data.l[2] = direction;
++  event.xclient.data.l[3] = 0;
++  event.xclient.data.l[4] = 0;
++
++  XSendEvent(xdisplay_, xroot_window_, x11::False,
++             SubstructureRedirectMask | SubstructureNotifyMask, &event);
++}
++
++bool X11WindowBase::RunMoveLoop(const gfx::Vector2d& drag_offset) {
++  return false;
++}
++
++void X11WindowBase::StopMoveLoop() {}
++
+ void X11WindowBase::UnConfineCursor() {
+   if (!has_pointer_barriers_)
+     return;
+Index: dev/ui/platform_window/x11/x11_window_base.h
+===================================================================
+--- dev.orig/ui/platform_window/x11/x11_window_base.h
++++ dev/ui/platform_window/x11/x11_window_base.h
+@@ -48,6 +48,10 @@ class X11_WINDOW_EXPORT X11WindowBase :
+   void MoveCursorTo(const gfx::Point& location) override;
+   void ConfineCursorToBounds(const gfx::Rect& bounds) override;
+   PlatformImeController* GetPlatformImeController() override;
++  void StartWindowMoveOrResize(int hittest,
++                               gfx::Point pointer_location) override;
++  bool RunMoveLoop(const gfx::Vector2d& drag_offset) override;
++  void StopMoveLoop() override;
+ 
+  protected:
+   // Creates new underlying XWindow. Does not map XWindow.
+@@ -56,6 +60,7 @@ class X11_WINDOW_EXPORT X11WindowBase :
+   void Destroy();
+ 
+   PlatformWindowDelegate* delegate() { return delegate_; }
++
+   XDisplay* xdisplay() { return xdisplay_; }
+   XID xwindow() const { return xwindow_; }
+ 
+Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host.h
+===================================================================
+--- dev.orig/ui/views/widget/desktop_aura/desktop_window_tree_host.h
++++ dev/ui/views/widget/desktop_aura/desktop_window_tree_host.h
+@@ -169,6 +169,11 @@ class VIEWS_EXPORT DesktopWindowTreeHost
+ 
+   // Returns whether a VisibilityController should be created.
+   virtual bool ShouldCreateVisibilityController() const = 0;
++
++  // TODO(msisov, jkim): make this pure virtual when upstreaming.
++  // Starts moving or resizing native window based on hittests.
++  virtual void StartWindowMoveOrResize(int hittest,
++                                       gfx::Point pointer_location) {}
+ };
+ 
+ }  // namespace views
+Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_platform.cc
+===================================================================
+--- dev.orig/ui/views/widget/desktop_aura/desktop_window_tree_host_platform.cc
++++ dev/ui/views/widget/desktop_aura/desktop_window_tree_host_platform.cc
+@@ -6,17 +6,35 @@
+ 
+ #include "ui/aura/client/drag_drop_client.h"
+ #include "ui/aura/client/transient_window_client.h"
++#include "ui/base/hit_test.h"
+ #include "ui/display/display.h"
+ #include "ui/display/screen.h"
+ #include "ui/gfx/geometry/dip_util.h"
+ #include "ui/platform_window/platform_window.h"
+ #include "ui/views/corewm/tooltip_aura.h"
+ #include "ui/views/widget/desktop_aura/desktop_native_widget_aura.h"
++#include "ui/views/widget/desktop_aura/window_event_filter.h"
++#include "ui/views/widget/widget_aura_utils.h"
+ #include "ui/views/window/native_frame_view.h"
+ #include "ui/wm/core/window_util.h"
+ 
+ namespace views {
+ 
++namespace {
++
++void ConvertParamsToProperties(
++    const Widget::InitParams& params,
++    DesktopWindowTreeHostPlatform::InitProperties& props) {
++  // TODO(msisov, jkim): add properties required on creating window such as
++  // parent id.
++  props.window_type = GetAuraWindowTypeForWidgetType(params.type);
++  if (params.parent && params.parent->GetHost()) {
++    props.parent_window_widget_id =
++        params.parent->GetHost()->GetAcceleratedWidget();
++  }
++}
++
++}  // namespace
+ ////////////////////////////////////////////////////////////////////////////////
+ // DesktopWindowTreeHostPlatform:
+ 
+@@ -41,7 +59,9 @@ void DesktopWindowTreeHostPlatform::SetB
+ }
+ 
+ void DesktopWindowTreeHostPlatform::Init(const Widget::InitParams& params) {
+-  CreateAndSetDefaultPlatformWindow();
++  InitProperties properties;
++  ConvertParamsToProperties(params, properties);
++  CreateAndSetPlatformWindowWithProperties(properties);
+   CreateCompositor(viz::FrameSinkId(), params.force_software_compositing);
+   aura::WindowTreeHost::OnAcceleratedWidgetAvailable();
+   InitHost();
+@@ -53,6 +73,16 @@ void DesktopWindowTreeHostPlatform::Init
+ void DesktopWindowTreeHostPlatform::OnNativeWidgetCreated(
+     const Widget::InitParams& params) {
+   native_widget_delegate_->OnNativeWidgetCreated(true);
++
++  // Setup a non_client_window_event_filter, which handles resize/move, double
++  // click and other events.
++  std::unique_ptr<ui::EventHandler> handler(new WindowEventFilter(this));
++  wm::CompoundEventFilter* compound_event_filter =
++      desktop_native_widget_aura_->root_window_event_filter();
++  if (non_client_window_event_filter_)
++    compound_event_filter->RemoveHandler(handler.get());
++  compound_event_filter->AddHandler(handler.get());
++  non_client_window_event_filter_ = std::move(handler);
+ }
+ 
+ void DesktopWindowTreeHostPlatform::OnWidgetInitDone() {}
+@@ -89,12 +119,16 @@ void DesktopWindowTreeHostPlatform::Clos
+ 
+ void DesktopWindowTreeHostPlatform::CloseNow() {
+   auto weak_ref = weak_factory_.GetWeakPtr();
++
+   // Deleting the PlatformWindow may not result in OnClosed() being called, if
+   // not behave as though it was.
+   SetPlatformWindow(nullptr);
+   if (!weak_ref || got_on_closed_)
+     return;
+ 
++  if (non_client_window_event_filter_)
++    RemoveNonClientEventFilter();
++
+   got_on_closed_ = true;
+   desktop_native_widget_aura_->OnHostClosed();
+ }
+@@ -310,14 +344,13 @@ Widget::MoveLoopResult DesktopWindowTree
+     const gfx::Vector2d& drag_offset,
+     Widget::MoveLoopSource source,
+     Widget::MoveLoopEscapeBehavior escape_behavior) {
+-  // TODO: needs PlatformWindow support.
+-  NOTIMPLEMENTED_LOG_ONCE();
++  if (platform_window()->RunMoveLoop(drag_offset))
++    return Widget::MOVE_LOOP_SUCCESSFUL;
+   return Widget::MOVE_LOOP_CANCELED;
+ }
+ 
+ void DesktopWindowTreeHostPlatform::EndMoveLoop() {
+-  // TODO: needs PlatformWindow support.
+-  NOTIMPLEMENTED_LOG_ONCE();
++  platform_window()->StopMoveLoop();
+ }
+ 
+ void DesktopWindowTreeHostPlatform::SetVisibilityChangedAnimationsEnabled(
+@@ -404,7 +437,38 @@ bool DesktopWindowTreeHostPlatform::Shou
+   return true;
+ }
+ 
++void DesktopWindowTreeHostPlatform::StartWindowMoveOrResize(
++    int hittest,
++    gfx::Point pointer_location) {
++  platform_window()->StartWindowMoveOrResize(hittest, pointer_location);
++}
++
++void DesktopWindowTreeHostPlatform::DispatchEvent(ui::Event* event) {
++  // We need to make sure it is appropriately marked as non-client if it's in
++  // the non client area, or otherwise, we can get into a state where the a
++  // window is set as the |mouse_pressed_handler_| in window_event_dispatcher.cc
++  // despite the mouse button being released. X11 also does the same.
++  //
++  // See comment in DesktopWindowTreeHostX11::DispatchMouseEvent for details.
++  aura::Window* content_window = desktop_native_widget_aura_->content_window();
++  if (content_window && content_window->delegate()) {
++    if (event->IsMouseEvent()) {
++      ui::MouseEvent* mouse_event = event->AsMouseEvent();
++      int flags = mouse_event->flags();
++      int hit_test_code = content_window->delegate()->GetNonClientComponent(
++          mouse_event->location());
++      if (hit_test_code != HTCLIENT && hit_test_code != HTNOWHERE)
++        flags |= ui::EF_IS_NON_CLIENT;
++      mouse_event->set_flags(flags);
++    }
++  }
++
++  WindowTreeHostPlatform::DispatchEvent(event);
++}
++
+ void DesktopWindowTreeHostPlatform::OnClosed() {
++  RemoveNonClientEventFilter();
++
+   got_on_closed_ = true;
+   desktop_native_widget_aura_->OnHostClosed();
+ }
+@@ -451,6 +515,14 @@ void DesktopWindowTreeHostPlatform::Rela
+   widget->GetRootView()->Layout();
+ }
+ 
++void DesktopWindowTreeHostPlatform::RemoveNonClientEventFilter() {
++  // Remove the event listeners we've installed. We need to remove these
++  // because otherwise we get assert during ~WindowEventDispatcher().
++  desktop_native_widget_aura_->root_window_event_filter()->RemoveHandler(
++      non_client_window_event_filter_.get());
++  non_client_window_event_filter_.reset();
++}
++
+ Widget* DesktopWindowTreeHostPlatform::GetWidget() {
+   return native_widget_delegate_->AsWidget();
+ }
+Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_platform.h
+===================================================================
+--- dev.orig/ui/views/widget/desktop_aura/desktop_window_tree_host_platform.h
++++ dev/ui/views/widget/desktop_aura/desktop_window_tree_host_platform.h
+@@ -87,8 +87,11 @@ class VIEWS_EXPORT DesktopWindowTreeHost
+   bool ShouldUpdateWindowTransparency() const override;
+   bool ShouldUseDesktopNativeCursorManager() const override;
+   bool ShouldCreateVisibilityController() const override;
++  void StartWindowMoveOrResize(int hittest,
++                               gfx::Point pointer_location) override;
+ 
+   // WindowTreeHostPlatform:
++  void DispatchEvent(ui::Event* event) override;
+   void OnClosed() override;
+   void OnWindowStateChanged(ui::PlatformWindowState new_state) override;
+   void OnCloseRequest() override;
+@@ -98,6 +101,8 @@ class VIEWS_EXPORT DesktopWindowTreeHost
+  private:
+   void Relayout();
+ 
++  void RemoveNonClientEventFilter();
++
+   Widget* GetWidget();
+ 
+   internal::NativeWidgetDelegate* const native_widget_delegate_;
+@@ -110,6 +115,9 @@ class VIEWS_EXPORT DesktopWindowTreeHost
+ 
+   bool is_active_ = false;
+ 
++  // A handler for events inteded for non client area.
++  std::unique_ptr<ui::EventHandler> non_client_window_event_filter_;
++
+   base::WeakPtrFactory<DesktopWindowTreeHostPlatform> weak_factory_{this};
+ 
+   DISALLOW_COPY_AND_ASSIGN(DesktopWindowTreeHostPlatform);
+Index: dev/ui/views/widget/desktop_aura/window_event_filter.cc
+===================================================================
+--- dev.orig/ui/views/widget/desktop_aura/window_event_filter.cc
++++ dev/ui/views/widget/desktop_aura/window_event_filter.cc
+@@ -21,6 +21,28 @@
+ 
+ namespace views {
+ 
++namespace {
++
++bool CanPerformDragOrResize(int hittest) {
++  switch (hittest) {
++    case HTBOTTOM:
++    case HTBOTTOMLEFT:
++    case HTBOTTOMRIGHT:
++    case HTCAPTION:
++    case HTLEFT:
++    case HTRIGHT:
++    case HTTOP:
++    case HTTOPLEFT:
++    case HTTOPRIGHT:
++      break;
++    default:
++      return false;
++  }
++  return true;
++}
++
++}  // namespace
++
+ WindowEventFilter::WindowEventFilter(DesktopWindowTreeHost* window_tree_host)
+     : window_tree_host_(window_tree_host), click_component_(HTNOWHERE) {}
+ 
+@@ -149,6 +171,14 @@ void WindowEventFilter::LowerWindow() {}
+ 
+ void WindowEventFilter::MaybeDispatchHostWindowDragMovement(
+     int hittest,
+-    ui::MouseEvent* event) {}
++    ui::MouseEvent* event) {
++  auto* target = static_cast<aura::Window*>(event->target());
++  if (!event->IsLeftMouseButton() ||
++      target->GetHost() != window_tree_host_->AsWindowTreeHost() ||
++      !CanPerformDragOrResize(hittest))
++    return;
++  window_tree_host_->StartWindowMoveOrResize(hittest, event->location());
++  event->StopPropagation();
++}
+ 
+ }  // namespace views
+Index: dev/ui/views/widget/desktop_aura/x11_move_loop_delegate.h
+===================================================================
+--- dev.orig/ui/views/widget/desktop_aura/x11_move_loop_delegate.h
++++ dev/ui/views/widget/desktop_aura/x11_move_loop_delegate.h
+@@ -14,6 +14,8 @@ namespace views {
+ // Receives mouse events while the X11MoveLoop is tracking a drag.
+ class X11MoveLoopDelegate {
+  public:
++  virtual ~X11MoveLoopDelegate() {}
++
+   // Called when we receive a mouse move event.
+   virtual void OnMouseMovement(const gfx::Point& screen_point,
+                                int flags,
+Index: dev/ui/wm/core/compound_event_filter.cc
+===================================================================
+--- dev.orig/ui/wm/core/compound_event_filter.cc
++++ dev/ui/wm/core/compound_event_filter.cc
+@@ -97,6 +97,18 @@ void CompoundEventFilter::UpdateCursor(a
+   aura::client::CursorClient* cursor_client =
+       aura::client::GetCursorClient(root_window);
+   if (cursor_client) {
++    // In some configurations, notably Linux/Ozone, cursor data are only
++    // set in Ozone side. This makes the check in CursorManager::SetCursor
++    // unreliable and fail in some circumstances where it passes on regular
++    // Linux/X11 builds.
++    // To make sure, cursor is properly set when it reenters a browser window
++    // through the same end, we reset it when it exits, otherwise the check in
++    // CursorManager::SetCursor will comparent Cursors of the same type.
++    if (event->type() == ui::ET_MOUSE_EXITED) {
++      cursor_client->SetCursor(ui::CursorType::kPointer);
++      return;
++    }
++
+     gfx::NativeCursor cursor = target->GetCursor(event->location());
+     if ((event->flags() & ui::EF_IS_NON_CLIENT)) {
+       if (target->delegate()) {
+@@ -196,11 +208,14 @@ void CompoundEventFilter::OnMouseEvent(u
+   // on Desktop for testing, or a bug in pointer barrier).
+   if (!(event->flags() & ui::EF_FROM_TOUCH) &&
+        (event->type() == ui::ET_MOUSE_ENTERED ||
++        event->type() == ui::ET_MOUSE_EXITED ||
+         event->type() == ui::ET_MOUSE_MOVED ||
+         event->type() == ui::ET_MOUSE_PRESSED ||
+         event->type() == ui::ET_MOUSEWHEEL)) {
+-    SetMouseEventsEnableStateOnEvent(window, event, true);
+-    SetCursorVisibilityOnEvent(window, event, true);
++    if (event->type() != ui::ET_MOUSE_EXITED) {
++      SetMouseEventsEnableStateOnEvent(window, event, true);
++      SetCursorVisibilityOnEvent(window, event, true);
++    }
+     UpdateCursor(window, event);
+   }
+ 
