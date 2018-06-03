@@ -40,7 +40,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -1567,6 +1567,13 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1557,6 +1557,13 @@ const FeatureEntry kFeatureEntries[] = {
       flag_descriptions::kShowTouchHudDescription, kOsCrOS,
       SINGLE_VALUE_TYPE(ash::switches::kAshTouchHud)},
  #endif  // OS_CHROMEOS
@@ -54,7 +54,7 @@ Index: dev/chrome/browser/about_flags.cc
      {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
-@@ -1574,6 +1581,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1564,6 +1571,7 @@ const FeatureEntry kFeatureEntries[] = {
          kOsMac | kOsWin | kOsCrOS | kOsAndroid,
          SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
@@ -62,7 +62,7 @@ Index: dev/chrome/browser/about_flags.cc
  #if defined(OS_WIN)
      {"enable-hdr", flag_descriptions::kEnableHDRName,
       flag_descriptions::kEnableHDRDescription, kOsWin,
-@@ -2244,12 +2252,17 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -2234,12 +2242,17 @@ const FeatureEntry kFeatureEntries[] = {
       FEATURE_VALUE_TYPE(features::kOpenVR)},
  #endif  // ENABLE_OPENVR
  #endif  // ENABLE_VR
@@ -126,7 +126,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
  const char kAcceleratedVideoDecodeName[] = "Hardware-accelerated video decode";
  const char kAcceleratedVideoDecodeDescription[] =
      "Hardware-accelerated video decode where available.";
-@@ -2648,7 +2655,7 @@ const char kTabStripKeyboardFocusDescrip
+@@ -2647,7 +2654,7 @@ const char kTabStripKeyboardFocusDescrip
  
  // Chrome OS -------------------------------------------------------------------
  
@@ -135,9 +135,9 @@ Index: dev/chrome/browser/flag_descriptions.cc
  
  const char kAcceleratedMjpegDecodeName[] =
      "Hardware-accelerated mjpeg decode for captured frame";
-@@ -3104,7 +3111,7 @@ const char kWakeOnPacketsName[] = "Wake
- const char kWakeOnPacketsDescription[] =
-     "Enables waking the device based on the receipt of some network packets.";
+@@ -3110,7 +3117,7 @@ const char kZipArchiverUnpackerName[] =
+ const char kZipArchiverUnpackerDescription[] =
+     "Enable or disable the ability to unpack archives in incognito mode";
  
 -#endif  // defined(OS_CHROMEOS)
 +#endif  // defined(OS_CHROMEOS) || BUILDFLAG(USE_VAAPI)
@@ -433,7 +433,7 @@ Index: dev/content/renderer/render_thread_impl.cc
 ===================================================================
 --- dev.orig/content/renderer/render_thread_impl.cc
 +++ dev/content/renderer/render_thread_impl.cc
-@@ -1481,7 +1481,11 @@ media::GpuVideoAcceleratorFactories* Ren
+@@ -1480,7 +1480,11 @@ media::GpuVideoAcceleratorFactories* Ren
                               kGpuStreamIdMedia, kGpuStreamPriorityMedia);
  
    const bool enable_video_accelerator =
@@ -529,7 +529,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -851,7 +851,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
+@@ -861,7 +861,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
    }
    va_attrib_extbuf.num_planes = num_planes;
  

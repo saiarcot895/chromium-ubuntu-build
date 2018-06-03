@@ -2,11 +2,14 @@ Index: dev/tools/gn/bootstrap/bootstrap.py
 ===================================================================
 --- dev.orig/tools/gn/bootstrap/bootstrap.py
 +++ dev/tools/gn/bootstrap/bootstrap.py
-@@ -649,7 +649,6 @@ def write_gn_ninja(path, root_gen_dir, o
-       'base/trace_event/memory_peak_detector.cc',
-       'base/trace_event/memory_usage_estimator.cc',
-       'base/trace_event/process_memory_dump.cc',
--      'base/trace_event/sharded_allocation_register.cc',
-       'base/trace_event/trace_buffer.cc',
-       'base/trace_event/trace_config.cc',
-       'base/trace_event/trace_config_category_filter.cc',
+@@ -634,10 +634,6 @@ def write_gn_ninja(path, root_gen_dir, o
+       'base/trace_event/heap_profiler_allocation_context.cc',
+       'base/trace_event/heap_profiler_allocation_context_tracker.cc',
+       'base/trace_event/heap_profiler_event_filter.cc',
+-      'base/trace_event/heap_profiler_heap_dump_writer.cc',
+-      'base/trace_event/heap_profiler_serialization_state.cc',
+-      'base/trace_event/heap_profiler_stack_frame_deduplicator.cc',
+-      'base/trace_event/heap_profiler_type_name_deduplicator.cc',
+       'base/trace_event/malloc_dump_provider.cc',
+       'base/trace_event/memory_allocator_dump.cc',
+       'base/trace_event/memory_allocator_dump_guid.cc',
