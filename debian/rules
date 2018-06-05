@@ -35,7 +35,7 @@ ifneq (,$(findstring Debian,$(DEBIAN_DIST)))
 DISTRIBUTION=DEBIAN
 endif
 
-WANT_OZONE       := 1
+WANT_OZONE       := 0
 
 common_defines :=
 browser_defines :=
