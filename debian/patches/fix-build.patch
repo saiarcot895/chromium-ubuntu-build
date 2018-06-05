@@ -1,0 +1,12 @@
+Index: dev/services/network/public/cpp/cors/cors_legacy.h
+===================================================================
+--- dev.orig/services/network/public/cpp/cors/cors_legacy.h
++++ dev/services/network/public/cpp/cors/cors_legacy.h
+@@ -5,6 +5,7 @@
+ #ifndef SERVICES_NETWORK_PUBLIC_CPP_CORS_CORS_LEGACY_H_
+ #define SERVICES_NETWORK_PUBLIC_CPP_CORS_CORS_LEGACY_H_
+ 
++#include <string>
+ #include <vector>
+ 
+ #include "base/component_export.h"

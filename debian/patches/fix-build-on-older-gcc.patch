@@ -328,3 +328,16 @@ Index: dev/content/browser/background_fetch/background_fetch_context.cc
    std::move(done_closure).Run();
  }
  
+Index: dev/media/base/subsample_entry.h
+===================================================================
+--- dev.orig/media/base/subsample_entry.h
++++ dev/media/base/subsample_entry.h
+@@ -35,7 +35,7 @@ struct SubsampleEntry {
+ // does not match |input_size|.
+ MEDIA_EXPORT bool VerifySubsamplesMatchSize(
+     const std::vector<SubsampleEntry>& subsamples,
+-    size_t input_size);
++    std::size_t input_size);
+ 
+ }  // namespace media
+ 
