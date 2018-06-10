@@ -1,3 +1,10 @@
+chromium-browser (68.0.3440.17-0ubuntu1~ppa1~18.04.1) bionic; urgency=low
+
+  * New upstream version 68.0.3440.17
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 10 Jun 2018 14:33:24 -0400
+
 chromium-browser (68.0.3440.7-0ubuntu1~ppa4~18.04.1) bionic; urgency=low
 
   * Disable Ozone.

@@ -1,7 +1,7 @@
-Index: dev/chrome/common/chrome_paths.cc
+Index: beta/chrome/common/chrome_paths.cc
 ===================================================================
---- dev.orig/chrome/common/chrome_paths.cc
-+++ dev/chrome/common/chrome_paths.cc
+--- beta.orig/chrome/common/chrome_paths.cc
++++ beta/chrome/common/chrome_paths.cc
 @@ -382,6 +382,14 @@ bool PathProvider(int key, base::FilePat
      // TODO(crbug.com/663554): Remove this after component updated CDM is
      // supported on Linux and ChromeOS.

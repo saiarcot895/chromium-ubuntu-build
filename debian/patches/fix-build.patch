@@ -1,7 +1,7 @@
-Index: dev/services/network/public/cpp/cors/cors_legacy.h
+Index: beta/services/network/public/cpp/cors/cors_legacy.h
 ===================================================================
---- dev.orig/services/network/public/cpp/cors/cors_legacy.h
-+++ dev/services/network/public/cpp/cors/cors_legacy.h
+--- beta.orig/services/network/public/cpp/cors/cors_legacy.h
++++ beta/services/network/public/cpp/cors/cors_legacy.h
 @@ -5,6 +5,7 @@
  #ifndef SERVICES_NETWORK_PUBLIC_CPP_CORS_CORS_LEGACY_H_
  #define SERVICES_NETWORK_PUBLIC_CPP_CORS_CORS_LEGACY_H_
