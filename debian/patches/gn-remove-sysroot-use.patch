@@ -2,7 +2,7 @@ Index: dev/tools/gn/bootstrap/bootstrap.py
 ===================================================================
 --- dev.orig/tools/gn/bootstrap/bootstrap.py
 +++ dev/tools/gn/bootstrap/bootstrap.py
-@@ -755,85 +755,12 @@ def write_gn_ninja(path, root_gen_dir, o
+@@ -750,85 +750,12 @@ def write_gn_ninja(path, root_gen_dir, o
          'base/threading/platform_thread_linux.cc',
      ])
      if is_linux:

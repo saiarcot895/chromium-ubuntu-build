@@ -277,7 +277,7 @@ Index: dev/content/browser/webui/web_ui_impl.cc
 ===================================================================
 --- dev.orig/content/browser/webui/web_ui_impl.cc
 +++ dev/content/browser/webui/web_ui_impl.cc
-@@ -250,7 +250,7 @@ void WebUIImpl::CallJavascriptFunctionUn
+@@ -251,7 +251,7 @@ void WebUIImpl::CallJavascriptFunctionUn
  
  void WebUIImpl::RegisterMessageCallback(base::StringPiece message,
                                          const MessageCallback& callback) {
@@ -290,7 +290,7 @@ Index: dev/third_party/blink/renderer/modules/canvas/canvas2d/base_rendering_con
 ===================================================================
 --- dev.orig/third_party/blink/renderer/modules/canvas/canvas2d/base_rendering_context_2d.cc
 +++ dev/third_party/blink/renderer/modules/canvas/canvas2d/base_rendering_context_2d.cc
-@@ -648,8 +648,8 @@ void BaseRenderingContext2D::DrawPathInt
+@@ -647,8 +647,8 @@ void BaseRenderingContext2D::DrawPathInt
  
    SkPath sk_path = path.GetSkPath();
    FloatRect bounds = path.BoundingRect();
@@ -301,38 +301,11 @@ Index: dev/third_party/blink/renderer/modules/canvas/canvas2d/base_rendering_con
      return;
    sk_path.setFillType(fill_type);
  
-Index: dev/content/renderer/input/input_event_prediction.cc
-===================================================================
---- dev.orig/content/renderer/input/input_event_prediction.cc
-+++ dev/content/renderer/input/input_event_prediction.cc
-@@ -119,7 +119,8 @@ void InputEventPrediction::UpdateSingleP
-     if (predictor != pointer_id_predictor_map_.end()) {
-       predictor->second->Update(data);
-     } else {
--      pointer_id_predictor_map_.insert({event.id, SetUpPredictor()});
-+      std::unique_ptr<ui::InputPredictor> newPredictor = SetUpPredictor();
-+      pointer_id_predictor_map_[event.id] = std::move(newPredictor);
-       pointer_id_predictor_map_[event.id]->Update(data);
-     }
-   }
-Index: dev/content/browser/background_fetch/background_fetch_context.cc
-===================================================================
---- dev.orig/content/browser/background_fetch/background_fetch_context.cc
-+++ dev/content/browser/background_fetch/background_fetch_context.cc
-@@ -218,7 +218,7 @@ void BackgroundFetchContext::InitializeC
- 
-   scheduler_->AddJobController(controller.get());
- 
--  job_controllers_.insert({unique_id, std::move(controller)});
-+  job_controllers_[unique_id] = std::move(controller);
-   std::move(done_closure).Run();
- }
- 
 Index: dev/media/base/subsample_entry.h
 ===================================================================
 --- dev.orig/media/base/subsample_entry.h
 +++ dev/media/base/subsample_entry.h
-@@ -35,7 +35,7 @@ struct SubsampleEntry {
+@@ -36,7 +36,7 @@ struct SubsampleEntry {
  // does not match |input_size|.
  MEDIA_EXPORT bool VerifySubsamplesMatchSize(
      const std::vector<SubsampleEntry>& subsamples,
