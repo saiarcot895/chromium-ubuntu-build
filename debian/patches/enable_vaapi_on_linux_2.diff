@@ -40,7 +40,7 @@ Index: beta/chrome/browser/about_flags.cc
 ===================================================================
 --- beta.orig/chrome/browser/about_flags.cc
 +++ beta/chrome/browser/about_flags.cc
-@@ -1557,6 +1557,13 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1575,6 +1575,13 @@ const FeatureEntry kFeatureEntries[] = {
       flag_descriptions::kShowTouchHudDescription, kOsCrOS,
       SINGLE_VALUE_TYPE(ash::switches::kAshTouchHud)},
  #endif  // OS_CHROMEOS
@@ -54,7 +54,7 @@ Index: beta/chrome/browser/about_flags.cc
      {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
-@@ -1564,6 +1571,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1582,6 +1589,7 @@ const FeatureEntry kFeatureEntries[] = {
          kOsMac | kOsWin | kOsCrOS | kOsAndroid,
          SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
@@ -62,7 +62,7 @@ Index: beta/chrome/browser/about_flags.cc
  #if defined(OS_WIN)
      {"enable-hdr", flag_descriptions::kEnableHDRName,
       flag_descriptions::kEnableHDRDescription, kOsWin,
-@@ -2234,12 +2242,17 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -2259,12 +2267,17 @@ const FeatureEntry kFeatureEntries[] = {
       FEATURE_VALUE_TYPE(features::kOpenVR)},
  #endif  // ENABLE_OPENVR
  #endif  // ENABLE_VR
@@ -126,7 +126,7 @@ Index: beta/chrome/browser/flag_descriptions.cc
  const char kAcceleratedVideoDecodeName[] = "Hardware-accelerated video decode";
  const char kAcceleratedVideoDecodeDescription[] =
      "Hardware-accelerated video decode where available.";
-@@ -2647,7 +2654,7 @@ const char kTabStripKeyboardFocusDescrip
+@@ -2654,7 +2661,7 @@ const char kTabStripKeyboardFocusDescrip
  
  // Chrome OS -------------------------------------------------------------------
  
@@ -135,7 +135,7 @@ Index: beta/chrome/browser/flag_descriptions.cc
  
  const char kAcceleratedMjpegDecodeName[] =
      "Hardware-accelerated mjpeg decode for captured frame";
-@@ -3110,7 +3117,7 @@ const char kZipArchiverUnpackerName[] =
+@@ -3117,7 +3124,7 @@ const char kZipArchiverUnpackerName[] =
  const char kZipArchiverUnpackerDescription[] =
      "Enable or disable the ability to unpack archives in incognito mode";
  
@@ -159,7 +159,7 @@ Index: beta/chrome/browser/flag_descriptions.h
  extern const char kAcceleratedVideoDecodeName[];
  extern const char kAcceleratedVideoDecodeDescription[];
  
-@@ -1621,13 +1625,17 @@ extern const char kPermissionPromptPersi
+@@ -1624,13 +1628,17 @@ extern const char kPermissionPromptPersi
  
  #endif  // defined(OS_MACOSX)
  
