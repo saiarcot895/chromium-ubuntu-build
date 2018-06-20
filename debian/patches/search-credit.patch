@@ -5,15 +5,17 @@ Index: dev/components/search_engines/prepopulated_engines.json
 ===================================================================
 --- dev.orig/components/search_engines/prepopulated_engines.json
 +++ dev/components/search_engines/prepopulated_engines.json
-@@ -85,7 +85,7 @@
+@@ -85,8 +85,9 @@
        "name": "\u767e\u5ea6",
        "keyword": "baidu.com",
        "favicon_url": "https://www.baidu.com/favicon.ico",
 -      "search_url": "https://www.baidu.com/#ie={inputEncoding}&wd={searchTerms}",
-+      "search_url": "https://www.baidu.com/#ie={inputEncoding}&tn=ubuntuu_cb&wd={searchTerms}",
-       "suggest_url": "http://suggestion.baidu.com/su?wd={searchTerms}&action=opensearch&ie={inputEncoding}",
-       "type": "SEARCH_ENGINE_BAIDU",
-       "id": 21
++      "search_url": "https://www.baidu.com/#ie={inputEncoding}&tn=ubuntu_cb&wd={searchTerms}",
+       "alternate_urls": [
++        "https://www.baidu.com/#?ie={inputEncoding}&wd={searchTerms}",
+         "https://www.baidu.com/s?ie={inputEncoding}&wd={searchTerms}",
+         "https://www.baidu.com/s?ie={inputEncoding}&word={searchTerms}",
+         "https://www.baidu.com/{google:pathWildcard}/s?ie={inputEncoding}&word={searchTerms}"
 Index: dev/components/search_engines/template_url.cc
 ===================================================================
 --- dev.orig/components/search_engines/template_url.cc
