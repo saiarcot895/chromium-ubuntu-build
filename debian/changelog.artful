@@ -1,3 +1,10 @@
+chromium-browser (69.0.3472.3-0ubuntu1~ppa1~17.10.1) artful; urgency=low
+
+  * New upstream version 69.0.3472.3
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 30 Jun 2018 21:13:09 -0400
+
 chromium-browser (69.0.3464.0-0ubuntu1~ppa2~17.10.1) artful; urgency=low
 
   * Remove unavailable C flag.

@@ -5,7 +5,7 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -664,13 +664,6 @@ config("compiler") {
+@@ -665,13 +665,6 @@ config("compiler") {
      ldflags += [ "-Wl,--no-rosegment" ]
    }
  
@@ -19,7 +19,7 @@ Index: dev/build/config/compiler/BUILD.gn
    # Pass the same C/C++ flags to the objective C/C++ compiler.
    cflags_objc += cflags_c
    cflags_objcc += cflags_cc
-@@ -1443,27 +1436,14 @@ config("default_warnings") {
+@@ -1444,27 +1437,14 @@ config("default_warnings") {
            "-Wno-user-defined-warnings",
  
            # TODO(hans): https://crbug.com/681136

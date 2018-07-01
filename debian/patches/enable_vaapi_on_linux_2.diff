@@ -40,7 +40,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -1553,6 +1553,13 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1547,6 +1547,13 @@ const FeatureEntry kFeatureEntries[] = {
       flag_descriptions::kShowTouchHudDescription, kOsCrOS,
       SINGLE_VALUE_TYPE(ash::switches::kAshTouchHud)},
  #endif  // OS_CHROMEOS
@@ -54,7 +54,7 @@ Index: dev/chrome/browser/about_flags.cc
      {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
-@@ -1560,6 +1567,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1554,6 +1561,7 @@ const FeatureEntry kFeatureEntries[] = {
          kOsMac | kOsWin | kOsCrOS | kOsAndroid,
          SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
@@ -62,7 +62,7 @@ Index: dev/chrome/browser/about_flags.cc
  #if defined(OS_WIN)
      {"enable-hdr", flag_descriptions::kEnableHDRName,
       flag_descriptions::kEnableHDRDescription, kOsWin,
-@@ -2240,12 +2248,17 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -2237,12 +2245,17 @@ const FeatureEntry kFeatureEntries[] = {
       FEATURE_VALUE_TYPE(features::kOpenVR)},
  #endif  // ENABLE_OPENVR
  #endif  // ENABLE_VR
@@ -126,7 +126,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
  const char kAcceleratedVideoDecodeName[] = "Hardware-accelerated video decode";
  const char kAcceleratedVideoDecodeDescription[] =
      "Hardware-accelerated video decode where available.";
-@@ -2705,7 +2712,7 @@ const char kTabStripKeyboardFocusDescrip
+@@ -2782,7 +2789,7 @@ const char kTabStripKeyboardFocusDescrip
  
  // Chrome OS -------------------------------------------------------------------
  
@@ -135,7 +135,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
  
  const char kAcceleratedMjpegDecodeName[] =
      "Hardware-accelerated mjpeg decode for captured frame";
-@@ -3184,7 +3191,7 @@ const char kZipArchiverUnpackerName[] =
+@@ -3256,7 +3263,7 @@ const char kZipArchiverUnpackerName[] =
  const char kZipArchiverUnpackerDescription[] =
      "Enable or disable the ability to unpack archives in incognito mode";
  
@@ -159,7 +159,7 @@ Index: dev/chrome/browser/flag_descriptions.h
  extern const char kAcceleratedVideoDecodeName[];
  extern const char kAcceleratedVideoDecodeDescription[];
  
-@@ -1658,13 +1662,17 @@ extern const char kPermissionPromptPersi
+@@ -1696,13 +1700,17 @@ extern const char kPermissionPromptPersi
  
  #endif  // defined(OS_MACOSX)
  
@@ -218,7 +218,7 @@ Index: dev/content/browser/renderer_host/render_process_host_impl.cc
 ===================================================================
 --- dev.orig/content/browser/renderer_host/render_process_host_impl.cc
 +++ dev/content/browser/renderer_host/render_process_host_impl.cc
-@@ -2711,7 +2711,11 @@ void RenderProcessHostImpl::PropagateBro
+@@ -2718,7 +2718,11 @@ void RenderProcessHostImpl::PropagateBro
      switches::kDefaultTileHeight,
      switches::kDisable2dCanvasImageChromium,
      switches::kDisableAcceleratedJpegDecoding,
@@ -378,7 +378,7 @@ Index: dev/content/renderer/render_thread_impl.cc
 ===================================================================
 --- dev.orig/content/renderer/render_thread_impl.cc
 +++ dev/content/renderer/render_thread_impl.cc
-@@ -1445,7 +1445,11 @@ media::GpuVideoAcceleratorFactories* Ren
+@@ -1440,7 +1440,11 @@ media::GpuVideoAcceleratorFactories* Ren
                               kGpuStreamIdMedia, kGpuStreamPriorityMedia);
  
    const bool enable_video_accelerator =
@@ -437,7 +437,7 @@ Index: dev/media/gpu/BUILD.gn
 ===================================================================
 --- dev.orig/media/gpu/BUILD.gn
 +++ dev/media/gpu/BUILD.gn
-@@ -503,6 +503,12 @@ if (use_v4l2_codec || use_vaapi || is_ma
+@@ -505,6 +505,12 @@ if (use_v4l2_codec || use_vaapi || is_ma
    }
  }
  
@@ -450,7 +450,7 @@ Index: dev/media/gpu/BUILD.gn
  if (use_vaapi) {
    test("jpeg_encode_accelerator_unittest") {
      deps = [
-@@ -561,6 +567,7 @@ if (use_v4l2_codec || use_vaapi) {
+@@ -563,6 +569,7 @@ if (use_v4l2_codec || use_vaapi) {
      if (use_ozone) {
        deps += [ "//ui/ozone" ]
      }
@@ -474,6 +474,15 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi/vaapi_wrapper.cc
+@@ -332,7 +332,7 @@ bool VADisplayState::InitializeOnce() {
+   DVLOG(1) << "VAAPI version: " << major_version << "." << minor_version << " "
+            << va_vendor_string_;
+ 
+-  if (major_version != VA_MAJOR_VERSION || minor_version != VA_MINOR_VERSION) {
++  if (major_version != VA_MAJOR_VERSION) {
+     LOG(ERROR) << "This build of Chromium requires VA-API version "
+                << VA_MAJOR_VERSION << "." << VA_MINOR_VERSION
+                << ", system version: " << major_version << "." << minor_version;
 @@ -861,7 +861,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
    }
    va_attrib_extbuf.num_planes = num_planes;
@@ -490,16 +499,16 @@ Index: dev/components/viz/service/main/viz_main_impl.cc
 ===================================================================
 --- dev.orig/components/viz/service/main/viz_main_impl.cc
 +++ dev/components/viz/service/main/viz_main_impl.cc
-@@ -54,7 +54,7 @@ std::unique_ptr<base::Thread> CreateAndS
+@@ -62,7 +62,7 @@ std::unique_ptr<viz::CompositorThreadTyp
    thread_options.message_loop_type = base::MessageLoop::TYPE_UI;
  #endif
  
--#if defined(OS_ANDROID) || defined(OS_CHROMEOS)
+-#if defined(OS_CHROMEOS)
 +#if defined(OS_LINUX)
    thread_options.priority = base::ThreadPriority::DISPLAY;
  #endif
    CHECK(thread->StartWithOptions(thread_options));
-@@ -66,7 +66,7 @@ std::unique_ptr<base::Thread> CreateAndS
+@@ -75,7 +75,7 @@ std::unique_ptr<base::Thread> CreateAndS
    // It should be possible to use |main_task_runner_| for doing IO tasks.
    base::Thread::Options thread_options(base::MessageLoop::TYPE_IO, 0);
    thread_options.priority = base::ThreadPriority::NORMAL;
@@ -545,7 +554,7 @@ Index: dev/media/base/media_switches.cc
  
  // When running tests on a system without the required hardware or libraries,
  // this flag will cause the tests to fail. Otherwise, they silently succeed.
-@@ -433,15 +439,22 @@ const base::Feature kPreloadMediaEngagem
+@@ -451,15 +457,22 @@ const base::Feature kPreloadMediaEngagem
  #endif
  
  bool IsVideoCaptureAcceleratedJpegDecodingEnabled() {
@@ -601,3 +610,16 @@ Index: dev/content/browser/utility_process_host.cc
        switches::kUseFakeDeviceForMediaStream,
        switches::kUseFakeJpegDecodeAccelerator,
        switches::kUseFileForFakeVideoCapture,
+Index: dev/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
+===================================================================
+--- dev.orig/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
++++ dev/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
+@@ -174,7 +174,7 @@ bool VaapiJpegDecodeAccelerator::OutputP
+ 
+   VAImage image = {};
+   VAImageFormat format = {};
+-  format.fourcc = VA_FOURCC_I420;
++  format.fourcc = libyuv::FOURCC_I420;
+   format.byte_order = VA_LSB_FIRST;
+   format.bits_per_pixel = 12;  // 12 for I420
+ 
