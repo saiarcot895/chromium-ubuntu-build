@@ -62,7 +62,7 @@ Index: beta/chrome/browser/about_flags.cc
  #if defined(OS_WIN)
      {"enable-hdr", flag_descriptions::kEnableHDRName,
       flag_descriptions::kEnableHDRDescription, kOsWin,
-@@ -2259,12 +2267,17 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -2260,12 +2268,17 @@ const FeatureEntry kFeatureEntries[] = {
       FEATURE_VALUE_TYPE(features::kOpenVR)},
  #endif  // ENABLE_OPENVR
  #endif  // ENABLE_VR
@@ -126,7 +126,7 @@ Index: beta/chrome/browser/flag_descriptions.cc
  const char kAcceleratedVideoDecodeName[] = "Hardware-accelerated video decode";
  const char kAcceleratedVideoDecodeDescription[] =
      "Hardware-accelerated video decode where available.";
-@@ -2654,7 +2661,7 @@ const char kTabStripKeyboardFocusDescrip
+@@ -2659,7 +2666,7 @@ const char kTabStripKeyboardFocusDescrip
  
  // Chrome OS -------------------------------------------------------------------
  
@@ -135,7 +135,7 @@ Index: beta/chrome/browser/flag_descriptions.cc
  
  const char kAcceleratedMjpegDecodeName[] =
      "Hardware-accelerated mjpeg decode for captured frame";
-@@ -3117,7 +3124,7 @@ const char kZipArchiverUnpackerName[] =
+@@ -3122,7 +3129,7 @@ const char kZipArchiverUnpackerName[] =
  const char kZipArchiverUnpackerDescription[] =
      "Enable or disable the ability to unpack archives in incognito mode";
  
@@ -159,7 +159,7 @@ Index: beta/chrome/browser/flag_descriptions.h
  extern const char kAcceleratedVideoDecodeName[];
  extern const char kAcceleratedVideoDecodeDescription[];
  
-@@ -1624,13 +1628,17 @@ extern const char kPermissionPromptPersi
+@@ -1627,13 +1631,17 @@ extern const char kPermissionPromptPersi
  
  #endif  // defined(OS_MACOSX)
  
@@ -248,7 +248,7 @@ Index: beta/content/browser/renderer_host/render_process_host_impl.cc
 ===================================================================
 --- beta.orig/content/browser/renderer_host/render_process_host_impl.cc
 +++ beta/content/browser/renderer_host/render_process_host_impl.cc
-@@ -2659,7 +2659,11 @@ void RenderProcessHostImpl::PropagateBro
+@@ -2690,7 +2690,11 @@ void RenderProcessHostImpl::PropagateBro
      switches::kDefaultTileHeight,
      switches::kDisable2dCanvasImageChromium,
      switches::kDisableAcceleratedJpegDecoding,
