@@ -1,3 +1,10 @@
+chromium-browser (69.0.3472.3-0ubuntu1~ppa3~16.04.1) xenial; urgency=low
+
+  * Fix arm64 build (add patch to list of patches).
+  * Fix typo in build fix for older libstdc++.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 02 Jul 2018 18:19:56 -0400
+
 chromium-browser (69.0.3472.3-0ubuntu1~ppa2~16.04.1) xenial; urgency=low
 
   * Hopefully fix arm64 build.

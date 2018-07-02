@@ -312,7 +312,7 @@ Index: dev/device/bluetooth/dbus/bluetooth_gatt_attribute_helpers.cc
 -    options->emplace(key, nullptr);
 -    if (!dict_entry_reader.PopVariant(&options->at(key))) {
 +    auto options_iterator = options->find(key);
-+    if (options_iterator != options->end_iterator() &&
++    if (options_iterator != options->end() &&
 +            !dict_entry_reader.PopVariant(&options_iterator->second)) {
        options->clear();
        return false;
