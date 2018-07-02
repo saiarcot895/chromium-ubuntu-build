@@ -1,3 +1,10 @@
+chromium-browser (69.0.3472.3-0ubuntu1~ppa2~17.10.1) artful; urgency=low
+
+  * Hopefully fix arm64 build.
+  * Fix build for older libstdc++.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 02 Jul 2018 14:00:01 -0400
+
 chromium-browser (69.0.3472.3-0ubuntu1~ppa1~17.10.1) artful; urgency=low
 
   * New upstream version 69.0.3472.3

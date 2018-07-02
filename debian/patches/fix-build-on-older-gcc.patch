@@ -301,3 +301,19 @@ Index: dev/media/base/subsample_entry.h
  
  }  // namespace media
  
+Index: dev/device/bluetooth/dbus/bluetooth_gatt_attribute_helpers.cc
+===================================================================
+--- dev.orig/device/bluetooth/dbus/bluetooth_gatt_attribute_helpers.cc
++++ dev/device/bluetooth/dbus/bluetooth_gatt_attribute_helpers.cc
+@@ -27,8 +27,9 @@ bool ReadOptions(dbus::MessageReader* re
+       return false;
+     }
+ 
+-    options->emplace(key, nullptr);
+-    if (!dict_entry_reader.PopVariant(&options->at(key))) {
++    auto options_iterator = options->find(key);
++    if (options_iterator != options->end_iterator() &&
++            !dict_entry_reader.PopVariant(&options_iterator->second)) {
+       options->clear();
+       return false;
+     }
