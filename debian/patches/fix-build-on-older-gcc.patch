@@ -277,7 +277,7 @@ Index: dev/third_party/blink/renderer/modules/canvas/canvas2d/base_rendering_con
 ===================================================================
 --- dev.orig/third_party/blink/renderer/modules/canvas/canvas2d/base_rendering_context_2d.cc
 +++ dev/third_party/blink/renderer/modules/canvas/canvas2d/base_rendering_context_2d.cc
-@@ -646,8 +646,8 @@ void BaseRenderingContext2D::DrawPathInt
+@@ -653,8 +653,8 @@ void BaseRenderingContext2D::DrawPathInt
  
    SkPath sk_path = path.GetSkPath();
    FloatRect bounds = path.BoundingRect();

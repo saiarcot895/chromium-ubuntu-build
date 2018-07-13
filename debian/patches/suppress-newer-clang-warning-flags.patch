@@ -5,21 +5,7 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -665,13 +665,6 @@ config("compiler") {
-     ldflags += [ "-Wl,--no-rosegment" ]
-   }
- 
--  # This flag enforces that member pointer base types are complete. It helps
--  # prevent us from running into problems in the Microsoft C++ ABI (see
--  # https://crbug.com/847724).
--  if (is_clang && !is_nacl && target_os != "chromeos" && !use_xcode_clang) {
--    cflags += [ "-fcomplete-member-pointers" ]
--  }
--
-   # Pass the same C/C++ flags to the objective C/C++ compiler.
-   cflags_objc += cflags_c
-   cflags_objcc += cflags_cc
-@@ -1444,27 +1437,14 @@ config("default_warnings") {
+@@ -1445,27 +1445,14 @@ config("default_warnings") {
            "-Wno-user-defined-warnings",
  
            # TODO(hans): https://crbug.com/681136
