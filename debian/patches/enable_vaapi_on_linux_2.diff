@@ -433,7 +433,7 @@ Index: beta/content/renderer/render_thread_impl.cc
 ===================================================================
 --- beta.orig/content/renderer/render_thread_impl.cc
 +++ beta/content/renderer/render_thread_impl.cc
-@@ -1480,7 +1480,11 @@ media::GpuVideoAcceleratorFactories* Ren
+@@ -1479,7 +1479,11 @@ media::GpuVideoAcceleratorFactories* Ren
                               kGpuStreamIdMedia, kGpuStreamPriorityMedia);
  
    const bool enable_video_accelerator =
