@@ -332,3 +332,29 @@ Index: dev/cc/trees/layer_tree_mutator.cc
  
    return *it->second;
  }
+Index: dev/device/fido/authenticator_get_assertion_response.cc
+===================================================================
+--- dev.orig/device/fido/authenticator_get_assertion_response.cc
++++ dev/device/fido/authenticator_get_assertion_response.cc
+@@ -95,16 +95,16 @@ std::vector<uint8_t> GetSerializedCtapDe
+     const AuthenticatorGetAssertionResponse& response) {
+   cbor::CBORValue::MapValue response_map;
+   if (response.credential())
+-    response_map.emplace(1, response.credential()->ConvertToCBOR());
++    response_map.emplace(cbor::CBORValue(1), response.credential()->ConvertToCBOR());
+ 
+-  response_map.emplace(2, response.auth_data().SerializeToByteArray());
+-  response_map.emplace(3, response.signature());
++  response_map.emplace(cbor::CBORValue(2), response.auth_data().SerializeToByteArray());
++  response_map.emplace(cbor::CBORValue(3), response.signature());
+ 
+   if (response.user_entity())
+-    response_map.emplace(4, response.user_entity()->ConvertToCBOR());
++    response_map.emplace(cbor::CBORValue(4), response.user_entity()->ConvertToCBOR());
+ 
+   // Multiple account selection is not supported.
+-  response_map.emplace(5, 1);
++  response_map.emplace(cbor::CBORValue(5), 1);
+   auto encoded_response =
+       cbor::CBORWriter::Write(cbor::CBORValue(std::move(response_map)));
+   DCHECK(encoded_response);

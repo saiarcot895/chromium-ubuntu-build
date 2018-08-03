@@ -1,3 +1,10 @@
+chromium-browser (69.0.3497.23-0ubuntu1~ppa1~17.10.1) artful; urgency=low
+
+  * New upstream version 69.0.3497.23
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 03 Aug 2018 00:48:01 -0400
+
 chromium-browser (69.0.3486.0-0ubuntu1~ppa2~17.10.1) artful; urgency=low
 
   * Fix build.

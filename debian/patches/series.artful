@@ -19,8 +19,8 @@ enable_vaapi_on_linux_2.diff
 widevine-other-locations
 widevine-revision.patch
 nacl-loosen-fd-check.patch
-tcmalloc-add-support-for-arm64.patch
-gn-dont-use-git.patch
+#tcmalloc-add-support-for-arm64.patch
+#gn-dont-use-git.patch
 gn-fix-for-i386-build.patch
 use-clang-versioned.patch
 gn-fix-for-optional-neon.patch
@@ -39,10 +39,8 @@ revert-Xclang-instcombine-lower-dbg-declare.patch
 suppress-newer-clang-warning-flags.patch
 fix-ffmpeg-build.patch
 fix-build-on-older-gcc.patch
-gn-remove-sysroot-use.patch
+#gn-remove-sysroot-use.patch
 widevine-allow-on-linux.patch
 set-rpath-on-chromium-executables.patch
 #ozone-wayland-support.patch
 #fix-gn-bootstrap.patch
-fix-crashpad-arm-build.patch
-fix-build.patch
