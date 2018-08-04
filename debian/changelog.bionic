@@ -1,3 +1,11 @@
+chromium-browser (69.0.3497.23-0ubuntu1~ppa4~18.04.1) bionic; urgency=low
+
+  * Fix gn build for Xenial.
+  * Enable ThinLTO.
+  * Start building for cosmic.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 04 Aug 2018 14:13:39 -0400
+
 chromium-browser (69.0.3497.23-0ubuntu1~ppa3~18.04.1) bionic; urgency=low
 
   * Fix gn build command, again.
