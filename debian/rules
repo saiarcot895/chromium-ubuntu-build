@@ -304,7 +304,7 @@ override_dh_clean:
 # By default, Chromium expects a binary file that generates the build files. Fortunately,
 # the source files for gn (the binary) are present in the source tree.
 $(SRC_DIR)/gn:
-	CC=cc CXX=c++ tools/gn/bootstrap/bootstrap.py --gn-gen-args '$(common_defines)'
+	CC=$(shell which clang clang-4.0 | head -n 1) CXX=$(shell which clang++ clang++-4.0 | head -n 1) tools/gn/bootstrap/bootstrap.py --gn-gen-args '$(common_defines)'
 	cp $(SRC_DIR)/out/Release/gn $(SRC_DIR)/gn
 	rm -rf $(SRC_DIR)/out
 
