@@ -1,3 +1,9 @@
+chromium-browser (69.0.3497.23-0ubuntu1~ppa6~18.04.1) bionic; urgency=low
+
+  * Thin LTO is only officially supported for chromeos.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 07 Aug 2018 18:41:33 -0400
+
 chromium-browser (69.0.3497.23-0ubuntu1~ppa5~18.04.1) bionic; urgency=low
 
   * Fix gn build by using clang.
