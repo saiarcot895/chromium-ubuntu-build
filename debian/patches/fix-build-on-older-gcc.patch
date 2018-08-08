@@ -347,7 +347,7 @@ Index: dev/device/fido/authenticator_get_assertion_response.cc
 -  response_map.emplace(3, response.signature());
 +  std::vector<uint8_t> authDataByteArray = response.auth_data().SerializeToByteArray();
 +  response_map.emplace(cbor::CBORValue(2), cbor::CBORValue(std::move(authDataByteArray)));
-+  std::vector<uint8_t> signature = response.signature()
++  std::vector<uint8_t> signature = response.signature();
 +  response_map.emplace(cbor::CBORValue(3), cbor::CBORValue(std::move(signature)));
  
    if (response.user_entity())

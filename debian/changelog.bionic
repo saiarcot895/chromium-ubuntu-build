@@ -1,3 +1,9 @@
+chromium-browser (69.0.3497.23-0ubuntu1~ppa8~18.04.1) bionic; urgency=low
+
+  * Add missing semicolon.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 08 Aug 2018 11:15:46 -0400
+
 chromium-browser (69.0.3497.23-0ubuntu1~ppa7~18.04.1) bionic; urgency=low
 
   * Fix build for Xenial.
