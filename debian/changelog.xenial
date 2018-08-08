@@ -1,3 +1,9 @@
+chromium-browser (69.0.3497.23-0ubuntu1~ppa7~16.04.1) xenial; urgency=low
+
+  * Fix build for Xenial.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 08 Aug 2018 01:48:43 -0400
+
 chromium-browser (69.0.3497.23-0ubuntu1~ppa6~16.04.1) xenial; urgency=low
 
   * Thin LTO is only officially supported for chromeos.
