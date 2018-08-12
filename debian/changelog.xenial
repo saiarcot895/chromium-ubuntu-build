@@ -1,3 +1,9 @@
+chromium-browser (69.0.3497.23-0ubuntu1~ppa9~16.04.1) UNRELEASED; urgency=medium
+
+  * Continue working on Xenial build patch.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 11 Aug 2018 22:36:00 -0400
+
 chromium-browser (69.0.3497.23-0ubuntu1~ppa8~16.04.1) xenial; urgency=low
 
   * Add missing semicolon.

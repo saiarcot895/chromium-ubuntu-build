@@ -336,7 +336,7 @@ Index: dev/device/fido/authenticator_get_assertion_response.cc
 ===================================================================
 --- dev.orig/device/fido/authenticator_get_assertion_response.cc
 +++ dev/device/fido/authenticator_get_assertion_response.cc
-@@ -95,16 +95,18 @@ std::vector<uint8_t> GetSerializedCtapDe
+@@ -95,16 +95,16 @@ std::vector<uint8_t> GetSerializedCtapDe
      const AuthenticatorGetAssertionResponse& response) {
    cbor::CBORValue::MapValue response_map;
    if (response.credential())
@@ -345,10 +345,8 @@ Index: dev/device/fido/authenticator_get_assertion_response.cc
  
 -  response_map.emplace(2, response.auth_data().SerializeToByteArray());
 -  response_map.emplace(3, response.signature());
-+  std::vector<uint8_t> authDataByteArray = response.auth_data().SerializeToByteArray();
-+  response_map.emplace(cbor::CBORValue(2), cbor::CBORValue(std::move(authDataByteArray)));
-+  std::vector<uint8_t> signature = response.signature();
-+  response_map.emplace(cbor::CBORValue(3), cbor::CBORValue(std::move(signature)));
++  response_map.emplace(cbor::CBORValue(2), cbor::CBORValue(response.auth_data().SerializeToByteArray()));
++  response_map.emplace(cbor::CBORValue(3), cbor::CBORValue(std::move(response.signature())));
  
    if (response.user_entity())
 -    response_map.emplace(4, response.user_entity()->ConvertToCBOR());
@@ -360,3 +358,45 @@ Index: dev/device/fido/authenticator_get_assertion_response.cc
    auto encoded_response =
        cbor::CBORWriter::Write(cbor::CBORValue(std::move(response_map)));
    DCHECK(encoded_response);
+Index: dev/device/fido/authenticator_supported_options.cc
+===================================================================
+--- dev.orig/device/fido/authenticator_supported_options.cc
++++ dev/device/fido/authenticator_supported_options.cc
+@@ -56,19 +56,19 @@ AuthenticatorSupportedOptions::SetIsPlat
+ 
+ cbor::CBORValue ConvertToCBOR(const AuthenticatorSupportedOptions& options) {
+   cbor::CBORValue::MapValue option_map;
+-  option_map.emplace(kResidentKeyMapKey, options.supports_resident_key());
+-  option_map.emplace(kUserPresenceMapKey, options.user_presence_required());
+-  option_map.emplace(kPlatformDeviceMapKey, options.is_platform_device());
++  option_map.emplace(cbor::CBORValue(kResidentKeyMapKey), cbor::CBORValue(options.supports_resident_key()));
++  option_map.emplace(cbor::CBORValue(kUserPresenceMapKey), cbor::CBORValue(options.user_presence_required()));
++  option_map.emplace(cbor::CBORValue(kPlatformDeviceMapKey), cbor::CBORValue(options.is_platform_device()));
+ 
+   using UvAvailability =
+       AuthenticatorSupportedOptions::UserVerificationAvailability;
+ 
+   switch (options.user_verification_availability()) {
+     case UvAvailability::kSupportedAndConfigured:
+-      option_map.emplace(kUserVerificationMapKey, true);
++      option_map.emplace(cbor::CBORValue(kUserVerificationMapKey), cbor::CBORValue(true));
+       break;
+     case UvAvailability::kSupportedButNotConfigured:
+-      option_map.emplace(kUserVerificationMapKey, false);
++      option_map.emplace(cbor::CBORValue(kUserVerificationMapKey, cbor::CBORValue(false));
+       break;
+     case UvAvailability::kNotSupported:
+       break;
+@@ -79,10 +79,10 @@ cbor::CBORValue ConvertToCBOR(const Auth
+ 
+   switch (options.client_pin_availability()) {
+     case ClientPinAvailability::kSupportedAndPinSet:
+-      option_map.emplace(kClientPinMapKey, true);
++      option_map.emplace(cbor::CBORValue(kClientPinMapKey), cbor::CBORValue(true));
+       break;
+     case ClientPinAvailability::kSupportedButPinNotSet:
+-      option_map.emplace(kClientPinMapKey, false);
++      option_map.emplace(cbor::CBORValue(kClientPinMapKey), cbor::CBORValue(false));
+       break;
+     case ClientPinAvailability::kNotSupported:
+       break;
