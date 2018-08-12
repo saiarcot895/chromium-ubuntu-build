@@ -383,7 +383,7 @@ Index: beta/device/fido/authenticator_supported_options.cc
        break;
      case UvAvailability::kSupportedButNotConfigured:
 -      option_map.emplace(kUserVerificationMapKey, false);
-+      option_map.emplace(cbor::CBORValue(kUserVerificationMapKey, cbor::CBORValue(false));
++      option_map.emplace(cbor::CBORValue(kUserVerificationMapKey), cbor::CBORValue(false));
        break;
      case UvAvailability::kNotSupported:
        break;
@@ -400,3 +400,52 @@ Index: beta/device/fido/authenticator_supported_options.cc
        break;
      case ClientPinAvailability::kNotSupported:
        break;
+Index: beta/device/fido/attestation_object.cc
+===================================================================
+--- beta.orig/device/fido/attestation_object.cc
++++ beta/device/fido/attestation_object.cc
+@@ -72,9 +72,9 @@ std::vector<uint8_t> AttestationObject::
+ std::vector<uint8_t> SerializeToCtapStyleCborEncodedBytes(
+     const AttestationObject& object) {
+   cbor::CBORValue::MapValue map;
+-  map.emplace(1, object.attestation_statement().format_name());
+-  map.emplace(2, object.authenticator_data().SerializeToByteArray());
+-  map.emplace(3, object.attestation_statement().GetAsCBORMap());
++  map.emplace(cbor::CBORValue(1), cbor::CBORValue(object.attestation_statement().format_name()));
++  map.emplace(cbor::CBORValue(2), cbor::CBORValue(object.authenticator_data().SerializeToByteArray()));
++  map.emplace(cbor::CBORValue(3), cbor::CBORValue(object.attestation_statement().GetAsCBORMap()));
+   auto encoded_bytes = cbor::CBORWriter::Write(cbor::CBORValue(std::move(map)));
+   DCHECK(encoded_bytes);
+   return std::move(*encoded_bytes);
+Index: beta/device/fido/authenticator_get_info_response.cc
+===================================================================
+--- beta.orig/device/fido/authenticator_get_info_response.cc
++++ beta/device/fido/authenticator_get_info_response.cc
+@@ -71,21 +71,21 @@ std::vector<uint8_t> EncodeToCBOR(
+                                                                  : kU2fVersion);
+   }
+   cbor::CBORValue::MapValue device_info_map;
+-  device_info_map.emplace(1, std::move(version_array));
++  device_info_map.emplace(cbor::CBORValue(1), std::move(version_array));
+ 
+   if (response.extensions())
+-    device_info_map.emplace(2, ToArrayValue(*response.extensions()));
++    device_info_map.emplace(cbor::CBORValue(2), cbor::CBORValue(ToArrayValue(*response.extensions())));
+ 
+-  device_info_map.emplace(3, response.aaguid());
+-  device_info_map.emplace(4, ConvertToCBOR(response.options()));
++  device_info_map.emplace(cbor::CBORValue(3), cbor::CBORValue(response.aaguid()));
++  device_info_map.emplace(cbor::CBORValue(4), ConvertToCBOR(response.options()));
+ 
+   if (response.max_msg_size()) {
+     device_info_map.emplace(
+-        5, base::strict_cast<int64_t>(*response.max_msg_size()));
++        cbor::CBORValue(5), cbor::CBORValue(base::strict_cast<int64_t>(*response.max_msg_size())));
+   }
+ 
+   if (response.pin_protocol()) {
+-    device_info_map.emplace(6, ToArrayValue(*response.pin_protocol()));
++    device_info_map.emplace(cbor::CBORValue(6), cbor::CBORValue(ToArrayValue(*response.pin_protocol())));
+   }
+ 
+   auto encoded_bytes =
