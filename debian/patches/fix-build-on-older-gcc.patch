@@ -1,7 +1,7 @@
-Index: dev/gpu/command_buffer/service/texture_manager.cc
+Index: beta/gpu/command_buffer/service/texture_manager.cc
 ===================================================================
---- dev.orig/gpu/command_buffer/service/texture_manager.cc
-+++ dev/gpu/command_buffer/service/texture_manager.cc
+--- beta.orig/gpu/command_buffer/service/texture_manager.cc
++++ beta/gpu/command_buffer/service/texture_manager.cc
 @@ -131,130 +131,130 @@ class FormatTypeValidator {
    FormatTypeValidator() {
      static const FormatType kSupportedFormatTypes[] = {
@@ -243,10 +243,10 @@ Index: dev/gpu/command_buffer/service/texture_manager.cc
      if (supported_combinations_.find(query) != supported_combinations_.end()) {
        return true;
      }
-Index: dev/chrome/browser/media/router/providers/wired_display/wired_display_media_route_provider.cc
+Index: beta/chrome/browser/media/router/providers/wired_display/wired_display_media_route_provider.cc
 ===================================================================
---- dev.orig/chrome/browser/media/router/providers/wired_display/wired_display_media_route_provider.cc
-+++ dev/chrome/browser/media/router/providers/wired_display/wired_display_media_route_provider.cc
+--- beta.orig/chrome/browser/media/router/providers/wired_display/wired_display_media_route_provider.cc
++++ beta/chrome/browser/media/router/providers/wired_display/wired_display_media_route_provider.cc
 @@ -128,8 +128,10 @@ void WiredDisplayMediaRouteProvider::Cre
    route.set_incognito(profile_->IsOffTheRecord());
    route.set_controller_type(RouteControllerType::kGeneric);
@@ -259,10 +259,10 @@ Index: dev/chrome/browser/media/router/providers/wired_display/wired_display_med
    presentation.set_receiver(
        CreatePresentationReceiver(presentation_id, &presentation, *display));
    presentation.receiver()->Start(presentation_id, GURL(media_source));
-Index: dev/extensions/common/api/web_request.json
+Index: beta/extensions/common/api/web_request.json
 ===================================================================
---- dev.orig/extensions/common/api/web_request.json
-+++ dev/extensions/common/api/web_request.json
+--- beta.orig/extensions/common/api/web_request.json
++++ beta/extensions/common/api/web_request.json
 @@ -198,8 +198,7 @@
                      "description": "If the request method is POST and the body is a sequence of key-value pairs encoded in UTF8, encoded as either multipart/form-data, or application/x-www-form-urlencoded, this dictionary is present and for each key contains the list of all values for that key. If the data is of another media type, or if it is malformed, the dictionary is not present. An example value of this dictionary is {'key': ['value1', 'value2']}.",
                      "properties": {},
@@ -273,10 +273,10 @@ Index: dev/extensions/common/api/web_request.json
                      }
                    },
                    "raw" : {
-Index: dev/third_party/blink/renderer/modules/canvas/canvas2d/base_rendering_context_2d.cc
+Index: beta/third_party/blink/renderer/modules/canvas/canvas2d/base_rendering_context_2d.cc
 ===================================================================
---- dev.orig/third_party/blink/renderer/modules/canvas/canvas2d/base_rendering_context_2d.cc
-+++ dev/third_party/blink/renderer/modules/canvas/canvas2d/base_rendering_context_2d.cc
+--- beta.orig/third_party/blink/renderer/modules/canvas/canvas2d/base_rendering_context_2d.cc
++++ beta/third_party/blink/renderer/modules/canvas/canvas2d/base_rendering_context_2d.cc
 @@ -653,8 +653,8 @@ void BaseRenderingContext2D::DrawPathInt
  
    SkPath sk_path = path.GetSkPath();
@@ -288,10 +288,10 @@ Index: dev/third_party/blink/renderer/modules/canvas/canvas2d/base_rendering_con
      return;
    sk_path.setFillType(fill_type);
  
-Index: dev/media/base/subsample_entry.h
+Index: beta/media/base/subsample_entry.h
 ===================================================================
---- dev.orig/media/base/subsample_entry.h
-+++ dev/media/base/subsample_entry.h
+--- beta.orig/media/base/subsample_entry.h
++++ beta/media/base/subsample_entry.h
 @@ -36,7 +36,7 @@ struct SubsampleEntry {
  // does not match |input_size|.
  MEDIA_EXPORT bool VerifySubsamplesMatchSize(
@@ -301,10 +301,10 @@ Index: dev/media/base/subsample_entry.h
  
  }  // namespace media
  
-Index: dev/device/bluetooth/dbus/bluetooth_gatt_attribute_helpers.cc
+Index: beta/device/bluetooth/dbus/bluetooth_gatt_attribute_helpers.cc
 ===================================================================
---- dev.orig/device/bluetooth/dbus/bluetooth_gatt_attribute_helpers.cc
-+++ dev/device/bluetooth/dbus/bluetooth_gatt_attribute_helpers.cc
+--- beta.orig/device/bluetooth/dbus/bluetooth_gatt_attribute_helpers.cc
++++ beta/device/bluetooth/dbus/bluetooth_gatt_attribute_helpers.cc
 @@ -27,8 +27,9 @@ bool ReadOptions(dbus::MessageReader* re
        return false;
      }
@@ -317,10 +317,10 @@ Index: dev/device/bluetooth/dbus/bluetooth_gatt_attribute_helpers.cc
        options->clear();
        return false;
      }
-Index: dev/cc/trees/layer_tree_mutator.cc
+Index: beta/cc/trees/layer_tree_mutator.cc
 ===================================================================
---- dev.orig/cc/trees/layer_tree_mutator.cc
-+++ dev/cc/trees/layer_tree_mutator.cc
+--- beta.orig/cc/trees/layer_tree_mutator.cc
++++ beta/cc/trees/layer_tree_mutator.cc
 @@ -52,8 +52,9 @@ bool MutatorInputState::IsEmpty() const
  
  AnimationWorkletInput& MutatorInputState::EnsureWorkletEntry(int id) {
@@ -332,10 +332,10 @@ Index: dev/cc/trees/layer_tree_mutator.cc
  
    return *it->second;
  }
-Index: dev/device/fido/authenticator_get_assertion_response.cc
+Index: beta/device/fido/authenticator_get_assertion_response.cc
 ===================================================================
---- dev.orig/device/fido/authenticator_get_assertion_response.cc
-+++ dev/device/fido/authenticator_get_assertion_response.cc
+--- beta.orig/device/fido/authenticator_get_assertion_response.cc
++++ beta/device/fido/authenticator_get_assertion_response.cc
 @@ -95,16 +95,16 @@ std::vector<uint8_t> GetSerializedCtapDe
      const AuthenticatorGetAssertionResponse& response) {
    cbor::CBORValue::MapValue response_map;
@@ -358,10 +358,10 @@ Index: dev/device/fido/authenticator_get_assertion_response.cc
    auto encoded_response =
        cbor::CBORWriter::Write(cbor::CBORValue(std::move(response_map)));
    DCHECK(encoded_response);
-Index: dev/device/fido/authenticator_supported_options.cc
+Index: beta/device/fido/authenticator_supported_options.cc
 ===================================================================
---- dev.orig/device/fido/authenticator_supported_options.cc
-+++ dev/device/fido/authenticator_supported_options.cc
+--- beta.orig/device/fido/authenticator_supported_options.cc
++++ beta/device/fido/authenticator_supported_options.cc
 @@ -56,19 +56,19 @@ AuthenticatorSupportedOptions::SetIsPlat
  
  cbor::CBORValue ConvertToCBOR(const AuthenticatorSupportedOptions& options) {

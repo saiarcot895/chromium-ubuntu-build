@@ -1,8 +1,10 @@
-chromium-browser (69.0.3497.23-0ubuntu1~ppa9~18.10.1) UNRELEASED; urgency=medium
+chromium-browser (69.0.3497.32-0ubuntu1~ppa1~18.10.1) cosmic; urgency=low
 
   * Continue working on Xenial build patch.
+  * New upstream version 69.0.3497.32
+  * Updated patches.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 11 Aug 2018 22:36:00 -0400
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 11 Aug 2018 22:45:17 -0400
 
 chromium-browser (69.0.3497.23-0ubuntu1~ppa8~18.10.1) cosmic; urgency=low
 
