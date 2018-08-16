@@ -3,7 +3,6 @@ title-bar-default-system.patch-v35
 #third-party-cookies-off-by-default.patch
 search-credit.patch
 chromium_useragent.patch
-chromedriver_revision.patch
 configuration-directory.patch
 #arm.patch
 arm-neon.patch

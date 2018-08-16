@@ -6,7 +6,7 @@ Index: dev/chrome/BUILD.gn
 ===================================================================
 --- dev.orig/chrome/BUILD.gn
 +++ dev/chrome/BUILD.gn
-@@ -286,6 +286,8 @@ if (!is_android && !is_mac) {
+@@ -287,6 +287,8 @@ if (!is_android && !is_mac) {
                         rebase_path(version_script, root_build_dir) ]
          }
  
@@ -27,6 +27,6 @@ Index: dev/tools/v8_context_snapshot/BUILD.gn
 +      configs += [ "//build/config/gcc:rpath_for_built_shared_libraries" ]
 +    }
 +
-     if (is_linux && (is_component_build || using_sanitizer) &&
-         use_custom_libcxx) {
-       deps += [ "//buildtools/third_party/libc++:libc++" ]
+     configs += [
+       "//v8:external_startup_data",
+       ":disable_icf",

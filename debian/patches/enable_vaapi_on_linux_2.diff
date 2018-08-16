@@ -40,7 +40,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -1612,6 +1612,13 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1664,6 +1664,13 @@ const FeatureEntry kFeatureEntries[] = {
       flag_descriptions::kShowTouchHudDescription, kOsCrOS,
       SINGLE_VALUE_TYPE(ash::switches::kAshTouchHud)},
  #endif  // OS_CHROMEOS
@@ -54,7 +54,7 @@ Index: dev/chrome/browser/about_flags.cc
      {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
-@@ -1619,6 +1626,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1671,6 +1678,7 @@ const FeatureEntry kFeatureEntries[] = {
          kOsMac | kOsWin | kOsCrOS | kOsAndroid,
          SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
@@ -62,7 +62,7 @@ Index: dev/chrome/browser/about_flags.cc
  #if defined(OS_WIN)
      {"enable-hdr", flag_descriptions::kEnableHDRName,
       flag_descriptions::kEnableHDRDescription, kOsWin,
-@@ -2291,12 +2299,17 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -2345,12 +2353,17 @@ const FeatureEntry kFeatureEntries[] = {
       FEATURE_VALUE_TYPE(features::kOpenVR)},
  #endif  // ENABLE_OPENVR
  #endif  // ENABLE_VR
@@ -126,7 +126,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
  const char kAcceleratedVideoDecodeName[] = "Hardware-accelerated video decode";
  const char kAcceleratedVideoDecodeDescription[] =
      "Hardware-accelerated video decode where available.";
-@@ -2892,7 +2899,7 @@ const char kTabStripKeyboardFocusDescrip
+@@ -2966,7 +2973,7 @@ const char kTextSuggestionsTouchBarDescr
  
  // Chrome OS -------------------------------------------------------------------
  
@@ -135,9 +135,9 @@ Index: dev/chrome/browser/flag_descriptions.cc
  
  const char kAcceleratedMjpegDecodeName[] =
      "Hardware-accelerated mjpeg decode for captured frame";
-@@ -3407,7 +3414,7 @@ extern const char kEnableContinueReading
-     "seamlessly continue reading a web page when they switch devices from "
-     "phones or tablets to Chromebooks.";
+@@ -3478,7 +3485,7 @@ extern const char kEnableZeroStateSugges
+     "Enable Zero State Suggestions feature in Launcher, which will show "
+     "suggetions when launcher search box is active with an empty query";
  
 -#endif  // defined(OS_CHROMEOS)
 +#endif  // defined(OS_CHROMEOS) || BUILDFLAG(USE_VAAPI)
@@ -159,7 +159,7 @@ Index: dev/chrome/browser/flag_descriptions.h
  extern const char kAcceleratedVideoDecodeName[];
  extern const char kAcceleratedVideoDecodeDescription[];
  
-@@ -1762,13 +1766,17 @@ extern const char kPermissionPromptPersi
+@@ -1804,13 +1808,17 @@ extern const char kPermissionPromptPersi
  
  #endif  // defined(OS_MACOSX)
  
@@ -184,7 +184,7 @@ Index: dev/content/browser/gpu/compositor_util.cc
 ===================================================================
 --- dev.orig/content/browser/gpu/compositor_util.cc
 +++ dev/content/browser/gpu/compositor_util.cc
-@@ -149,7 +149,11 @@ const GpuFeatureData GetGpuFeatureData(
+@@ -150,7 +150,11 @@ const GpuFeatureData GetGpuFeatureData(
        {"video_decode",
         SafeGetFeatureStatus(gpu_feature_info,
                              gpu::GPU_FEATURE_TYPE_ACCELERATED_VIDEO_DECODE),
@@ -218,7 +218,7 @@ Index: dev/content/browser/renderer_host/render_process_host_impl.cc
 ===================================================================
 --- dev.orig/content/browser/renderer_host/render_process_host_impl.cc
 +++ dev/content/browser/renderer_host/render_process_host_impl.cc
-@@ -2724,7 +2724,11 @@ void RenderProcessHostImpl::PropagateBro
+@@ -2756,7 +2756,11 @@ void RenderProcessHostImpl::PropagateBro
      switches::kDefaultTileHeight,
      switches::kDisable2dCanvasImageChromium,
      switches::kDisableAcceleratedJpegDecoding,
@@ -281,7 +281,7 @@ Index: dev/content/gpu/gpu_main.cc
 ===================================================================
 --- dev.orig/content/gpu/gpu_main.cc
 +++ dev/content/gpu/gpu_main.cc
-@@ -284,7 +284,7 @@ int GpuMain(const MainFunctionParams& pa
+@@ -283,7 +283,7 @@ int GpuMain(const MainFunctionParams& pa
  
    base::PlatformThread::SetName("CrGpuMain");
  
@@ -290,7 +290,7 @@ Index: dev/content/gpu/gpu_main.cc
    // Set thread priority before sandbox initialization.
    base::PlatformThread::SetCurrentThreadPriority(base::ThreadPriority::DISPLAY);
  #endif
-@@ -317,7 +317,7 @@ int GpuMain(const MainFunctionParams& pa
+@@ -316,7 +316,7 @@ int GpuMain(const MainFunctionParams& pa
    GetContentClient()->SetGpuInfo(gpu_init->gpu_info());
  
    base::ThreadPriority io_thread_priority = base::ThreadPriority::NORMAL;
@@ -303,7 +303,7 @@ Index: dev/content/public/browser/gpu_utils.cc
 ===================================================================
 --- dev.orig/content/public/browser/gpu_utils.cc
 +++ dev/content/public/browser/gpu_utils.cc
-@@ -57,9 +57,17 @@ const gpu::GpuPreferences GetGpuPreferen
+@@ -58,9 +58,17 @@ const gpu::GpuPreferences GetGpuPreferen
    gpu_preferences.in_process_gpu =
        command_line->HasSwitch(switches::kInProcessGPU);
    gpu_preferences.disable_accelerated_video_decode =
@@ -351,34 +351,11 @@ Index: dev/content/public/common/content_switches.h
  CONTENT_EXPORT extern const char kEnableAccessibilityObjectModel[];
  CONTENT_EXPORT extern const char kEnableAggressiveDOMStorageFlushing[];
  CONTENT_EXPORT extern const char kEnableAutomation[];
-Index: dev/content/renderer/media/webrtc/peer_connection_dependency_factory.cc
-===================================================================
---- dev.orig/content/renderer/media/webrtc/peer_connection_dependency_factory.cc
-+++ dev/content/renderer/media/webrtc/peer_connection_dependency_factory.cc
-@@ -276,10 +276,18 @@ void PeerConnectionDependencyFactory::In
- 
-   const base::CommandLine* cmd_line = base::CommandLine::ForCurrentProcess();
-   if (gpu_factories && gpu_factories->IsGpuVideoAcceleratorEnabled()) {
-+#if defined(OS_LINUX) && !defined(OS_CHROMEOS)
-+    if (cmd_line->HasSwitch(switches::kEnableAcceleratedVideo))
-+#else
-     if (!cmd_line->HasSwitch(switches::kDisableWebRtcHWDecoding))
-+#endif
-       decoder_factory.reset(new RTCVideoDecoderFactory(gpu_factories));
- 
-+#if defined(OS_LINUX) && !defined(OS_CHROMEOS)
-+    if (cmd_line->HasSwitch(switches::kEnableAcceleratedVideo))
-+#else
-     if (!cmd_line->HasSwitch(switches::kDisableWebRtcHWEncoding))
-+#endif
-       encoder_factory.reset(new RTCVideoEncoderFactory(gpu_factories));
-   }
- 
 Index: dev/content/renderer/render_thread_impl.cc
 ===================================================================
 --- dev.orig/content/renderer/render_thread_impl.cc
 +++ dev/content/renderer/render_thread_impl.cc
-@@ -1441,7 +1441,11 @@ media::GpuVideoAcceleratorFactories* Ren
+@@ -1404,7 +1404,11 @@ media::GpuVideoAcceleratorFactories* Ren
                               kGpuStreamIdMedia, kGpuStreamPriorityMedia);
  
    const bool enable_video_accelerator =
@@ -416,15 +393,15 @@ Index: dev/media/filters/BUILD.gn
 ===================================================================
 --- dev.orig/media/filters/BUILD.gn
 +++ dev/media/filters/BUILD.gn
-@@ -4,6 +4,7 @@
- 
+@@ -5,6 +5,7 @@
+ import("//build/config/jumbo.gni")
  import("//media/media_options.gni")
  import("//third_party/libaom/options.gni")
 +import("//media/gpu/args.gni")
  
- source_set("filters") {
+ jumbo_source_set("filters") {
    # Do not expand the visibility here without double-checking with OWNERS, this
-@@ -199,7 +200,7 @@ source_set("filters") {
+@@ -200,7 +201,7 @@ jumbo_source_set("filters") {
      deps += [ "//media/base/android" ]
    }
  
@@ -437,7 +414,7 @@ Index: dev/media/gpu/BUILD.gn
 ===================================================================
 --- dev.orig/media/gpu/BUILD.gn
 +++ dev/media/gpu/BUILD.gn
-@@ -495,6 +495,12 @@ if (use_v4l2_codec || use_vaapi || is_ma
+@@ -498,6 +498,12 @@ if (use_v4l2_codec || use_vaapi || is_ma
    }
  }
  
@@ -450,7 +427,7 @@ Index: dev/media/gpu/BUILD.gn
  if (use_vaapi) {
    test("jpeg_encode_accelerator_unittest") {
      deps = [
-@@ -559,6 +565,7 @@ if (use_v4l2_codec || use_vaapi) {
+@@ -564,6 +570,7 @@ if (use_v4l2_codec || use_vaapi) {
      if (use_ozone) {
        deps += [ "//ui/ozone" ]
      }
@@ -474,7 +451,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -332,7 +332,7 @@ bool VADisplayState::InitializeOnce() {
+@@ -337,7 +337,7 @@ bool VADisplayState::InitializeOnce() {
    DVLOG(1) << "VAAPI version: " << major_version << "." << minor_version << " "
             << va_vendor_string_;
  
@@ -483,7 +460,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
      LOG(ERROR) << "This build of Chromium requires VA-API version "
                 << VA_MAJOR_VERSION << "." << VA_MINOR_VERSION
                 << ", system version: " << major_version << "." << minor_version;
-@@ -861,7 +861,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
+@@ -967,7 +967,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
    }
    va_attrib_extbuf.num_planes = num_planes;
  
@@ -554,7 +531,7 @@ Index: dev/media/base/media_switches.cc
  
  // When running tests on a system without the required hardware or libraries,
  // this flag will cause the tests to fail. Otherwise, they silently succeed.
-@@ -462,15 +468,22 @@ const base::Feature kPreloadMediaEngagem
+@@ -470,15 +476,22 @@ const base::Feature kPreloadMediaEngagem
  #endif
  
  bool IsVideoCaptureAcceleratedJpegDecodingEnabled() {
@@ -582,7 +559,7 @@ Index: dev/media/base/media_switches.h
 ===================================================================
 --- dev.orig/media/base/media_switches.h
 +++ dev/media/base/media_switches.h
-@@ -66,7 +66,11 @@ MEDIA_EXPORT extern const char kUseFakeD
+@@ -67,7 +67,11 @@ MEDIA_EXPORT extern const char kUseFakeD
  MEDIA_EXPORT extern const char kUseFileForFakeVideoCapture[];
  MEDIA_EXPORT extern const char kUseFileForFakeAudioCapture[];
  MEDIA_EXPORT extern const char kUseFakeJpegDecodeAccelerator[];
@@ -614,12 +591,44 @@ Index: dev/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
 +++ dev/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
-@@ -174,7 +174,7 @@ bool VaapiJpegDecodeAccelerator::OutputP
+@@ -149,7 +149,7 @@ bool VaapiJpegDecodeAccelerator::Initial
+   // TODO(crbug.com/828119): Try a list of possible supported formats rather
+   // than hardcoding the format to I420 here.
+   VAImageFormat va_image_format = {};
+-  va_image_format.fourcc = VA_FOURCC_I420;
++  va_image_format.fourcc = libyuv::FOURCC_I420;
+   va_image_format.byte_order = VA_LSB_FIRST;
+   va_image_format.bits_per_pixel = 12;
  
-   VAImage image = {};
-   VAImageFormat format = {};
--  format.fourcc = VA_FOURCC_I420;
-+  format.fourcc = libyuv::FOURCC_I420;
-   format.byte_order = VA_LSB_FIRST;
-   format.bits_per_pixel = 12;  // 12 for I420
+Index: dev/content/renderer/media/webrtc/video_codec_factory.cc
+===================================================================
+--- dev.orig/content/renderer/media/webrtc/video_codec_factory.cc
++++ dev/content/renderer/media/webrtc/video_codec_factory.cc
+@@ -183,7 +183,12 @@ std::unique_ptr<webrtc::VideoEncoderFact
+ 
+   const base::CommandLine* cmd_line = base::CommandLine::ForCurrentProcess();
+   if (gpu_factories && gpu_factories->IsGpuVideoAcceleratorEnabled() &&
+-      !cmd_line->HasSwitch(switches::kDisableWebRtcHWEncoding)) {
++#if defined(OS_LINUX) && !defined(OS_CHROMEOS)
++      cmd_line->HasSwitch(switches::kEnableAcceleratedVideo)
++#else
++      !cmd_line->HasSwitch(switches::kDisableWebRtcHWEncoding)
++#endif
++	  ) {
+     encoder_factory.reset(new RTCVideoEncoderFactory(gpu_factories));
+   }
+ 
+@@ -201,7 +206,12 @@ std::unique_ptr<webrtc::VideoDecoderFact
+ 
+   const base::CommandLine* cmd_line = base::CommandLine::ForCurrentProcess();
+   if (gpu_factories && gpu_factories->IsGpuVideoAcceleratorEnabled() &&
+-      !cmd_line->HasSwitch(switches::kDisableWebRtcHWDecoding)) {
++#if defined(OS_LINUX) && !defined(OS_CHROMEOS)
++      cmd_line->HasSwitch(switches::kEnableAcceleratedVideo)
++#else
++      !cmd_line->HasSwitch(switches::kDisableWebRtcHWDecoding)
++#endif
++	  ) {
+     decoder_factory.reset(new RTCVideoDecoderFactory(gpu_factories));
+   }
  

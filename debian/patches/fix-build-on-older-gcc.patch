@@ -263,7 +263,7 @@ Index: dev/extensions/common/api/web_request.json
 ===================================================================
 --- dev.orig/extensions/common/api/web_request.json
 +++ dev/extensions/common/api/web_request.json
-@@ -198,8 +198,7 @@
+@@ -204,8 +204,7 @@
                      "description": "If the request method is POST and the body is a sequence of key-value pairs encoded in UTF8, encoded as either multipart/form-data, or application/x-www-form-urlencoded, this dictionary is present and for each key contains the list of all values for that key. If the data is of another media type, or if it is malformed, the dictionary is not present. An example value of this dictionary is {'key': ['value1', 'value2']}.",
                      "properties": {},
                      "additionalProperties": {
@@ -383,7 +383,7 @@ Index: dev/device/fido/authenticator_supported_options.cc
        break;
      case UvAvailability::kSupportedButNotConfigured:
 -      option_map.emplace(kUserVerificationMapKey, false);
-+      option_map.emplace(cbor::CBORValue(kUserVerificationMapKey, cbor::CBORValue(false));
++      option_map.emplace(cbor::CBORValue(kUserVerificationMapKey), cbor::CBORValue(false));
        break;
      case UvAvailability::kNotSupported:
        break;
@@ -400,3 +400,52 @@ Index: dev/device/fido/authenticator_supported_options.cc
        break;
      case ClientPinAvailability::kNotSupported:
        break;
+Index: dev/device/fido/attestation_object.cc
+===================================================================
+--- dev.orig/device/fido/attestation_object.cc
++++ dev/device/fido/attestation_object.cc
+@@ -72,9 +72,9 @@ std::vector<uint8_t> AttestationObject::
+ std::vector<uint8_t> SerializeToCtapStyleCborEncodedBytes(
+     const AttestationObject& object) {
+   cbor::CBORValue::MapValue map;
+-  map.emplace(1, object.attestation_statement().format_name());
+-  map.emplace(2, object.authenticator_data().SerializeToByteArray());
+-  map.emplace(3, object.attestation_statement().GetAsCBORMap());
++  map.emplace(cbor::CBORValue(1), cbor::CBORValue(object.attestation_statement().format_name()));
++  map.emplace(cbor::CBORValue(2), cbor::CBORValue(object.authenticator_data().SerializeToByteArray()));
++  map.emplace(cbor::CBORValue(3), cbor::CBORValue(object.attestation_statement().GetAsCBORMap()));
+   auto encoded_bytes = cbor::CBORWriter::Write(cbor::CBORValue(std::move(map)));
+   DCHECK(encoded_bytes);
+   return std::move(*encoded_bytes);
+Index: dev/device/fido/authenticator_get_info_response.cc
+===================================================================
+--- dev.orig/device/fido/authenticator_get_info_response.cc
++++ dev/device/fido/authenticator_get_info_response.cc
+@@ -71,21 +71,21 @@ std::vector<uint8_t> EncodeToCBOR(
+                                                                  : kU2fVersion);
+   }
+   cbor::CBORValue::MapValue device_info_map;
+-  device_info_map.emplace(1, std::move(version_array));
++  device_info_map.emplace(cbor::CBORValue(1), cbor::CBORValue(std::move(version_array)));
+ 
+   if (response.extensions())
+-    device_info_map.emplace(2, ToArrayValue(*response.extensions()));
++    device_info_map.emplace(cbor::CBORValue(2), cbor::CBORValue(ToArrayValue(*response.extensions())));
+ 
+-  device_info_map.emplace(3, response.aaguid());
+-  device_info_map.emplace(4, ConvertToCBOR(response.options()));
++  device_info_map.emplace(cbor::CBORValue(3), cbor::CBORValue(response.aaguid()));
++  device_info_map.emplace(cbor::CBORValue(4), ConvertToCBOR(response.options()));
+ 
+   if (response.max_msg_size()) {
+     device_info_map.emplace(
+-        5, base::strict_cast<int64_t>(*response.max_msg_size()));
++        cbor::CBORValue(5), cbor::CBORValue(base::strict_cast<int64_t>(*response.max_msg_size())));
+   }
+ 
+   if (response.pin_protocol()) {
+-    device_info_map.emplace(6, ToArrayValue(*response.pin_protocol()));
++    device_info_map.emplace(cbor::CBORValue(6), cbor::CBORValue(ToArrayValue(*response.pin_protocol())));
+   }
+ 
+   auto encoded_bytes =
