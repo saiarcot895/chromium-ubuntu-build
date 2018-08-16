@@ -426,7 +426,7 @@ Index: beta/device/fido/authenticator_get_info_response.cc
    }
    cbor::CBORValue::MapValue device_info_map;
 -  device_info_map.emplace(1, std::move(version_array));
-+  device_info_map.emplace(cbor::CBORValue(1), std::move(version_array));
++  device_info_map.emplace(cbor::CBORValue(1), cbor::CBORValue(std::move(version_array)));
  
    if (response.extensions())
 -    device_info_map.emplace(2, ToArrayValue(*response.extensions()));
