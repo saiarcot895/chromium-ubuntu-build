@@ -449,3 +449,64 @@ Index: beta/device/fido/authenticator_get_info_response.cc
    }
  
    auto encoded_bytes =
+Index: beta/device/fido/public_key_credential_rp_entity.cc
+===================================================================
+--- beta.orig/device/fido/public_key_credential_rp_entity.cc
++++ beta/device/fido/public_key_credential_rp_entity.cc
+@@ -78,12 +78,12 @@ PublicKeyCredentialRpEntity& PublicKeyCr
+ 
+ cbor::CBORValue PublicKeyCredentialRpEntity::ConvertToCBOR() const {
+   cbor::CBORValue::MapValue rp_map;
+-  rp_map.emplace(kEntityIdMapKey, rp_id_);
++  rp_map.emplace(cbor::CBORValue(kEntityIdMapKey), cbor::CBORValue(rp_id_));
+   if (rp_name_)
+-    rp_map.emplace(kEntityNameMapKey, *rp_name_);
++    rp_map.emplace(cbor::CBORValue(kEntityNameMapKey), cbor::CBORValue(*rp_name_));
+ 
+   if (rp_icon_url_)
+-    rp_map.emplace(kIconUrlMapKey, rp_icon_url_->spec());
++    rp_map.emplace(cbor::CBORValue(kIconUrlMapKey), cbor::CBORValue(rp_icon_url_->spec()));
+ 
+   return cbor::CBORValue(std::move(rp_map));
+ }
+Index: beta/device/fido/public_key_credential_user_entity.cc
+===================================================================
+--- beta.orig/device/fido/public_key_credential_user_entity.cc
++++ beta/device/fido/public_key_credential_user_entity.cc
+@@ -64,13 +64,13 @@ PublicKeyCredentialUserEntity::~PublicKe
+ 
+ cbor::CBORValue PublicKeyCredentialUserEntity::ConvertToCBOR() const {
+   cbor::CBORValue::MapValue user_map;
+-  user_map.emplace(kEntityIdMapKey, user_id_);
++  user_map.emplace(cbor::CBORValue(kEntityIdMapKey), cbor::CBORValue(user_id_));
+   if (user_name_)
+-    user_map.emplace(kEntityNameMapKey, *user_name_);
++    user_map.emplace(cbor::CBORValue(kEntityNameMapKey), cbor::CBORValue(*user_name_));
+   if (user_icon_url_)
+-    user_map.emplace(kIconUrlMapKey, user_icon_url_->spec());
++    user_map.emplace(cbor::CBORValue(kIconUrlMapKey), cbor::CBORValue(user_icon_url_->spec()));
+   if (user_display_name_) {
+-    user_map.emplace(kDisplayNameMapKey, *user_display_name_);
++    user_map.emplace(cbor::CBORValue(kDisplayNameMapKey), cbor::CBORValue(*user_display_name_));
+   }
+   return cbor::CBORValue(std::move(user_map));
+ }
+Index: beta/device/fido/public_key_credential_params.cc
+===================================================================
+--- beta.orig/device/fido/public_key_credential_params.cc
++++ beta/device/fido/public_key_credential_params.cc
+@@ -65,10 +65,10 @@ cbor::CBORValue PublicKeyCredentialParam
+ 
+   for (const auto& credential : public_key_credential_params_) {
+     cbor::CBORValue::MapValue cbor_credential_map;
+-    cbor_credential_map.emplace(kCredentialTypeMapKey,
+-                                CredentialTypeToString(credential.type));
+-    cbor_credential_map.emplace(kCredentialAlgorithmMapKey,
+-                                credential.algorithm);
++    cbor_credential_map.emplace(cbor::CBORValue(kCredentialTypeMapKey),
++                                cbor::CBORValue(CredentialTypeToString(credential.type)));
++    cbor_credential_map.emplace(cbor::CBORValue(kCredentialAlgorithmMapKey),
++                                cbor::CBORValue(credential.algorithm));
+     credential_param_array.emplace_back(std::move(cbor_credential_map));
+   }
+   return cbor::CBORValue(std::move(credential_param_array));
