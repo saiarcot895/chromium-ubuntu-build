@@ -1,3 +1,9 @@
+chromium-browser (69.0.3497.32-0ubuntu1~ppa5~18.04.1) bionic; urgency=low
+
+  * Continue working on Xenial build.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 22 Aug 2018 00:31:14 -0400
+
 chromium-browser (69.0.3497.32-0ubuntu1~ppa4~18.04.1) bionic; urgency=low
 
   * Continue working on Xenial build.
