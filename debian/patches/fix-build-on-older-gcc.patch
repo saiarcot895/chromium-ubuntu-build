@@ -544,3 +544,18 @@ Index: beta/device/fido/fido_hid_device.cc
    WriteMessage(
        FidoHidMessage::Create(channel_id_, FidoHidDeviceCommand::kCancel,
                               std::vector<uint8_t>()),
+Index: beta/device/fido/fido_cable_handshake_handler.cc
+===================================================================
+--- beta.orig/device/fido/fido_cable_handshake_handler.cc
++++ beta/device/fido/fido_cable_handshake_handler.cc
+@@ -44,8 +44,8 @@ base::Optional<std::array<uint8_t, kClie
+ ConstructHandshakeMessage(base::StringPiece handshake_key,
+                           base::span<const uint8_t, 16> client_random_nonce) {
+   cbor::CBORValue::MapValue map;
+-  map.emplace(0, kCableClientHelloMessage);
+-  map.emplace(1, client_random_nonce);
++  map.emplace(cbor::CBORValue(0), cbor::CBORValue(kCableClientHelloMessage));
++  map.emplace(cbor::CBORValue(1), cbor::CBORValue(client_random_nonce));
+   auto client_hello = cbor::CBORWriter::Write(cbor::CBORValue(std::move(map)));
+   DCHECK(client_hello);
+ 
