@@ -40,7 +40,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -1664,6 +1664,13 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1741,6 +1741,13 @@ const FeatureEntry kFeatureEntries[] = {
       flag_descriptions::kShowTouchHudDescription, kOsCrOS,
       SINGLE_VALUE_TYPE(ash::switches::kAshTouchHud)},
  #endif  // OS_CHROMEOS
@@ -54,7 +54,7 @@ Index: dev/chrome/browser/about_flags.cc
      {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
-@@ -1671,6 +1678,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1748,6 +1755,7 @@ const FeatureEntry kFeatureEntries[] = {
          kOsMac | kOsWin | kOsCrOS | kOsAndroid,
          SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
@@ -62,7 +62,7 @@ Index: dev/chrome/browser/about_flags.cc
  #if defined(OS_WIN)
      {"enable-hdr", flag_descriptions::kEnableHDRName,
       flag_descriptions::kEnableHDRDescription, kOsWin,
-@@ -2345,12 +2353,17 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -2419,12 +2427,17 @@ const FeatureEntry kFeatureEntries[] = {
       FEATURE_VALUE_TYPE(features::kOpenVR)},
  #endif  // ENABLE_OPENVR
  #endif  // ENABLE_VR
@@ -126,7 +126,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
  const char kAcceleratedVideoDecodeName[] = "Hardware-accelerated video decode";
  const char kAcceleratedVideoDecodeDescription[] =
      "Hardware-accelerated video decode where available.";
-@@ -2966,7 +2973,7 @@ const char kTextSuggestionsTouchBarDescr
+@@ -2990,7 +2997,7 @@ const char kTextSuggestionsTouchBarDescr
  
  // Chrome OS -------------------------------------------------------------------
  
@@ -135,9 +135,9 @@ Index: dev/chrome/browser/flag_descriptions.cc
  
  const char kAcceleratedMjpegDecodeName[] =
      "Hardware-accelerated mjpeg decode for captured frame";
-@@ -3478,7 +3485,7 @@ extern const char kEnableZeroStateSugges
-     "Enable Zero State Suggestions feature in Launcher, which will show "
-     "suggetions when launcher search box is active with an empty query";
+@@ -3520,7 +3527,7 @@ const char kEnableOobeRecommendAppsScree
+     "Enable the Recommend Apps Screen in OOBE which allows user to install apps"
+     "from other devices";
  
 -#endif  // defined(OS_CHROMEOS)
 +#endif  // defined(OS_CHROMEOS) || BUILDFLAG(USE_VAAPI)
@@ -159,7 +159,7 @@ Index: dev/chrome/browser/flag_descriptions.h
  extern const char kAcceleratedVideoDecodeName[];
  extern const char kAcceleratedVideoDecodeDescription[];
  
-@@ -1804,13 +1808,17 @@ extern const char kPermissionPromptPersi
+@@ -1816,13 +1820,17 @@ extern const char kPermissionPromptPersi
  
  #endif  // defined(OS_MACOSX)
  
@@ -200,7 +200,7 @@ Index: dev/content/browser/renderer_host/media/video_capture_browsertest.cc
 ===================================================================
 --- dev.orig/content/browser/renderer_host/media/video_capture_browsertest.cc
 +++ dev/content/browser/renderer_host/media/video_capture_browsertest.cc
-@@ -165,8 +165,13 @@ class VideoCaptureBrowserTest : public C
+@@ -166,8 +166,13 @@ class VideoCaptureBrowserTest : public C
        base::CommandLine::ForCurrentProcess()->AppendSwitch(
            switches::kUseFakeJpegDecodeAccelerator);
      } else {
@@ -218,7 +218,7 @@ Index: dev/content/browser/renderer_host/render_process_host_impl.cc
 ===================================================================
 --- dev.orig/content/browser/renderer_host/render_process_host_impl.cc
 +++ dev/content/browser/renderer_host/render_process_host_impl.cc
-@@ -2756,7 +2756,11 @@ void RenderProcessHostImpl::PropagateBro
+@@ -2848,7 +2848,11 @@ void RenderProcessHostImpl::PropagateBro
      switches::kDefaultTileHeight,
      switches::kDisable2dCanvasImageChromium,
      switches::kDisableAcceleratedJpegDecoding,
@@ -355,7 +355,7 @@ Index: dev/content/renderer/render_thread_impl.cc
 ===================================================================
 --- dev.orig/content/renderer/render_thread_impl.cc
 +++ dev/content/renderer/render_thread_impl.cc
-@@ -1404,7 +1404,11 @@ media::GpuVideoAcceleratorFactories* Ren
+@@ -1402,7 +1402,11 @@ media::GpuVideoAcceleratorFactories* Ren
                               kGpuStreamIdMedia, kGpuStreamPriorityMedia);
  
    const bool enable_video_accelerator =
@@ -401,7 +401,7 @@ Index: dev/media/filters/BUILD.gn
  
  jumbo_source_set("filters") {
    # Do not expand the visibility here without double-checking with OWNERS, this
-@@ -200,7 +201,7 @@ jumbo_source_set("filters") {
+@@ -198,7 +199,7 @@ jumbo_source_set("filters") {
      deps += [ "//media/base/android" ]
    }
  
@@ -476,16 +476,7 @@ Index: dev/components/viz/service/main/viz_main_impl.cc
 ===================================================================
 --- dev.orig/components/viz/service/main/viz_main_impl.cc
 +++ dev/components/viz/service/main/viz_main_impl.cc
-@@ -62,7 +62,7 @@ std::unique_ptr<viz::CompositorThreadTyp
-   thread_options.message_loop_type = base::MessageLoop::TYPE_UI;
- #endif
- 
--#if defined(OS_CHROMEOS)
-+#if defined(OS_LINUX)
-   thread_options.priority = base::ThreadPriority::DISPLAY;
- #endif
-   CHECK(thread->StartWithOptions(thread_options));
-@@ -75,7 +75,7 @@ std::unique_ptr<base::Thread> CreateAndS
+@@ -41,7 +41,7 @@ std::unique_ptr<base::Thread> CreateAndS
    // It should be possible to use |main_task_runner_| for doing IO tasks.
    base::Thread::Options thread_options(base::MessageLoop::TYPE_IO, 0);
    thread_options.priority = base::ThreadPriority::NORMAL;
@@ -591,14 +582,14 @@ Index: dev/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
 +++ dev/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
-@@ -149,7 +149,7 @@ bool VaapiJpegDecodeAccelerator::Initial
+@@ -295,7 +295,7 @@ bool VaapiJpegDecodeAccelerator::Initial
    // TODO(crbug.com/828119): Try a list of possible supported formats rather
    // than hardcoding the format to I420 here.
-   VAImageFormat va_image_format = {};
--  va_image_format.fourcc = VA_FOURCC_I420;
-+  va_image_format.fourcc = libyuv::FOURCC_I420;
-   va_image_format.byte_order = VA_LSB_FIRST;
-   va_image_format.bits_per_pixel = 12;
+   va_image_format_ = base::WrapUnique(new VAImageFormat{});
+-  va_image_format_->fourcc = VA_FOURCC_I420;
++  va_image_format_->fourcc = libyuv::FOURCC_I420;
+   va_image_format_->byte_order = VA_LSB_FIRST;
+   va_image_format_->bits_per_pixel = 12;
  
 Index: dev/content/renderer/media/webrtc/video_codec_factory.cc
 ===================================================================

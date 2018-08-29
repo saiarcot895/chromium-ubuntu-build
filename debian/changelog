@@ -1,3 +1,10 @@
+chromium-browser (70.0.3534.4-0ubuntu1~ppa1~18.10.1) cosmic; urgency=low
+
+  * New upstream version 70.0.3534.4
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 29 Aug 2018 19:48:29 -0400
+
 chromium-browser (70.0.3521.2-0ubuntu1~ppa1~18.10.1) cosmic; urgency=low
 
   * Continue working on Xenial build patch.
