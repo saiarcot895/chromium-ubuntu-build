@@ -218,7 +218,7 @@ Index: beta/content/browser/renderer_host/render_process_host_impl.cc
 ===================================================================
 --- beta.orig/content/browser/renderer_host/render_process_host_impl.cc
 +++ beta/content/browser/renderer_host/render_process_host_impl.cc
-@@ -2718,7 +2718,11 @@ void RenderProcessHostImpl::PropagateBro
+@@ -2798,7 +2798,11 @@ void RenderProcessHostImpl::PropagateBro
      switches::kDefaultTileHeight,
      switches::kDisable2dCanvasImageChromium,
      switches::kDisableAcceleratedJpegDecoding,
