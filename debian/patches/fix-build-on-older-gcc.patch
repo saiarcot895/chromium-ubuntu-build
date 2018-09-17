@@ -1,7 +1,7 @@
-Index: dev/gpu/command_buffer/service/texture_manager.cc
+Index: beta/gpu/command_buffer/service/texture_manager.cc
 ===================================================================
---- dev.orig/gpu/command_buffer/service/texture_manager.cc
-+++ dev/gpu/command_buffer/service/texture_manager.cc
+--- beta.orig/gpu/command_buffer/service/texture_manager.cc
++++ beta/gpu/command_buffer/service/texture_manager.cc
 @@ -131,130 +131,130 @@ class FormatTypeValidator {
    FormatTypeValidator() {
      static const FormatType kSupportedFormatTypes[] = {
@@ -243,11 +243,11 @@ Index: dev/gpu/command_buffer/service/texture_manager.cc
      if (supported_combinations_.find(query) != supported_combinations_.end()) {
        return true;
      }
-Index: dev/chrome/browser/media/router/providers/wired_display/wired_display_media_route_provider.cc
+Index: beta/chrome/browser/media/router/providers/wired_display/wired_display_media_route_provider.cc
 ===================================================================
---- dev.orig/chrome/browser/media/router/providers/wired_display/wired_display_media_route_provider.cc
-+++ dev/chrome/browser/media/router/providers/wired_display/wired_display_media_route_provider.cc
-@@ -128,8 +128,10 @@ void WiredDisplayMediaRouteProvider::Cre
+--- beta.orig/chrome/browser/media/router/providers/wired_display/wired_display_media_route_provider.cc
++++ beta/chrome/browser/media/router/providers/wired_display/wired_display_media_route_provider.cc
+@@ -129,8 +129,10 @@ void WiredDisplayMediaRouteProvider::Cre
    route.set_incognito(profile_->IsOffTheRecord());
    route.set_controller_type(RouteControllerType::kGeneric);
  
@@ -259,10 +259,10 @@ Index: dev/chrome/browser/media/router/providers/wired_display/wired_display_med
    presentation.set_receiver(
        CreatePresentationReceiver(presentation_id, &presentation, *display));
    presentation.receiver()->Start(presentation_id, GURL(media_source));
-Index: dev/extensions/common/api/web_request.json
+Index: beta/extensions/common/api/web_request.json
 ===================================================================
---- dev.orig/extensions/common/api/web_request.json
-+++ dev/extensions/common/api/web_request.json
+--- beta.orig/extensions/common/api/web_request.json
++++ beta/extensions/common/api/web_request.json
 @@ -204,8 +204,7 @@
                      "description": "If the request method is POST and the body is a sequence of key-value pairs encoded in UTF8, encoded as either multipart/form-data, or application/x-www-form-urlencoded, this dictionary is present and for each key contains the list of all values for that key. If the data is of another media type, or if it is malformed, the dictionary is not present. An example value of this dictionary is {'key': ['value1', 'value2']}.",
                      "properties": {},
@@ -273,10 +273,10 @@ Index: dev/extensions/common/api/web_request.json
                      }
                    },
                    "raw" : {
-Index: dev/third_party/blink/renderer/modules/canvas/canvas2d/base_rendering_context_2d.cc
+Index: beta/third_party/blink/renderer/modules/canvas/canvas2d/base_rendering_context_2d.cc
 ===================================================================
---- dev.orig/third_party/blink/renderer/modules/canvas/canvas2d/base_rendering_context_2d.cc
-+++ dev/third_party/blink/renderer/modules/canvas/canvas2d/base_rendering_context_2d.cc
+--- beta.orig/third_party/blink/renderer/modules/canvas/canvas2d/base_rendering_context_2d.cc
++++ beta/third_party/blink/renderer/modules/canvas/canvas2d/base_rendering_context_2d.cc
 @@ -653,8 +653,8 @@ void BaseRenderingContext2D::DrawPathInt
  
    SkPath sk_path = path.GetSkPath();
@@ -288,10 +288,10 @@ Index: dev/third_party/blink/renderer/modules/canvas/canvas2d/base_rendering_con
      return;
    sk_path.setFillType(fill_type);
  
-Index: dev/media/base/subsample_entry.h
+Index: beta/media/base/subsample_entry.h
 ===================================================================
---- dev.orig/media/base/subsample_entry.h
-+++ dev/media/base/subsample_entry.h
+--- beta.orig/media/base/subsample_entry.h
++++ beta/media/base/subsample_entry.h
 @@ -36,7 +36,7 @@ struct SubsampleEntry {
  // does not match |input_size|.
  MEDIA_EXPORT bool VerifySubsamplesMatchSize(
@@ -301,10 +301,10 @@ Index: dev/media/base/subsample_entry.h
  
  }  // namespace media
  
-Index: dev/device/bluetooth/dbus/bluetooth_gatt_attribute_helpers.cc
+Index: beta/device/bluetooth/dbus/bluetooth_gatt_attribute_helpers.cc
 ===================================================================
---- dev.orig/device/bluetooth/dbus/bluetooth_gatt_attribute_helpers.cc
-+++ dev/device/bluetooth/dbus/bluetooth_gatt_attribute_helpers.cc
+--- beta.orig/device/bluetooth/dbus/bluetooth_gatt_attribute_helpers.cc
++++ beta/device/bluetooth/dbus/bluetooth_gatt_attribute_helpers.cc
 @@ -27,8 +27,9 @@ bool ReadOptions(dbus::MessageReader* re
        return false;
      }
@@ -317,10 +317,10 @@ Index: dev/device/bluetooth/dbus/bluetooth_gatt_attribute_helpers.cc
        options->clear();
        return false;
      }
-Index: dev/cc/trees/layer_tree_mutator.cc
+Index: beta/cc/trees/layer_tree_mutator.cc
 ===================================================================
---- dev.orig/cc/trees/layer_tree_mutator.cc
-+++ dev/cc/trees/layer_tree_mutator.cc
+--- beta.orig/cc/trees/layer_tree_mutator.cc
++++ beta/cc/trees/layer_tree_mutator.cc
 @@ -52,8 +52,9 @@ bool MutatorInputState::IsEmpty() const
  
  AnimationWorkletInput& MutatorInputState::EnsureWorkletEntry(int id) {
@@ -332,10 +332,10 @@ Index: dev/cc/trees/layer_tree_mutator.cc
  
    return *it->second;
  }
-Index: dev/device/fido/authenticator_get_assertion_response.cc
+Index: beta/device/fido/authenticator_get_assertion_response.cc
 ===================================================================
---- dev.orig/device/fido/authenticator_get_assertion_response.cc
-+++ dev/device/fido/authenticator_get_assertion_response.cc
+--- beta.orig/device/fido/authenticator_get_assertion_response.cc
++++ beta/device/fido/authenticator_get_assertion_response.cc
 @@ -95,16 +95,16 @@ std::vector<uint8_t> GetSerializedCtapDe
      const AuthenticatorGetAssertionResponse& response) {
    cbor::CBORValue::MapValue response_map;
@@ -358,10 +358,10 @@ Index: dev/device/fido/authenticator_get_assertion_response.cc
    auto encoded_response =
        cbor::CBORWriter::Write(cbor::CBORValue(std::move(response_map)));
    DCHECK(encoded_response);
-Index: dev/device/fido/authenticator_supported_options.cc
+Index: beta/device/fido/authenticator_supported_options.cc
 ===================================================================
---- dev.orig/device/fido/authenticator_supported_options.cc
-+++ dev/device/fido/authenticator_supported_options.cc
+--- beta.orig/device/fido/authenticator_supported_options.cc
++++ beta/device/fido/authenticator_supported_options.cc
 @@ -56,19 +56,19 @@ AuthenticatorSupportedOptions::SetIsPlat
  
  cbor::CBORValue ConvertToCBOR(const AuthenticatorSupportedOptions& options) {
@@ -400,10 +400,10 @@ Index: dev/device/fido/authenticator_supported_options.cc
        break;
      case ClientPinAvailability::kNotSupported:
        break;
-Index: dev/device/fido/attestation_object.cc
+Index: beta/device/fido/attestation_object.cc
 ===================================================================
---- dev.orig/device/fido/attestation_object.cc
-+++ dev/device/fido/attestation_object.cc
+--- beta.orig/device/fido/attestation_object.cc
++++ beta/device/fido/attestation_object.cc
 @@ -73,9 +73,9 @@ std::vector<uint8_t> AttestationObject::
  std::vector<uint8_t> SerializeToCtapStyleCborEncodedBytes(
      const AttestationObject& object) {
@@ -417,10 +417,10 @@ Index: dev/device/fido/attestation_object.cc
    auto encoded_bytes = cbor::CBORWriter::Write(cbor::CBORValue(std::move(map)));
    DCHECK(encoded_bytes);
    return std::move(*encoded_bytes);
-Index: dev/device/fido/authenticator_get_info_response.cc
+Index: beta/device/fido/authenticator_get_info_response.cc
 ===================================================================
---- dev.orig/device/fido/authenticator_get_info_response.cc
-+++ dev/device/fido/authenticator_get_info_response.cc
+--- beta.orig/device/fido/authenticator_get_info_response.cc
++++ beta/device/fido/authenticator_get_info_response.cc
 @@ -71,21 +71,21 @@ std::vector<uint8_t> EncodeToCBOR(
                                                                   : kU2fVersion);
    }
@@ -449,10 +449,10 @@ Index: dev/device/fido/authenticator_get_info_response.cc
    }
  
    auto encoded_bytes =
-Index: dev/device/fido/public_key_credential_rp_entity.cc
+Index: beta/device/fido/public_key_credential_rp_entity.cc
 ===================================================================
---- dev.orig/device/fido/public_key_credential_rp_entity.cc
-+++ dev/device/fido/public_key_credential_rp_entity.cc
+--- beta.orig/device/fido/public_key_credential_rp_entity.cc
++++ beta/device/fido/public_key_credential_rp_entity.cc
 @@ -78,12 +78,12 @@ PublicKeyCredentialRpEntity& PublicKeyCr
  
  cbor::CBORValue PublicKeyCredentialRpEntity::ConvertToCBOR() const {
@@ -469,10 +469,10 @@ Index: dev/device/fido/public_key_credential_rp_entity.cc
  
    return cbor::CBORValue(std::move(rp_map));
  }
-Index: dev/device/fido/public_key_credential_user_entity.cc
+Index: beta/device/fido/public_key_credential_user_entity.cc
 ===================================================================
---- dev.orig/device/fido/public_key_credential_user_entity.cc
-+++ dev/device/fido/public_key_credential_user_entity.cc
+--- beta.orig/device/fido/public_key_credential_user_entity.cc
++++ beta/device/fido/public_key_credential_user_entity.cc
 @@ -64,13 +64,13 @@ PublicKeyCredentialUserEntity::~PublicKe
  
  cbor::CBORValue PublicKeyCredentialUserEntity::ConvertToCBOR() const {
@@ -491,10 +491,10 @@ Index: dev/device/fido/public_key_credential_user_entity.cc
    }
    return cbor::CBORValue(std::move(user_map));
  }
-Index: dev/device/fido/public_key_credential_params.cc
+Index: beta/device/fido/public_key_credential_params.cc
 ===================================================================
---- dev.orig/device/fido/public_key_credential_params.cc
-+++ dev/device/fido/public_key_credential_params.cc
+--- beta.orig/device/fido/public_key_credential_params.cc
++++ beta/device/fido/public_key_credential_params.cc
 @@ -65,10 +65,10 @@ cbor::CBORValue PublicKeyCredentialParam
  
    for (const auto& credential : public_key_credential_params_) {
@@ -510,10 +510,10 @@ Index: dev/device/fido/public_key_credential_params.cc
      credential_param_array.emplace_back(std::move(cbor_credential_map));
    }
    return cbor::CBORValue(std::move(credential_param_array));
-Index: dev/device/fido/virtual_ctap2_device.cc
+Index: beta/device/fido/virtual_ctap2_device.cc
 ===================================================================
---- dev.orig/device/fido/virtual_ctap2_device.cc
-+++ dev/device/fido/virtual_ctap2_device.cc
+--- beta.orig/device/fido/virtual_ctap2_device.cc
++++ beta/device/fido/virtual_ctap2_device.cc
 @@ -113,13 +113,13 @@ std::vector<uint8_t> ConstructMakeCreden
      base::span<const uint8_t> signature,
      AuthenticatorData authenticator_data) {
@@ -531,10 +531,10 @@ Index: dev/device/fido/virtual_ctap2_device.cc
    }
  
    AuthenticatorMakeCredentialResponse make_credential_response(
-Index: dev/device/fido/hid/fido_hid_device.cc
+Index: beta/device/fido/hid/fido_hid_device.cc
 ===================================================================
---- dev.orig/device/fido/hid/fido_hid_device.cc
-+++ dev/device/fido/hid/fido_hid_device.cc
+--- beta.orig/device/fido/hid/fido_hid_device.cc
++++ beta/device/fido/hid/fido_hid_device.cc
 @@ -40,7 +40,7 @@ void FidoHidDevice::Cancel() {
      return;
  
@@ -544,11 +544,11 @@ Index: dev/device/fido/hid/fido_hid_device.cc
    WriteMessage(
        FidoHidMessage::Create(channel_id_, FidoHidDeviceCommand::kCancel,
                               std::vector<uint8_t>()),
-Index: dev/device/fido/cable/fido_cable_handshake_handler.cc
+Index: beta/device/fido/cable/fido_cable_handshake_handler.cc
 ===================================================================
---- dev.orig/device/fido/cable/fido_cable_handshake_handler.cc
-+++ dev/device/fido/cable/fido_cable_handshake_handler.cc
-@@ -44,8 +44,8 @@ base::Optional<std::array<uint8_t, kClie
+--- beta.orig/device/fido/cable/fido_cable_handshake_handler.cc
++++ beta/device/fido/cable/fido_cable_handshake_handler.cc
+@@ -45,8 +45,8 @@ base::Optional<std::array<uint8_t, kClie
  ConstructHandshakeMessage(base::StringPiece handshake_key,
                            base::span<const uint8_t, 16> client_random_nonce) {
    cbor::CBORValue::MapValue map;

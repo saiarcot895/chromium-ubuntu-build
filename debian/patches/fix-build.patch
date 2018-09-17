@@ -1,7 +1,7 @@
-Index: dev/pdf/pdfium/pdfium_mem_buffer_file_write.h
+Index: beta/pdf/pdfium/pdfium_mem_buffer_file_write.h
 ===================================================================
---- dev.orig/pdf/pdfium/pdfium_mem_buffer_file_write.h
-+++ dev/pdf/pdfium/pdfium_mem_buffer_file_write.h
+--- beta.orig/pdf/pdfium/pdfium_mem_buffer_file_write.h
++++ beta/pdf/pdfium/pdfium_mem_buffer_file_write.h
 @@ -6,6 +6,7 @@
  #define PDF_PDFIUM_PDFIUM_MEM_BUFFER_FILE_WRITE_H_
  
