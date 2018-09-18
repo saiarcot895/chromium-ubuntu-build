@@ -247,7 +247,7 @@ Index: dev/chrome/browser/media/router/providers/wired_display/wired_display_med
 ===================================================================
 --- dev.orig/chrome/browser/media/router/providers/wired_display/wired_display_media_route_provider.cc
 +++ dev/chrome/browser/media/router/providers/wired_display/wired_display_media_route_provider.cc
-@@ -128,8 +128,10 @@ void WiredDisplayMediaRouteProvider::Cre
+@@ -129,8 +129,10 @@ void WiredDisplayMediaRouteProvider::Cre
    route.set_incognito(profile_->IsOffTheRecord());
    route.set_controller_type(RouteControllerType::kGeneric);
  
@@ -548,7 +548,7 @@ Index: dev/device/fido/cable/fido_cable_handshake_handler.cc
 ===================================================================
 --- dev.orig/device/fido/cable/fido_cable_handshake_handler.cc
 +++ dev/device/fido/cable/fido_cable_handshake_handler.cc
-@@ -44,8 +44,8 @@ base::Optional<std::array<uint8_t, kClie
+@@ -45,8 +45,8 @@ base::Optional<std::array<uint8_t, kClie
  ConstructHandshakeMessage(base::StringPiece handshake_key,
                            base::span<const uint8_t, 16> client_random_nonce) {
    cbor::CBORValue::MapValue map;

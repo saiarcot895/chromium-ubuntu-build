@@ -40,9 +40,9 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -1741,6 +1741,13 @@ const FeatureEntry kFeatureEntries[] = {
-      flag_descriptions::kShowTouchHudDescription, kOsCrOS,
-      SINGLE_VALUE_TYPE(ash::switches::kAshTouchHud)},
+@@ -1776,6 +1776,13 @@ const FeatureEntry kFeatureEntries[] = {
+      flag_descriptions::kSingleProcessMashDescription, kOsCrOS,
+      FEATURE_VALUE_TYPE(features::kSingleProcessMash)},
  #endif  // OS_CHROMEOS
 +#if defined(OS_LINUX) && !defined(OS_CHROMEOS) && !defined(OS_ANDROID)
 +    {
@@ -54,7 +54,7 @@ Index: dev/chrome/browser/about_flags.cc
      {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
-@@ -1748,6 +1755,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1783,6 +1790,7 @@ const FeatureEntry kFeatureEntries[] = {
          kOsMac | kOsWin | kOsCrOS | kOsAndroid,
          SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
@@ -62,7 +62,7 @@ Index: dev/chrome/browser/about_flags.cc
  #if defined(OS_WIN)
      {"enable-hdr", flag_descriptions::kEnableHDRName,
       flag_descriptions::kEnableHDRDescription, kOsWin,
-@@ -2419,12 +2427,17 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -2446,12 +2454,17 @@ const FeatureEntry kFeatureEntries[] = {
       FEATURE_VALUE_TYPE(features::kOpenVR)},
  #endif  // ENABLE_OPENVR
  #endif  // ENABLE_VR
@@ -126,7 +126,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
  const char kAcceleratedVideoDecodeName[] = "Hardware-accelerated video decode";
  const char kAcceleratedVideoDecodeDescription[] =
      "Hardware-accelerated video decode where available.";
-@@ -2990,7 +2997,7 @@ const char kTextSuggestionsTouchBarDescr
+@@ -3003,7 +3010,7 @@ const char kTextSuggestionsTouchBarDescr
  
  // Chrome OS -------------------------------------------------------------------
  
@@ -135,9 +135,9 @@ Index: dev/chrome/browser/flag_descriptions.cc
  
  const char kAcceleratedMjpegDecodeName[] =
      "Hardware-accelerated mjpeg decode for captured frame";
-@@ -3520,7 +3527,7 @@ const char kEnableOobeRecommendAppsScree
-     "Enable the Recommend Apps Screen in OOBE which allows user to install apps"
-     "from other devices";
+@@ -3552,7 +3559,7 @@ const char kZipArchiverUnpackerName[] =
+ const char kZipArchiverUnpackerDescription[] =
+     "Enable or disable the ability to unpack archives in incognito mode";
  
 -#endif  // defined(OS_CHROMEOS)
 +#endif  // defined(OS_CHROMEOS) || BUILDFLAG(USE_VAAPI)
@@ -159,7 +159,7 @@ Index: dev/chrome/browser/flag_descriptions.h
  extern const char kAcceleratedVideoDecodeName[];
  extern const char kAcceleratedVideoDecodeDescription[];
  
-@@ -1816,13 +1820,17 @@ extern const char kPermissionPromptPersi
+@@ -1823,13 +1827,17 @@ extern const char kPermissionPromptPersi
  
  #endif  // defined(OS_MACOSX)
  
@@ -218,7 +218,7 @@ Index: dev/content/browser/renderer_host/render_process_host_impl.cc
 ===================================================================
 --- dev.orig/content/browser/renderer_host/render_process_host_impl.cc
 +++ dev/content/browser/renderer_host/render_process_host_impl.cc
-@@ -2848,7 +2848,11 @@ void RenderProcessHostImpl::PropagateBro
+@@ -2940,7 +2940,11 @@ void RenderProcessHostImpl::PropagateBro
      switches::kDefaultTileHeight,
      switches::kDisable2dCanvasImageChromium,
      switches::kDisableAcceleratedJpegDecoding,
@@ -227,9 +227,9 @@ Index: dev/content/browser/renderer_host/render_process_host_impl.cc
 +#else
      switches::kDisableAcceleratedVideoDecode,
 +#endif
+     switches::kDisableBackgroundFetch,
      switches::kDisableBackgroundTasks,
      switches::kDisableBackgroundTimerThrottling,
-     switches::kDisableBreakpad,
 Index: dev/content/browser/webrtc/webrtc_media_recorder_browsertest.cc
 ===================================================================
 --- dev.orig/content/browser/webrtc/webrtc_media_recorder_browsertest.cc
@@ -268,7 +268,7 @@ Index: dev/content/gpu/BUILD.gn
    deps = [
      "//base",
      "//base/third_party/dynamic_annotations",
-@@ -133,4 +133,8 @@ target(link_target_type, "gpu_sources")
+@@ -134,4 +134,8 @@ target(link_target_type, "gpu_sources")
        (!is_chromecast || is_cast_desktop_build)) {
      configs += [ "//build/config/linux/dri" ]
    }
@@ -325,7 +325,7 @@ Index: dev/content/public/common/content_switches.cc
 ===================================================================
 --- dev.orig/content/public/common/content_switches.cc
 +++ dev/content/public/common/content_switches.cc
-@@ -79,6 +79,11 @@ const char kDisable3DAPIs[]
+@@ -69,6 +69,11 @@ const char kDisable3DAPIs[]
  // Disable gpu-accelerated 2d canvas.
  const char kDisableAccelerated2dCanvas[]    = "disable-accelerated-2d-canvas";
  
@@ -355,8 +355,8 @@ Index: dev/content/renderer/render_thread_impl.cc
 ===================================================================
 --- dev.orig/content/renderer/render_thread_impl.cc
 +++ dev/content/renderer/render_thread_impl.cc
-@@ -1402,7 +1402,11 @@ media::GpuVideoAcceleratorFactories* Ren
-                              kGpuStreamIdMedia, kGpuStreamPriorityMedia);
+@@ -1343,7 +1343,11 @@ media::GpuVideoAcceleratorFactories* Ren
+           kGpuStreamPriorityMedia);
  
    const bool enable_video_accelerator =
 +#if defined(OS_LINUX) && !defined(OS_CHROMEOS)
@@ -371,7 +371,7 @@ Index: dev/gpu/config/software_rendering_list.json
 ===================================================================
 --- dev.orig/gpu/config/software_rendering_list.json
 +++ dev/gpu/config/software_rendering_list.json
-@@ -377,17 +377,6 @@
+@@ -374,17 +374,6 @@
        ]
      },
      {
@@ -401,7 +401,7 @@ Index: dev/media/filters/BUILD.gn
  
  jumbo_source_set("filters") {
    # Do not expand the visibility here without double-checking with OWNERS, this
-@@ -198,7 +199,7 @@ jumbo_source_set("filters") {
+@@ -200,7 +201,7 @@ jumbo_source_set("filters") {
      deps += [ "//media/base/android" ]
    }
  
@@ -414,7 +414,7 @@ Index: dev/media/gpu/BUILD.gn
 ===================================================================
 --- dev.orig/media/gpu/BUILD.gn
 +++ dev/media/gpu/BUILD.gn
-@@ -498,6 +498,12 @@ if (use_v4l2_codec || use_vaapi || is_ma
+@@ -503,6 +503,12 @@ if (use_v4l2_codec || use_vaapi || is_ma
    }
  }
  
@@ -427,7 +427,7 @@ Index: dev/media/gpu/BUILD.gn
  if (use_vaapi) {
    test("jpeg_encode_accelerator_unittest") {
      deps = [
-@@ -564,6 +570,7 @@ if (use_v4l2_codec || use_vaapi) {
+@@ -573,6 +579,7 @@ if (is_chromeos || is_linux) {
      if (use_ozone) {
        deps += [ "//ui/ozone" ]
      }
@@ -435,23 +435,11 @@ Index: dev/media/gpu/BUILD.gn
    }
  }
  
-Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
-===================================================================
---- dev.orig/media/gpu/gpu_video_decode_accelerator_factory.cc
-+++ dev/media/gpu/gpu_video_decode_accelerator_factory.cc
-@@ -88,6 +88,7 @@ GpuVideoDecodeAcceleratorFactory::GetDec
- // profile (instead of calculating a superset).
- // TODO(posciak,henryhsu): improve this so that we choose a superset of
- // resolutions and other supported profile parameters.
-+  DVLOG(1) << "Get Supported profiles";
- #if defined(OS_WIN)
-   capabilities.supported_profiles =
-       DXVAVideoDecodeAccelerator::GetSupportedProfiles(gpu_preferences,
 Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -337,7 +337,7 @@ bool VADisplayState::InitializeOnce() {
+@@ -338,7 +338,7 @@ bool VADisplayState::InitializeOnce() {
    DVLOG(1) << "VAAPI version: " << major_version << "." << minor_version << " "
             << va_vendor_string_;
  
@@ -460,7 +448,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
      LOG(ERROR) << "This build of Chromium requires VA-API version "
                 << VA_MAJOR_VERSION << "." << VA_MINOR_VERSION
                 << ", system version: " << major_version << "." << minor_version;
-@@ -967,7 +967,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
+@@ -968,7 +968,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
    }
    va_attrib_extbuf.num_planes = num_planes;
  
@@ -505,7 +493,7 @@ Index: dev/media/base/media_switches.cc
 ===================================================================
 --- dev.orig/media/base/media_switches.cc
 +++ dev/media/base/media_switches.cc
-@@ -117,10 +117,16 @@ const char kUseFileForFakeAudioCapture[]
+@@ -108,10 +108,16 @@ const char kUseFileForFakeAudioCapture[]
  // accelerator hardware to be present.
  const char kUseFakeJpegDecodeAccelerator[] = "use-fake-jpeg-decode-accelerator";
  
@@ -522,7 +510,7 @@ Index: dev/media/base/media_switches.cc
  
  // When running tests on a system without the required hardware or libraries,
  // this flag will cause the tests to fail. Otherwise, they silently succeed.
-@@ -470,15 +476,22 @@ const base::Feature kPreloadMediaEngagem
+@@ -453,15 +459,22 @@ const base::Feature kPreloadMediaEngagem
  #endif
  
  bool IsVideoCaptureAcceleratedJpegDecodingEnabled() {
@@ -550,7 +538,7 @@ Index: dev/media/base/media_switches.h
 ===================================================================
 --- dev.orig/media/base/media_switches.h
 +++ dev/media/base/media_switches.h
-@@ -67,7 +67,11 @@ MEDIA_EXPORT extern const char kUseFakeD
+@@ -64,7 +64,11 @@ MEDIA_EXPORT extern const char kUseFakeD
  MEDIA_EXPORT extern const char kUseFileForFakeVideoCapture[];
  MEDIA_EXPORT extern const char kUseFileForFakeAudioCapture[];
  MEDIA_EXPORT extern const char kUseFakeJpegDecodeAccelerator[];
@@ -566,7 +554,7 @@ Index: dev/content/browser/utility_process_host.cc
 ===================================================================
 --- dev.orig/content/browser/utility_process_host.cc
 +++ dev/content/browser/utility_process_host.cc
-@@ -296,7 +296,11 @@ bool UtilityProcessHost::StartProcess()
+@@ -298,7 +298,11 @@ bool UtilityProcessHost::StartProcess()
        switches::kOverrideUseSoftwareGLForTests,
        switches::kOverrideEnabledCdmInterfaceVersion,
        switches::kProxyServer,
