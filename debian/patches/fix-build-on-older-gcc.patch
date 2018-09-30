@@ -321,7 +321,7 @@ Index: dev/cc/trees/layer_tree_mutator.cc
 ===================================================================
 --- dev.orig/cc/trees/layer_tree_mutator.cc
 +++ dev/cc/trees/layer_tree_mutator.cc
-@@ -52,8 +52,9 @@ bool MutatorInputState::IsEmpty() const
+@@ -55,8 +55,9 @@ bool MutatorInputState::IsEmpty() const
  
  AnimationWorkletInput& MutatorInputState::EnsureWorkletEntry(int id) {
    auto it = inputs_.find(id);
