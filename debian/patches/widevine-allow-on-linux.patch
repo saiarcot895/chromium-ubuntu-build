@@ -1,17 +1,13 @@
-Index: dev/third_party/widevine/cdm/BUILD.gn
+Index: dev/third_party/widevine/cdm/widevine.gni
 ===================================================================
---- dev.orig/third_party/widevine/cdm/BUILD.gn
-+++ dev/third_party/widevine/cdm/BUILD.gn
-@@ -8,12 +8,6 @@ import("//media/cdm/library_cdm/cdm_path
- import("//media/media_options.gni")
- import("//third_party/widevine/cdm/widevine.gni")
+--- dev.orig/third_party/widevine/cdm/widevine.gni
++++ dev/third_party/widevine/cdm/widevine.gni
+@@ -31,7 +31,7 @@ enable_library_widevine_cdm =
+ # and Windows. The CDM can be bundled regardless whether it's a component. See
+ # below.
+ enable_widevine_cdm_component =
+-    enable_library_widevine_cdm && (is_win || is_mac)
++    enable_library_widevine_cdm && (is_win || is_mac || is_desktop_linux)
  
--# Internal Cast builds set enable_widevine=true to bring in Widevine support.
--# TODO(xhwang): Support component updated CDM on other platforms and remove this
--# assert.
--assert(!enable_widevine || is_win || is_mac || is_chromecast,
--       "Component updated CDM only supported on Windows and Mac for now.")
--
- widevine_arch = current_cpu
- if (widevine_arch == "x86") {
-   widevine_arch = "ia32"
+ # Widevine CDM is bundled as part of Google Chrome builds.
+ bundle_widevine_cdm = enable_library_widevine_cdm && is_chrome_branded

@@ -559,3 +559,26 @@ Index: dev/device/fido/cable/fido_cable_handshake_handler.cc
    auto client_hello = cbor::CBORWriter::Write(cbor::CBORValue(std::move(map)));
    DCHECK(client_hello);
  
+Index: dev/components/password_manager/core/browser/http_credentials_cleaner.cc
+===================================================================
+--- dev.orig/components/password_manager/core/browser/http_credentials_cleaner.cc
++++ dev/components/password_manager/core/browser/http_credentials_cleaner.cc
+@@ -46,9 +46,9 @@ void HttpCredentialCleaner::OnGetPasswor
+ 
+   for (auto& form : results) {
+     FormKey form_key(
+-        {std::string(
++        std::make_tuple(std::string(
+              password_manager_util::GetSignonRealmWithProtocolExcluded(*form)),
+-         form->scheme, form->username_value});
++         form->scheme, form->username_value));
+     if (form->origin.SchemeIs(url::kHttpScheme)) {
+       const GURL origin = form->origin;
+       PostHSTSQueryForHostAndNetworkContext(
+@@ -134,4 +134,4 @@ void HttpCredentialCleaner::ReportMetric
+   observer_->CleaningCompleted();
+ }
+ 
+-}  // namespace password_manager
+\ No newline at end of file
++}  // namespace password_manager

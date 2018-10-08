@@ -16,7 +16,7 @@ notifications-nicer
 #enable_vaapi_on_linux.diff
 enable_vaapi_on_linux_2.diff
 widevine-other-locations
-widevine-revision.patch
+#widevine-revision.patch
 nacl-loosen-fd-check.patch
 #tcmalloc-add-support-for-arm64.patch
 #gn-dont-use-git.patch

@@ -5,7 +5,7 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -1487,27 +1487,14 @@ config("default_warnings") {
+@@ -1474,30 +1474,14 @@ config("default_warnings") {
            "-Wno-user-defined-warnings",
  
            # TODO(hans): https://crbug.com/681136
@@ -29,6 +29,9 @@ Index: dev/build/config/compiler/BUILD.gn
 -          # Ignore warnings about MSVC optimization pragmas.
 -          # TODO(thakis): Only for no_chromium_code? http://crbug.com/505314
 -          "-Wno-ignored-pragma-optimize",
+-
+-          # TODO(hans): https://crbug.com/890307
+-          "-Wno-defaulted-function-deleted",
 -        ]
        }
      }

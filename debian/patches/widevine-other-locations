@@ -2,7 +2,7 @@ Index: dev/chrome/common/chrome_paths.cc
 ===================================================================
 --- dev.orig/chrome/common/chrome_paths.cc
 +++ dev/chrome/common/chrome_paths.cc
-@@ -374,6 +374,14 @@ bool PathProvider(int key, base::FilePat
+@@ -376,6 +376,20 @@ bool PathProvider(int key, base::FilePat
      // TODO(crbug.com/663554): Remove this after component updated CDM is
      // supported on Linux and ChromeOS.
      case chrome::FILE_WIDEVINE_CDM:
@@ -13,6 +13,12 @@ Index: dev/chrome/common/chrome_paths.cc
 +      if (base::PathExists(base::FilePath("/opt/google/chrome/libwidevinecdm.so"))) {
 +        cur = cur.AppendASCII("/opt/google/chrome/libwidevinecdm.so");
 +        break;
++      }
++      if (!base::PathService::Get(chrome::DIR_USER_DATA, &cur))
++          return false;
++      cur = cur.AppendASCII(base::GetNativeLibraryName(kWidevineCdmLibraryName));
++      if (base::PathExists(cur)) {
++          break;
 +      }
        if (!GetComponentDirectory(&cur))
          return false;
