@@ -582,3 +582,24 @@ Index: dev/components/password_manager/core/browser/http_credentials_cleaner.cc
 -}  // namespace password_manager
 \ No newline at end of file
 +}  // namespace password_manager
+Index: dev/extensions/common/permissions/permissions_info.h
+===================================================================
+--- dev.orig/extensions/common/permissions/permissions_info.h
++++ dev/extensions/common/permissions/permissions_info.h
+@@ -21,6 +21,16 @@
+ #include "extensions/common/permissions/api_permission.h"
+ #include "extensions/common/permissions/api_permission_set.h"
+ 
++namespace std {
++	template<class E>class hash {
++		using sfinae = typename std::enable_if<std::is_enum<E>::value, E>::type;
++		public:
++		size_t operator()(const E&e) const {
++			return std::hash<typename std::underlying_type<E>::type>()(e);
++		}
++	};
++};
++
+ namespace extensions {
+ 
+ struct Alias;
