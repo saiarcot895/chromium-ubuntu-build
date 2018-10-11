@@ -40,7 +40,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -1779,6 +1779,13 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1794,6 +1794,13 @@ const FeatureEntry kFeatureEntries[] = {
       flag_descriptions::kSingleProcessMashDescription, kOsCrOS,
       FEATURE_VALUE_TYPE(features::kSingleProcessMash)},
  #endif  // OS_CHROMEOS
@@ -54,7 +54,7 @@ Index: dev/chrome/browser/about_flags.cc
      {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
-@@ -1786,6 +1793,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1801,6 +1808,7 @@ const FeatureEntry kFeatureEntries[] = {
          kOsMac | kOsWin | kOsCrOS | kOsAndroid,
          SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
@@ -62,7 +62,7 @@ Index: dev/chrome/browser/about_flags.cc
  #if defined(OS_WIN)
      {"enable-hdr", flag_descriptions::kEnableHDRName,
       flag_descriptions::kEnableHDRDescription, kOsWin,
-@@ -2441,12 +2449,17 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -2456,12 +2464,17 @@ const FeatureEntry kFeatureEntries[] = {
       FEATURE_VALUE_TYPE(service_manager::features::kXRSandbox)},
  #endif  // ENABLE_ISOLATED_XR_SERVICE
  #endif  // ENABLE_VR
@@ -126,7 +126,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
  const char kAcceleratedVideoDecodeName[] = "Hardware-accelerated video decode";
  const char kAcceleratedVideoDecodeDescription[] =
      "Hardware-accelerated video decode where available.";
-@@ -2979,7 +2986,7 @@ const char kTextSuggestionsTouchBarDescr
+@@ -2984,7 +2991,7 @@ const char kTextSuggestionsTouchBarDescr
  
  // Chrome OS -------------------------------------------------------------------
  
@@ -135,9 +135,9 @@ Index: dev/chrome/browser/flag_descriptions.cc
  
  const char kAcceleratedMjpegDecodeName[] =
      "Hardware-accelerated mjpeg decode for captured frame";
-@@ -3524,7 +3531,7 @@ const char kZipArchiverUnpackerName[] =
- const char kZipArchiverUnpackerDescription[] =
-     "Enable or disable the ability to unpack archives in incognito mode";
+@@ -3531,7 +3538,7 @@ const char kWakeOnPacketsName[] = "Wake
+ const char kWakeOnPacketsDescription[] =
+     "Enables waking the device based on the receipt of some network packets.";
  
 -#endif  // defined(OS_CHROMEOS)
 +#endif  // defined(OS_CHROMEOS) || BUILDFLAG(USE_VAAPI)
@@ -159,7 +159,7 @@ Index: dev/chrome/browser/flag_descriptions.h
  extern const char kAcceleratedVideoDecodeName[];
  extern const char kAcceleratedVideoDecodeDescription[];
  
-@@ -1809,13 +1813,17 @@ extern const char kPermissionPromptPersi
+@@ -1812,13 +1816,17 @@ extern const char kPermissionPromptPersi
  
  #endif  // defined(OS_MACOSX)
  
@@ -218,7 +218,7 @@ Index: dev/content/browser/renderer_host/render_process_host_impl.cc
 ===================================================================
 --- dev.orig/content/browser/renderer_host/render_process_host_impl.cc
 +++ dev/content/browser/renderer_host/render_process_host_impl.cc
-@@ -2949,7 +2949,11 @@ void RenderProcessHostImpl::PropagateBro
+@@ -2976,7 +2976,11 @@ void RenderProcessHostImpl::PropagateBro
      switches::kDefaultTileHeight,
      switches::kDisable2dCanvasImageChromium,
      switches::kDisableAcceleratedJpegDecoding,
@@ -303,7 +303,7 @@ Index: dev/content/public/browser/gpu_utils.cc
 ===================================================================
 --- dev.orig/content/public/browser/gpu_utils.cc
 +++ dev/content/public/browser/gpu_utils.cc
-@@ -71,9 +71,17 @@ const gpu::GpuPreferences GetGpuPreferen
+@@ -72,9 +72,17 @@ const gpu::GpuPreferences GetGpuPreferen
    gpu_preferences.in_process_gpu =
        command_line->HasSwitch(switches::kInProcessGPU);
    gpu_preferences.disable_accelerated_video_decode =
@@ -355,7 +355,7 @@ Index: dev/content/renderer/render_thread_impl.cc
 ===================================================================
 --- dev.orig/content/renderer/render_thread_impl.cc
 +++ dev/content/renderer/render_thread_impl.cc
-@@ -1332,7 +1332,11 @@ media::GpuVideoAcceleratorFactories* Ren
+@@ -1325,7 +1325,11 @@ media::GpuVideoAcceleratorFactories* Ren
            kGpuStreamPriorityMedia);
  
    const bool enable_video_accelerator =
@@ -510,7 +510,7 @@ Index: dev/media/base/media_switches.cc
  
  // When running tests on a system without the required hardware or libraries,
  // this flag will cause the tests to fail. Otherwise, they silently succeed.
-@@ -479,15 +485,22 @@ const base::Feature kPreloadMediaEngagem
+@@ -487,15 +493,22 @@ const base::Feature kPreloadMediaEngagem
  #endif
  
  bool IsVideoCaptureAcceleratedJpegDecodingEnabled() {

@@ -5,7 +5,7 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -1474,30 +1474,14 @@ config("default_warnings") {
+@@ -1475,30 +1475,14 @@ config("default_warnings") {
            "-Wno-user-defined-warnings",
  
            # TODO(hans): https://crbug.com/681136
