@@ -591,8 +591,8 @@ Index: dev/extensions/common/permissions/permissions_info.h
  #include "extensions/common/permissions/api_permission_set.h"
  
 +namespace std {
-+	template<> class hash<APIPermission::ID> {
-+		typedef APIPermission::ID argument_type;
++	template<> class hash<extensions::APIPermission::ID> {
++		typedef extensions::APIPermission::ID argument_type;
 +
 +		public:
 +		size_t operator()(const argument_type& e) const {
