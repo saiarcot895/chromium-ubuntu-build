@@ -40,7 +40,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -1794,6 +1794,13 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1800,6 +1800,13 @@ const FeatureEntry kFeatureEntries[] = {
       flag_descriptions::kSingleProcessMashDescription, kOsCrOS,
       FEATURE_VALUE_TYPE(features::kSingleProcessMash)},
  #endif  // OS_CHROMEOS
@@ -54,7 +54,7 @@ Index: dev/chrome/browser/about_flags.cc
      {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
-@@ -1801,6 +1808,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1807,6 +1814,7 @@ const FeatureEntry kFeatureEntries[] = {
          kOsMac | kOsWin | kOsCrOS | kOsAndroid,
          SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
@@ -62,7 +62,7 @@ Index: dev/chrome/browser/about_flags.cc
  #if defined(OS_WIN)
      {"enable-hdr", flag_descriptions::kEnableHDRName,
       flag_descriptions::kEnableHDRDescription, kOsWin,
-@@ -2456,12 +2464,17 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -2463,12 +2471,17 @@ const FeatureEntry kFeatureEntries[] = {
       FEATURE_VALUE_TYPE(service_manager::features::kXRSandbox)},
  #endif  // ENABLE_ISOLATED_XR_SERVICE
  #endif  // ENABLE_VR
@@ -126,7 +126,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
  const char kAcceleratedVideoDecodeName[] = "Hardware-accelerated video decode";
  const char kAcceleratedVideoDecodeDescription[] =
      "Hardware-accelerated video decode where available.";
-@@ -2984,7 +2991,7 @@ const char kTextSuggestionsTouchBarDescr
+@@ -3009,7 +3016,7 @@ const char kTextSuggestionsTouchBarDescr
  
  // Chrome OS -------------------------------------------------------------------
  
@@ -135,7 +135,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
  
  const char kAcceleratedMjpegDecodeName[] =
      "Hardware-accelerated mjpeg decode for captured frame";
-@@ -3531,7 +3538,7 @@ const char kWakeOnPacketsName[] = "Wake
+@@ -3556,7 +3563,7 @@ const char kWakeOnPacketsName[] = "Wake
  const char kWakeOnPacketsDescription[] =
      "Enables waking the device based on the receipt of some network packets.";
  
@@ -159,7 +159,7 @@ Index: dev/chrome/browser/flag_descriptions.h
  extern const char kAcceleratedVideoDecodeName[];
  extern const char kAcceleratedVideoDecodeDescription[];
  
-@@ -1812,13 +1816,17 @@ extern const char kPermissionPromptPersi
+@@ -1827,13 +1831,17 @@ extern const char kPermissionPromptPersi
  
  #endif  // defined(OS_MACOSX)
  
@@ -218,7 +218,7 @@ Index: dev/content/browser/renderer_host/render_process_host_impl.cc
 ===================================================================
 --- dev.orig/content/browser/renderer_host/render_process_host_impl.cc
 +++ dev/content/browser/renderer_host/render_process_host_impl.cc
-@@ -2976,7 +2976,11 @@ void RenderProcessHostImpl::PropagateBro
+@@ -2974,7 +2974,11 @@ void RenderProcessHostImpl::PropagateBro
      switches::kDefaultTileHeight,
      switches::kDisable2dCanvasImageChromium,
      switches::kDisableAcceleratedJpegDecoding,
@@ -414,7 +414,7 @@ Index: dev/media/gpu/BUILD.gn
 ===================================================================
 --- dev.orig/media/gpu/BUILD.gn
 +++ dev/media/gpu/BUILD.gn
-@@ -507,6 +507,12 @@ if (use_v4l2_codec || use_vaapi || is_ma
+@@ -508,6 +508,12 @@ if (use_v4l2_codec || use_vaapi || is_ma
    }
  }
  
@@ -427,7 +427,7 @@ Index: dev/media/gpu/BUILD.gn
  if (use_vaapi) {
    test("jpeg_encode_accelerator_unittest") {
      deps = [
-@@ -577,6 +583,7 @@ if (is_chromeos || is_linux) {
+@@ -578,6 +584,7 @@ if (is_chromeos || is_linux) {
      if (use_ozone) {
        deps += [ "//ui/ozone" ]
      }
@@ -477,7 +477,7 @@ Index: dev/content/browser/renderer_host/render_view_host_impl.cc
 ===================================================================
 --- dev.orig/content/browser/renderer_host/render_view_host_impl.cc
 +++ dev/content/browser/renderer_host/render_view_host_impl.cc
-@@ -468,7 +468,11 @@ WebPreferences RenderViewHostImpl::Compu
+@@ -467,7 +467,11 @@ WebPreferences RenderViewHostImpl::Compu
    prefs.save_previous_document_resources = GetSavePreviousDocumentResources();
  
    prefs.accelerated_video_decode_enabled =
@@ -510,7 +510,7 @@ Index: dev/media/base/media_switches.cc
  
  // When running tests on a system without the required hardware or libraries,
  // this flag will cause the tests to fail. Otherwise, they silently succeed.
-@@ -487,15 +493,22 @@ const base::Feature kPreloadMediaEngagem
+@@ -491,15 +497,22 @@ const base::Feature kPreloadMediaEngagem
  #endif
  
  bool IsVideoCaptureAcceleratedJpegDecodingEnabled() {
@@ -570,15 +570,26 @@ Index: dev/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
 +++ dev/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
-@@ -296,7 +296,7 @@ bool VaapiJpegDecodeAccelerator::Initial
-   // TODO(crbug.com/828119): Try a list of possible supported formats rather
-   // than hardcoding the format to I420 here.
-   va_image_format_ = base::WrapUnique(new VAImageFormat{});
--  va_image_format_->fourcc = VA_FOURCC_I420;
-+  va_image_format_->fourcc = libyuv::FOURCC_I420;
-   va_image_format_->byte_order = VA_LSB_FIRST;
-   va_image_format_->bits_per_pixel = 12;
+@@ -383,7 +383,7 @@ bool VaapiJpegDecodeAccelerator::OutputP
+   size_t dst_v_stride = video_frame->stride(VideoFrame::kVPlane);
  
+   switch (va_image_format.fourcc) {
+-    case VA_FOURCC_I420: {
++    case libyuv::VA_FOURCC_I420: {
+       DCHECK_EQ(image->num_planes, 3u);
+       const uint8_t* src_y = mem + image->offsets[0];
+       const uint8_t* src_u = mem + image->offsets[1];
+@@ -400,8 +400,8 @@ bool VaapiJpegDecodeAccelerator::OutputP
+       }
+       break;
+     }
+-    case VA_FOURCC_YUY2:
+-    case VA_FOURCC_YUYV: {
++    case libyuv::VA_FOURCC_YUY2:
++    case libyuv::VA_FOURCC_YUYV: {
+       DCHECK_EQ(image->num_planes, 1u);
+       const uint8_t* src_yuy2 = mem + image->offsets[0];
+       const size_t src_yuy2_stride = image->pitches[0];
 Index: dev/content/renderer/media/webrtc/peer_connection_dependency_factory.cc
 ===================================================================
 --- dev.orig/content/renderer/media/webrtc/peer_connection_dependency_factory.cc
