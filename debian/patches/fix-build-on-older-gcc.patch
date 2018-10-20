@@ -605,3 +605,16 @@ Index: dev/extensions/common/permissions/permissions_info.h
  namespace extensions {
  
  struct Alias;
+Index: dev/components/password_manager/core/browser/invalid_realm_credential_cleaner.cc
+===================================================================
+--- dev.orig/components/password_manager/core/browser/invalid_realm_credential_cleaner.cc
++++ dev/components/password_manager/core/browser/invalid_realm_credential_cleaner.cc
+@@ -54,7 +54,7 @@ std::pair<FormVector, FormVector> SplitF
+ // an invalid signon_realm with the HTTP form credentials from which HTTPS form
+ // was created.
+ FormKeyForHttpMatch GetFormKeyForHttpMatch(const autofill::PasswordForm& form) {
+-  return {form.date_created, form.origin.GetContent(), form.username_value};
++  return std::make_tuple(form.date_created, form.origin.GetContent(), form.username_value);
+ }
+ 
+ // Returns the fields from PasswordForm necessary to match an HTTPS form with an
