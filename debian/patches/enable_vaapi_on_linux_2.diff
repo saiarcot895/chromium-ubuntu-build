@@ -566,30 +566,6 @@ Index: dev/content/browser/utility_process_host.cc
        switches::kUseFakeDeviceForMediaStream,
        switches::kUseFakeJpegDecodeAccelerator,
        switches::kUseFileForFakeVideoCapture,
-Index: dev/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
-===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
-+++ dev/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
-@@ -383,7 +383,7 @@ bool VaapiJpegDecodeAccelerator::OutputP
-   size_t dst_v_stride = video_frame->stride(VideoFrame::kVPlane);
- 
-   switch (va_image_format.fourcc) {
--    case VA_FOURCC_I420: {
-+    case libyuv::VA_FOURCC_I420: {
-       DCHECK_EQ(image->num_planes, 3u);
-       const uint8_t* src_y = mem + image->offsets[0];
-       const uint8_t* src_u = mem + image->offsets[1];
-@@ -400,8 +400,8 @@ bool VaapiJpegDecodeAccelerator::OutputP
-       }
-       break;
-     }
--    case VA_FOURCC_YUY2:
--    case VA_FOURCC_YUYV: {
-+    case libyuv::VA_FOURCC_YUY2:
-+    case libyuv::VA_FOURCC_YUYV: {
-       DCHECK_EQ(image->num_planes, 1u);
-       const uint8_t* src_yuy2 = mem + image->offsets[0];
-       const size_t src_yuy2_stride = image->pitches[0];
 Index: dev/content/renderer/media/webrtc/peer_connection_dependency_factory.cc
 ===================================================================
 --- dev.orig/content/renderer/media/webrtc/peer_connection_dependency_factory.cc

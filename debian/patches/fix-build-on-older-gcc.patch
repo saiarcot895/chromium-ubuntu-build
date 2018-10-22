@@ -618,3 +618,19 @@ Index: dev/components/password_manager/core/browser/invalid_realm_credential_cle
  }
  
  // Returns the fields from PasswordForm necessary to match an HTTPS form with an
+@@ -201,7 +201,7 @@ void InvalidRealmCredentialCleaner::OnGe
+   for (const auto& form : http_forms) {
+     http_credentials_map.emplace(
+         GetFormKeyForHttpMatch(*form),
+-        password_manager_util::GetSignonRealmWithProtocolExcluded(*form));
++        password_manager_util::GetSignonRealmWithProtocolExcluded(*form).as_string());
+   }
+ 
+   // Separate HTML and non-HTML HTTPS credentials.
+@@ -237,4 +237,4 @@ void InvalidRealmCredentialCleaner::Clea
+   observer_->CleaningCompleted();
+ }
+ 
+-}  // namespace password_manager
+\ No newline at end of file
++}  // namespace password_manager
