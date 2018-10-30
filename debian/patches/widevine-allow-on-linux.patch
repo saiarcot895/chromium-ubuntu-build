@@ -1,7 +1,7 @@
-Index: dev/third_party/widevine/cdm/widevine.gni
+Index: beta/third_party/widevine/cdm/widevine.gni
 ===================================================================
---- dev.orig/third_party/widevine/cdm/widevine.gni
-+++ dev/third_party/widevine/cdm/widevine.gni
+--- beta.orig/third_party/widevine/cdm/widevine.gni
++++ beta/third_party/widevine/cdm/widevine.gni
 @@ -31,7 +31,7 @@ enable_library_widevine_cdm =
  # and Windows. The CDM can be bundled regardless whether it's a component. See
  # below.

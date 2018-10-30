@@ -1,10 +1,10 @@
 Author: Olivier Tilloy <olivier.tilloy@canonical.com>
 Description: Do not use warning flags that require a newer Clang
 
-Index: dev/build/config/compiler/BUILD.gn
+Index: beta/build/config/compiler/BUILD.gn
 ===================================================================
---- dev.orig/build/config/compiler/BUILD.gn
-+++ dev/build/config/compiler/BUILD.gn
+--- beta.orig/build/config/compiler/BUILD.gn
++++ beta/build/config/compiler/BUILD.gn
 @@ -1475,30 +1475,14 @@ config("default_warnings") {
            "-Wno-user-defined-warnings",
  
