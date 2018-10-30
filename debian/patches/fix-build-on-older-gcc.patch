@@ -2,7 +2,7 @@ Index: dev/gpu/command_buffer/service/texture_manager.cc
 ===================================================================
 --- dev.orig/gpu/command_buffer/service/texture_manager.cc
 +++ dev/gpu/command_buffer/service/texture_manager.cc
-@@ -131,130 +131,130 @@ class FormatTypeValidator {
+@@ -132,130 +132,130 @@ class FormatTypeValidator {
    FormatTypeValidator() {
      static const FormatType kSupportedFormatTypes[] = {
          // ES2.
@@ -234,7 +234,7 @@ Index: dev/gpu/command_buffer/service/texture_manager.cc
      };
  
      for (size_t ii = 0; ii < arraysize(kSupportedFormatTypes); ++ii) {
-@@ -269,7 +269,7 @@ class FormatTypeValidator {
+@@ -270,7 +270,7 @@ class FormatTypeValidator {
    // This may be accessed from multiple threads.
    bool IsValid(ContextType context_type, GLenum internal_format, GLenum format,
                 GLenum type) const {
@@ -321,7 +321,7 @@ Index: dev/cc/trees/layer_tree_mutator.cc
 ===================================================================
 --- dev.orig/cc/trees/layer_tree_mutator.cc
 +++ dev/cc/trees/layer_tree_mutator.cc
-@@ -55,8 +55,9 @@ bool MutatorInputState::IsEmpty() const
+@@ -57,8 +57,9 @@ bool MutatorInputState::IsEmpty() const
  
  AnimationWorkletInput& MutatorInputState::EnsureWorkletEntry(int id) {
    auto it = inputs_.find(id);
