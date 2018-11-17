@@ -2,12 +2,12 @@ Index: dev/third_party/opus/BUILD.gn
 ===================================================================
 --- dev.orig/third_party/opus/BUILD.gn
 +++ dev/third_party/opus/BUILD.gn
-@@ -16,7 +16,7 @@ use_opus_arm_optimization =
+@@ -21,7 +21,7 @@ use_opus_x86_optimization =
  # If OPUS Run Time CPU Detections (RTCD) shall be used.
  # Based on the conditions in celt/arm/armcpu.c:
  # defined(_MSC_VER) || defined(__linux__).
--use_opus_rtcd = current_cpu == "arm" && (is_win || is_android || is_linux)
-+use_opus_rtcd = false
+-use_opus_arm_rtcd = current_cpu == "arm" && (is_win || is_android || is_linux)
++use_opus_arm_rtcd = false
  
  config("opus_config") {
    include_dirs = [ "src/include" ]

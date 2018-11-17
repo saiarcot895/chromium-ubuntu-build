@@ -40,7 +40,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -1788,6 +1788,13 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1748,6 +1748,13 @@ const FeatureEntry kFeatureEntries[] = {
       flag_descriptions::kSingleProcessMashDescription, kOsCrOS,
       FEATURE_VALUE_TYPE(features::kSingleProcessMash)},
  #endif  // OS_CHROMEOS
@@ -54,7 +54,7 @@ Index: dev/chrome/browser/about_flags.cc
      {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
-@@ -1795,6 +1802,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1755,6 +1762,7 @@ const FeatureEntry kFeatureEntries[] = {
          kOsMac | kOsWin | kOsCrOS | kOsAndroid,
          SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
@@ -62,7 +62,7 @@ Index: dev/chrome/browser/about_flags.cc
  #if defined(OS_WIN)
      {"enable-hdr", flag_descriptions::kEnableHDRName,
       flag_descriptions::kEnableHDRDescription, kOsWin,
-@@ -2442,12 +2450,17 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -2398,12 +2406,17 @@ const FeatureEntry kFeatureEntries[] = {
       FEATURE_VALUE_TYPE(service_manager::features::kXRSandbox)},
  #endif  // ENABLE_ISOLATED_XR_SERVICE
  #endif  // ENABLE_VR
@@ -87,7 +87,7 @@ Index: dev/chrome/browser/chromeos/login/chrome_restart_request.cc
 --- dev.orig/chrome/browser/chromeos/login/chrome_restart_request.cc
 +++ dev/chrome/browser/chromeos/login/chrome_restart_request.cc
 @@ -19,6 +19,7 @@
- #include "base/sys_info.h"
+ #include "base/system/sys_info.h"
  #include "base/timer/timer.h"
  #include "base/values.h"
 +#include "build/build_config.h"
@@ -126,7 +126,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
  const char kAcceleratedVideoDecodeName[] = "Hardware-accelerated video decode";
  const char kAcceleratedVideoDecodeDescription[] =
      "Hardware-accelerated video decode where available.";
-@@ -3020,7 +3027,7 @@ const char kTextSuggestionsTouchBarDescr
+@@ -3094,7 +3101,7 @@ const char kTextSuggestionsTouchBarDescr
  
  // Chrome OS -------------------------------------------------------------------
  
@@ -135,7 +135,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
  
  const char kAcceleratedMjpegDecodeName[] =
      "Hardware-accelerated mjpeg decode for captured frame";
-@@ -3589,7 +3596,7 @@ const char kWakeOnPacketsName[] = "Wake
+@@ -3681,7 +3688,7 @@ const char kWakeOnPacketsName[] = "Wake
  const char kWakeOnPacketsDescription[] =
      "Enables waking the device based on the receipt of some network packets.";
  
@@ -159,7 +159,7 @@ Index: dev/chrome/browser/flag_descriptions.h
  extern const char kAcceleratedVideoDecodeName[];
  extern const char kAcceleratedVideoDecodeDescription[];
  
-@@ -1836,13 +1840,17 @@ extern const char kPermissionPromptPersi
+@@ -1867,13 +1871,17 @@ extern const char kPermissionPromptPersi
  
  #endif  // defined(OS_MACOSX)
  
@@ -218,7 +218,7 @@ Index: dev/content/browser/renderer_host/render_process_host_impl.cc
 ===================================================================
 --- dev.orig/content/browser/renderer_host/render_process_host_impl.cc
 +++ dev/content/browser/renderer_host/render_process_host_impl.cc
-@@ -2975,7 +2975,11 @@ void RenderProcessHostImpl::PropagateBro
+@@ -2961,7 +2961,11 @@ void RenderProcessHostImpl::PropagateBro
      switches::kDefaultTileHeight,
      switches::kDisable2dCanvasImageChromium,
      switches::kDisableAcceleratedJpegDecoding,
@@ -341,7 +341,7 @@ Index: dev/content/public/common/content_switches.h
 ===================================================================
 --- dev.orig/content/public/common/content_switches.h
 +++ dev/content/public/common/content_switches.h
-@@ -103,6 +103,9 @@ CONTENT_EXPORT extern const char kDisabl
+@@ -104,6 +104,9 @@ CONTENT_EXPORT extern const char kDisabl
  CONTENT_EXPORT extern const char kDomAutomationController[];
  extern const char kDisable2dCanvasClipAntialiasing[];
  CONTENT_EXPORT extern const char kDumpBlinkRuntimeCallStats[];
@@ -355,7 +355,7 @@ Index: dev/content/renderer/render_thread_impl.cc
 ===================================================================
 --- dev.orig/content/renderer/render_thread_impl.cc
 +++ dev/content/renderer/render_thread_impl.cc
-@@ -1325,7 +1325,11 @@ media::GpuVideoAcceleratorFactories* Ren
+@@ -1331,7 +1331,11 @@ media::GpuVideoAcceleratorFactories* Ren
            kGpuStreamPriorityMedia);
  
    const bool enable_video_accelerator =
@@ -414,7 +414,7 @@ Index: dev/media/gpu/BUILD.gn
 ===================================================================
 --- dev.orig/media/gpu/BUILD.gn
 +++ dev/media/gpu/BUILD.gn
-@@ -521,6 +521,12 @@ if (use_v4l2_codec || use_vaapi || is_ma
+@@ -548,6 +548,12 @@ if (use_v4l2_codec || use_vaapi || is_ma
    }
  }
  
@@ -424,10 +424,10 @@ Index: dev/media/gpu/BUILD.gn
 +  packages = [ "libva" ]
 +}
 +
- if (use_vaapi) {
+ if (use_v4l2_codec || use_vaapi) {
    test("jpeg_encode_accelerator_unittest") {
      deps = [
-@@ -591,6 +597,7 @@ if (is_chromeos || is_linux) {
+@@ -618,6 +624,7 @@ if (is_chromeos || is_linux) {
      if (use_ozone) {
        deps += [ "//ui/ozone" ]
      }
@@ -477,7 +477,7 @@ Index: dev/content/browser/renderer_host/render_view_host_impl.cc
 ===================================================================
 --- dev.orig/content/browser/renderer_host/render_view_host_impl.cc
 +++ dev/content/browser/renderer_host/render_view_host_impl.cc
-@@ -465,7 +465,11 @@ WebPreferences RenderViewHostImpl::Compu
+@@ -464,7 +464,11 @@ WebPreferences RenderViewHostImpl::Compu
    prefs.save_previous_document_resources = GetSavePreviousDocumentResources();
  
    prefs.accelerated_video_decode_enabled =
@@ -510,7 +510,7 @@ Index: dev/media/base/media_switches.cc
  
  // When running tests on a system without the required hardware or libraries,
  // this flag will cause the tests to fail. Otherwise, they silently succeed.
-@@ -487,15 +493,22 @@ const base::Feature kPreloadMediaEngagem
+@@ -492,15 +498,22 @@ const base::Feature kPreloadMediaEngagem
  #endif
  
  bool IsVideoCaptureAcceleratedJpegDecodingEnabled() {
@@ -554,7 +554,7 @@ Index: dev/content/browser/utility_process_host.cc
 ===================================================================
 --- dev.orig/content/browser/utility_process_host.cc
 +++ dev/content/browser/utility_process_host.cc
-@@ -356,7 +356,11 @@ bool UtilityProcessHost::StartProcess()
+@@ -358,7 +358,11 @@ bool UtilityProcessHost::StartProcess()
        switches::kOverrideUseSoftwareGLForTests,
        switches::kOverrideEnabledCdmInterfaceVersion,
        switches::kProxyServer,
@@ -570,7 +570,7 @@ Index: dev/content/renderer/media/webrtc/peer_connection_dependency_factory.cc
 ===================================================================
 --- dev.orig/content/renderer/media/webrtc/peer_connection_dependency_factory.cc
 +++ dev/content/renderer/media/webrtc/peer_connection_dependency_factory.cc
-@@ -295,10 +295,18 @@ void PeerConnectionDependencyFactory::In
+@@ -303,10 +303,18 @@ void PeerConnectionDependencyFactory::In
  
    const base::CommandLine* cmd_line = base::CommandLine::ForCurrentProcess();
    if (gpu_factories && gpu_factories->IsGpuVideoAcceleratorEnabled()) {

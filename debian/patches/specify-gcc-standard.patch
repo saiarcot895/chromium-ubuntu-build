@@ -2,7 +2,7 @@ Index: dev/third_party/angle/third_party/vulkan-validation-layers/BUILD.gn
 ===================================================================
 --- dev.orig/third_party/angle/third_party/vulkan-validation-layers/BUILD.gn
 +++ dev/third_party/angle/third_party/vulkan-validation-layers/BUILD.gn
-@@ -364,6 +364,7 @@ source_set("vulkan_layer_utils") {
+@@ -363,6 +363,7 @@ source_set("vulkan_layer_utils") {
      ":vulkan_generate_helper_files",
    ]
    configs -= vulkan_undefine_configs

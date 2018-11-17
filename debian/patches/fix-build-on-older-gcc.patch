@@ -273,21 +273,6 @@ Index: dev/extensions/common/api/web_request.json
                      }
                    },
                    "raw" : {
-Index: dev/third_party/blink/renderer/modules/canvas/canvas2d/base_rendering_context_2d.cc
-===================================================================
---- dev.orig/third_party/blink/renderer/modules/canvas/canvas2d/base_rendering_context_2d.cc
-+++ dev/third_party/blink/renderer/modules/canvas/canvas2d/base_rendering_context_2d.cc
-@@ -650,8 +650,8 @@ void BaseRenderingContext2D::DrawPathInt
- 
-   SkPath sk_path = path.GetSkPath();
-   FloatRect bounds = path.BoundingRect();
--  if (isnan(bounds.X()) || isnan(bounds.Y()) || isnan(bounds.Width()) ||
--      isnan(bounds.Height()))
-+  if (std::isnan(bounds.X()) || std::isnan(bounds.Y()) || std::isnan(bounds.Width()) ||
-+      std::isnan(bounds.Height()))
-     return;
-   sk_path.setFillType(fill_type);
- 
 Index: dev/media/base/subsample_entry.h
 ===================================================================
 --- dev.orig/media/base/subsample_entry.h
@@ -338,40 +323,40 @@ Index: dev/device/fido/authenticator_get_assertion_response.cc
 +++ dev/device/fido/authenticator_get_assertion_response.cc
 @@ -95,16 +95,16 @@ std::vector<uint8_t> GetSerializedCtapDe
      const AuthenticatorGetAssertionResponse& response) {
-   cbor::CBORValue::MapValue response_map;
+   cbor::Value::MapValue response_map;
    if (response.credential())
 -    response_map.emplace(1, response.credential()->ConvertToCBOR());
-+    response_map.emplace(cbor::CBORValue(1), response.credential()->ConvertToCBOR());
++    response_map.emplace(cbor::Value(1), response.credential()->ConvertToCBOR());
  
 -  response_map.emplace(2, response.auth_data().SerializeToByteArray());
 -  response_map.emplace(3, response.signature());
-+  response_map.emplace(cbor::CBORValue(2), cbor::CBORValue(response.auth_data().SerializeToByteArray()));
-+  response_map.emplace(cbor::CBORValue(3), cbor::CBORValue(std::move(response.signature())));
++  response_map.emplace(cbor::Value(2), cbor::Value(response.auth_data().SerializeToByteArray()));
++  response_map.emplace(cbor::Value(3), cbor::Value(std::move(response.signature())));
  
    if (response.user_entity())
 -    response_map.emplace(4, response.user_entity()->ConvertToCBOR());
-+    response_map.emplace(cbor::CBORValue(4), response.user_entity()->ConvertToCBOR());
++    response_map.emplace(cbor::Value(4), response.user_entity()->ConvertToCBOR());
  
    // Multiple account selection is not supported.
 -  response_map.emplace(5, 1);
-+  response_map.emplace(cbor::CBORValue(5), cbor::CBORValue(1));
++  response_map.emplace(cbor::Value(5), cbor::Value(1));
    auto encoded_response =
-       cbor::CBORWriter::Write(cbor::CBORValue(std::move(response_map)));
+       cbor::Writer::Write(cbor::Value(std::move(response_map)));
    DCHECK(encoded_response);
 Index: dev/device/fido/authenticator_supported_options.cc
 ===================================================================
 --- dev.orig/device/fido/authenticator_supported_options.cc
 +++ dev/device/fido/authenticator_supported_options.cc
-@@ -56,19 +56,19 @@ AuthenticatorSupportedOptions::SetIsPlat
+@@ -57,19 +57,19 @@ AuthenticatorSupportedOptions::SetIsPlat
  
- cbor::CBORValue ConvertToCBOR(const AuthenticatorSupportedOptions& options) {
-   cbor::CBORValue::MapValue option_map;
+ cbor::Value ConvertToCBOR(const AuthenticatorSupportedOptions& options) {
+   cbor::Value::MapValue option_map;
 -  option_map.emplace(kResidentKeyMapKey, options.supports_resident_key());
 -  option_map.emplace(kUserPresenceMapKey, options.user_presence_required());
 -  option_map.emplace(kPlatformDeviceMapKey, options.is_platform_device());
-+  option_map.emplace(cbor::CBORValue(kResidentKeyMapKey), cbor::CBORValue(options.supports_resident_key()));
-+  option_map.emplace(cbor::CBORValue(kUserPresenceMapKey), cbor::CBORValue(options.user_presence_required()));
-+  option_map.emplace(cbor::CBORValue(kPlatformDeviceMapKey), cbor::CBORValue(options.is_platform_device()));
++  option_map.emplace(cbor::Value(kResidentKeyMapKey), cbor::Value(options.supports_resident_key()));
++  option_map.emplace(cbor::Value(kUserPresenceMapKey), cbor::Value(options.user_presence_required()));
++  option_map.emplace(cbor::Value(kPlatformDeviceMapKey), cbor::Value(options.is_platform_device()));
  
    using UvAvailability =
        AuthenticatorSupportedOptions::UserVerificationAvailability;
@@ -379,24 +364,24 @@ Index: dev/device/fido/authenticator_supported_options.cc
    switch (options.user_verification_availability()) {
      case UvAvailability::kSupportedAndConfigured:
 -      option_map.emplace(kUserVerificationMapKey, true);
-+      option_map.emplace(cbor::CBORValue(kUserVerificationMapKey), cbor::CBORValue(true));
++      option_map.emplace(cbor::Value(kUserVerificationMapKey), cbor::Value(true));
        break;
      case UvAvailability::kSupportedButNotConfigured:
 -      option_map.emplace(kUserVerificationMapKey, false);
-+      option_map.emplace(cbor::CBORValue(kUserVerificationMapKey), cbor::CBORValue(false));
++      option_map.emplace(cbor::Value(kUserVerificationMapKey), cbor::Value(false));
        break;
      case UvAvailability::kNotSupported:
        break;
-@@ -79,10 +79,10 @@ cbor::CBORValue ConvertToCBOR(const Auth
+@@ -80,10 +80,10 @@ cbor::Value ConvertToCBOR(const Authenti
  
    switch (options.client_pin_availability()) {
      case ClientPinAvailability::kSupportedAndPinSet:
 -      option_map.emplace(kClientPinMapKey, true);
-+      option_map.emplace(cbor::CBORValue(kClientPinMapKey), cbor::CBORValue(true));
++      option_map.emplace(cbor::Value(kClientPinMapKey), cbor::Value(true));
        break;
      case ClientPinAvailability::kSupportedButPinNotSet:
 -      option_map.emplace(kClientPinMapKey, false);
-+      option_map.emplace(cbor::CBORValue(kClientPinMapKey), cbor::CBORValue(false));
++      option_map.emplace(cbor::Value(kClientPinMapKey), cbor::Value(false));
        break;
      case ClientPinAvailability::kNotSupported:
        break;
@@ -404,17 +389,17 @@ Index: dev/device/fido/attestation_object.cc
 ===================================================================
 --- dev.orig/device/fido/attestation_object.cc
 +++ dev/device/fido/attestation_object.cc
-@@ -73,9 +73,9 @@ std::vector<uint8_t> AttestationObject::
+@@ -78,9 +78,9 @@ std::vector<uint8_t> AttestationObject::
  std::vector<uint8_t> SerializeToCtapStyleCborEncodedBytes(
      const AttestationObject& object) {
-   cbor::CBORValue::MapValue map;
+   cbor::Value::MapValue map;
 -  map.emplace(1, object.attestation_statement().format_name());
 -  map.emplace(2, object.authenticator_data().SerializeToByteArray());
 -  map.emplace(3, object.attestation_statement().GetAsCBORMap());
-+  map.emplace(cbor::CBORValue(1), cbor::CBORValue(object.attestation_statement().format_name()));
-+  map.emplace(cbor::CBORValue(2), cbor::CBORValue(object.authenticator_data().SerializeToByteArray()));
-+  map.emplace(cbor::CBORValue(3), cbor::CBORValue(object.attestation_statement().GetAsCBORMap()));
-   auto encoded_bytes = cbor::CBORWriter::Write(cbor::CBORValue(std::move(map)));
++  map.emplace(cbor::Value(1), cbor::Value(object.attestation_statement().format_name()));
++  map.emplace(cbor::Value(2), cbor::Value(object.authenticator_data().SerializeToByteArray()));
++  map.emplace(cbor::Value(3), cbor::Value(object.attestation_statement().GetAsCBORMap()));
+   auto encoded_bytes = cbor::Writer::Write(cbor::Value(std::move(map)));
    DCHECK(encoded_bytes);
    return std::move(*encoded_bytes);
 Index: dev/device/fido/authenticator_get_info_response.cc
@@ -424,28 +409,28 @@ Index: dev/device/fido/authenticator_get_info_response.cc
 @@ -71,21 +71,21 @@ std::vector<uint8_t> EncodeToCBOR(
                                                                   : kU2fVersion);
    }
-   cbor::CBORValue::MapValue device_info_map;
+   cbor::Value::MapValue device_info_map;
 -  device_info_map.emplace(1, std::move(version_array));
-+  device_info_map.emplace(cbor::CBORValue(1), cbor::CBORValue(std::move(version_array)));
++  device_info_map.emplace(cbor::Value(1), cbor::Value(std::move(version_array)));
  
    if (response.extensions())
 -    device_info_map.emplace(2, ToArrayValue(*response.extensions()));
-+    device_info_map.emplace(cbor::CBORValue(2), cbor::CBORValue(ToArrayValue(*response.extensions())));
++    device_info_map.emplace(cbor::Value(2), cbor::Value(ToArrayValue(*response.extensions())));
  
 -  device_info_map.emplace(3, response.aaguid());
 -  device_info_map.emplace(4, ConvertToCBOR(response.options()));
-+  device_info_map.emplace(cbor::CBORValue(3), cbor::CBORValue(response.aaguid()));
-+  device_info_map.emplace(cbor::CBORValue(4), ConvertToCBOR(response.options()));
++  device_info_map.emplace(cbor::Value(3), cbor::Value(response.aaguid()));
++  device_info_map.emplace(cbor::Value(4), ConvertToCBOR(response.options()));
  
    if (response.max_msg_size()) {
      device_info_map.emplace(
 -        5, base::strict_cast<int64_t>(*response.max_msg_size()));
-+        cbor::CBORValue(5), cbor::CBORValue(base::strict_cast<int64_t>(*response.max_msg_size())));
++        cbor::Value(5), cbor::Value(base::strict_cast<int64_t>(*response.max_msg_size())));
    }
  
    if (response.pin_protocol()) {
 -    device_info_map.emplace(6, ToArrayValue(*response.pin_protocol()));
-+    device_info_map.emplace(cbor::CBORValue(6), cbor::CBORValue(ToArrayValue(*response.pin_protocol())));
++    device_info_map.emplace(cbor::Value(6), cbor::Value(ToArrayValue(*response.pin_protocol())));
    }
  
    auto encoded_bytes =
@@ -455,79 +440,79 @@ Index: dev/device/fido/public_key_credential_rp_entity.cc
 +++ dev/device/fido/public_key_credential_rp_entity.cc
 @@ -78,12 +78,12 @@ PublicKeyCredentialRpEntity& PublicKeyCr
  
- cbor::CBORValue PublicKeyCredentialRpEntity::ConvertToCBOR() const {
-   cbor::CBORValue::MapValue rp_map;
+ cbor::Value PublicKeyCredentialRpEntity::ConvertToCBOR() const {
+   cbor::Value::MapValue rp_map;
 -  rp_map.emplace(kEntityIdMapKey, rp_id_);
-+  rp_map.emplace(cbor::CBORValue(kEntityIdMapKey), cbor::CBORValue(rp_id_));
++  rp_map.emplace(cbor::Value(kEntityIdMapKey), cbor::Value(rp_id_));
    if (rp_name_)
 -    rp_map.emplace(kEntityNameMapKey, *rp_name_);
-+    rp_map.emplace(cbor::CBORValue(kEntityNameMapKey), cbor::CBORValue(*rp_name_));
++    rp_map.emplace(cbor::Value(kEntityNameMapKey), cbor::Value(*rp_name_));
  
    if (rp_icon_url_)
 -    rp_map.emplace(kIconUrlMapKey, rp_icon_url_->spec());
-+    rp_map.emplace(cbor::CBORValue(kIconUrlMapKey), cbor::CBORValue(rp_icon_url_->spec()));
++    rp_map.emplace(cbor::Value(kIconUrlMapKey), cbor::Value(rp_icon_url_->spec()));
  
-   return cbor::CBORValue(std::move(rp_map));
+   return cbor::Value(std::move(rp_map));
  }
 Index: dev/device/fido/public_key_credential_user_entity.cc
 ===================================================================
 --- dev.orig/device/fido/public_key_credential_user_entity.cc
 +++ dev/device/fido/public_key_credential_user_entity.cc
-@@ -64,13 +64,13 @@ PublicKeyCredentialUserEntity::~PublicKe
+@@ -63,13 +63,13 @@ PublicKeyCredentialUserEntity::~PublicKe
  
- cbor::CBORValue PublicKeyCredentialUserEntity::ConvertToCBOR() const {
-   cbor::CBORValue::MapValue user_map;
+ cbor::Value PublicKeyCredentialUserEntity::ConvertToCBOR() const {
+   cbor::Value::MapValue user_map;
 -  user_map.emplace(kEntityIdMapKey, user_id_);
-+  user_map.emplace(cbor::CBORValue(kEntityIdMapKey), cbor::CBORValue(user_id_));
++  user_map.emplace(cbor::Value(kEntityIdMapKey), cbor::Value(user_id_));
    if (user_name_)
 -    user_map.emplace(kEntityNameMapKey, *user_name_);
-+    user_map.emplace(cbor::CBORValue(kEntityNameMapKey), cbor::CBORValue(*user_name_));
++    user_map.emplace(cbor::Value(kEntityNameMapKey), cbor::Value(*user_name_));
    if (user_icon_url_)
 -    user_map.emplace(kIconUrlMapKey, user_icon_url_->spec());
-+    user_map.emplace(cbor::CBORValue(kIconUrlMapKey), cbor::CBORValue(user_icon_url_->spec()));
++    user_map.emplace(cbor::Value(kIconUrlMapKey), cbor::Value(user_icon_url_->spec()));
    if (user_display_name_) {
 -    user_map.emplace(kDisplayNameMapKey, *user_display_name_);
-+    user_map.emplace(cbor::CBORValue(kDisplayNameMapKey), cbor::CBORValue(*user_display_name_));
++    user_map.emplace(cbor::Value(kDisplayNameMapKey), cbor::Value(*user_display_name_));
    }
-   return cbor::CBORValue(std::move(user_map));
+   return cbor::Value(std::move(user_map));
  }
 Index: dev/device/fido/public_key_credential_params.cc
 ===================================================================
 --- dev.orig/device/fido/public_key_credential_params.cc
 +++ dev/device/fido/public_key_credential_params.cc
-@@ -65,10 +65,10 @@ cbor::CBORValue PublicKeyCredentialParam
+@@ -64,10 +64,10 @@ cbor::Value PublicKeyCredentialParams::C
  
    for (const auto& credential : public_key_credential_params_) {
-     cbor::CBORValue::MapValue cbor_credential_map;
+     cbor::Value::MapValue cbor_credential_map;
 -    cbor_credential_map.emplace(kCredentialTypeMapKey,
 -                                CredentialTypeToString(credential.type));
 -    cbor_credential_map.emplace(kCredentialAlgorithmMapKey,
 -                                credential.algorithm);
-+    cbor_credential_map.emplace(cbor::CBORValue(kCredentialTypeMapKey),
-+                                cbor::CBORValue(CredentialTypeToString(credential.type)));
-+    cbor_credential_map.emplace(cbor::CBORValue(kCredentialAlgorithmMapKey),
-+                                cbor::CBORValue(credential.algorithm));
++    cbor_credential_map.emplace(cbor::Value(kCredentialTypeMapKey),
++                                cbor::Value(CredentialTypeToString(credential.type)));
++    cbor_credential_map.emplace(cbor::Value(kCredentialAlgorithmMapKey),
++                                cbor::Value(credential.algorithm));
      credential_param_array.emplace_back(std::move(cbor_credential_map));
    }
-   return cbor::CBORValue(std::move(credential_param_array));
+   return cbor::Value(std::move(credential_param_array));
 Index: dev/device/fido/virtual_ctap2_device.cc
 ===================================================================
 --- dev.orig/device/fido/virtual_ctap2_device.cc
 +++ dev/device/fido/virtual_ctap2_device.cc
-@@ -113,13 +113,13 @@ std::vector<uint8_t> ConstructMakeCreden
+@@ -115,13 +115,13 @@ std::vector<uint8_t> ConstructMakeCreden
      base::span<const uint8_t> signature,
      AuthenticatorData authenticator_data) {
-   cbor::CBORValue::MapValue attestation_map;
+   cbor::Value::MapValue attestation_map;
 -  attestation_map.emplace("alg", -7);
 -  attestation_map.emplace("sig", fido_parsing_utils::Materialize(signature));
-+  attestation_map.emplace(cbor::CBORValue("alg"), cbor::CBORValue(-7));
-+  attestation_map.emplace(cbor::CBORValue("sig"), cbor::CBORValue(fido_parsing_utils::Materialize(signature)));
++  attestation_map.emplace(cbor::Value("alg"), cbor::Value(-7));
++  attestation_map.emplace(cbor::Value("sig"), cbor::Value(fido_parsing_utils::Materialize(signature)));
  
    if (attestation_certificate) {
-     cbor::CBORValue::ArrayValue certificate_chain;
+     cbor::Value::ArrayValue certificate_chain;
      certificate_chain.emplace_back(std::move(*attestation_certificate));
 -    attestation_map.emplace("x5c", std::move(certificate_chain));
-+    attestation_map.emplace(cbor::CBORValue("x5c"), cbor::CBORValue(std::move(certificate_chain)));
++    attestation_map.emplace(cbor::Value("x5c"), cbor::Value(std::move(certificate_chain)));
    }
  
    AuthenticatorMakeCredentialResponse make_credential_response(
@@ -551,12 +536,12 @@ Index: dev/device/fido/cable/fido_cable_handshake_handler.cc
 @@ -45,8 +45,8 @@ base::Optional<std::array<uint8_t, kClie
  ConstructHandshakeMessage(base::StringPiece handshake_key,
                            base::span<const uint8_t, 16> client_random_nonce) {
-   cbor::CBORValue::MapValue map;
+   cbor::Value::MapValue map;
 -  map.emplace(0, kCableClientHelloMessage);
 -  map.emplace(1, client_random_nonce);
-+  map.emplace(cbor::CBORValue(0), cbor::CBORValue(kCableClientHelloMessage));
-+  map.emplace(cbor::CBORValue(1), cbor::CBORValue(client_random_nonce));
-   auto client_hello = cbor::CBORWriter::Write(cbor::CBORValue(std::move(map)));
++  map.emplace(cbor::Value(0), cbor::Value(kCableClientHelloMessage));
++  map.emplace(cbor::Value(1), cbor::Value(client_random_nonce));
+   auto client_hello = cbor::Writer::Write(cbor::Value(std::move(map)));
    DCHECK(client_hello);
  
 Index: dev/components/password_manager/core/browser/http_credentials_cleaner.cc
