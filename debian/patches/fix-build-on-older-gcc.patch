@@ -678,11 +678,12 @@ Index: dev/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
    // Specify which image format we will request from the VAAPI. As the expected
    // output format is I420, we will first try this format. If converting to I420
    // is not supported by the decoder, we will request the image in its original
-@@ -360,6 +365,12 @@ bool VaapiJpegDecodeAccelerator::OutputP
+@@ -360,6 +365,13 @@ bool VaapiJpegDecodeAccelerator::OutputP
        return false;
      }
    }
 +#else
++  VAImageFormat va_image_format;
 +  if (!VaSurfaceFormatToImageFormat(va_surface_format, &va_image_format)) {
 +    VLOGF(1) << "Unsupported surface format";
 +    return false;
@@ -691,7 +692,7 @@ Index: dev/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
  
    const gfx::Size coded_size = video_frame->coded_size();
    auto scoped_image = vaapi_wrapper_->CreateVaImage(
-@@ -383,6 +394,7 @@ bool VaapiJpegDecodeAccelerator::OutputP
+@@ -383,6 +395,7 @@ bool VaapiJpegDecodeAccelerator::OutputP
    size_t dst_v_stride = video_frame->stride(VideoFrame::kVPlane);
  
    switch (va_image_format.fourcc) {
@@ -699,7 +700,7 @@ Index: dev/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
      case VA_FOURCC_I420: {
        DCHECK_EQ(image->num_planes, 3u);
        const uint8_t* src_y = mem + image->offsets[0];
-@@ -400,6 +412,7 @@ bool VaapiJpegDecodeAccelerator::OutputP
+@@ -400,6 +413,7 @@ bool VaapiJpegDecodeAccelerator::OutputP
        }
        break;
      }
@@ -707,3 +708,29 @@ Index: dev/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
      case VA_FOURCC_YUY2:
      case VA_FOURCC_YUYV: {
        DCHECK_EQ(image->num_planes, 1u);
+Index: dev/components/viz/service/frame_sinks/frame_sink_manager_impl.cc
+===================================================================
+--- dev.orig/components/viz/service/frame_sinks/frame_sink_manager_impl.cc
++++ dev/components/viz/service/frame_sinks/frame_sink_manager_impl.cc
+@@ -100,7 +100,7 @@ void FrameSinkManagerImpl::RegisterFrame
+   DCHECK_CALLED_ON_VALID_THREAD(thread_checker_);
+   DCHECK(!base::ContainsKey(frame_sink_data_, frame_sink_id));
+ 
+-  frame_sink_data_.emplace(std::make_pair(frame_sink_id, report_activation));
++  frame_sink_data_.emplace(std::make_pair(frame_sink_id, FrameSinkData(report_activation)));
+ 
+   if (video_detector_)
+     video_detector_->OnFrameSinkIdRegistered(frame_sink_id);
+Index: dev/third_party/pdfium/core/fxcrt/fx_coordinates.cpp
+===================================================================
+--- dev.orig/third_party/pdfium/core/fxcrt/fx_coordinates.cpp
++++ dev/third_party/pdfium/core/fxcrt/fx_coordinates.cpp
+@@ -302,7 +302,7 @@ std::ostream& operator<<(std::ostream& o
+ 
+ std::tuple<float, float, float, float, float, float> CFX_Matrix::AsTuple()
+     const {
+-  return {a, b, c, d, e, f};
++  return std::make_tuple(a, b, c, d, e, f);
+ }
+ 
+ CFX_Matrix CFX_Matrix::GetInverse() const {

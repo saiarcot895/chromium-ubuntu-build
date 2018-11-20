@@ -1,3 +1,9 @@
+chromium-browser (72.0.3610.2-0ubuntu1~ppa3~16.04.1) xenial; urgency=low
+
+  * Fix more build errors, and add java as a dependency.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 20 Nov 2018 12:00:04 -0500
+
 chromium-browser (72.0.3610.2-0ubuntu1~ppa2~16.04.1) xenial; urgency=low
 
   * Fix some of the build errors.
