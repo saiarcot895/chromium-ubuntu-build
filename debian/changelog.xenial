@@ -1,3 +1,9 @@
+chromium-browser (72.0.3610.2-0ubuntu1~ppa4~16.04.1) xenial; urgency=low
+
+  * Fix packaging issue.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 21 Nov 2018 08:31:28 -0500
+
 chromium-browser (72.0.3610.2-0ubuntu1~ppa3~16.04.1) xenial; urgency=low
 
   * Fix more build errors, and add java as a dependency.
