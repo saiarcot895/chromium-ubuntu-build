@@ -548,9 +548,9 @@ Index: dev/components/password_manager/core/browser/http_credentials_cleaner.cc
 ===================================================================
 --- dev.orig/components/password_manager/core/browser/http_credentials_cleaner.cc
 +++ dev/components/password_manager/core/browser/http_credentials_cleaner.cc
-@@ -46,9 +46,9 @@ void HttpCredentialCleaner::OnGetPasswor
- 
-   for (auto& form : results) {
+@@ -43,9 +43,9 @@ void HttpCredentialCleaner::OnGetPasswor
+   // federated credentials.
+   for (auto& form : RemoveNonHTTPOrHTTPSForms(std::move(results))) {
      FormKey form_key(
 -        {std::string(
 +        std::make_tuple(std::string(
@@ -560,13 +560,6 @@ Index: dev/components/password_manager/core/browser/http_credentials_cleaner.cc
      if (form->origin.SchemeIs(url::kHttpScheme)) {
        const GURL origin = form->origin;
        PostHSTSQueryForHostAndNetworkContext(
-@@ -134,4 +134,4 @@ void HttpCredentialCleaner::ReportMetric
-   observer_->CleaningCompleted();
- }
- 
--}  // namespace password_manager
-\ No newline at end of file
-+}  // namespace password_manager
 Index: dev/extensions/common/permissions/permissions_info.h
 ===================================================================
 --- dev.orig/extensions/common/permissions/permissions_info.h
@@ -603,7 +596,7 @@ Index: dev/components/password_manager/core/browser/invalid_realm_credential_cle
  }
  
  // Returns the fields from PasswordForm necessary to match an HTTPS form with an
-@@ -201,7 +201,7 @@ void InvalidRealmCredentialCleaner::OnGe
+@@ -196,7 +196,7 @@ void InvalidRealmCredentialCleaner::OnGe
    for (const auto& form : http_forms) {
      http_credentials_map.emplace(
          GetFormKeyForHttpMatch(*form),
@@ -612,13 +605,6 @@ Index: dev/components/password_manager/core/browser/invalid_realm_credential_cle
    }
  
    // Separate HTML and non-HTML HTTPS credentials.
-@@ -237,4 +237,4 @@ void InvalidRealmCredentialCleaner::Clea
-   observer_->CleaningCompleted();
- }
- 
--}  // namespace password_manager
-\ No newline at end of file
-+}  // namespace password_manager
 Index: dev/components/ukm/ukm_recorder_impl.h
 ===================================================================
 --- dev.orig/components/ukm/ukm_recorder_impl.h
@@ -712,7 +698,7 @@ Index: dev/components/viz/service/frame_sinks/frame_sink_manager_impl.cc
 ===================================================================
 --- dev.orig/components/viz/service/frame_sinks/frame_sink_manager_impl.cc
 +++ dev/components/viz/service/frame_sinks/frame_sink_manager_impl.cc
-@@ -100,7 +100,7 @@ void FrameSinkManagerImpl::RegisterFrame
+@@ -99,7 +99,7 @@ void FrameSinkManagerImpl::RegisterFrame
    DCHECK_CALLED_ON_VALID_THREAD(thread_checker_);
    DCHECK(!base::ContainsKey(frame_sink_data_, frame_sink_id));
  

@@ -52,7 +52,7 @@ Index: dev/components/search_engines/template_url_prepopulate_data.cc
 ===================================================================
 --- dev.orig/components/search_engines/template_url_prepopulate_data.cc
 +++ dev/components/search_engines/template_url_prepopulate_data.cc
-@@ -51,7 +51,7 @@ namespace {
+@@ -33,7 +33,7 @@ namespace {
  
  // Default (for countries with no better engine set)
  const PrepopulatedEngine* const engines_default[] = {
@@ -61,7 +61,7 @@ Index: dev/components/search_engines/template_url_prepopulate_data.cc
  };
  
  // United Arab Emirates
-@@ -166,7 +166,7 @@ const PrepopulatedEngine* const engines_
+@@ -148,7 +148,7 @@ const PrepopulatedEngine* const engines_
  
  // Germany
  const PrepopulatedEngine* const engines_DE[] = {
@@ -70,7 +70,7 @@ Index: dev/components/search_engines/template_url_prepopulate_data.cc
  };
  
  // Denmark
-@@ -216,12 +216,12 @@ const PrepopulatedEngine* const engines_
+@@ -198,12 +198,12 @@ const PrepopulatedEngine* const engines_
  
  // France
  const PrepopulatedEngine* const engines_FR[] = {
@@ -85,7 +85,7 @@ Index: dev/components/search_engines/template_url_prepopulate_data.cc
  };
  
  // Greece
-@@ -556,7 +556,7 @@ const PrepopulatedEngine* const engines_
+@@ -538,7 +538,7 @@ const PrepopulatedEngine* const engines_
  
  // United States
  const PrepopulatedEngine* const engines_US[] = {
@@ -94,7 +94,7 @@ Index: dev/components/search_engines/template_url_prepopulate_data.cc
  };
  
  // Uruguay
-@@ -593,6 +593,7 @@ const PrepopulatedEngine* const engines_
+@@ -575,6 +575,7 @@ const PrepopulatedEngine* const engines_
  const PrepopulatedEngine* const kAllEngines[] = {
      // Prepopulated engines:
      &aol, &ask, &ask_br, &ask_uk, &baidu, &bing, &daum, &google, &kvasir,

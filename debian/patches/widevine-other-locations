@@ -2,7 +2,7 @@ Index: dev/chrome/common/chrome_paths.cc
 ===================================================================
 --- dev.orig/chrome/common/chrome_paths.cc
 +++ dev/chrome/common/chrome_paths.cc
-@@ -376,6 +376,20 @@ bool PathProvider(int key, base::FilePat
+@@ -378,6 +378,20 @@ bool PathProvider(int key, base::FilePat
      // TODO(crbug.com/663554): Remove this after component updated CDM is
      // supported on Linux and ChromeOS.
      case chrome::FILE_WIDEVINE_CDM:
