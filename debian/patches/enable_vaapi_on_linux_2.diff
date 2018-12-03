@@ -439,8 +439,12 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -333,7 +333,7 @@ bool VADisplayState::InitializeOnce() {
-   DVLOG(1) << "VAAPI version: " << major_version << "." << minor_version << " "
+@@ -330,10 +330,10 @@ bool VADisplayState::InitializeOnce() {
+   va_vendor_string_ = vaQueryVendorString(va_display_);
+   DLOG_IF(WARNING, va_vendor_string_.empty())
+       << "Vendor string empty or error reading.";
+-  DVLOG(1) << "VAAPI version: " << major_version << "." << minor_version << " "
++  VLOG(1) << "VAAPI version: " << major_version << "." << minor_version << " "
             << va_vendor_string_;
  
 -  if (major_version != VA_MAJOR_VERSION || minor_version != VA_MINOR_VERSION) {
@@ -448,6 +452,15 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
      LOG(ERROR) << "This build of Chromium requires VA-API version "
                 << VA_MAJOR_VERSION << "." << VA_MINOR_VERSION
                 << ", system version: " << major_version << "." << minor_version;
+@@ -610,7 +610,7 @@ bool VASupportedProfiles::AreAttribsSupp
+     if (attribs[i].type != required_attribs[i].type ||
+         (attribs[i].value & required_attribs[i].value) !=
+             required_attribs[i].value) {
+-      DVLOG(1) << "Unsupported value " << required_attribs[i].value
++      VLOG(1) << "Unsupported value " << required_attribs[i].value
+                << " for attribute type " << required_attribs[i].type;
+       return false;
+     }
 @@ -965,7 +965,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
    }
    va_attrib_extbuf.num_planes = num_planes;
@@ -510,6 +523,15 @@ Index: dev/media/base/media_switches.cc
  
  // When running tests on a system without the required hardware or libraries,
  // this flag will cause the tests to fail. Otherwise, they silently succeed.
+@@ -258,7 +264,7 @@ const base::Feature kMemoryPressureBased
+ // Enable MojoVideoDecoder, replacing GpuVideoDecoder.
+ const base::Feature kMojoVideoDecoder {
+   "MojoVideoDecoder",
+-#if defined(OS_CHROMEOS)
++#if defined(OS_LINUX) && !defined(OS_ANDROID)
+       // TODO(posciak): Re-enable once the feature is verified on CrOS.
+       // https://crbug.com/902968.
+       base::FEATURE_DISABLED_BY_DEFAULT
 @@ -488,15 +494,22 @@ const base::Feature kPreloadMediaEngagem
  #endif
  
@@ -630,3 +652,15 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
    std::unique_ptr<VideoDecodeAccelerator> decoder;
    decoder.reset(new VaapiVideoDecodeAccelerator(make_context_current_cb_,
                                                  bind_image_cb_));
+Index: dev/media/renderers/default_decoder_factory.cc
+===================================================================
+--- dev.orig/media/renderers/default_decoder_factory.cc
++++ dev/media/renderers/default_decoder_factory.cc
+@@ -105,6 +105,7 @@ void DefaultDecoderFactory::CreateVideoD
+ 
+     // MojoVideoDecoder replaces any VDA for this platform when it's enabled.
+     if (!base::FeatureList::IsEnabled(media::kMojoVideoDecoder)) {
++      VLOG(WARNING) << "Adding GpuVideoDecoder to list of decoders to use";
+       video_decoders->push_back(std::make_unique<GpuVideoDecoder>(
+           gpu_factories, request_overlay_info_cb, target_color_space,
+           media_log));

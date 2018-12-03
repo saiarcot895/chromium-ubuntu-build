@@ -1,3 +1,10 @@
+chromium-browser (72.0.3622.0-0ubuntu1~ppa2~16.04.1) xenial; urgency=low
+
+  * Try to fix VAAPI VDA.
+  * Fix build for Xenial.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 03 Dec 2018 10:40:37 -0500
+
 chromium-browser (72.0.3622.0-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
 
   * New upstream version 72.0.3622.0
