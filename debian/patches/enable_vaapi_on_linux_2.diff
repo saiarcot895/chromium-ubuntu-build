@@ -668,7 +668,7 @@ Index: dev/media/renderers/default_decoder_factory.cc
  
      // MojoVideoDecoder replaces any VDA for this platform when it's enabled.
      if (!base::FeatureList::IsEnabled(media::kMojoVideoDecoder)) {
-+      VLOG(WARNING) << "Adding GpuVideoDecoder to list of decoders to use";
++      VLOG(1) << "Adding GpuVideoDecoder to list of decoders to use";
        video_decoders->push_back(std::make_unique<GpuVideoDecoder>(
            gpu_factories, request_overlay_info_cb, target_color_space,
            media_log));
