@@ -1,3 +1,11 @@
+chromium-browser (72.0.3622.0-0ubuntu1~ppa3~18.10.1) cosmic; urgency=low
+
+  * Fix build.
+  * Try to fix Widevine.
+  * Enable jumbo builds.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 04 Dec 2018 00:06:17 -0500
+
 chromium-browser (72.0.3622.0-0ubuntu1~ppa2~18.10.1) cosmic; urgency=low
 
   * Try to fix VAAPI VDA.

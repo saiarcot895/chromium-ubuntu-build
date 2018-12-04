@@ -46,7 +46,6 @@ ffmpeg_extra_defines :=
 export DH_VERBOSE=1
 
 common_defines += \
-				enable_google_now=false \
 				enable_hangout_services_extension=true \
 				enable_mdns=true \
 				enable_nacl=false \
@@ -89,7 +88,8 @@ common_defines += \
 				fatal_linker_warnings=false \
 				target_os="linux" \
 				current_os="linux" \
-				optimize_webui=false
+				optimize_webui=false \
+				use_jumbo_build = true
 
 # FFmpeg-mt
 # Ignore the version built as part of chromium. Build it separately twice, once with

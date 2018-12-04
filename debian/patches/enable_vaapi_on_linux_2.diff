@@ -656,7 +656,15 @@ Index: dev/media/renderers/default_decoder_factory.cc
 ===================================================================
 --- dev.orig/media/renderers/default_decoder_factory.cc
 +++ dev/media/renderers/default_decoder_factory.cc
-@@ -105,6 +105,7 @@ void DefaultDecoderFactory::CreateVideoD
+@@ -8,6 +8,7 @@
+ 
+ #include "base/feature_list.h"
+ #include "base/single_thread_task_runner.h"
++#include "base/logging.h"
+ #include "build/build_config.h"
+ #include "build/buildflag.h"
+ #include "media/base/decoder_factory.h"
+@@ -105,6 +106,7 @@ void DefaultDecoderFactory::CreateVideoD
  
      // MojoVideoDecoder replaces any VDA for this platform when it's enabled.
      if (!base::FeatureList::IsEnabled(media::kMojoVideoDecoder)) {
