@@ -321,7 +321,7 @@ Index: dev/device/fido/authenticator_get_assertion_response.cc
 ===================================================================
 --- dev.orig/device/fido/authenticator_get_assertion_response.cc
 +++ dev/device/fido/authenticator_get_assertion_response.cc
-@@ -95,16 +95,16 @@ std::vector<uint8_t> GetSerializedCtapDe
+@@ -101,16 +101,16 @@ std::vector<uint8_t> GetSerializedCtapDe
      const AuthenticatorGetAssertionResponse& response) {
    cbor::Value::MapValue response_map;
    if (response.credential())
@@ -627,12 +627,12 @@ Index: dev/components/ukm/ukm_recorder_impl.h
 +
  namespace ukm {
  class Report;
- class UkmSource;
+ class UkmRecorderImplTest;
 Index: dev/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
 +++ dev/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
-@@ -47,9 +47,11 @@ static void ReportToUMA(VAJDADecoderFail
+@@ -45,9 +45,11 @@ static void ReportToUMA(VAJDADecoderFail
  // macro in the header file without pulling in the entire <va/va.h>.
  static_assert(VA_FOURCC_YUYV == VA_FOURCC('Y', 'U', 'Y', 'V'),
                "VA_FOURCC_YUYV must be equal to VA_FOURCC('Y', 'U', 'Y', 'V')");
@@ -644,7 +644,7 @@ Index: dev/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
  constexpr VAImageFormat kImageFormatYUYV = {.fourcc = VA_FOURCC_YUYV,
                                              .byte_order = VA_LSB_FIRST,
                                              .bits_per_pixel = 16};
-@@ -58,9 +60,11 @@ constexpr VAImageFormat kImageFormatYUYV
+@@ -56,9 +58,11 @@ constexpr VAImageFormat kImageFormatYUYV
  bool VaSurfaceFormatToImageFormat(uint32_t va_rt_format,
                                    VAImageFormat* va_image_format) {
    switch (va_rt_format) {
@@ -656,7 +656,7 @@ Index: dev/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
      case VA_RT_FORMAT_YUV422:
        *va_image_format = kImageFormatYUYV;
        return true;
-@@ -349,6 +353,7 @@ bool VaapiJpegDecodeAccelerator::OutputP
+@@ -347,6 +351,7 @@ bool VaapiJpegDecodeAccelerator::OutputP
              << " into video_frame associated with input buffer id "
              << input_buffer_id;
  
@@ -664,7 +664,7 @@ Index: dev/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
    // Specify which image format we will request from the VAAPI. As the expected
    // output format is I420, we will first try this format. If converting to I420
    // is not supported by the decoder, we will request the image in its original
-@@ -360,6 +365,13 @@ bool VaapiJpegDecodeAccelerator::OutputP
+@@ -358,6 +363,13 @@ bool VaapiJpegDecodeAccelerator::OutputP
        return false;
      }
    }
@@ -678,7 +678,7 @@ Index: dev/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
  
    const gfx::Size coded_size = video_frame->coded_size();
    auto scoped_image = vaapi_wrapper_->CreateVaImage(
-@@ -383,6 +395,7 @@ bool VaapiJpegDecodeAccelerator::OutputP
+@@ -381,6 +393,7 @@ bool VaapiJpegDecodeAccelerator::OutputP
    size_t dst_v_stride = video_frame->stride(VideoFrame::kVPlane);
  
    switch (va_image_format.fourcc) {
@@ -686,7 +686,7 @@ Index: dev/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
      case VA_FOURCC_I420: {
        DCHECK_EQ(image->num_planes, 3u);
        const uint8_t* src_y = mem + image->offsets[0];
-@@ -400,6 +413,7 @@ bool VaapiJpegDecodeAccelerator::OutputP
+@@ -398,6 +411,7 @@ bool VaapiJpegDecodeAccelerator::OutputP
        }
        break;
      }
@@ -707,19 +707,6 @@ Index: dev/components/viz/service/frame_sinks/frame_sink_manager_impl.cc
  
    if (video_detector_)
      video_detector_->OnFrameSinkIdRegistered(frame_sink_id);
-Index: dev/third_party/pdfium/core/fxcrt/fx_coordinates.cpp
-===================================================================
---- dev.orig/third_party/pdfium/core/fxcrt/fx_coordinates.cpp
-+++ dev/third_party/pdfium/core/fxcrt/fx_coordinates.cpp
-@@ -302,7 +302,7 @@ std::ostream& operator<<(std::ostream& o
- 
- std::tuple<float, float, float, float, float, float> CFX_Matrix::AsTuple()
-     const {
--  return {a, b, c, d, e, f};
-+  return std::make_tuple(a, b, c, d, e, f);
- }
- 
- CFX_Matrix CFX_Matrix::GetInverse() const {
 Index: dev/third_party/blink/renderer/platform/heap/gc_info.cc
 ===================================================================
 --- dev.orig/third_party/blink/renderer/platform/heap/gc_info.cc

@@ -2,7 +2,7 @@ Index: dev/third_party/webrtc/modules/desktop_capture/desktop_capturer.cc
 ===================================================================
 --- dev.orig/third_party/webrtc/modules/desktop_capture/desktop_capturer.cc
 +++ dev/third_party/webrtc/modules/desktop_capture/desktop_capturer.cc
-@@ -10,6 +10,7 @@
+@@ -12,6 +12,7 @@
  
  #include "modules/desktop_capture/desktop_capturer.h"
  

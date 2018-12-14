@@ -40,7 +40,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -1713,6 +1713,13 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1710,6 +1710,13 @@ const FeatureEntry kFeatureEntries[] = {
       flag_descriptions::kSingleProcessMashDescription, kOsCrOS,
       FEATURE_VALUE_TYPE(features::kSingleProcessMash)},
  #endif  // OS_CHROMEOS
@@ -54,7 +54,7 @@ Index: dev/chrome/browser/about_flags.cc
      {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
-@@ -1720,6 +1727,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1717,6 +1724,7 @@ const FeatureEntry kFeatureEntries[] = {
          kOsMac | kOsWin | kOsCrOS | kOsAndroid,
          SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
@@ -62,7 +62,7 @@ Index: dev/chrome/browser/about_flags.cc
  #if defined(OS_WIN)
      {"enable-hdr", flag_descriptions::kEnableHDRName,
       flag_descriptions::kEnableHDRDescription, kOsWin,
-@@ -2344,12 +2352,17 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -2345,12 +2353,17 @@ const FeatureEntry kFeatureEntries[] = {
       FEATURE_VALUE_TYPE(service_manager::features::kXRSandbox)},
  #endif  // ENABLE_ISOLATED_XR_SERVICE
  #endif  // ENABLE_VR
@@ -126,7 +126,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
  const char kAcceleratedVideoDecodeName[] = "Hardware-accelerated video decode";
  const char kAcceleratedVideoDecodeDescription[] =
      "Hardware-accelerated video decode where available.";
-@@ -3053,7 +3060,7 @@ const char kTextSuggestionsTouchBarDescr
+@@ -3087,7 +3094,7 @@ const char kTextSuggestionsTouchBarDescr
  
  // Chrome OS -------------------------------------------------------------------
  
@@ -135,7 +135,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
  
  const char kAcceleratedMjpegDecodeName[] =
      "Hardware-accelerated mjpeg decode for captured frame";
-@@ -3646,7 +3653,7 @@ const char kWakeOnPacketsName[] = "Wake
+@@ -3692,7 +3699,7 @@ const char kWakeOnPacketsName[] = "Wake
  const char kWakeOnPacketsDescription[] =
      "Enables waking the device based on the receipt of some network packets.";
  
@@ -159,7 +159,7 @@ Index: dev/chrome/browser/flag_descriptions.h
  extern const char kAcceleratedVideoDecodeName[];
  extern const char kAcceleratedVideoDecodeDescription[];
  
-@@ -1828,13 +1832,17 @@ extern const char kPermissionPromptPersi
+@@ -1846,13 +1850,17 @@ extern const char kPermissionPromptPersi
  
  #endif  // defined(OS_MACOSX)
  
@@ -218,7 +218,7 @@ Index: dev/content/browser/renderer_host/render_process_host_impl.cc
 ===================================================================
 --- dev.orig/content/browser/renderer_host/render_process_host_impl.cc
 +++ dev/content/browser/renderer_host/render_process_host_impl.cc
-@@ -2961,7 +2961,11 @@ void RenderProcessHostImpl::PropagateBro
+@@ -2977,7 +2977,11 @@ void RenderProcessHostImpl::PropagateBro
      switches::kDefaultTileHeight,
      switches::kDisable2dCanvasImageChromium,
      switches::kDisableAcceleratedJpegDecoding,
@@ -414,7 +414,7 @@ Index: dev/media/gpu/BUILD.gn
 ===================================================================
 --- dev.orig/media/gpu/BUILD.gn
 +++ dev/media/gpu/BUILD.gn
-@@ -504,6 +504,12 @@ if (use_v4l2_codec || use_vaapi || is_ma
+@@ -506,6 +506,12 @@ if (use_v4l2_codec || use_vaapi || is_ma
    }
  }
  
@@ -427,7 +427,7 @@ Index: dev/media/gpu/BUILD.gn
  if (use_v4l2_codec || use_vaapi) {
    test("jpeg_encode_accelerator_unittest") {
      deps = [
-@@ -574,6 +580,7 @@ if (is_chromeos || is_linux) {
+@@ -576,6 +582,7 @@ if (is_chromeos || is_linux) {
      if (use_ozone) {
        deps += [ "//ui/ozone" ]
      }
@@ -461,7 +461,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
                 << " for attribute type " << required_attribs[i].type;
        return false;
      }
-@@ -965,7 +965,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
+@@ -1000,7 +1000,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
    }
    va_attrib_extbuf.num_planes = num_planes;
  
@@ -490,7 +490,7 @@ Index: dev/content/browser/renderer_host/render_view_host_impl.cc
 ===================================================================
 --- dev.orig/content/browser/renderer_host/render_view_host_impl.cc
 +++ dev/content/browser/renderer_host/render_view_host_impl.cc
-@@ -460,7 +460,11 @@ WebPreferences RenderViewHostImpl::Compu
+@@ -465,7 +465,11 @@ WebPreferences RenderViewHostImpl::Compu
    prefs.save_previous_document_resources = GetSavePreviousDocumentResources();
  
    prefs.accelerated_video_decode_enabled =
