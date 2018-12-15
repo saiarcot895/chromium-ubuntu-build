@@ -36,10 +36,10 @@ Change-Id: Ifbbf5c9e5221a8b5733fc6d4d0cf984a1f103171
 Signed-off-by: Daniel Charles <daniel.charles@intel.com>
 ---
 
-Index: dev/chrome/browser/about_flags.cc
+Index: beta/chrome/browser/about_flags.cc
 ===================================================================
---- dev.orig/chrome/browser/about_flags.cc
-+++ dev/chrome/browser/about_flags.cc
+--- beta.orig/chrome/browser/about_flags.cc
++++ beta/chrome/browser/about_flags.cc
 @@ -1710,6 +1710,13 @@ const FeatureEntry kFeatureEntries[] = {
       flag_descriptions::kSingleProcessMashDescription, kOsCrOS,
       FEATURE_VALUE_TYPE(features::kSingleProcessMash)},
@@ -82,10 +82,10 @@ Index: dev/chrome/browser/about_flags.cc
      {"v8-cache-options", flag_descriptions::kV8CacheOptionsName,
       flag_descriptions::kV8CacheOptionsDescription, kOsAll,
       MULTI_VALUE_TYPE(kV8CacheOptionsChoices)},
-Index: dev/chrome/browser/chromeos/login/chrome_restart_request.cc
+Index: beta/chrome/browser/chromeos/login/chrome_restart_request.cc
 ===================================================================
---- dev.orig/chrome/browser/chromeos/login/chrome_restart_request.cc
-+++ dev/chrome/browser/chromeos/login/chrome_restart_request.cc
+--- beta.orig/chrome/browser/chromeos/login/chrome_restart_request.cc
++++ beta/chrome/browser/chromeos/login/chrome_restart_request.cc
 @@ -19,6 +19,7 @@
  #include "base/system/sys_info.h"
  #include "base/timer/timer.h"
@@ -108,10 +108,10 @@ Index: dev/chrome/browser/chromeos/login/chrome_restart_request.cc
      ::switches::kDisableAcceleratedVideoEncode,
      ::switches::kDisableBlinkFeatures,
      ::switches::kDisableCastStreamingHWEncoding,
-Index: dev/chrome/browser/flag_descriptions.cc
+Index: beta/chrome/browser/flag_descriptions.cc
 ===================================================================
---- dev.orig/chrome/browser/flag_descriptions.cc
-+++ dev/chrome/browser/flag_descriptions.cc
+--- beta.orig/chrome/browser/flag_descriptions.cc
++++ beta/chrome/browser/flag_descriptions.cc
 @@ -14,6 +14,13 @@ const char kAccelerated2dCanvasDescripti
      "Enables the use of the GPU to perform 2d canvas rendering instead of "
      "using software rendering.";
@@ -144,10 +144,10 @@ Index: dev/chrome/browser/flag_descriptions.cc
  
  // Random platform combinations -----------------------------------------------
  
-Index: dev/chrome/browser/flag_descriptions.h
+Index: beta/chrome/browser/flag_descriptions.h
 ===================================================================
---- dev.orig/chrome/browser/flag_descriptions.h
-+++ dev/chrome/browser/flag_descriptions.h
+--- beta.orig/chrome/browser/flag_descriptions.h
++++ beta/chrome/browser/flag_descriptions.h
 @@ -38,6 +38,10 @@ namespace flag_descriptions {
  extern const char kAccelerated2dCanvasName[];
  extern const char kAccelerated2dCanvasDescription[];
@@ -180,10 +180,10 @@ Index: dev/chrome/browser/flag_descriptions.h
  extern const char kAllowTouchpadThreeFingerClickName[];
  extern const char kAllowTouchpadThreeFingerClickDescription[];
  
-Index: dev/content/browser/gpu/compositor_util.cc
+Index: beta/content/browser/gpu/compositor_util.cc
 ===================================================================
---- dev.orig/content/browser/gpu/compositor_util.cc
-+++ dev/content/browser/gpu/compositor_util.cc
+--- beta.orig/content/browser/gpu/compositor_util.cc
++++ beta/content/browser/gpu/compositor_util.cc
 @@ -150,7 +150,11 @@ const GpuFeatureData GetGpuFeatureData(
        {"video_decode",
         SafeGetFeatureStatus(gpu_feature_info,
@@ -196,10 +196,10 @@ Index: dev/content/browser/gpu/compositor_util.cc
         "Accelerated video decode has been disabled, either via blacklist, "
         "about:flags or the command line.",
         true, true},
-Index: dev/content/browser/renderer_host/media/video_capture_browsertest.cc
+Index: beta/content/browser/renderer_host/media/video_capture_browsertest.cc
 ===================================================================
---- dev.orig/content/browser/renderer_host/media/video_capture_browsertest.cc
-+++ dev/content/browser/renderer_host/media/video_capture_browsertest.cc
+--- beta.orig/content/browser/renderer_host/media/video_capture_browsertest.cc
++++ beta/content/browser/renderer_host/media/video_capture_browsertest.cc
 @@ -166,8 +166,13 @@ class VideoCaptureBrowserTest : public C
        base::CommandLine::ForCurrentProcess()->AppendSwitch(
            switches::kUseFakeJpegDecodeAccelerator);
@@ -214,11 +214,11 @@ Index: dev/content/browser/renderer_host/media/video_capture_browsertest.cc
      }
    }
  
-Index: dev/content/browser/renderer_host/render_process_host_impl.cc
+Index: beta/content/browser/renderer_host/render_process_host_impl.cc
 ===================================================================
---- dev.orig/content/browser/renderer_host/render_process_host_impl.cc
-+++ dev/content/browser/renderer_host/render_process_host_impl.cc
-@@ -2977,7 +2977,11 @@ void RenderProcessHostImpl::PropagateBro
+--- beta.orig/content/browser/renderer_host/render_process_host_impl.cc
++++ beta/content/browser/renderer_host/render_process_host_impl.cc
+@@ -2966,7 +2966,11 @@ void RenderProcessHostImpl::PropagateBro
      switches::kDefaultTileHeight,
      switches::kDisable2dCanvasImageChromium,
      switches::kDisableAcceleratedJpegDecoding,
@@ -230,10 +230,10 @@ Index: dev/content/browser/renderer_host/render_process_host_impl.cc
      switches::kDisableBackgroundTasks,
      switches::kDisableBackgroundTimerThrottling,
      switches::kDisableBreakpad,
-Index: dev/content/browser/webrtc/webrtc_media_recorder_browsertest.cc
+Index: beta/content/browser/webrtc/webrtc_media_recorder_browsertest.cc
 ===================================================================
---- dev.orig/content/browser/webrtc/webrtc_media_recorder_browsertest.cc
-+++ dev/content/browser/webrtc/webrtc_media_recorder_browsertest.cc
+--- beta.orig/content/browser/webrtc/webrtc_media_recorder_browsertest.cc
++++ beta/content/browser/webrtc/webrtc_media_recorder_browsertest.cc
 @@ -66,7 +66,12 @@ class MAYBE_WebRtcMediaRecorderTest
        return;
      // This flag is also used for encoding, https://crbug.com/616640.
@@ -248,10 +248,10 @@ Index: dev/content/browser/webrtc/webrtc_media_recorder_browsertest.cc
    }
  
   private:
-Index: dev/content/gpu/BUILD.gn
+Index: beta/content/gpu/BUILD.gn
 ===================================================================
---- dev.orig/content/gpu/BUILD.gn
-+++ dev/content/gpu/BUILD.gn
+--- beta.orig/content/gpu/BUILD.gn
++++ beta/content/gpu/BUILD.gn
 @@ -6,6 +6,7 @@ import("//build/config/jumbo.gni")
  import("//build/config/ui.gni")
  import("//gpu/vulkan/features.gni")
@@ -277,10 +277,10 @@ Index: dev/content/gpu/BUILD.gn
 +    public_configs = [ "//media/gpu:libva_config" ]
 +  }
  }
-Index: dev/content/gpu/gpu_main.cc
+Index: beta/content/gpu/gpu_main.cc
 ===================================================================
---- dev.orig/content/gpu/gpu_main.cc
-+++ dev/content/gpu/gpu_main.cc
+--- beta.orig/content/gpu/gpu_main.cc
++++ beta/content/gpu/gpu_main.cc
 @@ -284,7 +284,7 @@ int GpuMain(const MainFunctionParams& pa
  
    base::PlatformThread::SetName("CrGpuMain");
@@ -299,10 +299,10 @@ Index: dev/content/gpu/gpu_main.cc
    io_thread_priority = base::ThreadPriority::DISPLAY;
  #endif
  
-Index: dev/content/public/browser/gpu_utils.cc
+Index: beta/content/public/browser/gpu_utils.cc
 ===================================================================
---- dev.orig/content/public/browser/gpu_utils.cc
-+++ dev/content/public/browser/gpu_utils.cc
+--- beta.orig/content/public/browser/gpu_utils.cc
++++ beta/content/public/browser/gpu_utils.cc
 @@ -72,9 +72,17 @@ const gpu::GpuPreferences GetGpuPreferen
    gpu_preferences.in_process_gpu =
        command_line->HasSwitch(switches::kInProcessGPU);
@@ -321,10 +321,10 @@ Index: dev/content/public/browser/gpu_utils.cc
  #if defined(OS_WIN)
    uint32_t enable_accelerated_vpx_decode_val =
        gpu::GpuPreferences::VPX_VENDOR_MICROSOFT;
-Index: dev/content/public/common/content_switches.cc
+Index: beta/content/public/common/content_switches.cc
 ===================================================================
---- dev.orig/content/public/common/content_switches.cc
-+++ dev/content/public/common/content_switches.cc
+--- beta.orig/content/public/common/content_switches.cc
++++ beta/content/public/common/content_switches.cc
 @@ -69,6 +69,11 @@ const char kDisable3DAPIs[]
  // Disable gpu-accelerated 2d canvas.
  const char kDisableAccelerated2dCanvas[]    = "disable-accelerated-2d-canvas";
@@ -337,10 +337,10 @@ Index: dev/content/public/common/content_switches.cc
  // Disables hardware acceleration of video decode, where available.
  const char kDisableAcceleratedVideoDecode[] =
      "disable-accelerated-video-decode";
-Index: dev/content/public/common/content_switches.h
+Index: beta/content/public/common/content_switches.h
 ===================================================================
---- dev.orig/content/public/common/content_switches.h
-+++ dev/content/public/common/content_switches.h
+--- beta.orig/content/public/common/content_switches.h
++++ beta/content/public/common/content_switches.h
 @@ -105,6 +105,9 @@ CONTENT_EXPORT extern const char kDisabl
  CONTENT_EXPORT extern const char kDomAutomationController[];
  extern const char kDisable2dCanvasClipAntialiasing[];
@@ -351,10 +351,10 @@ Index: dev/content/public/common/content_switches.h
  CONTENT_EXPORT extern const char kEnableAccessibilityObjectModel[];
  CONTENT_EXPORT extern const char kEnableAggressiveDOMStorageFlushing[];
  CONTENT_EXPORT extern const char kEnableAutomation[];
-Index: dev/content/renderer/render_thread_impl.cc
+Index: beta/content/renderer/render_thread_impl.cc
 ===================================================================
---- dev.orig/content/renderer/render_thread_impl.cc
-+++ dev/content/renderer/render_thread_impl.cc
+--- beta.orig/content/renderer/render_thread_impl.cc
++++ beta/content/renderer/render_thread_impl.cc
 @@ -1330,7 +1330,11 @@ media::GpuVideoAcceleratorFactories* Ren
            kGpuStreamPriorityMedia);
  
@@ -367,10 +367,10 @@ Index: dev/content/renderer/render_thread_impl.cc
        (gpu_channel_host->gpu_feature_info()
             .status_values[gpu::GPU_FEATURE_TYPE_ACCELERATED_VIDEO_DECODE] ==
         gpu::kGpuFeatureStatusEnabled);
-Index: dev/gpu/config/software_rendering_list.json
+Index: beta/gpu/config/software_rendering_list.json
 ===================================================================
---- dev.orig/gpu/config/software_rendering_list.json
-+++ dev/gpu/config/software_rendering_list.json
+--- beta.orig/gpu/config/software_rendering_list.json
++++ beta/gpu/config/software_rendering_list.json
 @@ -370,17 +370,6 @@
        ]
      },
@@ -389,10 +389,10 @@ Index: dev/gpu/config/software_rendering_list.json
        "id": 50,
        "description": "Disable VMware software renderer on older Mesa",
        "cr_bugs": [145531, 332596, 571899, 629434],
-Index: dev/media/filters/BUILD.gn
+Index: beta/media/filters/BUILD.gn
 ===================================================================
---- dev.orig/media/filters/BUILD.gn
-+++ dev/media/filters/BUILD.gn
+--- beta.orig/media/filters/BUILD.gn
++++ beta/media/filters/BUILD.gn
 @@ -5,6 +5,7 @@
  import("//build/config/jumbo.gni")
  import("//media/media_options.gni")
@@ -410,10 +410,10 @@ Index: dev/media/filters/BUILD.gn
      sources += [
        "h264_bitstream_buffer.cc",
        "h264_bitstream_buffer.h",
-Index: dev/media/gpu/BUILD.gn
+Index: beta/media/gpu/BUILD.gn
 ===================================================================
---- dev.orig/media/gpu/BUILD.gn
-+++ dev/media/gpu/BUILD.gn
+--- beta.orig/media/gpu/BUILD.gn
++++ beta/media/gpu/BUILD.gn
 @@ -506,6 +506,12 @@ if (use_v4l2_codec || use_vaapi || is_ma
    }
  }
@@ -435,10 +435,10 @@ Index: dev/media/gpu/BUILD.gn
    }
  }
  
-Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
+Index: beta/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
-+++ dev/media/gpu/vaapi/vaapi_wrapper.cc
+--- beta.orig/media/gpu/vaapi/vaapi_wrapper.cc
++++ beta/media/gpu/vaapi/vaapi_wrapper.cc
 @@ -330,10 +330,10 @@ bool VADisplayState::InitializeOnce() {
    va_vendor_string_ = vaQueryVendorString(va_display_);
    DLOG_IF(WARNING, va_vendor_string_.empty())
@@ -473,10 +473,10 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    for (size_t i = 0; i < num_fds; ++i) {
      int dmabuf_fd = pixmap->GetDmaBufFd(i);
      if (dmabuf_fd < 0) {
-Index: dev/components/viz/service/main/viz_main_impl.cc
+Index: beta/components/viz/service/main/viz_main_impl.cc
 ===================================================================
---- dev.orig/components/viz/service/main/viz_main_impl.cc
-+++ dev/components/viz/service/main/viz_main_impl.cc
+--- beta.orig/components/viz/service/main/viz_main_impl.cc
++++ beta/components/viz/service/main/viz_main_impl.cc
 @@ -41,7 +41,7 @@ std::unique_ptr<base::Thread> CreateAndS
    // It should be possible to use |main_task_runner_| for doing IO tasks.
    base::Thread::Options thread_options(base::MessageLoop::TYPE_IO, 0);
@@ -486,10 +486,10 @@ Index: dev/components/viz/service/main/viz_main_impl.cc
    // TODO(reveman): Remove this in favor of setting it explicitly for each
    // type of process.
    thread_options.priority = base::ThreadPriority::DISPLAY;
-Index: dev/content/browser/renderer_host/render_view_host_impl.cc
+Index: beta/content/browser/renderer_host/render_view_host_impl.cc
 ===================================================================
---- dev.orig/content/browser/renderer_host/render_view_host_impl.cc
-+++ dev/content/browser/renderer_host/render_view_host_impl.cc
+--- beta.orig/content/browser/renderer_host/render_view_host_impl.cc
++++ beta/content/browser/renderer_host/render_view_host_impl.cc
 @@ -465,7 +465,11 @@ WebPreferences RenderViewHostImpl::Compu
    prefs.save_previous_document_resources = GetSavePreviousDocumentResources();
  
@@ -502,10 +502,10 @@ Index: dev/content/browser/renderer_host/render_view_host_impl.cc
  
    std::string autoplay_policy = media::GetEffectiveAutoplayPolicy(command_line);
    if (autoplay_policy == switches::autoplay::kNoUserGestureRequiredPolicy) {
-Index: dev/media/base/media_switches.cc
+Index: beta/media/base/media_switches.cc
 ===================================================================
---- dev.orig/media/base/media_switches.cc
-+++ dev/media/base/media_switches.cc
+--- beta.orig/media/base/media_switches.cc
++++ beta/media/base/media_switches.cc
 @@ -108,10 +108,16 @@ const char kUseFileForFakeAudioCapture[]
  // accelerator hardware to be present.
  const char kUseFakeJpegDecodeAccelerator[] = "use-fake-jpeg-decode-accelerator";
@@ -556,10 +556,10 @@ Index: dev/media/base/media_switches.cc
    return true;
  #endif
    return false;
-Index: dev/media/base/media_switches.h
+Index: beta/media/base/media_switches.h
 ===================================================================
---- dev.orig/media/base/media_switches.h
-+++ dev/media/base/media_switches.h
+--- beta.orig/media/base/media_switches.h
++++ beta/media/base/media_switches.h
 @@ -64,7 +64,11 @@ MEDIA_EXPORT extern const char kUseFakeD
  MEDIA_EXPORT extern const char kUseFileForFakeVideoCapture[];
  MEDIA_EXPORT extern const char kUseFileForFakeAudioCapture[];
@@ -572,10 +572,10 @@ Index: dev/media/base/media_switches.h
  
  MEDIA_EXPORT extern const char kRequireAudioHardwareForTesting[];
  MEDIA_EXPORT extern const char kMuteAudio[];
-Index: dev/content/browser/utility_process_host.cc
+Index: beta/content/browser/utility_process_host.cc
 ===================================================================
---- dev.orig/content/browser/utility_process_host.cc
-+++ dev/content/browser/utility_process_host.cc
+--- beta.orig/content/browser/utility_process_host.cc
++++ beta/content/browser/utility_process_host.cc
 @@ -358,7 +358,11 @@ bool UtilityProcessHost::StartProcess()
        switches::kOverrideUseSoftwareGLForTests,
        switches::kOverrideEnabledCdmInterfaceVersion,
@@ -588,10 +588,10 @@ Index: dev/content/browser/utility_process_host.cc
        switches::kUseFakeDeviceForMediaStream,
        switches::kUseFakeJpegDecodeAccelerator,
        switches::kUseFileForFakeVideoCapture,
-Index: dev/content/renderer/media/webrtc/peer_connection_dependency_factory.cc
+Index: beta/content/renderer/media/webrtc/peer_connection_dependency_factory.cc
 ===================================================================
---- dev.orig/content/renderer/media/webrtc/peer_connection_dependency_factory.cc
-+++ dev/content/renderer/media/webrtc/peer_connection_dependency_factory.cc
+--- beta.orig/content/renderer/media/webrtc/peer_connection_dependency_factory.cc
++++ beta/content/renderer/media/webrtc/peer_connection_dependency_factory.cc
 @@ -304,10 +304,18 @@ void PeerConnectionDependencyFactory::In
  
    const base::CommandLine* cmd_line = base::CommandLine::ForCurrentProcess();
@@ -611,10 +611,10 @@ Index: dev/content/renderer/media/webrtc/peer_connection_dependency_factory.cc
        encoder_factory.reset(new RTCVideoEncoderFactory(gpu_factories));
    }
  
-Index: dev/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
+Index: beta/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
 ===================================================================
---- dev.orig/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
-+++ dev/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
+--- beta.orig/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
++++ beta/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
 @@ -358,6 +358,7 @@ bool GpuVideoDecodeAccelerator::Initiali
      LOG(ERROR) << "Failed creating the VDA factory";
      return false;
@@ -631,10 +631,10 @@ Index: dev/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
  
    // Attempt to set up performing decoding tasks on IO thread, if supported by
    // the VDA.
-Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
+Index: beta/media/gpu/gpu_video_decode_accelerator_factory.cc
 ===================================================================
---- dev.orig/media/gpu/gpu_video_decode_accelerator_factory.cc
-+++ dev/media/gpu/gpu_video_decode_accelerator_factory.cc
+--- beta.orig/media/gpu/gpu_video_decode_accelerator_factory.cc
++++ beta/media/gpu/gpu_video_decode_accelerator_factory.cc
 @@ -181,6 +181,8 @@ GpuVideoDecodeAcceleratorFactory::Create
      vda = (this->*create_vda_function)(workarounds, gpu_preferences, media_log);
      if (vda && vda->Initialize(config, client))
@@ -652,10 +652,10 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
    std::unique_ptr<VideoDecodeAccelerator> decoder;
    decoder.reset(new VaapiVideoDecodeAccelerator(make_context_current_cb_,
                                                  bind_image_cb_));
-Index: dev/media/renderers/default_decoder_factory.cc
+Index: beta/media/renderers/default_decoder_factory.cc
 ===================================================================
---- dev.orig/media/renderers/default_decoder_factory.cc
-+++ dev/media/renderers/default_decoder_factory.cc
+--- beta.orig/media/renderers/default_decoder_factory.cc
++++ beta/media/renderers/default_decoder_factory.cc
 @@ -8,6 +8,7 @@
  
  #include "base/feature_list.h"

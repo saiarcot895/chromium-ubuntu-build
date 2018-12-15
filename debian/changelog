@@ -1,3 +1,10 @@
+chromium-browser (72.0.3626.17-0ubuntu1~ppa1~18.10.1) cosmic; urgency=low
+
+  * New upstream version 72.0.3626.17
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 14 Dec 2018 19:45:45 -0500
+
 chromium-browser (72.0.3626.14-0ubuntu1~ppa1~18.10.1) cosmic; urgency=low
 
   * New upstream version 72.0.3626.14

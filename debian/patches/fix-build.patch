@@ -1,7 +1,7 @@
-Index: dev/third_party/webrtc/modules/desktop_capture/desktop_capturer.cc
+Index: beta/third_party/webrtc/modules/desktop_capture/desktop_capturer.cc
 ===================================================================
---- dev.orig/third_party/webrtc/modules/desktop_capture/desktop_capturer.cc
-+++ dev/third_party/webrtc/modules/desktop_capture/desktop_capturer.cc
+--- beta.orig/third_party/webrtc/modules/desktop_capture/desktop_capturer.cc
++++ beta/third_party/webrtc/modules/desktop_capture/desktop_capturer.cc
 @@ -12,6 +12,7 @@
  
  #include "modules/desktop_capture/desktop_capturer.h"
@@ -10,10 +10,10 @@ Index: dev/third_party/webrtc/modules/desktop_capture/desktop_capturer.cc
  #include "modules/desktop_capture/desktop_capture_options.h"
  #include "modules/desktop_capture/desktop_capturer_differ_wrapper.h"
  
-Index: dev/third_party/webrtc/modules/desktop_capture/linux/window_capturer_x11.cc
+Index: beta/third_party/webrtc/modules/desktop_capture/linux/window_capturer_x11.cc
 ===================================================================
---- dev.orig/third_party/webrtc/modules/desktop_capture/linux/window_capturer_x11.cc
-+++ dev/third_party/webrtc/modules/desktop_capture/linux/window_capturer_x11.cc
+--- beta.orig/third_party/webrtc/modules/desktop_capture/linux/window_capturer_x11.cc
++++ beta/third_party/webrtc/modules/desktop_capture/linux/window_capturer_x11.cc
 @@ -17,6 +17,7 @@
  #include <memory>
  #include <string>

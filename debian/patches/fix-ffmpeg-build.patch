@@ -1,7 +1,7 @@
-Index: dev/third_party/ffmpeg/BUILD.gn
+Index: beta/third_party/ffmpeg/BUILD.gn
 ===================================================================
---- dev.orig/third_party/ffmpeg/BUILD.gn
-+++ dev/third_party/ffmpeg/BUILD.gn
+--- beta.orig/third_party/ffmpeg/BUILD.gn
++++ beta/third_party/ffmpeg/BUILD.gn
 @@ -241,11 +241,7 @@ target(link_target_type, "ffmpeg_interna
    # Windows builds can't compile without EBP because we can't omit frame
    # pointers like we do on posix.
