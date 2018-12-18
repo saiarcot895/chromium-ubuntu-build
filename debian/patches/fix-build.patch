@@ -2,9 +2,9 @@ Index: dev/third_party/webrtc/modules/desktop_capture/desktop_capturer.cc
 ===================================================================
 --- dev.orig/third_party/webrtc/modules/desktop_capture/desktop_capturer.cc
 +++ dev/third_party/webrtc/modules/desktop_capture/desktop_capturer.cc
-@@ -12,6 +12,7 @@
- 
- #include "modules/desktop_capture/desktop_capturer.h"
+@@ -16,6 +16,7 @@
+ #include <string.h>
+ #include <utility>
  
 +#include <string.h>
  #include "modules/desktop_capture/desktop_capture_options.h"
@@ -20,5 +20,5 @@ Index: dev/third_party/webrtc/modules/desktop_capture/linux/window_capturer_x11.
  #include <utility>
 +#include <string.h>
  
+ #include "modules/desktop_capture/desktop_capture_types.h"
  #include "modules/desktop_capture/desktop_frame.h"
- #include "modules/desktop_capture/linux/shared_x_display.h"

@@ -5,7 +5,7 @@ Index: dev/components/search_engines/prepopulated_engines.json
 ===================================================================
 --- dev.orig/components/search_engines/prepopulated_engines.json
 +++ dev/components/search_engines/prepopulated_engines.json
-@@ -85,8 +85,9 @@
+@@ -52,8 +52,9 @@
        "name": "\u767e\u5ea6",
        "keyword": "baidu.com",
        "favicon_url": "https://www.baidu.com/favicon.ico",

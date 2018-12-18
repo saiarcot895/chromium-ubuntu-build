@@ -520,7 +520,7 @@ Index: dev/device/fido/hid/fido_hid_device.cc
 ===================================================================
 --- dev.orig/device/fido/hid/fido_hid_device.cc
 +++ dev/device/fido/hid/fido_hid_device.cc
-@@ -40,7 +40,7 @@ void FidoHidDevice::Cancel() {
+@@ -49,7 +49,7 @@ void FidoHidDevice::Cancel() {
      return;
  
    // Delete any remaining pending requests on this Channel ID.
@@ -528,7 +528,7 @@ Index: dev/device/fido/hid/fido_hid_device.cc
 +  pending_transactions_ = base::queue<std::pair<std::vector<uint8_t>, DeviceCallback>>();
    WriteMessage(
        FidoHidMessage::Create(channel_id_, FidoHidDeviceCommand::kCancel,
-                              std::vector<uint8_t>()),
+                              output_report_size_, std::vector<uint8_t>()),
 Index: dev/device/fido/cable/fido_cable_handshake_handler.cc
 ===================================================================
 --- dev.orig/device/fido/cable/fido_cable_handshake_handler.cc

@@ -2,57 +2,20 @@ Index: dev/components/search_engines/prepopulated_engines.json
 ===================================================================
 --- dev.orig/components/search_engines/prepopulated_engines.json
 +++ dev/components/search_engines/prepopulated_engines.json
-@@ -14,6 +14,7 @@
- //    91+
- //
- // IDs > 1000 are reserved for distribution custom engines.
-+// 1001: DuckDuckGo
- //
- // NOTES:
- //   - CHANGE THE ABOVE NUMBERS IF YOU ADD A NEW ENGINE; ID conflicts = bad!
-@@ -28,7 +29,7 @@
-   "int_variables": {
-     // The following id is for UMA stats only. Please update it if you add new
-     // engines outside the current range or it will not be counted in stats.
--    "kMaxPrepopulatedEngineID": 90,
-+    "kMaxPrepopulatedEngineID": 1001,
- 
-     // Increment this if you change the data in ways that mean users with
-     // existing data should get a new version.
-@@ -120,6 +121,16 @@
-       "id": 68
-     },
- 
-+    "duckduckgo": {
-+      "name": "DuckDuckGo",
-+      "keyword": "duckduckgo.com",
-+      "favicon_url": "https://duckduckgo.com/favicon.ico",
+@@ -100,7 +100,7 @@
+       "name": "DuckDuckGo",
+       "keyword": "duckduckgo.com",
+       "favicon_url": "https://duckduckgo.com/favicon.ico",
+-      "search_url": "https://duckduckgo.com/?q={searchTerms}",
 +      "search_url": "https://duckduckgo.com/?q={searchTerms}&t=canonical",
-+      "suggest_url": "https://duckduckgo.com/ac/?q={searchTerms}&type=list",
-+      "type": "SEARCH_ENGINE_DUCKDUCKGO",
-+      "id": 1001
-+    },
-+
-     "google": {
-       "name": "Google",
-       "keyword": "google.com",
-Index: dev/components/search_engines/search_engine_type.h
-===================================================================
---- dev.orig/components/search_engines/search_engine_type.h
-+++ dev/components/search_engines/search_engine_type.h
-@@ -26,6 +26,7 @@ enum SearchEngineType {
-   SEARCH_ENGINE_DAUM,
-   SEARCH_ENGINE_DELFI,
-   SEARCH_ENGINE_DELTA,
-+  SEARCH_ENGINE_DUCKDUCKGO,
-   SEARCH_ENGINE_FUNMOODS,
-   SEARCH_ENGINE_GOO,
-   SEARCH_ENGINE_GOOGLE,
+       "suggest_url": "https://duckduckgo.com/ac/?q={searchTerms}&type=list",
+       "type": "SEARCH_ENGINE_DUCKDUCKGO",
+       "id": 92
 Index: dev/components/search_engines/template_url_prepopulate_data.cc
 ===================================================================
 --- dev.orig/components/search_engines/template_url_prepopulate_data.cc
 +++ dev/components/search_engines/template_url_prepopulate_data.cc
-@@ -33,7 +33,7 @@ namespace {
+@@ -34,7 +34,7 @@ namespace {
  
  // Default (for countries with no better engine set)
  const PrepopulatedEngine* const engines_default[] = {
@@ -60,45 +23,4 @@ Index: dev/components/search_engines/template_url_prepopulate_data.cc
 +    &google, &bing, &yahoo, &duckduckgo,
  };
  
- // United Arab Emirates
-@@ -148,7 +148,7 @@ const PrepopulatedEngine* const engines_
- 
- // Germany
- const PrepopulatedEngine* const engines_DE[] = {
--    &google, &bing, &yahoo_de,
-+    &google, &bing, &yahoo_de, &duckduckgo,
- };
- 
- // Denmark
-@@ -198,12 +198,12 @@ const PrepopulatedEngine* const engines_
- 
- // France
- const PrepopulatedEngine* const engines_FR[] = {
--    &google, &bing, &yahoo_fr,
-+    &google, &bing, &yahoo_fr, &duckduckgo,
- };
- 
- // United Kingdom
- const PrepopulatedEngine* const engines_GB[] = {
--    &google, &bing, &yahoo_uk, &ask_uk,
-+    &google, &bing, &yahoo_uk, &ask_uk, &duckduckgo,
- };
- 
- // Greece
-@@ -538,7 +538,7 @@ const PrepopulatedEngine* const engines_
- 
- // United States
- const PrepopulatedEngine* const engines_US[] = {
--    &google, &bing, &yahoo, &aol, &ask,
-+    &google, &bing, &yahoo, &aol, &ask, &duckduckgo,
- };
- 
- // Uruguay
-@@ -575,6 +575,7 @@ const PrepopulatedEngine* const engines_
- const PrepopulatedEngine* const kAllEngines[] = {
-     // Prepopulated engines:
-     &aol, &ask, &ask_br, &ask_uk, &baidu, &bing, &daum, &google, &kvasir,
-+    &duckduckgo,
-     &mail_ru, &najdi, &naver, &onet, &seznam, &sogou, &vinden, &virgilio,
-     &yahoo, &yahoo_ar, &yahoo_at, &yahoo_au, &yahoo_br, &yahoo_ca, &yahoo_ch,
-     &yahoo_cl, &yahoo_co, &yahoo_de, &yahoo_dk, &yahoo_es, &yahoo_fi, &yahoo_fr,
+ // Note, the below entries are sorted by country code, not the name in comment.
