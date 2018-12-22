@@ -1,185 +1,40 @@
 Revert part of 80f1e31950c38663e3678b9ba1fb38314e878f54, as it is causing
 compile errors on everything besides Clang 7.0.
 
-Index: dev/gpu/command_buffer/client/gles2_implementation.cc
+Index: dev/gpu/command_buffer/client/transfer_buffer_cmd_copy_helpers.h
 ===================================================================
---- dev.orig/gpu/command_buffer/client/gles2_implementation.cc
-+++ dev/gpu/command_buffer/client/gles2_implementation.cc
-@@ -2137,16 +2137,22 @@ void GLES2Implementation::BufferSubDataH
-   DCHECK(buffer);
-   DCHECK_GT(size, 0);
+--- dev.orig/gpu/command_buffer/client/transfer_buffer_cmd_copy_helpers.h
++++ dev/gpu/command_buffer/client/transfer_buffer_cmd_copy_helpers.h
+@@ -12,10 +12,10 @@
+ namespace gpu {
  
--  auto DoBufferSubData = [&](const std::array<uint32_t, 1>&,
--                             uint32_t copy_offset, uint32_t) {
--    helper_->BufferSubData(target, offset + copy_offset, buffer->size(),
--                           buffer->shm_id(), buffer->offset());
-+  const int8_t* source = static_cast<const int8_t*>(data);
-+  while (size) {
-+    if (!buffer->valid() || buffer->size() == 0) {
-+      buffer->Reset(size);
-+      if (!buffer->valid()) {
-+        return;
-+      }
-+    }
-+    memcpy(buffer->address(), source, buffer->size());
-+    helper_->BufferSubData(target, offset, buffer->size(), buffer->shm_id(),
-+                           buffer->offset());
-     InvalidateReadbackBufferShadowDataCHROMIUM(GetBoundBufferHelper(target));
--  };
--
--  if (!TransferArraysAndExecute(size, buffer, DoBufferSubData,
--                                static_cast<const int8_t*>(data))) {
--    SetGLError(GL_OUT_OF_MEMORY, "glBufferSubData", "out of memory");
-+    offset += buffer->size();
-+    source += buffer->size();
-+    size -= buffer->size();
-+    buffer->Release();
+ // Sum the sizes of the types in Ts as CheckedNumeric<T>.
+-template <typename T, typename... Ts>
+-constexpr base::CheckedNumeric<T> CheckedSizeOfPackedTypes() {
++template <typename... Ts>
++constexpr uint64_t CheckedSizeOfPackedTypes() {
+   static_assert(sizeof...(Ts) > 0, "");
+-  base::CheckedNumeric<T> checked_elements_size = 0;
++  uint64_t checked_elements_size = 0;
+   for (size_t s : {sizeof(Ts)...}) {
+     checked_elements_size += s;
    }
+@@ -86,12 +86,12 @@ auto CopyArraysToBuffer(uint32_t count,
+ 
+ // Sum the sizes of the types in Ts. This will fail to compile if the result
+ // does not fit in T.
+-template <typename T, typename... Ts>
+-constexpr T SizeOfPackedTypes() {
+-  constexpr base::CheckedNumeric<T> checked_elements_size =
+-      CheckedSizeOfPackedTypes<T, Ts...>();
+-  static_assert(checked_elements_size.IsValid(), "");
+-  return checked_elements_size.ValueOrDie();
++template <typename... Ts>
++constexpr uint32_t SizeOfPackedTypes() {
++  constexpr uint64_t checked_elements_size =
++      CheckedSizeOfPackedTypes<Ts...>();
++  static_assert(checked_elements_size < UINT32_MAX , "");
++  return (uint32_t)checked_elements_size;
  }
  
-@@ -2169,19 +2175,21 @@ void GLES2Implementation::MultiDrawArray
-                                                      GLsizei drawcount) {
-   DCHECK_GT(drawcount, 0);
- 
--  uint32_t buffer_size = ComputeCombinedCopySize(drawcount, firsts, counts);
--  ScopedTransferBufferPtr buffer(buffer_size, helper_, transfer_buffer_);
--  // TODO(crbug.com/890539): Increment a base gl_DrawID for multiple calls to
--  // this helper
--  auto DoMultiDraw = [&](const std::array<uint32_t, 2>& offsets, uint32_t,
--                         uint32_t copy_count) {
--    helper_->MultiDrawArraysWEBGL(mode, buffer.shm_id(),
--                                  buffer.offset() + offsets[0], buffer.shm_id(),
--                                  buffer.offset() + offsets[1], copy_count);
--  };
--  if (!TransferArraysAndExecute(drawcount, &buffer, DoMultiDraw, firsts,
--                                counts)) {
--    SetGLError(GL_OUT_OF_MEMORY, "glMultiDrawArraysWEBGL", "out of memory");
-+  const int8_t* source = static_cast<const int8_t*>(data);
-+  while (size) {
-+    if (!buffer->valid() || buffer->size() == 0) {
-+      buffer->Reset(size);
-+      if (!buffer->valid()) {
-+        return;
-+      }
-+    }
-+    memcpy(buffer->address(), source, buffer->size());
-+    helper_->BufferSubData(target, offset, buffer->size(), buffer->shm_id(),
-+                           buffer->offset());
-+    offset += buffer->size();
-+    source += buffer->size();
-+    size -= buffer->size();
-+    buffer->Release();
-   }
- }
- 
-@@ -2193,22 +2201,21 @@ void GLES2Implementation::MultiDrawArray
-     GLsizei drawcount) {
-   DCHECK_GT(drawcount, 0);
- 
--  uint32_t buffer_size =
--      ComputeCombinedCopySize(drawcount, firsts, counts, instance_counts);
--  ScopedTransferBufferPtr buffer(buffer_size, helper_, transfer_buffer_);
--  // TODO(crbug.com/890539): Increment a base gl_DrawID for multiple calls to
--  // this helper
--  auto DoMultiDraw = [&](const std::array<uint32_t, 3>& offsets, uint32_t,
--                         uint32_t copy_count) {
--    helper_->MultiDrawArraysInstancedWEBGL(
--        mode, buffer.shm_id(), buffer.offset() + offsets[0], buffer.shm_id(),
--        buffer.offset() + offsets[1], buffer.shm_id(),
--        buffer.offset() + offsets[2], copy_count);
--  };
--  if (!TransferArraysAndExecute(drawcount, &buffer, DoMultiDraw, firsts, counts,
--                                instance_counts)) {
--    SetGLError(GL_OUT_OF_MEMORY, "glMultiDrawArraysInstancedWEBGL",
--               "out of memory");
-+  const int8_t* source = static_cast<const int8_t*>(data);
-+  while (size) {
-+    if (!buffer->valid() || buffer->size() == 0) {
-+      buffer->Reset(size);
-+      if (!buffer->valid()) {
-+        return;
-+      }
-+    }
-+    memcpy(buffer->address(), source, buffer->size());
-+    helper_->BufferSubData(target, offset, buffer->size(), buffer->shm_id(),
-+                           buffer->offset());
-+    offset += buffer->size();
-+    source += buffer->size();
-+    size -= buffer->size();
-+    buffer->Release();
-   }
- }
- 
-@@ -2219,19 +2226,21 @@ void GLES2Implementation::MultiDrawEleme
-                                                        GLsizei drawcount) {
-   DCHECK_GT(drawcount, 0);
- 
--  uint32_t buffer_size = ComputeCombinedCopySize(drawcount, counts, offsets);
--  ScopedTransferBufferPtr buffer(buffer_size, helper_, transfer_buffer_);
--  // TODO(crbug.com/890539): Increment a base gl_DrawID for multiple calls to
--  // this helper
--  auto DoMultiDraw = [&](const std::array<uint32_t, 2>& offsets, uint32_t,
--                         uint32_t copy_count) {
--    helper_->MultiDrawElementsWEBGL(
--        mode, buffer.shm_id(), buffer.offset() + offsets[0], type,
--        buffer.shm_id(), buffer.offset() + offsets[1], copy_count);
--  };
--  if (!TransferArraysAndExecute(drawcount, &buffer, DoMultiDraw, counts,
--                                offsets)) {
--    SetGLError(GL_OUT_OF_MEMORY, "glMultiDrawElementsWEBGL", "out of memory");
-+  const int8_t* source = static_cast<const int8_t*>(data);
-+  while (size) {
-+    if (!buffer->valid() || buffer->size() == 0) {
-+      buffer->Reset(size);
-+      if (!buffer->valid()) {
-+        return;
-+      }
-+    }
-+    memcpy(buffer->address(), source, buffer->size());
-+    helper_->BufferSubData(target, offset, buffer->size(), buffer->shm_id(),
-+                           buffer->offset());
-+    offset += buffer->size();
-+    source += buffer->size();
-+    size -= buffer->size();
-+    buffer->Release();
-   }
- }
- 
-@@ -2244,22 +2253,21 @@ void GLES2Implementation::MultiDrawEleme
-     GLsizei drawcount) {
-   DCHECK_GT(drawcount, 0);
- 
--  uint32_t buffer_size =
--      ComputeCombinedCopySize(drawcount, counts, offsets, instance_counts);
--  ScopedTransferBufferPtr buffer(buffer_size, helper_, transfer_buffer_);
--  // TODO(crbug.com/890539): Increment a base gl_DrawID for multiple calls to
--  // this helper
--  auto DoMultiDraw = [&](const std::array<uint32_t, 3>& offsets, uint32_t,
--                         uint32_t copy_count) {
--    helper_->MultiDrawElementsInstancedWEBGL(
--        mode, buffer.shm_id(), buffer.offset() + offsets[0], type,
--        buffer.shm_id(), buffer.offset() + offsets[1], buffer.shm_id(),
--        buffer.offset() + offsets[2], copy_count);
--  };
--  if (!TransferArraysAndExecute(drawcount, &buffer, DoMultiDraw, counts,
--                                offsets, instance_counts)) {
--    SetGLError(GL_OUT_OF_MEMORY, "glMultiDrawElementsInstancedWEBGL",
--               "out of memory");
-+  const int8_t* source = static_cast<const int8_t*>(data);
-+  while (size) {
-+    if (!buffer->valid() || buffer->size() == 0) {
-+      buffer->Reset(size);
-+      if (!buffer->valid()) {
-+        return;
-+      }
-+    }
-+    memcpy(buffer->address(), source, buffer->size());
-+    helper_->BufferSubData(target, offset, buffer->size(), buffer->shm_id(),
-+                           buffer->offset());
-+    offset += buffer->size();
-+    source += buffer->size();
-+    size -= buffer->size();
-+    buffer->Release();
-   }
- }
- 
+ template <typename... Ts>

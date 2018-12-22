@@ -1,3 +1,9 @@
+chromium-browser (73.0.3639.1-0ubuntu1~ppa4~18.10.1) cosmic; urgency=low
+
+  * Attempt at another fix for the issue.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 22 Dec 2018 11:22:18 -0500
+
 chromium-browser (73.0.3639.1-0ubuntu1~ppa3~18.10.1) cosmic; urgency=low
 
   * Attempt at another fix for the issue.

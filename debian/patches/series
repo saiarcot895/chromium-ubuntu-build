@@ -42,5 +42,4 @@ set-rpath-on-chromium-executables.patch
 #ozone-wayland-support.patch
 #fix-gn-bootstrap.patch
 fix-build.patch
-remove-constexpr-declarations.patch
 revert-add-webgl-multi-draw.patch
