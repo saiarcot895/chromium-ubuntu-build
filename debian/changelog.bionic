@@ -1,3 +1,9 @@
+chromium-browser (73.0.3639.1-0ubuntu1~ppa3~18.04.1) bionic; urgency=low
+
+  * Attempt at another fix for the issue.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 22 Dec 2018 00:07:28 -0500
+
 chromium-browser (73.0.3639.1-0ubuntu1~ppa2~18.04.1) bionic; urgency=low
 
   * Revert a Chromium commit that is causing compile failures on
