@@ -1,13 +1,24 @@
-Index: dev/third_party/widevine/cdm/widevine.gni
+Index: beta/chrome/common/chrome_content_client.cc
 ===================================================================
---- dev.orig/third_party/widevine/cdm/widevine.gni
-+++ dev/third_party/widevine/cdm/widevine.gni
-@@ -31,7 +31,7 @@ enable_library_widevine_cdm =
- # and Windows. The CDM can be bundled regardless whether it's a component. See
- # below.
- enable_widevine_cdm_component =
--    enable_library_widevine_cdm && (is_win || is_mac)
-+    enable_library_widevine_cdm && (is_win || is_mac || is_desktop_linux)
+--- beta.orig/chrome/common/chrome_content_client.cc
++++ beta/chrome/common/chrome_content_client.cc
+@@ -99,7 +99,7 @@
+ // Registers Widevine CDM if Widevine is enabled, the Widevine CDM is
+ // bundled and not a component. When the Widevine CDM is a component, it is
+ // registered in widevine_cdm_component_installer.cc.
+-#if BUILDFLAG(BUNDLE_WIDEVINE_CDM) && !BUILDFLAG(ENABLE_WIDEVINE_CDM_COMPONENT)
++#if BUILDFLAG(ENABLE_WIDEVINE) && !BUILDFLAG(ENABLE_WIDEVINE_CDM_COMPONENT)
+ #define REGISTER_BUNDLED_WIDEVINE_CDM
+ #include "third_party/widevine/cdm/widevine_cdm_common.h"  // nogncheck
+ // TODO(crbug.com/663554): Needed for WIDEVINE_CDM_VERSION_STRING. Support
+Index: beta/third_party/widevine/cdm/widevine_cdm_version.h
+===================================================================
+--- beta.orig/third_party/widevine/cdm/widevine_cdm_version.h
++++ beta/third_party/widevine/cdm/widevine_cdm_version.h
+@@ -12,4 +12,6 @@
+ //  - WIDEVINE_CDM_VERSION_STRING (with the version of the CDM that's available
+ //    as a string, e.g., "1.0.123.456").
  
- # Widevine CDM is bundled as part of Google Chrome builds.
- bundle_widevine_cdm = enable_library_widevine_cdm && is_chrome_branded
++#define WIDEVINE_CDM_VERSION_STRING "unknown"
++
+ #endif  // WIDEVINE_CDM_VERSION_H_
