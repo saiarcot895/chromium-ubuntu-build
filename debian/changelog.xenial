@@ -1,3 +1,9 @@
+chromium-browser (73.0.3639.1-0ubuntu1~ppa5~16.04.1) xenial; urgency=low
+
+  * Attempt a build for Wayland.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 30 Dec 2018 17:59:44 -0500
+
 chromium-browser (73.0.3639.1-0ubuntu1~ppa4~16.04.1) xenial; urgency=low
 
   * Attempt at another fix for the issue.

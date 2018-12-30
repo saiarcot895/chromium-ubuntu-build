@@ -46,7 +46,9 @@ Build-Depends: debhelper (>= 9),
 		libegl1-mesa-dev,
 		libva-dev,
 		chrpath,
-		default-jre-headless
+		default-jre-headless,
+		libwayland-dev,
+		libgbm-dev
 Standards-Version: 3.9.5
 
 Package: chromium-browser

@@ -35,7 +35,7 @@ ifneq (,$(findstring Debian,$(DEBIAN_DIST)))
 DISTRIBUTION=DEBIAN
 endif
 
-WANT_OZONE       := 0
+WANT_OZONE       := 1
 
 common_defines :=
 browser_defines :=
@@ -129,7 +129,7 @@ common_defines += target_arch="$(DEB_HOST_ARCH)"
 endif
 
 ifeq (1,$(WANT_OZONE))
-common_defines += use_ozone=true use_xkbcommon=true
+common_defines += use_ozone=true use_xkbcommon=true use_system_minigbm=true
 endif
 
 subst_files = \
