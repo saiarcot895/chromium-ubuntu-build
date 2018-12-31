@@ -35,7 +35,7 @@ ifneq (,$(findstring Debian,$(DEBIAN_DIST)))
 DISTRIBUTION=DEBIAN
 endif
 
-WANT_OZONE       := 1
+WANT_OZONE       := 0
 
 common_defines :=
 browser_defines :=
@@ -77,7 +77,6 @@ common_defines += \
 				use_sysroot=false \
 				use_system_harfbuzz=false \
 				use_system_libjpeg=false \
-				use_vaapi=true \
 				rtc_enable_protobuf=false \
 				is_clang=true \
 				clang_base_path="/usr" \
@@ -129,7 +128,9 @@ common_defines += target_arch="$(DEB_HOST_ARCH)"
 endif
 
 ifeq (1,$(WANT_OZONE))
-common_defines += use_ozone=true use_xkbcommon=true use_system_minigbm=true
+common_defines += use_ozone=true use_xkbcommon=true use_system_minigbm=true use_v4lplugin=true use_v4l2_codec=true use_linux_v4l2_only=true
+else
+common_defines += use_vaapi=true
 endif
 
 subst_files = \
@@ -213,9 +214,9 @@ override_dh_auto_configure: $(SRC_DIR)/gn
 	$(SRC_DIR)/gn gen --args='$(common_defines) $(ffmpeg_std_defines)' $(SRC_DIR)/out/$(BUILD_TYPE)-ffmpeg-std
 
 override_dh_auto_build:
-	$(NINJA) -v -k 6 -C $(SRC_DIR)/out/$(BUILD_TYPE) $(BUILD_TARGETS)
-	$(NINJA) -v -C $(SRC_DIR)/out/$(BUILD_TYPE)-ffmpeg-extra third_party/ffmpeg
-	$(NINJA) -v -C $(SRC_DIR)/out/$(BUILD_TYPE)-ffmpeg-std third_party/ffmpeg
+	$(NINJA) -k 2 -C $(SRC_DIR)/out/$(BUILD_TYPE) $(BUILD_TARGETS)
+	$(NINJA) -C $(SRC_DIR)/out/$(BUILD_TYPE)-ffmpeg-extra third_party/ffmpeg
+	$(NINJA) -C $(SRC_DIR)/out/$(BUILD_TYPE)-ffmpeg-std third_party/ffmpeg
 
 override_dh_builddeb:
 	dh_builddeb -- -Zxz

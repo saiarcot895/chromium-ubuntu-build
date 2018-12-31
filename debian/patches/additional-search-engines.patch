@@ -15,12 +15,11 @@ Index: dev/components/search_engines/template_url_prepopulate_data.cc
 ===================================================================
 --- dev.orig/components/search_engines/template_url_prepopulate_data.cc
 +++ dev/components/search_engines/template_url_prepopulate_data.cc
-@@ -34,7 +34,7 @@ namespace {
- 
- // Default (for countries with no better engine set)
- const PrepopulatedEngine* const engines_default[] = {
--    &google, &bing, &yahoo,
-+    &google, &bing, &yahoo, &duckduckgo,
+@@ -35,6 +35,7 @@ const PrepopulatedEngine* const engines_
+     &google,
+     &bing,
+     &yahoo,
++    &duckduckgo,
  };
  
  // Note, the below entries are sorted by country code, not the name in comment.
