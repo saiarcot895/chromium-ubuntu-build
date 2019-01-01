@@ -742,3 +742,16 @@ Index: dev/third_party/blink/renderer/platform/heap/gc_info.h
      uint32_t index = gc_info_index.load(std::memory_order_acquire);
      if (!index)
        index = GCInfoTable::Get().EnsureGCInfoIndex(&kGcInfo, &gc_info_index);
+Index: dev/chrome/browser/background_fetch/background_fetch_delegate_impl.cc
+===================================================================
+--- dev.orig/chrome/browser/background_fetch/background_fetch_delegate_impl.cc
++++ dev/chrome/browser/background_fetch/background_fetch_delegate_impl.cc
+@@ -310,7 +310,7 @@ void BackgroundFetchDelegateImpl::StartD
+   DCHECK(job_details_map_.count(job_unique_id));
+   JobDetails& job_details = job_details_map_.find(job_unique_id)->second;
+ 
+-  job_details.current_fetch_guids.emplace(params.guid, has_request_body);
++  job_details.current_fetch_guids.emplace(params.guid, JobDetails::UploadData(has_request_body));
+   GetDownloadService()->StartDownload(params);
+ }
+ 

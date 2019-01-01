@@ -453,7 +453,31 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
        break;
      // Cannot infer platform from GL, try all available displays
      case gl::kGLImplementationNone:
-@@ -328,7 +328,7 @@ bool VADisplayState::InitializeOnce() {
+@@ -319,8 +319,21 @@ bool VADisplayState::InitializeOnce() {
+   int major_version, minor_version;
+   VAStatus va_res = vaInitialize(va_display_, &major_version, &minor_version);
+   if (va_res != VA_STATUS_SUCCESS) {
+-    LOG(ERROR) << "vaInitialize failed: " << vaErrorStr(va_res);
+-    return false;
++    LOG(ERROR) << "vaInitialize failed (ignore if using Wayland desktop environment): " << vaErrorStr(va_res);
++    if (gl::GetGLImplementation() == gl::kGLImplementationDesktopGL) {
++      va_display_ = vaGetDisplayDRM(drm_fd_.get());
++      if (!vaDisplayIsValid(va_display_)) {
++        LOG(ERROR) << "Could not get a valid DRM VA display";
++        return false;
++      }
++      va_res = vaInitialize(va_display_, &major_version, &minor_version);
++      if (va_res != VA_STATUS_SUCCESS) {
++        LOG(ERROR) << "vaInitialize failed using DRM: " << vaErrorStr(va_res);
++        return false;
++      }
++    } else {
++      return false;
++    }
+   }
+ 
+   va_initialized_ = true;
+@@ -328,7 +341,7 @@ bool VADisplayState::InitializeOnce() {
    va_vendor_string_ = vaQueryVendorString(va_display_);
    DLOG_IF(WARNING, va_vendor_string_.empty())
        << "Vendor string empty or error reading.";
@@ -462,7 +486,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
             << va_vendor_string_;
  
    // The VAAPI version is determined from what is loaded on the system by
-@@ -620,7 +620,7 @@ bool VASupportedProfiles::AreAttribsSupp
+@@ -620,7 +633,7 @@ bool VASupportedProfiles::AreAttribsSupp
      if (attribs[i].type != required_attribs[i].type ||
          (attribs[i].value & required_attribs[i].value) !=
              required_attribs[i].value) {
@@ -471,7 +495,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
                 << " for attribute type " << required_attribs[i].type;
        return false;
      }
-@@ -1011,7 +1011,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
+@@ -1011,7 +1024,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
    }
    va_attrib_extbuf.num_planes = num_planes;
  
