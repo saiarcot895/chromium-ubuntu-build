@@ -746,12 +746,14 @@ Index: dev/chrome/browser/background_fetch/background_fetch_delegate_impl.cc
 ===================================================================
 --- dev.orig/chrome/browser/background_fetch/background_fetch_delegate_impl.cc
 +++ dev/chrome/browser/background_fetch/background_fetch_delegate_impl.cc
-@@ -310,7 +310,7 @@ void BackgroundFetchDelegateImpl::StartD
+@@ -309,8 +309,9 @@ void BackgroundFetchDelegateImpl::StartD
+     bool has_request_body) {
    DCHECK(job_details_map_.count(job_unique_id));
    JobDetails& job_details = job_details_map_.find(job_unique_id)->second;
++  JobDetails::UploadData upload_data(has_request_body);
  
 -  job_details.current_fetch_guids.emplace(params.guid, has_request_body);
-+  job_details.current_fetch_guids.emplace(params.guid, JobDetails::UploadData(has_request_body));
++  job_details.current_fetch_guids.emplace(params.guid, std::move(upload_data));
    GetDownloadService()->StartDownload(params);
  }
  
