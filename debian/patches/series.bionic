@@ -43,3 +43,4 @@ set-rpath-on-chromium-executables.patch
 #fix-gn-bootstrap.patch
 fix-build.patch
 revert-add-webgl-multi-draw.patch
+add-limits-include.patch
