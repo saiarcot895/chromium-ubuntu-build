@@ -2,7 +2,7 @@ Index: dev/gpu/command_buffer/service/texture_manager.cc
 ===================================================================
 --- dev.orig/gpu/command_buffer/service/texture_manager.cc
 +++ dev/gpu/command_buffer/service/texture_manager.cc
-@@ -132,130 +132,130 @@ class FormatTypeValidator {
+@@ -133,130 +133,130 @@ class FormatTypeValidator {
    FormatTypeValidator() {
      static const FormatType kSupportedFormatTypes[] = {
          // ES2.
@@ -233,8 +233,8 @@ Index: dev/gpu/command_buffer/service/texture_manager.cc
 +        std::make_tuple(GL_RED, GL_RED, GL_UNSIGNED_SHORT),
      };
  
-     for (size_t ii = 0; ii < arraysize(kSupportedFormatTypes); ++ii) {
-@@ -270,7 +270,7 @@ class FormatTypeValidator {
+     for (size_t ii = 0; ii < base::size(kSupportedFormatTypes); ++ii) {
+@@ -271,7 +271,7 @@ class FormatTypeValidator {
    // This may be accessed from multiple threads.
    bool IsValid(ContextType context_type, GLenum internal_format, GLenum format,
                 GLenum type) const {
@@ -746,7 +746,7 @@ Index: dev/chrome/browser/background_fetch/background_fetch_delegate_impl.cc
 ===================================================================
 --- dev.orig/chrome/browser/background_fetch/background_fetch_delegate_impl.cc
 +++ dev/chrome/browser/background_fetch/background_fetch_delegate_impl.cc
-@@ -310,7 +310,7 @@ void BackgroundFetchDelegateImpl::StartD
+@@ -322,7 +322,7 @@ void BackgroundFetchDelegateImpl::StartD
    DCHECK(job_details_map_.count(job_unique_id));
    JobDetails& job_details = job_details_map_.find(job_unique_id)->second;
  

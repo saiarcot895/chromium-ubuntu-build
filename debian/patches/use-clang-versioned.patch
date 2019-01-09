@@ -2,7 +2,7 @@ Index: dev/build/toolchain/gcc_toolchain.gni
 ===================================================================
 --- dev.orig/build/toolchain/gcc_toolchain.gni
 +++ dev/build/toolchain/gcc_toolchain.gni
-@@ -607,12 +607,11 @@ template("clang_toolchain") {
+@@ -610,12 +610,11 @@ template("clang_toolchain") {
    }
  
    gcc_toolchain(target_name) {
