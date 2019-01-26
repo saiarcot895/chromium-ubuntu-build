@@ -306,7 +306,7 @@ Index: dev/cc/trees/layer_tree_mutator.cc
 ===================================================================
 --- dev.orig/cc/trees/layer_tree_mutator.cc
 +++ dev/cc/trees/layer_tree_mutator.cc
-@@ -57,8 +57,9 @@ bool MutatorInputState::IsEmpty() const
+@@ -58,8 +58,9 @@ bool MutatorInputState::IsEmpty() const
  
  AnimationWorkletInput& MutatorInputState::EnsureWorkletEntry(int id) {
    auto it = inputs_.find(id);
@@ -724,7 +724,7 @@ Index: dev/chrome/browser/background_fetch/background_fetch_delegate_impl.cc
 ===================================================================
 --- dev.orig/chrome/browser/background_fetch/background_fetch_delegate_impl.cc
 +++ dev/chrome/browser/background_fetch/background_fetch_delegate_impl.cc
-@@ -355,7 +355,7 @@ void BackgroundFetchDelegateImpl::StartD
+@@ -368,7 +368,7 @@ void BackgroundFetchDelegateImpl::StartD
    DCHECK(job_details_map_.count(job_unique_id));
    JobDetails& job_details = job_details_map_.find(job_unique_id)->second;
  
