@@ -1,0 +1,15 @@
+Index: beta/tools/gn/build/gen.py
+===================================================================
+--- beta.orig/tools/gn/build/gen.py
++++ beta/tools/gn/build/gen.py
+@@ -298,10 +298,6 @@ def WriteGNNinja(path, platform, host, o
+         else:
+           ldflags.append('-Wl,-strip-all')
+ 
+-      # Enable identical code-folding.
+-      if not platform.is_darwin():
+-        ldflags.append('-Wl,--icf=all')
+-
+     cflags.extend([
+         '-D_FILE_OFFSET_BITS=64',
+         '-D__STDC_CONSTANT_MACROS', '-D__STDC_FORMAT_MACROS',
