@@ -414,7 +414,7 @@ Index: beta/media/gpu/BUILD.gn
 ===================================================================
 --- beta.orig/media/gpu/BUILD.gn
 +++ beta/media/gpu/BUILD.gn
-@@ -506,6 +506,12 @@ if (use_v4l2_codec || use_vaapi || is_ma
+@@ -508,6 +508,12 @@ if (use_v4l2_codec || use_vaapi || is_ma
    }
  }
  
@@ -427,7 +427,7 @@ Index: beta/media/gpu/BUILD.gn
  if (use_v4l2_codec || use_vaapi) {
    test("jpeg_encode_accelerator_unittest") {
      deps = [
-@@ -576,6 +582,7 @@ if (is_chromeos || is_linux) {
+@@ -578,6 +584,7 @@ if (is_chromeos || is_linux) {
      if (use_ozone) {
        deps += [ "//ui/ozone" ]
      }
@@ -615,7 +615,7 @@ Index: beta/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
 ===================================================================
 --- beta.orig/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
 +++ beta/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
-@@ -358,6 +358,7 @@ bool GpuVideoDecodeAccelerator::Initiali
+@@ -380,6 +380,7 @@ bool GpuVideoDecodeAccelerator::Initiali
      LOG(ERROR) << "Failed creating the VDA factory";
      return false;
    }
@@ -623,7 +623,7 @@ Index: beta/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
  
    const gpu::GpuDriverBugWorkarounds& gpu_workarounds =
        stub_->channel()->gpu_channel_manager()->gpu_driver_bug_workarounds();
-@@ -371,6 +372,7 @@ bool GpuVideoDecodeAccelerator::Initiali
+@@ -393,6 +394,7 @@ bool GpuVideoDecodeAccelerator::Initiali
                 << (config.is_encrypted() ? " with encryption" : "");
      return false;
    }
@@ -635,7 +635,7 @@ Index: beta/media/gpu/gpu_video_decode_accelerator_factory.cc
 ===================================================================
 --- beta.orig/media/gpu/gpu_video_decode_accelerator_factory.cc
 +++ beta/media/gpu/gpu_video_decode_accelerator_factory.cc
-@@ -181,6 +181,8 @@ GpuVideoDecodeAcceleratorFactory::Create
+@@ -183,6 +183,8 @@ GpuVideoDecodeAcceleratorFactory::Create
      vda = (this->*create_vda_function)(workarounds, gpu_preferences, media_log);
      if (vda && vda->Initialize(config, client))
        return vda;
@@ -644,7 +644,7 @@ Index: beta/media/gpu/gpu_video_decode_accelerator_factory.cc
    }
  
    return nullptr;
-@@ -239,6 +241,7 @@ GpuVideoDecodeAcceleratorFactory::Create
+@@ -241,6 +243,7 @@ GpuVideoDecodeAcceleratorFactory::Create
      const gpu::GpuDriverBugWorkarounds& workarounds,
      const gpu::GpuPreferences& gpu_preferences,
      MediaLog* media_log) const {
