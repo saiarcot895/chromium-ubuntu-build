@@ -724,7 +724,7 @@ Index: dev/chrome/browser/background_fetch/background_fetch_delegate_impl.cc
 ===================================================================
 --- dev.orig/chrome/browser/background_fetch/background_fetch_delegate_impl.cc
 +++ dev/chrome/browser/background_fetch/background_fetch_delegate_impl.cc
-@@ -368,7 +368,7 @@ void BackgroundFetchDelegateImpl::StartD
+@@ -374,7 +374,7 @@ void BackgroundFetchDelegateImpl::StartD
    DCHECK(job_details_map_.count(job_unique_id));
    JobDetails& job_details = job_details_map_.find(job_unique_id)->second;
  
