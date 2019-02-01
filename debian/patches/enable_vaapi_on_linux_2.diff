@@ -737,7 +737,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
  // Returns true if the CPU is an Intel Kaby/Gemini/Sky Lake or later.
  // Cpu platform id's are referenced from the following file in kernel source
  // arch/x86/include/asm/intel-family.h
-@@ -103,15 +104,20 @@ bool IsSkyLakeOrLater() {
+@@ -103,23 +104,32 @@ bool IsSkyLakeOrLater() {
                                       cpuid.model() >= kFirstSkyLakeModelId;
    return is_sky_lake_or_later;
  }
@@ -758,3 +758,15 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
  }
  
  // Decides if the current platform and |output_mode| may used a reduced number
+ // of buffer allocations. See https://crbug.com/920510 for more information.
+ bool ShouldUseReducedNumberOfAllocations(
+     VideoDecodeAccelerator::Config::OutputMode output_mode) {
++#if defined(OS_LINUX) && !defined(OS_CHROMEOS) && !defined(OS_ANDROID)
++  return false;
++#else
+   return output_mode == VideoDecodeAccelerator::Config::OutputMode::ALLOCATE &&
+          IsSkyLakeOrLater();
++#endif
+ }
+ 
+ }  // namespace

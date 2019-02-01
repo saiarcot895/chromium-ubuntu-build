@@ -1,3 +1,10 @@
+chromium-browser (73.0.3683.10-0ubuntu1~ppa2~18.04.1) bionic; urgency=low
+
+  * Fix VAAPI build.
+  * Fix build with older gcc.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 01 Feb 2019 12:11:48 -0500
+
 chromium-browser (73.0.3683.10-0ubuntu1~ppa1~18.04.1) bionic; urgency=low
 
   * New upstream version 73.0.3683.10

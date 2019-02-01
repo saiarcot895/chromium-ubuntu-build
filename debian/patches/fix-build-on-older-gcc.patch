@@ -733,3 +733,29 @@ Index: dev/chrome/browser/background_fetch/background_fetch_delegate_impl.cc
    GetDownloadService()->StartDownload(params);
  }
  
+Index: dev/components/page_image_annotation/core/page_annotator.cc
+===================================================================
+--- dev.orig/components/page_image_annotation/core/page_annotator.cc
++++ dev/components/page_image_annotation/core/page_annotator.cc
+@@ -77,7 +77,7 @@ void PageAnnotator::AddNewImage(
+     base::RepeatingCallback<SkBitmap()> pixels_callback) {
+   images_.emplace(std::piecewise_construct,
+                   std::forward_as_tuple(metadata.node_id),
+-                  std::forward_as_tuple(metadata, std::move(pixels_callback)));
++                  std::forward_as_tuple(metadata, std::move(image_annotation::ImageProcessor(pixels_callback))));
+ }
+ 
+ void PageAnnotator::NotifyObserver(Observer* const observer,
+Index: dev/third_party/angle/src/libANGLE/renderer/vulkan/vk_cache_utils.cpp
+===================================================================
+--- dev.orig/third_party/angle/src/libANGLE/renderer/vulkan/vk_cache_utils.cpp
++++ dev/third_party/angle/src/libANGLE/renderer/vulkan/vk_cache_utils.cpp
+@@ -1344,7 +1344,7 @@ angle::Result GraphicsPipelineCache::ins
+     }
+ 
+     // The Serial will be updated outside of this query.
+-    auto insertedItem = mPayload.emplace(desc, std::move(newPipeline));
++    auto insertedItem = mPayload.emplace(desc, std::move(vk::PipelineHelper(newPipeline)));
+     *descPtrOut       = &insertedItem.first->first;
+     *pipelineOut      = &insertedItem.first->second;
+ 
