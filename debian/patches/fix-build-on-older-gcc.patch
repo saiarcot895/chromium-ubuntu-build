@@ -742,7 +742,7 @@ Index: dev/components/page_image_annotation/core/page_annotator.cc
    images_.emplace(std::piecewise_construct,
                    std::forward_as_tuple(metadata.node_id),
 -                  std::forward_as_tuple(metadata, std::move(pixels_callback)));
-+                  std::forward_as_tuple(metadata, std::move(image_annotation::ImageProcessor(pixels_callback))));
++                  std::forward_as_tuple(std::move(metadata), std::move(image_annotation::ImageProcessor(pixels_callback))));
  }
  
  void PageAnnotator::NotifyObserver(Observer* const observer,
@@ -755,7 +755,7 @@ Index: dev/third_party/angle/src/libANGLE/renderer/vulkan/vk_cache_utils.cpp
  
      // The Serial will be updated outside of this query.
 -    auto insertedItem = mPayload.emplace(desc, std::move(newPipeline));
-+    auto insertedItem = mPayload.emplace(desc, std::move(vk::PipelineHelper(newPipeline)));
++    auto insertedItem = mPayload.emplace(desc, std::move(vk::PipelineHelper(std::move(newPipeline))));
      *descPtrOut       = &insertedItem.first->first;
      *pipelineOut      = &insertedItem.first->second;
  
