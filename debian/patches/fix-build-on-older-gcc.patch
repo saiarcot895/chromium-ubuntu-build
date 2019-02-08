@@ -737,12 +737,14 @@ Index: dev/components/page_image_annotation/core/page_annotator.cc
 ===================================================================
 --- dev.orig/components/page_image_annotation/core/page_annotator.cc
 +++ dev/components/page_image_annotation/core/page_annotator.cc
-@@ -77,7 +77,7 @@ void PageAnnotator::AddNewImage(
+@@ -77,7 +77,9 @@ void PageAnnotator::AddNewImage(
      base::RepeatingCallback<SkBitmap()> pixels_callback) {
    images_.emplace(std::piecewise_construct,
                    std::forward_as_tuple(metadata.node_id),
 -                  std::forward_as_tuple(metadata, std::move(pixels_callback)));
-+                  std::forward_as_tuple(std::move(metadata), std::move(image_annotation::ImageProcessor(pixels_callback))));
++                  std::forward_as_tuple(std::piecewise_construct,
++                      std::forward_as_tuple(metadata),
++                      std::forward_as_tuple(std::move(pixels_callback))));
  }
  
  void PageAnnotator::NotifyObserver(Observer* const observer,
@@ -755,7 +757,29 @@ Index: dev/third_party/angle/src/libANGLE/renderer/vulkan/vk_cache_utils.cpp
  
      // The Serial will be updated outside of this query.
 -    auto insertedItem = mPayload.emplace(desc, std::move(newPipeline));
-+    auto insertedItem = mPayload.emplace(desc, std::move(vk::PipelineHelper(std::move(newPipeline))));
++    auto insertedItem = mPayload.emplace(std::piecewise_construct, std::forward_as_tuple(desc), std::forward_as_tuple(std::move(newPipeline)));
      *descPtrOut       = &insertedItem.first->first;
      *pipelineOut      = &insertedItem.first->second;
  
+@@ -1359,7 +1359,7 @@ void GraphicsPipelineCache::populate(con
+         return;
+     }
+ 
+-    mPayload.emplace(desc, std::move(pipeline));
++    mPayload.emplace(std::piecewise_construct, std::forward_as_tuple(desc), std::forward_as_tuple(std::move(pipeline)));
+ }
+ 
+ // DescriptorSetLayoutCache implementation.
+Index: dev/ui/gfx/color_utils.cc
+===================================================================
+--- dev.orig/ui/gfx/color_utils.cc
++++ dev/ui/gfx/color_utils.cc
+@@ -431,7 +431,7 @@ SkColor SetDarkestColorForTesting(SkColo
+   // GetContrastRatio(kWhiteLuminance, g_luminance_midpoint).  The formula below
+   // can be verified by plugging it into how GetContrastRatio() operates.
+   g_luminance_midpoint =
+-      std::sqrtf((dark_luminance + 0.05f) * (kWhiteLuminance + 0.05f)) - 0.05f;
++      sqrtf((dark_luminance + 0.05f) * (kWhiteLuminance + 0.05f)) - 0.05f;
+ 
+   return previous_darkest_color;
+ }
