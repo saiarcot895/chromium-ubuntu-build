@@ -1,3 +1,9 @@
+chromium-browser (73.0.3683.10-0ubuntu1~ppa5~16.04.1) xenial; urgency=low
+
+  * Fix build.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 11 Feb 2019 12:12:37 -0500
+
 chromium-browser (73.0.3683.10-0ubuntu1~ppa4~16.04.1) xenial; urgency=low
 
   * Fix build with older GCC.
