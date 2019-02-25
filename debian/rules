@@ -57,8 +57,8 @@ common_defines += \
 				is_debug=false \
 				is_desktop_linux=true \
 				linux_use_bundled_binutils=false \
+				link_pulseaudio=true \
 				remove_webcore_debug_symbols=true \
-				symbol_level=2 \
 				treat_warnings_as_errors=false \
 				use_allocator="none" \
 				use_alsa=true \
@@ -115,11 +115,11 @@ common_defines += target_cpu="arm"
 common_defines += arm_use_neon=false
 common_defines += arm_float_abi="hard" arm_use_thumb=true
 else ifeq (arm64,$(DEB_HOST_ARCH))
-common_defines += target_cpu="arm64"
+common_defines += target_cpu="arm64" symbol_level=1
 else ifeq (i386,$(DEB_HOST_ARCH))
-common_defines += target_cpu="x86"
+common_defines += target_cpu="x86" symbol_level=1
 else ifeq (amd64,$(DEB_HOST_ARCH))
-common_defines += target_cpu="x64"
+common_defines += target_cpu="x64" symbol_level=2
 else ifeq (mipsel,$(DEB_HOST_ARCH))
 common_defines += target_cpu="mipsel"
 else ifeq ($(DEB_HOST_ARCH),)

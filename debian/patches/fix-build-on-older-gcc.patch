@@ -247,7 +247,7 @@ Index: dev/chrome/browser/media/router/providers/wired_display/wired_display_med
 ===================================================================
 --- dev.orig/chrome/browser/media/router/providers/wired_display/wired_display_media_route_provider.cc
 +++ dev/chrome/browser/media/router/providers/wired_display/wired_display_media_route_provider.cc
-@@ -129,8 +129,10 @@ void WiredDisplayMediaRouteProvider::Cre
+@@ -130,8 +130,10 @@ void WiredDisplayMediaRouteProvider::Cre
    route.set_incognito(profile_->IsOffTheRecord());
    route.set_controller_type(RouteControllerType::kGeneric);
  
@@ -347,21 +347,21 @@ Index: dev/device/fido/authenticator_supported_options.cc
 ===================================================================
 --- dev.orig/device/fido/authenticator_supported_options.cc
 +++ dev/device/fido/authenticator_supported_options.cc
-@@ -57,19 +57,19 @@ AuthenticatorSupportedOptions::SetIsPlat
+@@ -19,19 +19,19 @@ AuthenticatorSupportedOptions::~Authenti
  
  cbor::Value ConvertToCBOR(const AuthenticatorSupportedOptions& options) {
    cbor::Value::MapValue option_map;
--  option_map.emplace(kResidentKeyMapKey, options.supports_resident_key());
--  option_map.emplace(kUserPresenceMapKey, options.user_presence_required());
--  option_map.emplace(kPlatformDeviceMapKey, options.is_platform_device());
-+  option_map.emplace(cbor::Value(kResidentKeyMapKey), cbor::Value(options.supports_resident_key()));
-+  option_map.emplace(cbor::Value(kUserPresenceMapKey), cbor::Value(options.user_presence_required()));
-+  option_map.emplace(cbor::Value(kPlatformDeviceMapKey), cbor::Value(options.is_platform_device()));
+-  option_map.emplace(kResidentKeyMapKey, options.supports_resident_key);
+-  option_map.emplace(kUserPresenceMapKey, options.supports_user_presence);
+-  option_map.emplace(kPlatformDeviceMapKey, options.is_platform_device);
++  option_map.emplace(cbor::Value(kResidentKeyMapKey), cbor::Value(options.supports_resident_key));
++  option_map.emplace(cbor::Value(kUserPresenceMapKey), cbor::Value(options.supports_user_presence));
++  option_map.emplace(cbor::Value(kPlatformDeviceMapKey), cbor::Value(options.is_platform_device));
  
    using UvAvailability =
        AuthenticatorSupportedOptions::UserVerificationAvailability;
  
-   switch (options.user_verification_availability()) {
+   switch (options.user_verification_availability) {
      case UvAvailability::kSupportedAndConfigured:
 -      option_map.emplace(kUserVerificationMapKey, true);
 +      option_map.emplace(cbor::Value(kUserVerificationMapKey), cbor::Value(true));
@@ -372,9 +372,9 @@ Index: dev/device/fido/authenticator_supported_options.cc
        break;
      case UvAvailability::kNotSupported:
        break;
-@@ -80,10 +80,10 @@ cbor::Value ConvertToCBOR(const Authenti
+@@ -42,10 +42,10 @@ cbor::Value ConvertToCBOR(const Authenti
  
-   switch (options.client_pin_availability()) {
+   switch (options.client_pin_availability) {
      case ClientPinAvailability::kSupportedAndPinSet:
 -      option_map.emplace(kClientPinMapKey, true);
 +      option_map.emplace(cbor::Value(kClientPinMapKey), cbor::Value(true));
@@ -499,7 +499,7 @@ Index: dev/device/fido/virtual_ctap2_device.cc
 ===================================================================
 --- dev.orig/device/fido/virtual_ctap2_device.cc
 +++ dev/device/fido/virtual_ctap2_device.cc
-@@ -115,13 +115,13 @@ std::vector<uint8_t> ConstructMakeCreden
+@@ -174,13 +174,13 @@ std::vector<uint8_t> ConstructMakeCreden
      base::span<const uint8_t> signature,
      AuthenticatorData authenticator_data) {
    cbor::Value::MapValue attestation_map;
@@ -523,17 +523,17 @@ Index: dev/device/fido/hid/fido_hid_device.cc
 @@ -49,7 +49,7 @@ void FidoHidDevice::Cancel() {
      return;
  
-   // Delete any remaining pending requests on this Channel ID.
+   state_ = State::kReady;
 -  pending_transactions_ = {};
 +  pending_transactions_ = base::queue<std::pair<std::vector<uint8_t>, DeviceCallback>>();
+   timeout_callback_.Cancel();
+ 
    WriteMessage(
-       FidoHidMessage::Create(channel_id_, FidoHidDeviceCommand::kCancel,
-                              output_report_size_, std::vector<uint8_t>()),
 Index: dev/device/fido/cable/fido_cable_handshake_handler.cc
 ===================================================================
 --- dev.orig/device/fido/cable/fido_cable_handshake_handler.cc
 +++ dev/device/fido/cable/fido_cable_handshake_handler.cc
-@@ -45,8 +45,8 @@ base::Optional<std::array<uint8_t, kClie
+@@ -46,8 +46,8 @@ base::Optional<std::array<uint8_t, kClie
  ConstructHandshakeMessage(base::StringPiece handshake_key,
                            base::span<const uint8_t, 16> client_random_nonce) {
    cbor::Value::MapValue map;
@@ -548,7 +548,7 @@ Index: dev/components/password_manager/core/browser/http_credentials_cleaner.cc
 ===================================================================
 --- dev.orig/components/password_manager/core/browser/http_credentials_cleaner.cc
 +++ dev/components/password_manager/core/browser/http_credentials_cleaner.cc
-@@ -43,9 +43,9 @@ void HttpCredentialCleaner::OnGetPasswor
+@@ -44,9 +44,9 @@ void HttpCredentialCleaner::OnGetPasswor
    // federated credentials.
    for (auto& form : RemoveNonHTTPOrHTTPSForms(std::move(results))) {
      FormKey form_key(
@@ -610,31 +610,23 @@ Index: dev/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
 +++ dev/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
-@@ -45,9 +45,11 @@ static void ReportToUMA(VAJDADecoderFail
- // macro in the header file without pulling in the entire <va/va.h>.
- static_assert(VA_FOURCC_YUYV == VA_FOURCC('Y', 'U', 'Y', 'V'),
-               "VA_FOURCC_YUYV must be equal to VA_FOURCC('Y', 'U', 'Y', 'V')");
+@@ -33,6 +33,7 @@ namespace media {
+ 
+ namespace {
+ 
 +#ifdef VA_FOURCC_I420
- constexpr VAImageFormat kImageFormatI420 = {.fourcc = VA_FOURCC_I420,
-                                             .byte_order = VA_LSB_FIRST,
-                                             .bits_per_pixel = 12};
+ // TODO(andrescj): remove this once VaapiJpegDecoder is responsible for
+ // obtaining the VAImage.
+ constexpr VAImageFormat kImageFormatI420 = {
+@@ -40,6 +41,7 @@ constexpr VAImageFormat kImageFormatI420
+     .byte_order = VA_LSB_FIRST,
+     .bits_per_pixel = 12,
+ };
 +#endif
- constexpr VAImageFormat kImageFormatYUYV = {.fourcc = VA_FOURCC_YUYV,
-                                             .byte_order = VA_LSB_FIRST,
-                                             .bits_per_pixel = 16};
-@@ -56,9 +58,11 @@ constexpr VAImageFormat kImageFormatYUYV
- bool VaSurfaceFormatToImageFormat(uint32_t va_rt_format,
-                                   VAImageFormat* va_image_format) {
-   switch (va_rt_format) {
-+#ifdef VA_FOURCC_I420
-     case VA_RT_FORMAT_YUV420:
-       *va_image_format = kImageFormatI420;
-       return true;
-+#endif
-     case VA_RT_FORMAT_YUV422:
-       *va_image_format = kImageFormatYUYV;
-       return true;
-@@ -347,6 +351,7 @@ bool VaapiJpegDecodeAccelerator::OutputP
+ 
+ // UMA errors that the VaapiJpegDecodeAccelerator class reports.
+ enum VAJDADecoderFailure {
+@@ -129,6 +131,7 @@ bool VaapiJpegDecodeAccelerator::OutputP
              << " into video_frame associated with input buffer id "
              << input_buffer_id;
  
@@ -642,7 +634,7 @@ Index: dev/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
    // Specify which image format we will request from the VAAPI. As the expected
    // output format is I420, we will first try this format. If converting to I420
    // is not supported by the decoder, we will request the image in its original
-@@ -358,6 +363,13 @@ bool VaapiJpegDecodeAccelerator::OutputP
+@@ -140,6 +143,13 @@ bool VaapiJpegDecodeAccelerator::OutputP
        return false;
      }
    }
@@ -656,7 +648,7 @@ Index: dev/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
  
    const gfx::Size coded_size = video_frame->coded_size();
    auto scoped_image = vaapi_wrapper_->CreateVaImage(
-@@ -381,6 +393,7 @@ bool VaapiJpegDecodeAccelerator::OutputP
+@@ -163,6 +173,7 @@ bool VaapiJpegDecodeAccelerator::OutputP
    size_t dst_v_stride = video_frame->stride(VideoFrame::kVPlane);
  
    switch (va_image_format.fourcc) {
@@ -664,19 +656,19 @@ Index: dev/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
      case VA_FOURCC_I420: {
        DCHECK_EQ(image->num_planes, 3u);
        const uint8_t* src_y = mem + image->offsets[0];
-@@ -398,6 +411,7 @@ bool VaapiJpegDecodeAccelerator::OutputP
+@@ -180,6 +191,7 @@ bool VaapiJpegDecodeAccelerator::OutputP
        }
        break;
      }
 +#endif
      case VA_FOURCC_YUY2:
-     case VA_FOURCC_YUYV: {
+     case VA_FOURCC('Y', 'U', 'Y', 'V'): {
        DCHECK_EQ(image->num_planes, 1u);
 Index: dev/components/viz/service/frame_sinks/frame_sink_manager_impl.cc
 ===================================================================
 --- dev.orig/components/viz/service/frame_sinks/frame_sink_manager_impl.cc
 +++ dev/components/viz/service/frame_sinks/frame_sink_manager_impl.cc
-@@ -99,7 +99,7 @@ void FrameSinkManagerImpl::RegisterFrame
+@@ -100,7 +100,7 @@ void FrameSinkManagerImpl::RegisterFrame
    DCHECK_CALLED_ON_VALID_THREAD(thread_checker_);
    DCHECK(!base::ContainsKey(frame_sink_data_, frame_sink_id));
  
@@ -737,7 +729,7 @@ Index: dev/components/page_image_annotation/core/page_annotator.cc
 ===================================================================
 --- dev.orig/components/page_image_annotation/core/page_annotator.cc
 +++ dev/components/page_image_annotation/core/page_annotator.cc
-@@ -77,7 +77,9 @@ void PageAnnotator::AddNewImage(
+@@ -78,7 +78,9 @@ void PageAnnotator::AddNewImage(
      base::RepeatingCallback<SkBitmap()> pixels_callback) {
    images_.emplace(std::piecewise_construct,
                    std::forward_as_tuple(metadata.node_id),
@@ -752,7 +744,7 @@ Index: dev/third_party/angle/src/libANGLE/renderer/vulkan/vk_cache_utils.cpp
 ===================================================================
 --- dev.orig/third_party/angle/src/libANGLE/renderer/vulkan/vk_cache_utils.cpp
 +++ dev/third_party/angle/src/libANGLE/renderer/vulkan/vk_cache_utils.cpp
-@@ -1344,7 +1344,7 @@ angle::Result GraphicsPipelineCache::ins
+@@ -1361,7 +1361,7 @@ angle::Result GraphicsPipelineCache::ins
      }
  
      // The Serial will be updated outside of this query.
@@ -761,7 +753,7 @@ Index: dev/third_party/angle/src/libANGLE/renderer/vulkan/vk_cache_utils.cpp
      *descPtrOut       = &insertedItem.first->first;
      *pipelineOut      = &insertedItem.first->second;
  
-@@ -1359,7 +1359,7 @@ void GraphicsPipelineCache::populate(con
+@@ -1376,7 +1376,7 @@ void GraphicsPipelineCache::populate(con
          return;
      }
  
@@ -770,16 +762,3 @@ Index: dev/third_party/angle/src/libANGLE/renderer/vulkan/vk_cache_utils.cpp
  }
  
  // DescriptorSetLayoutCache implementation.
-Index: dev/ui/gfx/color_utils.cc
-===================================================================
---- dev.orig/ui/gfx/color_utils.cc
-+++ dev/ui/gfx/color_utils.cc
-@@ -431,7 +431,7 @@ SkColor SetDarkestColorForTesting(SkColo
-   // GetContrastRatio(kWhiteLuminance, g_luminance_midpoint).  The formula below
-   // can be verified by plugging it into how GetContrastRatio() operates.
-   g_luminance_midpoint =
--      std::sqrtf((dark_luminance + 0.05f) * (kWhiteLuminance + 0.05f)) - 0.05f;
-+      sqrtf((dark_luminance + 0.05f) * (kWhiteLuminance + 0.05f)) - 0.05f;
- 
-   return previous_darkest_color;
- }
