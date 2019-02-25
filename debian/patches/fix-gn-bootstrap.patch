@@ -2,14 +2,13 @@ Index: dev/tools/gn/bootstrap/bootstrap.py
 ===================================================================
 --- dev.orig/tools/gn/bootstrap/bootstrap.py
 +++ dev/tools/gn/bootstrap/bootstrap.py
-@@ -634,10 +634,6 @@ def write_gn_ninja(path, root_gen_dir, o
-       'base/trace_event/heap_profiler_allocation_context.cc',
-       'base/trace_event/heap_profiler_allocation_context_tracker.cc',
-       'base/trace_event/heap_profiler_event_filter.cc',
--      'base/trace_event/heap_profiler_heap_dump_writer.cc',
--      'base/trace_event/heap_profiler_serialization_state.cc',
--      'base/trace_event/heap_profiler_stack_frame_deduplicator.cc',
--      'base/trace_event/heap_profiler_type_name_deduplicator.cc',
-       'base/trace_event/malloc_dump_provider.cc',
-       'base/trace_event/memory_allocator_dump.cc',
-       'base/trace_event/memory_allocator_dump_guid.cc',
+@@ -97,7 +97,8 @@ def main(argv):
+       os.putenv(var, os.environ.get(var, '') + ' ' + ' '.join(vals))
+ 
+     append_to_env('LDFLAGS', [
+-        '-nodefaultlibs', 'libc++.gn.so', '-lc', '-lm',
++        '-nodefaultlibs', 'libc++.gn.so',
++        '-lpthread', '-lc', '-lm',
+         '-Wl,-rpath="\$$ORIGIN/."', '-Wl,-rpath-link=.'
+     ])
+     append_to_env('CXXFLAGS', [
