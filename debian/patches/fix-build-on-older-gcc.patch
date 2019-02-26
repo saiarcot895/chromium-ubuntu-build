@@ -762,3 +762,95 @@ Index: dev/third_party/angle/src/libANGLE/renderer/vulkan/vk_cache_utils.cpp
  }
  
  // DescriptorSetLayoutCache implementation.
+Index: dev/media/gpu/vaapi/vaapi_jpeg_decoder.cc
+===================================================================
+--- dev.orig/media/gpu/vaapi/vaapi_jpeg_decoder.cc
++++ dev/media/gpu/vaapi/vaapi_jpeg_decoder.cc
+@@ -21,11 +21,13 @@ namespace media {
+ 
+ namespace {
+ 
++#ifdef VA_FOURCC_I420
+ constexpr VAImageFormat kImageFormatI420 = {
+     .fourcc = VA_FOURCC_I420,
+     .byte_order = VA_LSB_FIRST,
+     .bits_per_pixel = 12,
+ };
++#endif
+ 
+ constexpr VAImageFormat kImageFormatYUYV = {
+     .fourcc = VA_FOURCC('Y', 'U', 'Y', 'V'),
+@@ -198,9 +200,11 @@ static bool IsVaapiSupportedJpeg(const J
+ bool VaSurfaceFormatToImageFormat(uint32_t va_rt_format,
+                                   VAImageFormat* va_image_format) {
+   switch (va_rt_format) {
++#ifdef VA_FOURCC_I420
+     case VA_RT_FORMAT_YUV420:
+       *va_image_format = kImageFormatI420;
+       return true;
++#endif
+     case VA_RT_FORMAT_YUV422:
+       *va_image_format = kImageFormatYUYV;
+       return true;
+Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.h
+===================================================================
+--- dev.orig/media/gpu/vaapi/vaapi_video_encode_accelerator.h
++++ dev/media/gpu/vaapi/vaapi_video_encode_accelerator.h
+@@ -52,7 +52,9 @@ class MEDIA_GPU_EXPORT VaapiVideoEncodeA
+  private:
+   class H264Accelerator;
+   class VP8Accelerator;
++#if VA_CHECK_VERSION(0, 39, 2)
+   class VP9Accelerator;
++#endif
+ 
+   // Encoder state.
+   enum State {
+Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
+===================================================================
+--- dev.orig/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
++++ dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
+@@ -196,6 +196,7 @@ class VaapiVideoEncodeAccelerator::VP8Ac
+   VaapiVideoEncodeAccelerator* const vea_;
+ };
+ 
++#if VA_CHECK_VERSION(0, 39, 2)
+ class VaapiVideoEncodeAccelerator::VP9Accelerator
+     : public VP9Encoder::Accelerator {
+  public:
+@@ -216,6 +217,7 @@ class VaapiVideoEncodeAccelerator::VP9Ac
+  private:
+   VaapiVideoEncodeAccelerator* const vea_;
+ };
++#endif
+ 
+ VaapiVideoEncodeAccelerator::VaapiVideoEncodeAccelerator()
+     : codec_(kUnknownVideoCodec),
+@@ -342,10 +344,12 @@ void VaapiVideoEncodeAccelerator::Initia
+           std::make_unique<VP8Encoder>(std::make_unique<VP8Accelerator>(this));
+       break;
+ 
++#if VA_CHECK_VERSION(0, 39, 2)
+     case kCodecVP9:
+       encoder_ =
+           std::make_unique<VP9Encoder>(std::make_unique<VP9Accelerator>(this));
+       break;
++#endif
+ 
+     default:
+       NOTREACHED() << "Unsupported codec type " << GetCodecName(codec_);
+@@ -1205,6 +1209,7 @@ bool VaapiVideoEncodeAccelerator::VP8Acc
+   return true;
+ }
+ 
++#if VA_CHECK_VERSION(0, 39, 2)
+ scoped_refptr<VP9Picture>
+ VaapiVideoEncodeAccelerator::VP9Accelerator::GetPicture(
+     AcceleratedVideoEncoder::EncodeJob* job) {
+@@ -1336,5 +1341,6 @@ bool VaapiVideoEncodeAccelerator::VP9Acc
+ 
+   return true;
+ }
++#endif
+ 
+ }  // namespace media
