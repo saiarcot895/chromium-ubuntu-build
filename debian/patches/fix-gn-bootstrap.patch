@@ -1,14 +1,13 @@
-Index: dev/tools/gn/bootstrap/bootstrap.py
+Index: dev/tools/gn/build/gen.py
 ===================================================================
---- dev.orig/tools/gn/bootstrap/bootstrap.py
-+++ dev/tools/gn/bootstrap/bootstrap.py
-@@ -97,7 +97,8 @@ def main(argv):
-       os.putenv(var, os.environ.get(var, '') + ' ' + ' '.join(vals))
+--- dev.orig/tools/gn/build/gen.py
++++ dev/tools/gn/build/gen.py
+@@ -334,7 +334,7 @@ def WriteGNNinja(path, platform, host, o
+       ldflags.append('-maix64')
  
-     append_to_env('LDFLAGS', [
--        '-nodefaultlibs', 'libc++.gn.so', '-lc', '-lm',
-+        '-nodefaultlibs', 'libc++.gn.so',
-+        '-lpthread', '-lc', '-lm',
-         '-Wl,-rpath="\$$ORIGIN/."', '-Wl,-rpath-link=.'
-     ])
-     append_to_env('CXXFLAGS', [
+     if platform.is_posix():
+-      ldflags.append('-lpthread')
++      ldflags.append('-pthread')
+ 
+     if options.use_lto:
+       cflags.extend(['-flto', '-fwhole-program-vtables'])
