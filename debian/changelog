@@ -1,3 +1,9 @@
+chromium-browser (74.0.3710.0-0ubuntu1~ppa6~19.04.1) disco; urgency=low
+
+  * Fix build on older GCC.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 28 Feb 2019 10:49:31 -0500
+
 chromium-browser (74.0.3710.0-0ubuntu1~ppa5~19.04.1) disco; urgency=low
 
   * Fix build.
