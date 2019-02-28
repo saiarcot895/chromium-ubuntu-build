@@ -1,7 +1,7 @@
-Index: dev/media/learning/impl/random_tree_trainer.cc
+Index: beta/media/learning/impl/random_tree_trainer.cc
 ===================================================================
---- dev.orig/media/learning/impl/random_tree_trainer.cc
-+++ dev/media/learning/impl/random_tree_trainer.cc
+--- beta.orig/media/learning/impl/random_tree_trainer.cc
++++ beta/media/learning/impl/random_tree_trainer.cc
 @@ -180,38 +180,30 @@ std::unique_ptr<Model> RandomTreeTrainer
    // classification, and 5 for regression.
  

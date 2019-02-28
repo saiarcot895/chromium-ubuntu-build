@@ -1,7 +1,7 @@
-Index: dev/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc
+Index: beta/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc
 ===================================================================
---- dev.orig/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc
-+++ dev/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc
+--- beta.orig/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc
++++ beta/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc
 @@ -16,6 +16,7 @@
  
  #include <stddef.h>

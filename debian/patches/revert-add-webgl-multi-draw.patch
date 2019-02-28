@@ -1,10 +1,10 @@
 Revert part of 80f1e31950c38663e3678b9ba1fb38314e878f54, as it is causing
 compile errors on everything besides Clang 7.0.
 
-Index: dev/gpu/command_buffer/client/transfer_buffer_cmd_copy_helpers.h
+Index: beta/gpu/command_buffer/client/transfer_buffer_cmd_copy_helpers.h
 ===================================================================
---- dev.orig/gpu/command_buffer/client/transfer_buffer_cmd_copy_helpers.h
-+++ dev/gpu/command_buffer/client/transfer_buffer_cmd_copy_helpers.h
+--- beta.orig/gpu/command_buffer/client/transfer_buffer_cmd_copy_helpers.h
++++ beta/gpu/command_buffer/client/transfer_buffer_cmd_copy_helpers.h
 @@ -12,10 +12,10 @@
  namespace gpu {
  

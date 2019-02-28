@@ -1,7 +1,7 @@
-Index: dev/third_party/openmax_dl/dl/BUILD.gn
+Index: beta/third_party/openmax_dl/dl/BUILD.gn
 ===================================================================
---- dev.orig/third_party/openmax_dl/dl/BUILD.gn
-+++ dev/third_party/openmax_dl/dl/BUILD.gn
+--- beta.orig/third_party/openmax_dl/dl/BUILD.gn
++++ beta/third_party/openmax_dl/dl/BUILD.gn
 @@ -206,7 +206,7 @@ if (current_cpu == "arm") {
        "sp/src/arm/armv7/omxSP_FFTFwd_RToCCS_F32_Sfs_s.S",
        "sp/src/arm/armv7/omxSP_FFTInv_CCSToR_F32_Sfs_s.S",
