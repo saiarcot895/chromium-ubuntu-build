@@ -300,7 +300,37 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
  
  }  // namespace
  
-@@ -1091,6 +1093,9 @@ VaapiVideoDecodeAccelerator::GetSupporte
+@@ -652,6 +654,7 @@ void VaapiVideoDecodeAccelerator::Assign
+   const unsigned int va_format = GetVaFormatForVideoCodecProfile(profile_);
+   std::vector<VASurfaceID> va_surface_ids;
+ 
++#if defined(OS_ANDROID) || defined(OS_CHROMEOS)
+   // If we aren't in BufferAllocationMode::kNone, we have to allocate a
+   // |vpp_vaapi_wrapper_| for VaapiPicture to DownloadFromSurface() the VA's
+   // internal decoded frame.
+@@ -665,6 +668,7 @@ void VaapiVideoDecodeAccelerator::Assign
+       NotifyError(PLATFORM_FAILURE);
+     }
+   }
++#endif
+ 
+   for (size_t i = 0; i < buffers.size(); ++i) {
+     DCHECK(requested_pic_size_ == buffers[i].size());
+@@ -673,9 +677,13 @@ void VaapiVideoDecodeAccelerator::Assign
+     // only used as a copy destination. Therefore, the VaapiWrapper used and
+     // owned by |picture| is |vpp_vaapi_wrapper_|.
+     std::unique_ptr<VaapiPicture> picture = vaapi_picture_factory_->Create(
++#if defined(OS_LINUX) && !defined(OS_ANDROID) && !defined(OS_CHROMEOS)
++            vaapi_wrapper_,
++#else
+         (buffer_allocation_mode_ == BufferAllocationMode::kNone)
+             ? vaapi_wrapper_
+             : vpp_vaapi_wrapper_,
++#endif
+         make_context_current_cb_, bind_image_cb_, buffers[i]);
+     RETURN_AND_NOTIFY_ON_FAILURE(picture, "Failed creating a VaapiPicture",
+                                  PLATFORM_FAILURE, );
+@@ -1091,6 +1099,9 @@ VaapiVideoDecodeAccelerator::GetSupporte
  
  VaapiVideoDecodeAccelerator::BufferAllocationMode
  VaapiVideoDecodeAccelerator::DecideBufferAllocationMode() const {
@@ -310,7 +340,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
    // TODO(crbug.com/912295): Enable a better BufferAllocationMode for IMPORT
    // |output_mode_| as well.
    if (output_mode_ == VideoDecodeAccelerator::Config::OutputMode::IMPORT)
-@@ -1123,6 +1128,7 @@ VaapiVideoDecodeAccelerator::DecideBuffe
+@@ -1123,6 +1134,7 @@ VaapiVideoDecodeAccelerator::DecideBuffe
      return BufferAllocationMode::kSuperReduced;
    }
    return BufferAllocationMode::kNormal;

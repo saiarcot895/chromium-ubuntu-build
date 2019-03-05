@@ -1,3 +1,9 @@
+chromium-browser (74.0.3710.0-0ubuntu1~ppa7~18.04.1) bionic; urgency=low
+
+  * Test VAAPI decoding.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 04 Mar 2019 23:12:38 -0500
+
 chromium-browser (74.0.3710.0-0ubuntu1~ppa6~18.04.1) bionic; urgency=low
 
   * Fix build on older GCC.
