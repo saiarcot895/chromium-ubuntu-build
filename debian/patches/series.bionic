@@ -40,8 +40,6 @@ fix-build-on-older-gcc.patch
 widevine-allow-on-linux.patch
 set-rpath-on-chromium-executables.patch
 #ozone-wayland-support.patch
-fix-gn-bootstrap.patch
 revert-add-webgl-multi-draw.patch
 add-limits-include.patch
 revert-commit-cd95d725015aa.patch
-fix-build.patch

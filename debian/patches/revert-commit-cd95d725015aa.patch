@@ -2,7 +2,7 @@ Index: dev/media/learning/impl/random_tree_trainer.cc
 ===================================================================
 --- dev.orig/media/learning/impl/random_tree_trainer.cc
 +++ dev/media/learning/impl/random_tree_trainer.cc
-@@ -180,38 +180,30 @@ std::unique_ptr<Model> RandomTreeTrainer
+@@ -167,38 +167,30 @@ std::unique_ptr<Model> RandomTreeTrainer
    // classification, and 5 for regression.
  
    // Remove any constant attributes in |training_data| from |unused_set|.  Also
@@ -50,7 +50,7 @@ Index: dev/media/learning/impl/random_tree_trainer.cc
      return std::make_unique<LeafNode>(training_data, training_idx,
                                        task.target_description.ordering);
    }
-@@ -221,8 +213,8 @@ std::unique_ptr<Model> RandomTreeTrainer
+@@ -208,8 +200,8 @@ std::unique_ptr<Model> RandomTreeTrainer
    // don't want to use one of our potential splits on it.
    FeatureSet new_unused_set = unused_set;
    for (size_t feature_idx : unused_set) {

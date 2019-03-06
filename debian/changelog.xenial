@@ -1,3 +1,11 @@
+chromium-browser (74.0.3724.8-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
+
+  * New upstream version 74.0.3724.8
+  * Fix video decoding on Nvidia (fixes #42).
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 06 Mar 2019 11:09:15 -0500
+
 chromium-browser (74.0.3710.0-0ubuntu1~ppa7~16.04.1) xenial; urgency=low
 
   * Test VAAPI decoding.

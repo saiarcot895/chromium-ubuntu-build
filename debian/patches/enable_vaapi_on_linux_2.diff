@@ -40,7 +40,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -1541,7 +1541,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1460,7 +1460,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
          flag_descriptions::kAcceleratedVideoDecodeDescription,
@@ -49,7 +49,7 @@ Index: dev/chrome/browser/about_flags.cc
          SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
  #if defined(OS_WIN)
-@@ -2130,10 +2130,10 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -2013,10 +2013,10 @@ const FeatureEntry kFeatureEntries[] = {
       FEATURE_VALUE_TYPE(service_manager::features::kXRSandbox)},
  #endif  // ENABLE_ISOLATED_XR_SERVICE
  #endif  // ENABLE_VR
@@ -66,7 +66,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
 ===================================================================
 --- dev.orig/chrome/browser/flag_descriptions.cc
 +++ dev/chrome/browser/flag_descriptions.cc
-@@ -2971,9 +2971,7 @@ const char kMacViewsTaskManagerDescripti
+@@ -2957,9 +2957,7 @@ const char kMacViewsTaskManagerDescripti
  
  #endif
  
@@ -77,7 +77,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
  
  const char kAcceleratedMjpegDecodeName[] =
      "Hardware-accelerated mjpeg decode for captured frame";
-@@ -2981,6 +2979,12 @@ const char kAcceleratedMjpegDecodeDescri
+@@ -2967,6 +2965,12 @@ const char kAcceleratedMjpegDecodeDescri
      "Enable hardware-accelerated mjpeg decode for captured frame where "
      "available.";
  
@@ -94,7 +94,7 @@ Index: dev/chrome/browser/flag_descriptions.h
 ===================================================================
 --- dev.orig/chrome/browser/flag_descriptions.h
 +++ dev/chrome/browser/flag_descriptions.h
-@@ -1766,13 +1766,17 @@ extern const char kPermissionPromptPersi
+@@ -1753,13 +1753,17 @@ extern const char kPermissionPromptPersi
  
  #endif  // defined(OS_MACOSX)
  
@@ -115,19 +115,6 @@ Index: dev/chrome/browser/flag_descriptions.h
  extern const char kAllowTouchpadThreeFingerClickName[];
  extern const char kAllowTouchpadThreeFingerClickDescription[];
  
-Index: dev/components/viz/service/main/viz_main_impl.cc
-===================================================================
---- dev.orig/components/viz/service/main/viz_main_impl.cc
-+++ dev/components/viz/service/main/viz_main_impl.cc
-@@ -36,7 +36,7 @@ std::unique_ptr<base::Thread> CreateAndS
-   // It should be possible to use |main_task_runner_| for doing IO tasks.
-   base::Thread::Options thread_options(base::MessageLoop::TYPE_IO, 0);
-   thread_options.priority = base::ThreadPriority::NORMAL;
--#if defined(OS_ANDROID) || defined(OS_CHROMEOS)
-+#if defined(OS_LINUX)
-   // TODO(reveman): Remove this in favor of setting it explicitly for each
-   // type of process.
-   thread_options.priority = base::ThreadPriority::DISPLAY;
 Index: dev/content/gpu/BUILD.gn
 ===================================================================
 --- dev.orig/content/gpu/BUILD.gn
@@ -149,28 +136,6 @@ Index: dev/content/gpu/BUILD.gn
 +    public_configs = [ "//build/config/linux/libva" ]
 +  }
  }
-Index: dev/content/gpu/gpu_main.cc
-===================================================================
---- dev.orig/content/gpu/gpu_main.cc
-+++ dev/content/gpu/gpu_main.cc
-@@ -288,7 +288,7 @@ int GpuMain(const MainFunctionParams& pa
- 
-   base::PlatformThread::SetName("CrGpuMain");
- 
--#if defined(OS_ANDROID) || defined(OS_CHROMEOS)
-+#if defined(OS_LINUX)
-   // Set thread priority before sandbox initialization.
-   base::PlatformThread::SetCurrentThreadPriority(base::ThreadPriority::DISPLAY);
- #endif
-@@ -321,7 +321,7 @@ int GpuMain(const MainFunctionParams& pa
-   GetContentClient()->SetGpuInfo(gpu_init->gpu_info());
- 
-   base::ThreadPriority io_thread_priority = base::ThreadPriority::NORMAL;
--#if defined(OS_ANDROID) || defined(OS_CHROMEOS)
-+#if defined(OS_LINUX)
-   io_thread_priority = base::ThreadPriority::DISPLAY;
- #endif
- 
 Index: dev/gpu/config/software_rendering_list.json
 ===================================================================
 --- dev.orig/gpu/config/software_rendering_list.json
@@ -197,7 +162,7 @@ Index: dev/media/base/media_switches.cc
 ===================================================================
 --- dev.orig/media/base/media_switches.cc
 +++ dev/media/base/media_switches.cc
-@@ -494,7 +494,7 @@ bool IsVideoCaptureAcceleratedJpegDecodi
+@@ -506,7 +506,7 @@ bool IsVideoCaptureAcceleratedJpegDecodi
            switches::kUseFakeJpegDecodeAccelerator)) {
      return true;
    }
@@ -218,7 +183,7 @@ Index: dev/media/filters/BUILD.gn
  
  jumbo_source_set("filters") {
    # Do not expand the visibility here without double-checking with OWNERS, this
-@@ -210,7 +211,7 @@ jumbo_source_set("filters") {
+@@ -212,7 +213,7 @@ jumbo_source_set("filters") {
      deps += [ "//media/base/android" ]
    }
  
@@ -300,15 +265,18 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
  
  }  // namespace
  
-@@ -652,6 +654,7 @@ void VaapiVideoDecodeAccelerator::Assign
+@@ -652,6 +654,10 @@ void VaapiVideoDecodeAccelerator::Assign
    const unsigned int va_format = GetVaFormatForVideoCodecProfile(profile_);
    std::vector<VASurfaceID> va_surface_ids;
  
++  // Nvidia doesn't support VAProfileNone, so don't try to create a temporary
++  // copy buffer there. It's not needed anyways for hardware video decoding
++  // to work.
 +#if defined(OS_ANDROID) || defined(OS_CHROMEOS)
    // If we aren't in BufferAllocationMode::kNone, we have to allocate a
    // |vpp_vaapi_wrapper_| for VaapiPicture to DownloadFromSurface() the VA's
    // internal decoded frame.
-@@ -665,6 +668,7 @@ void VaapiVideoDecodeAccelerator::Assign
+@@ -665,6 +671,7 @@ void VaapiVideoDecodeAccelerator::Assign
        NotifyError(PLATFORM_FAILURE);
      }
    }
@@ -316,7 +284,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
  
    for (size_t i = 0; i < buffers.size(); ++i) {
      DCHECK(requested_pic_size_ == buffers[i].size());
-@@ -673,9 +677,13 @@ void VaapiVideoDecodeAccelerator::Assign
+@@ -673,9 +680,13 @@ void VaapiVideoDecodeAccelerator::Assign
      // only used as a copy destination. Therefore, the VaapiWrapper used and
      // owned by |picture| is |vpp_vaapi_wrapper_|.
      std::unique_ptr<VaapiPicture> picture = vaapi_picture_factory_->Create(
@@ -330,7 +298,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
          make_context_current_cb_, bind_image_cb_, buffers[i]);
      RETURN_AND_NOTIFY_ON_FAILURE(picture, "Failed creating a VaapiPicture",
                                   PLATFORM_FAILURE, );
-@@ -1091,6 +1099,9 @@ VaapiVideoDecodeAccelerator::GetSupporte
+@@ -1091,6 +1102,9 @@ VaapiVideoDecodeAccelerator::GetSupporte
  
  VaapiVideoDecodeAccelerator::BufferAllocationMode
  VaapiVideoDecodeAccelerator::DecideBufferAllocationMode() const {
@@ -340,7 +308,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
    // TODO(crbug.com/912295): Enable a better BufferAllocationMode for IMPORT
    // |output_mode_| as well.
    if (output_mode_ == VideoDecodeAccelerator::Config::OutputMode::IMPORT)
-@@ -1123,6 +1134,7 @@ VaapiVideoDecodeAccelerator::DecideBuffe
+@@ -1123,6 +1137,7 @@ VaapiVideoDecodeAccelerator::DecideBuffe
      return BufferAllocationMode::kSuperReduced;
    }
    return BufferAllocationMode::kNormal;
@@ -352,7 +320,19 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -279,9 +279,6 @@ bool VADisplayState::Initialize() {
+@@ -252,6 +252,11 @@ void VADisplayState::PreSandboxInitializ
+       base::File::FLAG_OPEN | base::File::FLAG_READ | base::File::FLAG_WRITE);
+   if (drm_file.IsValid())
+     VADisplayState::Get()->SetDrmFd(drm_file.GetPlatformFile());
++
++  const char kNvidiaPath[] = "/dev/dri/nvidiactl";
++  base::File nvidia_file = base::File(
++      base::FilePath::FromUTF8Unsafe(kNvidiaPath),
++      base::File::FLAG_OPEN | base::File::FLAG_READ | base::File::FLAG_WRITE);
+ }
+ 
+ VADisplayState::VADisplayState()
+@@ -279,9 +284,6 @@ bool VADisplayState::Initialize() {
  }
  
  bool VADisplayState::InitializeOnce() {
@@ -362,7 +342,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    switch (gl::GetGLImplementation()) {
      case gl::kGLImplementationEGLGLES2:
        va_display_ = vaGetDisplayDRM(drm_fd_.get());
-@@ -289,10 +286,10 @@ bool VADisplayState::InitializeOnce() {
+@@ -289,10 +291,10 @@ bool VADisplayState::InitializeOnce() {
      case gl::kGLImplementationDesktopGL:
  #if defined(USE_X11)
        va_display_ = vaGetDisplay(gfx::GetXDisplay());
@@ -376,7 +356,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
        break;
      // Cannot infer platform from GL, try all available displays
      case gl::kGLImplementationNone:
-@@ -325,8 +322,19 @@ bool VADisplayState::InitializeOnce() {
+@@ -325,8 +327,19 @@ bool VADisplayState::InitializeOnce() {
    int major_version, minor_version;
    VAStatus va_res = vaInitialize(va_display_, &major_version, &minor_version);
    if (va_res != VA_STATUS_SUCCESS) {
@@ -398,7 +378,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
  
    va_initialized_ = true;
-@@ -334,7 +342,7 @@ bool VADisplayState::InitializeOnce() {
+@@ -334,7 +347,7 @@ bool VADisplayState::InitializeOnce() {
    va_vendor_string_ = vaQueryVendorString(va_display_);
    DLOG_IF(WARNING, va_vendor_string_.empty())
        << "Vendor string empty or error reading.";
@@ -407,7 +387,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
             << va_vendor_string_;
  
    // The VAAPI version is determined from what is loaded on the system by
-@@ -638,7 +646,7 @@ bool VASupportedProfiles::AreAttribsSupp
+@@ -638,7 +651,7 @@ bool VASupportedProfiles::AreAttribsSupp
      if (attribs[i].type != required_attribs[i].type ||
          (attribs[i].value & required_attribs[i].value) !=
              required_attribs[i].value) {
