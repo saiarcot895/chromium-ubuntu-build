@@ -1,3 +1,11 @@
+chromium-browser (73.0.3683.67-0ubuntu1~ppa1~18.10.1) cosmic; urgency=low
+
+  * New upstream version 73.0.3683.67
+  * Fix video decoding on Nvidia (fixes #42).
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 08 Mar 2019 11:05:41 -0500
+
 chromium-browser (73.0.3683.56-0ubuntu1~ppa1~18.10.1) cosmic; urgency=low
 
   * New upstream version 73.0.3683.56

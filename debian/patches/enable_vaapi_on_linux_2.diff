@@ -126,7 +126,7 @@ Index: beta/chrome/browser/flag_descriptions.cc
  const char kAcceleratedVideoDecodeName[] = "Hardware-accelerated video decode";
  const char kAcceleratedVideoDecodeDescription[] =
      "Hardware-accelerated video decode where available.";
-@@ -3083,7 +3090,7 @@ const char kTextSuggestionsTouchBarDescr
+@@ -3098,7 +3105,7 @@ const char kTextSuggestionsTouchBarDescr
  
  // Chrome OS -------------------------------------------------------------------
  
@@ -135,7 +135,7 @@ Index: beta/chrome/browser/flag_descriptions.cc
  
  const char kAcceleratedMjpegDecodeName[] =
      "Hardware-accelerated mjpeg decode for captured frame";
-@@ -3637,7 +3644,7 @@ const char kWakeOnPacketsName[] = "Wake
+@@ -3652,7 +3659,7 @@ const char kWakeOnPacketsName[] = "Wake
  const char kWakeOnPacketsDescription[] =
      "Enables waking the device based on the receipt of some network packets.";
  
@@ -159,7 +159,7 @@ Index: beta/chrome/browser/flag_descriptions.h
  extern const char kAcceleratedVideoDecodeName[];
  extern const char kAcceleratedVideoDecodeDescription[];
  
-@@ -1833,13 +1837,17 @@ extern const char kPermissionPromptPersi
+@@ -1842,13 +1846,17 @@ extern const char kPermissionPromptPersi
  
  #endif  // defined(OS_MACOSX)
  
@@ -576,7 +576,7 @@ Index: beta/media/base/media_switches.cc
  
  // When running tests on a system without the required hardware or libraries,
  // this flag will cause the tests to fail. Otherwise, they silently succeed.
-@@ -487,15 +493,22 @@ const base::Feature kInternalMediaSessio
+@@ -494,15 +500,22 @@ const base::Feature kInternalMediaSessio
  };
  
  bool IsVideoCaptureAcceleratedJpegDecodingEnabled() {
@@ -729,21 +729,21 @@ Index: beta/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
 ===================================================================
 --- beta.orig/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
 +++ beta/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
-@@ -74,6 +74,7 @@ void CloseGpuMemoryBufferHandle(const gf
+@@ -73,6 +73,7 @@ void CloseGpuMemoryBufferHandle(const gf
  }
  #endif
  
 +#if !(defined(OS_LINUX) && !defined(OS_CHROMEOS) && !defined(OS_ANDROID))
- // Returns true if the CPU is an Intel Kaby/Gemini/Sky Lake or later.
- // Cpu platform id's are referenced from the following file in kernel source
+ // Returns true if the CPU is an Intel Kaby Lake or later.
+ // cpu platform id's are referenced from the following file in kernel source
  // arch/x86/include/asm/intel-family.h
-@@ -103,23 +104,32 @@ bool IsSkyLakeOrLater() {
-                                      cpuid.model() >= kFirstSkyLakeModelId;
-   return is_sky_lake_or_later;
+@@ -95,15 +96,20 @@ bool IsGeminiLakeOrLater() {
+       cpuid.model() >= kGeminiLakeModelId;
+   return is_geminilake_or_later;
  }
 +#endif
  
- // Decides if the current platform and |profile| may decode using the client's
+ // Decides if the current platform and profile may decode using the client's
  // PictureBuffers, or engage the Vpp to adapt VaApi's and the client's format.
  bool ShouldDecodeOnclientPictureBuffers(
      VideoDecodeAccelerator::Config::OutputMode output_mode,
@@ -757,16 +757,33 @@ Index: beta/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
 +#endif
  }
  
- // Decides if the current platform and |output_mode| may used a reduced number
- // of buffer allocations. See https://crbug.com/920510 for more information.
- bool ShouldUseReducedNumberOfAllocations(
-     VideoDecodeAccelerator::Config::OutputMode output_mode) {
-+#if defined(OS_LINUX) && !defined(OS_CHROMEOS) && !defined(OS_ANDROID)
-+  return false;
-+#else
-   return output_mode == VideoDecodeAccelerator::Config::OutputMode::ALLOCATE &&
-          IsSkyLakeOrLater();
-+#endif
- }
- 
  }  // namespace
+@@ -625,6 +631,7 @@ void VaapiVideoDecodeAccelerator::Assign
+   const unsigned int va_format = GetVaFormatForVideoCodecProfile(profile_);
+   std::vector<VASurfaceID> va_surface_ids;
+ 
++#if defined(OS_ANDROID) || defined(OS_CHROMEOS)
+   // If we can't |decode_using_client_picture_buffers_|, we have to allocate a
+   // |vpp_vaapi_wrapper_| for VaapiPicture to DownloadFromSurface() the VA's
+   // internal decoded frame.
+@@ -637,6 +644,7 @@ void VaapiVideoDecodeAccelerator::Assign
+       NotifyError(PLATFORM_FAILURE);
+     }
+   }
++#endif
+ 
+   for (size_t i = 0; i < buffers.size(); ++i) {
+     DCHECK(requested_pic_size_ == buffers[i].size());
+@@ -645,8 +653,12 @@ void VaapiVideoDecodeAccelerator::Assign
+     // only used as a copy destination. Therefore, the VaapiWrapper used and
+     // owned by |picture| is |vpp_vaapi_wrapper_|.
+     std::unique_ptr<VaapiPicture> picture = vaapi_picture_factory_->Create(
++#if defined(OS_LINUX) && !defined(OS_ANDROID) && !defined(OS_CHROMEOS)
++        vaapi_wrapper_,
++#else
+         decode_using_client_picture_buffers_ ? vaapi_wrapper_
+                                              : vpp_vaapi_wrapper_,
++#endif
+         make_context_current_cb_, bind_image_cb_, buffers[i]);
+     RETURN_AND_NOTIFY_ON_FAILURE(picture, "Failed creating a VaapiPicture",
+                                  PLATFORM_FAILURE, );
