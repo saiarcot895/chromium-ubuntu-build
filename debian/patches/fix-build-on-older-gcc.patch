@@ -782,7 +782,7 @@ Index: dev/media/gpu/vaapi/vaapi_jpeg_decoder.cc
    }
 +#else
 +  VAImageFormat va_image_format;
-+  if (!VaSurfaceFormatToImageFormat(va_surface_format, &va_image_format)) {
++  if (!VaSurfaceFormatToImageFormat(va_rt_format_, &va_image_format)) {
 +    VLOGF(1) << "Unsupported surface format";
 +    *status = VaapiJpegDecodeStatus::kUnsupportedSurfaceFormat;
 +    return nullptr;
@@ -973,3 +973,16 @@ Index: dev/content/browser/indexed_db/leveldb/leveldb_env.cc
  }
  
  leveldb::Status DefaultLevelDBFactory::DestroyLevelDB(
+Index: dev/services/tracing/public/cpp/perfetto/interning_index.h
+===================================================================
+--- dev.orig/services/tracing/public/cpp/perfetto/interning_index.h
++++ dev/services/tracing/public/cpp/perfetto/interning_index.h
+@@ -46,7 +46,7 @@ class COMPONENT_EXPORT(TRACING_CPP) Inte
+   //     InterningIndex<char*, std::string> index(1000, 100);
+   template <typename... SizeType>
+   InterningIndex(SizeType... max_entry_counts)
+-      : entry_caches_(max_entry_counts...) {}
++      : entry_caches_(IndexCache(max_entry_counts)...) {}
+ 
+   // Returns the entry for the given interned |value|, adding it to the index if
+   // it didn't exist previously or was evicted from the index. Entries may be
