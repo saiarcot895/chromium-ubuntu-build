@@ -1,3 +1,10 @@
+chromium-browser (74.0.3729.6-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
+
+  * New upstream version 74.0.3729.6
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 16 Mar 2019 02:10:09 -0400
+
 chromium-browser (74.0.3724.8-0ubuntu1~ppa2~16.04.1) xenial; urgency=low
 
   * Fix build on older GCC.

@@ -2,12 +2,17 @@ Index: dev/README.md
 ===================================================================
 --- dev.orig/README.md
 +++ dev/README.md
-@@ -1,11 +1,110 @@
+@@ -1,11 +1,114 @@
 -# ![Logo](chrome/app/theme/chromium/product_logo_64.png) Chromium
 +# Chromium for Wayland
  
 -Chromium is an open-source browser project that aims to build a safer, faster,
 -and more stable way for all users to experience the web.
++NOTE: All the work has moved to the Chromium mainline repository. This repo is being
++updated on a weekly basis and some patches may land here first. This is not a fork, but
++rather a downstream branch for first round reviews.
+ 
+-The project's web site is https://www.chromium.org.
 +The goal of this project is to enable
 +[Chromium browser](https://www.chromium.org/) to run on
 +[Wayland](https://wayland.freedesktop.org/). Note that contrary to
@@ -16,8 +21,7 @@ Index: dev/README.md
 +plans. In particular, this fork is rebased against
 +[Chromium ToT](https://chromium.googlesource.com/chromium/src.git) each week
 +and patches are upstreamed as soon as possible.
- 
--The project's web site is https://www.chromium.org.
++
 +The implementation also relies on actively developed Chromium technologies:
 +
 +* [Aura](https://www.chromium.org/developers/design-documents/aura/aura-overview) for the user interface and windowing.
@@ -130,8 +134,8 @@ Index: dev/chrome/browser/ui/views/tabs/window_finder_ozone.cc
  #include "chrome/browser/ui/views/tabs/window_finder.h"
 +#include "ui/views/widget/widget.h"
  
- gfx::NativeWindow WindowFinder::GetLocalProcessWindowAtPoint(
-     const gfx::Point& screen_point,
+ #include "base/stl_util.h"
+ #include "ui/aura/window.h"
 Index: dev/media/gpu/BUILD.gn
 ===================================================================
 --- dev.orig/media/gpu/BUILD.gn
@@ -153,8 +157,8 @@ Index: dev/media/gpu/BUILD.gn
    generate_stubs("libv4l2_stubs") {
      extra_header = "v4l2/v4l2_stub_header.fragment"
      sigs = [ "v4l2/v4l2.sig" ]
-@@ -205,17 +206,21 @@ component("gpu") {
-       "v4l2/v4l2_device.h",
+@@ -217,12 +218,8 @@ component("gpu") {
+       "v4l2/v4l2_h264_accelerator.h",
        "v4l2/v4l2_image_processor.cc",
        "v4l2/v4l2_image_processor.h",
 -      "v4l2/v4l2_jpeg_decode_accelerator.cc",
@@ -166,8 +170,10 @@ Index: dev/media/gpu/BUILD.gn
        "v4l2/v4l2_video_decode_accelerator.cc",
        "v4l2/v4l2_video_decode_accelerator.h",
        "v4l2/v4l2_video_encode_accelerator.cc",
-       "v4l2/v4l2_video_encode_accelerator.h",
+@@ -233,6 +230,15 @@ component("gpu") {
+       "v4l2/v4l2_vp9_accelerator.h",
      ]
+ 
 +    if (!use_linux_v4l2_only) {
 +      sources += [
 +        "v4l2_jpeg_decode_accelerator.cc",
@@ -176,6 +182,7 @@ Index: dev/media/gpu/BUILD.gn
 +        "v4l2_slice_video_decode_accelerator.h",
 +      ]
 +    }
++
      libs = [
        "EGL",
        "GLESv2",
@@ -235,7 +242,7 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
  #if BUILDFLAG(USE_VAAPI)
    vda_profiles = VaapiVideoDecodeAccelerator::GetSupportedProfiles();
    GpuVideoAcceleratorUtil::InsertUniqueDecodeProfiles(
-@@ -162,8 +166,10 @@ GpuVideoDecodeAcceleratorFactory::Create
+@@ -164,8 +168,10 @@ GpuVideoDecodeAcceleratorFactory::Create
  #endif
  #if BUILDFLAG(USE_V4L2_CODEC)
      &GpuVideoDecodeAcceleratorFactory::CreateV4L2VDA,
@@ -246,7 +253,7 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
  #if BUILDFLAG(USE_VAAPI)
      &GpuVideoDecodeAcceleratorFactory::CreateVaapiVDA,
  #endif
-@@ -219,6 +225,7 @@ GpuVideoDecodeAcceleratorFactory::Create
+@@ -221,6 +227,7 @@ GpuVideoDecodeAcceleratorFactory::Create
    return decoder;
  }
  
@@ -254,7 +261,7 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
  std::unique_ptr<VideoDecodeAccelerator>
  GpuVideoDecodeAcceleratorFactory::CreateV4L2SVDA(
      const gpu::GpuDriverBugWorkarounds& workarounds,
-@@ -234,6 +241,7 @@ GpuVideoDecodeAcceleratorFactory::Create
+@@ -236,6 +243,7 @@ GpuVideoDecodeAcceleratorFactory::Create
    return decoder;
  }
  #endif
@@ -266,7 +273,7 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.h
 ===================================================================
 --- dev.orig/media/gpu/gpu_video_decode_accelerator_factory.h
 +++ dev/media/gpu/gpu_video_decode_accelerator_factory.h
-@@ -108,11 +108,13 @@ class MEDIA_GPU_EXPORT GpuVideoDecodeAcc
+@@ -111,11 +111,13 @@ class MEDIA_GPU_EXPORT GpuVideoDecodeAcc
        const gpu::GpuDriverBugWorkarounds& workarounds,
        const gpu::GpuPreferences& gpu_preferences,
        MediaLog* media_log) const;
@@ -305,7 +312,7 @@ Index: dev/media/gpu/v4l2/generic_v4l2_device.cc
    munmap(addr, len);
  }
  
-@@ -477,9 +487,13 @@ bool GenericV4L2Device::OpenDevicePath(c
+@@ -479,9 +489,13 @@ bool GenericV4L2Device::OpenDevicePath(c
      return false;
  
  #if BUILDFLAG(USE_LIBV4L2)
@@ -334,7 +341,7 @@ Index: dev/media/gpu/v4l2/v4l2_device.cc
 ===================================================================
 --- dev.orig/media/gpu/v4l2/v4l2_device.cc
 +++ dev/media/gpu/v4l2/v4l2_device.cc
-@@ -897,6 +897,21 @@ uint32_t V4L2Device::VideoFrameLayoutToV
+@@ -978,6 +978,21 @@ uint32_t V4L2Device::VideoFrameLayoutToV
                                        layout.num_buffers() == 1);
  }
  
@@ -356,7 +363,7 @@ Index: dev/media/gpu/v4l2/v4l2_device.cc
  // static
  uint32_t V4L2Device::VideoCodecProfileToV4L2PixFmt(VideoCodecProfile profile,
                                                     bool slice_based) {
-@@ -938,6 +953,7 @@ VideoCodecProfile V4L2Device::V4L2VP9Pro
+@@ -1019,6 +1034,7 @@ VideoCodecProfile V4L2Device::V4L2VP9Pro
        return VIDEO_CODEC_PROFILE_UNKNOWN;
    }
  }
@@ -364,7 +371,7 @@ Index: dev/media/gpu/v4l2/v4l2_device.cc
  
  // static
  std::vector<VideoCodecProfile> V4L2Device::V4L2PixFmtToVideoCodecProfiles(
-@@ -948,7 +964,9 @@ std::vector<VideoCodecProfile> V4L2Devic
+@@ -1029,7 +1045,9 @@ std::vector<VideoCodecProfile> V4L2Devic
  
    switch (pix_fmt) {
      case V4L2_PIX_FMT_H264:
@@ -374,7 +381,7 @@ Index: dev/media/gpu/v4l2/v4l2_device.cc
        if (is_encoder) {
          // TODO(posciak): need to query the device for supported H.264 profiles,
          // for now choose Main as a sensible default.
-@@ -961,11 +979,14 @@ std::vector<VideoCodecProfile> V4L2Devic
+@@ -1042,11 +1060,14 @@ std::vector<VideoCodecProfile> V4L2Devic
        break;
  
      case V4L2_PIX_FMT_VP8:
@@ -389,7 +396,7 @@ Index: dev/media/gpu/v4l2/v4l2_device.cc
      case V4L2_PIX_FMT_VP9:
      case V4L2_PIX_FMT_VP9_FRAME: {
        v4l2_queryctrl query_ctrl = {};
-@@ -992,6 +1013,7 @@ std::vector<VideoCodecProfile> V4L2Devic
+@@ -1073,6 +1094,7 @@ std::vector<VideoCodecProfile> V4L2Devic
        }
        break;
      }
@@ -397,7 +404,7 @@ Index: dev/media/gpu/v4l2/v4l2_device.cc
  
      default:
        VLOGF(1) << "Unhandled pixelformat " << FourccToString(pix_fmt);
-@@ -1022,7 +1044,10 @@ uint32_t V4L2Device::V4L2PixFmtToDrmForm
+@@ -1103,7 +1125,10 @@ uint32_t V4L2Device::V4L2PixFmtToDrmForm
        return DRM_FORMAT_ARGB8888;
  
      case V4L2_PIX_FMT_MT21C:
@@ -412,15 +419,15 @@ Index: dev/media/gpu/v4l2/v4l2_video_decode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/v4l2/v4l2_video_decode_accelerator.cc
 +++ dev/media/gpu/v4l2/v4l2_video_decode_accelerator.cc
-@@ -29,6 +29,7 @@
- #include "media/base/video_frame_layout.h"
+@@ -33,6 +33,7 @@
  #include "media/base/video_types.h"
+ #include "media/gpu/image_processor_factory.h"
  #include "media/gpu/macros.h"
 +#include "media/gpu/buildflags.h"
  #include "media/gpu/v4l2/v4l2_image_processor.h"
  #include "media/video/h264_parser.h"
  #include "ui/gfx/geometry/rect.h"
-@@ -79,7 +80,10 @@ size_t GetNumPlanesOfV4L2PixFmt(uint32_t
+@@ -82,7 +83,10 @@ size_t GetNumPlanesOfV4L2PixFmt(uint32_t
  
  // static
  const uint32_t V4L2VideoDecodeAccelerator::supported_input_fourccs_[] = {
@@ -432,11 +439,30 @@ Index: dev/media/gpu/v4l2/v4l2_video_decode_accelerator.cc
  };
  
  struct V4L2VideoDecodeAccelerator::BitstreamBufferRef {
+Index: dev/media/gpu/vaapi/BUILD.gn
+===================================================================
+--- dev.orig/media/gpu/vaapi/BUILD.gn
++++ dev/media/gpu/vaapi/BUILD.gn
+@@ -94,12 +94,12 @@ source_set("vaapi") {
+     ]
+   }
+ 
+-  if (ozone_platform_gbm || use_egl) {
++  if (ozone_platform_wayland || ozone_platform_gbm || use_egl) {
+     sources += [
+       "vaapi_picture_native_pixmap.cc",
+       "vaapi_picture_native_pixmap.h",
+     ]
+-    if (ozone_platform_gbm) {
++    if (ozone_platform_gbm || ozone_platform_wayland) {
+       sources += [
+         "vaapi_picture_native_pixmap_ozone.cc",
+         "vaapi_picture_native_pixmap_ozone.h",
 Index: dev/testing/buildbot/filters/ozone.browser_tests.filter
 ===================================================================
 --- /dev/null
 +++ dev/testing/buildbot/filters/ozone.browser_tests.filter
-@@ -0,0 +1,298 @@
+@@ -0,0 +1,307 @@
 +#194 tests failed: It happens with upstream "ozone". (21/Nov/2018)
 +-AppInfoDialogBrowserTest.InvokeUi_default
 +-AskGoogleForSuggestionsDialogTest.InvokeUi_default
@@ -735,11 +761,20 @@ Index: dev/testing/buildbot/filters/ozone.browser_tests.filter
 +#2 tests timed out:
 +-MediaGalleriesGalleryWatchApiTest.CorrectResponseOnModifyingWatchedGallery
 +-MediaGalleriesGalleryWatchApiTest.RemoveListenerAndModifyGallery
++
++#Failed:
++-OmniboxPopupContentsViewTest.ClickOmnibox
++-ProfileChooserViewExtensionsTest.InvokeUi_DiceGuest
++-TabHoverCardBubbleViewBrowserTest.InvokeUi_tab_hover_card
++
++#Timed out
++-MediaGalleriesGalleryWatchApiTest.BasicGalleryWatch
++-StartupBrowserCreatorTest.UpdateWithTwoProfiles
 Index: dev/ui/base/BUILD.gn
 ===================================================================
 --- dev.orig/ui/base/BUILD.gn
 +++ dev/ui/base/BUILD.gn
-@@ -458,9 +458,12 @@ jumbo_component("base") {
+@@ -436,9 +436,12 @@ jumbo_component("base") {
      deps += [ "//ui/events" ]
    }
  
@@ -753,7 +788,7 @@ Index: dev/ui/base/BUILD.gn
  
      if (!is_chromeos) {
        sources += [
-@@ -474,30 +477,44 @@ jumbo_component("base") {
+@@ -452,30 +455,44 @@ jumbo_component("base") {
      }
    }
  
@@ -763,19 +798,17 @@ Index: dev/ui/base/BUILD.gn
 -      "cursor/cursor_loader_x11.cc",
 -      "cursor/cursor_loader_x11.h",
 -      "cursor/cursor_x11.cc",
--      "x/selection_owner.cc",
--      "x/selection_owner.h",
+       "x/selection_owner.cc",
+       "x/selection_owner.h",
 -      "x/selection_requestor.cc",
 -      "x/selection_requestor.h",
        "x/selection_utils.cc",
        "x/selection_utils.h",
--    ]
+     ]
 -    deps += [
 -      "//ui/events/platform/x11",
 -      "//ui/gfx/x",
-+      "x/selection_owner.cc",
-+      "x/selection_owner.h",
-     ]
+-    ]
  
      if (!is_chromeos) {
        # These Aura X11 files aren't used on ChromeOS.
@@ -784,8 +817,8 @@ Index: dev/ui/base/BUILD.gn
 -        "dragdrop/os_exchange_data_provider_aurax11.h",
 +        "dragdrop/os_exchange_data_provider_aurax11_base.cc",
 +        "dragdrop/os_exchange_data_provider_aurax11_base.h",
-       ]
-     }
++      ]
++    }
 +
 +    if (use_x11 && use_aura) {
 +      sources += [
@@ -794,7 +827,7 @@ Index: dev/ui/base/BUILD.gn
 +        "cursor/cursor_x11.cc",
 +        "x/selection_requestor.cc",
 +        "x/selection_requestor.h",
-+      ]
+       ]
 +
 +      if (!is_chromeos) {
 +        # These Aura X11 files aren't used on ChromeOS.
@@ -803,7 +836,7 @@ Index: dev/ui/base/BUILD.gn
 +          "dragdrop/os_exchange_data_provider_aurax11.h",
 +        ]
 +      }
-+    }
+     }
 +
 +    deps += [
 +      "//ui/events/platform/x11",
@@ -812,842 +845,11 @@ Index: dev/ui/base/BUILD.gn
    }
  
    if (use_aura) {
-@@ -637,11 +654,21 @@ jumbo_component("base") {
- 
-   if (use_aura) {
-     # Aura clipboard.
--    if (use_x11 && is_desktop_linux) {
--      sources += [
--        "clipboard/clipboard_aurax11.cc",
--        "clipboard/clipboard_aurax11.h",
--      ]
-+    if (is_desktop_linux) {
-+      if (use_x11 || use_ozone) {
-+        sources += [ "clipboard/clipboard_aura_linux.cc" ]
-+      }
-+      if (use_ozone) {
-+        sources += [
-+          "clipboard/clipboard_ozone.cc",
-+          "clipboard/clipboard_ozone.h",
-+        ]
-+      } else if (use_x11) {
-+        sources += [
-+          "clipboard/clipboard_aurax11.cc",
-+          "clipboard/clipboard_aurax11.h",
-+        ]
-+      }
-     } else if (!is_win) {
-       # This file is used for all non-X11, non-Windows aura Builds.
-       sources += [
-Index: dev/ui/base/clipboard/DEPS
-===================================================================
---- dev.orig/ui/base/clipboard/DEPS
-+++ dev/ui/base/clipboard/DEPS
-@@ -1,4 +1,5 @@
- include_rules = [
-   "+jni",
-   "+third_party/mozilla",
-+  "+ui/ozone/public/clipboard_delegate.h",
- ]
-Index: dev/ui/base/clipboard/clipboard_aura_linux.cc
-===================================================================
---- /dev/null
-+++ dev/ui/base/clipboard/clipboard_aura_linux.cc
-@@ -0,0 +1,125 @@
-+// Copyright 2018 The Chromium Authors. All rights reserved.
-+// Use of this source code is governed by a BSD-style license that can be
-+// found in the LICENSE file.
-+
-+#include "ui/base/clipboard/clipboard.h"
-+
-+namespace ui {
-+
-+namespace {
-+constexpr char kMimeTypeFilename[] = "chromium/filename";
-+}
-+
-+// I would love for the FormatType to really be a wrapper around an X11 ::Atom,
-+// but there are a few problems. Chromeos unit tests spawn a new X11 server for
-+// each test, so Atom numeric values don't persist across tests. We could still
-+// maybe deal with that if we didn't have static accessor methods everywhere.
-+
-+Clipboard::FormatType::FormatType() {}
-+
-+Clipboard::FormatType::FormatType(const std::string& native_format)
-+    : data_(native_format) {}
-+
-+Clipboard::FormatType::~FormatType() {}
-+
-+std::string Clipboard::FormatType::Serialize() const {
-+  return data_;
-+}
-+
-+// static
-+Clipboard::FormatType Clipboard::FormatType::Deserialize(
-+    const std::string& serialization) {
-+  return FormatType(serialization);
-+}
-+
-+bool Clipboard::FormatType::operator<(const FormatType& other) const {
-+  return data_ < other.data_;
-+}
-+
-+bool Clipboard::FormatType::Equals(const FormatType& other) const {
-+  return data_ == other.data_;
-+}
-+
-+// Various predefined FormatTypes.
-+// static
-+Clipboard::FormatType Clipboard::GetFormatType(
-+    const std::string& format_string) {
-+  return FormatType::Deserialize(format_string);
-+}
-+
-+// static
-+const Clipboard::FormatType& Clipboard::GetUrlFormatType() {
-+  static base::NoDestructor<FormatType> type(kMimeTypeURIList);
-+  return *type;
-+}
-+
-+// static
-+const Clipboard::FormatType& Clipboard::GetUrlWFormatType() {
-+  return GetUrlFormatType();
-+}
-+
-+// static
-+const Clipboard::FormatType& Clipboard::GetMozUrlFormatType() {
-+  static base::NoDestructor<FormatType> type(kMimeTypeMozillaURL);
-+  return *type;
-+}
-+
-+// static
-+const Clipboard::FormatType& Clipboard::GetPlainTextFormatType() {
-+  static base::NoDestructor<FormatType> type(kMimeTypeText);
-+  return *type;
-+}
-+
-+// static
-+const Clipboard::FormatType& Clipboard::GetPlainTextWFormatType() {
-+  return GetPlainTextFormatType();
-+}
-+
-+// static
-+const Clipboard::FormatType& Clipboard::GetFilenameFormatType() {
-+  static base::NoDestructor<FormatType> type(kMimeTypeFilename);
-+  return *type;
-+}
-+
-+// static
-+const Clipboard::FormatType& Clipboard::GetFilenameWFormatType() {
-+  return Clipboard::GetFilenameFormatType();
-+}
-+
-+// static
-+const Clipboard::FormatType& Clipboard::GetHtmlFormatType() {
-+  static base::NoDestructor<FormatType> type(kMimeTypeHTML);
-+  return *type;
-+}
-+
-+// static
-+const Clipboard::FormatType& Clipboard::GetRtfFormatType() {
-+  static base::NoDestructor<FormatType> type(kMimeTypeRTF);
-+  return *type;
-+}
-+
-+// static
-+const Clipboard::FormatType& Clipboard::GetBitmapFormatType() {
-+  static base::NoDestructor<FormatType> type(kMimeTypePNG);
-+  return *type;
-+}
-+
-+// static
-+const Clipboard::FormatType& Clipboard::GetWebKitSmartPasteFormatType() {
-+  static base::NoDestructor<FormatType> type(kMimeTypeWebkitSmartPaste);
-+  return *type;
-+}
-+
-+// static
-+const Clipboard::FormatType& Clipboard::GetWebCustomDataFormatType() {
-+  static base::NoDestructor<FormatType> type(kMimeTypeWebCustomData);
-+  return *type;
-+}
-+
-+// static
-+const Clipboard::FormatType& Clipboard::GetPepperCustomDataFormatType() {
-+  static base::NoDestructor<FormatType> type(kMimeTypePepperCustomData);
-+  return *type;
-+}
-+
-+}  // namespace ui
-Index: dev/ui/base/clipboard/clipboard_aurax11.cc
-===================================================================
---- dev.orig/ui/base/clipboard/clipboard_aurax11.cc
-+++ dev/ui/base/clipboard/clipboard_aurax11.cc
-@@ -42,7 +42,6 @@ namespace {
- 
- const char kClipboard[] = "CLIPBOARD";
- const char kClipboardManager[] = "CLIPBOARD_MANAGER";
--const char kMimeTypeFilename[] = "chromium/filename";
- 
- ///////////////////////////////////////////////////////////////////////////////
- 
-@@ -169,41 +168,6 @@ bool TargetList::ContainsAtom(::Atom ato
- }  // namespace
- 
- ///////////////////////////////////////////////////////////////////////////////
--
--// I would love for the FormatType to really be a wrapper around an X11 ::Atom,
--// but there are a few problems. Chromeos unit tests spawn a new X11 server for
--// each test, so Atom numeric values don't persist across tests. We could still
--// maybe deal with that if we didn't have static accessor methods everywhere.
--
--Clipboard::FormatType::FormatType() {
--}
--
--Clipboard::FormatType::FormatType(const std::string& native_format)
--    : data_(native_format) {
--}
--
--Clipboard::FormatType::~FormatType() {
--}
--
--std::string Clipboard::FormatType::Serialize() const {
--  return data_;
--}
--
--// static
--Clipboard::FormatType Clipboard::FormatType::Deserialize(
--    const std::string& serialization) {
--  return FormatType(serialization);
--}
--
--bool Clipboard::FormatType::operator<(const FormatType& other) const {
--  return data_ < other.data_;
--}
--
--bool Clipboard::FormatType::Equals(const FormatType& other) const {
--  return data_ == other.data_;
--}
--
--///////////////////////////////////////////////////////////////////////////////
- // ClipboardAuraX11::AuraX11Details
- 
- // Private implementation of our X11 integration. Keeps X11 headers out of the
-@@ -541,89 +505,6 @@ uint32_t ClipboardAuraX11::AuraX11Detail
- }
- 
- ///////////////////////////////////////////////////////////////////////////////
--// Various predefined FormatTypes.
--// static
--Clipboard::FormatType Clipboard::GetFormatType(
--    const std::string& format_string) {
--  return FormatType::Deserialize(format_string);
--}
--
--// static
--const Clipboard::FormatType& Clipboard::GetUrlFormatType() {
--  static base::NoDestructor<FormatType> type(kMimeTypeURIList);
--  return *type;
--}
--
--// static
--const Clipboard::FormatType& Clipboard::GetUrlWFormatType() {
--  return GetUrlFormatType();
--}
--
--// static
--const Clipboard::FormatType& Clipboard::GetMozUrlFormatType() {
--  static base::NoDestructor<FormatType> type(kMimeTypeMozillaURL);
--  return *type;
--}
--
--// static
--const Clipboard::FormatType& Clipboard::GetPlainTextFormatType() {
--  static base::NoDestructor<FormatType> type(kMimeTypeText);
--  return *type;
--}
--
--// static
--const Clipboard::FormatType& Clipboard::GetPlainTextWFormatType() {
--  return GetPlainTextFormatType();
--}
--
--// static
--const Clipboard::FormatType& Clipboard::GetFilenameFormatType() {
--  static base::NoDestructor<FormatType> type(kMimeTypeFilename);
--  return *type;
--}
--
--// static
--const Clipboard::FormatType& Clipboard::GetFilenameWFormatType() {
--  return Clipboard::GetFilenameFormatType();
--}
--
--// static
--const Clipboard::FormatType& Clipboard::GetHtmlFormatType() {
--  static base::NoDestructor<FormatType> type(kMimeTypeHTML);
--  return *type;
--}
--
--// static
--const Clipboard::FormatType& Clipboard::GetRtfFormatType() {
--  static base::NoDestructor<FormatType> type(kMimeTypeRTF);
--  return *type;
--}
--
--// static
--const Clipboard::FormatType& Clipboard::GetBitmapFormatType() {
--  static base::NoDestructor<FormatType> type(kMimeTypePNG);
--  return *type;
--}
--
--// static
--const Clipboard::FormatType& Clipboard::GetWebKitSmartPasteFormatType() {
--  static base::NoDestructor<FormatType> type(kMimeTypeWebkitSmartPaste);
--  return *type;
--}
--
--// static
--const Clipboard::FormatType& Clipboard::GetWebCustomDataFormatType() {
--  static base::NoDestructor<FormatType> type(kMimeTypeWebCustomData);
--  return *type;
--}
--
--// static
--const Clipboard::FormatType& Clipboard::GetPepperCustomDataFormatType() {
--  static base::NoDestructor<FormatType> type(kMimeTypePepperCustomData);
--  return *type;
--}
--
--///////////////////////////////////////////////////////////////////////////////
- // Clipboard factory method.
- Clipboard* Clipboard::Create() {
-   return new ClipboardAuraX11;
-Index: dev/ui/base/clipboard/clipboard_ozone.cc
-===================================================================
---- /dev/null
-+++ dev/ui/base/clipboard/clipboard_ozone.cc
-@@ -0,0 +1,411 @@
-+// Copyright 2018 The Chromium Authors. All rights reserved.
-+// Use of this source code is governed by a BSD-style license that can be
-+// found in the LICENSE file.
-+
-+#include "ui/base/clipboard/clipboard_ozone.h"
-+
-+#include <memory>
-+
-+#include "base/bind.h"
-+#include "base/macros.h"
-+#include "base/memory/weak_ptr.h"
-+#include "base/run_loop.h"
-+#include "base/strings/utf_string_conversions.h"
-+#include "base/timer/timer.h"
-+#include "third_party/skia/include/core/SkBitmap.h"
-+#include "ui/base/clipboard/custom_data_helper.h"
-+#include "ui/gfx/codec/png_codec.h"
-+#include "ui/ozone/public/clipboard_delegate.h"
-+
-+namespace ui {
-+
-+// A helper class, which uses a request pattern to asynchronously communicate
-+// with the ozone::ClipboardDelegate and fetch clipboard data with mimes
-+// specified.
-+class ClipboardOzone::AsyncClipboardOzone {
-+ public:
-+  AsyncClipboardOzone()
-+      : delegate_(ClipboardDelegate::GetInstance()), weak_factory_(this) {}
-+
-+  ~AsyncClipboardOzone() = default;
-+
-+  std::vector<uint8_t> ReadClipboardDataAndWait(ClipboardType type,
-+                                                const std::string& mime_type) {
-+    // TODO(tonikitoo): add selection support.
-+    if (type == ClipboardType::CLIPBOARD_TYPE_SELECTION)
-+      return std::vector<uint8_t>();
-+
-+    // We can use a fastpath if we are the owner of the selection.
-+    if (delegate_->IsSelectionOwner()) {
-+      return offered_data_.find(mime_type) != offered_data_.end()
-+                 ? offered_data_[mime_type]
-+                 : std::vector<uint8_t>();
-+    }
-+
-+    std::unique_ptr<Request> request =
-+        std::make_unique<Request>(RequestType::READ);
-+    request->requested_mime_type = mime_type;
-+    ProcessRequestAndWaitForResult(request.get());
-+    return !request->data_map.empty() ? request->data_map[mime_type]
-+                                      : std::vector<uint8_t>();
-+  }
-+
-+  std::vector<std::string> RequestMimeTypes() {
-+    std::unique_ptr<Request> request =
-+        std::make_unique<Request>(RequestType::GET_MIME);
-+    ProcessRequestAndWaitForResult(request.get());
-+    return std::move(request->mime_types);
-+  }
-+
-+  void OfferData() {
-+    std::unique_ptr<Request> request =
-+        std::make_unique<Request>(RequestType::OFFER);
-+    request->data_map = offered_data_;
-+    ProcessRequestAndWaitForResult(request.get());
-+
-+    ++sequence_number_;
-+  }
-+
-+  void InsertData(std::vector<uint8_t> data, const std::string& mime_type) {
-+    DCHECK(offered_data_.find(mime_type) == offered_data_.end());
-+    offered_data_[mime_type] = std::move(data);
-+  }
-+
-+  void ClearOfferedData() { offered_data_.clear(); }
-+
-+  uint64_t sequence_number() const { return sequence_number_; }
-+
-+ private:
-+  enum class RequestType {
-+    READ = 0,
-+    OFFER = 1,
-+    GET_MIME = 2,
-+  };
-+
-+  // A structure, which holds request data to process inquiries from
-+  // the ClipboardOzone.
-+  struct Request {
-+    explicit Request(RequestType type) : current_type(type) {}
-+    ~Request() = default;
-+
-+    // Describes the type of the request.
-+    RequestType current_type;
-+
-+    // A closure that is used to signal the request is processed.
-+    base::OnceClosure request_closure;
-+
-+    // A data map that stores the result data or offers clipboard data.
-+    ClipboardDelegate::DataMap data_map;
-+
-+    // A requested mime type of the current request.
-+    std::string requested_mime_type;
-+
-+    // A vector of mime types returned as a result to a request to get available
-+    // mime types.
-+    std::vector<std::string> mime_types;
-+
-+    // The time when the request should be aborted.
-+    base::TimeTicks timeout;
-+  };
-+
-+  void ProcessRequestAndWaitForResult(Request* request) {
-+    DCHECK(!abort_timer_.IsRunning());
-+    DCHECK(!pending_request_);
-+
-+    base::RunLoop run_loop(base::RunLoop::Type::kNestableTasksAllowed);
-+    base::TimeTicks timeout =
-+        base::TimeTicks::Now() + base::TimeDelta::FromMilliseconds(1000);
-+    request->request_closure = run_loop.QuitClosure();
-+    request->timeout = timeout;
-+
-+    pending_request_ = request;
-+    switch (pending_request_->current_type) {
-+      case (RequestType::READ):
-+        ProcessReadRequest(request);
-+        break;
-+      case (RequestType::OFFER):
-+        ProcessOfferRequest(request);
-+        break;
-+      case (RequestType::GET_MIME):
-+        ProcessGetMimeRequest(request);
-+        break;
-+      default:
-+        NOTREACHED();
-+        break;
-+    }
-+
-+    if (!pending_request_)
-+      return;
-+    abort_timer_.Start(FROM_HERE, base::TimeDelta::FromMilliseconds(100), this,
-+                       &AsyncClipboardOzone::AbortStaledRequest);
-+    run_loop.Run();
-+  }
-+
-+  void AbortStaledRequest() {
-+    base::TimeTicks now = base::TimeTicks::Now();
-+    if (pending_request_ && pending_request_->timeout >= now)
-+      std::move(pending_request_->request_closure).Run();
-+  }
-+
-+  void ProcessReadRequest(Request* request) {
-+    auto callback = base::BindOnce(&AsyncClipboardOzone::OnTextRead,
-+                                   weak_factory_.GetWeakPtr());
-+    DCHECK(delegate_);
-+    delegate_->RequestClipboardData(request->requested_mime_type,
-+                                    &request->data_map, std::move(callback));
-+  }
-+
-+  void ProcessOfferRequest(Request* request) {
-+    auto callback = base::BindOnce(&AsyncClipboardOzone::OnOfferDone,
-+                                   weak_factory_.GetWeakPtr());
-+    DCHECK(delegate_);
-+    delegate_->OfferClipboardData(request->data_map, std::move(callback));
-+  }
-+
-+  void ProcessGetMimeRequest(Request* request) {
-+    auto callback = base::BindOnce(&AsyncClipboardOzone::OnGotMimeTypes,
-+                                   weak_factory_.GetWeakPtr());
-+    DCHECK(delegate_);
-+    delegate_->GetAvailableMimeTypes(std::move(callback));
-+  }
-+
-+  void OnTextRead(const base::Optional<std::vector<uint8_t>>& data) {
-+    CompleteRequest();
-+  }
-+
-+  void OnOfferDone() { CompleteRequest(); }
-+
-+  void OnGotMimeTypes(const std::vector<std::string>& mime_types) {
-+    pending_request_->mime_types = std::move(mime_types);
-+    CompleteRequest();
-+  }
-+
-+  void CompleteRequest() {
-+    abort_timer_.Stop();
-+    auto closure = std::move(pending_request_->request_closure);
-+    pending_request_ = nullptr;
-+    std::move(closure).Run();
-+  }
-+
-+  // Cached clipboard data, which is pending to be written. Must be cleared on
-+  // every new write to the |delegate_|.
-+  ClipboardDelegate::DataMap offered_data_;
-+
-+  // A current pending request being processed.
-+  Request* pending_request_ = nullptr;
-+
-+  // Aborts |pending_request| after Request::timeout.
-+  base::RepeatingTimer abort_timer_;
-+
-+  // Provides communication to a system clipboard under ozone level.
-+  ClipboardDelegate* delegate_ = nullptr;
-+
-+  uint64_t sequence_number_ = 0;
-+
-+  base::WeakPtrFactory<AsyncClipboardOzone> weak_factory_;
-+
-+  DISALLOW_COPY_AND_ASSIGN(AsyncClipboardOzone);
-+};
-+
-+// Clipboard factory method.
-+Clipboard* Clipboard::Create() {
-+  return new ClipboardOzone;
-+}
-+
-+// ClipboardOzone implementation.
-+ClipboardOzone::ClipboardOzone() {
-+  async_clipboard_ozone_ =
-+      std::make_unique<ClipboardOzone::AsyncClipboardOzone>();
-+}
-+
-+ClipboardOzone::~ClipboardOzone() = default;
-+
-+void ClipboardOzone::OnPreShutdown() {}
-+
-+uint64_t ClipboardOzone::GetSequenceNumber(ClipboardType type) const {
-+  return async_clipboard_ozone_->sequence_number();
-+}
-+
-+bool ClipboardOzone::IsFormatAvailable(const FormatType& format,
-+                                       ClipboardType type) const {
-+  DCHECK(CalledOnValidThread());
-+  // TODO(tonikitoo): add selection support.
-+  if (type == ClipboardType::CLIPBOARD_TYPE_SELECTION)
-+    return false;
-+
-+  auto available_types = async_clipboard_ozone_->RequestMimeTypes();
-+  for (auto mime_type : available_types) {
-+    if (format.ToString() == mime_type) {
-+      return true;
-+    }
-+  }
-+  return false;
-+}
-+
-+void ClipboardOzone::Clear(ClipboardType type) {
-+  async_clipboard_ozone_->ClearOfferedData();
-+  async_clipboard_ozone_->OfferData();
-+}
-+
-+void ClipboardOzone::ReadAvailableTypes(ClipboardType type,
-+                                        std::vector<base::string16>* types,
-+                                        bool* contains_filenames) const {
-+  DCHECK(CalledOnValidThread());
-+  types->clear();
-+
-+  // TODO(tonikitoo): add selection support.
-+  if (type == ClipboardType::CLIPBOARD_TYPE_SELECTION)
-+    return;
-+
-+  auto available_types = async_clipboard_ozone_->RequestMimeTypes();
-+  for (auto mime_type : available_types)
-+    types->push_back(base::UTF8ToUTF16(mime_type));
-+}
-+
-+void ClipboardOzone::ReadText(ClipboardType type,
-+                              base::string16* result) const {
-+  DCHECK(CalledOnValidThread());
-+
-+  auto clipboard_data =
-+      async_clipboard_ozone_->ReadClipboardDataAndWait(type, kMimeTypeText);
-+  *result = base::UTF8ToUTF16(
-+      std::string(clipboard_data.begin(), clipboard_data.end()));
-+}
-+
-+void ClipboardOzone::ReadAsciiText(ClipboardType type,
-+                                   std::string* result) const {
-+  DCHECK(CalledOnValidThread());
-+  auto clipboard_data =
-+      async_clipboard_ozone_->ReadClipboardDataAndWait(type, kMimeTypeText);
-+  result->assign(clipboard_data.begin(), clipboard_data.end());
-+}
-+
-+void ClipboardOzone::ReadHTML(ClipboardType type,
-+                              base::string16* markup,
-+                              std::string* src_url,
-+                              uint32_t* fragment_start,
-+                              uint32_t* fragment_end) const {
-+  DCHECK(CalledOnValidThread());
-+  markup->clear();
-+  if (src_url)
-+    src_url->clear();
-+  *fragment_start = 0;
-+  *fragment_end = 0;
-+
-+  auto clipboard_data =
-+      async_clipboard_ozone_->ReadClipboardDataAndWait(type, kMimeTypeHTML);
-+  *markup = base::UTF8ToUTF16(
-+      std::string(clipboard_data.begin(), clipboard_data.end()));
-+  DCHECK(markup->length() <= std::numeric_limits<uint32_t>::max());
-+  *fragment_end = static_cast<uint32_t>(markup->length());
-+}
-+
-+void ClipboardOzone::ReadRTF(ClipboardType type, std::string* result) const {
-+  DCHECK(CalledOnValidThread());
-+  auto clipboard_data =
-+      async_clipboard_ozone_->ReadClipboardDataAndWait(type, kMimeTypeRTF);
-+  result->assign(clipboard_data.begin(), clipboard_data.end());
-+}
-+
-+SkBitmap ClipboardOzone::ReadImage(ClipboardType type) const {
-+  DCHECK(CalledOnValidThread());
-+  auto clipboard_data =
-+      async_clipboard_ozone_->ReadClipboardDataAndWait(type, kMimeTypePNG);
-+  SkBitmap bitmap;
-+  if (gfx::PNGCodec::Decode(&clipboard_data.front(), clipboard_data.size(),
-+                            &bitmap))
-+    return SkBitmap(bitmap);
-+  return SkBitmap();
-+}
-+
-+void ClipboardOzone::ReadCustomData(ClipboardType clipboard_type,
-+                                    const base::string16& type,
-+                                    base::string16* result) const {
-+  DCHECK(CalledOnValidThread());
-+  auto custom_data = async_clipboard_ozone_->ReadClipboardDataAndWait(
-+      clipboard_type, kMimeTypeWebCustomData);
-+  ui::ReadCustomDataForType(&custom_data.front(), custom_data.size(), type,
-+                            result);
-+}
-+
-+void ClipboardOzone::ReadBookmark(base::string16* title,
-+                                  std::string* url) const {
-+  DCHECK(CalledOnValidThread());
-+  // TODO(msisov): This was left NOTIMPLEMENTED() in all the Linux platforms.
-+  NOTIMPLEMENTED();
-+}
-+
-+void ClipboardOzone::ReadData(const FormatType& format,
-+                              std::string* result) const {
-+  DCHECK(CalledOnValidThread());
-+  auto clipboard_data = async_clipboard_ozone_->ReadClipboardDataAndWait(
-+      ClipboardType::CLIPBOARD_TYPE_COPY_PASTE, format.ToString());
-+  result->assign(clipboard_data.begin(), clipboard_data.end());
-+}
-+
-+void ClipboardOzone::WriteObjects(ClipboardType type,
-+                                  const ObjectMap& objects) {
-+  DCHECK(CalledOnValidThread());
-+  if (type == ClipboardType::CLIPBOARD_TYPE_COPY_PASTE) {
-+    async_clipboard_ozone_->ClearOfferedData();
-+
-+    for (const auto& object : objects)
-+      DispatchObject(static_cast<ObjectType>(object.first), object.second);
-+
-+    async_clipboard_ozone_->OfferData();
-+  }
-+}
-+
-+void ClipboardOzone::WriteText(const char* text_data, size_t text_len) {
-+  std::vector<uint8_t> data(text_data, text_data + text_len);
-+  async_clipboard_ozone_->InsertData(std::move(data), kMimeTypeText);
-+}
-+
-+void ClipboardOzone::WriteHTML(const char* markup_data,
-+                               size_t markup_len,
-+                               const char* url_data,
-+                               size_t url_len) {
-+  std::vector<uint8_t> data(markup_data, markup_data + markup_len);
-+  async_clipboard_ozone_->InsertData(std::move(data), kMimeTypeHTML);
-+}
-+
-+void ClipboardOzone::WriteRTF(const char* rtf_data, size_t data_len) {
-+  std::vector<uint8_t> data(rtf_data, rtf_data + data_len);
-+  async_clipboard_ozone_->InsertData(std::move(data), kMimeTypeRTF);
-+}
-+
-+void ClipboardOzone::WriteBookmark(const char* title_data,
-+                                   size_t title_len,
-+                                   const char* url_data,
-+                                   size_t url_len) {
-+  // Writes a Mozilla url (UTF16: URL, newline, title)
-+  base::string16 bookmark =
-+      base::UTF8ToUTF16(base::StringPiece(url_data, url_len)) +
-+      base::ASCIIToUTF16("\n") +
-+      base::UTF8ToUTF16(base::StringPiece(title_data, title_len));
-+
-+  std::vector<uint8_t> data(
-+      reinterpret_cast<const uint8_t*>(bookmark.data()),
-+      reinterpret_cast<const uint8_t*>(bookmark.data() + bookmark.size()));
-+  async_clipboard_ozone_->InsertData(std::move(data), kMimeTypeMozillaURL);
-+}
-+
-+void ClipboardOzone::WriteWebSmartPaste() {
-+  async_clipboard_ozone_->InsertData(std::vector<uint8_t>(),
-+                                     kMimeTypeWebkitSmartPaste);
-+}
-+
-+void ClipboardOzone::WriteBitmap(const SkBitmap& bitmap) {
-+  std::vector<unsigned char> output;
-+  if (gfx::PNGCodec::FastEncodeBGRASkBitmap(bitmap, false, &output))
-+    async_clipboard_ozone_->InsertData(std::move(output), kMimeTypePNG);
-+}
-+
-+void ClipboardOzone::WriteData(const FormatType& format,
-+                               const char* data_data,
-+                               size_t data_len) {
-+  std::vector<uint8_t> data(data_data, data_data + data_len);
-+  async_clipboard_ozone_->InsertData(data, format.ToString());
-+}
-+
-+}  // namespace ui
-Index: dev/ui/base/clipboard/clipboard_ozone.h
-===================================================================
---- /dev/null
-+++ dev/ui/base/clipboard/clipboard_ozone.h
-@@ -0,0 +1,72 @@
-+// Copyright 2018 The Chromium Authors. All rights reserved.
-+// Use of this source code is governed by a BSD-style license that can be
-+// found in the LICENSE file.
-+
-+#ifndef UI_BASE_CLIPBOARD_CLIPBOARD_OZONE_H_
-+#define UI_BASE_CLIPBOARD_CLIPBOARD_OZONE_H_
-+
-+#include <stddef.h>
-+#include <stdint.h>
-+
-+#include "base/macros.h"
-+#include "ui/base/clipboard/clipboard.h"
-+
-+namespace ui {
-+
-+class ClipboardOzone : public Clipboard {
-+ private:
-+  friend class Clipboard;
-+
-+  ClipboardOzone();
-+  ~ClipboardOzone() override;
-+
-+  // Clipboard overrides:
-+  void OnPreShutdown() override;
-+  uint64_t GetSequenceNumber(ClipboardType type) const override;
-+  bool IsFormatAvailable(const FormatType& format,
-+                         ClipboardType type) const override;
-+  void Clear(ClipboardType type) override;
-+  void ReadAvailableTypes(ClipboardType type,
-+                          std::vector<base::string16>* types,
-+                          bool* contains_filenames) const override;
-+  void ReadText(ClipboardType type, base::string16* result) const override;
-+  void ReadAsciiText(ClipboardType type, std::string* result) const override;
-+  void ReadHTML(ClipboardType type,
-+                base::string16* markup,
-+                std::string* src_url,
-+                uint32_t* fragment_start,
-+                uint32_t* fragment_end) const override;
-+  void ReadRTF(ClipboardType type, std::string* result) const override;
-+  SkBitmap ReadImage(ClipboardType type) const override;
-+  void ReadCustomData(ClipboardType clipboard_type,
-+                      const base::string16& type,
-+                      base::string16* result) const override;
-+  void ReadBookmark(base::string16* title, std::string* url) const override;
-+  void ReadData(const FormatType& format, std::string* result) const override;
-+  void WriteObjects(ClipboardType type, const ObjectMap& objects) override;
-+  void WriteText(const char* text_data, size_t text_len) override;
-+  void WriteHTML(const char* markup_data,
-+                 size_t markup_len,
-+                 const char* url_data,
-+                 size_t url_len) override;
-+  void WriteRTF(const char* rtf_data, size_t data_len) override;
-+  void WriteBookmark(const char* title_data,
-+                     size_t title_len,
-+                     const char* url_data,
-+                     size_t url_len) override;
-+  void WriteWebSmartPaste() override;
-+  void WriteBitmap(const SkBitmap& bitmap) override;
-+  void WriteData(const FormatType& format,
-+                 const char* data_data,
-+                 size_t data_len) override;
-+
-+  class AsyncClipboardOzone;
-+
-+  std::unique_ptr<AsyncClipboardOzone> async_clipboard_ozone_;
-+
-+  DISALLOW_COPY_AND_ASSIGN(ClipboardOzone);
-+};
-+
-+}  // namespace ui
-+
-+#endif  // UI_BASE_CLIPBOARD_CLIPBOARD_OZONE_H_
-Index: dev/ui/base/clipboard/clipboard_test_template.h
-===================================================================
---- dev.orig/ui/base/clipboard/clipboard_test_template.h
-+++ dev/ui/base/clipboard/clipboard_test_template.h
-@@ -185,8 +185,8 @@ TYPED_TEST(ClipboardTest, RTFTest) {
-   EXPECT_EQ(rtf, result);
- }
- 
--// TODO(dnicoara) Enable test once Ozone implements clipboard support:
--// crbug.com/361707
-+// TODO(msisov, tonikitoo): Enable test once ClipboardOzone implements
-+// selection support. https://crbug.com/911992
- #if defined(OS_LINUX) && !defined(OS_CHROMEOS) && !defined(USE_OZONE)
- TYPED_TEST(ClipboardTest, MultipleBufferTest) {
-   base::string16 text(ASCIIToUTF16("Standard")), text_result;
-@@ -372,8 +372,10 @@ TYPED_TEST(ClipboardTest, URLTest) {
-   this->clipboard().ReadAsciiText(CLIPBOARD_TYPE_COPY_PASTE, &ascii_text);
-   EXPECT_EQ(UTF16ToUTF8(url), ascii_text);
- 
-+// TODO(tonikitoo, msisov): enable back for ClipboardOzone implements
-+// selection support. https://crbug.com/911992
- #if defined(OS_POSIX) && !defined(OS_MACOSX) && !defined(OS_ANDROID) && \
--    !defined(OS_CHROMEOS)
-+    !defined(OS_CHROMEOS) && !defined(USE_OZONE)
-   ascii_text.clear();
-   this->clipboard().ReadAsciiText(CLIPBOARD_TYPE_SELECTION, &ascii_text);
-   EXPECT_EQ(UTF16ToUTF8(url), ascii_text);
 Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11.cc
 ===================================================================
 --- dev.orig/ui/base/dragdrop/os_exchange_data_provider_aurax11.cc
 +++ dev/ui/base/dragdrop/os_exchange_data_provider_aurax11.cc
-@@ -7,14 +7,6 @@
+@@ -7,14 +7,7 @@
  #include <utility>
  
  #include "base/logging.h"
@@ -1656,13 +858,13 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11.cc
 -#include "base/strings/string_util.h"
 -#include "base/strings/utf_string_conversions.h"
 -#include "net/base/filename_util.h"
--#include "ui/base/clipboard/clipboard.h"
--#include "ui/base/clipboard/scoped_clipboard_writer.h"
+ #include "ui/base/clipboard/clipboard_constants.h"
+-#include "ui/base/clipboard/clipboard_format_type.h"
 -#include "ui/base/dragdrop/file_info.h"
  #include "ui/base/x/selection_utils.h"
  #include "ui/events/platform/platform_event_source.h"
  #include "ui/gfx/x/x11_atom_cache.h"
-@@ -26,68 +18,19 @@
+@@ -26,68 +19,19 @@
  
  namespace ui {
  
@@ -1734,7 +936,7 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11.cc
  }
  
  std::unique_ptr<OSExchangeData::Provider>
-@@ -98,301 +41,6 @@ OSExchangeDataProviderAuraX11::Clone() c
+@@ -98,300 +42,6 @@ OSExchangeDataProviderAuraX11::Clone() c
    return std::move(ret);
  }
  
@@ -1757,7 +959,7 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11.cc
 -  scoped_refptr<base::RefCountedMemory> mem(
 -      base::RefCountedString::TakeString(&utf8));
 -
--  format_map_.Insert(gfx::GetAtom(Clipboard::kMimeTypeText), mem);
+-  format_map_.Insert(gfx::GetAtom(kMimeTypeText), mem);
 -  format_map_.Insert(gfx::GetAtom(kText), mem);
 -  format_map_.Insert(gfx::GetAtom(kString), mem);
 -  format_map_.Insert(gfx::GetAtom(kUtf8String), mem);
@@ -1778,7 +980,7 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11.cc
 -    scoped_refptr<base::RefCountedMemory> mem(
 -        base::RefCountedBytes::TakeVector(&data));
 -
--    format_map_.Insert(gfx::GetAtom(Clipboard::kMimeTypeMozillaURL), mem);
+-    format_map_.Insert(gfx::GetAtom(kMimeTypeMozillaURL), mem);
 -
 -    // Set a string fallback as well.
 -    SetString(spec);
@@ -1822,11 +1024,11 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11.cc
 -  std::string joined_data = base::JoinString(paths, "\n");
 -  scoped_refptr<base::RefCountedMemory> mem(
 -      base::RefCountedString::TakeString(&joined_data));
--  format_map_.Insert(gfx::GetAtom(Clipboard::kMimeTypeURIList), mem);
+-  format_map_.Insert(gfx::GetAtom(kMimeTypeURIList), mem);
 -}
 -
 -void OSExchangeDataProviderAuraX11::SetPickledData(
--    const Clipboard::FormatType& format,
+-    const ClipboardFormatType& format,
 -    const base::Pickle& pickle) {
 -  const unsigned char* data =
 -      reinterpret_cast<const unsigned char*>(pickle.data());
@@ -1875,7 +1077,7 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11.cc
 -    // but that doesn't match the assumptions of the rest of the system which
 -    // expect single types.
 -
--    if (data.GetType() == gfx::GetAtom(Clipboard::kMimeTypeMozillaURL)) {
+-    if (data.GetType() == gfx::GetAtom(kMimeTypeMozillaURL)) {
 -      // Mozilla URLs are (UTF16: URL, newline, title).
 -      base::string16 unparsed;
 -      data.AssignTo(&unparsed);
@@ -1892,7 +1094,7 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11.cc
 -        *url = GURL(tokens[0]);
 -        return true;
 -      }
--    } else if (data.GetType() == gfx::GetAtom(Clipboard::kMimeTypeURIList)) {
+-    } else if (data.GetType() == gfx::GetAtom(kMimeTypeURIList)) {
 -      std::vector<std::string> tokens = ui::ParseURIList(data);
 -      for (const std::string& token : tokens) {
 -        GURL test_url(token);
@@ -1942,7 +1144,7 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11.cc
 -}
 -
 -bool OSExchangeDataProviderAuraX11::GetPickledData(
--    const Clipboard::FormatType& format,
+-    const ClipboardFormatType& format,
 -    base::Pickle* pickle) const {
 -  std::vector< ::Atom> requested_types;
 -  requested_types.push_back(gfx::GetAtom(format.ToString().c_str()));
@@ -1979,11 +1181,10 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11.cc
 -  // Windows does and stuffs all the data into one mime type.
 -  ui::SelectionData data(format_map_.GetFirstOf(requested_types));
 -  if (data.IsValid()) {
--    if (data.GetType() == gfx::GetAtom(Clipboard::kMimeTypeMozillaURL)) {
+-    if (data.GetType() == gfx::GetAtom(kMimeTypeMozillaURL)) {
 -      // File managers shouldn't be using this type, so this is a URL.
 -      return true;
--    } else if (data.GetType() ==
--               gfx::GetAtom(ui::Clipboard::kMimeTypeURIList)) {
+-    } else if (data.GetType() == gfx::GetAtom(ui::kMimeTypeURIList)) {
 -      std::vector<std::string> tokens = ui::ParseURIList(data);
 -      for (const std::string& token : tokens) {
 -        if (!GURL(token).SchemeIsFile() ||
@@ -2024,7 +1225,7 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11.cc
 -}
 -
 -bool OSExchangeDataProviderAuraX11::HasCustomFormat(
--    const Clipboard::FormatType& format) const {
+-    const ClipboardFormatType& format) const {
 -  std::vector< ::Atom> url_atoms;
 -  url_atoms.push_back(gfx::GetAtom(format.ToString().c_str()));
 -  std::vector< ::Atom> requested_types;
@@ -2036,7 +1237,7 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11.cc
  void OSExchangeDataProviderAuraX11::SetFileContents(
      const base::FilePath& filename,
      const std::string& file_contents) {
-@@ -428,60 +76,6 @@ void OSExchangeDataProviderAuraX11::SetF
+@@ -427,60 +77,6 @@ void OSExchangeDataProviderAuraX11::SetF
            base::RefCountedString::TakeString(&file_contents_copy)));
  }
  
@@ -2051,13 +1252,13 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11.cc
 -  scoped_refptr<base::RefCountedMemory> mem(
 -      base::RefCountedBytes::TakeVector(&bytes));
 -
--  format_map_.Insert(gfx::GetAtom(Clipboard::kMimeTypeHTML), mem);
+-  format_map_.Insert(gfx::GetAtom(kMimeTypeHTML), mem);
 -}
 -
 -bool OSExchangeDataProviderAuraX11::GetHtml(base::string16* html,
 -                                            GURL* base_url) const {
 -  std::vector< ::Atom> url_atoms;
--  url_atoms.push_back(gfx::GetAtom(Clipboard::kMimeTypeHTML));
+-  url_atoms.push_back(gfx::GetAtom(kMimeTypeHTML));
 -  std::vector< ::Atom> requested_types;
 -  GetAtomIntersection(url_atoms, GetTargets(), &requested_types);
 -
@@ -2073,7 +1274,7 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11.cc
 -
 -bool OSExchangeDataProviderAuraX11::HasHtml() const {
 -  std::vector< ::Atom> url_atoms;
--  url_atoms.push_back(gfx::GetAtom(Clipboard::kMimeTypeHTML));
+-  url_atoms.push_back(gfx::GetAtom(kMimeTypeHTML));
 -  std::vector< ::Atom> requested_types;
 -  GetAtomIntersection(url_atoms, GetTargets(), &requested_types);
 -
@@ -2097,7 +1298,7 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11.cc
  
  bool OSExchangeDataProviderAuraX11::CanDispatchEvent(
      const PlatformEvent& event) {
-@@ -501,21 +95,4 @@ uint32_t OSExchangeDataProviderAuraX11::
+@@ -500,21 +96,4 @@ uint32_t OSExchangeDataProviderAuraX11::
    return ui::POST_DISPATCH_NONE;
  }
  
@@ -2123,7 +1324,7 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11.h
 ===================================================================
 --- dev.orig/ui/base/dragdrop/os_exchange_data_provider_aurax11.h
 +++ dev/ui/base/dragdrop/os_exchange_data_provider_aurax11.h
-@@ -5,30 +5,14 @@
+@@ -5,29 +5,14 @@
  #ifndef UI_BASE_DRAGDROP_OS_EXCHANGE_DATA_PROVIDER_AURAX11_H_
  #define UI_BASE_DRAGDROP_OS_EXCHANGE_DATA_PROVIDER_AURAX11_H_
  
@@ -2146,7 +1347,6 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11.h
  
  namespace ui {
  
--class Clipboard;
 -class OSExchangeDataProviderAuraX11Test;
 -
  // OSExchangeData::Provider implementation for aura on linux.
@@ -2156,7 +1356,7 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11.h
        public PlatformEventDispatcher {
   public:
    // |x_window| is the window the cursor is over, and |selection| is the set of
-@@ -42,99 +26,15 @@ class UI_BASE_EXPORT OSExchangeDataProvi
+@@ -41,99 +26,15 @@ class UI_BASE_EXPORT OSExchangeDataProvi
  
    ~OSExchangeDataProviderAuraX11() override;
  
@@ -2183,7 +1383,7 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11.h
 -  void SetURL(const GURL& url, const base::string16& title) override;
 -  void SetFilename(const base::FilePath& path) override;
 -  void SetFilenames(const std::vector<FileInfo>& filenames) override;
--  void SetPickledData(const Clipboard::FormatType& format,
+-  void SetPickledData(const ClipboardFormatType& format,
 -                      const base::Pickle& pickle) override;
 -  bool GetString(base::string16* data) const override;
 -  bool GetURLAndTitle(OSExchangeData::FilenameToURLPolicy policy,
@@ -2191,12 +1391,12 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11.h
 -                      base::string16* title) const override;
 -  bool GetFilename(base::FilePath* path) const override;
 -  bool GetFilenames(std::vector<FileInfo>* filenames) const override;
--  bool GetPickledData(const Clipboard::FormatType& format,
+-  bool GetPickledData(const ClipboardFormatType& format,
 -                      base::Pickle* pickle) const override;
 -  bool HasString() const override;
 -  bool HasURL(OSExchangeData::FilenameToURLPolicy policy) const override;
 -  bool HasFile() const override;
--  bool HasCustomFormat(const Clipboard::FormatType& format) const override;
+-  bool HasCustomFormat(const ClipboardFormatType& format) const override;
 -
    void SetFileContents(const base::FilePath& filename,
                         const std::string& file_contents) override;
@@ -2215,7 +1415,7 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11.h
  
   private:
 -  friend class OSExchangeDataProviderAuraX11Test;
--  typedef std::map<Clipboard::FormatType, base::Pickle> PickleData;
+-  typedef std::map<ClipboardFormatType, base::Pickle> PickleData;
 -
 -  // Returns true if |formats_| contains a string format and the string can be
 -  // parsed as a URL.
@@ -2260,7 +1460,7 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11_base.cc
 ===================================================================
 --- /dev/null
 +++ dev/ui/base/dragdrop/os_exchange_data_provider_aurax11_base.cc
-@@ -0,0 +1,460 @@
+@@ -0,0 +1,461 @@
 +// Copyright (c) 2018 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.
@@ -2275,7 +1475,8 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11_base.cc
 +#include "base/strings/string_util.h"
 +#include "base/strings/utf_string_conversions.h"
 +#include "net/base/filename_util.h"
-+#include "ui/base/clipboard/clipboard.h"
++#include "ui/base/clipboard/clipboard_constants.h"
++#include "ui/base/clipboard/clipboard_format_type.h"
 +#include "ui/base/clipboard/scoped_clipboard_writer.h"
 +#include "ui/base/dragdrop/file_info.h"
 +#include "ui/base/x/selection_utils.h"
@@ -2369,7 +1570,7 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11_base.cc
 +  scoped_refptr<base::RefCountedMemory> mem(
 +      base::RefCountedString::TakeString(&utf8));
 +
-+  format_map_.Insert(gfx::GetAtom(Clipboard::kMimeTypeText), mem);
++  format_map_.Insert(gfx::GetAtom(kMimeTypeText), mem);
 +  format_map_.Insert(gfx::GetAtom(kText), mem);
 +  format_map_.Insert(gfx::GetAtom(kString), mem);
 +  format_map_.Insert(gfx::GetAtom(kUtf8String), mem);
@@ -2390,7 +1591,7 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11_base.cc
 +    scoped_refptr<base::RefCountedMemory> mem(
 +        base::RefCountedBytes::TakeVector(&data));
 +
-+    format_map_.Insert(gfx::GetAtom(Clipboard::kMimeTypeMozillaURL), mem);
++    format_map_.Insert(gfx::GetAtom(kMimeTypeMozillaURL), mem);
 +
 +    // Set a string fallback as well.
 +    SetString(spec);
@@ -2435,11 +1636,11 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11_base.cc
 +  std::string joined_data = base::JoinString(paths, "\n");
 +  scoped_refptr<base::RefCountedMemory> mem(
 +      base::RefCountedString::TakeString(&joined_data));
-+  format_map_.Insert(gfx::GetAtom(Clipboard::kMimeTypeURIList), mem);
++  format_map_.Insert(gfx::GetAtom(kMimeTypeURIList), mem);
 +}
 +
 +void OSExchangeDataProviderAuraX11Base::SetPickledData(
-+    const Clipboard::FormatType& format,
++    const ClipboardFormatType& format,
 +    const base::Pickle& pickle) {
 +  const unsigned char* data =
 +      reinterpret_cast<const unsigned char*>(pickle.data());
@@ -2489,7 +1690,7 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11_base.cc
 +    // but that doesn't match the assumptions of the rest of the system which
 +    // expect single types.
 +
-+    if (data.GetType() == gfx::GetAtom(Clipboard::kMimeTypeMozillaURL)) {
++    if (data.GetType() == gfx::GetAtom(kMimeTypeMozillaURL)) {
 +      // Mozilla URLs are (UTF16: URL, newline, title).
 +      base::string16 unparsed;
 +      data.AssignTo(&unparsed);
@@ -2506,7 +1707,7 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11_base.cc
 +        *url = GURL(tokens[0]);
 +        return true;
 +      }
-+    } else if (data.GetType() == gfx::GetAtom(Clipboard::kMimeTypeURIList)) {
++    } else if (data.GetType() == gfx::GetAtom(kMimeTypeURIList)) {
 +      std::vector<std::string> tokens = ui::ParseURIList(data);
 +      for (const std::string& token : tokens) {
 +        GURL test_url(token);
@@ -2557,7 +1758,7 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11_base.cc
 +}
 +
 +bool OSExchangeDataProviderAuraX11Base::GetPickledData(
-+    const Clipboard::FormatType& format,
++    const ClipboardFormatType& format,
 +    base::Pickle* pickle) const {
 +  std::vector<::Atom> requested_types;
 +  requested_types.push_back(gfx::GetAtom(format.ToString().c_str()));
@@ -2594,11 +1795,11 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11_base.cc
 +  // Windows does and stuffs all the data into one mime type.
 +  ui::SelectionData data(format_map_.GetFirstOf(requested_types));
 +  if (data.IsValid()) {
-+    if (data.GetType() == gfx::GetAtom(Clipboard::kMimeTypeMozillaURL)) {
++    if (data.GetType() == gfx::GetAtom(kMimeTypeMozillaURL)) {
 +      // File managers shouldn't be using this type, so this is a URL.
 +      return true;
 +    } else if (data.GetType() ==
-+               gfx::GetAtom(ui::Clipboard::kMimeTypeURIList)) {
++               gfx::GetAtom(kMimeTypeURIList)) {
 +      std::vector<std::string> tokens = ui::ParseURIList(data);
 +      for (const std::string& token : tokens) {
 +        if (!GURL(token).SchemeIsFile() ||
@@ -2639,7 +1840,7 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11_base.cc
 +}
 +
 +bool OSExchangeDataProviderAuraX11Base::HasCustomFormat(
-+    const Clipboard::FormatType& format) const {
++    const ClipboardFormatType& format) const {
 +  std::vector<::Atom> url_atoms;
 +  url_atoms.push_back(gfx::GetAtom(format.ToString().c_str()));
 +  std::vector<::Atom> requested_types;
@@ -2659,13 +1860,13 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11_base.cc
 +  scoped_refptr<base::RefCountedMemory> mem(
 +      base::RefCountedBytes::TakeVector(&bytes));
 +
-+  format_map_.Insert(gfx::GetAtom(Clipboard::kMimeTypeHTML), mem);
++  format_map_.Insert(gfx::GetAtom(kMimeTypeHTML), mem);
 +}
 +
 +bool OSExchangeDataProviderAuraX11Base::GetHtml(base::string16* html,
 +                                                GURL* base_url) const {
 +  std::vector<::Atom> url_atoms;
-+  url_atoms.push_back(gfx::GetAtom(Clipboard::kMimeTypeHTML));
++  url_atoms.push_back(gfx::GetAtom(kMimeTypeHTML));
 +  std::vector<::Atom> requested_types;
 +  GetAtomIntersection(url_atoms, GetTargets(), &requested_types);
 +
@@ -2681,7 +1882,7 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11_base.cc
 +
 +bool OSExchangeDataProviderAuraX11Base::HasHtml() const {
 +  std::vector<::Atom> url_atoms;
-+  url_atoms.push_back(gfx::GetAtom(Clipboard::kMimeTypeHTML));
++  url_atoms.push_back(gfx::GetAtom(kMimeTypeHTML));
 +  std::vector<::Atom> requested_types;
 +  GetAtomIntersection(url_atoms, GetTargets(), &requested_types);
 +
@@ -2725,7 +1926,7 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11_base.h
 ===================================================================
 --- /dev/null
 +++ dev/ui/base/dragdrop/os_exchange_data_provider_aurax11_base.h
-@@ -0,0 +1,134 @@
+@@ -0,0 +1,135 @@
 +// Copyright (c) 2018 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.
@@ -2751,7 +1952,8 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11_base.h
 +
 +namespace ui {
 +
-+class Clipboard;
++struct ClipboardFormatType;
++
 +class OSExchangeDataProviderAuraX11Test;
 +
 +// OSExchangeData::Provider implementation for aura on linux.
@@ -2791,7 +1993,7 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11_base.h
 +  void SetURL(const GURL& url, const base::string16& title) override;
 +  void SetFilename(const base::FilePath& path) override;
 +  void SetFilenames(const std::vector<FileInfo>& filenames) override;
-+  void SetPickledData(const Clipboard::FormatType& format,
++  void SetPickledData(const ClipboardFormatType& format,
 +                      const base::Pickle& pickle) override;
 +  bool GetString(base::string16* data) const override;
 +  bool GetURLAndTitle(OSExchangeData::FilenameToURLPolicy policy,
@@ -2799,12 +2001,12 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11_base.h
 +                      base::string16* title) const override;
 +  bool GetFilename(base::FilePath* path) const override;
 +  bool GetFilenames(std::vector<FileInfo>* filenames) const override;
-+  bool GetPickledData(const Clipboard::FormatType& format,
++  bool GetPickledData(const ClipboardFormatType& format,
 +                      base::Pickle* pickle) const override;
 +  bool HasString() const override;
 +  bool HasURL(OSExchangeData::FilenameToURLPolicy policy) const override;
 +  bool HasFile() const override;
-+  bool HasCustomFormat(const Clipboard::FormatType& format) const override;
++  bool HasCustomFormat(const ClipboardFormatType& format) const override;
 +
 +  void SetHtml(const base::string16& html, const GURL& base_url) override;
 +  bool GetHtml(base::string16* html, GURL* base_url) const override;
@@ -2816,7 +2018,7 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11_base.h
 +
 + protected:
 +  friend class OSExchangeDataProviderAuraX11Test;
-+  typedef std::map<Clipboard::FormatType, base::Pickle> PickleData;
++  typedef std::map<ClipboardFormatType, base::Pickle> PickleData;
 +
 +  // Returns true if |formats_| contains a string format and the string can be
 +  // parsed as a URL.
@@ -2878,291 +2080,11 @@ Index: dev/ui/base/ime/input_method_initializer.cc
    LinuxInputMethodContextFactory::SetInstance(
        g_linux_input_method_context_factory_for_testing);
  #elif defined(OS_WIN)
-Index: dev/ui/base/ime/linux/fake_input_method_context_factory.cc
-===================================================================
---- dev.orig/ui/base/ime/linux/fake_input_method_context_factory.cc
-+++ dev/ui/base/ime/linux/fake_input_method_context_factory.cc
-@@ -8,7 +8,9 @@
- 
- namespace ui {
- 
--FakeInputMethodContextFactory::FakeInputMethodContextFactory() {}
-+FakeInputMethodContextFactory::FakeInputMethodContextFactory() = default;
-+
-+FakeInputMethodContextFactory::~FakeInputMethodContextFactory() = default;
- 
- std::unique_ptr<LinuxInputMethodContext>
- FakeInputMethodContextFactory::CreateInputMethodContext(
-Index: dev/ui/base/ime/linux/fake_input_method_context_factory.h
-===================================================================
---- dev.orig/ui/base/ime/linux/fake_input_method_context_factory.h
-+++ dev/ui/base/ime/linux/fake_input_method_context_factory.h
-@@ -7,6 +7,7 @@
- 
- #include "base/macros.h"
- #include "ui/base/ime/linux/linux_input_method_context_factory.h"
-+#include "ui/base/ime/ui_base_ime_export.h"
- 
- namespace ui {
- 
-@@ -16,6 +17,7 @@ class UI_BASE_IME_LINUX_EXPORT FakeInput
-     : public LinuxInputMethodContextFactory {
-  public:
-   FakeInputMethodContextFactory();
-+  ~FakeInputMethodContextFactory() override;
- 
-   // LinuxInputMethodContextFactory:
-   std::unique_ptr<LinuxInputMethodContext> CreateInputMethodContext(
-Index: dev/ui/ozone/BUILD.gn
-===================================================================
---- dev.orig/ui/ozone/BUILD.gn
-+++ dev/ui/ozone/BUILD.gn
-@@ -5,9 +5,9 @@
- import("//build/config/jumbo.gni")
- import("//build/config/ui.gni")
- import("//gpu/vulkan/features.gni")
-+import("//testing/test.gni")
- import("//ui/ozone/ozone.gni")
- import("//ui/ozone/ozone_extra.gni")
--import("//testing/test.gni")
- 
- assert(use_ozone)
- 
-@@ -72,9 +72,12 @@ constructor_list_cc_file = "$target_gen_
- jumbo_component("ozone_base") {
-   sources = [
-     "ozone_base_export.h",
-+    "public/clipboard_delegate.cc",
-     "public/clipboard_delegate.h",
-     "public/cursor_factory_ozone.cc",
-     "public/cursor_factory_ozone.h",
-+    "public/fake_clipboard_delegate.cc",
-+    "public/fake_clipboard_delegate.h",
-     "public/gl_ozone.h",
-     "public/gpu_platform_support_host.cc",
-     "public/gpu_platform_support_host.h",
-Index: dev/ui/ozone/common/linux/gbm_wrapper.cc
-===================================================================
---- dev.orig/ui/ozone/common/linux/gbm_wrapper.cc
-+++ dev/ui/ozone/common/linux/gbm_wrapper.cc
-@@ -4,7 +4,9 @@
- 
- #include "ui/ozone/common/linux/gbm_wrapper.h"
- 
-+#include <fcntl.h>
- #include <gbm.h>
-+#include <xf86drm.h>
- 
- #include "base/posix/eintr_wrapper.h"
- #include "third_party/skia/include/core/SkSurface.h"
-@@ -21,6 +23,83 @@ namespace {
- #define GBM_BO_IMPORT_FD_PLANAR_5504 0x5504
- #define GBM_BO_IMPORT_FD_PLANAR_5505 0x5505
- 
-+// Minigbm and system linux gbm have some differences. There is no clear way how
-+// to distinguish linux gbm (Mesa, basically) and minigbm, which can be both
-+// third_party and minigbm. Thus, use GBM_BO_IMPORT_FD_PLANAR define to
-+// identify, which gbm is used.
-+#if defined(GBM_BO_IMPORT_FD_PLANAR)
-+// There are some methods, which require knowing whether minigbm is used or not.
-+#ifndef USING_MINIGBM
-+#define USING_MINIGBM
-+#endif  // USING_MINIGBM
-+// Minigbm and system linux gbm have alike gbm_bo_import* structures, but some
-+// of the data variables have different type.
-+using gbm_bo_import_fd_data_with_modifier = struct gbm_import_fd_planar_data;
-+#else
-+using gbm_bo_import_fd_data_with_modifier = struct gbm_import_fd_modifier_data;
-+#endif
-+
-+void InitializeImportData(uint32_t format,
-+                          const gfx::Size& size,
-+                          const std::vector<base::ScopedFD>& fds,
-+                          const std::vector<gfx::NativePixmapPlane>& planes,
-+                          gbm_bo_import_fd_data_with_modifier* fd_data) {
-+  fd_data->width = size.width();
-+  fd_data->height = size.height();
-+  fd_data->format = format;
-+
-+  DCHECK_LE(planes.size(), 3u);
-+  for (size_t i = 0; i < planes.size(); ++i) {
-+    fd_data->fds[i] = fds[i < fds.size() ? i : 0].get();
-+    fd_data->strides[i] = planes[i].stride;
-+    fd_data->offsets[i] = planes[i].offset;
-+#if defined(USING_MINIGBM)
-+    fd_data->format_modifiers[i] = planes[i].modifier;
-+#else
-+    fd_data->modifier = planes[i].modifier;
-+#endif
-+  }
-+}
-+
-+int GetPlaneFdForBo(gbm_bo* bo, size_t plane) {
-+#if defined(USING_MINIGBM)
-+  DCHECK(plane < gbm_bo_get_plane_count(bo));
-+#else
-+  const int plane_count = gbm_bo_get_plane_count(bo);
-+  DCHECK(plane_count > 0 && plane < static_cast<size_t>(plane_count));
-+#endif
-+
-+  // System linux gbm (or Mesa gbm) does not provide fds per plane basis. Thus,
-+  // get plane handle and use drm ioctl to get a prime fd out of it avoid having
-+  // two different branches for minigbm and Mesa gbm here.
-+  gbm_device* gbm_dev = gbm_bo_get_device(bo);
-+  int dev_fd = gbm_device_get_fd(gbm_dev);
-+  if (dev_fd <= 0) {
-+    LOG(ERROR) << "Unable to get device fd";
-+    return -1;
-+  }
-+
-+  const uint32_t plane_handle = gbm_bo_get_handle_for_plane(bo, plane).u32;
-+  int fd = -1;
-+  int ret;
-+  // Use DRM_RDWR to allow the fd to be mappable in another process.
-+  ret = drmPrimeHandleToFD(dev_fd, plane_handle, DRM_CLOEXEC | DRM_RDWR, &fd);
-+
-+  // Older DRM implementations blocked DRM_RDWR, but gave a read/write mapping
-+  // anyways
-+  if (ret)
-+    ret = drmPrimeHandleToFD(dev_fd, plane_handle, DRM_CLOEXEC, &fd);
-+
-+  return ret ? ret : fd;
-+}
-+
-+size_t GetSizeOfPlane(gbm_bo* bo, size_t plane) {
-+  // System linux gbm (or Mesa gbm) does not provide plane size. Thus, calculate
-+  // it by ourselves and avoid having two different branches for minigbm and
-+  // Mesa gbm here.
-+  return gbm_bo_get_height(bo) * gbm_bo_get_stride_for_plane(bo, plane);
-+}
-+
- }  // namespace
- 
- class Buffer final : public ui::GbmBuffer {
-@@ -84,7 +163,7 @@ class Buffer final : public ui::GbmBuffe
-   }
-   uint32_t GetPlaneHandle(size_t plane) const override {
-     DCHECK_LT(plane, planes_.size());
--    return gbm_bo_get_plane_handle(bo_, plane).u32;
-+    return gbm_bo_get_handle_for_plane(bo_, plane).u32;
-   }
-   uint32_t GetHandle() const override { return gbm_bo_get_handle(bo_).u32; }
-   gfx::NativePixmapHandle ExportHandle() const override {
-@@ -114,7 +193,12 @@ class Buffer final : public ui::GbmBuffe
-     uint32_t stride;
-     void* addr;
-     addr = gbm_bo_map(bo_, 0, 0, gbm_bo_get_width(bo_), gbm_bo_get_height(bo_),
--                      GBM_BO_TRANSFER_READ_WRITE, &stride, &mmap_data_, 0);
-+                      GBM_BO_TRANSFER_READ_WRITE, &stride, &mmap_data_
-+#if defined(USING_MINIGBM)
-+                      ,
-+                      0
-+#endif
-+                      );
- 
-     if (!addr)
-       return nullptr;
-@@ -155,11 +239,18 @@ std::unique_ptr<Buffer> CreateBufferForB
-   std::vector<base::ScopedFD> fds;
-   std::vector<gfx::NativePixmapPlane> planes;
- 
--  const uint64_t modifier = gbm_bo_get_format_modifier(bo);
--  for (size_t i = 0; i < gbm_bo_get_num_planes(bo); ++i) {
-+  const uint64_t modifier = gbm_bo_get_modifier(bo);
-+  const int plane_count = gbm_bo_get_plane_count(bo);
-+  // The Mesa's gbm implementation explicitly checks whether plane count <= and
-+  // returns 1 if the condition is true. Nevertheless, use a DCHECK here to make
-+  // sure the condition is not broken there.
-+  DCHECK(plane_count > 0);
-+  // Ensure there are no differences in integer signs by casting any possible
-+  // values to size_t.
-+  for (size_t i = 0; i < static_cast<size_t>(plane_count); ++i) {
-     // The fd returned by gbm_bo_get_fd is not ref-counted and need to be
-     // kept open for the lifetime of the buffer.
--    base::ScopedFD fd(gbm_bo_get_plane_fd(bo, i));
-+    base::ScopedFD fd(GetPlaneFdForBo(bo, i));
- 
-     // TODO(dcastagna): support multiple fds.
-     // crbug.com/642410
-@@ -172,9 +263,9 @@ std::unique_ptr<Buffer> CreateBufferForB
-       fds.emplace_back(std::move(fd));
-     }
- 
--    planes.emplace_back(gbm_bo_get_plane_stride(bo, i),
--                        gbm_bo_get_plane_offset(bo, i),
--                        gbm_bo_get_plane_size(bo, i), modifier);
-+    planes.emplace_back(gbm_bo_get_stride_for_plane(bo, i),
-+                        gbm_bo_get_offset(bo, i), GetSizeOfPlane(bo, i),
-+                        modifier);
-   }
-   return std::make_unique<Buffer>(bo, format, flags, modifier, std::move(fds),
-                                   size, std::move(planes));
-@@ -221,41 +312,31 @@ class Device final : public ui::GbmDevic
-     DCHECK_EQ(planes[0].offset, 0);
- 
-     // Try to use scanout if supported.
--    int gbm_flags = GBM_BO_USE_SCANOUT | GBM_BO_USE_TEXTURING;
-+    int gbm_flags = GBM_BO_USE_SCANOUT;
-+#if defined(USING_MINIGBM)
-+    gbm_flags |= GBM_BO_USE_TEXTURING;
-+#endif
-     if (!gbm_device_is_format_supported(device_, format, gbm_flags))
-       gbm_flags &= ~GBM_BO_USE_SCANOUT;
- 
-     struct gbm_bo* bo = nullptr;
--    if (!gbm_device_is_format_supported(device_, format, gbm_flags)) {
--      LOG(ERROR) << "gbm format not supported: " << format;
--      return nullptr;
--    }
--
--    struct gbm_import_fd_planar_data fd_data;
--    fd_data.width = size.width();
--    fd_data.height = size.height();
--    fd_data.format = format;
--
--    DCHECK_LE(planes.size(), 3u);
--    for (size_t i = 0; i < planes.size(); ++i) {
--      fd_data.fds[i] = fds[i < fds.size() ? i : 0].get();
--      fd_data.strides[i] = planes[i].stride;
--      fd_data.offsets[i] = planes[i].offset;
--      fd_data.format_modifiers[i] = planes[i].modifier;
--    }
--
--    // The fd passed to gbm_bo_import is not ref-counted and need to be
--    // kept open for the lifetime of the buffer.
--    //
--    // See the comment regarding the GBM_BO_IMPORT_FD_PLANAR_550X above.
--    bo = gbm_bo_import(device_, GBM_BO_IMPORT_FD_PLANAR_5505, &fd_data,
--                       gbm_flags);
--    if (!bo) {
--      bo = gbm_bo_import(device_, GBM_BO_IMPORT_FD_PLANAR_5504, &fd_data,
-+    if (gbm_device_is_format_supported(device_, format, gbm_flags)) {
-+      gbm_bo_import_fd_data_with_modifier fd_data;
-+      InitializeImportData(format, size, fds, planes, &fd_data);
-+
-+      // The fd passed to gbm_bo_import is not ref-counted and need to be
-+      // kept open for the lifetime of the buffer.
-+      //
-+      // See the comment regarding the GBM_BO_IMPORT_FD_PLANAR_550X above.
-+      bo = gbm_bo_import(device_, GBM_BO_IMPORT_FD_PLANAR_5505, &fd_data,
-                          gbm_flags);
-       if (!bo) {
--        LOG(ERROR) << "nullptr returned from gbm_bo_import";
--        return nullptr;
-+        bo = gbm_bo_import(device_, GBM_BO_IMPORT_FD_PLANAR_5504, &fd_data,
-+                           gbm_flags);
-+        if (!bo) {
-+          LOG(ERROR) << "nullptr returned from gbm_bo_import";
-+          return nullptr;
-+        }
-       }
-     }
- 
 Index: dev/ui/ozone/platform/drm/host/drm_window_host.cc
 ===================================================================
 --- dev.orig/ui/ozone/platform/drm/host/drm_window_host.cc
 +++ dev/ui/ozone/platform/drm/host/drm_window_host.cc
-@@ -146,6 +146,12 @@ gfx::Rect DrmWindowHost::GetRestoredBoun
+@@ -147,6 +147,12 @@ gfx::Rect DrmWindowHost::GetRestoredBoun
    return gfx::Rect();
  }
  
@@ -3238,7 +2160,7 @@ Index: dev/ui/ozone/platform/wayland/wayland_window.cc
 ===================================================================
 --- dev.orig/ui/ozone/platform/wayland/wayland_window.cc
 +++ dev/ui/ozone/platform/wayland/wayland_window.cc
-@@ -440,6 +440,12 @@ gfx::Rect WaylandWindow::GetRestoredBoun
+@@ -455,6 +455,12 @@ gfx::Rect WaylandWindow::GetRestoredBoun
    return restored_bounds_;
  }
  
@@ -3255,7 +2177,7 @@ Index: dev/ui/ozone/platform/wayland/wayland_window.h
 ===================================================================
 --- dev.orig/ui/ozone/platform/wayland/wayland_window.h
 +++ dev/ui/ozone/platform/wayland/wayland_window.h
-@@ -112,6 +112,8 @@ class WaylandWindow : public PlatformWin
+@@ -124,6 +124,8 @@ class WaylandWindow : public PlatformWin
    PlatformImeController* GetPlatformImeController() override;
    void SetRestoredBoundsInPixels(const gfx::Rect& bounds) override;
    gfx::Rect GetRestoredBoundsInPixels() const override;
@@ -3281,14 +2203,23 @@ Index: dev/ui/ozone/platform/x11/BUILD.gn
      "x11_surface_factory.cc",
      "x11_surface_factory.h",
      "x11_window_manager_ozone.cc",
-@@ -41,6 +47,7 @@ source_set("x11") {
+@@ -41,6 +47,8 @@ source_set("x11") {
      "//gpu/vulkan:buildflags",
      "//skia",
      "//ui/base",
++    "//ui/base/clipboard:clipboard_types",
 +    "//ui/base/ime",
      "//ui/base/x",
      "//ui/display/manager",
      "//ui/events",
+@@ -57,6 +65,7 @@ source_set("x11") {
+     "//ui/ozone/common",
+     "//ui/platform_window",
+     "//ui/platform_window/x11",
++    "//ui/platform_window/platform_window_handler",
+   ]
+ 
+   if (enable_vulkan) {
 Index: dev/ui/ozone/platform/x11/DEPS
 ===================================================================
 --- dev.orig/ui/ozone/platform/x11/DEPS
@@ -4353,7 +3284,7 @@ Index: dev/ui/ozone/platform/x11/x11_drag_util.cc
 ===================================================================
 --- /dev/null
 +++ dev/ui/ozone/platform/x11/x11_drag_util.cc
-@@ -0,0 +1,108 @@
+@@ -0,0 +1,109 @@
 +// Copyright (c) 2018 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.
@@ -4363,6 +3294,7 @@ Index: dev/ui/ozone/platform/x11/x11_drag_util.cc
 +#include "base/memory/ref_counted_memory.h"
 +#include "base/strings/string_split.h"
 +#include "base/strings/utf_string_conversions.h"
++#include "ui/base/clipboard/clipboard_constants.h"
 +#include "ui/base/x/selection_utils.h"
 +
 +namespace ui {
@@ -4415,7 +3347,7 @@ Index: dev/ui/ozone/platform/x11/x11_drag_util.cc
 +  scoped_refptr<base::RefCountedMemory> mem(
 +      base::RefCountedString::TakeString(&utf8));
 +
-+  map->Insert(gfx::GetAtom(Clipboard::kMimeTypeText), mem);
++  map->Insert(gfx::GetAtom(kMimeTypeText), mem);
 +  map->Insert(gfx::GetAtom(kDragText), mem);
 +  map->Insert(gfx::GetAtom(kDragString), mem);
 +  map->Insert(gfx::GetAtom(kDragUtf8String), mem);
@@ -4437,7 +3369,7 @@ Index: dev/ui/ozone/platform/x11/x11_drag_util.cc
 +    scoped_refptr<base::RefCountedMemory> mem(
 +        base::RefCountedBytes::TakeVector(&data));
 +
-+    map->Insert(gfx::GetAtom(Clipboard::kMimeTypeMozillaURL), mem);
++    map->Insert(gfx::GetAtom(kMimeTypeMozillaURL), mem);
 +
 +    // Set a string fallback as well.
 +    InsertStringToSelectionFormatMap(spec, map);
@@ -5028,167 +3960,6 @@ Index: dev/ui/ozone/platform/x11/x11_window_ozone.h
  
    DISALLOW_COPY_AND_ASSIGN(X11WindowOzone);
  };
-Index: dev/ui/ozone/public/clipboard_delegate.cc
-===================================================================
---- /dev/null
-+++ dev/ui/ozone/public/clipboard_delegate.cc
-@@ -0,0 +1,42 @@
-+// Copyright 2018 The Chromium Authors. All rights reserved.
-+// Use of this source code is governed by a BSD-style license that can be
-+// found in the LICENSE file.
-+
-+#include "ui/ozone/public/clipboard_delegate.h"
-+
-+#include "ui/ozone/public/fake_clipboard_delegate.h"
-+
-+namespace ui {
-+
-+namespace {
-+
-+ClipboardDelegate* g_delegate_instance = nullptr;
-+
-+}  // namespace
-+
-+ClipboardDelegate::ClipboardDelegate() {
-+  DCHECK(!g_delegate_instance)
-+      << "Only one instance of ClipboardDelegate is allowed.";
-+  g_delegate_instance = this;
-+}
-+
-+ClipboardDelegate::~ClipboardDelegate() {
-+  DCHECK_EQ(g_delegate_instance, this);
-+  g_delegate_instance = nullptr;
-+}
-+
-+ClipboardDelegate* ClipboardDelegate::GetInstance() {
-+  if (!g_delegate_instance) {
-+    LOG(ERROR) << "No ClipboardDelegate is available. Falling back to "
-+                  "FakeClipboardDelegate. Please note that each Ozone platform "
-+                  "must provide own ClipboardDelegate implementations in order "
-+                  "to be able to communicate with a system clipboard.";
-+    std::unique_ptr<FakeClipboardDelegate> delegate =
-+        std::make_unique<FakeClipboardDelegate>();
-+    CHECK(g_delegate_instance) << "Unable to create fake clipboard delegate";
-+    delegate.release();
-+  }
-+  return g_delegate_instance;
-+}
-+
-+}  // namespace ui
-Index: dev/ui/ozone/public/clipboard_delegate.h
-===================================================================
---- dev.orig/ui/ozone/public/clipboard_delegate.h
-+++ dev/ui/ozone/public/clipboard_delegate.h
-@@ -21,11 +21,16 @@ namespace ui {
- //
- class OZONE_BASE_EXPORT ClipboardDelegate {
-  public:
-+  ClipboardDelegate();
-+  virtual ~ClipboardDelegate();
-+
-   // DataMap is a map from "mime type" to associated data, whereas
-   // the data can be organized differently for each mime type.
-   using Data = std::vector<uint8_t>;
-   using DataMap = std::unordered_map<std::string, Data>;
- 
-+  static ClipboardDelegate* GetInstance();
-+
-   // Offers a given clipboard data 'data_map' to the host system clipboard.
-   //
-   // It is common that host clipboard implementations simply get offered
-Index: dev/ui/ozone/public/fake_clipboard_delegate.cc
-===================================================================
---- /dev/null
-+++ dev/ui/ozone/public/fake_clipboard_delegate.cc
-@@ -0,0 +1,44 @@
-+// Copyright 2018 The Chromium Authors. All rights reserved.
-+// Use of this source code is governed by a BSD-style license that can be
-+// found in the LICENSE file.
-+
-+#include "ui/ozone/public/fake_clipboard_delegate.h"
-+
-+namespace ui {
-+
-+FakeClipboardDelegate::FakeClipboardDelegate() = default;
-+
-+FakeClipboardDelegate::~FakeClipboardDelegate() = default;
-+
-+void FakeClipboardDelegate::OfferClipboardData(const DataMap& data_map,
-+                                               OfferDataClosure callback) {
-+  offered_data_map_ = data_map;
-+  std::move(callback).Run();
-+}
-+
-+void FakeClipboardDelegate::RequestClipboardData(const std::string& mime_type,
-+                                                 DataMap* data_map,
-+                                                 RequestDataClosure callback) {
-+  auto it = offered_data_map_.find(mime_type);
-+  if (it == offered_data_map_.end()) {
-+    std::move(callback).Run(base::Optional<ClipboardDelegate::Data>());
-+    return;
-+  }
-+  *data_map = offered_data_map_;
-+  std::move(callback).Run(std::move(it->second));
-+}
-+
-+void FakeClipboardDelegate::GetAvailableMimeTypes(
-+    GetMimeTypesClosure callback) {
-+  std::vector<std::string> mime_types;
-+  for (const auto& item : offered_data_map_) {
-+    mime_types.push_back(item.first);
-+  }
-+  std::move(callback).Run(std::move(mime_types));
-+}
-+
-+bool FakeClipboardDelegate::IsSelectionOwner() {
-+  return !offered_data_map_.empty();
-+}
-+
-+}  // namespace ui
-Index: dev/ui/ozone/public/fake_clipboard_delegate.h
-===================================================================
---- /dev/null
-+++ dev/ui/ozone/public/fake_clipboard_delegate.h
-@@ -0,0 +1,39 @@
-+// Copyright 2018 The Chromium Authors. All rights reserved.
-+// Use of this source code is governed by a BSD-style license that can be
-+// found in the LICENSE file.
-+
-+#ifndef UI_OZONE_PUBLIC_FAKE_CLIPBOARD_DELEGATE_H_
-+#define UI_OZONE_PUBLIC_FAKE_CLIPBOARD_DELEGATE_H_
-+
-+#include "base/callback.h"
-+#include "base/macros.h"
-+#include "base/memory/scoped_refptr.h"
-+#include "ui/ozone/public/clipboard_delegate.h"
-+
-+namespace ui {
-+
-+// Fake clipboard delegate, which just stores offered clipboard data and sends
-+// it back on requests. It's created automatically if ozone platforms do not
-+// implement and create ClipboardDelegate.
-+class FakeClipboardDelegate : public ClipboardDelegate {
-+ public:
-+  FakeClipboardDelegate();
-+  ~FakeClipboardDelegate() override;
-+
-+  void OfferClipboardData(const DataMap& data_map,
-+                          OfferDataClosure callback) override;
-+  void RequestClipboardData(const std::string& mime_type,
-+                            DataMap* data_map,
-+                            RequestDataClosure callback) override;
-+  void GetAvailableMimeTypes(GetMimeTypesClosure callback) override;
-+  bool IsSelectionOwner() override;
-+
-+ private:
-+  ClipboardDelegate::DataMap offered_data_map_;
-+
-+  DISALLOW_COPY_AND_ASSIGN(FakeClipboardDelegate);
-+};
-+
-+}  // namespace ui
-+
-+#endif  // UI_OZONE_PUBLIC_CLIPBOARD_DELEGATE_H_
 Index: dev/ui/platform_window/platform_window.h
 ===================================================================
 --- dev.orig/ui/platform_window/platform_window.h
@@ -5237,7 +4008,15 @@ Index: dev/ui/platform_window/x11/BUILD.gn
 ===================================================================
 --- dev.orig/ui/platform_window/x11/BUILD.gn
 +++ dev/ui/platform_window/x11/BUILD.gn
-@@ -34,7 +34,18 @@ jumbo_component("x11") {
+@@ -22,6 +22,7 @@ jumbo_component("x11") {
+     "//ui/events/platform/x11",
+     "//ui/gfx/x",
+     "//ui/platform_window",
++    "//ui/platform_window/platform_window_handler",
+   ]
+ 
+   configs += [ "//build/config/linux:x11" ]
+@@ -34,7 +35,18 @@ jumbo_component("x11") {
      "x11_window_export.h",
    ]
  
@@ -5436,7 +4215,7 @@ Index: dev/ui/platform_window/x11/whole_screen_move_loop.cc
 +
 +  XDisplay* display = gfx::GetXDisplay();
 +  unsigned int esc_keycode = XKeysymToKeycode(display, XK_Escape);
-+  for (size_t i = 0; i < arraysize(kModifiersMasks); ++i) {
++  for (size_t i = 0; i < base::size(kModifiersMasks); ++i) {
 +    XUngrabKey(display, esc_keycode, kModifiersMasks[i], grab_input_window_);
 +  }
 +
@@ -5466,7 +4245,7 @@ Index: dev/ui/platform_window/x11/whole_screen_move_loop.cc
 +void WholeScreenMoveLoop::GrabEscKey() {
 +  XDisplay* display = gfx::GetXDisplay();
 +  unsigned int esc_keycode = XKeysymToKeycode(display, XK_Escape);
-+  for (size_t i = 0; i < arraysize(kModifiersMasks); ++i) {
++  for (size_t i = 0; i < base::size(kModifiersMasks); ++i) {
 +    XGrabKey(display, esc_keycode, kModifiersMasks[i], grab_input_window_,
 +             x11::False, GrabModeAsync, GrabModeAsync);
 +  }
@@ -5656,7 +4435,7 @@ Index: dev/ui/platform_window/x11/window_move_loop_client.h
 ===================================================================
 --- /dev/null
 +++ dev/ui/platform_window/x11/window_move_loop_client.h
-@@ -0,0 +1,56 @@
+@@ -0,0 +1,54 @@
 +// Copyright (c) 2018 The Chromium Authors. All rights reserved.
 +// Use of this source code is governed by a BSD-style license that can be
 +// found in the LICENSE file.
@@ -5672,8 +4451,6 @@ Index: dev/ui/platform_window/x11/window_move_loop_client.h
 +#include "ui/gfx/geometry/point.h"
 +#include "ui/platform_window/x11/whole_screen_move_loop.h"
 +#include "ui/platform_window/x11/x11_window_export.h"
-+#include "ui/views/views_export.h"
-+#include "ui/wm/public/window_move_client.h"
 +
 +namespace ui {
 +
@@ -5888,7 +4665,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_platform.cc
 ===================================================================
 --- dev.orig/ui/views/widget/desktop_aura/desktop_window_tree_host_platform.cc
 +++ dev/ui/views/widget/desktop_aura/desktop_window_tree_host_platform.cc
-@@ -377,14 +377,13 @@ Widget::MoveLoopResult DesktopWindowTree
+@@ -376,14 +376,13 @@ Widget::MoveLoopResult DesktopWindowTree
      const gfx::Vector2d& drag_offset,
      Widget::MoveLoopSource source,
      Widget::MoveLoopEscapeBehavior escape_behavior) {
