@@ -1,3 +1,9 @@
+chromium-browser (74.0.3729.6-0ubuntu1~ppa3~18.10.1) cosmic; urgency=low
+
+  * Remove attempt at fix for building on older GCC for now.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 17 Mar 2019 11:36:18 -0400
+
 chromium-browser (74.0.3729.6-0ubuntu1~ppa2~18.10.1) cosmic; urgency=low
 
   * Remove Ozone dependencies.
