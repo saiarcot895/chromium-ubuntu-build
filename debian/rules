@@ -56,7 +56,6 @@ common_defines += \
 				is_component_ffmpeg=true \
 				is_debug=false \
 				is_desktop_linux=true \
-				gcc_target_rpath="/usr/lib/chromium-browser/" \
 				linux_use_bundled_binutils=false \
 				link_pulseaudio=true \
 				remove_webcore_debug_symbols=true \
