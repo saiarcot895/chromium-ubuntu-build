@@ -499,7 +499,7 @@ Index: dev/device/fido/virtual_ctap2_device.cc
 ===================================================================
 --- dev.orig/device/fido/virtual_ctap2_device.cc
 +++ dev/device/fido/virtual_ctap2_device.cc
-@@ -210,13 +210,13 @@ std::vector<uint8_t> ConstructMakeCreden
+@@ -211,13 +211,13 @@ std::vector<uint8_t> ConstructMakeCreden
      base::span<const uint8_t> signature,
      AuthenticatorData authenticator_data) {
    cbor::Value::MapValue attestation_map;
@@ -610,7 +610,7 @@ Index: dev/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
 +++ dev/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
-@@ -62,9 +62,12 @@ static bool VerifyDataSize(const VAImage
+@@ -69,9 +69,12 @@ static bool VerifyDataSize(const VAImage
    const gfx::Size dimensions(base::strict_cast<int>(image->width),
                               base::strict_cast<int>(image->height));
    size_t min_size = 0;
@@ -624,7 +624,7 @@ Index: dev/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
               image->format.fourcc == VA_FOURCC('Y', 'U', 'Y', 'V')) {
      min_size = VideoFrame::AllocationSize(PIXEL_FORMAT_YUY2, dimensions);
    } else {
-@@ -155,6 +158,7 @@ bool VaapiJpegDecodeAccelerator::OutputP
+@@ -169,6 +172,7 @@ bool VaapiJpegDecodeAccelerator::OutputP
    size_t dst_v_stride = video_frame->stride(VideoFrame::kVPlane);
  
    switch (image->format.fourcc) {
@@ -632,7 +632,7 @@ Index: dev/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
      case VA_FOURCC_I420: {
        DCHECK_EQ(image->num_planes, 3u);
        const uint8_t* src_y = mem + image->offsets[0];
-@@ -173,6 +177,7 @@ bool VaapiJpegDecodeAccelerator::OutputP
+@@ -187,6 +191,7 @@ bool VaapiJpegDecodeAccelerator::OutputP
        }
        break;
      }
@@ -742,7 +742,7 @@ Index: dev/media/gpu/vaapi/vaapi_jpeg_decoder.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_jpeg_decoder.cc
 +++ dev/media/gpu/vaapi/vaapi_jpeg_decoder.cc
-@@ -23,11 +23,13 @@ namespace media {
+@@ -24,11 +24,13 @@ namespace media {
  
  namespace {
  
@@ -756,7 +756,7 @@ Index: dev/media/gpu/vaapi/vaapi_jpeg_decoder.cc
  
  constexpr VAImageFormat kImageFormatYUYV = {
      .fourcc = VA_FOURCC('Y', 'U', 'Y', 'V'),
-@@ -201,9 +203,11 @@ static bool IsVaapiSupportedJpeg(const J
+@@ -218,9 +220,11 @@ static bool IsVaapiSupportedJpeg(const J
  static bool VaSurfaceFormatToImageFormat(unsigned int va_rt_format,
                                           VAImageFormat* va_image_format) {
    switch (va_rt_format) {
@@ -768,7 +768,7 @@ Index: dev/media/gpu/vaapi/vaapi_jpeg_decoder.cc
      case VA_RT_FORMAT_YUV422:
        *va_image_format = kImageFormatYUYV;
        return true;
-@@ -376,6 +380,7 @@ std::unique_ptr<ScopedVAImage> VaapiJpeg
+@@ -393,6 +397,7 @@ std::unique_ptr<ScopedVAImage> VaapiJpeg
      return nullptr;
    }
  
@@ -776,7 +776,7 @@ Index: dev/media/gpu/vaapi/vaapi_jpeg_decoder.cc
    // Specify which image format we will request from the VAAPI. As the expected
    // output format is I420, we will first try this format. If converting to I420
    // is not supported by the decoder, we will request the image in its original
-@@ -387,6 +392,14 @@ std::unique_ptr<ScopedVAImage> VaapiJpeg
+@@ -404,6 +409,14 @@ std::unique_ptr<ScopedVAImage> VaapiJpeg
      *status = VaapiJpegDecodeStatus::kUnsupportedSurfaceFormat;
      return nullptr;
    }
@@ -936,7 +936,7 @@ Index: dev/content/browser/indexed_db/leveldb/leveldb_env.cc
 ===================================================================
 --- dev.orig/content/browser/indexed_db/leveldb/leveldb_env.cc
 +++ dev/content/browser/indexed_db/leveldb/leveldb_env.cc
-@@ -82,13 +82,13 @@ DefaultLevelDBFactory::OpenLevelDB(
+@@ -84,13 +84,13 @@ DefaultLevelDBFactory::OpenLevelDBState(
        LOG(ERROR) << "Failed to open in-memory LevelDB database: "
                   << status.ToString();
        // Must match the other returns in this function for RVO.
@@ -953,7 +953,7 @@ Index: dev/content/browser/indexed_db/leveldb/leveldb_env.cc
    }
  
    leveldb_env::Options options =
-@@ -115,16 +115,16 @@ DefaultLevelDBFactory::OpenLevelDB(
+@@ -117,16 +117,16 @@ DefaultLevelDBFactory::OpenLevelDBState(
      LOG(ERROR) << "Failed to open LevelDB database from "
                 << file_name.AsUTF8Unsafe() << "," << status.ToString();
      // Must match the other returns in this function for RVO.

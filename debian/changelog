@@ -1,3 +1,10 @@
+chromium-browser (75.0.3745.4-0ubuntu1~ppa1~19.04.1) disco; urgency=low
+
+  * New upstream version 75.0.3745.4
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 28 Mar 2019 02:31:35 -0400
+
 chromium-browser (74.0.3729.6-0ubuntu1~ppa4~19.04.1) disco; urgency=low
 
   * Don't set RPATH; some objects need to be run in the build
