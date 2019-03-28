@@ -396,3 +396,16 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
                 << " for attribute type " << required_attribs[i].type;
        return false;
      }
+Index: dev/media/gpu/vaapi/vaapi_picture_tfp.h
+===================================================================
+--- dev.orig/media/gpu/vaapi/vaapi_picture_tfp.h
++++ dev/media/gpu/vaapi/vaapi_picture_tfp.h
+@@ -40,7 +40,7 @@ class VaapiTFPPicture : public VaapiPict
+   bool Allocate(gfx::BufferFormat format) override;
+   bool ImportGpuMemoryBufferHandle(
+       gfx::BufferFormat format,
+-      const gfx::GpuMemoryBufferHandle& gpu_memory_buffer_handle) override;
++      gfx::GpuMemoryBufferHandle& gpu_memory_buffer_handle) override;
+   bool DownloadFromSurface(const scoped_refptr<VASurface>& va_surface) override;
+ 
+  private:
