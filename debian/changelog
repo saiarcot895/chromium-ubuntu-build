@@ -1,3 +1,9 @@
+chromium-browser (75.0.3745.4-0ubuntu1~ppa3~19.04.1) disco; urgency=low
+
+  * Fix build errors.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 28 Mar 2019 20:41:09 -0400
+
 chromium-browser (75.0.3745.4-0ubuntu1~ppa2~19.04.1) disco; urgency=low
 
   * Fix build errors.

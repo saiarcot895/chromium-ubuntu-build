@@ -405,7 +405,7 @@ Index: dev/media/gpu/vaapi/vaapi_picture_tfp.h
    bool ImportGpuMemoryBufferHandle(
        gfx::BufferFormat format,
 -      const gfx::GpuMemoryBufferHandle& gpu_memory_buffer_handle) override;
-+      gfx::GpuMemoryBufferHandle& gpu_memory_buffer_handle) override;
++      gfx::GpuMemoryBufferHandle gpu_memory_buffer_handle) override;
    bool DownloadFromSurface(const scoped_refptr<VASurface>& va_surface) override;
  
   private:
