@@ -214,7 +214,7 @@ override_dh_auto_configure: $(SRC_DIR)/gn
 	$(SRC_DIR)/gn gen --args='$(common_defines) $(ffmpeg_std_defines)' $(SRC_DIR)/out/$(BUILD_TYPE)-ffmpeg-std
 
 override_dh_auto_build:
-	$(NINJA) -k 2 -C $(SRC_DIR)/out/$(BUILD_TYPE) $(BUILD_TARGETS)
+	$(NINJA) -k 3 -C $(SRC_DIR)/out/$(BUILD_TYPE) $(BUILD_TARGETS)
 	$(NINJA) -C $(SRC_DIR)/out/$(BUILD_TYPE)-ffmpeg-extra third_party/ffmpeg
 	$(NINJA) -C $(SRC_DIR)/out/$(BUILD_TYPE)-ffmpeg-std third_party/ffmpeg
 
