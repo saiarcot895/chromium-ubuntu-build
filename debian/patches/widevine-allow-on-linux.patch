@@ -1,7 +1,7 @@
-Index: dev/chrome/common/chrome_content_client.cc
+Index: beta/chrome/common/chrome_content_client.cc
 ===================================================================
---- dev.orig/chrome/common/chrome_content_client.cc
-+++ dev/chrome/common/chrome_content_client.cc
+--- beta.orig/chrome/common/chrome_content_client.cc
++++ beta/chrome/common/chrome_content_client.cc
 @@ -98,7 +98,7 @@
  // Registers Widevine CDM if Widevine is enabled, the Widevine CDM is
  // bundled and not a component. When the Widevine CDM is a component, it is
@@ -11,10 +11,10 @@ Index: dev/chrome/common/chrome_content_client.cc
  #define REGISTER_BUNDLED_WIDEVINE_CDM
  #include "third_party/widevine/cdm/widevine_cdm_common.h"  // nogncheck
  // TODO(crbug.com/663554): Needed for WIDEVINE_CDM_VERSION_STRING. Support
-Index: dev/third_party/widevine/cdm/widevine_cdm_version.h
+Index: beta/third_party/widevine/cdm/widevine_cdm_version.h
 ===================================================================
---- dev.orig/third_party/widevine/cdm/widevine_cdm_version.h
-+++ dev/third_party/widevine/cdm/widevine_cdm_version.h
+--- beta.orig/third_party/widevine/cdm/widevine_cdm_version.h
++++ beta/third_party/widevine/cdm/widevine_cdm_version.h
 @@ -12,4 +12,6 @@
  //  - WIDEVINE_CDM_VERSION_STRING (with the version of the CDM that's available
  //    as a string, e.g., "1.0.123.456").
