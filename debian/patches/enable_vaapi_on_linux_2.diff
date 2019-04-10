@@ -40,7 +40,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -1434,7 +1434,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1400,7 +1400,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
          flag_descriptions::kAcceleratedVideoDecodeDescription,
@@ -49,7 +49,7 @@ Index: dev/chrome/browser/about_flags.cc
          SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
  #if defined(OS_WIN)
-@@ -1980,10 +1980,10 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1922,10 +1922,10 @@ const FeatureEntry kFeatureEntries[] = {
       FEATURE_VALUE_TYPE(service_manager::features::kXRSandbox)},
  #endif  // ENABLE_ISOLATED_XR_SERVICE
  #endif  // ENABLE_VR
@@ -66,7 +66,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
 ===================================================================
 --- dev.orig/chrome/browser/flag_descriptions.cc
 +++ dev/chrome/browser/flag_descriptions.cc
-@@ -2989,9 +2989,7 @@ const char kMacViewsTaskManagerDescripti
+@@ -2933,9 +2933,7 @@ const char kMacViewsTaskManagerDescripti
  
  #endif
  
@@ -77,7 +77,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
  
  const char kAcceleratedMjpegDecodeName[] =
      "Hardware-accelerated mjpeg decode for captured frame";
-@@ -2999,6 +2997,12 @@ const char kAcceleratedMjpegDecodeDescri
+@@ -2943,6 +2941,12 @@ const char kAcceleratedMjpegDecodeDescri
      "Enable hardware-accelerated mjpeg decode for captured frame where "
      "available.";
  
@@ -94,7 +94,7 @@ Index: dev/chrome/browser/flag_descriptions.h
 ===================================================================
 --- dev.orig/chrome/browser/flag_descriptions.h
 +++ dev/chrome/browser/flag_descriptions.h
-@@ -1777,13 +1777,17 @@ extern const char kPermissionPromptPersi
+@@ -1758,13 +1758,17 @@ extern const char kPermissionPromptPersi
  
  #endif  // defined(OS_MACOSX)
  
@@ -162,8 +162,8 @@ Index: dev/media/base/media_switches.cc
 ===================================================================
 --- dev.orig/media/base/media_switches.cc
 +++ dev/media/base/media_switches.cc
-@@ -517,7 +517,7 @@ bool IsVideoCaptureAcceleratedJpegDecodi
-           switches::kUseFakeJpegDecodeAccelerator)) {
+@@ -509,7 +509,7 @@ bool IsVideoCaptureAcceleratedJpegDecodi
+           switches::kUseFakeMjpegDecodeAccelerator)) {
      return true;
    }
 -#if defined(OS_CHROMEOS)
@@ -196,7 +196,7 @@ Index: dev/media/gpu/BUILD.gn
 ===================================================================
 --- dev.orig/media/gpu/BUILD.gn
 +++ dev/media/gpu/BUILD.gn
-@@ -582,6 +582,7 @@ if (is_chromeos || is_linux) {
+@@ -546,6 +546,7 @@ if (is_chromeos || is_linux) {
      if (use_ozone) {
        deps += [ "//ui/ozone" ]
      }
@@ -320,7 +320,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -260,6 +260,11 @@ void VADisplayState::PreSandboxInitializ
+@@ -265,6 +265,11 @@ void VADisplayState::PreSandboxInitializ
        base::File::FLAG_OPEN | base::File::FLAG_READ | base::File::FLAG_WRITE);
    if (drm_file.IsValid())
      VADisplayState::Get()->SetDrmFd(drm_file.GetPlatformFile());
@@ -332,7 +332,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  }
  
  VADisplayState::VADisplayState()
-@@ -287,9 +292,6 @@ bool VADisplayState::Initialize() {
+@@ -292,9 +297,6 @@ bool VADisplayState::Initialize() {
  }
  
  bool VADisplayState::InitializeOnce() {
@@ -342,7 +342,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    switch (gl::GetGLImplementation()) {
      case gl::kGLImplementationEGLGLES2:
        va_display_ = vaGetDisplayDRM(drm_fd_.get());
-@@ -297,10 +299,10 @@ bool VADisplayState::InitializeOnce() {
+@@ -302,10 +304,10 @@ bool VADisplayState::InitializeOnce() {
      case gl::kGLImplementationDesktopGL:
  #if defined(USE_X11)
        va_display_ = vaGetDisplay(gfx::GetXDisplay());
@@ -356,7 +356,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
        break;
      // Cannot infer platform from GL, try all available displays
      case gl::kGLImplementationNone:
-@@ -333,8 +335,19 @@ bool VADisplayState::InitializeOnce() {
+@@ -338,8 +340,19 @@ bool VADisplayState::InitializeOnce() {
    int major_version, minor_version;
    VAStatus va_res = vaInitialize(va_display_, &major_version, &minor_version);
    if (va_res != VA_STATUS_SUCCESS) {
@@ -378,7 +378,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
  
    va_initialized_ = true;
-@@ -342,7 +355,7 @@ bool VADisplayState::InitializeOnce() {
+@@ -347,7 +360,7 @@ bool VADisplayState::InitializeOnce() {
    va_vendor_string_ = vaQueryVendorString(va_display_);
    DLOG_IF(WARNING, va_vendor_string_.empty())
        << "Vendor string empty or error reading.";
@@ -387,7 +387,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
             << va_vendor_string_;
  
    // The VAAPI version is determined from what is loaded on the system by
-@@ -658,7 +671,7 @@ bool VASupportedProfiles::AreAttribsSupp
+@@ -680,7 +693,7 @@ bool VASupportedProfiles::AreAttribsSupp
      if (attribs[i].type != required_attribs[i].type ||
          (attribs[i].value & required_attribs[i].value) !=
              required_attribs[i].value) {
@@ -396,29 +396,3 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
                 << " for attribute type " << required_attribs[i].type;
        return false;
      }
-Index: dev/media/gpu/vaapi/vaapi_picture_tfp.h
-===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_picture_tfp.h
-+++ dev/media/gpu/vaapi/vaapi_picture_tfp.h
-@@ -40,7 +40,7 @@ class VaapiTFPPicture : public VaapiPict
-   bool Allocate(gfx::BufferFormat format) override;
-   bool ImportGpuMemoryBufferHandle(
-       gfx::BufferFormat format,
--      const gfx::GpuMemoryBufferHandle& gpu_memory_buffer_handle) override;
-+      gfx::GpuMemoryBufferHandle gpu_memory_buffer_handle) override;
-   bool DownloadFromSurface(const scoped_refptr<VASurface>& va_surface) override;
- 
-  private:
-Index: dev/media/gpu/vaapi/vaapi_picture_tfp.cc
-===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_picture_tfp.cc
-+++ dev/media/gpu/vaapi/vaapi_picture_tfp.cc
-@@ -97,7 +97,7 @@ bool VaapiTFPPicture::Allocate(gfx::Buff
- 
- bool VaapiTFPPicture::ImportGpuMemoryBufferHandle(
-     gfx::BufferFormat format,
--    const gfx::GpuMemoryBufferHandle& gpu_memory_buffer_handle) {
-+    gfx::GpuMemoryBufferHandle gpu_memory_buffer_handle) {
-   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
-   NOTIMPLEMENTED() << "GpuMemoryBufferHandle import not implemented";
-   return false;

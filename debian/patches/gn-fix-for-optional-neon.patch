@@ -10,4 +10,4 @@ Index: dev/third_party/openmax_dl/dl/BUILD.gn
 +    if (arm_optionally_use_neon && is_android) {
        # Run-time NEON detection.
        deps = [
-         "//third_party/android_tools:cpu_features",
+         "//third_party/android_sdk:cpu_features",

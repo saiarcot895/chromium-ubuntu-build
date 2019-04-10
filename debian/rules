@@ -58,19 +58,18 @@ common_defines += \
 				is_desktop_linux=true \
 				linux_use_bundled_binutils=false \
 				link_pulseaudio=true \
-				remove_webcore_debug_symbols=true \
+				blink_symbol_level=0 \
 				treat_warnings_as_errors=false \
 				use_allocator="none" \
 				use_alsa=true \
 				use_aura=true \
 				use_bundled_fontconfig=false \
 				use_cups=true \
-				use_custom_libcxx=false \
+				use_custom_libcxx=true \
 				use_dbus=true \
 				use_gio=true \
 				use_glib=true \
 				use_gold=true \
-				use_gtk3=true \
 				use_libpci=true \
 				use_pulseaudio=true \
 				use_sysroot=false \
@@ -305,7 +304,7 @@ override_dh_clean:
 # By default, Chromium expects a binary file that generates the build files. Fortunately,
 # the source files for gn (the binary) are present in the source tree.
 $(SRC_DIR)/gn:
-	CC=$(shell which clang clang-4.0 | head -n 1) CXX=$(shell which clang++ clang++-4.0 | head -n 1) tools/gn/bootstrap/bootstrap.py --gn-gen-args '$(common_defines)'
+	CC=$(shell which clang-6.0 clang | head -n 1) CXX=$(shell which clang++-6.0 clang++ | head -n 1) tools/gn/bootstrap/bootstrap.py --gn-gen-args '$(common_defines)'
 	cp $(SRC_DIR)/out/Release/gn $(SRC_DIR)/gn
 	rm -rf $(SRC_DIR)/out
 

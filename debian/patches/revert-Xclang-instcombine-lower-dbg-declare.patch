@@ -5,7 +5,7 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -483,20 +483,6 @@ config("compiler") {
+@@ -475,20 +475,6 @@ config("compiler") {
      }
    }
  
@@ -23,6 +23,6 @@ Index: dev/build/config/compiler/BUILD.gn
 -    ]
 -  }
 -
-   # Print absolute paths in diagnostics. There is no precedent for doing this
-   # on Linux/Mac (GCC doesn't support it), but MSVC does this with /FC and
-   # Windows developers rely on it (crbug.com/636109) so only do this on Windows.
+   # C11/C++11 compiler flags setup.
+   # ---------------------------
+   if (is_linux || is_android || (is_nacl && is_clang) || current_os == "aix") {

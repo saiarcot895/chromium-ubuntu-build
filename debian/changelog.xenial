@@ -1,3 +1,12 @@
+chromium-browser (75.0.3759.4-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
+
+  * New upstream version 75.0.3759.4
+  * Updated patches.
+  * Require Clang 6.0.
+  * Use libc++ that is bundled in Chromium instead of the system libc++.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 10 Apr 2019 11:33:59 -0400
+
 chromium-browser (75.0.3745.4-0ubuntu1~ppa4~16.04.1) xenial; urgency=low
 
   * Fix build errors.
