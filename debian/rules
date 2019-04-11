@@ -58,19 +58,18 @@ common_defines += \
 				is_desktop_linux=true \
 				linux_use_bundled_binutils=false \
 				link_pulseaudio=true \
-				remove_webcore_debug_symbols=true \
+				blink_symbol_level=0 \
 				treat_warnings_as_errors=false \
 				use_allocator="none" \
 				use_alsa=true \
 				use_aura=true \
 				use_bundled_fontconfig=false \
 				use_cups=true \
-				use_custom_libcxx=false \
+				use_custom_libcxx=true \
 				use_dbus=true \
 				use_gio=true \
 				use_glib=true \
 				use_gold=true \
-				use_gtk3=true \
 				use_libpci=true \
 				use_pulseaudio=true \
 				use_sysroot=false \
@@ -88,7 +87,6 @@ common_defines += \
 				current_os="linux" \
 				optimize_webui=false \
 				use_jumbo_build=true \
-				jumbo_file_merge_limit=30 \
 				force_local_build_id=true
 
 # FFmpeg-mt
@@ -115,11 +113,11 @@ common_defines += target_cpu="arm"
 common_defines += arm_use_neon=false
 common_defines += arm_float_abi="hard" arm_use_thumb=true
 else ifeq (arm64,$(DEB_HOST_ARCH))
-common_defines += target_cpu="arm64" symbol_level=1
+common_defines += target_cpu="arm64" symbol_level=1 jumbo_file_merge_limit=20
 else ifeq (i386,$(DEB_HOST_ARCH))
-common_defines += target_cpu="x86" symbol_level=1
+common_defines += target_cpu="x86" symbol_level=1 jumbo_file_merge_limit=30
 else ifeq (amd64,$(DEB_HOST_ARCH))
-common_defines += target_cpu="x64" symbol_level=1
+common_defines += target_cpu="x64" symbol_level=1 jumbo_file_merge_limit=30
 else ifeq (mipsel,$(DEB_HOST_ARCH))
 common_defines += target_cpu="mipsel"
 else ifeq ($(DEB_HOST_ARCH),)
@@ -215,7 +213,7 @@ override_dh_auto_configure: $(SRC_DIR)/gn
 	$(SRC_DIR)/gn gen --args='$(common_defines) $(ffmpeg_std_defines)' $(SRC_DIR)/out/$(BUILD_TYPE)-ffmpeg-std
 
 override_dh_auto_build:
-	$(NINJA) -k 2 -C $(SRC_DIR)/out/$(BUILD_TYPE) $(BUILD_TARGETS)
+	$(NINJA) -k 3 -C $(SRC_DIR)/out/$(BUILD_TYPE) $(BUILD_TARGETS)
 	$(NINJA) -C $(SRC_DIR)/out/$(BUILD_TYPE)-ffmpeg-extra third_party/ffmpeg
 	$(NINJA) -C $(SRC_DIR)/out/$(BUILD_TYPE)-ffmpeg-std third_party/ffmpeg
 
@@ -306,7 +304,7 @@ override_dh_clean:
 # By default, Chromium expects a binary file that generates the build files. Fortunately,
 # the source files for gn (the binary) are present in the source tree.
 $(SRC_DIR)/gn:
-	CC=$(shell which clang clang-4.0 | head -n 1) CXX=$(shell which clang++ clang++-4.0 | head -n 1) tools/gn/bootstrap/bootstrap.py --gn-gen-args '$(common_defines)'
+	CC=$(shell which clang-6.0 clang | head -n 1) CXX=$(shell which clang++-6.0 clang++ | head -n 1) tools/gn/bootstrap/bootstrap.py --gn-gen-args '$(common_defines)'
 	cp $(SRC_DIR)/out/Release/gn $(SRC_DIR)/gn
 	rm -rf $(SRC_DIR)/out
 

@@ -1,0 +1,49 @@
+Description: work around build failures with old versions of clang where
+ it fails to acknowledge function calls returning constant expressions
+ (see  https://reviews.llvm.org/rL314865). This is fixed in clang 7.
+Author: Olivier Tilloy <olivier.tilloy@canonical.com>
+
+Index: beta/gpu/command_buffer/client/transfer_buffer_cmd_copy_helpers.h
+===================================================================
+--- beta.orig/gpu/command_buffer/client/transfer_buffer_cmd_copy_helpers.h
++++ beta/gpu/command_buffer/client/transfer_buffer_cmd_copy_helpers.h
+@@ -13,7 +13,7 @@ namespace gpu {
+ 
+ // Sum the sizes of the types in Ts as CheckedNumeric<T>.
+ template <typename T, typename... Ts>
+-constexpr base::CheckedNumeric<T> CheckedSizeOfPackedTypes() {
++base::CheckedNumeric<T> CheckedSizeOfPackedTypes() {
+   static_assert(sizeof...(Ts) > 0, "");
+   base::CheckedNumeric<T> checked_elements_size = 0;
+   for (size_t s : {sizeof(Ts)...}) {
+@@ -25,7 +25,7 @@ constexpr base::CheckedNumeric<T> Checke
+ // Compute the number of bytes required for a struct-of-arrays where each array
+ // of type T has count items. If there is an overflow, this function returns 0.
+ template <typename... Ts>
+-constexpr base::CheckedNumeric<uint32_t> ComputeCheckedCombinedCopySize(
++base::CheckedNumeric<uint32_t> ComputeCheckedCombinedCopySize(
+     uint32_t count) {
+   static_assert(sizeof...(Ts) > 0, "");
+   base::CheckedNumeric<uint32_t> checked_combined_size = 0;
+@@ -87,10 +87,9 @@ auto CopyArraysToBuffer(uint32_t count,
+ // Sum the sizes of the types in Ts. This will fail to compile if the result
+ // does not fit in T.
+ template <typename T, typename... Ts>
+-constexpr T SizeOfPackedTypes() {
+-  constexpr base::CheckedNumeric<T> checked_elements_size =
++T SizeOfPackedTypes() {
++  base::CheckedNumeric<T> checked_elements_size =
+       CheckedSizeOfPackedTypes<T, Ts...>();
+-  static_assert(checked_elements_size.IsValid(), "");
+   return checked_elements_size.ValueOrDie();
+ }
+ 
+@@ -113,7 +112,7 @@ template <typename... Ts>
+ constexpr uint32_t ComputeMaxCopyCount(uint32_t buffer_size) {
+   // Start by tightly packing the elements and decrease copy_count until
+   // the total aligned copy size fits
+-  constexpr uint32_t elements_size = SizeOfPackedTypes<uint32_t, Ts...>();
++  uint32_t elements_size = SizeOfPackedTypes<uint32_t, Ts...>();
+   uint32_t copy_count = buffer_size / elements_size;
+ 
+   while (copy_count > 0) {

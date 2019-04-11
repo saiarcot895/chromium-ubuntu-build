@@ -29,7 +29,7 @@ gn-nacl-use-gcc-toolchain.patch
 dont-assume-neon-exists.patch
 #dont-use-integrated-as-on-arm64.patch
 remove-linux-kernel-dependency.patch
-stdatomic
+#stdatomic
 specify-gcc-standard.patch
 enable-chromecast-by-default.patch
 revert-Xclang-instcombine-lower-dbg-declare.patch
@@ -40,6 +40,6 @@ fix-build-on-older-gcc.patch
 widevine-allow-on-linux.patch
 set-rpath-on-chromium-executables.patch
 #ozone-wayland-support.patch
-revert-add-webgl-multi-draw.patch
+constexpr-errors-with-old-clang.patch
 add-limits-include.patch
-revert-commit-cd95d725015aa.patch
+#revert-commit-cd95d725015aa.patch

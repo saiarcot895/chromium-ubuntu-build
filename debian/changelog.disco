@@ -1,3 +1,12 @@
+chromium-browser (74.0.3729.75-0ubuntu1~ppa1~19.04.1) disco; urgency=low
+
+  * New upstream version 74.0.3729.75
+  * Updated patches.
+  * Require Clang 6.0.
+  * Use libc++ that is bundled in Chromium instead of the system libc++.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 11 Apr 2019 10:54:14 -0400
+
 chromium-browser (74.0.3729.61-0ubuntu1~ppa1~19.04.1) disco; urgency=low
 
   * New upstream version 74.0.3729.61

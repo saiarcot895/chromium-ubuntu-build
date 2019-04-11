@@ -9,8 +9,8 @@ Index: beta/build/toolchain/gcc_toolchain.gni
 -    prefix = rebase_path("$clang_base_path/bin", root_build_dir)
 -    cc = "$prefix/clang"
 -    cxx = "$prefix/clang++"
-+    cc = "/usr/bin/clang-4.0"
-+    cxx = "/usr/bin/clang++-4.0"
++    cc = "/usr/bin/clang-6.0"
++    cxx = "/usr/bin/clang++-6.0"
      ld = cxx
      readelf = "${toolprefix}readelf"
 -    ar = "${prefix}/llvm-ar"
