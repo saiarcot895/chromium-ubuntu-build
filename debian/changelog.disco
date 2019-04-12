@@ -1,3 +1,9 @@
+chromium-browser (74.0.3729.75-0ubuntu1~ppa2~19.04.1) disco; urgency=low
+
+  * Remove extra clang flag.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 12 Apr 2019 02:51:49 -0400
+
 chromium-browser (74.0.3729.75-0ubuntu1~ppa1~19.04.1) disco; urgency=low
 
   * New upstream version 74.0.3729.75

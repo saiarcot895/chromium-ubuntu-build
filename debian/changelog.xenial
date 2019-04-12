@@ -1,3 +1,9 @@
+chromium-browser (74.0.3729.75-0ubuntu1~ppa2~16.04.1) xenial; urgency=low
+
+  * Remove extra clang flag.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 12 Apr 2019 02:51:48 -0400
+
 chromium-browser (74.0.3729.75-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
 
   * New upstream version 74.0.3729.75
