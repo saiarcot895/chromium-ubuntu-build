@@ -1,3 +1,10 @@
+chromium-browser (75.0.3770.18-0ubuntu1~ppa1~18.10.1) cosmic; urgency=low
+
+  * New upstream version 75.0.3770.18
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 02 May 2019 20:40:29 -0400
+
 chromium-browser (75.0.3759.4-0ubuntu1~ppa1~18.10.1) cosmic; urgency=low
 
   * New upstream version 75.0.3759.4

@@ -148,44 +148,60 @@ Index: dev/media/gpu/BUILD.gn
    ]
  }
  
-@@ -24,7 +25,7 @@ if (is_mac) {
-   import("//build/config/mac/mac_sdk.gni")
- }
+Index: dev/media/gpu/v4l2/BUILD.gn
+===================================================================
+--- dev.orig/media/gpu/v4l2/BUILD.gn
++++ dev/media/gpu/v4l2/BUILD.gn
+@@ -28,31 +28,36 @@ source_set("v4l2") {
+   sources = [
+     "generic_v4l2_device.cc",
+     "generic_v4l2_device.h",
+-    "v4l2_decode_surface.cc",
+-    "v4l2_decode_surface.h",
+-    "v4l2_decode_surface_handler.h",
+     "v4l2_device.cc",
+     "v4l2_device.h",
+-    "v4l2_h264_accelerator.cc",
+-    "v4l2_h264_accelerator.h",
+     "v4l2_image_processor.cc",
+     "v4l2_image_processor.h",
+     "v4l2_jpeg_encode_accelerator.cc",
+     "v4l2_jpeg_encode_accelerator.h",
+-    "v4l2_mjpeg_decode_accelerator.cc",
+-    "v4l2_mjpeg_decode_accelerator.h",
+-    "v4l2_slice_video_decode_accelerator.cc",
+-    "v4l2_slice_video_decode_accelerator.h",
+     "v4l2_video_decode_accelerator.cc",
+     "v4l2_video_decode_accelerator.h",
+     "v4l2_video_encode_accelerator.cc",
+     "v4l2_video_encode_accelerator.h",
+-    "v4l2_vp8_accelerator.cc",
+-    "v4l2_vp8_accelerator.h",
+-    "v4l2_vp9_accelerator.cc",
+-    "v4l2_vp9_accelerator.h",
+   ]
  
--if (is_chromeos && use_v4lplugin) {
-+if (use_v4lplugin) {
-   generate_stubs("libv4l2_stubs") {
-     extra_header = "v4l2/v4l2_stub_header.fragment"
-     sigs = [ "v4l2/v4l2.sig" ]
-@@ -217,12 +218,8 @@ component("gpu") {
-       "v4l2/v4l2_h264_accelerator.h",
-       "v4l2/v4l2_image_processor.cc",
-       "v4l2/v4l2_image_processor.h",
--      "v4l2/v4l2_jpeg_decode_accelerator.cc",
--      "v4l2/v4l2_jpeg_decode_accelerator.h",
-       "v4l2/v4l2_jpeg_encode_accelerator.cc",
-       "v4l2/v4l2_jpeg_encode_accelerator.h",
--      "v4l2/v4l2_slice_video_decode_accelerator.cc",
--      "v4l2/v4l2_slice_video_decode_accelerator.h",
-       "v4l2/v4l2_video_decode_accelerator.cc",
-       "v4l2/v4l2_video_decode_accelerator.h",
-       "v4l2/v4l2_video_encode_accelerator.cc",
-@@ -233,6 +230,15 @@ component("gpu") {
-       "v4l2/v4l2_vp9_accelerator.h",
-     ]
- 
-+    if (!use_linux_v4l2_only) {
-+      sources += [
-+        "v4l2_jpeg_decode_accelerator.cc",
-+        "v4l2_jpeg_decode_accelerator.h",
-+        "v4l2_slice_video_decode_accelerator.cc",
-+        "v4l2_slice_video_decode_accelerator.h",
-+      ]
-+    }
++  if (!use_linux_v4l2_only) {
++    sources += [
++      "v4l2_decode_surface.cc",
++      "v4l2_decode_surface.h",
++      "v4l2_decode_surface_handler.h",
++      "v4l2_h264_accelerator.cc",
++      "v4l2_h264_accelerator.h",
++      "v4l2_vp8_accelerator.cc",
++      "v4l2_vp8_accelerator.h",
++      "v4l2_vp9_accelerator.cc",
++      "v4l2_vp9_accelerator.h",
++      "v4l2_mjpeg_decode_accelerator.cc",
++      "v4l2_mjpeg_decode_accelerator.h",
++      "v4l2_slice_video_decode_accelerator.cc",
++      "v4l2_slice_video_decode_accelerator.h",
++    ]
++  }
 +
-     libs = [
-       "EGL",
-       "GLESv2",
+   libs = [
+     "EGL",
+     "GLESv2",
 Index: dev/media/gpu/args.gni
 ===================================================================
 --- dev.orig/media/gpu/args.gni
@@ -201,18 +217,18 @@ Index: dev/media/gpu/args.gni
    # Indicates if VA-API-based hardware acceleration is to be used. This
    # is typically the case on x86-based ChromeOS devices.
    use_vaapi = false
-Index: dev/media/gpu/gpu_jpeg_decode_accelerator_factory.cc
+Index: dev/media/gpu/gpu_mjpeg_decode_accelerator_factory.cc
 ===================================================================
---- dev.orig/media/gpu/gpu_jpeg_decode_accelerator_factory.cc
-+++ dev/media/gpu/gpu_jpeg_decode_accelerator_factory.cc
+--- dev.orig/media/gpu/gpu_mjpeg_decode_accelerator_factory.cc
++++ dev/media/gpu/gpu_mjpeg_decode_accelerator_factory.cc
 @@ -13,7 +13,8 @@
  #include "media/gpu/buildflags.h"
- #include "media/gpu/fake_jpeg_decode_accelerator.h"
+ #include "media/gpu/fake_mjpeg_decode_accelerator.h"
  
 -#if BUILDFLAG(USE_V4L2_CODEC) && defined(ARCH_CPU_ARM_FAMILY)
 +#if BUILDFLAG(USE_V4L2_CODEC) && defined(ARCH_CPU_ARM_FAMILY) && \
 +    !BUILDFLAG(USE_LINUX_V4L2)
- #define USE_V4L2_JDA
+ #define USE_V4L2_MJPEG_DECODE_ACCELERATOR
  #endif
  
 Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
@@ -312,7 +328,7 @@ Index: dev/media/gpu/v4l2/generic_v4l2_device.cc
    munmap(addr, len);
  }
  
-@@ -479,9 +489,13 @@ bool GenericV4L2Device::OpenDevicePath(c
+@@ -477,9 +487,13 @@ bool GenericV4L2Device::OpenDevicePath(c
      return false;
  
  #if BUILDFLAG(USE_LIBV4L2)
@@ -341,7 +357,7 @@ Index: dev/media/gpu/v4l2/v4l2_device.cc
 ===================================================================
 --- dev.orig/media/gpu/v4l2/v4l2_device.cc
 +++ dev/media/gpu/v4l2/v4l2_device.cc
-@@ -978,6 +978,21 @@ uint32_t V4L2Device::VideoFrameLayoutToV
+@@ -1051,6 +1051,21 @@ uint32_t V4L2Device::VideoFrameLayoutToV
                                        layout.num_buffers() == 1);
  }
  
@@ -363,7 +379,7 @@ Index: dev/media/gpu/v4l2/v4l2_device.cc
  // static
  uint32_t V4L2Device::VideoCodecProfileToV4L2PixFmt(VideoCodecProfile profile,
                                                     bool slice_based) {
-@@ -1019,6 +1034,7 @@ VideoCodecProfile V4L2Device::V4L2VP9Pro
+@@ -1092,6 +1107,7 @@ VideoCodecProfile V4L2Device::V4L2VP9Pro
        return VIDEO_CODEC_PROFILE_UNKNOWN;
    }
  }
@@ -371,7 +387,7 @@ Index: dev/media/gpu/v4l2/v4l2_device.cc
  
  // static
  std::vector<VideoCodecProfile> V4L2Device::V4L2PixFmtToVideoCodecProfiles(
-@@ -1029,7 +1045,9 @@ std::vector<VideoCodecProfile> V4L2Devic
+@@ -1102,7 +1118,9 @@ std::vector<VideoCodecProfile> V4L2Devic
  
    switch (pix_fmt) {
      case V4L2_PIX_FMT_H264:
@@ -381,7 +397,7 @@ Index: dev/media/gpu/v4l2/v4l2_device.cc
        if (is_encoder) {
          // TODO(posciak): need to query the device for supported H.264 profiles,
          // for now choose Main as a sensible default.
-@@ -1042,11 +1060,14 @@ std::vector<VideoCodecProfile> V4L2Devic
+@@ -1115,11 +1133,14 @@ std::vector<VideoCodecProfile> V4L2Devic
        break;
  
      case V4L2_PIX_FMT_VP8:
@@ -396,7 +412,7 @@ Index: dev/media/gpu/v4l2/v4l2_device.cc
      case V4L2_PIX_FMT_VP9:
      case V4L2_PIX_FMT_VP9_FRAME: {
        v4l2_queryctrl query_ctrl = {};
-@@ -1073,6 +1094,7 @@ std::vector<VideoCodecProfile> V4L2Devic
+@@ -1146,6 +1167,7 @@ std::vector<VideoCodecProfile> V4L2Devic
        }
        break;
      }
@@ -404,7 +420,7 @@ Index: dev/media/gpu/v4l2/v4l2_device.cc
  
      default:
        VLOGF(1) << "Unhandled pixelformat " << FourccToString(pix_fmt);
-@@ -1103,7 +1125,10 @@ uint32_t V4L2Device::V4L2PixFmtToDrmForm
+@@ -1176,7 +1198,10 @@ uint32_t V4L2Device::V4L2PixFmtToDrmForm
        return DRM_FORMAT_ARGB8888;
  
      case V4L2_PIX_FMT_MT21C:
@@ -774,7 +790,7 @@ Index: dev/ui/base/BUILD.gn
 ===================================================================
 --- dev.orig/ui/base/BUILD.gn
 +++ dev/ui/base/BUILD.gn
-@@ -436,9 +436,12 @@ jumbo_component("base") {
+@@ -435,9 +435,12 @@ jumbo_component("base") {
      deps += [ "//ui/events" ]
    }
  
@@ -787,9 +803,9 @@ Index: dev/ui/base/BUILD.gn
 -    configs += [ "//build/config/linux:x11" ]
  
      if (!is_chromeos) {
-       sources += [
-@@ -452,30 +455,44 @@ jumbo_component("base") {
-     }
+       configs += [ "//build/config/linux:xscrnsaver" ]
+@@ -452,15 +455,10 @@ jumbo_component("base") {
+     ]
    }
  
 -  if (use_x11 && use_aura) {
@@ -805,11 +821,7 @@ Index: dev/ui/base/BUILD.gn
        "x/selection_utils.cc",
        "x/selection_utils.h",
      ]
--    deps += [
--      "//ui/events/platform/x11",
--      "//ui/gfx/x",
--    ]
- 
+@@ -472,10 +470,33 @@ jumbo_component("base") {
      if (!is_chromeos) {
        # These Aura X11 files aren't used on ChromeOS.
        sources += [
@@ -2062,10 +2074,10 @@ Index: dev/ui/base/dragdrop/os_exchange_data_provider_aurax11_base.h
 +}  // namespace ui
 +
 +#endif  // UI_BASE_DRAGDROP_OS_EXCHANGE_DATA_PROVIDER_AURAX11_BASE_H_
-Index: dev/ui/base/ime/input_method_initializer.cc
+Index: dev/ui/base/ime/init/input_method_initializer.cc
 ===================================================================
---- dev.orig/ui/base/ime/input_method_initializer.cc
-+++ dev/ui/base/ime/input_method_initializer.cc
+--- dev.orig/ui/base/ime/init/input_method_initializer.cc
++++ dev/ui/base/ime/init/input_method_initializer.cc
 @@ -50,11 +50,13 @@ void InitializeInputMethodForTesting() {
    if (!g_linux_input_method_context_factory_for_testing)
      g_linux_input_method_context_factory_for_testing =
@@ -2119,14 +2131,14 @@ Index: dev/ui/ozone/platform/headless/BUILD.gn
      "//skia",
      "//ui/base",
 +    "//ui/base/ime",
-     "//ui/display/manager",
      "//ui/events",
      "//ui/events/ozone:events_ozone_layout",
+     "//ui/events/platform",
 Index: dev/ui/ozone/platform/headless/ozone_platform_headless.cc
 ===================================================================
 --- dev.orig/ui/ozone/platform/headless/ozone_platform_headless.cc
 +++ dev/ui/ozone/platform/headless/ozone_platform_headless.cc
-@@ -8,6 +8,7 @@
+@@ -10,6 +10,7 @@
  #include "base/files/file_path.h"
  #include "base/macros.h"
  #include "ui/base/cursor/ozone/bitmap_cursor_factory_ozone.h"
@@ -2134,7 +2146,7 @@ Index: dev/ui/ozone/platform/headless/ozone_platform_headless.cc
  #include "ui/events/ozone/layout/keyboard_layout_engine_manager.h"
  #include "ui/events/ozone/layout/stub/stub_keyboard_layout_engine.h"
  #include "ui/events/platform/platform_event_source.h"
-@@ -90,6 +91,13 @@ class OzonePlatformHeadless : public Ozo
+@@ -92,6 +93,13 @@ class OzonePlatformHeadless : public Ozo
      input_controller_ = CreateStubInputController();
      cursor_factory_ozone_ = std::make_unique<BitmapCursorFactoryOzone>();
      gpu_platform_support_host_.reset(CreateStubGpuPlatformSupportHost());
@@ -2148,7 +2160,7 @@ Index: dev/ui/ozone/platform/headless/ozone_platform_headless.cc
    }
  
    void InitializeGPU(const InitParams& params) override {
-@@ -105,6 +113,7 @@ class OzonePlatformHeadless : public Ozo
+@@ -107,6 +115,7 @@ class OzonePlatformHeadless : public Ozo
    std::unique_ptr<InputController> input_controller_;
    std::unique_ptr<GpuPlatformSupportHost> gpu_platform_support_host_;
    std::unique_ptr<OverlayManagerOzone> overlay_manager_;
@@ -2156,11 +2168,11 @@ Index: dev/ui/ozone/platform/headless/ozone_platform_headless.cc
    base::FilePath file_path_;
  
    DISALLOW_COPY_AND_ASSIGN(OzonePlatformHeadless);
-Index: dev/ui/ozone/platform/wayland/wayland_window.cc
+Index: dev/ui/ozone/platform/wayland/host/wayland_window.cc
 ===================================================================
---- dev.orig/ui/ozone/platform/wayland/wayland_window.cc
-+++ dev/ui/ozone/platform/wayland/wayland_window.cc
-@@ -455,6 +455,12 @@ gfx::Rect WaylandWindow::GetRestoredBoun
+--- dev.orig/ui/ozone/platform/wayland/host/wayland_window.cc
++++ dev/ui/ozone/platform/wayland/host/wayland_window.cc
+@@ -467,6 +467,12 @@ gfx::Rect WaylandWindow::GetRestoredBoun
    return restored_bounds_;
  }
  
@@ -2173,10 +2185,10 @@ Index: dev/ui/ozone/platform/wayland/wayland_window.cc
  bool WaylandWindow::CanDispatchEvent(const PlatformEvent& event) {
    // This window is a nested popup window, all the events must be forwarded
    // to the main popup window.
-Index: dev/ui/ozone/platform/wayland/wayland_window.h
+Index: dev/ui/ozone/platform/wayland/host/wayland_window.h
 ===================================================================
---- dev.orig/ui/ozone/platform/wayland/wayland_window.h
-+++ dev/ui/ozone/platform/wayland/wayland_window.h
+--- dev.orig/ui/ozone/platform/wayland/host/wayland_window.h
++++ dev/ui/ozone/platform/wayland/host/wayland_window.h
 @@ -124,6 +124,8 @@ class WaylandWindow : public PlatformWin
    PlatformImeController* GetPlatformImeController() override;
    void SetRestoredBoundsInPixels(const gfx::Rect& bounds) override;
@@ -4665,7 +4677,7 @@ Index: dev/ui/views/widget/desktop_aura/desktop_window_tree_host_platform.cc
 ===================================================================
 --- dev.orig/ui/views/widget/desktop_aura/desktop_window_tree_host_platform.cc
 +++ dev/ui/views/widget/desktop_aura/desktop_window_tree_host_platform.cc
-@@ -376,14 +376,13 @@ Widget::MoveLoopResult DesktopWindowTree
+@@ -382,14 +382,13 @@ Widget::MoveLoopResult DesktopWindowTree
      const gfx::Vector2d& drag_offset,
      Widget::MoveLoopSource source,
      Widget::MoveLoopEscapeBehavior escape_behavior) {
