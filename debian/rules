@@ -35,7 +35,7 @@ ifneq (,$(findstring Debian,$(DEBIAN_DIST)))
 DISTRIBUTION=DEBIAN
 endif
 
-WANT_OZONE       := 1
+WANT_OZONE       := 0
 
 common_defines :=
 browser_defines :=
@@ -87,7 +87,8 @@ common_defines += \
 				current_os="linux" \
 				optimize_webui=false \
 				use_jumbo_build=true \
-				force_local_build_id=true
+				force_local_build_id=true \
+				strip_absolute_paths_from_debug_symbols = false
 
 # FFmpeg-mt
 # Ignore the version built as part of chromium. Build it separately twice, once with
