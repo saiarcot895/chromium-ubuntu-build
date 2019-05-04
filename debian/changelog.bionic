@@ -1,3 +1,9 @@
+chromium-browser (75.0.3770.18-0ubuntu1~ppa3~18.04.1) bionic; urgency=low
+
+  * Remove unused dependency.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 04 May 2019 11:33:51 -0400
+
 chromium-browser (75.0.3770.18-0ubuntu1~ppa2~18.04.1) bionic; urgency=low
 
   * Disable ozone build
