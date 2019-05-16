@@ -1,10 +1,10 @@
 Description: Never default to using the custom title bar. Chromium should
   integrate, not be a special little snowflake.
 
-Index: dev/ui/base/x/x11_util.cc
+Index: beta/ui/base/x/x11_util.cc
 ===================================================================
---- dev.orig/ui/base/x/x11_util.cc
-+++ dev/ui/base/x/x11_util.cc
+--- beta.orig/ui/base/x/x11_util.cc
++++ beta/ui/base/x/x11_util.cc
 @@ -971,6 +971,7 @@ bool GetCustomFramePrefDefault() {
    // Also disable custom frames for (at-least-partially-)EWMH-supporting tiling
    // window managers.

@@ -1,7 +1,7 @@
-Index: dev/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
+Index: beta/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
 ===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
-+++ dev/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
+--- beta.orig/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
++++ beta/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
 @@ -69,9 +69,10 @@ static bool VerifyDataSize(const VAImage
    const gfx::Size dimensions(base::strict_cast<int>(image->width),
                               base::strict_cast<int>(image->height));
@@ -24,10 +24,10 @@ Index: dev/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
        DCHECK_EQ(image->num_planes, 3u);
        const uint8_t* src_y = mem + image->offsets[0];
        const uint8_t* src_u = mem + image->offsets[1];
-Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.h
+Index: beta/media/gpu/vaapi/vaapi_video_encode_accelerator.h
 ===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_video_encode_accelerator.h
-+++ dev/media/gpu/vaapi/vaapi_video_encode_accelerator.h
+--- beta.orig/media/gpu/vaapi/vaapi_video_encode_accelerator.h
++++ beta/media/gpu/vaapi/vaapi_video_encode_accelerator.h
 @@ -52,7 +52,9 @@ class MEDIA_GPU_EXPORT VaapiVideoEncodeA
   private:
    class H264Accelerator;
@@ -38,10 +38,10 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.h
  
    // Encoder state.
    enum State {
-Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
+Index: beta/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
 ===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
-+++ dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
+--- beta.orig/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
++++ beta/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
 @@ -197,6 +197,7 @@ class VaapiVideoEncodeAccelerator::VP8Ac
    VaapiVideoEncodeAccelerator* const vea_;
  };
@@ -86,10 +86,10 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
 +#endif
  
  }  // namespace media
-Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
+Index: beta/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
-+++ dev/media/gpu/vaapi/vaapi_wrapper.cc
+--- beta.orig/media/gpu/vaapi/vaapi_wrapper.cc
++++ beta/media/gpu/vaapi/vaapi_wrapper.cc
 @@ -976,9 +976,9 @@ bool VASupportedImageFormats::InitSuppor
      // Remove this workaround once b/128340287 is resolved.
      if (std::find_if(supported_formats_.cbegin(), supported_formats_.cend(),
@@ -168,10 +168,10 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 +#endif
  
  }  // namespace media
-Index: dev/media/gpu/vaapi/vaapi_wrapper.h
+Index: beta/media/gpu/vaapi/vaapi_wrapper.h
 ===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_wrapper.h
-+++ dev/media/gpu/vaapi/vaapi_wrapper.h
+--- beta.orig/media/gpu/vaapi/vaapi_wrapper.h
++++ beta/media/gpu/vaapi/vaapi_wrapper.h
 @@ -293,8 +293,10 @@ class MEDIA_GPU_EXPORT VaapiWrapper
    // Attempt to set render mode to "render to texture.". Failure is non-fatal.
    void TryToSetVADisplayAttributeToLocalGPU();
@@ -183,10 +183,10 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.h
  
    // Pointer to VADisplayState's member |va_lock_|. Guaranteed to be valid for
    // the lifetime of VaapiWrapper.
-Index: dev/media/gpu/vaapi/vaapi_jpeg_decoder.cc
+Index: beta/media/gpu/vaapi/vaapi_jpeg_decoder.cc
 ===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_jpeg_decoder.cc
-+++ dev/media/gpu/vaapi/vaapi_jpeg_decoder.cc
+--- beta.orig/media/gpu/vaapi/vaapi_jpeg_decoder.cc
++++ beta/media/gpu/vaapi/vaapi_jpeg_decoder.cc
 @@ -357,7 +357,7 @@ std::unique_ptr<ScopedVAImage> VaapiJpeg
  std::unique_ptr<ScopedVAImage> VaapiJpegDecoder::DoDecode(
      base::span<const uint8_t> encoded_image,

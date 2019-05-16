@@ -1,7 +1,7 @@
-Index: dev/chrome/browser/background/background_mode_manager.cc
+Index: beta/chrome/browser/background/background_mode_manager.cc
 ===================================================================
---- dev.orig/chrome/browser/background/background_mode_manager.cc
-+++ dev/chrome/browser/background/background_mode_manager.cc
+--- beta.orig/chrome/browser/background/background_mode_manager.cc
++++ beta/chrome/browser/background/background_mode_manager.cc
 @@ -352,7 +352,7 @@ void BackgroundModeManager::RegisterPref
    registry->RegisterBooleanPref(prefs::kChromeCreatedLoginItem, false);
    registry->RegisterBooleanPref(prefs::kMigratedLoginItemPref, false);
