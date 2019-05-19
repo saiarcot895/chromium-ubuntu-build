@@ -15,7 +15,7 @@ Index: dev/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
               image->format.fourcc == VA_FOURCC('Y', 'U', 'Y', 'V')) {
      min_size = VideoFrame::AllocationSize(PIXEL_FORMAT_YUY2, dimensions);
    } else {
-@@ -169,7 +170,7 @@ bool VaapiMjpegDecodeAccelerator::Output
+@@ -171,7 +172,7 @@ bool VaapiMjpegDecodeAccelerator::Output
    size_t dst_v_stride = video_frame->stride(VideoFrame::kVPlane);
  
    switch (image->format.fourcc) {
@@ -50,7 +50,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
  class VaapiVideoEncodeAccelerator::VP9Accelerator
      : public VP9Encoder::Accelerator {
   public:
-@@ -217,6 +218,7 @@ class VaapiVideoEncodeAccelerator::VP9Ac
+@@ -218,6 +219,7 @@ class VaapiVideoEncodeAccelerator::VP9Ac
   private:
    VaapiVideoEncodeAccelerator* const vea_;
  };
@@ -58,7 +58,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
  
  VaapiVideoEncodeAccelerator::VaapiVideoEncodeAccelerator()
      : codec_(kUnknownVideoCodec),
-@@ -343,10 +345,12 @@ void VaapiVideoEncodeAccelerator::Initia
+@@ -344,10 +346,12 @@ void VaapiVideoEncodeAccelerator::Initia
            std::make_unique<VP8Encoder>(std::make_unique<VP8Accelerator>(this));
        break;
  
@@ -71,7 +71,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
  
      default:
        NOTREACHED() << "Unsupported codec type " << GetCodecName(codec_);
-@@ -1218,6 +1222,7 @@ bool VaapiVideoEncodeAccelerator::VP8Acc
+@@ -1222,6 +1226,7 @@ bool VaapiVideoEncodeAccelerator::VP8Acc
    return true;
  }
  
@@ -79,7 +79,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
  scoped_refptr<VP9Picture>
  VaapiVideoEncodeAccelerator::VP9Accelerator::GetPicture(
      AcceleratedVideoEncoder::EncodeJob* job) {
-@@ -1349,5 +1354,6 @@ bool VaapiVideoEncodeAccelerator::VP9Acc
+@@ -1360,5 +1365,6 @@ bool VaapiVideoEncodeAccelerator::VP9Acc
  
    return true;
  }
