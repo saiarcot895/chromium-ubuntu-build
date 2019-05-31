@@ -1,3 +1,10 @@
+chromium-browser (76.0.3806.1-0ubuntu1~ppa1~18.10.1) cosmic; urgency=low
+
+  * New upstream version 76.0.3806.1
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 31 May 2019 02:27:12 -0400
+
 chromium-browser (76.0.3795.3-0ubuntu1~ppa1~18.10.1) cosmic; urgency=low
 
   * New upstream version 76.0.3795.3

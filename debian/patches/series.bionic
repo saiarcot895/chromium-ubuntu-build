@@ -22,7 +22,6 @@ nacl-loosen-fd-check.patch
 #gn-dont-use-git.patch
 gn-fix-for-i386-build.patch
 use-clang-versioned-bionic.patch
-gn-fix-for-optional-neon.patch
 gn-nacl-use-gcc-toolchain.patch
 #nacl-dont-use-icf.patch
 #linux45-madvfree
