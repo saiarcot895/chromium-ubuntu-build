@@ -90,19 +90,20 @@ Index: beta/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- beta.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ beta/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -976,9 +976,9 @@ bool VASupportedImageFormats::InitSuppor
+@@ -977,10 +977,10 @@ bool VASupportedImageFormats::InitSuppor
      // Remove this workaround once b/128340287 is resolved.
      if (std::find_if(supported_formats_.cbegin(), supported_formats_.cend(),
-                      [](const VAImageFormat format) {
+                      [](const VAImageFormat& format) {
 -                       return format.fourcc == VA_FOURCC_I420;
 +                       return format.fourcc == VA_FOURCC('I', '4', '2', '0');
                       }) == supported_formats_.cend()) {
--      supported_formats_.push_back(VAImageFormat{.fourcc = VA_FOURCC_I420});
-+      supported_formats_.push_back(VAImageFormat{.fourcc = VA_FOURCC('I', '4', '2', '0')});
+       VAImageFormat i420_format{};
+-      i420_format.fourcc = VA_FOURCC_I420;
++      i420_format.fourcc = VA_FOURCC('I', '4', '2', '0');
+       supported_formats_.push_back(i420_format);
      }
-   }
-   return true;
-@@ -1138,7 +1138,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+   } else if (base::StartsWith(VADisplayState::Get()->va_vendor_string(),
+@@ -1156,7 +1156,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      // The VAAPI mesa state tracker only supports conversion from NV12 to YV12
      // and IYUV (synonym of I420).
      if (rt_format == VA_RT_FORMAT_YUV420) {
@@ -111,7 +112,7 @@ Index: beta/media/gpu/vaapi/vaapi_wrapper.cc
            preferred_fourcc != VA_FOURCC_YV12) {
          preferred_fourcc = VA_FOURCC_NV12;
        }
-@@ -1170,13 +1170,13 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1188,13 +1188,13 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      //
      if (preferred_fourcc == VA_FOURCC_422H ||
          preferred_fourcc == VA_FOURCC_P010) {
@@ -127,7 +128,7 @@ Index: beta/media/gpu/vaapi/vaapi_wrapper.cc
    }
  
    // After workarounds, assume the conversion is supported.
-@@ -1309,7 +1309,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
+@@ -1327,7 +1327,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
    }
    // We only have to pass the first file descriptor to a driver. A VA-API driver
    // shall create a VASurface from the single fd correctly.
@@ -139,7 +140,7 @@ Index: beta/media/gpu/vaapi/vaapi_wrapper.cc
    va_attrib_extbuf.buffers = &fd;
    va_attrib_extbuf.num_buffers = 1u;
  
-@@ -1762,11 +1766,13 @@ bool VaapiWrapper::Initialize(CodecMode
+@@ -1780,11 +1784,13 @@ bool VaapiWrapper::Initialize(CodecMode
  
    VAEntrypoint entrypoint = GetVaEntryPoint(mode, va_profile);
  
@@ -153,7 +154,7 @@ Index: beta/media/gpu/vaapi/vaapi_wrapper.cc
  
    base::AutoLock auto_lock(*va_lock_);
    std::vector<VAConfigAttrib> required_attribs;
-@@ -1885,6 +1891,7 @@ void VaapiWrapper::TryToSetVADisplayAttr
+@@ -1903,6 +1909,7 @@ void VaapiWrapper::TryToSetVADisplayAttr
      DVLOG(2) << "vaSetDisplayAttributes unsupported, ignoring by default.";
  }
  
@@ -161,7 +162,7 @@ Index: beta/media/gpu/vaapi/vaapi_wrapper.cc
  // Check the support for low-power encode
  bool VaapiWrapper::IsLowPowerEncSupported(VAProfile va_profile) const {
    // Only enabled for H264/AVC
-@@ -1919,5 +1926,6 @@ bool VaapiWrapper::IsLowPowerEncSupporte
+@@ -1937,5 +1944,6 @@ bool VaapiWrapper::IsLowPowerEncSupporte
    }
    return true;
  }
