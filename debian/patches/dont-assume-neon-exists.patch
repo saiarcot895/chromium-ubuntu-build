@@ -1,7 +1,7 @@
-Index: dev/third_party/opus/BUILD.gn
+Index: beta/third_party/opus/BUILD.gn
 ===================================================================
---- dev.orig/third_party/opus/BUILD.gn
-+++ dev/third_party/opus/BUILD.gn
+--- beta.orig/third_party/opus/BUILD.gn
++++ beta/third_party/opus/BUILD.gn
 @@ -21,7 +21,7 @@ use_opus_x86_optimization =
  # If OPUS Run Time CPU Detections (RTCD) shall be used.
  # Based on the conditions in celt/arm/armcpu.c:

@@ -1,10 +1,10 @@
 Author: Olivier Tilloy <olivier.tilloy@canonical.com>
 Description: Do not use warning flags that require a newer Clang
 
-Index: dev/build/config/compiler/BUILD.gn
+Index: beta/build/config/compiler/BUILD.gn
 ===================================================================
---- dev.orig/build/config/compiler/BUILD.gn
-+++ dev/build/config/compiler/BUILD.gn
+--- beta.orig/build/config/compiler/BUILD.gn
++++ beta/build/config/compiler/BUILD.gn
 @@ -666,14 +666,6 @@ config("compiler") {
      ldflags += [ "-Wl,--no-rosegment" ]
    }
@@ -20,7 +20,7 @@ Index: dev/build/config/compiler/BUILD.gn
    # Pass the same C/C++ flags to the objective C/C++ compiler.
    cflags_objc += cflags_c
    cflags_objcc += cflags_cc
-@@ -1481,11 +1473,6 @@ config("default_warnings") {
+@@ -1485,11 +1477,6 @@ config("default_warnings") {
        if (current_toolchain == host_toolchain || !use_xcode_clang) {
          # Flags NaCl (Clang 3.7) and Xcode 9.2 (Clang clang-900.0.39.2) do not
          # recognize.
