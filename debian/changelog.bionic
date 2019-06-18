@@ -1,3 +1,10 @@
+chromium-browser (77.0.3824.6-0ubuntu1~ppa1~18.04.1) bionic; urgency=low
+
+  * New upstream version 77.0.3824.6
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 17 Jun 2019 23:33:46 -0400
+
 chromium-browser (76.0.3806.1-0ubuntu1~ppa1~18.04.1) bionic; urgency=low
 
   * New upstream version 76.0.3806.1

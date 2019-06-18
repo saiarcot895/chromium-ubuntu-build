@@ -5,7 +5,7 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -475,20 +475,6 @@ config("compiler") {
+@@ -478,20 +478,6 @@ config("compiler") {
      }
    }
  

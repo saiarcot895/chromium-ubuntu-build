@@ -2,7 +2,7 @@ Index: dev/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
 +++ dev/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
-@@ -70,9 +70,10 @@ static bool VerifyDataSize(const VAImage
+@@ -71,9 +71,10 @@ static bool VerifyDataSize(const VAImage
    const gfx::Size dimensions(base::strict_cast<int>(image->width),
                               base::strict_cast<int>(image->height));
    size_t min_size = 0;
@@ -15,7 +15,7 @@ Index: dev/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
               image->format.fourcc == VA_FOURCC('Y', 'U', 'Y', 'V')) {
      min_size = VideoFrame::AllocationSize(PIXEL_FORMAT_YUY2, dimensions);
    } else {
-@@ -172,7 +173,7 @@ bool VaapiMjpegDecodeAccelerator::Output
+@@ -173,7 +174,7 @@ bool VaapiMjpegDecodeAccelerator::Output
    size_t dst_v_stride = video_frame->stride(VideoFrame::kVPlane);
  
    switch (image->format.fourcc) {
@@ -137,7 +137,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
  
    // After workarounds, assume the conversion is supported.
-@@ -1326,7 +1326,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
+@@ -1294,7 +1294,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
    }
    // We only have to pass the first file descriptor to a driver. A VA-API driver
    // shall create a VASurface from the single fd correctly.
@@ -149,7 +149,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    va_attrib_extbuf.buffers = &fd;
    va_attrib_extbuf.num_buffers = 1u;
  
-@@ -1772,11 +1776,13 @@ bool VaapiWrapper::Initialize(CodecMode
+@@ -1739,11 +1743,13 @@ bool VaapiWrapper::Initialize(CodecMode
  
    VAEntrypoint entrypoint = GetVaEntryPoint(mode, va_profile);
  
@@ -163,7 +163,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  
    base::AutoLock auto_lock(*va_lock_);
    std::vector<VAConfigAttrib> required_attribs;
-@@ -1895,6 +1901,7 @@ void VaapiWrapper::TryToSetVADisplayAttr
+@@ -1910,6 +1916,7 @@ void VaapiWrapper::TryToSetVADisplayAttr
      DVLOG(2) << "vaSetDisplayAttributes unsupported, ignoring by default.";
  }
  
@@ -171,7 +171,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  // Check the support for low-power encode
  bool VaapiWrapper::IsLowPowerEncSupported(VAProfile va_profile) const {
    // Only enabled for H264/AVC
-@@ -1929,5 +1936,6 @@ bool VaapiWrapper::IsLowPowerEncSupporte
+@@ -1944,5 +1951,6 @@ bool VaapiWrapper::IsLowPowerEncSupporte
    }
    return true;
  }
@@ -182,7 +182,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.h
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.h
 +++ dev/media/gpu/vaapi/vaapi_wrapper.h
-@@ -297,8 +297,10 @@ class MEDIA_GPU_EXPORT VaapiWrapper
+@@ -298,8 +298,10 @@ class MEDIA_GPU_EXPORT VaapiWrapper
    // Attempt to set render mode to "render to texture.". Failure is non-fatal.
    void TryToSetVADisplayAttributeToLocalGPU();
  
