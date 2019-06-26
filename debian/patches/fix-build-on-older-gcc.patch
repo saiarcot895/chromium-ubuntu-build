@@ -71,7 +71,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
  
      default:
        NOTREACHED() << "Unsupported codec type " << GetCodecName(codec_);
-@@ -1224,6 +1228,7 @@ bool VaapiVideoEncodeAccelerator::VP8Acc
+@@ -1230,6 +1234,7 @@ bool VaapiVideoEncodeAccelerator::VP8Acc
    return true;
  }
  
@@ -79,7 +79,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
  scoped_refptr<VP9Picture>
  VaapiVideoEncodeAccelerator::VP9Accelerator::GetPicture(
      AcceleratedVideoEncoder::EncodeJob* job) {
-@@ -1354,5 +1359,6 @@ bool VaapiVideoEncodeAccelerator::VP9Acc
+@@ -1360,5 +1365,6 @@ bool VaapiVideoEncodeAccelerator::VP9Acc
  
    return true;
  }
@@ -90,7 +90,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -961,10 +961,10 @@ bool VASupportedImageFormats::InitSuppor
+@@ -1041,10 +1041,10 @@ bool VASupportedImageFormats::InitSuppor
      // Remove this workaround once b/128340287 is resolved.
      if (std::find_if(supported_formats_.cbegin(), supported_formats_.cend(),
                       [](const VAImageFormat& format) {
@@ -103,7 +103,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
        supported_formats_.push_back(i420_format);
      }
    } else if (base::StartsWith(VADisplayState::Get()->va_vendor_string(),
-@@ -976,7 +976,7 @@ bool VASupportedImageFormats::InitSuppor
+@@ -1056,7 +1056,7 @@ bool VASupportedImageFormats::InitSuppor
      supported_formats_.erase(
          std::remove_if(supported_formats_.begin(), supported_formats_.end(),
                         [](const VAImageFormat& format) {
@@ -112,7 +112,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
                                  format.fourcc != VA_FOURCC_NV12;
                         }),
          supported_formats_.end());
-@@ -1140,7 +1140,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1226,7 +1226,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      // The VAAPI mesa state tracker only supports conversion from NV12 to YV12
      // and IYUV (synonym of I420).
      if (rt_format == VA_RT_FORMAT_YUV420) {
@@ -121,7 +121,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
            preferred_fourcc != VA_FOURCC_YV12) {
          preferred_fourcc = VA_FOURCC_NV12;
        }
-@@ -1172,13 +1172,13 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1258,13 +1258,13 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      //
      if (preferred_fourcc == VA_FOURCC_422H ||
          preferred_fourcc == VA_FOURCC_P010) {
@@ -137,7 +137,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
  
    // After workarounds, assume the conversion is supported.
-@@ -1294,7 +1294,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
+@@ -1380,7 +1380,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
    }
    // We only have to pass the first file descriptor to a driver. A VA-API driver
    // shall create a VASurface from the single fd correctly.
@@ -149,7 +149,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    va_attrib_extbuf.buffers = &fd;
    va_attrib_extbuf.num_buffers = 1u;
  
-@@ -1739,11 +1743,13 @@ bool VaapiWrapper::Initialize(CodecMode
+@@ -1825,11 +1829,13 @@ bool VaapiWrapper::Initialize(CodecMode
  
    VAEntrypoint entrypoint = GetVaEntryPoint(mode, va_profile);
  
@@ -163,7 +163,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  
    base::AutoLock auto_lock(*va_lock_);
    std::vector<VAConfigAttrib> required_attribs;
-@@ -1910,6 +1916,7 @@ void VaapiWrapper::TryToSetVADisplayAttr
+@@ -1996,6 +2002,7 @@ void VaapiWrapper::TryToSetVADisplayAttr
      DVLOG(2) << "vaSetDisplayAttributes unsupported, ignoring by default.";
  }
  
@@ -171,7 +171,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  // Check the support for low-power encode
  bool VaapiWrapper::IsLowPowerEncSupported(VAProfile va_profile) const {
    // Only enabled for H264/AVC
-@@ -1944,5 +1951,6 @@ bool VaapiWrapper::IsLowPowerEncSupporte
+@@ -2030,5 +2037,6 @@ bool VaapiWrapper::IsLowPowerEncSupporte
    }
    return true;
  }
@@ -182,7 +182,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.h
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.h
 +++ dev/media/gpu/vaapi/vaapi_wrapper.h
-@@ -298,8 +298,10 @@ class MEDIA_GPU_EXPORT VaapiWrapper
+@@ -300,8 +300,10 @@ class MEDIA_GPU_EXPORT VaapiWrapper
    // Attempt to set render mode to "render to texture.". Failure is non-fatal.
    void TryToSetVADisplayAttributeToLocalGPU();
  
