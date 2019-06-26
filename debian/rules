@@ -69,6 +69,7 @@ common_defines += \
 				use_dbus=true \
 				use_gio=true \
 				use_glib=true \
+				use_gnome_keyring=false \
 				use_gold=true \
 				use_libpci=true \
 				use_pulseaudio=true \
@@ -113,12 +114,16 @@ else ifeq (armhf,$(DEB_HOST_ARCH))
 common_defines += target_cpu="arm"
 common_defines += arm_use_neon=false
 common_defines += arm_float_abi="hard" arm_use_thumb=true
+common_defines += jumbo_file_merge_limit=20
 else ifeq (arm64,$(DEB_HOST_ARCH))
-common_defines += target_cpu="arm64" symbol_level=1 jumbo_file_merge_limit=20
+common_defines += target_cpu="arm64" symbol_level=1
+common_defines += jumbo_file_merge_limit=20
 else ifeq (i386,$(DEB_HOST_ARCH))
-common_defines += target_cpu="x86" symbol_level=1 jumbo_file_merge_limit=30
+common_defines += target_cpu="x86" symbol_level=1
+common_defines += jumbo_file_merge_limit=30
 else ifeq (amd64,$(DEB_HOST_ARCH))
-common_defines += target_cpu="x64" symbol_level=1 jumbo_file_merge_limit=30
+common_defines += target_cpu="x64" symbol_level=1
+common_defines += jumbo_file_merge_limit=30
 else ifeq (mipsel,$(DEB_HOST_ARCH))
 common_defines += target_cpu="mipsel"
 else ifeq ($(DEB_HOST_ARCH),)
