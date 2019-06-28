@@ -40,7 +40,7 @@ Index: beta/chrome/browser/about_flags.cc
 ===================================================================
 --- beta.orig/chrome/browser/about_flags.cc
 +++ beta/chrome/browser/about_flags.cc
-@@ -1438,7 +1438,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1450,7 +1450,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
          flag_descriptions::kAcceleratedVideoDecodeDescription,
@@ -49,7 +49,7 @@ Index: beta/chrome/browser/about_flags.cc
          SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
      {"enable-history-favicons-google-server-query",
-@@ -1871,10 +1871,10 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1883,10 +1883,10 @@ const FeatureEntry kFeatureEntries[] = {
       FEATURE_VALUE_TYPE(service_manager::features::kXRSandbox)},
  #endif  // ENABLE_ISOLATED_XR_SERVICE
  #endif  // ENABLE_VR
@@ -66,7 +66,7 @@ Index: beta/chrome/browser/flag_descriptions.cc
 ===================================================================
 --- beta.orig/chrome/browser/flag_descriptions.cc
 +++ beta/chrome/browser/flag_descriptions.cc
-@@ -2760,9 +2760,7 @@ const char kMacSystemMediaPermissionsInf
+@@ -2766,9 +2766,7 @@ const char kMacSystemMediaPermissionsInf
  
  #endif
  
@@ -77,7 +77,7 @@ Index: beta/chrome/browser/flag_descriptions.cc
  
  const char kAcceleratedMjpegDecodeName[] =
      "Hardware-accelerated mjpeg decode for captured frame";
-@@ -2770,6 +2768,12 @@ const char kAcceleratedMjpegDecodeDescri
+@@ -2776,6 +2774,12 @@ const char kAcceleratedMjpegDecodeDescri
      "Enable hardware-accelerated mjpeg decode for captured frame where "
      "available.";
  
@@ -94,7 +94,7 @@ Index: beta/chrome/browser/flag_descriptions.h
 ===================================================================
 --- beta.orig/chrome/browser/flag_descriptions.h
 +++ beta/chrome/browser/flag_descriptions.h
-@@ -1641,13 +1641,17 @@ extern const char kPermissionPromptPersi
+@@ -1645,13 +1645,17 @@ extern const char kPermissionPromptPersi
  
  #endif  // defined(OS_MACOSX)
  

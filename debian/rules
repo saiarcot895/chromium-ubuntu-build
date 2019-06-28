@@ -69,6 +69,7 @@ common_defines += \
 				use_dbus=true \
 				use_gio=true \
 				use_glib=true \
+				use_gnome_keyring=false \
 				use_gold=true \
 				use_libpci=true \
 				use_pulseaudio=true \
