@@ -396,3 +396,27 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
                 << " for attribute type " << required_attribs[i].type;
        return false;
      }
+Index: dev/media/gpu/vaapi/BUILD.gn
+===================================================================
+--- dev.orig/media/gpu/vaapi/BUILD.gn
++++ dev/media/gpu/vaapi/BUILD.gn
+@@ -168,7 +168,6 @@ source_set("jpeg_decoder_unit_test") {
+     ":vaapi_utils_unittest",
+     "//base",
+     "//media:test_support",
+-    "//media/capture:chromeos_test_utils",
+     "//media/parsers",
+     "//testing/gtest",
+     "//third_party/libyuv:libyuv",
+@@ -176,6 +175,11 @@ source_set("jpeg_decoder_unit_test") {
+     "//ui/gfx/codec",
+     "//ui/gfx/geometry",
+   ]
++  if (is_chromeos) {
++    deps += [
++      "//media/capture:chromeos_test_utils",
++    ]
++  }
+ }
+ 
+ source_set("vaapi_utils_unittest") {
