@@ -29,6 +29,6 @@ Index: dev/build/config/compiler/BUILD.gn
 -          # TODO(thakis): Only for no_chromium_code? http://crbug.com/912662
 -          "-Wno-ignored-pragma-optimize",
 -        ]
-         if (is_fuchsia) {
-           cflags += [
-             # TODO(hans): https://crbug.com/890307
+       }
+     }
+   }
