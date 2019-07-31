@@ -140,7 +140,26 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    va_attrib_extbuf.buffers = &fd;
    va_attrib_extbuf.num_buffers = 1u;
  
-@@ -1911,11 +1915,13 @@ bool VaapiWrapper::Initialize(CodecMode
+@@ -1421,6 +1425,7 @@ scoped_refptr<VASurface> VaapiWrapper::C
+ 
+ scoped_refptr<gfx::NativePixmapDmaBuf>
+ VaapiWrapper::ExportVASurfaceAsNativePixmapDmaBuf(VASurfaceID va_surface_id) {
++#if VA_CHECK_VERSION(1, 0, 0) && defined(POSSIBLE_NVIDIA_BREAKAGE)
+   VADRMPRIMESurfaceDescriptor descriptor;
+   {
+     base::AutoLock auto_lock(*va_lock_);
+@@ -1498,6 +1503,10 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+       gfx::Size(base::checked_cast<int>(descriptor.width),
+                 base::checked_cast<int>(descriptor.height)),
+       buffer_format, std::move(handle));
++#else
++  LOG(ERROR) << "Exporting a surface with FOURCC has been disabled";
++  return nullptr;
++#endif
+ }
+ 
+ bool VaapiWrapper::SubmitBuffer(VABufferType va_buffer_type,
+@@ -1911,11 +1920,13 @@ bool VaapiWrapper::Initialize(CodecMode
  
    VAEntrypoint entrypoint = GetVaEntryPoint(mode, va_profile);
  
@@ -154,7 +173,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  
    base::AutoLock auto_lock(*va_lock_);
    std::vector<VAConfigAttrib> required_attribs;
-@@ -2115,6 +2121,7 @@ void VaapiWrapper::TryToSetVADisplayAttr
+@@ -2115,6 +2126,7 @@ void VaapiWrapper::TryToSetVADisplayAttr
      DVLOG(2) << "vaSetDisplayAttributes unsupported, ignoring by default.";
  }
  
@@ -162,7 +181,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  // Check the support for low-power encode
  bool VaapiWrapper::IsLowPowerEncSupported(VAProfile va_profile) const {
    // Only enabled for H264/AVC
-@@ -2149,5 +2156,6 @@ bool VaapiWrapper::IsLowPowerEncSupporte
+@@ -2149,5 +2161,6 @@ bool VaapiWrapper::IsLowPowerEncSupporte
    }
    return true;
  }

@@ -1,3 +1,9 @@
+chromium-browser (77.0.3860.5-0ubuntu1~ppa2~16.04.1) xenial; urgency=low
+
+  * Disable exporting buffer as a native pixmap.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 31 Jul 2019 11:39:20 -0400
+
 chromium-browser (77.0.3860.5-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
 
   * New upstream version 77.0.3860.5
