@@ -1,3 +1,10 @@
+chromium-browser (78.0.3902.4-0ubuntu1~ppa1~18.04.1) bionic; urgency=low
+
+  * New upstream version 78.0.3902.4
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 08 Sep 2019 10:55:40 -0400
+
 chromium-browser (77.0.3860.5-0ubuntu1~ppa2~18.04.1) bionic; urgency=low
 
   * Disable exporting buffer as a native pixmap.

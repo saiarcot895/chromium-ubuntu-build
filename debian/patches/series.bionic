@@ -9,7 +9,6 @@ arm-neon.patch
 #ffmpeg-gyp-config.patch
 additional-search-engines.patch
 #gsettings-display-scaling
-touch-v35
 notifications-nicer
 #disable-sse2
 #gyp-icu-m32-test

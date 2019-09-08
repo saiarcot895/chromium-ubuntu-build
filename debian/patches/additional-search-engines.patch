@@ -2,7 +2,7 @@ Index: dev/components/search_engines/prepopulated_engines.json
 ===================================================================
 --- dev.orig/components/search_engines/prepopulated_engines.json
 +++ dev/components/search_engines/prepopulated_engines.json
-@@ -100,7 +100,7 @@
+@@ -96,7 +96,7 @@
        "name": "DuckDuckGo",
        "keyword": "duckduckgo.com",
        "favicon_url": "https://duckduckgo.com/favicon.ico",

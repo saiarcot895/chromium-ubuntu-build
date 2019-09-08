@@ -2,28 +2,33 @@ Index: dev/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
 +++ dev/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
-@@ -71,9 +71,10 @@ static bool VerifyDataSize(const VAImage
+@@ -91,7 +91,7 @@ static bool VerifyDataSize(const VAImage
    const gfx::Size dimensions(base::strict_cast<int>(image->width),
                               base::strict_cast<int>(image->height));
    size_t min_size = 0;
 -  if (image->format.fourcc == VA_FOURCC_I420) {
 +  if (image->format.fourcc == VA_FOURCC('I', '4', '2', '0')) {
      min_size = VideoFrame::AllocationSize(PIXEL_FORMAT_I420, dimensions);
--  } else if (image->format.fourcc == VA_FOURCC_YUY2 ||
-+  } else
-+	  if (image->format.fourcc == VA_FOURCC_YUY2 ||
-              image->format.fourcc == VA_FOURCC('Y', 'U', 'Y', 'V')) {
-     min_size = VideoFrame::AllocationSize(PIXEL_FORMAT_YUY2, dimensions);
-   } else {
-@@ -173,7 +174,7 @@ bool VaapiMjpegDecodeAccelerator::Output
-   size_t dst_v_stride = video_frame->stride(VideoFrame::kVPlane);
+   } else if (image->format.fourcc == VA_FOURCC_NV12) {
+     min_size = VideoFrame::AllocationSize(PIXEL_FORMAT_NV12, dimensions);
+@@ -107,7 +107,7 @@ static bool VerifyDataSize(const VAImage
+ static uint32_t VideoPixelFormatToVAFourCC(VideoPixelFormat format) {
+   switch (format) {
+     case PIXEL_FORMAT_I420:
+-      return VA_FOURCC_I420;
++      return VA_FOURCC('I', '4', '2', '0');
+     case PIXEL_FORMAT_YV12:
+       return VA_FOURCC_YV12;
+     case PIXEL_FORMAT_NV12:
+@@ -293,7 +293,7 @@ bool VaapiMjpegDecodeAccelerator::Output
+   }
  
    switch (image->format.fourcc) {
--    case VA_FOURCC_I420: {
-+    case VA_FOURCC('I', '4', '2', '0'): {
+-    case VA_FOURCC_I420:
++    case VA_FOURCC('I', '4', '2', '0'):
        DCHECK_EQ(image->num_planes, 3u);
-       const uint8_t* src_y = mem + image->offsets[0];
-       const uint8_t* src_u = mem + image->offsets[1];
+       switch (video_frame->format()) {
+         case PIXEL_FORMAT_I420:
 Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.h
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_video_encode_accelerator.h
@@ -42,7 +47,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
 +++ dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
-@@ -194,6 +194,7 @@ class VaapiVideoEncodeAccelerator::VP8Ac
+@@ -193,6 +193,7 @@ class VaapiVideoEncodeAccelerator::VP8Ac
    VaapiVideoEncodeAccelerator* const vea_;
  };
  
@@ -50,7 +55,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
  class VaapiVideoEncodeAccelerator::VP9Accelerator
      : public VP9Encoder::Accelerator {
   public:
-@@ -215,6 +216,7 @@ class VaapiVideoEncodeAccelerator::VP9Ac
+@@ -214,6 +215,7 @@ class VaapiVideoEncodeAccelerator::VP9Ac
   private:
    VaapiVideoEncodeAccelerator* const vea_;
  };
@@ -58,7 +63,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
  
  VaapiVideoEncodeAccelerator::VaapiVideoEncodeAccelerator()
      : codec_(kUnknownVideoCodec),
-@@ -341,10 +343,12 @@ void VaapiVideoEncodeAccelerator::Initia
+@@ -340,10 +342,12 @@ void VaapiVideoEncodeAccelerator::Initia
            std::make_unique<VP8Encoder>(std::make_unique<VP8Accelerator>(this));
        break;
  
@@ -71,7 +76,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
  
      default:
        NOTREACHED() << "Unsupported codec type " << GetCodecName(codec_);
-@@ -1225,6 +1229,7 @@ bool VaapiVideoEncodeAccelerator::VP8Acc
+@@ -1220,6 +1224,7 @@ bool VaapiVideoEncodeAccelerator::VP8Acc
    return true;
  }
  
@@ -79,7 +84,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
  scoped_refptr<VP9Picture>
  VaapiVideoEncodeAccelerator::VP9Accelerator::GetPicture(
      AcceleratedVideoEncoder::EncodeJob* job) {
-@@ -1355,5 +1360,6 @@ bool VaapiVideoEncodeAccelerator::VP9Acc
+@@ -1350,5 +1355,6 @@ bool VaapiVideoEncodeAccelerator::VP9Acc
  
    return true;
  }
@@ -90,7 +95,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -1037,10 +1037,10 @@ bool VASupportedImageFormats::InitSuppor
+@@ -1038,10 +1038,10 @@ bool VASupportedImageFormats::InitSuppor
      // Remove this workaround once b/128340287 is resolved.
      if (std::find_if(supported_formats_.cbegin(), supported_formats_.cend(),
                       [](const VAImageFormat& format) {
@@ -103,7 +108,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
        supported_formats_.push_back(i420_format);
      }
    }
-@@ -1210,7 +1210,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1214,7 +1214,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      // The VAAPI mesa state tracker only supports conversion from NV12 to YV12
      // and IYUV (synonym of I420).
      if (rt_format == VA_RT_FORMAT_YUV420) {
@@ -112,7 +117,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
            preferred_fourcc != VA_FOURCC_YV12) {
          preferred_fourcc = VA_FOURCC_NV12;
        }
-@@ -1242,13 +1242,13 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1246,13 +1246,13 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      //
      if (preferred_fourcc == VA_FOURCC_422H ||
          preferred_fourcc == VA_FOURCC_P010) {
@@ -128,7 +133,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
  
    // After workarounds, assume the conversion is supported.
-@@ -1384,7 +1384,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
+@@ -1426,7 +1426,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
    }
    // We only have to pass the first file descriptor to a driver. A VA-API driver
    // shall create a VASurface from the single fd correctly.
@@ -140,26 +145,26 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    va_attrib_extbuf.buffers = &fd;
    va_attrib_extbuf.num_buffers = 1u;
  
-@@ -1421,6 +1425,7 @@ scoped_refptr<VASurface> VaapiWrapper::C
+@@ -1469,6 +1473,7 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+     return nullptr;
+   }
  
- scoped_refptr<gfx::NativePixmapDmaBuf>
- VaapiWrapper::ExportVASurfaceAsNativePixmapDmaBuf(VASurfaceID va_surface_id) {
 +#if VA_CHECK_VERSION(1, 0, 0) && defined(POSSIBLE_NVIDIA_BREAKAGE)
    VADRMPRIMESurfaceDescriptor descriptor;
    {
      base::AutoLock auto_lock(*va_lock_);
-@@ -1498,6 +1503,10 @@ VaapiWrapper::ExportVASurfaceAsNativePix
-       gfx::Size(base::checked_cast<int>(descriptor.width),
-                 base::checked_cast<int>(descriptor.height)),
-       buffer_format, std::move(handle));
+@@ -1561,6 +1566,10 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+   exported_pixmap->pixmap = base::MakeRefCounted<gfx::NativePixmapDmaBuf>(
+       scoped_va_surface.size(), buffer_format, std::move(handle));
+   return exported_pixmap;
 +#else
 +  LOG(ERROR) << "Exporting a surface with FOURCC has been disabled";
 +  return nullptr;
 +#endif
  }
  
- bool VaapiWrapper::SubmitBuffer(VABufferType va_buffer_type,
-@@ -1911,11 +1920,13 @@ bool VaapiWrapper::Initialize(CodecMode
+ bool VaapiWrapper::SyncSurface(VASurfaceID va_surface_id) {
+@@ -1984,11 +1993,13 @@ bool VaapiWrapper::Initialize(CodecMode
  
    VAEntrypoint entrypoint = GetVaEntryPoint(mode, va_profile);
  
@@ -173,7 +178,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  
    base::AutoLock auto_lock(*va_lock_);
    std::vector<VAConfigAttrib> required_attribs;
-@@ -2115,6 +2126,7 @@ void VaapiWrapper::TryToSetVADisplayAttr
+@@ -2191,6 +2202,7 @@ void VaapiWrapper::TryToSetVADisplayAttr
      DVLOG(2) << "vaSetDisplayAttributes unsupported, ignoring by default.";
  }
  
@@ -181,7 +186,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  // Check the support for low-power encode
  bool VaapiWrapper::IsLowPowerEncSupported(VAProfile va_profile) const {
    // Only enabled for H264/AVC
-@@ -2149,5 +2161,6 @@ bool VaapiWrapper::IsLowPowerEncSupporte
+@@ -2225,5 +2237,6 @@ bool VaapiWrapper::IsLowPowerEncSupporte
    }
    return true;
  }
@@ -192,7 +197,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.h
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.h
 +++ dev/media/gpu/vaapi/vaapi_wrapper.h
-@@ -342,8 +342,10 @@ class MEDIA_GPU_EXPORT VaapiWrapper
+@@ -391,8 +391,10 @@ class MEDIA_GPU_EXPORT VaapiWrapper
    // Attempt to set render mode to "render to texture.". Failure is non-fatal.
    void TryToSetVADisplayAttributeToLocalGPU();
  
