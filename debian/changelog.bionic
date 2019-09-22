@@ -1,3 +1,9 @@
+chromium-browser (78.0.3902.4-0ubuntu1~ppa2~18.04.1) bionic; urgency=low
+
+  * Enable pipewire on Bionic and newer.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 22 Sep 2019 12:15:54 -0400
+
 chromium-browser (78.0.3902.4-0ubuntu1~ppa1~18.04.1) bionic; urgency=low
 
   * New upstream version 78.0.3902.4

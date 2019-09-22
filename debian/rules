@@ -169,10 +169,10 @@ else
 $(warning Google API info is not set in build variables GOOGLEAPI_APIKEY_$(DISTRIBUTION) GOOGLEAPI_CLIENTID_$(DISTRIBUTION) GOOGLEAPI_CLIENTSECRET_$(DISTRIBUTION))
 endif
 
-ifneq (,$(filter 14.04%,$(UBUNTU_DIST)))
-ifeq (i386,$(DEB_HOST_ARCH_CPU))
-common_defines += use_pic=false
-endif
+ifneq (,$(filter 16.04%,$(UBUNTU_DIST)))
+common_defines += \
+				  rtc_use_pipewire=true \
+				  rtc_link_pipewire=true
 endif
 
 ### Official interfaces.
