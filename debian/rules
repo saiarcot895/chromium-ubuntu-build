@@ -169,7 +169,8 @@ else
 $(warning Google API info is not set in build variables GOOGLEAPI_APIKEY_$(DISTRIBUTION) GOOGLEAPI_CLIENTID_$(DISTRIBUTION) GOOGLEAPI_CLIENTSECRET_$(DISTRIBUTION))
 endif
 
-ifneq (,$(filter 16.04%,$(UBUNTU_DIST)))
+# Pipewire isn't available on 16.04, and has been backported to 18.04 in my PPA
+ifeq (,$(filter 16.04%,$(UBUNTU_DIST)))
 common_defines += \
 				  rtc_use_pipewire=true \
 				  rtc_link_pipewire=true
