@@ -1,8 +1,8 @@
-Index: dev/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
+Index: beta/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
 ===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
-+++ dev/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
-@@ -91,7 +91,7 @@ static bool VerifyDataSize(const VAImage
+--- beta.orig/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
++++ beta/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
+@@ -93,7 +93,7 @@ static bool VerifyDataSize(const VAImage
    const gfx::Size dimensions(base::strict_cast<int>(image->width),
                               base::strict_cast<int>(image->height));
    size_t min_size = 0;
@@ -11,7 +11,7 @@ Index: dev/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
      min_size = VideoFrame::AllocationSize(PIXEL_FORMAT_I420, dimensions);
    } else if (image->format.fourcc == VA_FOURCC_NV12) {
      min_size = VideoFrame::AllocationSize(PIXEL_FORMAT_NV12, dimensions);
-@@ -107,7 +107,7 @@ static bool VerifyDataSize(const VAImage
+@@ -109,7 +109,7 @@ static bool VerifyDataSize(const VAImage
  static uint32_t VideoPixelFormatToVAFourCC(VideoPixelFormat format) {
    switch (format) {
      case PIXEL_FORMAT_I420:
@@ -20,7 +20,7 @@ Index: dev/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
      case PIXEL_FORMAT_YV12:
        return VA_FOURCC_YV12;
      case PIXEL_FORMAT_NV12:
-@@ -293,7 +293,7 @@ bool VaapiMjpegDecodeAccelerator::Output
+@@ -295,7 +295,7 @@ bool VaapiMjpegDecodeAccelerator::Output
    }
  
    switch (image->format.fourcc) {
@@ -29,10 +29,10 @@ Index: dev/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
        DCHECK_EQ(image->num_planes, 3u);
        switch (video_frame->format()) {
          case PIXEL_FORMAT_I420:
-Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.h
+Index: beta/media/gpu/vaapi/vaapi_video_encode_accelerator.h
 ===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_video_encode_accelerator.h
-+++ dev/media/gpu/vaapi/vaapi_video_encode_accelerator.h
+--- beta.orig/media/gpu/vaapi/vaapi_video_encode_accelerator.h
++++ beta/media/gpu/vaapi/vaapi_video_encode_accelerator.h
 @@ -51,7 +51,9 @@ class MEDIA_GPU_EXPORT VaapiVideoEncodeA
   private:
    class H264Accelerator;
@@ -43,10 +43,10 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.h
  
    // Encoder state.
    enum State {
-Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
+Index: beta/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
 ===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
-+++ dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
+--- beta.orig/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
++++ beta/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
 @@ -193,6 +193,7 @@ class VaapiVideoEncodeAccelerator::VP8Ac
    VaapiVideoEncodeAccelerator* const vea_;
  };
@@ -91,10 +91,10 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
 +#endif
  
  }  // namespace media
-Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
+Index: beta/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
-+++ dev/media/gpu/vaapi/vaapi_wrapper.cc
+--- beta.orig/media/gpu/vaapi/vaapi_wrapper.cc
++++ beta/media/gpu/vaapi/vaapi_wrapper.cc
 @@ -1038,10 +1038,10 @@ bool VASupportedImageFormats::InitSuppor
      // Remove this workaround once b/128340287 is resolved.
      if (std::find_if(supported_formats_.cbegin(), supported_formats_.cend(),
@@ -193,10 +193,10 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 +#endif
  
  }  // namespace media
-Index: dev/media/gpu/vaapi/vaapi_wrapper.h
+Index: beta/media/gpu/vaapi/vaapi_wrapper.h
 ===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_wrapper.h
-+++ dev/media/gpu/vaapi/vaapi_wrapper.h
+--- beta.orig/media/gpu/vaapi/vaapi_wrapper.h
++++ beta/media/gpu/vaapi/vaapi_wrapper.h
 @@ -391,8 +391,10 @@ class MEDIA_GPU_EXPORT VaapiWrapper
    // Attempt to set render mode to "render to texture.". Failure is non-fatal.
    void TryToSetVADisplayAttributeToLocalGPU();

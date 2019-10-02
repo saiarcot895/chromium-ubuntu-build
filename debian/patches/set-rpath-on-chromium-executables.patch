@@ -2,10 +2,10 @@ Description: set rpath on chromium-browser and v8_context_snapshot_generator exe
 Author: Olivier Tilloy <olivier.tilloy@canonical.com>
 Bug-Ubuntu: https://launchpad.net/bugs/1718885
 
-Index: dev/chrome/BUILD.gn
+Index: beta/chrome/BUILD.gn
 ===================================================================
---- dev.orig/chrome/BUILD.gn
-+++ dev/chrome/BUILD.gn
+--- beta.orig/chrome/BUILD.gn
++++ beta/chrome/BUILD.gn
 @@ -300,6 +300,8 @@ if (!is_android && !is_mac) {
                         rebase_path(version_script, root_build_dir) ]
          }
@@ -15,10 +15,10 @@ Index: dev/chrome/BUILD.gn
          if (use_x11) {
            configs += [
              "//build/config/linux:x11",
-Index: dev/tools/v8_context_snapshot/BUILD.gn
+Index: beta/tools/v8_context_snapshot/BUILD.gn
 ===================================================================
---- dev.orig/tools/v8_context_snapshot/BUILD.gn
-+++ dev/tools/v8_context_snapshot/BUILD.gn
+--- beta.orig/tools/v8_context_snapshot/BUILD.gn
++++ beta/tools/v8_context_snapshot/BUILD.gn
 @@ -106,6 +106,10 @@ if (use_v8_context_snapshot) {
        "//v8",
      ]
