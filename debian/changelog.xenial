@@ -1,3 +1,10 @@
+chromium-browser (79.0.3921.0-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
+
+  * New upstream version 79.0.3921.0
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 03 Oct 2019 19:57:03 -0400
+
 chromium-browser (78.0.3902.4-0ubuntu1~ppa3~16.04.1) xenial; urgency=low
 
   * Fix conditional for pipewire.

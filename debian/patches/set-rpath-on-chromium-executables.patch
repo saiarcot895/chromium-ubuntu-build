@@ -6,15 +6,15 @@ Index: dev/chrome/BUILD.gn
 ===================================================================
 --- dev.orig/chrome/BUILD.gn
 +++ dev/chrome/BUILD.gn
-@@ -300,6 +300,8 @@ if (!is_android && !is_mac) {
-                        rebase_path(version_script, root_build_dir) ]
-         }
+@@ -301,6 +301,8 @@ if (!is_android && !is_mac) {
+                      rebase_path(version_script, root_build_dir) ]
+       }
  
-+        configs += [ "//build/config/gcc:rpath_for_built_shared_libraries" ]
++      configs += [ "//build/config/gcc:rpath_for_built_shared_libraries" ]
 +
-         if (use_x11) {
-           configs += [
-             "//build/config/linux:x11",
+       if (use_x11) {
+         configs += [
+           "//build/config/linux:x11",
 Index: dev/tools/v8_context_snapshot/BUILD.gn
 ===================================================================
 --- dev.orig/tools/v8_context_snapshot/BUILD.gn
