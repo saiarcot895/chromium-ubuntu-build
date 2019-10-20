@@ -1,10 +1,10 @@
-Index: dev/third_party/angle/third_party/vulkan-validation-layers/BUILD.gn
+Index: dev/third_party/angle/third_party/vulkan-validation-layers/src/BUILD.gn
 ===================================================================
---- dev.orig/third_party/angle/third_party/vulkan-validation-layers/BUILD.gn
-+++ dev/third_party/angle/third_party/vulkan-validation-layers/BUILD.gn
-@@ -452,6 +452,7 @@ source_set("vulkan_layer_utils") {
-     ":vulkan_generate_helper_files",
-   ]
+--- dev.orig/third_party/angle/third_party/vulkan-validation-layers/src/BUILD.gn
++++ dev/third_party/angle/third_party/vulkan-validation-layers/src/BUILD.gn
+@@ -205,6 +205,7 @@ source_set("vulkan_layer_utils") {
+   configs += [ "//build/config/compiler:no_chromium_code" ]
+   public_deps = []
    configs -= vulkan_undefine_configs
 +  cflags_c = [ "-std=gnu11" ]
  }

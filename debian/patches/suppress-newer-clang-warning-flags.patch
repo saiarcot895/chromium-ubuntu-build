@@ -20,7 +20,7 @@ Index: dev/build/config/compiler/BUILD.gn
    # Pass the same C/C++ flags to the objective C/C++ compiler.
    cflags_objc += cflags_c
    cflags_objcc += cflags_cc
-@@ -1501,31 +1493,6 @@ config("default_warnings") {
+@@ -1501,28 +1493,6 @@ config("default_warnings") {
        if (current_toolchain == host_toolchain || !use_xcode_clang) {
          # Flags NaCl (Clang 3.7) and Xcode 9.2 (Clang clang-900.0.39.2) do not
          # recognize.
@@ -31,9 +31,6 @@ Index: dev/build/config/compiler/BUILD.gn
 -
 -          # TODO(https://crbug.com/989932): Evaluate and possibly enable.
 -          "-Wno-implicit-int-float-conversion",
--
--          # TODO(https://crbug.com/995200): Clean up and enable.
--          "-Wno-xor-used-as-pow",
 -
 -          # TODO(https://crbug.com/999871): Decide if we want to clean up the
 -          # codebase or just disable this.  Doesn't seem super useful, but

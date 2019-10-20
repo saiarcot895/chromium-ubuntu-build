@@ -6,7 +6,7 @@ Index: dev/chrome/BUILD.gn
 ===================================================================
 --- dev.orig/chrome/BUILD.gn
 +++ dev/chrome/BUILD.gn
-@@ -301,6 +301,8 @@ if (!is_android && !is_mac) {
+@@ -302,6 +302,8 @@ if (!is_android && !is_mac) {
                       rebase_path(version_script, root_build_dir) ]
        }
  

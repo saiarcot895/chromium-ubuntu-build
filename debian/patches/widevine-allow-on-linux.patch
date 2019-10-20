@@ -1,16 +1,3 @@
-Index: dev/chrome/common/chrome_content_client.cc
-===================================================================
---- dev.orig/chrome/common/chrome_content_client.cc
-+++ dev/chrome/common/chrome_content_client.cc
-@@ -93,7 +93,7 @@
- // Registers Widevine CDM if Widevine is enabled, the Widevine CDM is
- // bundled and not a component. When the Widevine CDM is a component, it is
- // registered in widevine_cdm_component_installer.cc.
--#if BUILDFLAG(BUNDLE_WIDEVINE_CDM) && !BUILDFLAG(ENABLE_WIDEVINE_CDM_COMPONENT)
-+#if BUILDFLAG(ENABLE_WIDEVINE) && !BUILDFLAG(ENABLE_WIDEVINE_CDM_COMPONENT)
- #define REGISTER_BUNDLED_WIDEVINE_CDM
- #include "third_party/widevine/cdm/widevine_cdm_common.h"  // nogncheck
- // TODO(crbug.com/663554): Needed for WIDEVINE_CDM_VERSION_STRING. Support
 Index: dev/third_party/widevine/cdm/widevine_cdm_version.h
 ===================================================================
 --- dev.orig/third_party/widevine/cdm/widevine_cdm_version.h
