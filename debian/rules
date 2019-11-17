@@ -87,7 +87,6 @@ common_defines += \
 				target_os="linux" \
 				current_os="linux" \
 				optimize_webui=false \
-				use_jumbo_build=true \
 				force_local_build_id=true \
 				strip_absolute_paths_from_debug_symbols = false
 
@@ -114,16 +113,12 @@ else ifeq (armhf,$(DEB_HOST_ARCH))
 common_defines += target_cpu="arm"
 common_defines += arm_use_neon=false
 common_defines += arm_float_abi="hard" arm_use_thumb=true
-common_defines += jumbo_file_merge_limit=20
 else ifeq (arm64,$(DEB_HOST_ARCH))
 common_defines += target_cpu="arm64" symbol_level=1
-common_defines += jumbo_file_merge_limit=20
 else ifeq (i386,$(DEB_HOST_ARCH))
 common_defines += target_cpu="x86" symbol_level=1
-common_defines += jumbo_file_merge_limit=30
 else ifeq (amd64,$(DEB_HOST_ARCH))
 common_defines += target_cpu="x64" symbol_level=1
-common_defines += jumbo_file_merge_limit=30
 else ifeq (mipsel,$(DEB_HOST_ARCH))
 common_defines += target_cpu="mipsel"
 else ifeq ($(DEB_HOST_ARCH),)
