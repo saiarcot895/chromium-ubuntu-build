@@ -3,10 +3,10 @@ Description: work around build failures with old versions of clang where
  (see  https://reviews.llvm.org/rL314865). This is fixed in clang 7.
 Author: Olivier Tilloy <olivier.tilloy@canonical.com>
 
-Index: dev/gpu/command_buffer/client/transfer_buffer_cmd_copy_helpers.h
+Index: beta/gpu/command_buffer/client/transfer_buffer_cmd_copy_helpers.h
 ===================================================================
---- dev.orig/gpu/command_buffer/client/transfer_buffer_cmd_copy_helpers.h
-+++ dev/gpu/command_buffer/client/transfer_buffer_cmd_copy_helpers.h
+--- beta.orig/gpu/command_buffer/client/transfer_buffer_cmd_copy_helpers.h
++++ beta/gpu/command_buffer/client/transfer_buffer_cmd_copy_helpers.h
 @@ -13,7 +13,7 @@ namespace gpu {
  
  // Sum the sizes of the types in Ts as CheckedNumeric<T>.
