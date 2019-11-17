@@ -6,7 +6,7 @@ Index: dev/chrome/BUILD.gn
 ===================================================================
 --- dev.orig/chrome/BUILD.gn
 +++ dev/chrome/BUILD.gn
-@@ -302,6 +302,8 @@ if (!is_android && !is_mac) {
+@@ -323,6 +323,8 @@ if (!is_android && !is_mac) {
                       rebase_path(version_script, root_build_dir) ]
        }
  
@@ -19,7 +19,7 @@ Index: dev/tools/v8_context_snapshot/BUILD.gn
 ===================================================================
 --- dev.orig/tools/v8_context_snapshot/BUILD.gn
 +++ dev/tools/v8_context_snapshot/BUILD.gn
-@@ -106,6 +106,10 @@ if (use_v8_context_snapshot) {
+@@ -114,6 +114,10 @@ if (use_v8_context_snapshot) {
        "//v8",
      ]
  

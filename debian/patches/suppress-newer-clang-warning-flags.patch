@@ -5,7 +5,7 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -693,14 +693,6 @@ config("compiler") {
+@@ -698,14 +698,6 @@ config("compiler") {
      ldflags += [ "-Wl,--no-rosegment" ]
    }
  
@@ -20,7 +20,7 @@ Index: dev/build/config/compiler/BUILD.gn
    # Pass the same C/C++ flags to the objective C/C++ compiler.
    cflags_objc += cflags_c
    cflags_objcc += cflags_cc
-@@ -1501,28 +1493,6 @@ config("default_warnings") {
+@@ -1506,25 +1498,6 @@ config("default_warnings") {
        if (current_toolchain == host_toolchain || !use_xcode_clang) {
          # Flags NaCl (Clang 3.7) and Xcode 9.2 (Clang clang-900.0.39.2) do not
          # recognize.
@@ -34,11 +34,8 @@ Index: dev/build/config/compiler/BUILD.gn
 -
 -          # TODO(https://crbug.com/999871): Decide if we want to clean up the
 -          # codebase or just disable this.  Doesn't seem super useful, but
--          # also fires in only 4 files.
+-          # also fires in only 2 files.
 -          "-Wno-c99-designator",
--
--          # This is a side effect of -Wc99-designator; easier to clean up.
--          "-Wno-reorder-init-list",
 -
 -          # TODO(https://crbug.com/999886): Clean up, enable.
 -          "-Wno-final-dtor-non-final-class",
