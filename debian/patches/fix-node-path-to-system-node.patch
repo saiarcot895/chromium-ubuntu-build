@@ -1,0 +1,19 @@
+Index: dev/third_party/devtools-frontend/src/scripts/devtools_paths.py
+===================================================================
+--- dev.orig/third_party/devtools-frontend/src/scripts/devtools_paths.py
++++ dev/third_party/devtools-frontend/src/scripts/devtools_paths.py
+@@ -36,13 +36,7 @@ def third_party_path():
+ 
+ # This points to the node binary downloaded as part of the checkout.
+ def node_path():
+-    try:
+-        old_sys_path = sys.path[:]
+-        sys.path.append(path.join(third_party_path(), 'node'))
+-        import node
+-    finally:
+-        sys.path = old_sys_path
+-    return node.GetBinaryPath()
++    return "/usr/bin/node"
+ 
+ 
+ def devtools_root_path():

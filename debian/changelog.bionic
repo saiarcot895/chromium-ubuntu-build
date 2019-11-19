@@ -1,3 +1,10 @@
+chromium-browser (80.0.3964.0-0ubuntu1~ppa3~18.04.1) bionic; urgency=low
+
+  * Add node as a dependency, and add a patch to use the system node.
+  * Remove unnecessary patch to add limits include.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 19 Nov 2019 15:33:46 -0500
+
 chromium-browser (80.0.3964.0-0ubuntu1~ppa2~18.04.1) bionic; urgency=low
 
   * Remove options for jumbo build, as it is no longer supported.
