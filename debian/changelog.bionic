@@ -1,3 +1,10 @@
+chromium-browser (81.0.4000.3-0ubuntu1~ppa1~18.04.1) bionic; urgency=low
+
+  * New upstream version 81.0.4000.3
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 22 Dec 2019 15:05:33 -0500
+
 chromium-browser (80.0.3964.0-0ubuntu1~ppa3~18.04.1) bionic; urgency=low
 
   * Add node as a dependency, and add a patch to use the system node.

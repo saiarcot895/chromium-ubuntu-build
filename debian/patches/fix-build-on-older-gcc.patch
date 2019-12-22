@@ -24,7 +24,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.h
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_video_encode_accelerator.h
 +++ dev/media/gpu/vaapi/vaapi_video_encode_accelerator.h
-@@ -50,7 +50,9 @@ class MEDIA_GPU_EXPORT VaapiVideoEncodeA
+@@ -51,7 +51,9 @@ class MEDIA_GPU_EXPORT VaapiVideoEncodeA
   private:
    class H264Accelerator;
    class VP8Accelerator;
@@ -38,7 +38,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
 +++ dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
-@@ -220,6 +220,7 @@ class VaapiVideoEncodeAccelerator::VP8Ac
+@@ -221,6 +221,7 @@ class VaapiVideoEncodeAccelerator::VP8Ac
    VaapiVideoEncodeAccelerator* const vea_;
  };
  
@@ -46,7 +46,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
  class VaapiVideoEncodeAccelerator::VP9Accelerator
      : public VP9Encoder::Accelerator {
   public:
-@@ -241,6 +242,7 @@ class VaapiVideoEncodeAccelerator::VP9Ac
+@@ -242,6 +243,7 @@ class VaapiVideoEncodeAccelerator::VP9Ac
   private:
    VaapiVideoEncodeAccelerator* const vea_;
  };
@@ -54,7 +54,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
  
  VaapiVideoEncodeAccelerator::VaapiVideoEncodeAccelerator()
      : output_buffer_byte_size_(0),
-@@ -361,10 +363,12 @@ void VaapiVideoEncodeAccelerator::Initia
+@@ -359,10 +361,12 @@ void VaapiVideoEncodeAccelerator::Initia
            std::make_unique<VP8Encoder>(std::make_unique<VP8Accelerator>(this));
        break;
  
@@ -67,7 +67,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
  
      default:
        NOTREACHED() << "Unsupported codec type " << GetCodecName(codec);
-@@ -1306,6 +1310,7 @@ bool VaapiVideoEncodeAccelerator::VP8Acc
+@@ -1324,6 +1328,7 @@ bool VaapiVideoEncodeAccelerator::VP8Acc
    return true;
  }
  
@@ -75,7 +75,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
  scoped_refptr<VP9Picture>
  VaapiVideoEncodeAccelerator::VP9Accelerator::GetPicture(
      AcceleratedVideoEncoder::EncodeJob* job) {
-@@ -1436,5 +1441,6 @@ bool VaapiVideoEncodeAccelerator::VP9Acc
+@@ -1454,5 +1459,6 @@ bool VaapiVideoEncodeAccelerator::VP9Acc
  
    return true;
  }
@@ -124,7 +124,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
  
    // After workarounds, assume the conversion is supported.
-@@ -1470,7 +1470,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
+@@ -1474,7 +1474,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
    }
    // We only have to pass the first file descriptor to a driver. A VA-API driver
    // shall create a VASurface from the single fd correctly.
@@ -136,7 +136,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    va_attrib_extbuf.buffers = &fd;
    va_attrib_extbuf.num_buffers = 1u;
  
-@@ -1515,6 +1519,7 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+@@ -1519,6 +1523,7 @@ VaapiWrapper::ExportVASurfaceAsNativePix
      return nullptr;
    }
  
@@ -144,7 +144,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    VADRMPRIMESurfaceDescriptor descriptor;
    {
      base::AutoLock auto_lock(*va_lock_);
-@@ -1607,6 +1612,10 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+@@ -1611,6 +1616,10 @@ VaapiWrapper::ExportVASurfaceAsNativePix
    exported_pixmap->pixmap = base::MakeRefCounted<gfx::NativePixmapDmaBuf>(
        scoped_va_surface.size(), buffer_format, std::move(handle));
    return exported_pixmap;
@@ -155,7 +155,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  }
  
  bool VaapiWrapper::SyncSurface(VASurfaceID va_surface_id) {
-@@ -2053,11 +2062,13 @@ bool VaapiWrapper::Initialize(CodecMode
+@@ -2062,11 +2071,13 @@ bool VaapiWrapper::Initialize(CodecMode
  
    VAEntrypoint entrypoint = GetVaEntryPoint(mode, va_profile);
  
@@ -169,7 +169,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  
    base::AutoLock auto_lock(*va_lock_);
    std::vector<VAConfigAttrib> required_attribs;
-@@ -2277,6 +2288,7 @@ void VaapiWrapper::TryToSetVADisplayAttr
+@@ -2286,6 +2297,7 @@ void VaapiWrapper::TryToSetVADisplayAttr
      DVLOG(2) << "vaSetDisplayAttributes unsupported, ignoring by default.";
  }
  
@@ -177,7 +177,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  // Check the support for low-power encode
  bool VaapiWrapper::IsLowPowerEncSupported(VAProfile va_profile) const {
    // Only enabled for H264/AVC
-@@ -2311,5 +2323,6 @@ bool VaapiWrapper::IsLowPowerEncSupporte
+@@ -2320,5 +2332,6 @@ bool VaapiWrapper::IsLowPowerEncSupporte
    }
    return true;
  }
@@ -188,7 +188,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.h
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.h
 +++ dev/media/gpu/vaapi/vaapi_wrapper.h
-@@ -421,8 +421,10 @@ class MEDIA_GPU_EXPORT VaapiWrapper
+@@ -426,8 +426,10 @@ class MEDIA_GPU_EXPORT VaapiWrapper
    // Attempt to set render mode to "render to texture.". Failure is non-fatal.
    void TryToSetVADisplayAttributeToLocalGPU();
  
