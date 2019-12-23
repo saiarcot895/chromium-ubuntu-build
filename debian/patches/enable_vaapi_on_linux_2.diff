@@ -408,3 +408,16 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
    VA_LOG_ON_ERROR(va_res, "vaCreateSurfaces failed");
    return va_res == VA_STATUS_SUCCESS;
+Index: dev/media/gpu/test/BUILD.gn
+===================================================================
+--- dev.orig/media/gpu/test/BUILD.gn
++++ dev/media/gpu/test/BUILD.gn
+@@ -158,7 +158,7 @@ if (use_vaapi || use_v4l2_codec) {
+   }
+ }
+ 
+-if (is_chromeos) {
++if (is_chromeos || use_vaapi) {
+   static_library("local_gpu_memory_buffer_manager") {
+     testonly = true
+     sources = [
