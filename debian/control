@@ -45,7 +45,8 @@ Build-Depends: debhelper (>= 9),
 		libva-dev,
 		chrpath,
 		default-jre-headless,
-		nodejs
+		nodejs,
+		libgbm-dev
 Standards-Version: 3.9.5
 
 Package: chromium-browser
