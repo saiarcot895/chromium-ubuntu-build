@@ -1,3 +1,9 @@
+chromium-browser (81.0.4000.3-0ubuntu1~ppa5~19.04.1) disco; urgency=low
+
+  * Copy the patch for bionic as well.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 24 Dec 2019 11:50:13 -0500
+
 chromium-browser (81.0.4000.3-0ubuntu1~ppa4~19.04.1) disco; urgency=low
 
   * Remove unrecognized option in older clang versions.
