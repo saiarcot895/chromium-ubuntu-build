@@ -1,0 +1,15 @@
+Index: beta/build/config/compiler/BUILD.gn
+===================================================================
+--- beta.orig/build/config/compiler/BUILD.gn
++++ beta/build/config/compiler/BUILD.gn
+@@ -1106,10 +1106,6 @@ config("compiler_deterministic") {
+       "-Xclang",
+       ".",
+     ]
+-    if (!is_win) {
+-      # We don't use clang -cc1as on Windows (yet? https://crbug.com/762167)
+-      asmflags = [ "-Wa,-fdebug-compilation-dir,." ]
+-    }
+ 
+     if (is_win && use_lld) {
+       if (symbol_level == 2 || (is_clang && using_sanitizer)) {
