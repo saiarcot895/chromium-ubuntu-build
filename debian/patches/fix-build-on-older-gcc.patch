@@ -67,7 +67,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
  
      default:
        NOTREACHED() << "Unsupported codec type " << GetCodecName(codec);
-@@ -1324,6 +1328,7 @@ bool VaapiVideoEncodeAccelerator::VP8Acc
+@@ -1331,6 +1335,7 @@ bool VaapiVideoEncodeAccelerator::VP8Acc
    return true;
  }
  
@@ -75,7 +75,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
  scoped_refptr<VP9Picture>
  VaapiVideoEncodeAccelerator::VP9Accelerator::GetPicture(
      AcceleratedVideoEncoder::EncodeJob* job) {
-@@ -1454,5 +1459,6 @@ bool VaapiVideoEncodeAccelerator::VP9Acc
+@@ -1463,5 +1468,6 @@ bool VaapiVideoEncodeAccelerator::VP9Acc
  
    return true;
  }
@@ -86,7 +86,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -1062,10 +1062,10 @@ bool VASupportedImageFormats::InitSuppor
+@@ -1064,10 +1064,10 @@ bool VASupportedImageFormats::InitSuppor
      // Remove this workaround once b/128340287 is resolved.
      if (std::find_if(supported_formats_.cbegin(), supported_formats_.cend(),
                       [](const VAImageFormat& format) {
@@ -99,7 +99,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
        supported_formats_.push_back(i420_format);
      }
    }
-@@ -1241,7 +1241,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1243,7 +1243,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      // The VAAPI mesa state tracker only supports conversion from NV12 to YV12
      // and IYUV (synonym of I420).
      if (rt_format == VA_RT_FORMAT_YUV420) {
@@ -108,7 +108,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
            preferred_fourcc != VA_FOURCC_YV12) {
          preferred_fourcc = VA_FOURCC_NV12;
        }
-@@ -1271,13 +1271,13 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1273,13 +1273,13 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      //
      if (preferred_fourcc == VA_FOURCC_422H ||
          preferred_fourcc == VA_FOURCC_P010) {
@@ -124,7 +124,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
  
    // After workarounds, assume the conversion is supported.
-@@ -1474,7 +1474,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
+@@ -1476,7 +1476,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
    }
    // We only have to pass the first file descriptor to a driver. A VA-API driver
    // shall create a VASurface from the single fd correctly.
@@ -136,7 +136,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    va_attrib_extbuf.buffers = &fd;
    va_attrib_extbuf.num_buffers = 1u;
  
-@@ -1519,6 +1523,7 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+@@ -1521,6 +1525,7 @@ VaapiWrapper::ExportVASurfaceAsNativePix
      return nullptr;
    }
  
@@ -144,7 +144,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    VADRMPRIMESurfaceDescriptor descriptor;
    {
      base::AutoLock auto_lock(*va_lock_);
-@@ -1611,6 +1616,10 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+@@ -1613,6 +1618,10 @@ VaapiWrapper::ExportVASurfaceAsNativePix
    exported_pixmap->pixmap = base::MakeRefCounted<gfx::NativePixmapDmaBuf>(
        scoped_va_surface.size(), buffer_format, std::move(handle));
    return exported_pixmap;
@@ -155,7 +155,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  }
  
  bool VaapiWrapper::SyncSurface(VASurfaceID va_surface_id) {
-@@ -2062,11 +2071,13 @@ bool VaapiWrapper::Initialize(CodecMode
+@@ -2061,11 +2070,13 @@ bool VaapiWrapper::Initialize(CodecMode
  
    VAEntrypoint entrypoint = GetVaEntryPoint(mode, va_profile);
  

@@ -40,7 +40,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -1846,7 +1846,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1844,7 +1844,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
          flag_descriptions::kAcceleratedVideoDecodeDescription,
@@ -49,7 +49,7 @@ Index: dev/chrome/browser/about_flags.cc
          SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
      {
-@@ -2307,10 +2307,10 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -2299,10 +2299,10 @@ const FeatureEntry kFeatureEntries[] = {
       FEATURE_VALUE_TYPE(service_manager::features::kXRSandbox)},
  #endif  // !defined(OS_ANDROID)
  #endif  // ENABLE_VR
@@ -66,7 +66,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
 ===================================================================
 --- dev.orig/chrome/browser/flag_descriptions.cc
 +++ dev/chrome/browser/flag_descriptions.cc
-@@ -3170,9 +3170,7 @@ const char kMetalDescription[] =
+@@ -3164,9 +3164,7 @@ const char kMetalDescription[] =
  
  #endif
  
@@ -77,7 +77,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
  
  const char kAcceleratedMjpegDecodeName[] =
      "Hardware-accelerated mjpeg decode for captured frame";
-@@ -3180,6 +3178,12 @@ const char kAcceleratedMjpegDecodeDescri
+@@ -3174,6 +3172,12 @@ const char kAcceleratedMjpegDecodeDescri
      "Enable hardware-accelerated mjpeg decode for captured frame where "
      "available.";
  
@@ -94,7 +94,7 @@ Index: dev/chrome/browser/flag_descriptions.h
 ===================================================================
 --- dev.orig/chrome/browser/flag_descriptions.h
 +++ dev/chrome/browser/flag_descriptions.h
-@@ -1870,13 +1870,17 @@ extern const char kPermissionPromptPersi
+@@ -1865,13 +1865,17 @@ extern const char kPermissionPromptPersi
  
  #endif  // defined(OS_MACOSX)
  
@@ -140,16 +140,21 @@ Index: dev/gpu/config/software_rendering_list.json
 ===================================================================
 --- dev.orig/gpu/config/software_rendering_list.json
 +++ dev/gpu/config/software_rendering_list.json
-@@ -333,17 +333,6 @@
+@@ -336,22 +336,6 @@
        ]
      },
      {
 -      "id": 48,
 -      "description": "Accelerated video decode is unavailable on Linux",
--      "cr_bugs": [137247],
+-      "cr_bugs": [137247, 1032907],
 -      "os": {
 -        "type": "linux"
 -      },
+-      "exceptions": [
+-        {
+-          "machine_model_name": ["Chromecast"]
+-        }
+-      ],
 -      "features": [
 -        "accelerated_video_decode"
 -      ]
@@ -162,7 +167,7 @@ Index: dev/media/base/media_switches.cc
 ===================================================================
 --- dev.orig/media/base/media_switches.cc
 +++ dev/media/base/media_switches.cc
-@@ -653,7 +653,7 @@ bool IsVideoCaptureAcceleratedJpegDecodi
+@@ -657,7 +657,7 @@ bool IsVideoCaptureAcceleratedJpegDecodi
            switches::kUseFakeMjpegDecodeAccelerator)) {
      return true;
    }
@@ -175,7 +180,7 @@ Index: dev/media/gpu/BUILD.gn
 ===================================================================
 --- dev.orig/media/gpu/BUILD.gn
 +++ dev/media/gpu/BUILD.gn
-@@ -455,6 +455,7 @@ if (use_v4l2_codec || use_vaapi || is_ma
+@@ -457,6 +457,7 @@ if (use_v4l2_codec || use_vaapi || is_ma
      if (use_ozone) {
        deps += [ "//ui/ozone" ]
      }
@@ -299,7 +304,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -340,6 +340,11 @@ void VADisplayState::PreSandboxInitializ
+@@ -342,6 +342,11 @@ void VADisplayState::PreSandboxInitializ
        base::File::FLAG_OPEN | base::File::FLAG_READ | base::File::FLAG_WRITE);
    if (drm_file.IsValid())
      VADisplayState::Get()->SetDrmFd(drm_file.GetPlatformFile());
@@ -311,7 +316,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  }
  
  VADisplayState::VADisplayState()
-@@ -367,10 +372,6 @@ bool VADisplayState::Initialize() {
+@@ -369,10 +374,6 @@ bool VADisplayState::Initialize() {
  }
  
  bool VADisplayState::InitializeOnce() {
@@ -322,7 +327,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    switch (gl::GetGLImplementation()) {
      case gl::kGLImplementationEGLGLES2:
        va_display_ = vaGetDisplayDRM(drm_fd_.get());
-@@ -378,10 +379,10 @@ bool VADisplayState::InitializeOnce() {
+@@ -380,10 +381,10 @@ bool VADisplayState::InitializeOnce() {
      case gl::kGLImplementationDesktopGL:
  #if defined(USE_X11)
        va_display_ = vaGetDisplay(gfx::GetXDisplay());
@@ -336,7 +341,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
        break;
      // Cannot infer platform from GL, try all available displays
      case gl::kGLImplementationNone:
-@@ -414,8 +415,19 @@ bool VADisplayState::InitializeOnce() {
+@@ -416,8 +417,19 @@ bool VADisplayState::InitializeOnce() {
    int major_version, minor_version;
    VAStatus va_res = vaInitialize(va_display_, &major_version, &minor_version);
    if (va_res != VA_STATUS_SUCCESS) {
@@ -358,7 +363,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
  
    va_initialized_ = true;
-@@ -423,7 +435,7 @@ bool VADisplayState::InitializeOnce() {
+@@ -425,7 +437,7 @@ bool VADisplayState::InitializeOnce() {
    va_vendor_string_ = vaQueryVendorString(va_display_);
    DLOG_IF(WARNING, va_vendor_string_.empty())
        << "Vendor string empty or error reading.";
@@ -367,7 +372,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
             << va_vendor_string_;
  
    // The VAAPI version is determined from what is loaded on the system by
-@@ -763,7 +775,7 @@ bool VASupportedProfiles::AreAttribsSupp
+@@ -766,7 +778,7 @@ bool VASupportedProfiles::AreAttribsSupp
      if (attribs[i].type != required_attribs[i].type ||
          (attribs[i].value & required_attribs[i].value) !=
              required_attribs[i].value) {
@@ -376,7 +381,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
                 << " for attribute type " << required_attribs[i].type;
        return false;
      }
-@@ -2123,6 +2135,8 @@ bool VaapiWrapper::CreateSurfaces(unsign
+@@ -2121,6 +2133,8 @@ bool VaapiWrapper::CreateSurfaces(unsign
    DCHECK(va_surfaces->empty());
  
    va_surfaces->resize(num_surfaces);
@@ -385,7 +390,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    VASurfaceAttrib attribute{};
    attribute.type = VASurfaceAttribUsageHint;
    attribute.flags = VA_SURFACE_ATTRIB_SETTABLE;
-@@ -2141,14 +2155,22 @@ bool VaapiWrapper::CreateSurfaces(unsign
+@@ -2139,14 +2153,22 @@ bool VaapiWrapper::CreateSurfaces(unsign
        attribute.value.value.i = VA_SURFACE_ATTRIB_USAGE_HINT_GENERIC;
        break;
    }
@@ -406,7 +411,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 +        num_surfaces, NULL, 0);
 +#endif
    }
-   VA_LOG_ON_ERROR(va_res, "vaCreateSurfaces failed");
+   VA_LOG_ON_ERROR(va_res, "vaCreateSurfaces (allocate mode)");
    return va_res == VA_STATUS_SUCCESS;
 Index: dev/media/gpu/test/BUILD.gn
 ===================================================================
