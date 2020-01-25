@@ -1306,7 +1306,7 @@ Index: dev/tools/gn/src/base/strings/string_split.cc
          input, separators[0], whitespace, result_type);
    }
 -  return SplitStringT<char16_t, std::u16string_view, std::u16string_view>(
-+  return SplitStringT<char16_t, std::experimental::u16string_view, std::u16string_view>(
++  return SplitStringT<char16_t, std::experimental::u16string_view, std::experimental::u16string_view>(
        input, separators, whitespace, result_type);
  }
  
@@ -1567,7 +1567,7 @@ Index: dev/tools/gn/src/base/strings/string_util.cc
  }
  
 -int CompareCaseInsensitiveASCII(std::u16string_view a, std::u16string_view b) {
-+int CompareCaseInsensitiveASCII(std::experimental::u16string_view a, std::u16string_view b) {
++int CompareCaseInsensitiveASCII(std::experimental::u16string_view a, std::experimental::u16string_view b) {
    return CompareCaseInsensitiveASCIIT<std::u16string>(a, b);
  }
  
@@ -1579,7 +1579,7 @@ Index: dev/tools/gn/src/base/strings/string_util.cc
  }
  
 -bool EqualsCaseInsensitiveASCII(std::u16string_view a, std::u16string_view b) {
-+bool EqualsCaseInsensitiveASCII(std::experimental::u16string_view a, std::u16string_view b) {
++bool EqualsCaseInsensitiveASCII(std::experimental::u16string_view a, std::experimental::u16string_view b) {
    if (a.length() != b.length())
      return false;
    return CompareCaseInsensitiveASCIIT<std::u16string>(a, b) == 0;
@@ -1687,7 +1687,7 @@ Index: dev/tools/gn/src/base/strings/string_util.cc
  
 -std::u16string_view TrimString(std::u16string_view input,
 -                               std::u16string_view trim_chars,
-+std::experimental::u16string_view TrimString(std::u16string_view input,
++std::experimental::u16string_view TrimString(std::experimental::u16string_view input,
 +                               std::experimental::u16string_view trim_chars,
                                 TrimPositions positions) {
    return TrimStringPieceT(input, trim_chars, positions);
@@ -1710,7 +1710,7 @@ Index: dev/tools/gn/src/base/strings/string_util.cc
  }
  
 -std::u16string_view TrimWhitespace(std::u16string_view input,
-+std::experimental::u16string_view TrimWhitespace(std::u16string_view input,
++std::experimental::u16string_view TrimWhitespace(std::experimental::u16string_view input,
                                     TrimPositions positions) {
 -  return TrimStringPieceT(input, std::u16string_view(kWhitespaceUTF16),
 +  return TrimStringPieceT(input, std::experimental::u16string_view(kWhitespaceUTF16),
@@ -2087,7 +2087,7 @@ Index: dev/tools/gn/src/base/strings/string_util.h
 -int CompareCaseInsensitiveASCII(std::string_view a, std::string_view b);
 -int CompareCaseInsensitiveASCII(std::u16string_view a, std::u16string_view b);
 +int CompareCaseInsensitiveASCII(std::experimental::string_view a, std::experimental::string_view b);
-+int CompareCaseInsensitiveASCII(std::experimental::u16string_view a, std::u16string_view b);
++int CompareCaseInsensitiveASCII(std::experimental::u16string_view a, std::experimental::u16string_view b);
  
  // Equality for ASCII case-insensitive comparisons. For full Unicode support,
  // use base::i18n::ToLower or base::i18h::FoldCase and then compare with either
@@ -2095,7 +2095,7 @@ Index: dev/tools/gn/src/base/strings/string_util.h
 -bool EqualsCaseInsensitiveASCII(std::string_view a, std::string_view b);
 -bool EqualsCaseInsensitiveASCII(std::u16string_view a, std::u16string_view b);
 +bool EqualsCaseInsensitiveASCII(std::experimental::string_view a, std::experimental::string_view b);
-+bool EqualsCaseInsensitiveASCII(std::experimental::u16string_view a, std::u16string_view b);
++bool EqualsCaseInsensitiveASCII(std::experimental::u16string_view a, std::experimental::u16string_view b);
  
  // Contains the set of characters representing whitespace in the corresponding
  // encoding. Null-terminated. The ASCII versions are the whitespaces as defined
@@ -2143,7 +2143,7 @@ Index: dev/tools/gn/src/base/strings/string_util.h
  // original buffer.
 -std::u16string_view TrimString(std::u16string_view input,
 -                               std::u16string_view trim_chars,
-+std::experimental::u16string_view TrimString(std::u16string_view input,
++std::experimental::u16string_view TrimString(std::experimental::u16string_view input,
 +                               std::experimental::u16string_view trim_chars,
                                 TrimPositions positions);
 -std::string_view TrimString(std::string_view input,
@@ -2167,7 +2167,7 @@ Index: dev/tools/gn/src/base/strings/string_util.h
                               TrimPositions positions,
                               std::u16string* output);
 -std::u16string_view TrimWhitespace(std::u16string_view input,
-+std::experimental::u16string_view TrimWhitespace(std::u16string_view input,
++std::experimental::u16string_view TrimWhitespace(std::experimental::u16string_view input,
                                     TrimPositions positions);
  TrimPositions TrimWhitespaceASCII(const std::string& input,
                                    TrimPositions positions,
@@ -3416,9 +3416,9 @@ Index: dev/tools/gn/src/gn/bundle_data.cc
                                     SourceFile* asset_catalog) {
    // Check whether |source| matches one of the following pattern:
    //    .*\.xcassets/Contents.json
-@@ -31,7 +31,7 @@ bool IsSourceFileFromAssetsCatalog(std::
-   //    .*\.xcassets/[^/]*\.imageset/[^/]*
-   //    .*\.xcassets/[^/]*\.launchimage/[^/]*
+@@ -33,7 +33,7 @@ bool IsSourceFileFromAssetsCatalog(std::
+   //    .*\.xcassets/[^/]*\.colorset/[^/]*
+   //    .*\.xcassets/[^/]*\.dataset/[^/]*
    bool is_file_from_asset_catalog = false;
 -  std::string_view dir = FindDirNoTrailingSeparator(source);
 +  std::experimental::string_view dir = FindDirNoTrailingSeparator(source);
@@ -3501,13 +3501,10 @@ Index: dev/tools/gn/src/gn/c_include_iterator.cc
  }
  
  }  // namespace
-@@ -126,13 +126,13 @@ CIncludeIterator::CIncludeIterator(const
+@@ -128,11 +128,11 @@ CIncludeIterator::~CIncludeIterator() =
  
- CIncludeIterator::~CIncludeIterator() = default;
- 
--bool CIncludeIterator::GetNextIncludeString(std::string_view* out,
-+bool CIncludeIterator::GetNextIncludeString(std::experimental::string_view* out,
-                                             LocationRange* location) {
+ bool CIncludeIterator::GetNextIncludeString(
+     IncludeStringWithLocation* include) {
 -  std::string_view line;
 +  std::experimental::string_view line;
    int cur_line_number = 0;
@@ -3517,8 +3514,8 @@ Index: dev/tools/gn/src/gn/c_include_iterator.cc
 +    std::experimental::string_view include_contents;
      int begin_char;
      IncludeType type = ExtractInclude(line, &include_contents, &begin_char);
-     if (type == INCLUDE_USER && !HasNoCheckAnnotation(line)) {
-@@ -155,7 +155,7 @@ bool CIncludeIterator::GetNextIncludeStr
+     if (HasNoCheckAnnotation(line))
+@@ -157,7 +157,7 @@ bool CIncludeIterator::GetNextIncludeStr
    return false;
  }
  
@@ -3539,17 +3536,17 @@ Index: dev/tools/gn/src/gn/c_include_iterator.h
 +#include <experimental/string_view>
  
  #include "base/macros.h"
+ #include "gn/location.h"
+@@ -15,7 +15,7 @@
+ class InputFile;
  
-@@ -27,7 +27,7 @@ class CIncludeIterator {
-   // Fills in the string with the contents of the next include, and the
-   // location with where it came from, and returns true, or returns false if
-   // there are no more includes.
--  bool GetNextIncludeString(std::string_view* out, LocationRange* location);
-+  bool GetNextIncludeString(std::experimental::string_view* out, LocationRange* location);
- 
-   // Maximum numbef of non-includes we'll tolerate before giving up. This does
-   // not count comments or preprocessor.
-@@ -36,12 +36,12 @@ class CIncludeIterator {
+ struct IncludeStringWithLocation {
+-  std::string_view contents;
++  std::experimental::string_view contents;
+   LocationRange location;
+   bool system_style_include = false;
+ };
+@@ -39,12 +39,12 @@ class CIncludeIterator {
   private:
    // Returns false on EOF, otherwise fills in the given line and the one-based
    // line number into *line_number;
@@ -3564,64 +3561,6 @@ Index: dev/tools/gn/src/gn/c_include_iterator.h
  
    // 0-based offset into the file.
    size_t offset_ = 0;
-Index: dev/tools/gn/src/gn/c_include_iterator_unittest.cc
-===================================================================
---- dev.orig/tools/gn/src/gn/c_include_iterator_unittest.cc
-+++ dev/tools/gn/src/gn/c_include_iterator_unittest.cc
-@@ -44,7 +44,7 @@ TEST(CIncludeIterator, Basic) {
- 
-   CIncludeIterator iter(&file);
- 
--  std::string_view contents;
-+  std::experimental::string_view contents;
-   LocationRange range;
-   EXPECT_TRUE(iter.GetNextIncludeString(&contents, &range));
-   EXPECT_EQ("foo/bar.h", contents);
-@@ -77,7 +77,7 @@ TEST(CIncludeIterator, GiveUp) {
-   InputFile file(SourceFile("//foo.cc"));
-   file.SetContents(buffer);
- 
--  std::string_view contents;
-+  std::experimental::string_view contents;
-   LocationRange range;
- 
-   CIncludeIterator iter(&file);
-@@ -99,7 +99,7 @@ TEST(CIncludeIterator, DontGiveUp) {
-   InputFile file(SourceFile("//foo.cc"));
-   file.SetContents(buffer);
- 
--  std::string_view contents;
-+  std::experimental::string_view contents;
-   LocationRange range;
- 
-   CIncludeIterator iter(&file);
-@@ -126,7 +126,7 @@ TEST(CIncludeIterator, TolerateNonInclud
-   InputFile file(SourceFile("//foo.cc"));
-   file.SetContents(buffer);
- 
--  std::string_view contents;
-+  std::experimental::string_view contents;
-   LocationRange range;
- 
-   CIncludeIterator iter(&file);
-@@ -152,7 +152,7 @@ TEST(CIncludeIterator, CStyleComments) {
-   InputFile file(SourceFile("//foo.cc"));
-   file.SetContents(buffer);
- 
--  std::string_view contents;
-+  std::experimental::string_view contents;
-   LocationRange range;
- 
-   CIncludeIterator iter(&file);
-@@ -167,7 +167,7 @@ TEST(CIncludeIterator, SpacesAfterHash)
-   InputFile file(SourceFile("//foo.cc"));
-   file.SetContents(buffer);
- 
--  std::string_view contents;
-+  std::experimental::string_view contents;
-   LocationRange range;
- 
-   CIncludeIterator iter(&file);
 Index: dev/tools/gn/src/gn/command_args.cc
 ===================================================================
 --- dev.orig/tools/gn/src/gn/command_args.cc
@@ -3684,7 +3623,7 @@ Index: dev/tools/gn/src/gn/command_clean.cc
 ===================================================================
 --- dev.orig/tools/gn/src/gn/command_clean.cc
 +++ dev/tools/gn/src/gn/command_clean.cc
-@@ -27,13 +27,13 @@ std::string ExtractGNBuildCommands(const
+@@ -27,7 +27,7 @@ std::string ExtractGNBuildCommands(const
    if (!base::ReadFileToString(build_ninja_file, &file_contents))
      return std::string();
  
@@ -3693,13 +3632,6 @@ Index: dev/tools/gn/src/gn/command_clean.cc
        file_contents, "\n", base::KEEP_WHITESPACE, base::SPLIT_WANT_ALL);
  
    std::string result;
-   int num_blank_lines = 0;
-   for (const auto& line : lines) {
--    result.append(line);
-+    result.append(line.data(), line.size());
-     result.push_back('\n');
-     if (line.empty())
-       ++num_blank_lines;
 Index: dev/tools/gn/src/gn/command_format.cc
 ===================================================================
 --- dev.orig/tools/gn/src/gn/command_format.cc
@@ -3713,7 +3645,7 @@ Index: dev/tools/gn/src/gn/command_format.cc
  
    // Add the current margin (as spaces) to the output.
    void PrintMargin();
-@@ -239,7 +239,7 @@ class Printer {
+@@ -236,7 +236,7 @@ class Printer {
    std::vector<IndentState> stack_;
  
    // Gives the precedence for operators in a BinaryOpNode.
@@ -3722,7 +3654,7 @@ Index: dev/tools/gn/src/gn/command_format.cc
  
    DISALLOW_COPY_AND_ASSIGN(Printer);
  };
-@@ -265,7 +265,7 @@ Printer::Printer() : penalty_depth_(0) {
+@@ -262,7 +262,7 @@ Printer::Printer() : penalty_depth_(0) {
  
  Printer::~Printer() = default;
  
@@ -3731,16 +3663,7 @@ Index: dev/tools/gn/src/gn/command_format.cc
    output_.append(str);
  }
  
-@@ -324,7 +324,7 @@ void Printer::AnnotatePreferredMultiline
-   // This is somewhat arbitrary, but we include the 'deps'- and 'sources'-like
-   // things, but not flags things.
-   if (binop->op().value() == "=" && ident && list) {
--    const std::string_view lhs = ident->value().value();
-+    const std::experimental::string_view lhs = ident->value().value();
-     if (lhs == "data" || lhs == "datadeps" || lhs == "data_deps" ||
-         lhs == "deps" || lhs == "inputs" || lhs == "outputs" ||
-         lhs == "public" || lhs == "public_deps" || lhs == "sources") {
-@@ -348,7 +348,7 @@ void Printer::SortIfSourcesOrDeps(const
+@@ -330,7 +330,7 @@ void Printer::SortIfSourcesOrDeps(const
    if ((binop->op().value() == "=" || binop->op().value() == "+=" ||
         binop->op().value() == "-=") &&
        ident && list) {
@@ -3749,7 +3672,7 @@ Index: dev/tools/gn/src/gn/command_format.cc
      if (base::EndsWith(lhs, "sources", base::CompareCase::SENSITIVE) ||
          lhs == "public")
        const_cast<ListNode*>(list)->SortAsStringsList();
-@@ -391,14 +391,14 @@ void Printer::SortImports(std::vector<st
+@@ -373,14 +373,14 @@ void Printer::SortImports(std::vector<st
                      const std::unique_ptr<PARSENODE>& b) const {
        const auto& a_args = a->AsFunctionCall()->args()->contents();
        const auto& b_args = b->AsFunctionCall()->args()->contents();
@@ -3863,6 +3786,15 @@ Index: dev/tools/gn/src/gn/escape.cc
 ===================================================================
 --- dev.orig/tools/gn/src/gn/escape.cc
 +++ dev/tools/gn/src/gn/escape.cc
+@@ -41,7 +41,7 @@ const char kShellValid[0x80] = {
+     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0};
+ // clang-format on
+ 
+-size_t EscapeStringToString_Space(const std::string_view& str,
++size_t EscapeStringToString_Space(const std::experimental::string_view& str,
+                                   const EscapeOptions& options,
+                                   char* dest,
+                                   bool* needed_quoting) {
 @@ -75,7 +75,7 @@ inline bool ShouldEscapeCharForNinja(cha
    return ch == '$' || ch == ' ' || ch == ':';
  }
@@ -4517,28 +4449,6 @@ Index: dev/tools/gn/src/gn/generated_file_target_generator.h
                                    const ParseNode* origin);
  
    bool contents_defined_ = false;
-Index: dev/tools/gn/src/gn/header_checker.cc
-===================================================================
---- dev.orig/tools/gn/src/gn/header_checker.cc
-+++ dev/tools/gn/src/gn/header_checker.cc
-@@ -244,7 +244,7 @@ bool HeaderChecker::IsFileInOuputDir(con
- }
- 
- SourceFile HeaderChecker::SourceFileForInclude(
--    const std::string_view& relative_file_path,
-+    const std::experimental::string_view& relative_file_path,
-     const std::vector<SourceDir>& include_dirs,
-     const InputFile& source_file,
-     const LocationRange& range,
-@@ -308,7 +308,7 @@ bool HeaderChecker::CheckFile(const Targ
- 
-   size_t error_count_before = errors->size();
-   CIncludeIterator iter(&input_file);
--  std::string_view current_include;
-+  std::experimental::string_view current_include;
-   LocationRange range;
- 
-   std::set<std::pair<const Target*, const Target*>> no_dependency_cache;
 Index: dev/tools/gn/src/gn/header_checker.h
 ===================================================================
 --- dev.orig/tools/gn/src/gn/header_checker.h
@@ -4552,15 +4462,6 @@ Index: dev/tools/gn/src/gn/header_checker.h
  #include <vector>
  
  #include "base/atomic_ref_count.h"
-@@ -112,7 +112,7 @@ class HeaderChecker : public base::RefCo
-   bool IsFileInOuputDir(const SourceFile& file) const;
- 
-   // Resolves the contents of an include to a SourceFile.
--  SourceFile SourceFileForInclude(const std::string_view& relative_file_path,
-+  SourceFile SourceFileForInclude(const std::experimental::string_view& relative_file_path,
-                                   const std::vector<SourceDir>& include_dirs,
-                                   const InputFile& source_file,
-                                   const LocationRange& range,
 Index: dev/tools/gn/src/gn/input_conversion.cc
 ===================================================================
 --- dev.orig/tools/gn/src/gn/input_conversion.cc
@@ -4991,7 +4892,7 @@ Index: dev/tools/gn/src/gn/ninja_rust_binary_target_writer.cc
 ===================================================================
 --- dev.orig/tools/gn/src/gn/ninja_rust_binary_target_writer.cc
 +++ dev/tools/gn/src/gn/ninja_rust_binary_target_writer.cc
-@@ -227,7 +227,7 @@ void NinjaRustBinaryTargetWriter::WriteR
+@@ -245,7 +245,7 @@ void NinjaRustBinaryTargetWriter::WriteR
  
    EscapeOptions lib_escape_opts;
    lib_escape_opts.mode = ESCAPE_NINJA_COMMAND;
@@ -4999,16 +4900,16 @@ Index: dev/tools/gn/src/gn/ninja_rust_binary_target_writer.cc
 +  const std::experimental::string_view lib_prefix("lib");
  
    // Non-Rust native dependencies.
-   for (const auto& rustdep : nonrustdeps) {
-@@ -235,7 +235,7 @@ void NinjaRustBinaryTargetWriter::WriteR
+   for (const auto& nonrustdep : nonrustdeps) {
+@@ -253,7 +253,7 @@ void NinjaRustBinaryTargetWriter::WriteR
      path_output_.WriteDir(
-         out_, rustdep.AsSourceFile(settings_->build_settings()).GetDir(),
+         out_, nonrustdep.AsSourceFile(settings_->build_settings()).GetDir(),
          PathOutput::DIR_NO_LAST_SLASH);
--    std::string_view file = FindFilenameNoExtension(&rustdep.value());
-+    std::experimental::string_view file = FindFilenameNoExtension(&rustdep.value());
+-    std::string_view file = FindFilenameNoExtension(&nonrustdep.value());
++    std::experimental::string_view file = FindFilenameNoExtension(&nonrustdep.value());
      if (!file.compare(0, lib_prefix.size(), lib_prefix)) {
        out_ << " -l";
-       EscapeStringToStream(out_, file.substr(lib_prefix.size()), lib_escape_opts);
+       EscapeStringToStream(out_, file.substr(lib_prefix.size()),
 Index: dev/tools/gn/src/gn/operators.cc
 ===================================================================
 --- dev.orig/tools/gn/src/gn/operators.cc
@@ -5609,7 +5510,7 @@ Index: dev/tools/gn/src/gn/setup.cc
 ===================================================================
 --- dev.orig/tools/gn/src/gn/setup.cc
 +++ dev/tools/gn/src/gn/setup.cc
-@@ -194,7 +194,7 @@ void DecrementWorkCount() {
+@@ -202,7 +202,7 @@ void DecrementWorkCount() {
  
  #if defined(OS_WIN)
  
@@ -5618,7 +5519,7 @@ Index: dev/tools/gn/src/gn/setup.cc
    if (mb.empty())
      return std::u16string();
  
-@@ -273,7 +273,7 @@ base::FilePath FindWindowsPython() {
+@@ -281,7 +281,7 @@ base::FilePath FindWindowsPython() {
  
    // Search for python.exe in the path.
    for (const auto& component : base::SplitStringPiece(
@@ -6229,7 +6130,7 @@ Index: dev/tools/gn/src/gn/variables.h
  
  namespace variables {
  
-@@ -336,7 +336,7 @@ struct VariableInfo {
+@@ -340,7 +340,7 @@ struct VariableInfo {
    const char* help;
  };
  

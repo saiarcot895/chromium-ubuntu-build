@@ -1,3 +1,10 @@
+chromium-browser (81.0.4033.2-0ubuntu1~ppa1~20.04.1) focal; urgency=low
+
+  * New upstream version 81.0.4033.2
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 25 Jan 2020 12:11:30 -0500
+
 chromium-browser (81.0.4021.2-0ubuntu1~ppa1~20.04.1) focal; urgency=low
 
   * New upstream version 81.0.4021.2
