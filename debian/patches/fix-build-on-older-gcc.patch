@@ -67,7 +67,7 @@ Index: beta/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
  
      default:
        NOTREACHED() << "Unsupported codec type " << GetCodecName(codec);
-@@ -1308,6 +1312,7 @@ bool VaapiVideoEncodeAccelerator::VP8Acc
+@@ -1318,6 +1322,7 @@ bool VaapiVideoEncodeAccelerator::VP8Acc
    return true;
  }
  
@@ -75,7 +75,7 @@ Index: beta/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
  scoped_refptr<VP9Picture>
  VaapiVideoEncodeAccelerator::VP9Accelerator::GetPicture(
      AcceleratedVideoEncoder::EncodeJob* job) {
-@@ -1438,5 +1443,6 @@ bool VaapiVideoEncodeAccelerator::VP9Acc
+@@ -1448,5 +1453,6 @@ bool VaapiVideoEncodeAccelerator::VP9Acc
  
    return true;
  }

@@ -40,7 +40,7 @@ Index: beta/chrome/browser/about_flags.cc
 ===================================================================
 --- beta.orig/chrome/browser/about_flags.cc
 +++ beta/chrome/browser/about_flags.cc
-@@ -1804,7 +1804,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1823,7 +1823,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
          flag_descriptions::kAcceleratedVideoDecodeDescription,
@@ -49,7 +49,7 @@ Index: beta/chrome/browser/about_flags.cc
          SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
      {
-@@ -2267,10 +2267,10 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -2283,10 +2283,10 @@ const FeatureEntry kFeatureEntries[] = {
       FEATURE_VALUE_TYPE(service_manager::features::kXRSandbox)},
  #endif  // !defined(OS_ANDROID)
  #endif  // ENABLE_VR
@@ -66,7 +66,7 @@ Index: beta/chrome/browser/flag_descriptions.cc
 ===================================================================
 --- beta.orig/chrome/browser/flag_descriptions.cc
 +++ beta/chrome/browser/flag_descriptions.cc
-@@ -3166,9 +3166,7 @@ const char kMetalDescription[] =
+@@ -3160,9 +3160,7 @@ const char kMetalDescription[] =
  
  #endif
  
@@ -77,7 +77,7 @@ Index: beta/chrome/browser/flag_descriptions.cc
  
  const char kAcceleratedMjpegDecodeName[] =
      "Hardware-accelerated mjpeg decode for captured frame";
-@@ -3176,6 +3174,12 @@ const char kAcceleratedMjpegDecodeDescri
+@@ -3170,6 +3168,12 @@ const char kAcceleratedMjpegDecodeDescri
      "Enable hardware-accelerated mjpeg decode for captured frame where "
      "available.";
  
@@ -94,7 +94,7 @@ Index: beta/chrome/browser/flag_descriptions.h
 ===================================================================
 --- beta.orig/chrome/browser/flag_descriptions.h
 +++ beta/chrome/browser/flag_descriptions.h
-@@ -1864,13 +1864,17 @@ extern const char kPermissionPromptPersi
+@@ -1861,13 +1861,17 @@ extern const char kPermissionPromptPersi
  
  #endif  // defined(OS_MACOSX)
  

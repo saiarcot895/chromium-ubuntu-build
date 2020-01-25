@@ -1,3 +1,10 @@
+chromium-browser (80.0.3987.66-0ubuntu1~ppa1~19.10.1) eoan; urgency=low
+
+  * New upstream version 80.0.3987.66
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 25 Jan 2020 14:34:45 -0500
+
 chromium-browser (80.0.3987.16-0ubuntu1~ppa2~19.10.1) eoan; urgency=low
 
   * Add patch removing the unsupported clang debug path flag for
