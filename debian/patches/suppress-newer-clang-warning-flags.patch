@@ -1,11 +1,11 @@
 Author: Olivier Tilloy <olivier.tilloy@canonical.com>
 Description: Do not use warning flags that require a newer Clang
 
-Index: dev/build/config/compiler/BUILD.gn
+Index: beta/build/config/compiler/BUILD.gn
 ===================================================================
---- dev.orig/build/config/compiler/BUILD.gn
-+++ dev/build/config/compiler/BUILD.gn
-@@ -702,14 +702,6 @@ config("compiler") {
+--- beta.orig/build/config/compiler/BUILD.gn
++++ beta/build/config/compiler/BUILD.gn
+@@ -692,14 +692,6 @@ config("compiler") {
      ldflags += [ "-Wl,--no-rosegment" ]
    }
  
@@ -20,7 +20,7 @@ Index: dev/build/config/compiler/BUILD.gn
    # Pass the same C/C++ flags to the objective C/C++ compiler.
    cflags_objc += cflags_c
    cflags_objcc += cflags_cc
-@@ -1491,6 +1483,9 @@ config("default_warnings") {
+@@ -1481,6 +1473,9 @@ config("default_warnings") {
        # which we no longer use. Check if it makes sense to remove
        # this as well. http://crbug.com/316352
        "-Wno-unneeded-internal-declaration",

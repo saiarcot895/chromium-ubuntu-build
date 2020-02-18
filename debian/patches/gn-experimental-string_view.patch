@@ -1,7 +1,7 @@
-Index: dev/tools/gn/src/base/command_line.cc
+Index: beta/tools/gn/src/base/command_line.cc
 ===================================================================
---- dev.orig/tools/gn/src/base/command_line.cc
-+++ dev/tools/gn/src/base/command_line.cc
+--- beta.orig/tools/gn/src/base/command_line.cc
++++ beta/tools/gn/src/base/command_line.cc
 @@ -7,7 +7,7 @@
  #include <algorithm>
  #include <iterator>
@@ -58,10 +58,10 @@ Index: dev/tools/gn/src/base/command_line.cc
    DCHECK_EQ(ToLowerASCII(switch_string), switch_string);
    auto result = switches_.find(switch_string);
    return result == switches_.end() ? StringType() : result->second;
-Index: dev/tools/gn/src/base/command_line.h
+Index: beta/tools/gn/src/base/command_line.h
 ===================================================================
---- dev.orig/tools/gn/src/base/command_line.h
-+++ dev/tools/gn/src/base/command_line.h
+--- beta.orig/tools/gn/src/base/command_line.h
++++ beta/tools/gn/src/base/command_line.h
 @@ -18,7 +18,7 @@
  #include <stddef.h>
  #include <map>
@@ -93,10 +93,10 @@ Index: dev/tools/gn/src/base/command_line.h
  
    // Get a copy of all switches, along with their values.
    const SwitchMap& GetSwitches() const { return switches_; }
-Index: dev/tools/gn/src/base/containers/span.h
+Index: beta/tools/gn/src/base/containers/span.h
 ===================================================================
---- dev.orig/tools/gn/src/base/containers/span.h
-+++ dev/tools/gn/src/base/containers/span.h
+--- beta.orig/tools/gn/src/base/containers/span.h
++++ beta/tools/gn/src/base/containers/span.h
 @@ -88,7 +88,7 @@ using EnableIfSpanCompatibleContainer =
  // own the underlying memory, so care must be taken to ensure that a span does
  // not outlive the backing store.
@@ -106,10 +106,10 @@ Index: dev/tools/gn/src/base/containers/span.h
  // types, allowing mutation if T is non-const.
  //
  // span is implicitly convertible from C++ arrays, as well as most [1]
-Index: dev/tools/gn/src/base/environment.cc
+Index: beta/tools/gn/src/base/environment.cc
 ===================================================================
---- dev.orig/tools/gn/src/base/environment.cc
-+++ dev/tools/gn/src/base/environment.cc
+--- beta.orig/tools/gn/src/base/environment.cc
++++ beta/tools/gn/src/base/environment.cc
 @@ -6,7 +6,7 @@
  
  #include <stddef.h>
@@ -176,10 +176,10 @@ Index: dev/tools/gn/src/base/environment.cc
    return GetVar(variable_name, nullptr);
  }
  
-Index: dev/tools/gn/src/base/environment.h
+Index: beta/tools/gn/src/base/environment.h
 ===================================================================
---- dev.orig/tools/gn/src/base/environment.h
-+++ dev/tools/gn/src/base/environment.h
+--- beta.orig/tools/gn/src/base/environment.h
++++ beta/tools/gn/src/base/environment.h
 @@ -8,7 +8,7 @@
  #include <map>
  #include <memory>
@@ -211,10 +211,10 @@ Index: dev/tools/gn/src/base/environment.h
  };
  
  #if defined(OS_WIN)
-Index: dev/tools/gn/src/base/files/file_path.cc
+Index: beta/tools/gn/src/base/files/file_path.cc
 ===================================================================
---- dev.orig/tools/gn/src/base/files/file_path.cc
-+++ dev/tools/gn/src/base/files/file_path.cc
+--- beta.orig/tools/gn/src/base/files/file_path.cc
++++ beta/tools/gn/src/base/files/file_path.cc
 @@ -8,7 +8,7 @@
  
  #include <algorithm>
@@ -293,10 +293,10 @@ Index: dev/tools/gn/src/base/files/file_path.cc
    DCHECK(base::IsStringASCII(component));
  #if defined(OS_WIN)
    return Append(ASCIIToUTF16(component));
-Index: dev/tools/gn/src/base/files/file_path.h
+Index: beta/tools/gn/src/base/files/file_path.h
 ===================================================================
---- dev.orig/tools/gn/src/base/files/file_path.h
-+++ dev/tools/gn/src/base/files/file_path.h
+--- beta.orig/tools/gn/src/base/files/file_path.h
++++ beta/tools/gn/src/base/files/file_path.h
 @@ -106,7 +106,7 @@
  
  #include <iosfwd>
@@ -333,10 +333,10 @@ Index: dev/tools/gn/src/base/files/file_path.h
  
    // Returns true if this FilePath contains an absolute path.  On Windows, an
    // absolute path begins with either a drive letter specification followed by
-Index: dev/tools/gn/src/base/files/file_util.cc
+Index: beta/tools/gn/src/base/files/file_util.cc
 ===================================================================
---- dev.orig/tools/gn/src/base/files/file_util.cc
-+++ dev/tools/gn/src/base/files/file_util.cc
+--- beta.orig/tools/gn/src/base/files/file_util.cc
++++ beta/tools/gn/src/base/files/file_util.cc
 @@ -11,7 +11,7 @@
  
  #include <fstream>
@@ -346,10 +346,10 @@ Index: dev/tools/gn/src/base/files/file_util.cc
  
  #include "base/files/file_enumerator.h"
  #include "base/files/file_path.h"
-Index: dev/tools/gn/src/base/files/file_util_posix.cc
+Index: beta/tools/gn/src/base/files/file_util_posix.cc
 ===================================================================
---- dev.orig/tools/gn/src/base/files/file_util_posix.cc
-+++ dev/tools/gn/src/base/files/file_util_posix.cc
+--- beta.orig/tools/gn/src/base/files/file_util_posix.cc
++++ beta/tools/gn/src/base/files/file_util_posix.cc
 @@ -143,7 +143,7 @@ bool CopyFileContents(File* infile, File
  // Appends |mode_char| to |mode| before the optional character set encoding; see
  // https://www.gnu.org/software/libc/manual/html_node/Opening-Streams.html for
@@ -368,10 +368,10 @@ Index: dev/tools/gn/src/base/files/file_util_posix.cc
         SplitStringPiece(path, ":", KEEP_WHITESPACE, SPLIT_WANT_NONEMPTY)) {
      FilePath file(cur_path);
      int permissions;
-Index: dev/tools/gn/src/base/files/file_util_win.cc
+Index: beta/tools/gn/src/base/files/file_util_win.cc
 ===================================================================
---- dev.orig/tools/gn/src/base/files/file_util_win.cc
-+++ dev/tools/gn/src/base/files/file_util_win.cc
+--- beta.orig/tools/gn/src/base/files/file_util_win.cc
++++ beta/tools/gn/src/base/files/file_util_win.cc
 @@ -19,7 +19,7 @@
  #include <iterator>
  #include <limits>
@@ -390,10 +390,10 @@ Index: dev/tools/gn/src/base/files/file_util_win.cc
  
    // Metrics for delete failures tracked in https://crbug.com/599084. Delete may
    // fail for a number of reasons. Log some metrics relating to failures in the
-Index: dev/tools/gn/src/base/json/json_parser.cc
+Index: beta/tools/gn/src/base/json/json_parser.cc
 ===================================================================
---- dev.orig/tools/gn/src/base/json/json_parser.cc
-+++ dev/tools/gn/src/base/json/json_parser.cc
+--- beta.orig/tools/gn/src/base/json/json_parser.cc
++++ beta/tools/gn/src/base/json/json_parser.cc
 @@ -5,7 +5,7 @@
  #include "base/json/json_parser.h"
  
@@ -510,10 +510,10 @@ Index: dev/tools/gn/src/base/json/json_parser.cc
    if (match == PeekChars(match.size())) {
      ConsumeChars(match.size());
      return true;
-Index: dev/tools/gn/src/base/json/json_parser.h
+Index: beta/tools/gn/src/base/json/json_parser.h
 ===================================================================
---- dev.orig/tools/gn/src/base/json/json_parser.h
-+++ dev/tools/gn/src/base/json/json_parser.h
+--- beta.orig/tools/gn/src/base/json/json_parser.h
++++ beta/tools/gn/src/base/json/json_parser.h
 @@ -11,7 +11,7 @@
  #include <memory>
  #include <optional>
@@ -588,10 +588,10 @@ Index: dev/tools/gn/src/base/json/json_parser.h
  
    // The index in the input stream to which the parser is wound.
    int index_;
-Index: dev/tools/gn/src/base/json/json_reader.cc
+Index: beta/tools/gn/src/base/json/json_reader.cc
 ===================================================================
---- dev.orig/tools/gn/src/base/json/json_reader.cc
-+++ dev/tools/gn/src/base/json/json_reader.cc
+--- beta.orig/tools/gn/src/base/json/json_reader.cc
++++ beta/tools/gn/src/base/json/json_reader.cc
 @@ -40,7 +40,7 @@ JSONReader::JSONReader(int options, int
  JSONReader::~JSONReader() = default;
  
@@ -619,10 +619,10 @@ Index: dev/tools/gn/src/base/json/json_reader.cc
    std::optional<Value> value = parser_->Parse(json);
    return value ? std::make_unique<Value>(std::move(*value)) : nullptr;
  }
-Index: dev/tools/gn/src/base/json/json_reader.h
+Index: beta/tools/gn/src/base/json/json_reader.h
 ===================================================================
---- dev.orig/tools/gn/src/base/json/json_reader.h
-+++ dev/tools/gn/src/base/json/json_reader.h
+--- beta.orig/tools/gn/src/base/json/json_reader.h
++++ beta/tools/gn/src/base/json/json_reader.h
 @@ -30,7 +30,7 @@
  
  #include <memory>
@@ -659,10 +659,10 @@ Index: dev/tools/gn/src/base/json/json_reader.h
  
    // Returns the error code if the last call to ReadToValue() failed.
    // Returns JSON_NO_ERROR otherwise.
-Index: dev/tools/gn/src/base/json/json_value_converter.h
+Index: beta/tools/gn/src/base/json/json_value_converter.h
 ===================================================================
---- dev.orig/tools/gn/src/base/json/json_value_converter.h
-+++ dev/tools/gn/src/base/json/json_value_converter.h
+--- beta.orig/tools/gn/src/base/json/json_value_converter.h
++++ beta/tools/gn/src/base/json/json_value_converter.h
 @@ -9,7 +9,7 @@
  
  #include <memory>
@@ -701,10 +701,10 @@ Index: dev/tools/gn/src/base/json/json_value_converter.h
      fields_.push_back(
          std::make_unique<internal::FieldConverter<StructType, FieldType>>(
              field_name, field,
-Index: dev/tools/gn/src/base/json/string_escape.cc
+Index: beta/tools/gn/src/base/json/string_escape.cc
 ===================================================================
---- dev.orig/tools/gn/src/base/json/string_escape.cc
-+++ dev/tools/gn/src/base/json/string_escape.cc
+--- beta.orig/tools/gn/src/base/json/string_escape.cc
++++ beta/tools/gn/src/base/json/string_escape.cc
 @@ -116,40 +116,40 @@ bool EscapeJSONStringImpl(const S& str,
  
  }  // namespace
@@ -752,10 +752,10 @@ Index: dev/tools/gn/src/base/json/string_escape.cc
         ++it) {
      unsigned char c = *it;
      if (EscapeSpecialCodePoint(c, &dest))
-Index: dev/tools/gn/src/base/json/string_escape.h
+Index: beta/tools/gn/src/base/json/string_escape.h
 ===================================================================
---- dev.orig/tools/gn/src/base/json/string_escape.h
-+++ dev/tools/gn/src/base/json/string_escape.h
+--- beta.orig/tools/gn/src/base/json/string_escape.h
++++ beta/tools/gn/src/base/json/string_escape.h
 @@ -8,7 +8,7 @@
  #define BASE_JSON_STRING_ESCAPE_H_
  
@@ -801,10 +801,10 @@ Index: dev/tools/gn/src/base/json/string_escape.h
                                             bool put_in_quotes);
  
  }  // namespace base
-Index: dev/tools/gn/src/base/logging.cc
+Index: beta/tools/gn/src/base/logging.cc
 ===================================================================
---- dev.orig/tools/gn/src/base/logging.cc
-+++ dev/tools/gn/src/base/logging.cc
+--- beta.orig/tools/gn/src/base/logging.cc
++++ beta/tools/gn/src/base/logging.cc
 @@ -43,7 +43,7 @@
  #include <iomanip>
  #include <ostream>
@@ -826,10 +826,10 @@ Index: dev/tools/gn/src/base/logging.cc
      filename.remove_prefix(last_slash_pos + 1);
  
    // TODO(darin): It might be nice if the columns were fixed width.
-Index: dev/tools/gn/src/base/logging.h
+Index: beta/tools/gn/src/base/logging.h
 ===================================================================
---- dev.orig/tools/gn/src/base/logging.h
-+++ dev/tools/gn/src/base/logging.h
+--- beta.orig/tools/gn/src/base/logging.h
++++ beta/tools/gn/src/base/logging.h
 @@ -11,7 +11,7 @@
  #include <cstring>
  #include <sstream>
@@ -839,10 +839,10 @@ Index: dev/tools/gn/src/base/logging.h
  #include <type_traits>
  #include <utility>
  
-Index: dev/tools/gn/src/base/md5.cc
+Index: beta/tools/gn/src/base/md5.cc
 ===================================================================
---- dev.orig/tools/gn/src/base/md5.cc
-+++ dev/tools/gn/src/base/md5.cc
+--- beta.orig/tools/gn/src/base/md5.cc
++++ beta/tools/gn/src/base/md5.cc
 @@ -169,7 +169,7 @@ void MD5Init(MD5Context* context) {
   * Update context to reflect the concatenation of another buffer full
   * of bytes.
@@ -866,10 +866,10 @@ Index: dev/tools/gn/src/base/md5.cc
    MD5Digest digest;
    MD5Sum(str.data(), str.length(), &digest);
    return MD5DigestToBase16(digest);
-Index: dev/tools/gn/src/base/md5.h
+Index: beta/tools/gn/src/base/md5.h
 ===================================================================
---- dev.orig/tools/gn/src/base/md5.h
-+++ dev/tools/gn/src/base/md5.h
+--- beta.orig/tools/gn/src/base/md5.h
++++ beta/tools/gn/src/base/md5.h
 @@ -9,7 +9,7 @@
  #include <stdint.h>
  
@@ -901,10 +901,10 @@ Index: dev/tools/gn/src/base/md5.h
  
  }  // namespace base
  
-Index: dev/tools/gn/src/base/strings/string_number_conversions.cc
+Index: beta/tools/gn/src/base/strings/string_number_conversions.cc
 ===================================================================
---- dev.orig/tools/gn/src/base/strings/string_number_conversions.cc
-+++ dev/tools/gn/src/base/strings/string_number_conversions.cc
+--- beta.orig/tools/gn/src/base/strings/string_number_conversions.cc
++++ beta/tools/gn/src/base/strings/string_number_conversions.cc
 @@ -270,38 +270,38 @@ template <typename ITERATOR>
  class BaseHexIteratorRangeToUInt64Traits
      : public BaseIteratorRangeToNumberTraits<ITERATOR, uint64_t, 16> {};
@@ -1039,10 +1039,10 @@ Index: dev/tools/gn/src/base/strings/string_number_conversions.cc
    DCHECK_EQ(output->size(), 0u);
    size_t count = input.size();
    if (count == 0 || (count % 2) != 0)
-Index: dev/tools/gn/src/base/strings/string_number_conversions.h
+Index: beta/tools/gn/src/base/strings/string_number_conversions.h
 ===================================================================
---- dev.orig/tools/gn/src/base/strings/string_number_conversions.h
-+++ dev/tools/gn/src/base/strings/string_number_conversions.h
+--- beta.orig/tools/gn/src/base/strings/string_number_conversions.h
++++ beta/tools/gn/src/base/strings/string_number_conversions.h
 @@ -9,7 +9,7 @@
  #include <stdint.h>
  
@@ -1119,10 +1119,10 @@ Index: dev/tools/gn/src/base/strings/string_number_conversions.h
  
  }  // namespace base
  
-Index: dev/tools/gn/src/base/strings/string_split.cc
+Index: beta/tools/gn/src/base/strings/string_split.cc
 ===================================================================
---- dev.orig/tools/gn/src/base/strings/string_split.cc
-+++ dev/tools/gn/src/base/strings/string_split.cc
+--- beta.orig/tools/gn/src/base/strings/string_split.cc
++++ beta/tools/gn/src/base/strings/string_split.cc
 @@ -16,13 +16,13 @@ namespace {
  
  // Returns either the ASCII or UTF-16 whitespace.
@@ -1382,10 +1382,10 @@ Index: dev/tools/gn/src/base/strings/string_split.cc
    SplitStringUsingSubstrT(input, delimiter, whitespace, result_type, &result);
    return result;
  }
-Index: dev/tools/gn/src/base/strings/string_split.h
+Index: beta/tools/gn/src/base/strings/string_split.h
 ===================================================================
---- dev.orig/tools/gn/src/base/strings/string_split.h
-+++ dev/tools/gn/src/base/strings/string_split.h
+--- beta.orig/tools/gn/src/base/strings/string_split.h
++++ beta/tools/gn/src/base/strings/string_split.h
 @@ -6,7 +6,7 @@
  #define BASE_STRINGS_STRING_SPLIT_H_
  
@@ -1478,10 +1478,10 @@ Index: dev/tools/gn/src/base/strings/string_split.h
      WhitespaceHandling whitespace,
      SplitResult result_type);
  
-Index: dev/tools/gn/src/base/strings/string_tokenizer.h
+Index: beta/tools/gn/src/base/strings/string_tokenizer.h
 ===================================================================
---- dev.orig/tools/gn/src/base/strings/string_tokenizer.h
-+++ dev/tools/gn/src/base/strings/string_tokenizer.h
+--- beta.orig/tools/gn/src/base/strings/string_tokenizer.h
++++ beta/tools/gn/src/base/strings/string_tokenizer.h
 @@ -7,7 +7,7 @@
  
  #include <algorithm>
@@ -1502,10 +1502,10 @@ Index: dev/tools/gn/src/base/strings/string_tokenizer.h
          &*token_begin_, std::distance(token_begin_, token_end_));
    }
  
-Index: dev/tools/gn/src/base/strings/string_util.cc
+Index: beta/tools/gn/src/base/strings/string_util.cc
 ===================================================================
---- dev.orig/tools/gn/src/base/strings/string_util.cc
-+++ dev/tools/gn/src/base/strings/string_util.cc
+--- beta.orig/tools/gn/src/base/strings/string_util.cc
++++ beta/tools/gn/src/base/strings/string_util.cc
 @@ -90,7 +90,7 @@ namespace {
  
  template <typename StringType>
@@ -2050,10 +2050,10 @@ Index: dev/tools/gn/src/base/strings/string_util.cc
                                        const std::vector<std::string>& subst,
                                        std::vector<size_t>* offsets) {
    return DoReplaceStringPlaceholders(format_string, subst, offsets);
-Index: dev/tools/gn/src/base/strings/string_util.h
+Index: beta/tools/gn/src/base/strings/string_util.h
 ===================================================================
---- dev.orig/tools/gn/src/base/strings/string_util.h
-+++ dev/tools/gn/src/base/strings/string_util.h
+--- beta.orig/tools/gn/src/base/strings/string_util.h
++++ beta/tools/gn/src/base/strings/string_util.h
 @@ -14,7 +14,7 @@
  
  #include <initializer_list>
@@ -2331,10 +2331,10 @@ Index: dev/tools/gn/src/base/strings/string_util.h
                                        const std::vector<std::string>& subst,
                                        std::vector<size_t>* offsets);
  
-Index: dev/tools/gn/src/base/strings/utf_offset_string_conversions.cc
+Index: beta/tools/gn/src/base/strings/utf_offset_string_conversions.cc
 ===================================================================
---- dev.orig/tools/gn/src/base/strings/utf_offset_string_conversions.cc
-+++ dev/tools/gn/src/base/strings/utf_offset_string_conversions.cc
+--- beta.orig/tools/gn/src/base/strings/utf_offset_string_conversions.cc
++++ beta/tools/gn/src/base/strings/utf_offset_string_conversions.cc
 @@ -8,7 +8,7 @@
  
  #include <algorithm>
@@ -2371,10 +2371,10 @@ Index: dev/tools/gn/src/base/strings/utf_offset_string_conversions.cc
      std::vector<size_t>* offsets_for_adjustment) {
    for (size_t& offset : *offsets_for_adjustment) {
      if (offset > utf16.length())
-Index: dev/tools/gn/src/base/strings/utf_offset_string_conversions.h
+Index: beta/tools/gn/src/base/strings/utf_offset_string_conversions.h
 ===================================================================
---- dev.orig/tools/gn/src/base/strings/utf_offset_string_conversions.h
-+++ dev/tools/gn/src/base/strings/utf_offset_string_conversions.h
+--- beta.orig/tools/gn/src/base/strings/utf_offset_string_conversions.h
++++ beta/tools/gn/src/base/strings/utf_offset_string_conversions.h
 @@ -8,7 +8,7 @@
  #include <stddef.h>
  
@@ -2405,10 +2405,10 @@ Index: dev/tools/gn/src/base/strings/utf_offset_string_conversions.h
      std::vector<size_t>* offsets_for_adjustment);
  
  }  // namespace base
-Index: dev/tools/gn/src/base/strings/utf_string_conversions.cc
+Index: beta/tools/gn/src/base/strings/utf_string_conversions.cc
 ===================================================================
---- dev.orig/tools/gn/src/base/strings/utf_string_conversions.cc
-+++ dev/tools/gn/src/base/strings/utf_string_conversions.cc
+--- beta.orig/tools/gn/src/base/strings/utf_string_conversions.cc
++++ beta/tools/gn/src/base/strings/utf_string_conversions.cc
 @@ -6,7 +6,7 @@
  
  #include <stdint.h>
@@ -2459,10 +2459,10 @@ Index: dev/tools/gn/src/base/strings/utf_string_conversions.cc
    DCHECK(IsStringASCII(utf16)) << UTF16ToUTF8(utf16);
    return std::string(utf16.begin(), utf16.end());
  }
-Index: dev/tools/gn/src/base/strings/utf_string_conversions.h
+Index: beta/tools/gn/src/base/strings/utf_string_conversions.h
 ===================================================================
---- dev.orig/tools/gn/src/base/strings/utf_string_conversions.h
-+++ dev/tools/gn/src/base/strings/utf_string_conversions.h
+--- beta.orig/tools/gn/src/base/strings/utf_string_conversions.h
++++ beta/tools/gn/src/base/strings/utf_string_conversions.h
 @@ -8,22 +8,22 @@
  #include <stddef.h>
  
@@ -2491,10 +2491,10 @@ Index: dev/tools/gn/src/base/strings/utf_string_conversions.h
  
  }  // namespace base
  
-Index: dev/tools/gn/src/base/values.cc
+Index: beta/tools/gn/src/base/values.cc
 ===================================================================
---- dev.orig/tools/gn/src/base/values.cc
-+++ dev/tools/gn/src/base/values.cc
+--- beta.orig/tools/gn/src/base/values.cc
++++ beta/tools/gn/src/base/values.cc
 @@ -131,7 +131,7 @@ Value::Value(int in_int) : type_(Type::I
  
  Value::Value(const char* in_string) : Value(std::string(in_string)) {}
@@ -3010,10 +3010,10 @@ Index: dev/tools/gn/src/base/values.cc
    list_.emplace_back(in_value);
  }
  
-Index: dev/tools/gn/src/base/values.h
+Index: beta/tools/gn/src/base/values.h
 ===================================================================
---- dev.orig/tools/gn/src/base/values.h
-+++ dev/tools/gn/src/base/values.h
+--- beta.orig/tools/gn/src/base/values.h
++++ beta/tools/gn/src/base/values.h
 @@ -27,7 +27,7 @@
  #include <map>
  #include <memory>
@@ -3330,10 +3330,10 @@ Index: dev/tools/gn/src/base/values.h
    void AppendString(const std::u16string& in_value);
    // DEPRECATED, use GetList()::emplace_back() in a loop instead.
    void AppendStrings(const std::vector<std::string>& in_values);
-Index: dev/tools/gn/src/gn/args.cc
+Index: beta/tools/gn/src/gn/args.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/args.cc
-+++ dev/tools/gn/src/gn/args.cc
+--- beta.orig/tools/gn/src/gn/args.cc
++++ beta/tools/gn/src/gn/args.cc
 @@ -108,8 +108,8 @@ Args::~Args() = default;
  void Args::AddArgOverride(const char* name, const Value& value) {
    std::lock_guard<std::mutex> lock(lock_);
@@ -3378,10 +3378,10 @@ Index: dev/tools/gn/src/gn/args.cc
    if (!suggestion.empty())
      err_help = "Did you mean \"" + suggestion + "\"?\n\n" + err_help;
  
-Index: dev/tools/gn/src/gn/args.h
+Index: beta/tools/gn/src/gn/args.h
 ===================================================================
---- dev.orig/tools/gn/src/gn/args.h
-+++ dev/tools/gn/src/gn/args.h
+--- beta.orig/tools/gn/src/gn/args.h
++++ beta/tools/gn/src/gn/args.h
 @@ -37,7 +37,7 @@ class Args {
      bool has_override;     // True indicates override_value is valid.
      Value override_value;  // From .gn or the current build's "gn args".
@@ -3391,10 +3391,10 @@ Index: dev/tools/gn/src/gn/args.h
  
    Args();
    Args(const Args& other);
-Index: dev/tools/gn/src/gn/bundle_data.cc
+Index: beta/tools/gn/src/gn/bundle_data.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/bundle_data.cc
-+++ dev/tools/gn/src/gn/bundle_data.cc
+--- beta.orig/tools/gn/src/gn/bundle_data.cc
++++ beta/tools/gn/src/gn/bundle_data.cc
 @@ -16,14 +16,14 @@
  namespace {
  
@@ -3425,10 +3425,10 @@ Index: dev/tools/gn/src/gn/bundle_data.cc
    if (base::EndsWith(source, "/Contents.json", base::CompareCase::SENSITIVE) &&
        base::EndsWith(dir, ".xcassets", base::CompareCase::SENSITIVE)) {
      is_file_from_asset_catalog = true;
-Index: dev/tools/gn/src/gn/c_include_iterator.cc
+Index: beta/tools/gn/src/gn/c_include_iterator.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/c_include_iterator.cc
-+++ dev/tools/gn/src/gn/c_include_iterator.cc
+--- beta.orig/tools/gn/src/gn/c_include_iterator.cc
++++ beta/tools/gn/src/gn/c_include_iterator.cc
 @@ -23,7 +23,7 @@ enum IncludeType {
  // Returns a new string piece referencing the same buffer as the argument, but
  // with leading space trimmed. This only checks for space and tab characters
@@ -3524,10 +3524,10 @@ Index: dev/tools/gn/src/gn/c_include_iterator.cc
    if (offset_ == file_.size())
      return false;
  
-Index: dev/tools/gn/src/gn/c_include_iterator.h
+Index: beta/tools/gn/src/gn/c_include_iterator.h
 ===================================================================
---- dev.orig/tools/gn/src/gn/c_include_iterator.h
-+++ dev/tools/gn/src/gn/c_include_iterator.h
+--- beta.orig/tools/gn/src/gn/c_include_iterator.h
++++ beta/tools/gn/src/gn/c_include_iterator.h
 @@ -7,7 +7,7 @@
  
  #include <stddef.h>
@@ -3561,10 +3561,10 @@ Index: dev/tools/gn/src/gn/c_include_iterator.h
  
    // 0-based offset into the file.
    size_t offset_ = 0;
-Index: dev/tools/gn/src/gn/command_args.cc
+Index: beta/tools/gn/src/gn/command_args.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/command_args.cc
-+++ dev/tools/gn/src/gn/command_args.cc
+--- beta.orig/tools/gn/src/gn/command_args.cc
++++ beta/tools/gn/src/gn/command_args.cc
 @@ -40,7 +40,7 @@ const char kSwitchShort[] = "short";
  const char kSwitchOverridesOnly[] = "overrides-only";
  const char kSwitchJson[] = "json";
@@ -3619,10 +3619,10 @@ Index: dev/tools/gn/src/gn/command_args.cc
                    const Args::ValueWithOverride& arg,
                    bool short_only) {
    assert(dict.is_dict());
-Index: dev/tools/gn/src/gn/command_clean.cc
+Index: beta/tools/gn/src/gn/command_clean.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/command_clean.cc
-+++ dev/tools/gn/src/gn/command_clean.cc
+--- beta.orig/tools/gn/src/gn/command_clean.cc
++++ beta/tools/gn/src/gn/command_clean.cc
 @@ -27,7 +27,7 @@ std::string ExtractGNBuildCommands(const
    if (!base::ReadFileToString(build_ninja_file, &file_contents))
      return std::string();
@@ -3632,10 +3632,10 @@ Index: dev/tools/gn/src/gn/command_clean.cc
        file_contents, "\n", base::KEEP_WHITESPACE, base::SPLIT_WANT_ALL);
  
    std::string result;
-Index: dev/tools/gn/src/gn/command_format.cc
+Index: beta/tools/gn/src/gn/command_format.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/command_format.cc
-+++ dev/tools/gn/src/gn/command_format.cc
+--- beta.orig/tools/gn/src/gn/command_format.cc
++++ beta/tools/gn/src/gn/command_format.cc
 @@ -128,7 +128,7 @@ class Printer {
    };
  
@@ -3645,7 +3645,7 @@ Index: dev/tools/gn/src/gn/command_format.cc
  
    // Add the current margin (as spaces) to the output.
    void PrintMargin();
-@@ -236,7 +236,7 @@ class Printer {
+@@ -242,7 +242,7 @@ class Printer {
    std::vector<IndentState> stack_;
  
    // Gives the precedence for operators in a BinaryOpNode.
@@ -3654,7 +3654,7 @@ Index: dev/tools/gn/src/gn/command_format.cc
  
    DISALLOW_COPY_AND_ASSIGN(Printer);
  };
-@@ -262,7 +262,7 @@ Printer::Printer() : penalty_depth_(0) {
+@@ -268,7 +268,7 @@ Printer::Printer() : penalty_depth_(0) {
  
  Printer::~Printer() = default;
  
@@ -3663,7 +3663,7 @@ Index: dev/tools/gn/src/gn/command_format.cc
    output_.append(str);
  }
  
-@@ -330,7 +330,7 @@ void Printer::SortIfSourcesOrDeps(const
+@@ -391,7 +391,7 @@ void Printer::SortIfSourcesOrDeps(const
    if ((binop->op().value() == "=" || binop->op().value() == "+=" ||
         binop->op().value() == "-=") &&
        ident && list) {
@@ -3672,7 +3672,7 @@ Index: dev/tools/gn/src/gn/command_format.cc
      if (base::EndsWith(lhs, "sources", base::CompareCase::SENSITIVE) ||
          lhs == "public")
        const_cast<ListNode*>(list)->SortAsStringsList();
-@@ -373,14 +373,14 @@ void Printer::SortImports(std::vector<st
+@@ -434,14 +434,14 @@ void Printer::SortImports(std::vector<st
                      const std::unique_ptr<PARSENODE>& b) const {
        const auto& a_args = a->AsFunctionCall()->args()->contents();
        const auto& b_args = b->AsFunctionCall()->args()->contents();
@@ -3690,10 +3690,10 @@ Index: dev/tools/gn/src/gn/command_format.cc
          return import.size() >= 3 && import[0] == '"' && import[1] == '/' &&
                 import[2] == '/';
        };
-Index: dev/tools/gn/src/gn/command_help.cc
+Index: beta/tools/gn/src/gn/command_help.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/command_help.cc
-+++ dev/tools/gn/src/gn/command_help.cc
+--- beta.orig/tools/gn/src/gn/command_help.cc
++++ beta/tools/gn/src/gn/command_help.cc
 @@ -212,7 +212,7 @@ void PrintAllHelp() {
  bool PrintHelpOnSwitch(const std::string& what) {
    const switches::SwitchInfoMap& all = switches::GetSwitches();
@@ -3721,10 +3721,10 @@ Index: dev/tools/gn/src/gn/command_help.cc
    if (suggestion.empty()) {
      OutputString("Run `gn help` for a list of available topics.\n",
                   DECORATION_NONE);
-Index: dev/tools/gn/src/gn/commands.h
+Index: beta/tools/gn/src/gn/commands.h
 ===================================================================
---- dev.orig/tools/gn/src/gn/commands.h
-+++ dev/tools/gn/src/gn/commands.h
+--- beta.orig/tools/gn/src/gn/commands.h
++++ beta/tools/gn/src/gn/commands.h
 @@ -8,7 +8,7 @@
  #include <map>
  #include <set>
@@ -3743,10 +3743,10 @@ Index: dev/tools/gn/src/gn/commands.h
  
  const CommandInfoMap& GetCommands();
  
-Index: dev/tools/gn/src/gn/create_bundle_target_generator.cc
+Index: beta/tools/gn/src/gn/create_bundle_target_generator.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/create_bundle_target_generator.cc
-+++ dev/tools/gn/src/gn/create_bundle_target_generator.cc
+--- beta.orig/tools/gn/src/gn/create_bundle_target_generator.cc
++++ beta/tools/gn/src/gn/create_bundle_target_generator.cc
 @@ -73,7 +73,7 @@ void CreateBundleTargetGenerator::DoRun(
  
  bool CreateBundleTargetGenerator::FillBundleDir(
@@ -3756,10 +3756,10 @@ Index: dev/tools/gn/src/gn/create_bundle_target_generator.cc
      SourceDir* bundle_dir) {
    // All bundle_foo_dir properties are optional. They are only required if they
    // are used in an expansion. The check is performed there.
-Index: dev/tools/gn/src/gn/create_bundle_target_generator.h
+Index: beta/tools/gn/src/gn/create_bundle_target_generator.h
 ===================================================================
---- dev.orig/tools/gn/src/gn/create_bundle_target_generator.h
-+++ dev/tools/gn/src/gn/create_bundle_target_generator.h
+--- beta.orig/tools/gn/src/gn/create_bundle_target_generator.h
++++ beta/tools/gn/src/gn/create_bundle_target_generator.h
 @@ -24,7 +24,7 @@ class CreateBundleTargetGenerator : publ
  
   private:
@@ -3769,10 +3769,10 @@ Index: dev/tools/gn/src/gn/create_bundle_target_generator.h
                       SourceDir* bundle_dir);
  
    bool FillXcodeExtraAttributes();
-Index: dev/tools/gn/src/gn/err.cc
+Index: beta/tools/gn/src/gn/err.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/err.cc
-+++ dev/tools/gn/src/gn/err.cc
+--- beta.orig/tools/gn/src/gn/err.cc
++++ beta/tools/gn/src/gn/err.cc
 @@ -17,7 +17,7 @@
  
  namespace {
@@ -3782,10 +3782,10 @@ Index: dev/tools/gn/src/gn/err.cc
    size_t line_off = Tokenizer::ByteOffsetOfNthLine(data, n);
    size_t end = line_off + 1;
    while (end < data.size() && !Tokenizer::IsNewline(data, end))
-Index: dev/tools/gn/src/gn/escape.cc
+Index: beta/tools/gn/src/gn/escape.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/escape.cc
-+++ dev/tools/gn/src/gn/escape.cc
+--- beta.orig/tools/gn/src/gn/escape.cc
++++ beta/tools/gn/src/gn/escape.cc
 @@ -41,7 +41,7 @@ const char kShellValid[0x80] = {
      1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0};
  // clang-format on
@@ -3867,10 +3867,10 @@ Index: dev/tools/gn/src/gn/escape.cc
                            const EscapeOptions& options) {
    StackOrHeapBuffer dest(str.size() * kMaxEscapedCharsPerChar);
    out.write(dest, EscapeStringToString(str, options, dest, nullptr));
-Index: dev/tools/gn/src/gn/escape.h
+Index: beta/tools/gn/src/gn/escape.h
 ===================================================================
---- dev.orig/tools/gn/src/gn/escape.h
-+++ dev/tools/gn/src/gn/escape.h
+--- beta.orig/tools/gn/src/gn/escape.h
++++ beta/tools/gn/src/gn/escape.h
 @@ -6,7 +6,7 @@
  #define TOOLS_GN_ESCAPE_H_
  
@@ -3897,10 +3897,10 @@ Index: dev/tools/gn/src/gn/escape.h
                            const EscapeOptions& options);
  
  #endif  // TOOLS_GN_ESCAPE_H_
-Index: dev/tools/gn/src/gn/filesystem_utils.cc
+Index: beta/tools/gn/src/gn/filesystem_utils.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/filesystem_utils.cc
-+++ dev/tools/gn/src/gn/filesystem_utils.cc
+--- beta.orig/tools/gn/src/gn/filesystem_utils.cc
++++ beta/tools/gn/src/gn/filesystem_utils.cc
 @@ -81,8 +81,8 @@ inline char NormalizeWindowsPathChar(cha
  
  // Attempts to do a case and slash-insensitive comparison of two 8-bit Windows
@@ -4110,10 +4110,10 @@ Index: dev/tools/gn/src/gn/filesystem_utils.cc
  
  std::string DirectoryWithNoLastSlash(const SourceDir& dir) {
    std::string ret;
-Index: dev/tools/gn/src/gn/filesystem_utils.h
+Index: beta/tools/gn/src/gn/filesystem_utils.h
 ===================================================================
---- dev.orig/tools/gn/src/gn/filesystem_utils.h
-+++ dev/tools/gn/src/gn/filesystem_utils.h
+--- beta.orig/tools/gn/src/gn/filesystem_utils.h
++++ beta/tools/gn/src/gn/filesystem_utils.h
 @@ -8,7 +8,7 @@
  #include <stddef.h>
  
@@ -4221,10 +4221,10 @@ Index: dev/tools/gn/src/gn/filesystem_utils.h
  
  // Resolves source file or directory relative to some given source root. Returns
  // an empty file path on error.
-Index: dev/tools/gn/src/gn/filesystem_utils_unittest.cc
+Index: beta/tools/gn/src/gn/filesystem_utils_unittest.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/filesystem_utils_unittest.cc
-+++ dev/tools/gn/src/gn/filesystem_utils_unittest.cc
+--- beta.orig/tools/gn/src/gn/filesystem_utils_unittest.cc
++++ beta/tools/gn/src/gn/filesystem_utils_unittest.cc
 @@ -424,7 +424,7 @@ TEST(FilesystemUtils, NormalizePath) {
  }
  
@@ -4345,10 +4345,10 @@ Index: dev/tools/gn/src/gn/filesystem_utils_unittest.cc
  #endif
  }
  
-Index: dev/tools/gn/src/gn/function_foreach.cc
+Index: beta/tools/gn/src/gn/function_foreach.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/function_foreach.cc
-+++ dev/tools/gn/src/gn/function_foreach.cc
+--- beta.orig/tools/gn/src/gn/function_foreach.cc
++++ beta/tools/gn/src/gn/function_foreach.cc
 @@ -62,7 +62,7 @@ Value RunForEach(Scope* scope,
          Err(args_vector[0].get(), "Expected an identifier for the loop var.");
      return Value();
@@ -4358,10 +4358,10 @@ Index: dev/tools/gn/src/gn/function_foreach.cc
  
    // Extract the list to iterate over. Always copy in case the code changes
    // the list variable inside the loop.
-Index: dev/tools/gn/src/gn/function_forward_variables_from.cc
+Index: beta/tools/gn/src/gn/function_forward_variables_from.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/function_forward_variables_from.cc
-+++ dev/tools/gn/src/gn/function_forward_variables_from.cc
+--- beta.orig/tools/gn/src/gn/function_forward_variables_from.cc
++++ beta/tools/gn/src/gn/function_forward_variables_from.cc
 @@ -43,10 +43,10 @@ void ForwardValuesFromList(Scope* source
      if (value) {
        // Use the storage key for the original value rather than the string in
@@ -4375,10 +4375,10 @@ Index: dev/tools/gn/src/gn/function_forward_variables_from.cc
        if (storage_key.empty()) {
          // Programmatic value, don't allow copying.
          *err =
-Index: dev/tools/gn/src/gn/function_get_path_info.cc
+Index: beta/tools/gn/src/gn/function_get_path_info.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/function_get_path_info.cc
-+++ dev/tools/gn/src/gn/function_get_path_info.cc
+--- beta.orig/tools/gn/src/gn/function_get_path_info.cc
++++ beta/tools/gn/src/gn/function_get_path_info.cc
 @@ -77,7 +77,7 @@ std::string GetOnePathInfo(const Setting
        return std::string(FindExtension(&input_string));
      }
@@ -4388,10 +4388,10 @@ Index: dev/tools/gn/src/gn/function_get_path_info.cc
        if (dir_incl_slash.empty())
          return std::string(".");
        // Trim slash since this function doesn't return trailing slashes. The
-Index: dev/tools/gn/src/gn/functions.cc
+Index: beta/tools/gn/src/gn/functions.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/functions.cc
-+++ dev/tools/gn/src/gn/functions.cc
+--- beta.orig/tools/gn/src/gn/functions.cc
++++ beta/tools/gn/src/gn/functions.cc
 @@ -135,7 +135,7 @@ bool FillTargetBlockScope(const Scope* s
  
    // Set the target name variable to the current target, and mark it used
@@ -4401,10 +4401,10 @@ Index: dev/tools/gn/src/gn/functions.cc
    block_scope->SetValue(target_name, Value(function, args[0].string_value()),
                          function);
    block_scope->MarkUsed(target_name);
-Index: dev/tools/gn/src/gn/functions.h
+Index: beta/tools/gn/src/gn/functions.h
 ===================================================================
---- dev.orig/tools/gn/src/gn/functions.h
-+++ dev/tools/gn/src/gn/functions.h
+--- beta.orig/tools/gn/src/gn/functions.h
++++ beta/tools/gn/src/gn/functions.h
 @@ -7,7 +7,7 @@
  
  #include <map>
@@ -4423,10 +4423,10 @@ Index: dev/tools/gn/src/gn/functions.h
  
  // Returns the mapping of all built-in functions.
  const FunctionInfoMap& GetFunctions();
-Index: dev/tools/gn/src/gn/generated_file_target_generator.cc
+Index: beta/tools/gn/src/gn/generated_file_target_generator.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/generated_file_target_generator.cc
-+++ dev/tools/gn/src/gn/generated_file_target_generator.cc
+--- beta.orig/tools/gn/src/gn/generated_file_target_generator.cc
++++ beta/tools/gn/src/gn/generated_file_target_generator.cc
 @@ -68,7 +68,7 @@ bool GeneratedFileTargetGenerator::FillC
  }
  
@@ -4436,10 +4436,10 @@ Index: dev/tools/gn/src/gn/generated_file_target_generator.cc
      const ParseNode* origin) {
    if (contents_defined_) {
      *err_ =
-Index: dev/tools/gn/src/gn/generated_file_target_generator.h
+Index: beta/tools/gn/src/gn/generated_file_target_generator.h
 ===================================================================
---- dev.orig/tools/gn/src/gn/generated_file_target_generator.h
-+++ dev/tools/gn/src/gn/generated_file_target_generator.h
+--- beta.orig/tools/gn/src/gn/generated_file_target_generator.h
++++ beta/tools/gn/src/gn/generated_file_target_generator.h
 @@ -35,7 +35,7 @@ class GeneratedFileTargetGenerator : pub
    // it is okay to set metadata collection variables on this target.
    //
@@ -4449,10 +4449,10 @@ Index: dev/tools/gn/src/gn/generated_file_target_generator.h
                                    const ParseNode* origin);
  
    bool contents_defined_ = false;
-Index: dev/tools/gn/src/gn/header_checker.h
+Index: beta/tools/gn/src/gn/header_checker.h
 ===================================================================
---- dev.orig/tools/gn/src/gn/header_checker.h
-+++ dev/tools/gn/src/gn/header_checker.h
+--- beta.orig/tools/gn/src/gn/header_checker.h
++++ beta/tools/gn/src/gn/header_checker.h
 @@ -10,7 +10,7 @@
  #include <map>
  #include <mutex>
@@ -4462,10 +4462,10 @@ Index: dev/tools/gn/src/gn/header_checker.h
  #include <vector>
  
  #include "base/atomic_ref_count.h"
-Index: dev/tools/gn/src/gn/input_conversion.cc
+Index: beta/tools/gn/src/gn/input_conversion.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/input_conversion.cc
-+++ dev/tools/gn/src/gn/input_conversion.cc
+--- beta.orig/tools/gn/src/gn/input_conversion.cc
++++ beta/tools/gn/src/gn/input_conversion.cc
 @@ -108,7 +108,7 @@ Value ParseList(const std::string& input
    return ret;
  }
@@ -4491,10 +4491,10 @@ Index: dev/tools/gn/src/gn/input_conversion.cc
          scope->SetValue(key, std::move(parsed_value), origin);
        }
        return Value(origin, std::move(scope));
-Index: dev/tools/gn/src/gn/label.cc
+Index: beta/tools/gn/src/gn/label.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/label.cc
-+++ dev/tools/gn/src/gn/label.cc
+--- beta.orig/tools/gn/src/gn/label.cc
++++ beta/tools/gn/src/gn/label.cc
 @@ -29,7 +29,7 @@ std::string DirWithNoTrailingSlash(const
  // used. The value is used only for generating error messages.
  bool ComputeBuildLocationFromDep(const Value& input_value,
@@ -4590,10 +4590,10 @@ Index: dev/tools/gn/src/gn/label.cc
    name_.assign(name.data(), name.size());
  }
  
-Index: dev/tools/gn/src/gn/label.h
+Index: beta/tools/gn/src/gn/label.h
 ===================================================================
---- dev.orig/tools/gn/src/gn/label.h
-+++ dev/tools/gn/src/gn/label.h
+--- beta.orig/tools/gn/src/gn/label.h
++++ beta/tools/gn/src/gn/label.h
 @@ -24,12 +24,12 @@ class Label {
    // Makes a label given an already-separated out path and name.
    // See also Resolve().
@@ -4610,10 +4610,10 @@ Index: dev/tools/gn/src/gn/label.h
  
    // Resolves a string from a build file that may be relative to the
    // current directory into a fully qualified label. On failure returns an
-Index: dev/tools/gn/src/gn/label_pattern.cc
+Index: beta/tools/gn/src/gn/label_pattern.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/label_pattern.cc
-+++ dev/tools/gn/src/gn/label_pattern.cc
+--- beta.orig/tools/gn/src/gn/label_pattern.cc
++++ beta/tools/gn/src/gn/label_pattern.cc
 @@ -53,7 +53,7 @@ LabelPattern::LabelPattern() : type_(MAT
  
  LabelPattern::LabelPattern(Type type,
@@ -4670,10 +4670,10 @@ Index: dev/tools/gn/src/gn/label_pattern.cc
  }
  
  bool LabelPattern::HasWildcard(const std::string& str) {
-Index: dev/tools/gn/src/gn/label_pattern.h
+Index: beta/tools/gn/src/gn/label_pattern.h
 ===================================================================
---- dev.orig/tools/gn/src/gn/label_pattern.h
-+++ dev/tools/gn/src/gn/label_pattern.h
+--- beta.orig/tools/gn/src/gn/label_pattern.h
++++ beta/tools/gn/src/gn/label_pattern.h
 @@ -5,7 +5,7 @@
  #ifndef TOOLS_GN_LABEL_PATTERN_H_
  #define TOOLS_GN_LABEL_PATTERN_H_
@@ -4692,10 +4692,10 @@ Index: dev/tools/gn/src/gn/label_pattern.h
                 const Label& toolchain_label);
    LabelPattern(const LabelPattern& other);
    ~LabelPattern();
-Index: dev/tools/gn/src/gn/lib_file.cc
+Index: beta/tools/gn/src/gn/lib_file.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/lib_file.cc
-+++ dev/tools/gn/src/gn/lib_file.cc
+--- beta.orig/tools/gn/src/gn/lib_file.cc
++++ beta/tools/gn/src/gn/lib_file.cc
 @@ -8,7 +8,7 @@
  
  LibFile::LibFile(const SourceFile& source_file) : source_file_(source_file) {}
@@ -4705,10 +4705,10 @@ Index: dev/tools/gn/src/gn/lib_file.cc
      : name_(lib_name.data(), lib_name.size()) {
    DCHECK(!lib_name.empty());
  }
-Index: dev/tools/gn/src/gn/lib_file.h
+Index: beta/tools/gn/src/gn/lib_file.h
 ===================================================================
---- dev.orig/tools/gn/src/gn/lib_file.h
-+++ dev/tools/gn/src/gn/lib_file.h
+--- beta.orig/tools/gn/src/gn/lib_file.h
++++ beta/tools/gn/src/gn/lib_file.h
 @@ -9,7 +9,7 @@
  
  #include <algorithm>
@@ -4727,10 +4727,10 @@ Index: dev/tools/gn/src/gn/lib_file.h
    explicit LibFile(const SourceFile& source_file);
  
    bool is_source_file() const { return name_.empty(); }
-Index: dev/tools/gn/src/gn/metadata_unittest.cc
+Index: beta/tools/gn/src/gn/metadata_unittest.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/metadata_unittest.cc
-+++ dev/tools/gn/src/gn/metadata_unittest.cc
+--- beta.orig/tools/gn/src/gn/metadata_unittest.cc
++++ beta/tools/gn/src/gn/metadata_unittest.cc
 @@ -17,8 +17,8 @@ TEST(MetadataTest, SetContents) {
    b_expected.list_value().push_back(Value(nullptr, true));
  
@@ -4787,10 +4787,10 @@ Index: dev/tools/gn/src/gn/metadata_unittest.cc
  
    std::vector<std::string> data_keys;
    std::vector<std::string> walk_keys;
-Index: dev/tools/gn/src/gn/metadata_walk_unittest.cc
+Index: beta/tools/gn/src/gn/metadata_walk_unittest.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/metadata_walk_unittest.cc
-+++ dev/tools/gn/src/gn/metadata_walk_unittest.cc
+--- beta.orig/tools/gn/src/gn/metadata_walk_unittest.cc
++++ beta/tools/gn/src/gn/metadata_walk_unittest.cc
 @@ -17,12 +17,12 @@ TEST(MetadataWalkTest, CollectNoRecurse)
    Value a_expected(nullptr, Value::LIST);
    a_expected.list_value().push_back(Value(nullptr, "foo"));
@@ -4888,11 +4888,11 @@ Index: dev/tools/gn/src/gn/metadata_walk_unittest.cc
  
    UniqueVector<const Target*> targets;
    targets.push_back(&one);
-Index: dev/tools/gn/src/gn/ninja_rust_binary_target_writer.cc
+Index: beta/tools/gn/src/gn/ninja_rust_binary_target_writer.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/ninja_rust_binary_target_writer.cc
-+++ dev/tools/gn/src/gn/ninja_rust_binary_target_writer.cc
-@@ -245,7 +245,7 @@ void NinjaRustBinaryTargetWriter::WriteR
+--- beta.orig/tools/gn/src/gn/ninja_rust_binary_target_writer.cc
++++ beta/tools/gn/src/gn/ninja_rust_binary_target_writer.cc
+@@ -249,7 +249,7 @@ void NinjaRustBinaryTargetWriter::WriteR
  
    EscapeOptions lib_escape_opts;
    lib_escape_opts.mode = ESCAPE_NINJA_COMMAND;
@@ -4901,7 +4901,7 @@ Index: dev/tools/gn/src/gn/ninja_rust_binary_target_writer.cc
  
    // Non-Rust native dependencies.
    for (const auto& nonrustdep : nonrustdeps) {
-@@ -253,7 +253,7 @@ void NinjaRustBinaryTargetWriter::WriteR
+@@ -257,7 +257,7 @@ void NinjaRustBinaryTargetWriter::WriteR
      path_output_.WriteDir(
          out_, nonrustdep.AsSourceFile(settings_->build_settings()).GetDir(),
          PathOutput::DIR_NO_LAST_SLASH);
@@ -4910,10 +4910,10 @@ Index: dev/tools/gn/src/gn/ninja_rust_binary_target_writer.cc
      if (!file.compare(0, lib_prefix.size(), lib_prefix)) {
        out_ << " -l";
        EscapeStringToStream(out_, file.substr(lib_prefix.size()),
-Index: dev/tools/gn/src/gn/operators.cc
+Index: beta/tools/gn/src/gn/operators.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/operators.cc
-+++ dev/tools/gn/src/gn/operators.cc
+--- beta.orig/tools/gn/src/gn/operators.cc
++++ beta/tools/gn/src/gn/operators.cc
 @@ -101,7 +101,7 @@ bool ValueDestination::Init(Scope* exec_
    }
  
@@ -4923,10 +4923,10 @@ Index: dev/tools/gn/src/gn/operators.cc
    Value* base =
        exec_scope->GetMutableValue(base_str, Scope::SEARCH_CURRENT, false);
    if (!base) {
-Index: dev/tools/gn/src/gn/output_conversion_unittest.cc
+Index: beta/tools/gn/src/gn/output_conversion_unittest.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/output_conversion_unittest.cc
-+++ dev/tools/gn/src/gn/output_conversion_unittest.cc
+--- beta.orig/tools/gn/src/gn/output_conversion_unittest.cc
++++ beta/tools/gn/src/gn/output_conversion_unittest.cc
 @@ -100,7 +100,7 @@ TEST_F(OutputConversionTest, StringScope
    // Add some values to the scope.
    Value value(nullptr, "hello");
@@ -4945,10 +4945,10 @@ Index: dev/tools/gn/src/gn/output_conversion_unittest.cc
    new_scope->SetValue(private_var_name, value, nullptr);
  
    std::ostringstream result;
-Index: dev/tools/gn/src/gn/parse_tree.cc
+Index: beta/tools/gn/src/gn/parse_tree.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/parse_tree.cc
-+++ dev/tools/gn/src/gn/parse_tree.cc
+--- beta.orig/tools/gn/src/gn/parse_tree.cc
++++ beta/tools/gn/src/gn/parse_tree.cc
 @@ -36,7 +36,7 @@ enum DepsCategory {
    DEPS_CATEGORY_OTHER,
  };
@@ -5041,10 +5041,10 @@ Index: dev/tools/gn/src/gn/parse_tree.cc
        if ((base::StartsWith(s, "0", base::CompareCase::SENSITIVE) &&
             s.size() > 1) ||
            base::StartsWith(s, "-0", base::CompareCase::SENSITIVE)) {
-Index: dev/tools/gn/src/gn/parse_tree.h
+Index: beta/tools/gn/src/gn/parse_tree.h
 ===================================================================
---- dev.orig/tools/gn/src/gn/parse_tree.h
-+++ dev/tools/gn/src/gn/parse_tree.h
+--- beta.orig/tools/gn/src/gn/parse_tree.h
++++ beta/tools/gn/src/gn/parse_tree.h
 @@ -113,7 +113,7 @@ class ParseNode {
    // given type (and value).
    base::Value CreateJSONNode(const char* type) const;
@@ -5054,10 +5054,10 @@ Index: dev/tools/gn/src/gn/parse_tree.h
  
   private:
    // Helper function for CreateJSONNode.
-Index: dev/tools/gn/src/gn/parser.cc
+Index: beta/tools/gn/src/gn/parser.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/parser.cc
-+++ dev/tools/gn/src/gn/parser.cc
+--- beta.orig/tools/gn/src/gn/parser.cc
++++ beta/tools/gn/src/gn/parser.cc
 @@ -290,7 +290,7 @@ ParserHelper Parser::expressions_[] = {
  };
  
@@ -5067,10 +5067,10 @@ Index: dev/tools/gn/src/gn/parser.cc
        err_(err),
        cur_(0) {
    for (const auto& token : tokens) {
-Index: dev/tools/gn/src/gn/path_output.cc
+Index: beta/tools/gn/src/gn/path_output.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/path_output.cc
-+++ dev/tools/gn/src/gn/path_output.cc
+--- beta.orig/tools/gn/src/gn/path_output.cc
++++ beta/tools/gn/src/gn/path_output.cc
 @@ -11,7 +11,7 @@
  #include "util/build_config.h"
  
@@ -5130,10 +5130,10 @@ Index: dev/tools/gn/src/gn/path_output.cc
      // The current dir is a prefix of the output file, so we can strip the
      // prefix and write out the result.
      EscapeStringToStream(out, str.substr(current_dir_.value().size()),
-Index: dev/tools/gn/src/gn/path_output.h
+Index: beta/tools/gn/src/gn/path_output.h
 ===================================================================
---- dev.orig/tools/gn/src/gn/path_output.h
-+++ dev/tools/gn/src/gn/path_output.h
+--- beta.orig/tools/gn/src/gn/path_output.h
++++ beta/tools/gn/src/gn/path_output.h
 @@ -7,7 +7,7 @@
  
  #include <iosfwd>
@@ -5168,10 +5168,10 @@ Index: dev/tools/gn/src/gn/path_output.h
  
    SourceDir current_dir_;
  
-Index: dev/tools/gn/src/gn/path_output_unittest.cc
+Index: beta/tools/gn/src/gn/path_output_unittest.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/path_output_unittest.cc
-+++ dev/tools/gn/src/gn/path_output_unittest.cc
+--- beta.orig/tools/gn/src/gn/path_output_unittest.cc
++++ beta/tools/gn/src/gn/path_output_unittest.cc
 @@ -14,7 +14,7 @@
  
  TEST(PathOutput, Basic) {
@@ -5235,10 +5235,10 @@ Index: dev/tools/gn/src/gn/path_output_unittest.cc
      PathOutput root_writer(SourceDir("//"), source_root, ESCAPE_NINJA);
      {
        std::ostringstream out;
-Index: dev/tools/gn/src/gn/scope.cc
+Index: beta/tools/gn/src/gn/scope.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/scope.cc
-+++ dev/tools/gn/src/gn/scope.cc
+--- beta.orig/tools/gn/src/gn/scope.cc
++++ beta/tools/gn/src/gn/scope.cc
 @@ -21,7 +21,7 @@ const unsigned kProcessingImportFlag = 2
  // Returns true if this variable name should be considered private. Private
  // values start with an underscore, and are not imported from "gni" files
@@ -5364,10 +5364,10 @@ Index: dev/tools/gn/src/gn/scope.cc
      if (options.skip_private_vars && IsPrivateVar(current_name))
        continue;  // Skip this private var.
      if (!options.excluded_values.empty() &&
-Index: dev/tools/gn/src/gn/scope.h
+Index: beta/tools/gn/src/gn/scope.h
 ===================================================================
---- dev.orig/tools/gn/src/gn/scope.h
-+++ dev/tools/gn/src/gn/scope.h
+--- beta.orig/tools/gn/src/gn/scope.h
++++ beta/tools/gn/src/gn/scope.h
 @@ -38,7 +38,7 @@ class Template;
  // variables. So you should use a non-const containing scope whenever possible.
  class Scope {
@@ -5467,10 +5467,10 @@ Index: dev/tools/gn/src/gn/scope.h
  
    void AddProvider(ProgrammaticProvider* p);
    void RemoveProvider(ProgrammaticProvider* p);
-Index: dev/tools/gn/src/gn/scope_per_file_provider.cc
+Index: beta/tools/gn/src/gn/scope_per_file_provider.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/scope_per_file_provider.cc
-+++ dev/tools/gn/src/gn/scope_per_file_provider.cc
+--- beta.orig/tools/gn/src/gn/scope_per_file_provider.cc
++++ beta/tools/gn/src/gn/scope_per_file_provider.cc
 @@ -18,7 +18,7 @@ ScopePerFileProvider::ScopePerFileProvid
  ScopePerFileProvider::~ScopePerFileProvider() = default;
  
@@ -5480,10 +5480,10 @@ Index: dev/tools/gn/src/gn/scope_per_file_provider.cc
    if (ident == variables::kCurrentToolchain)
      return GetCurrentToolchain();
    if (ident == variables::kDefaultToolchain)
-Index: dev/tools/gn/src/gn/scope_per_file_provider.h
+Index: beta/tools/gn/src/gn/scope_per_file_provider.h
 ===================================================================
---- dev.orig/tools/gn/src/gn/scope_per_file_provider.h
-+++ dev/tools/gn/src/gn/scope_per_file_provider.h
+--- beta.orig/tools/gn/src/gn/scope_per_file_provider.h
++++ beta/tools/gn/src/gn/scope_per_file_provider.h
 @@ -21,7 +21,7 @@ class ScopePerFileProvider : public Scop
    ~ScopePerFileProvider() override;
  
@@ -5493,10 +5493,10 @@ Index: dev/tools/gn/src/gn/scope_per_file_provider.h
  
   private:
    const Value* GetCurrentToolchain();
-Index: dev/tools/gn/src/gn/scope_unittest.cc
+Index: beta/tools/gn/src/gn/scope_unittest.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/scope_unittest.cc
-+++ dev/tools/gn/src/gn/scope_unittest.cc
+--- beta.orig/tools/gn/src/gn/scope_unittest.cc
++++ beta/tools/gn/src/gn/scope_unittest.cc
 @@ -57,7 +57,7 @@ TEST(Scope, NonRecursiveMergeTo) {
    // Add some values to the scope.
    Value old_value(&assignment, "hello");
@@ -5506,10 +5506,10 @@ Index: dev/tools/gn/src/gn/scope_unittest.cc
    setup.scope()->SetValue(private_var_name, old_value, &assignment);
  
    // Add some templates to the scope.
-Index: dev/tools/gn/src/gn/setup.cc
+Index: beta/tools/gn/src/gn/setup.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/setup.cc
-+++ dev/tools/gn/src/gn/setup.cc
+--- beta.orig/tools/gn/src/gn/setup.cc
++++ beta/tools/gn/src/gn/setup.cc
 @@ -202,7 +202,7 @@ void DecrementWorkCount() {
  
  #if defined(OS_WIN)
@@ -5528,10 +5528,10 @@ Index: dev/tools/gn/src/gn/setup.cc
             base::TRIM_WHITESPACE, base::SPLIT_WANT_NONEMPTY)) {
      base::FilePath candidate_exe =
          base::FilePath(component).Append(kPythonExeName);
-Index: dev/tools/gn/src/gn/source_dir.cc
+Index: beta/tools/gn/src/gn/source_dir.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/source_dir.cc
-+++ dev/tools/gn/src/gn/source_dir.cc
+--- beta.orig/tools/gn/src/gn/source_dir.cc
++++ beta/tools/gn/src/gn/source_dir.cc
 @@ -77,7 +77,7 @@ std::string SourceDir::ResolveRelativeAs
      const Value& blame_input_value,
      const StringType& input_value,
@@ -5583,10 +5583,10 @@ Index: dev/tools/gn/src/gn/source_dir.cc
      Err* err,
 -    const std::string_view& source_root) const;
 +    const std::experimental::string_view& source_root) const;
-Index: dev/tools/gn/src/gn/source_dir.h
+Index: beta/tools/gn/src/gn/source_dir.h
 ===================================================================
---- dev.orig/tools/gn/src/gn/source_dir.h
-+++ dev/tools/gn/src/gn/source_dir.h
+--- beta.orig/tools/gn/src/gn/source_dir.h
++++ beta/tools/gn/src/gn/source_dir.h
 @@ -9,7 +9,7 @@
  
  #include <algorithm>
@@ -5664,10 +5664,10 @@ Index: dev/tools/gn/src/gn/source_dir.h
    }
  
    void SwapValue(std::string* v);
-Index: dev/tools/gn/src/gn/source_dir_unittest.cc
+Index: beta/tools/gn/src/gn/source_dir_unittest.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/source_dir_unittest.cc
-+++ dev/tools/gn/src/gn/source_dir_unittest.cc
+--- beta.orig/tools/gn/src/gn/source_dir_unittest.cc
++++ beta/tools/gn/src/gn/source_dir_unittest.cc
 @@ -13,9 +13,9 @@ TEST(SourceDir, ResolveRelativeFile) {
    Err err;
    SourceDir base("//base/");
@@ -5692,10 +5692,10 @@ Index: dev/tools/gn/src/gn/source_dir_unittest.cc
  #endif
  
    // Empty input is an error.
-Index: dev/tools/gn/src/gn/source_file.cc
+Index: beta/tools/gn/src/gn/source_file.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/source_file.cc
-+++ dev/tools/gn/src/gn/source_file.cc
+--- beta.orig/tools/gn/src/gn/source_file.cc
++++ beta/tools/gn/src/gn/source_file.cc
 @@ -22,7 +22,7 @@ void AssertValueSourceFileString(const s
  }
  
@@ -5705,10 +5705,10 @@ Index: dev/tools/gn/src/gn/source_file.cc
    if (extension == "cc" || extension == "cpp" || extension == "cxx")
      return SourceFile::SOURCE_CPP;
    if (extension == "h" || extension == "hpp" || extension == "hxx" ||
-Index: dev/tools/gn/src/gn/source_file.h
+Index: beta/tools/gn/src/gn/source_file.h
 ===================================================================
---- dev.orig/tools/gn/src/gn/source_file.h
-+++ dev/tools/gn/src/gn/source_file.h
+--- beta.orig/tools/gn/src/gn/source_file.h
++++ beta/tools/gn/src/gn/source_file.h
 @@ -9,7 +9,7 @@
  
  #include <algorithm>
@@ -5730,10 +5730,10 @@ Index: dev/tools/gn/src/gn/source_file.h
    }
  
    bool operator==(const SourceFile& other) const {
-Index: dev/tools/gn/src/gn/standard_out.cc
+Index: beta/tools/gn/src/gn/standard_out.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/standard_out.cc
-+++ dev/tools/gn/src/gn/standard_out.cc
+--- beta.orig/tools/gn/src/gn/standard_out.cc
++++ beta/tools/gn/src/gn/standard_out.cc
 @@ -6,7 +6,7 @@
  
  #include <stddef.h>
@@ -5743,10 +5743,10 @@ Index: dev/tools/gn/src/gn/standard_out.cc
  #include <vector>
  
  #include "base/command_line.h"
-Index: dev/tools/gn/src/gn/string_utils.cc
+Index: beta/tools/gn/src/gn/string_utils.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/string_utils.cc
-+++ dev/tools/gn/src/gn/string_utils.cc
+--- beta.orig/tools/gn/src/gn/string_utils.cc
++++ beta/tools/gn/src/gn/string_utils.cc
 @@ -117,7 +117,7 @@ bool AppendInterpolatedIdentifier(Scope*
                                    size_t end_offset,
                                    std::string* output,
@@ -5794,10 +5794,10 @@ Index: dev/tools/gn/src/gn/string_utils.cc
      size_t distance = EditDistance(word, text, kMaxValidEditDistance);
      if (distance < min_distance) {
        min_distance = distance;
-Index: dev/tools/gn/src/gn/string_utils.h
+Index: beta/tools/gn/src/gn/string_utils.h
 ===================================================================
---- dev.orig/tools/gn/src/gn/string_utils.h
-+++ dev/tools/gn/src/gn/string_utils.h
+--- beta.orig/tools/gn/src/gn/string_utils.h
++++ beta/tools/gn/src/gn/string_utils.h
 @@ -6,7 +6,7 @@
  #define TOOLS_GN_STRING_UTILS_H_
  
@@ -5846,10 +5846,10 @@ Index: dev/tools/gn/src/gn/string_utils.h
  
  // Reads stdin until end-of-data and returns what it read.
  std::string ReadStdin();
-Index: dev/tools/gn/src/gn/string_utils_unittest.cc
+Index: beta/tools/gn/src/gn/string_utils_unittest.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/string_utils_unittest.cc
-+++ dev/tools/gn/src/gn/string_utils_unittest.cc
+--- beta.orig/tools/gn/src/gn/string_utils_unittest.cc
++++ beta/tools/gn/src/gn/string_utils_unittest.cc
 @@ -144,7 +144,7 @@ TEST(StringUtils, EditDistance) {
  }
  
@@ -5859,10 +5859,10 @@ Index: dev/tools/gn/src/gn/string_utils_unittest.cc
    words.push_back("your");
    words.push_back("bravado");
    words.push_back("won\'t");
-Index: dev/tools/gn/src/gn/switches.h
+Index: beta/tools/gn/src/gn/switches.h
 ===================================================================
---- dev.orig/tools/gn/src/gn/switches.h
-+++ dev/tools/gn/src/gn/switches.h
+--- beta.orig/tools/gn/src/gn/switches.h
++++ beta/tools/gn/src/gn/switches.h
 @@ -6,7 +6,7 @@
  #define TOOLS_GN_SWITCHES_H_
  
@@ -5881,11 +5881,11 @@ Index: dev/tools/gn/src/gn/switches.h
  
  // Returns the mapping of all global switches.
  const SwitchInfoMap& GetSwitches();
-Index: dev/tools/gn/src/gn/target_unittest.cc
+Index: beta/tools/gn/src/gn/target_unittest.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/target_unittest.cc
-+++ dev/tools/gn/src/gn/target_unittest.cc
-@@ -1108,12 +1108,12 @@ TEST(TargetTest, CollectMetadataNoRecurs
+--- beta.orig/tools/gn/src/gn/target_unittest.cc
++++ beta/tools/gn/src/gn/target_unittest.cc
+@@ -1154,12 +1154,12 @@ TEST(TargetTest, CollectMetadataNoRecurs
    Value a_expected(nullptr, Value::LIST);
    a_expected.list_value().push_back(Value(nullptr, "foo"));
    one.metadata().contents().insert(
@@ -5900,7 +5900,7 @@ Index: dev/tools/gn/src/gn/target_unittest.cc
  
    one.metadata().set_source_dir(SourceDir("/usr/home/files/"));
  
-@@ -1143,18 +1143,18 @@ TEST(TargetTest, CollectMetadataWithRecu
+@@ -1189,18 +1189,18 @@ TEST(TargetTest, CollectMetadataWithRecu
    Value a_expected(nullptr, Value::LIST);
    a_expected.list_value().push_back(Value(nullptr, "foo"));
    one.metadata().contents().insert(
@@ -5922,7 +5922,7 @@ Index: dev/tools/gn/src/gn/target_unittest.cc
  
    one.public_deps().push_back(LabelTargetPair(&two));
  
-@@ -1185,25 +1185,25 @@ TEST(TargetTest, CollectMetadataWithBarr
+@@ -1231,25 +1231,25 @@ TEST(TargetTest, CollectMetadataWithBarr
    Value a_expected(nullptr, Value::LIST);
    a_expected.list_value().push_back(Value(nullptr, "foo"));
    one.metadata().contents().insert(
@@ -5952,7 +5952,7 @@ Index: dev/tools/gn/src/gn/target_unittest.cc
  
    one.private_deps().push_back(LabelTargetPair(&two));
    one.public_deps().push_back(LabelTargetPair(&three));
-@@ -1234,12 +1234,12 @@ TEST(TargetTest, CollectMetadataWithErro
+@@ -1280,12 +1280,12 @@ TEST(TargetTest, CollectMetadataWithErro
    Value a_expected(nullptr, Value::LIST);
    a_expected.list_value().push_back(Value(nullptr, "foo"));
    one.metadata().contents().insert(
@@ -5967,10 +5967,10 @@ Index: dev/tools/gn/src/gn/target_unittest.cc
  
    std::vector<std::string> data_keys;
    data_keys.push_back("a");
-Index: dev/tools/gn/src/gn/template.cc
+Index: beta/tools/gn/src/gn/template.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/template.cc
-+++ dev/tools/gn/src/gn/template.cc
+--- beta.orig/tools/gn/src/gn/template.cc
++++ beta/tools/gn/src/gn/template.cc
 @@ -83,7 +83,7 @@ Value Template::Invoke(Scope* scope,
    invoker_value->SetScopeValue(std::move(invocation_scope));
    template_scope.set_source_dir(scope->GetSourceDir());
@@ -5980,10 +5980,10 @@ Index: dev/tools/gn/src/gn/template.cc
    template_scope.SetValue(
        target_name, Value(invocation, args[0].string_value()), invocation);
  
-Index: dev/tools/gn/src/gn/token.cc
+Index: beta/tools/gn/src/gn/token.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/token.cc
-+++ dev/tools/gn/src/gn/token.cc
+--- beta.orig/tools/gn/src/gn/token.cc
++++ beta/tools/gn/src/gn/token.cc
 @@ -8,7 +8,7 @@
  
  Token::Token() : type_(INVALID), value_() {}
@@ -5993,10 +5993,10 @@ Index: dev/tools/gn/src/gn/token.cc
      : type_(t), value_(v), location_(location) {}
  
  bool Token::IsIdentifierEqualTo(const char* v) const {
-Index: dev/tools/gn/src/gn/token.h
+Index: beta/tools/gn/src/gn/token.h
 ===================================================================
---- dev.orig/tools/gn/src/gn/token.h
-+++ dev/tools/gn/src/gn/token.h
+--- beta.orig/tools/gn/src/gn/token.h
++++ beta/tools/gn/src/gn/token.h
 @@ -5,7 +5,7 @@
  #ifndef TOOLS_GN_TOKEN_H_
  #define TOOLS_GN_TOKEN_H_
@@ -6028,10 +6028,10 @@ Index: dev/tools/gn/src/gn/token.h
    Location location_;
  };
  
-Index: dev/tools/gn/src/gn/tokenizer.cc
+Index: beta/tools/gn/src/gn/tokenizer.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/tokenizer.cc
-+++ dev/tools/gn/src/gn/tokenizer.cc
+--- beta.orig/tools/gn/src/gn/tokenizer.cc
++++ beta/tools/gn/src/gn/tokenizer.cc
 @@ -32,7 +32,7 @@ bool IsScoperChar(char c) {
    return c == '(' || c == ')' || c == '[' || c == ']' || c == '{' || c == '}';
  }
@@ -6068,10 +6068,10 @@ Index: dev/tools/gn/src/gn/tokenizer.cc
    DCHECK(offset < buffer.size());
    // We may need more logic here to handle different line ending styles.
    return buffer[offset] == '\n';
-Index: dev/tools/gn/src/gn/tokenizer.h
+Index: beta/tools/gn/src/gn/tokenizer.h
 ===================================================================
---- dev.orig/tools/gn/src/gn/tokenizer.h
-+++ dev/tools/gn/src/gn/tokenizer.h
+--- beta.orig/tools/gn/src/gn/tokenizer.h
++++ beta/tools/gn/src/gn/tokenizer.h
 @@ -7,7 +7,7 @@
  
  #include <stddef.h>
@@ -6104,10 +6104,10 @@ Index: dev/tools/gn/src/gn/tokenizer.h
    Err* err_;
    WhitespaceTransform whitespace_transform_;
    size_t cur_ = 0;  // Byte offset into input buffer.
-Index: dev/tools/gn/src/gn/toolchain.h
+Index: beta/tools/gn/src/gn/toolchain.h
 ===================================================================
---- dev.orig/tools/gn/src/gn/toolchain.h
-+++ dev/tools/gn/src/gn/toolchain.h
+--- beta.orig/tools/gn/src/gn/toolchain.h
++++ beta/tools/gn/src/gn/toolchain.h
 @@ -6,7 +6,7 @@
  #define TOOLS_GN_TOOLCHAIN_H_
  
@@ -6117,10 +6117,10 @@ Index: dev/tools/gn/src/gn/toolchain.h
  
  #include "base/logging.h"
  #include "gn/item.h"
-Index: dev/tools/gn/src/gn/variables.h
+Index: beta/tools/gn/src/gn/variables.h
 ===================================================================
---- dev.orig/tools/gn/src/gn/variables.h
-+++ dev/tools/gn/src/gn/variables.h
+--- beta.orig/tools/gn/src/gn/variables.h
++++ beta/tools/gn/src/gn/variables.h
 @@ -6,7 +6,7 @@
  #define TOOLS_GN_VARIABLES_H_
  
@@ -6130,7 +6130,7 @@ Index: dev/tools/gn/src/gn/variables.h
  
  namespace variables {
  
-@@ -340,7 +340,7 @@ struct VariableInfo {
+@@ -348,7 +348,7 @@ struct VariableInfo {
    const char* help;
  };
  
@@ -6139,10 +6139,10 @@ Index: dev/tools/gn/src/gn/variables.h
  
  // Returns the built-in readonly variables.
  // Note: this is used only for help so this getter is not threadsafe.
-Index: dev/tools/gn/src/gn/visibility.cc
+Index: beta/tools/gn/src/gn/visibility.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/visibility.cc
-+++ dev/tools/gn/src/gn/visibility.cc
+--- beta.orig/tools/gn/src/gn/visibility.cc
++++ beta/tools/gn/src/gn/visibility.cc
 @@ -5,7 +5,7 @@
  #include "gn/visibility.h"
  
@@ -6152,10 +6152,10 @@ Index: dev/tools/gn/src/gn/visibility.cc
  
  #include "base/strings/string_util.h"
  #include "base/values.h"
-Index: dev/tools/gn/src/gn/visual_studio_writer.cc
+Index: beta/tools/gn/src/gn/visual_studio_writer.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/visual_studio_writer.cc
-+++ dev/tools/gn/src/gn/visual_studio_writer.cc
+--- beta.orig/tools/gn/src/gn/visual_studio_writer.cc
++++ beta/tools/gn/src/gn/visual_studio_writer.cc
 @@ -175,13 +175,13 @@ void ParseLinkerOptions(const Target* ta
  // Returns a string piece pointing into the input string identifying the parent
  // directory path, excluding the last slash. Note that the input pointer must
@@ -6203,10 +6203,10 @@ Index: dev/tools/gn/src/gn/visual_studio_writer.cc
      while ((parent_path = FindParentDir(&folder->path)) != root_folder_path_) {
        auto it = processed_paths.find(parent_path);
        if (it != processed_paths.end()) {
-Index: dev/tools/gn/src/gn/xcode_object.cc
+Index: beta/tools/gn/src/gn/xcode_object.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/xcode_object.cc
-+++ dev/tools/gn/src/gn/xcode_object.cc
+--- beta.orig/tools/gn/src/gn/xcode_object.cc
++++ beta/tools/gn/src/gn/xcode_object.cc
 @@ -141,7 +141,7 @@ const SourceTypeForExt kSourceTypeForExt
      {"y", "sourcecode.yacc"},
  };
@@ -6266,10 +6266,10 @@ Index: dev/tools/gn/src/gn/xcode_object.cc
    PBXFileReference* product = static_cast<PBXFileReference*>(
        products_->AddChild(std::make_unique<PBXFileReference>(
            std::string(), output_name,
-Index: dev/tools/gn/src/gn/xml_element_writer.cc
+Index: beta/tools/gn/src/gn/xml_element_writer.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/xml_element_writer.cc
-+++ dev/tools/gn/src/gn/xml_element_writer.cc
+--- beta.orig/tools/gn/src/gn/xml_element_writer.cc
++++ beta/tools/gn/src/gn/xml_element_writer.cc
 @@ -8,13 +8,13 @@
  
  XmlAttributes::XmlAttributes() = default;
@@ -6297,10 +6297,10 @@ Index: dev/tools/gn/src/gn/xml_element_writer.cc
    StartContent(false);
    out_ << content;
  }
-Index: dev/tools/gn/src/gn/xml_element_writer.h
+Index: beta/tools/gn/src/gn/xml_element_writer.h
 ===================================================================
---- dev.orig/tools/gn/src/gn/xml_element_writer.h
-+++ dev/tools/gn/src/gn/xml_element_writer.h
+--- beta.orig/tools/gn/src/gn/xml_element_writer.h
++++ beta/tools/gn/src/gn/xml_element_writer.h
 @@ -8,7 +8,7 @@
  #include <memory>
  #include <ostream>
@@ -6339,10 +6339,10 @@ Index: dev/tools/gn/src/gn/xml_element_writer.h
  
    // Starts new XML sub-element. Caller must ensure that parent element outlives
    // its children.
-Index: dev/tools/gn/src/gn/rust_values_generator.cc
+Index: beta/tools/gn/src/gn/rust_values_generator.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/rust_values_generator.cc
-+++ dev/tools/gn/src/gn/rust_values_generator.cc
+--- beta.orig/tools/gn/src/gn/rust_values_generator.cc
++++ beta/tools/gn/src/gn/rust_values_generator.cc
 @@ -183,7 +183,7 @@ bool RustTargetGenerator::FillAliasedDep
  
      // Insert into the aliased_deps map.

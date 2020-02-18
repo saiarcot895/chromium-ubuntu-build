@@ -1,11 +1,11 @@
 Author: Olivier Tilloy <olivier.tilloy@canonical.com>
 Description: revert of 074fa51f85b15ad2e2d6c804a03825d48dbeb063, which requires Clang r313108 (unreleased yet)
 
-Index: dev/build/config/compiler/BUILD.gn
+Index: beta/build/config/compiler/BUILD.gn
 ===================================================================
---- dev.orig/build/config/compiler/BUILD.gn
-+++ dev/build/config/compiler/BUILD.gn
-@@ -500,31 +500,6 @@ config("compiler") {
+--- beta.orig/build/config/compiler/BUILD.gn
++++ beta/build/config/compiler/BUILD.gn
+@@ -490,20 +490,6 @@ config("compiler") {
      }
    }
  
@@ -21,17 +21,6 @@ Index: dev/build/config/compiler/BUILD.gn
 -      "-Xclang",
 -      "-instcombine-lower-dbg-declare=0",
 -    ]
--
--    if (llvm_force_head_revision) {
--      # Before Clang 10, lax vector conversions were allowed by default.
--      # Chromium currently relies on this behavior.
--      # TODO(crbug.com/1042470): Fix the code and remove this flag.
--      if (is_win) {
--        cflags += [ "/clang:-flax-vector-conversions=all" ]
--      } else if (cros_sdk_version == "") {
--        cflags += [ "-flax-vector-conversions=all" ]
--      }
--    }
 -  }
 -
    # C11/C++11 compiler flags setup.

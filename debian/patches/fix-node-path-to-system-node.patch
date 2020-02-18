@@ -1,7 +1,7 @@
-Index: dev/third_party/devtools-frontend/src/scripts/devtools_paths.py
+Index: beta/third_party/devtools-frontend/src/scripts/devtools_paths.py
 ===================================================================
---- dev.orig/third_party/devtools-frontend/src/scripts/devtools_paths.py
-+++ dev/third_party/devtools-frontend/src/scripts/devtools_paths.py
+--- beta.orig/third_party/devtools-frontend/src/scripts/devtools_paths.py
++++ beta/third_party/devtools-frontend/src/scripts/devtools_paths.py
 @@ -37,13 +37,7 @@ def third_party_path():
  
  # This points to the node binary downloaded as part of the checkout.

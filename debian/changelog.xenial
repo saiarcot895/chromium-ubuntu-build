@@ -1,3 +1,10 @@
+chromium-browser (81.0.4044.17-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
+
+  * New upstream version 81.0.4044.17
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 18 Feb 2020 01:18:12 -0500
+
 chromium-browser (81.0.4033.2-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
 
   * New upstream version 81.0.4033.2
