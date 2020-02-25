@@ -6352,3 +6352,42 @@ Index: beta/tools/gn/src/gn/rust_values_generator.cc
    }
  
    return true;
+Index: beta/tools/gn/src/base/containers/flat_tree.h
+===================================================================
+--- beta.orig/tools/gn/src/base/containers/flat_tree.h
++++ beta/tools/gn/src/base/containers/flat_tree.h
+@@ -62,7 +62,7 @@ Iterator LastUnique(Iterator first, Iter
+ template <typename T, typename = void>
+ struct IsTransparentCompare : std::false_type {};
+ template <typename T>
+-struct IsTransparentCompare<T, std::void_t<typename T::is_transparent>>
++struct IsTransparentCompare<T, std::__void_t<typename T::is_transparent>>
+     : std::true_type {};
+ 
+ // Implementation -------------------------------------------------------------
+Index: beta/tools/gn/src/base/memory/raw_scoped_refptr_mismatch_checker.h
+===================================================================
+--- beta.orig/tools/gn/src/base/memory/raw_scoped_refptr_mismatch_checker.h
++++ beta/tools/gn/src/base/memory/raw_scoped_refptr_mismatch_checker.h
+@@ -27,7 +27,7 @@ struct IsRefCountedType : std::false_typ
+ 
+ template <typename T>
+ struct IsRefCountedType<T,
+-                        std::void_t<decltype(std::declval<T*>()->AddRef()),
++                        std::__void_t<decltype(std::declval<T*>()->AddRef()),
+                                     decltype(std::declval<T*>()->Release())>>
+     : std::true_type {};
+ 
+Index: beta/tools/gn/src/base/template_util.h
+===================================================================
+--- beta.orig/tools/gn/src/base/template_util.h
++++ beta/tools/gn/src/base/template_util.h
+@@ -32,7 +32,7 @@ struct is_iterator : std::false_type {};
+ template <typename T>
+ struct is_iterator<
+     T,
+-    std::void_t<typename std::iterator_traits<T>::iterator_category>>
++    std::__void_t<typename std::iterator_traits<T>::iterator_category>>
+     : std::true_type {};
+ 
+ }  // namespace internal
