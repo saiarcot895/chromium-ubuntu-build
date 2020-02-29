@@ -3645,7 +3645,7 @@ Index: dev/tools/gn/src/gn/command_format.cc
  
    // Add the current margin (as spaces) to the output.
    void PrintMargin();
-@@ -236,7 +236,7 @@ class Printer {
+@@ -242,7 +242,7 @@ class Printer {
    std::vector<IndentState> stack_;
  
    // Gives the precedence for operators in a BinaryOpNode.
@@ -3654,7 +3654,7 @@ Index: dev/tools/gn/src/gn/command_format.cc
  
    DISALLOW_COPY_AND_ASSIGN(Printer);
  };
-@@ -262,7 +262,7 @@ Printer::Printer() : penalty_depth_(0) {
+@@ -268,7 +268,7 @@ Printer::Printer() : penalty_depth_(0) {
  
  Printer::~Printer() = default;
  
@@ -3663,7 +3663,7 @@ Index: dev/tools/gn/src/gn/command_format.cc
    output_.append(str);
  }
  
-@@ -330,7 +330,7 @@ void Printer::SortIfSourcesOrDeps(const
+@@ -391,7 +391,7 @@ void Printer::SortIfSourcesOrDeps(const
    if ((binop->op().value() == "=" || binop->op().value() == "+=" ||
         binop->op().value() == "-=") &&
        ident && list) {
@@ -3672,7 +3672,7 @@ Index: dev/tools/gn/src/gn/command_format.cc
      if (base::EndsWith(lhs, "sources", base::CompareCase::SENSITIVE) ||
          lhs == "public")
        const_cast<ListNode*>(list)->SortAsStringsList();
-@@ -373,14 +373,14 @@ void Printer::SortImports(std::vector<st
+@@ -434,14 +434,14 @@ void Printer::SortImports(std::vector<st
                      const std::unique_ptr<PARSENODE>& b) const {
        const auto& a_args = a->AsFunctionCall()->args()->contents();
        const auto& b_args = b->AsFunctionCall()->args()->contents();
@@ -4495,16 +4495,18 @@ Index: dev/tools/gn/src/gn/label.cc
 ===================================================================
 --- dev.orig/tools/gn/src/gn/label.cc
 +++ dev/tools/gn/src/gn/label.cc
-@@ -29,7 +29,7 @@ std::string DirWithNoTrailingSlash(const
+@@ -29,8 +29,8 @@ std::string DirWithNoTrailingSlash(const
  // used. The value is used only for generating error messages.
  bool ComputeBuildLocationFromDep(const Value& input_value,
                                   const SourceDir& current_dir,
+-                                 const std::string_view& source_root,
 -                                 const std::string_view& input,
++                                 const std::experimental::string_view& source_root,
 +                                 const std::experimental::string_view& input,
                                   SourceDir* result,
                                   Err* err) {
    // No rule, use the current location.
-@@ -48,7 +48,7 @@ bool ComputeBuildLocationFromDep(const V
+@@ -50,7 +50,7 @@ bool ComputeBuildLocationFromDep(const V
  // error messages.
  bool ComputeTargetNameFromDep(const Value& input_value,
                                const SourceDir& computed_location,
@@ -4513,8 +4515,8 @@ Index: dev/tools/gn/src/gn/label.cc
                                std::string* result,
                                Err* err) {
    if (!input.empty()) {
-@@ -88,13 +88,13 @@ bool ComputeTargetNameFromDep(const Valu
- bool Resolve(const SourceDir& current_dir,
+@@ -91,13 +91,13 @@ bool Resolve(const SourceDir& current_di
+              const std::string_view& source_root,
               const Label& current_toolchain,
               const Value& original_value,
 -             const std::string_view& input,
@@ -4529,7 +4531,7 @@ Index: dev/tools/gn/src/gn/label.cc
    // ref.
    const char* input_str = input.data();
    size_t offset = 0;
-@@ -111,18 +111,18 @@ bool Resolve(const SourceDir& current_di
+@@ -114,18 +114,18 @@ bool Resolve(const SourceDir& current_di
    }
  #endif
    size_t path_separator = input.find_first_of(":(", offset);
@@ -4553,7 +4555,7 @@ Index: dev/tools/gn/src/gn/label.cc
                                      input.size() - path_separator - 1);
        // Leave location piece null.
      } else if (!out_toolchain_dir) {
-@@ -136,7 +136,7 @@ bool Resolve(const SourceDir& current_di
+@@ -139,7 +139,7 @@ bool Resolve(const SourceDir& current_di
        // Name piece is everything between the two separators. Note that the
        // separators may be the same (e.g. "//foo(bar)" which means empty name.
        if (toolchain_separator > path_separator) {
@@ -4562,7 +4564,7 @@ Index: dev/tools/gn/src/gn/label.cc
                                        toolchain_separator - path_separator - 1);
        }
  
-@@ -151,7 +151,7 @@ bool Resolve(const SourceDir& current_di
+@@ -154,7 +154,7 @@ bool Resolve(const SourceDir& current_di
  
        // Subtract off the two parens to just get the toolchain name.
        toolchain_piece =
@@ -4571,7 +4573,7 @@ Index: dev/tools/gn/src/gn/label.cc
                             input.size() - toolchain_separator - 2);
      }
    }
-@@ -251,15 +251,15 @@ Implicit names
+@@ -254,15 +254,15 @@ Implicit names
  )*";
  
  Label::Label(const SourceDir& dir,
@@ -4623,7 +4625,7 @@ Index: dev/tools/gn/src/gn/label_pattern.cc
                             const Label& toolchain_label)
      : toolchain_(toolchain_label), type_(type), dir_(dir), name_(name) {}
  
-@@ -68,7 +68,7 @@ LabelPattern LabelPattern::GetPattern(co
+@@ -69,7 +69,7 @@ LabelPattern LabelPattern::GetPattern(co
    if (!value.VerifyTypeIs(Value::STRING, err))
      return LabelPattern();
  
@@ -4632,7 +4634,7 @@ Index: dev/tools/gn/src/gn/label_pattern.cc
    if (str.empty()) {
      *err = Err(value, "Label pattern must not be empty.");
      return LabelPattern();
-@@ -120,8 +120,8 @@ LabelPattern LabelPattern::GetPattern(co
+@@ -121,8 +121,8 @@ LabelPattern LabelPattern::GetPattern(co
    }
  
    // Extract path and name.
@@ -4643,7 +4645,7 @@ Index: dev/tools/gn/src/gn/label_pattern.cc
    size_t offset = 0;
  #if defined(OS_WIN)
    if (IsPathAbsolute(str)) {
-@@ -136,7 +136,7 @@ LabelPattern LabelPattern::GetPattern(co
+@@ -137,7 +137,7 @@ LabelPattern LabelPattern::GetPattern(co
  #endif
    size_t colon = str.find(':', offset);
    if (colon == std::string::npos) {
@@ -4652,7 +4654,7 @@ Index: dev/tools/gn/src/gn/label_pattern.cc
    } else {
      path = str.substr(0, colon);
      name = str.substr(colon + 1);
-@@ -173,7 +173,7 @@ LabelPattern LabelPattern::GetPattern(co
+@@ -174,7 +174,7 @@ LabelPattern LabelPattern::GetPattern(co
    // Resolve the part of the path that's not the wildcard.
    if (!path.empty()) {
      // The non-wildcard stuff better not have a wildcard.
@@ -4661,7 +4663,7 @@ Index: dev/tools/gn/src/gn/label_pattern.cc
        *err = Err(value, "Label patterns only support wildcard suffixes.",
                   "The pattern contained a '*' that wasn't at the end.");
        return LabelPattern();
-@@ -207,7 +207,7 @@ LabelPattern LabelPattern::GetPattern(co
+@@ -208,7 +208,7 @@ LabelPattern LabelPattern::GetPattern(co
    }
  
    // When we're doing wildcard matching, the name is always empty.
@@ -4892,7 +4894,7 @@ Index: dev/tools/gn/src/gn/ninja_rust_binary_target_writer.cc
 ===================================================================
 --- dev.orig/tools/gn/src/gn/ninja_rust_binary_target_writer.cc
 +++ dev/tools/gn/src/gn/ninja_rust_binary_target_writer.cc
-@@ -245,7 +245,7 @@ void NinjaRustBinaryTargetWriter::WriteR
+@@ -249,7 +249,7 @@ void NinjaRustBinaryTargetWriter::WriteR
  
    EscapeOptions lib_escape_opts;
    lib_escape_opts.mode = ESCAPE_NINJA_COMMAND;
@@ -4901,7 +4903,7 @@ Index: dev/tools/gn/src/gn/ninja_rust_binary_target_writer.cc
  
    // Non-Rust native dependencies.
    for (const auto& nonrustdep : nonrustdeps) {
-@@ -253,7 +253,7 @@ void NinjaRustBinaryTargetWriter::WriteR
+@@ -257,7 +257,7 @@ void NinjaRustBinaryTargetWriter::WriteR
      path_output_.WriteDir(
          out_, nonrustdep.AsSourceFile(settings_->build_settings()).GetDir(),
          PathOutput::DIR_NO_LAST_SLASH);
@@ -5010,7 +5012,7 @@ Index: dev/tools/gn/src/gn/parse_tree.cc
    base::Value dict(base::Value::Type::DICTIONARY);
    dict.SetKey(kJsonNodeType, base::Value(type));
    dict.SetKey(kJsonNodeValue, base::Value(value));
-@@ -712,8 +712,8 @@ void ListNode::SortList(Comparator compa
+@@ -742,8 +742,8 @@ void ListNode::SortList(Comparator compa
  void ListNode::SortAsStringsList() {
    // Sorts alphabetically.
    SortList([](const ParseNode* a, const ParseNode* b) {
@@ -5021,7 +5023,7 @@ Index: dev/tools/gn/src/gn/parse_tree.cc
      return astr < bstr;
    });
  }
-@@ -722,8 +722,8 @@ void ListNode::SortAsDepsList() {
+@@ -752,8 +752,8 @@ void ListNode::SortAsDepsList() {
    // Sorts first relative targets, then absolute, each group is sorted
    // alphabetically.
    SortList([](const ParseNode* a, const ParseNode* b) {
@@ -5032,7 +5034,7 @@ Index: dev/tools/gn/src/gn/parse_tree.cc
      return std::make_pair(GetDepsCategory(astr), SplitAtFirst(astr, ':')) <
             std::make_pair(GetDepsCategory(bstr), SplitAtFirst(bstr, ':'));
    });
-@@ -807,7 +807,7 @@ Value LiteralNode::Execute(Scope* scope,
+@@ -837,7 +837,7 @@ Value LiteralNode::Execute(Scope* scope,
      case Token::FALSE_TOKEN:
        return Value(this, false);
      case Token::INTEGER: {
@@ -5471,7 +5473,7 @@ Index: dev/tools/gn/src/gn/scope_per_file_provider.cc
 ===================================================================
 --- dev.orig/tools/gn/src/gn/scope_per_file_provider.cc
 +++ dev/tools/gn/src/gn/scope_per_file_provider.cc
-@@ -18,7 +18,7 @@ ScopePerFileProvider::ScopePerFileProvid
+@@ -20,7 +20,7 @@ ScopePerFileProvider::ScopePerFileProvid
  ScopePerFileProvider::~ScopePerFileProvider() = default;
  
  const Value* ScopePerFileProvider::GetProgrammaticValue(
@@ -5510,7 +5512,7 @@ Index: dev/tools/gn/src/gn/setup.cc
 ===================================================================
 --- dev.orig/tools/gn/src/gn/setup.cc
 +++ dev/tools/gn/src/gn/setup.cc
-@@ -202,7 +202,7 @@ void DecrementWorkCount() {
+@@ -206,7 +206,7 @@ void DecrementWorkCount() {
  
  #if defined(OS_WIN)
  
@@ -5519,7 +5521,7 @@ Index: dev/tools/gn/src/gn/setup.cc
    if (mb.empty())
      return std::u16string();
  
-@@ -281,7 +281,7 @@ base::FilePath FindWindowsPython() {
+@@ -285,7 +285,7 @@ base::FilePath FindWindowsPython() {
  
    // Search for python.exe in the path.
    for (const auto& component : base::SplitStringPiece(
@@ -5716,17 +5718,17 @@ Index: dev/tools/gn/src/gn/source_file.h
 -#include <string_view>
 +#include <experimental/string_view>
  
+ #include "base/containers/flat_set.h"
  #include "base/files/file_path.h"
- #include "base/logging.h"
-@@ -78,9 +78,9 @@ class SourceFile {
+@@ -82,9 +82,9 @@ class SourceFile {
    //
    // This function asserts that the file is actually source-absolute. The
    // return value points into our buffer.
 -  std::string_view SourceAbsoluteWithOneSlash() const {
 +  std::experimental::string_view SourceAbsoluteWithOneSlash() const {
      CHECK(is_source_absolute());
--    return std::string_view(&value_[1], value_.size() - 1);
-+    return std::experimental::string_view(&value_[1], value_.size() - 1);
+-    return std::string_view(&value()[1], value().size() - 1);
++    return std::experimental::string_view(&value()[1], value().size() - 1);
    }
  
    bool operator==(const SourceFile& other) const {
@@ -5885,7 +5887,7 @@ Index: dev/tools/gn/src/gn/target_unittest.cc
 ===================================================================
 --- dev.orig/tools/gn/src/gn/target_unittest.cc
 +++ dev/tools/gn/src/gn/target_unittest.cc
-@@ -1108,12 +1108,12 @@ TEST(TargetTest, CollectMetadataNoRecurs
+@@ -1154,12 +1154,12 @@ TEST(TargetTest, CollectMetadataNoRecurs
    Value a_expected(nullptr, Value::LIST);
    a_expected.list_value().push_back(Value(nullptr, "foo"));
    one.metadata().contents().insert(
@@ -5900,7 +5902,7 @@ Index: dev/tools/gn/src/gn/target_unittest.cc
  
    one.metadata().set_source_dir(SourceDir("/usr/home/files/"));
  
-@@ -1143,18 +1143,18 @@ TEST(TargetTest, CollectMetadataWithRecu
+@@ -1189,18 +1189,18 @@ TEST(TargetTest, CollectMetadataWithRecu
    Value a_expected(nullptr, Value::LIST);
    a_expected.list_value().push_back(Value(nullptr, "foo"));
    one.metadata().contents().insert(
@@ -5922,7 +5924,7 @@ Index: dev/tools/gn/src/gn/target_unittest.cc
  
    one.public_deps().push_back(LabelTargetPair(&two));
  
-@@ -1185,25 +1185,25 @@ TEST(TargetTest, CollectMetadataWithBarr
+@@ -1231,25 +1231,25 @@ TEST(TargetTest, CollectMetadataWithBarr
    Value a_expected(nullptr, Value::LIST);
    a_expected.list_value().push_back(Value(nullptr, "foo"));
    one.metadata().contents().insert(
@@ -5952,7 +5954,7 @@ Index: dev/tools/gn/src/gn/target_unittest.cc
  
    one.private_deps().push_back(LabelTargetPair(&two));
    one.public_deps().push_back(LabelTargetPair(&three));
-@@ -1234,12 +1234,12 @@ TEST(TargetTest, CollectMetadataWithErro
+@@ -1280,12 +1280,12 @@ TEST(TargetTest, CollectMetadataWithErro
    Value a_expected(nullptr, Value::LIST);
    a_expected.list_value().push_back(Value(nullptr, "foo"));
    one.metadata().contents().insert(
@@ -6130,7 +6132,7 @@ Index: dev/tools/gn/src/gn/variables.h
  
  namespace variables {
  
-@@ -340,7 +340,7 @@ struct VariableInfo {
+@@ -352,7 +352,7 @@ struct VariableInfo {
    const char* help;
  };
  
@@ -6343,7 +6345,7 @@ Index: dev/tools/gn/src/gn/rust_values_generator.cc
 ===================================================================
 --- dev.orig/tools/gn/src/gn/rust_values_generator.cc
 +++ dev/tools/gn/src/gn/rust_values_generator.cc
-@@ -183,7 +183,7 @@ bool RustTargetGenerator::FillAliasedDep
+@@ -184,7 +184,7 @@ bool RustTargetGenerator::FillAliasedDep
  
      // Insert into the aliased_deps map.
      target_->rust_values().aliased_deps().emplace(std::move(dep_label),
@@ -6352,3 +6354,65 @@ Index: dev/tools/gn/src/gn/rust_values_generator.cc
    }
  
    return true;
+Index: dev/tools/gn/src/base/containers/flat_tree.h
+===================================================================
+--- dev.orig/tools/gn/src/base/containers/flat_tree.h
++++ dev/tools/gn/src/base/containers/flat_tree.h
+@@ -62,7 +62,7 @@ Iterator LastUnique(Iterator first, Iter
+ template <typename T, typename = void>
+ struct IsTransparentCompare : std::false_type {};
+ template <typename T>
+-struct IsTransparentCompare<T, std::void_t<typename T::is_transparent>>
++struct IsTransparentCompare<T, std::__void_t<typename T::is_transparent>>
+     : std::true_type {};
+ 
+ // Implementation -------------------------------------------------------------
+Index: dev/tools/gn/src/base/memory/raw_scoped_refptr_mismatch_checker.h
+===================================================================
+--- dev.orig/tools/gn/src/base/memory/raw_scoped_refptr_mismatch_checker.h
++++ dev/tools/gn/src/base/memory/raw_scoped_refptr_mismatch_checker.h
+@@ -27,7 +27,7 @@ struct IsRefCountedType : std::false_typ
+ 
+ template <typename T>
+ struct IsRefCountedType<T,
+-                        std::void_t<decltype(std::declval<T*>()->AddRef()),
++                        std::__void_t<decltype(std::declval<T*>()->AddRef()),
+                                     decltype(std::declval<T*>()->Release())>>
+     : std::true_type {};
+ 
+Index: dev/tools/gn/src/base/template_util.h
+===================================================================
+--- dev.orig/tools/gn/src/base/template_util.h
++++ dev/tools/gn/src/base/template_util.h
+@@ -32,7 +32,7 @@ struct is_iterator : std::false_type {};
+ template <typename T>
+ struct is_iterator<
+     T,
+-    std::void_t<typename std::iterator_traits<T>::iterator_category>>
++    std::__void_t<typename std::iterator_traits<T>::iterator_category>>
+     : std::true_type {};
+ 
+ }  // namespace internal
+Index: dev/tools/gn/src/base/compiler_specific.h
+===================================================================
+--- dev.orig/tools/gn/src/base/compiler_specific.h
++++ dev/tools/gn/src/base/compiler_specific.h
+@@ -228,4 +228,18 @@
+ #define FALLTHROUGH
+ #endif
+ 
++namespace std {
++    template <class C>
++        constexpr auto size(const C& c) -> decltype(c.size())
++        {
++            return c.size();
++        }
++
++    template <class T, std::size_t N>
++        constexpr std::size_t size(const T (&array)[N]) noexcept
++        {
++            return N;
++        }
++}
++
+ #endif  // BASE_COMPILER_SPECIFIC_H_

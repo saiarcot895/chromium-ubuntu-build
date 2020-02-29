@@ -5,11 +5,10 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -500,31 +500,6 @@ config("compiler") {
-     }
+@@ -492,18 +492,6 @@ config("compiler") {
    }
  
--  if (is_clang && !is_nacl && !use_xcode_clang) {
+   if (is_clang && !is_nacl && !use_xcode_clang) {
 -    cflags += [ "-fcrash-diagnostics-dir=" +
 -                rebase_path("//tools/clang/crashreports", root_build_dir) ]
 -
@@ -22,18 +21,6 @@ Index: dev/build/config/compiler/BUILD.gn
 -      "-instcombine-lower-dbg-declare=0",
 -    ]
 -
--    if (llvm_force_head_revision) {
--      # Before Clang 10, lax vector conversions were allowed by default.
--      # Chromium currently relies on this behavior.
--      # TODO(crbug.com/1042470): Fix the code and remove this flag.
--      if (is_win) {
--        cflags += [ "/clang:-flax-vector-conversions=all" ]
--      } else if (cros_sdk_version == "") {
--        cflags += [ "-flax-vector-conversions=all" ]
--      }
--    }
--  }
--
-   # C11/C++11 compiler flags setup.
-   # ---------------------------
-   if (is_linux || is_android || (is_nacl && is_clang) || current_os == "aix") {
+     if (!is_chromeos && default_toolchain != "//build/toolchain/cros:target") {
+       # TODO(https://crbug.com/1049161): Remove '-DCLANG_SPAWN_CC1=ON' from build.py instead
+       # once this change has marinated a bit.

@@ -82,13 +82,12 @@ common_defines += \
 				clang_use_chrome_plugins=false \
 				use_lld=false \
 				is_cfi=false \
-				use_thin_lto=false \
+				use_thin_lto=true \
 				fatal_linker_warnings=false \
 				target_os="linux" \
 				current_os="linux" \
 				optimize_webui=false \
-				force_local_build_id=true \
-				strip_absolute_paths_from_debug_symbols = false
+				force_local_build_id=true
 
 # FFmpeg-mt
 # Ignore the version built as part of chromium. Build it separately twice, once with
