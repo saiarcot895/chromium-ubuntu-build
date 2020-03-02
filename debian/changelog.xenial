@@ -1,3 +1,9 @@
+chromium-browser (82.0.4068.4-0ubuntu1~ppa2~16.04.1) xenial; urgency=low
+
+  * Fix ThinLTO condition checks.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 02 Mar 2020 11:36:01 -0500
+
 chromium-browser (82.0.4068.4-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
 
   * New upstream version 82.0.4068.4
