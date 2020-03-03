@@ -3690,6 +3690,15 @@ Index: dev/tools/gn/src/gn/command_format.cc
          return import.size() >= 3 && import[0] == '"' && import[1] == '/' &&
                 import[2] == '/';
        };
+@@ -659,7 +659,7 @@ int Printer::AssessPenalty(const std::st
+ bool Printer::ExceedsMaximumWidth(const std::string& output) {
+   for (const auto& line : base::SplitString(output, "\n", base::KEEP_WHITESPACE,
+                                             base::SPLIT_WANT_ALL)) {
+-    std::string_view trimmed =
++    std::experimental::string_view trimmed =
+         TrimString(line, " ", base::TrimPositions::TRIM_TRAILING);
+     if (trimmed.size() > kMaximumWidth) {
+       return true;
 Index: dev/tools/gn/src/gn/command_help.cc
 ===================================================================
 --- dev.orig/tools/gn/src/gn/command_help.cc
@@ -4515,8 +4524,12 @@ Index: dev/tools/gn/src/gn/label.cc
                                std::string* result,
                                Err* err) {
    if (!input.empty()) {
-@@ -91,13 +91,13 @@ bool Resolve(const SourceDir& current_di
-              const std::string_view& source_root,
+@@ -88,16 +88,16 @@ bool ComputeTargetNameFromDep(const Valu
+ // Returns true on success. On failure, the out* variables might be written to
+ // but shouldn't be used.
+ bool Resolve(const SourceDir& current_dir,
+-             const std::string_view& source_root,
++             const std::experimental::string_view& source_root,
               const Label& current_toolchain,
               const Value& original_value,
 -             const std::string_view& input,
@@ -4573,7 +4586,7 @@ Index: dev/tools/gn/src/gn/label.cc
                             input.size() - toolchain_separator - 2);
      }
    }
-@@ -254,15 +254,15 @@ Implicit names
+@@ -254,21 +254,21 @@ Implicit names
  )*";
  
  Label::Label(const SourceDir& dir,
@@ -4592,11 +4605,18 @@ Index: dev/tools/gn/src/gn/label.cc
    name_.assign(name.data(), name.size());
  }
  
+ // static
+ Label Label::Resolve(const SourceDir& current_dir,
+-                     const std::string_view& source_root,
++                     const std::experimental::string_view& source_root,
+                      const Label& current_toolchain,
+                      const Value& input,
+                      Err* err) {
 Index: dev/tools/gn/src/gn/label.h
 ===================================================================
 --- dev.orig/tools/gn/src/gn/label.h
 +++ dev/tools/gn/src/gn/label.h
-@@ -24,12 +24,12 @@ class Label {
+@@ -24,18 +24,18 @@ class Label {
    // Makes a label given an already-separated out path and name.
    // See also Resolve().
    Label(const SourceDir& dir,
@@ -4612,6 +4632,13 @@ Index: dev/tools/gn/src/gn/label.h
  
    // Resolves a string from a build file that may be relative to the
    // current directory into a fully qualified label. On failure returns an
+   // is_null() label and sets the error.
+   static Label Resolve(const SourceDir& current_dir,
+-                       const std::string_view& source_root,
++                       const std::experimental::string_view& source_root,
+                        const Label& current_toolchain,
+                        const Value& input,
+                        Err* err);
 Index: dev/tools/gn/src/gn/label_pattern.cc
 ===================================================================
 --- dev.orig/tools/gn/src/gn/label_pattern.cc
@@ -4625,7 +4652,14 @@ Index: dev/tools/gn/src/gn/label_pattern.cc
                             const Label& toolchain_label)
      : toolchain_(toolchain_label), type_(type), dir_(dir), name_(name) {}
  
-@@ -69,7 +69,7 @@ LabelPattern LabelPattern::GetPattern(co
+@@ -63,13 +63,13 @@ LabelPattern::~LabelPattern() = default;
+ 
+ // static
+ LabelPattern LabelPattern::GetPattern(const SourceDir& current_dir,
+-                                      const std::string_view& source_root,
++                                      const std::experimental::string_view& source_root,
+                                       const Value& value,
+                                       Err* err) {
    if (!value.VerifyTypeIs(Value::STRING, err))
      return LabelPattern();
  
@@ -4694,6 +4728,15 @@ Index: dev/tools/gn/src/gn/label_pattern.h
                 const Label& toolchain_label);
    LabelPattern(const LabelPattern& other);
    ~LabelPattern();
+@@ -38,7 +38,7 @@ class LabelPattern {
+   // Converts the given input string to a pattern. This does special stuff
+   // to treat the pattern as a label. Sets the error on failure.
+   static LabelPattern GetPattern(const SourceDir& current_dir,
+-                                 const std::string_view& source_root,
++                                 const std::experimental::string_view& source_root,
+                                  const Value& value,
+                                  Err* err);
+ 
 Index: dev/tools/gn/src/gn/lib_file.cc
 ===================================================================
 --- dev.orig/tools/gn/src/gn/lib_file.cc
@@ -5530,6 +5573,15 @@ Index: dev/tools/gn/src/gn/setup.cc
             base::TRIM_WHITESPACE, base::SPLIT_WANT_NONEMPTY)) {
      base::FilePath candidate_exe =
          base::FilePath(component).Append(kPythonExeName);
+@@ -790,7 +790,7 @@ bool Setup::FillOtherConfig(const base::
+       return false;
+     }
+ 
+-    root_target_label = Label::Resolve(current_dir, std::string_view(), Label(),
++    root_target_label = Label::Resolve(current_dir, std::experimental::string_view(), Label(),
+                                        *root_value, &err);
+     if (err.has_error()) {
+       err.PrintToStdout();
 Index: dev/tools/gn/src/gn/source_dir.cc
 ===================================================================
 --- dev.orig/tools/gn/src/gn/source_dir.cc
@@ -6154,6 +6206,15 @@ Index: dev/tools/gn/src/gn/visibility.cc
  
  #include "base/strings/string_util.h"
  #include "base/values.h"
+@@ -22,7 +22,7 @@ Visibility::Visibility() = default;
+ Visibility::~Visibility() = default;
+ 
+ bool Visibility::Set(const SourceDir& current_dir,
+-                     const std::string_view& source_root,
++                     const std::experimental::string_view& source_root,
+                      const Value& value,
+                      Err* err) {
+   patterns_.clear();
 Index: dev/tools/gn/src/gn/visual_studio_writer.cc
 ===================================================================
 --- dev.orig/tools/gn/src/gn/visual_studio_writer.cc
@@ -6416,3 +6477,367 @@ Index: dev/tools/gn/src/base/compiler_specific.h
 +}
 +
  #endif  // BASE_COMPILER_SPECIFIC_H_
+Index: dev/tools/gn/src/gn/analyzer.cc
+===================================================================
+--- dev.orig/tools/gn/src/gn/analyzer.cc
++++ dev/tools/gn/src/gn/analyzer.cc
+@@ -116,7 +116,7 @@ Label AbsoluteOrSourceAbsoluteStringToLa
+                "\"" + s + "\" is not a source-absolute or absolute path.");
+     return Label();
+   }
+-  return Label::Resolve(SourceDir("//"), std::string_view(), default_toolchain,
++  return Label::Resolve(SourceDir("//"), std::experimental::string_view(), default_toolchain,
+                         Value(nullptr, s), err);
+ }
+ 
+Index: dev/tools/gn/src/gn/config_values_generator.cc
+===================================================================
+--- dev.orig/tools/gn/src/gn/config_values_generator.cc
++++ dev/tools/gn/src/gn/config_values_generator.cc
+@@ -114,7 +114,7 @@ void ConfigValuesGenerator::Run() {
+ 
+     // All strings must end with ".frameworks".
+     for (const std::string& framework : frameworks) {
+-      std::string_view framework_name = GetFrameworkName(framework);
++      std::experimental::string_view framework_name = GetFrameworkName(framework);
+       if (framework_name.empty()) {
+         *err_ = Err(*frameworks_value,
+                     "This frameworks value is wrong."
+Index: dev/tools/gn/src/gn/frameworks_utils.cc
+===================================================================
+--- dev.orig/tools/gn/src/gn/frameworks_utils.cc
++++ dev/tools/gn/src/gn/frameworks_utils.cc
+@@ -13,13 +13,13 @@ const char kFrameworkExtension[] = "fram
+ 
+ }  // anonymous namespace
+ 
+-std::string_view GetFrameworkName(const std::string& file) {
++std::experimental::string_view GetFrameworkName(const std::string& file) {
+   if (FindFilenameOffset(file) != 0)
+-    return std::string_view();
++    return std::experimental::string_view();
+ 
+-  std::string_view extension = FindExtension(&file);
++  std::experimental::string_view extension = FindExtension(&file);
+   if (extension != kFrameworkExtension)
+-    return std::string_view();
++    return std::experimental::string_view();
+ 
+   return FindFilenameNoExtension(&file);
+ }
+Index: dev/tools/gn/src/gn/frameworks_utils.h
+===================================================================
+--- dev.orig/tools/gn/src/gn/frameworks_utils.h
++++ dev/tools/gn/src/gn/frameworks_utils.h
+@@ -6,10 +6,10 @@
+ #define TOOLS_GN_FRAMEWORKS_UTILS_H_
+ 
+ #include <string>
+-#include <string_view>
++#include <experimental/string_view>
+ 
+ // Returns the name of the framework from a file name. This returns an empty
+ // string_view if the name is incorrect (does not ends in ".framework", ...).
+-std::string_view GetFrameworkName(const std::string& file);
++std::experimental::string_view GetFrameworkName(const std::string& file);
+ 
+ #endif  // TOOLS_GN_FRAMEWORKS_UTILS_H_
+Index: dev/tools/gn/src/gn/header_checker_unittest.cc
+===================================================================
+--- dev.orig/tools/gn/src/gn/header_checker_unittest.cc
++++ dev/tools/gn/src/gn/header_checker_unittest.cc
+@@ -405,7 +405,7 @@ TEST_F(HeaderCheckerTest, Friend) {
+   // List A as a friend of C.
+   Err err;
+   c_.friends().push_back(LabelPattern::GetPattern(
+-      SourceDir("//"), std::string_view(), Value(nullptr, "//a:*"), &err));
++      SourceDir("//"), std::experimental::string_view(), Value(nullptr, "//a:*"), &err));
+   ASSERT_FALSE(err.has_error());
+ 
+   // Must be after setting everything up for it to find the files.
+Index: dev/tools/gn/src/gn/label_pattern_unittest.cc
+===================================================================
+--- dev.orig/tools/gn/src/gn/label_pattern_unittest.cc
++++ dev/tools/gn/src/gn/label_pattern_unittest.cc
+@@ -76,7 +76,7 @@ TEST(LabelPattern, PatternParse) {
+     const PatternCase& cur = cases[i];
+     Err err;
+     LabelPattern result = LabelPattern::GetPattern(
+-        current_dir, std::string_view(), Value(nullptr, cur.input), &err);
++        current_dir, std::experimental::string_view(), Value(nullptr, cur.input), &err);
+ 
+     EXPECT_EQ(cur.success, !err.has_error()) << i << " " << cur.input;
+     EXPECT_EQ(cur.type, result.type()) << i << " " << cur.input;
+Index: dev/tools/gn/src/gn/label_unittest.cc
+===================================================================
+--- dev.orig/tools/gn/src/gn/label_unittest.cc
++++ dev/tools/gn/src/gn/label_unittest.cc
+@@ -82,7 +82,7 @@ TEST(Label, Resolve) {
+     Err err;
+     Value v(nullptr, Value::STRING);
+     v.string_value() = cur.str;
+-    Label result = Label::Resolve(SourceDir(cur.cur_dir), std::string_view(),
++    Label result = Label::Resolve(SourceDir(cur.cur_dir), std::experimental::string_view(),
+                                   default_toolchain, v, &err);
+     EXPECT_EQ(cur.success, !err.has_error()) << i << " " << cur.str;
+     if (!err.has_error() && cur.success) {
+@@ -108,7 +108,7 @@ TEST(Label, ResolveAboveRootBuildDir) {
+   std::string source_root("/foo/bar/baz");
+ 
+   // No source root given, should not go above the root build dir.
+-  Label result = Label::Resolve(cur_dir, std::string_view(), default_toolchain,
++  Label result = Label::Resolve(cur_dir, std::experimental::string_view(), default_toolchain,
+                                 Value(nullptr, "../../..:target"), &err);
+   EXPECT_FALSE(err.has_error());
+   EXPECT_EQ("//", result.dir().value()) << result.dir().value();
+Index: dev/tools/gn/src/gn/ninja_binary_target_writer.cc
+===================================================================
+--- dev.orig/tools/gn/src/gn/ninja_binary_target_writer.cc
++++ dev/tools/gn/src/gn/ninja_binary_target_writer.cc
+@@ -281,7 +281,7 @@ void NinjaBinaryTargetWriter::WriteLibs(
+   for (size_t i = 0; i < all_libs.size(); i++) {
+     const LibFile& lib_file = all_libs[i];
+     const std::string& lib_value = lib_file.value();
+-    std::string_view framework_name = GetFrameworkName(lib_value);
++    std::experimental::string_view framework_name = GetFrameworkName(lib_value);
+     if (lib_file.is_source_file()) {
+       out << " " << tool->linker_arg();
+       path_output_.WriteFile(out, lib_file.source_file());
+Index: dev/tools/gn/src/gn/ninja_target_command_util.h
+===================================================================
+--- dev.orig/tools/gn/src/gn/ninja_target_command_util.h
++++ dev/tools/gn/src/gn/ninja_target_command_util.h
+@@ -69,7 +69,7 @@ struct FrameworksWriter {
+ 
+   void operator()(const std::string& s, std::ostream& out) const {
+     out << " " << tool_switch_;
+-    std::string_view framework_name = GetFrameworkName(s);
++    std::experimental::string_view framework_name = GetFrameworkName(s);
+ 
+     if (escape_strings_) {
+       std::string dest;
+Index: dev/tools/gn/src/gn/string_atom.cc
+===================================================================
+--- dev.orig/tools/gn/src/gn/string_atom.cc
++++ dev/tools/gn/src/gn/string_atom.cc
+@@ -28,7 +28,7 @@ namespace {
+ //
+ //    - a mutex to ensure correct thread-safety.
+ //
+-//    - a find() method that takes an std::string_view argument, and uses it
++//    - a find() method that takes an std::experimental::string_view argument, and uses it
+ //      to find a matching entry in the string tree. If none is available,
+ //      a new std::string is allocated and its address inserted into the tree
+ //      before being returned.
+@@ -65,8 +65,8 @@ struct KeySet {
+   };
+ 
+   // Compute hash for |str|. Replace with faster hash function if available.
+-  static size_t Hash(std::string_view str) {
+-    return std::hash<std::string_view>()(str);
++  static size_t Hash(std::experimental::string_view str) {
++    return std::hash<std::experimental::string_view>()(str);
+   }
+ 
+   // Lookup for |str| with specific |hash| value.
+@@ -78,7 +78,7 @@ struct KeySet {
+   //       state of the KeySet, it returns a *mutable* node pointer, to be
+   //       passed to Insert() in case of a miss.
+   //
+-  Node* Lookup(size_t hash, std::string_view str) const {
++  Node* Lookup(size_t hash, std::experimental::string_view str) const {
+     size_t index = hash & (size_ - 1);
+     const Node* nodes = &buckets_[0];
+     const Node* nodes_limit = nodes + size_;
+@@ -144,7 +144,7 @@ class StringAtomSet {
+   }
+ 
+   // Find the unique constant string pointer for |key|.
+-  const std::string* find(std::string_view key) {
++  const std::string* find(std::experimental::string_view key) {
+     std::lock_guard<std::mutex> lock(mutex_);
+     size_t hash = set_.Hash(key);
+     auto* node = set_.Lookup(hash, key);
+@@ -185,7 +185,7 @@ class StringAtomSet {
+    public:
+     // Init the n-th string in the slab with |str|.
+     // Return its location as well.
+-    std::string* init(size_t index, const std::string_view& str) {
++    std::string* init(size_t index, const std::experimental::string_view& str) {
+       std::string* result = &items_[index].str;
+       new (result) std::string(str);
+       return result;
+@@ -212,7 +212,7 @@ class ThreadLocalCache {
+  public:
+   // Find the unique constant string pointer for |key| in this cache,
+   // and fallback to the global one in case of a miss.
+-  KeyType find(std::string_view key) {
++  KeyType find(std::experimental::string_view key) {
+     size_t hash = local_set_.Hash(key);
+     auto* node = local_set_.Lookup(hash, key);
+     if (node->key)
+@@ -233,5 +233,5 @@ thread_local ThreadLocalCache s_local_ca
+ 
+ StringAtom::StringAtom() : value_(kEmptyString) {}
+ 
+-StringAtom::StringAtom(std::string_view str) noexcept
++StringAtom::StringAtom(std::experimental::string_view str) noexcept
+     : value_(*s_local_cache.find(str)) {}
+Index: dev/tools/gn/src/gn/string_atom.h
+===================================================================
+--- dev.orig/tools/gn/src/gn/string_atom.h
++++ dev/tools/gn/src/gn/string_atom.h
+@@ -20,7 +20,7 @@
+ // std::string was used.
+ //
+ // In addition, _ordered_ containers support heterogeneous lookups (i.e.
+-// using an std::string_view, and by automatic conversion, a const char*
++// using an std::experimental::string_view, and by automatic conversion, a const char*
+ // of const char[] literal) as a key type.
+ //
+ // Additionally, it is also possible to implement very fast _unordered_
+@@ -62,7 +62,7 @@ class StringAtom {
+   ~StringAtom() = default;
+ 
+   // Non-explicit constructors.
+-  StringAtom(std::string_view str) noexcept;
++  StringAtom(std::experimental::string_view str) noexcept;
+ 
+   // Copy and move operations.
+   StringAtom(const StringAtom& other) noexcept : value_(other.value_) {}
+@@ -89,7 +89,7 @@ class StringAtom {
+   const std::string& str() const { return value_; }
+ 
+   // Implicit conversions.
+-  operator std::string_view() const { return {value_}; }
++  operator std::experimental::string_view() const { return {value_}; }
+ 
+   // Returns true iff this is the same key.
+   // Note that the default comparison functions compare the value instead
+@@ -147,7 +147,7 @@ class StringAtom {
+ 
+ namespace std {
+ 
+-// Ensure default heterogeneous lookups with other types like std::string_view.
++// Ensure default heterogeneous lookups with other types like std::experimental::string_view.
+ template <>
+ struct less<StringAtom> {
+   using is_transparent = int;
+Index: dev/tools/gn/src/gn/string_atom_unittest.cc
+===================================================================
+--- dev.orig/tools/gn/src/gn/string_atom_unittest.cc
++++ dev/tools/gn/src/gn/string_atom_unittest.cc
+@@ -43,9 +43,9 @@ TEST(StringAtomTest, DefaultCompare) {
+ 
+ TEST(StringAtomTest, NormalSet) {
+   std::set<StringAtom> set;
+-  auto foo_ret = set.insert(std::string_view("foo"));
+-  auto bar_ret = set.insert(std::string_view("bar"));
+-  auto zoo_ret = set.insert(std::string_view("zoo"));
++  auto foo_ret = set.insert(std::experimental::string_view("foo"));
++  auto bar_ret = set.insert(std::experimental::string_view("bar"));
++  auto zoo_ret = set.insert(std::experimental::string_view("zoo"));
+ 
+   StringAtom foo_key("foo");
+   EXPECT_EQ(*foo_ret.first, foo_key);
+@@ -54,8 +54,8 @@ TEST(StringAtomTest, NormalSet) {
+   EXPECT_NE(foo_it, set.end());
+   EXPECT_EQ(*foo_it, foo_key);
+ 
+-  EXPECT_EQ(set.find(std::string_view("bar")), bar_ret.first);
+-  EXPECT_EQ(set.find(std::string_view("zoo")), zoo_ret.first);
++  EXPECT_EQ(set.find(std::experimental::string_view("bar")), bar_ret.first);
++  EXPECT_EQ(set.find(std::experimental::string_view("zoo")), zoo_ret.first);
+ 
+   // Normal sets are always ordered according to the key value.
+   auto it = set.begin();
+@@ -74,9 +74,9 @@ TEST(StringAtomTest, NormalSet) {
+ TEST(StringAtomTest, FastSet) {
+   std::set<StringAtom, StringAtom::PtrCompare> set;
+ 
+-  auto foo_ret = set.insert(std::string_view("foo"));
+-  auto bar_ret = set.insert(std::string_view("bar"));
+-  auto zoo_ret = set.insert(std::string_view("zoo"));
++  auto foo_ret = set.insert(std::experimental::string_view("foo"));
++  auto bar_ret = set.insert(std::experimental::string_view("bar"));
++  auto zoo_ret = set.insert(std::experimental::string_view("zoo"));
+ 
+   StringAtom foo_key("foo");
+   EXPECT_EQ(*foo_ret.first, foo_key);
+@@ -85,8 +85,8 @@ TEST(StringAtomTest, FastSet) {
+   EXPECT_NE(foo_it, set.end());
+   EXPECT_EQ(*foo_it, foo_key);
+ 
+-  EXPECT_EQ(set.find(std::string_view("bar")), bar_ret.first);
+-  EXPECT_EQ(set.find(std::string_view("zoo")), zoo_ret.first);
++  EXPECT_EQ(set.find(std::experimental::string_view("bar")), bar_ret.first);
++  EXPECT_EQ(set.find(std::experimental::string_view("zoo")), zoo_ret.first);
+ 
+   // Fast sets are ordered according to the key pointer.
+   // Because of the underlying bump allocator, addresses
+Index: dev/tools/gn/src/gn/test_with_scope.cc
+===================================================================
+--- dev.orig/tools/gn/src/gn/test_with_scope.cc
++++ dev/tools/gn/src/gn/test_with_scope.cc
+@@ -40,7 +40,7 @@ TestWithScope::~TestWithScope() = defaul
+ 
+ Label TestWithScope::ParseLabel(const std::string& str) const {
+   Err err;
+-  Label result = Label::Resolve(SourceDir("//"), std::string_view(),
++  Label result = Label::Resolve(SourceDir("//"), std::experimental::string_view(),
+                                 toolchain_.label(), Value(nullptr, str), &err);
+   CHECK(!err.has_error());
+   return result;
+Index: dev/tools/gn/src/gn/visibility.h
+===================================================================
+--- dev.orig/tools/gn/src/gn/visibility.h
++++ dev/tools/gn/src/gn/visibility.h
+@@ -6,7 +6,7 @@
+ #define TOOLS_GN_VISIBILITY_H_
+ 
+ #include <memory>
+-#include <string_view>
++#include <experimental/string_view>
+ #include <vector>
+ 
+ #include "base/macros.h"
+@@ -32,7 +32,7 @@ class Visibility {
+   // Set the visibility to the thing specified by the given value. On failure,
+   // returns false and sets the error.
+   bool Set(const SourceDir& current_dir,
+-           const std::string_view& source_root,
++           const std::experimental::string_view& source_root,
+            const Value& value,
+            Err* err);
+ 
+Index: dev/tools/gn/src/gn/visibility_unittest.cc
+===================================================================
+--- dev.orig/tools/gn/src/gn/visibility_unittest.cc
++++ dev/tools/gn/src/gn/visibility_unittest.cc
+@@ -17,7 +17,7 @@ TEST(Visibility, CanSeeMe) {
+ 
+   Err err;
+   Visibility vis;
+-  ASSERT_TRUE(vis.Set(SourceDir("//"), std::string_view(), list, &err));
++  ASSERT_TRUE(vis.Set(SourceDir("//"), std::experimental::string_view(), list, &err));
+ 
+   EXPECT_FALSE(vis.CanSeeMe(Label(SourceDir("//random/"), "thing")));
+   EXPECT_FALSE(vis.CanSeeMe(Label(SourceDir("//my/"), "notname")));
+@@ -37,7 +37,7 @@ TEST(Visibility, Public) {
+ 
+   Value list(nullptr, Value::LIST);
+   list.list_value().push_back(Value(nullptr, "*"));
+-  ASSERT_TRUE(vis.Set(SourceDir("//"), std::string_view(), list, &err));
++  ASSERT_TRUE(vis.Set(SourceDir("//"), std::experimental::string_view(), list, &err));
+ 
+   EXPECT_TRUE(vis.CanSeeMe(Label(SourceDir("//random/"), "thing")));
+   EXPECT_TRUE(vis.CanSeeMe(Label(SourceDir("//"), "")));
+@@ -46,7 +46,7 @@ TEST(Visibility, Public) {
+ TEST(Visibility, Private) {
+   Err err;
+   Visibility vis;
+-  ASSERT_TRUE(vis.Set(SourceDir("//"), std::string_view(),
++  ASSERT_TRUE(vis.Set(SourceDir("//"), std::experimental::string_view(),
+                       Value(nullptr, Value::LIST), &err));
+ 
+   EXPECT_FALSE(vis.CanSeeMe(Label(SourceDir("//random/"), "thing")));

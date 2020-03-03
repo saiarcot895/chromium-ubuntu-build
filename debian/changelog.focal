@@ -1,3 +1,10 @@
+chromium-browser (82.0.4068.4-0ubuntu1~ppa5~20.04.1) focal; urgency=low
+
+  * Install llvm-dev as a build dependency.
+  * Update GN patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 03 Mar 2020 00:04:00 -0500
+
 chromium-browser (82.0.4068.4-0ubuntu1~ppa4~20.04.1) focal; urgency=low
 
   * Few more fixes.

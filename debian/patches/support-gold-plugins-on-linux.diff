@@ -2,7 +2,7 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -572,12 +572,12 @@ config("compiler") {
+@@ -564,12 +564,12 @@ config("compiler") {
    # TODO(pcc): Make this conditional on is_official_build rather than on gn
    # flags for specific features.
    if (!is_debug && use_thin_lto && is_a_target_toolchain) {
