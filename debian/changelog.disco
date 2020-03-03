@@ -1,3 +1,9 @@
+chromium-browser (82.0.4068.4-0ubuntu1~ppa4~19.04.1) disco; urgency=low
+
+  * Few more fixes.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 02 Mar 2020 22:32:39 -0500
+
 chromium-browser (82.0.4068.4-0ubuntu1~ppa3~19.04.1) disco; urgency=low
 
   * Add the patch to both series files.

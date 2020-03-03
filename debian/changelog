@@ -1,3 +1,9 @@
+chromium-browser (82.0.4068.4-0ubuntu1~ppa4~20.04.1) focal; urgency=low
+
+  * Few more fixes.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 02 Mar 2020 22:32:40 -0500
+
 chromium-browser (82.0.4068.4-0ubuntu1~ppa3~20.04.1) focal; urgency=low
 
   * Add the patch to both series files.
