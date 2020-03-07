@@ -1,3 +1,9 @@
+chromium-browser (82.0.4068.4-0ubuntu1~ppa6~19.04.1) disco; urgency=low
+
+  * Disable LTO, it's not yet ready.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 06 Mar 2020 23:42:49 -0500
+
 chromium-browser (82.0.4068.4-0ubuntu1~ppa5~19.04.1) disco; urgency=low
 
   * Install llvm-dev as a build dependency.
