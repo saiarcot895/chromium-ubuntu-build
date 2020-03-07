@@ -1,3 +1,9 @@
+chromium-browser (82.0.4068.4-0ubuntu1~ppa7~19.04.1) disco; urgency=low
+
+  * Fix build errors.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 07 Mar 2020 11:33:44 -0500
+
 chromium-browser (82.0.4068.4-0ubuntu1~ppa6~19.04.1) disco; urgency=low
 
   * Disable LTO, it's not yet ready.

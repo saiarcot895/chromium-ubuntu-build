@@ -237,7 +237,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
                              VAVDA_DECODER_FAILURES_MAX + 1);
  }
  
-+#if defined(OS_ANDROID) || defined(OS_CHROMEOS)
++#if defined(OS_LINUX)
  // Returns true if the CPU is an Intel Gemini Lake or later (including Kaby
  // Lake) Cpu platform id's are referenced from the following file in kernel
  // source arch/x86/include/asm/intel-family.h
