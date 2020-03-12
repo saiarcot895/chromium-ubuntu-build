@@ -1,3 +1,10 @@
+chromium-browser (82.0.4068.4-0ubuntu1~ppa8~19.04.1) disco; urgency=low
+
+  * Try to fix video decoding.
+  * Try to fix build on Xenial.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 12 Mar 2020 02:21:01 -0400
+
 chromium-browser (82.0.4068.4-0ubuntu1~ppa7~19.04.1) disco; urgency=low
 
   * Fix build errors.

@@ -67,7 +67,17 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
  
      default:
        NOTREACHED() << "Unsupported codec type " << GetCodecName(codec);
-@@ -1367,6 +1371,7 @@ bool VaapiVideoEncodeAccelerator::VP8Acc
+@@ -1112,7 +1116,9 @@ bool VaapiVideoEncodeAccelerator::H264Ac
+   rate_control_param.window_size = encode_params.cpb_window_size_ms;
+   rate_control_param.initial_qp = pic_param.pic_init_qp;
+   rate_control_param.min_qp = encode_params.scaling_settings.min_qp;
++#if VA_CHECK_VERSION(1, 1, 0)
+   rate_control_param.max_qp = encode_params.scaling_settings.max_qp;
++#endif
+   rate_control_param.rc_flags.bits.disable_frame_skip = true;
+ 
+   VAEncMiscParameterFrameRate framerate_param = {};
+@@ -1367,6 +1373,7 @@ bool VaapiVideoEncodeAccelerator::VP8Acc
    return true;
  }
  
@@ -75,7 +85,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
  scoped_refptr<VP9Picture>
  VaapiVideoEncodeAccelerator::VP9Accelerator::GetPicture(
      AcceleratedVideoEncoder::EncodeJob* job) {
-@@ -1499,5 +1504,6 @@ bool VaapiVideoEncodeAccelerator::VP9Acc
+@@ -1499,5 +1506,6 @@ bool VaapiVideoEncodeAccelerator::VP9Acc
  
    return true;
  }
@@ -199,3 +209,35 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.h
  
    const CodecMode mode_;
  
+Index: dev/media/gpu/chromeos/fourcc.cc
+===================================================================
+--- dev.orig/media/gpu/chromeos/fourcc.cc
++++ dev/media/gpu/chromeos/fourcc.cc
+@@ -204,11 +204,11 @@ uint32_t Fourcc::ToV4L2PixFmt() const {
+ // static
+ base::Optional<Fourcc> Fourcc::FromVAFourCC(uint32_t va_fourcc) {
+   switch (va_fourcc) {
+-    case VA_FOURCC_I420:
++    case VA_FOURCC('I', '4', '2', '0'):
+       return Fourcc(YU12);
+     case VA_FOURCC_NV12:
+       return Fourcc(NV12);
+-    case VA_FOURCC_NV21:
++    case VA_FOURCC('N', 'V', '2', '1'):
+       return Fourcc(NV21);
+     case VA_FOURCC_YV12:
+       return Fourcc(YV12);
+@@ -232,11 +232,11 @@ base::Optional<Fourcc> Fourcc::FromVAFou
+ base::Optional<uint32_t> Fourcc::ToVAFourCC() const {
+   switch (value_) {
+     case YU12:
+-      return VA_FOURCC_I420;
++      return VA_FOURCC('I', '4', '2', '0');
+     case NV12:
+       return VA_FOURCC_NV12;
+     case NV21:
+-      return VA_FOURCC_NV21;
++      return VA_FOURCC('N', 'V', '2', '1');
+     case YV12:
+       return VA_FOURCC_YV12;
+     case YUYV:
