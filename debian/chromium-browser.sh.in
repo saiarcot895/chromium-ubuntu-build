@@ -107,7 +107,7 @@ fi
 # Prefer user defined CHROMIUM_USER_FLAGS (fron env) over system
 # default CHROMIUM_FLAGS (from /etc/$APPNAME/default)
 if test -n "$CHROMIUM_USER_FLAGS"; then
-	echo "WARNING: \$CHROMIUM_USER_FLAGS is deprecated. Instead, update CHROMIUM_FLAGS in ~/.chromium-browser.init or place configuration for all sers in /etc/$APPNAME/customizations/ ."
+	echo "WARNING: \$CHROMIUM_USER_FLAGS is deprecated. Instead, update CHROMIUM_FLAGS in ~/.chromium-browser.init or place configuration for all users in /etc/$APPNAME/customizations/ ."
 	echo "WARNING: Ignoring system flags because \$CHROMIUM_USER_FLAGS is set."
 	echo "CHROMIUM_FLAGS=${CHROMIUM_FLAGS}"
 	echo "CHROMIUM_USER_FLAGS=${CHROMIUM_USER_FLAGS}"
