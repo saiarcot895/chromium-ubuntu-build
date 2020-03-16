@@ -42,5 +42,5 @@ constexpr-errors-with-old-clang.patch
 #revert-commit-cd95d725015aa.patch
 fix-node-path-to-system-node.patch
 remove-clang-debug-path.patch
-gn-experimental-string_view.patch
+#gn-experimental-string_view.patch
 dont-run-code-formatting.patch

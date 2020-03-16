@@ -310,19 +310,10 @@ override_dh_clean:
 	
 	dh_clean
 
-ifeq (,$(filter 16.04%,$(UBUNTU_DIST)))
-# By default, Chromium expects a binary file that generates the build files. Fortunately,
-# the source files for gn (the binary) are present in the source tree.
 $(SRC_DIR)/gn:
-	CC=$(shell which clang-6.0 clang | head -n 1) CXX=$(shell which clang++-6.0 clang++ | head -n 1) tools/gn/bootstrap/bootstrap.py --gn-gen-args '$(common_defines)'
+	CC=$(shell which clang-6.0 clang | head -n 1) CXX=$(shell which clang++-6.0 clang++ | head -n 1) tools/gn/bootstrap/bootstrap.py --use-custom-libcxx --gn-gen-args '$(common_defines)'
 	cp $(SRC_DIR)/out/Release/gn $(SRC_DIR)/gn
 	rm -rf $(SRC_DIR)/out
-else
-# Ubuntu 16.04 cannot compile gn, because libstdc++ isn't new enough. So use the precompiled
-# version in the buildtools.
-$(SRC_DIR)/gn:
-	cp $(SRC_DIR)/buildtools/linux64/gn $(SRC_DIR)/gn
-endif
 
 debian/chromium-browser.sh: debian/chromium-browser.sh.in
 	@set -eux

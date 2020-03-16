@@ -35,7 +35,7 @@ Index: dev/build/config/compiler/BUILD.gn
    # Pass the same C/C++ flags to the objective C/C++ compiler.
    cflags_objc += cflags_c
    cflags_objcc += cflags_cc
-@@ -1479,6 +1463,9 @@ config("default_warnings") {
+@@ -1474,6 +1458,9 @@ config("default_warnings") {
        # which we no longer use. Check if it makes sense to remove
        # this as well. http://crbug.com/316352
        "-Wno-unneeded-internal-declaration",

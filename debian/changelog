@@ -1,3 +1,10 @@
+chromium-browser (82.0.4083.0-0ubuntu1~ppa1~20.04.1) focal; urgency=low
+
+  * New upstream version 82.0.4083.0
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 16 Mar 2020 14:56:04 -0400
+
 chromium-browser (82.0.4068.4-0ubuntu1~ppa8~20.04.1) focal; urgency=low
 
   * Try to fix video decoding.
