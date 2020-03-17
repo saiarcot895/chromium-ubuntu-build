@@ -1,3 +1,9 @@
+chromium-browser (82.0.4083.0-0ubuntu1~ppa2~18.04.1) bionic; urgency=low
+
+  * Fix gn installation.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 16 Mar 2020 23:58:21 -0400
+
 chromium-browser (82.0.4083.0-0ubuntu1~ppa1~18.04.1) bionic; urgency=low
 
   * New upstream version 82.0.4083.0
