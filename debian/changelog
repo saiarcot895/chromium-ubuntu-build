@@ -1,3 +1,9 @@
+chromium-browser (82.0.4083.0-0ubuntu1~ppa4~20.04.1) focal; urgency=low
+
+  * Apply the fix-build-errors.patch to bionic and newer as well.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 19 Mar 2020 10:43:55 -0400
+
 chromium-browser (82.0.4083.0-0ubuntu1~ppa3~20.04.1) focal; urgency=low
 
   * Fix build errors.
