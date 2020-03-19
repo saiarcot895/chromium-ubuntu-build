@@ -43,3 +43,4 @@ constexpr-errors-with-old-clang.patch
 fix-node-path-to-system-node.patch
 remove-clang-debug-path.patch
 dont-run-code-formatting.patch
+gn-link-with-libc.patch

@@ -44,3 +44,5 @@ fix-node-path-to-system-node.patch
 remove-clang-debug-path.patch
 #gn-experimental-string_view.patch
 dont-run-code-formatting.patch
+gn-link-with-libc.patch
+fix-build-errors.patch

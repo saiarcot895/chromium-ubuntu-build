@@ -1,0 +1,99 @@
+Index: dev/content/public/browser/web_ui.h
+===================================================================
+--- dev.orig/content/public/browser/web_ui.h
++++ dev/content/public/browser/web_ui.h
+@@ -138,22 +138,6 @@ class CONTENT_EXPORT WebUI {
+   template <typename T>
+   static T GetValue(const base::Value& value);
+ 
+-  template <>
+-  inline bool GetValue<bool>(const base::Value& value) {
+-    return value.GetBool();
+-  }
+-
+-  template <>
+-  inline int GetValue<int>(const base::Value& value) {
+-    return value.GetInt();
+-  }
+-
+-  template <>
+-  inline const std::string& GetValue<const std::string&>(
+-      const base::Value& value) {
+-    return value.GetString();
+-  }
+-
+   template <typename Is, typename... Args>
+   struct Call;
+ 
+@@ -169,6 +153,22 @@ class CONTENT_EXPORT WebUI {
+   };
+ };
+ 
++template <>
++inline bool WebUI::GetValue<bool>(const base::Value& value) {
++  return value.GetBool();
++}
++
++template <>
++inline int WebUI::GetValue<int>(const base::Value& value) {
++  return value.GetInt();
++}
++
++template <>
++inline const std::string& WebUI::GetValue<const std::string&>(
++    const base::Value& value) {
++  return value.GetString();
++}
++
+ }  // namespace content
+ 
+ #endif  // CONTENT_PUBLIC_BROWSER_WEB_UI_H_
+Index: dev/base/stl_util.h
+===================================================================
+--- dev.orig/base/stl_util.h
++++ dev/base/stl_util.h
+@@ -561,14 +561,6 @@ size_t EraseIf(std::vector<T, Allocator>
+   return removed;
+ }
+ 
+-template <class T, class Allocator, class Value>
+-size_t Erase(std::forward_list<T, Allocator>& container, const Value& value) {
+-  // Unlike std::forward_list::remove, this function template accepts
+-  // heterogeneous types and does not force a conversion to the container's
+-  // value type before invoking the == operator.
+-  return EraseIf(container, [&](const T& cur) { return cur == value; });
+-}
+-
+ template <class T, class Allocator, class Predicate>
+ size_t EraseIf(std::forward_list<T, Allocator>& container, Predicate pred) {
+   // Note: std::forward_list does not have a size() API, thus we need to use the
+@@ -580,10 +572,10 @@ size_t EraseIf(std::forward_list<T, Allo
+ }
+ 
+ template <class T, class Allocator, class Value>
+-size_t Erase(std::list<T, Allocator>& container, const Value& value) {
+-  // Unlike std::list::remove, this function template accepts heterogeneous
+-  // types and does not force a conversion to the container's value type before
+-  // invoking the == operator.
++size_t Erase(std::forward_list<T, Allocator>& container, const Value& value) {
++  // Unlike std::forward_list::remove, this function template accepts
++  // heterogeneous types and does not force a conversion to the container's
++  // value type before invoking the == operator.
+   return EraseIf(container, [&](const T& cur) { return cur == value; });
+ }
+ 
+@@ -594,6 +586,14 @@ size_t EraseIf(std::list<T, Allocator>&
+   return old_size - container.size();
+ }
+ 
++template <class T, class Allocator, class Value>
++size_t Erase(std::list<T, Allocator>& container, const Value& value) {
++  // Unlike std::list::remove, this function template accepts heterogeneous
++  // types and does not force a conversion to the container's value type before
++  // invoking the == operator.
++  return EraseIf(container, [&](const T& cur) { return cur == value; });
++}
++
+ template <class Key, class T, class Compare, class Allocator, class Predicate>
+ size_t EraseIf(std::map<Key, T, Compare, Allocator>& container,
+                Predicate pred) {
