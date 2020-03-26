@@ -5,10 +5,11 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -492,18 +492,6 @@ config("compiler") {
+@@ -491,19 +491,6 @@ config("compiler") {
+     }
    }
  
-   if (is_clang && !is_nacl && !use_xcode_clang) {
+-  if (is_clang && !is_nacl && !use_xcode_clang) {
 -    cflags += [ "-fcrash-diagnostics-dir=" +
 -                rebase_path("//tools/clang/crashreports", root_build_dir) ]
 -
@@ -20,7 +21,7 @@ Index: dev/build/config/compiler/BUILD.gn
 -      "-Xclang",
 -      "-instcombine-lower-dbg-declare=0",
 -    ]
--
-     if (!is_chromeos && default_toolchain != "//build/toolchain/cros:target") {
-       # TODO(https://crbug.com/1049161): Remove '-DCLANG_SPAWN_CC1=ON' from build.py instead
-       # once this change has marinated a bit.
+-  }
+ 
+   # C11/C++11 compiler flags setup.
+   # ---------------------------
