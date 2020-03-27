@@ -314,8 +314,8 @@ override_dh_clean:
 # By default, Chromium expects a binary file that generates the build files. Fortunately,
 # the source files for gn (the binary) are present in the source tree.
 $(SRC_DIR)/gn:
-	CC=$(shell which clang-6.0 clang | head -n 1) CXX=$(shell which clang++-6.0 clang++ | head -n 1) tools/gn/bootstrap/bootstrap.py --gn-gen-args '$(common_defines)'
-	cp $(SRC_DIR)/out/Release/gn $(SRC_DIR)/gn
+	CC=$(shell which clang-6.0 clang | head -n 1) CXX=$(shell which clang++-6.0 clang++ | head -n 1) tools/gn/bootstrap/bootstrap.py --use-custom-libcxx --gn-gen-args '$(common_defines)'
+	cp $(SRC_DIR)/out/Release/gn $(SRC_DIR)/out/Release/libc++.gn.so $(SRC_DIR)/
 	rm -rf $(SRC_DIR)/out
 
 debian/chromium-browser.sh: debian/chromium-browser.sh.in

@@ -40,7 +40,7 @@ Index: beta/chrome/browser/about_flags.cc
 ===================================================================
 --- beta.orig/chrome/browser/about_flags.cc
 +++ beta/chrome/browser/about_flags.cc
-@@ -1892,7 +1892,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -1916,7 +1916,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
          flag_descriptions::kAcceleratedVideoDecodeDescription,
@@ -49,7 +49,7 @@ Index: beta/chrome/browser/about_flags.cc
          SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
      {
-@@ -2324,10 +2324,10 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -2348,10 +2348,10 @@ const FeatureEntry kFeatureEntries[] = {
       FEATURE_VALUE_TYPE(service_manager::features::kXRSandbox)},
  #endif  // !defined(OS_ANDROID)
  #endif  // ENABLE_VR
@@ -66,7 +66,7 @@ Index: beta/chrome/browser/flag_descriptions.cc
 ===================================================================
 --- beta.orig/chrome/browser/flag_descriptions.cc
 +++ beta/chrome/browser/flag_descriptions.cc
-@@ -2985,9 +2985,7 @@ const char kMetalDescription[] =
+@@ -2999,9 +2999,7 @@ const char kMetalDescription[] =
  
  #endif
  
@@ -77,7 +77,7 @@ Index: beta/chrome/browser/flag_descriptions.cc
  
  const char kAcceleratedMjpegDecodeName[] =
      "Hardware-accelerated mjpeg decode for captured frame";
-@@ -2995,6 +2993,12 @@ const char kAcceleratedMjpegDecodeDescri
+@@ -3009,6 +3007,12 @@ const char kAcceleratedMjpegDecodeDescri
      "Enable hardware-accelerated mjpeg decode for captured frame where "
      "available.";
  
@@ -94,7 +94,7 @@ Index: beta/chrome/browser/flag_descriptions.h
 ===================================================================
 --- beta.orig/chrome/browser/flag_descriptions.h
 +++ beta/chrome/browser/flag_descriptions.h
-@@ -1724,13 +1724,17 @@ extern const char kMetalDescription[];
+@@ -1730,13 +1730,17 @@ extern const char kMetalDescription[];
  
  #endif  // defined(OS_MACOSX)
  
@@ -247,9 +247,9 @@ Index: beta/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
  }
 +#endif
  
- }  // namespace
- 
-@@ -657,6 +659,10 @@ void VaapiVideoDecodeAccelerator::Assign
+ // Returns the size of a rectangle whose upper left corner is at the origin (0,
+ // 0) and whose bottom right corner is the same as that of |rect|. This is
+@@ -708,6 +710,10 @@ void VaapiVideoDecodeAccelerator::Assign
    va_surface_format_ = GetVaFormatForVideoCodecProfile(profile_);
    std::vector<VASurfaceID> va_surface_ids;
  
@@ -260,7 +260,7 @@ Index: beta/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
    // If we aren't in BufferAllocationMode::kNone, we have to allocate a
    // |vpp_vaapi_wrapper_| for VaapiPicture to DownloadFromSurface() the VA's
    // internal decoded frame.
-@@ -674,6 +680,7 @@ void VaapiVideoDecodeAccelerator::Assign
+@@ -725,6 +731,7 @@ void VaapiVideoDecodeAccelerator::Assign
                                   "Failed to create Context",
                                   PLATFORM_FAILURE, );
    }
@@ -268,9 +268,9 @@ Index: beta/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
  
    for (size_t i = 0; i < buffers.size(); ++i) {
      // If we aren't in BufferAllocationMode::kNone, this |picture| is
-@@ -685,9 +692,13 @@ void VaapiVideoDecodeAccelerator::Assign
-     PictureBuffer buffer = buffers[i];
-     buffer.set_size(requested_pic_size_);
+@@ -743,9 +750,13 @@ void VaapiVideoDecodeAccelerator::Assign
+             : gfx::Size();
+ 
      std::unique_ptr<VaapiPicture> picture = vaapi_picture_factory_->Create(
 +#if defined(OS_LINUX) && !defined(OS_ANDROID) && !defined(OS_CHROMEOS)
 +            vaapi_wrapper_,
@@ -279,10 +279,10 @@ Index: beta/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
              ? vaapi_wrapper_
              : vpp_vaapi_wrapper_,
 +#endif
-         make_context_current_cb_, bind_image_cb_, buffer,
-         decoder_->GetVisibleRect().size());
+         make_context_current_cb_, bind_image_cb_, buffer, size_to_bind);
      RETURN_AND_NOTIFY_ON_FAILURE(picture, "Failed creating a VaapiPicture",
-@@ -1114,6 +1125,9 @@ VaapiVideoDecodeAccelerator::GetSupporte
+                                  PLATFORM_FAILURE, );
+@@ -1199,6 +1210,9 @@ VaapiVideoDecodeAccelerator::GetSupporte
  
  VaapiVideoDecodeAccelerator::BufferAllocationMode
  VaapiVideoDecodeAccelerator::DecideBufferAllocationMode() {
@@ -292,7 +292,7 @@ Index: beta/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
    // TODO(crbug.com/912295): Enable a better BufferAllocationMode for IMPORT
    // |output_mode_| as well.
    if (output_mode_ == VideoDecodeAccelerator::Config::OutputMode::IMPORT)
-@@ -1149,6 +1163,7 @@ VaapiVideoDecodeAccelerator::DecideBuffe
+@@ -1234,6 +1248,7 @@ VaapiVideoDecodeAccelerator::DecideBuffe
      return BufferAllocationMode::kReduced;
  
    return BufferAllocationMode::kSuperReduced;
@@ -304,7 +304,7 @@ Index: beta/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- beta.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ beta/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -341,6 +341,11 @@ void VADisplayState::PreSandboxInitializ
+@@ -405,6 +405,11 @@ void VADisplayState::PreSandboxInitializ
        base::File::FLAG_OPEN | base::File::FLAG_READ | base::File::FLAG_WRITE);
    if (drm_file.IsValid())
      VADisplayState::Get()->SetDrmFd(drm_file.GetPlatformFile());
@@ -316,7 +316,7 @@ Index: beta/media/gpu/vaapi/vaapi_wrapper.cc
  }
  
  VADisplayState::VADisplayState()
-@@ -368,10 +373,6 @@ bool VADisplayState::Initialize() {
+@@ -432,10 +437,6 @@ bool VADisplayState::Initialize() {
  }
  
  bool VADisplayState::InitializeOnce() {
@@ -327,7 +327,7 @@ Index: beta/media/gpu/vaapi/vaapi_wrapper.cc
    switch (gl::GetGLImplementation()) {
      case gl::kGLImplementationEGLGLES2:
        va_display_ = vaGetDisplayDRM(drm_fd_.get());
-@@ -379,10 +380,10 @@ bool VADisplayState::InitializeOnce() {
+@@ -443,10 +444,10 @@ bool VADisplayState::InitializeOnce() {
      case gl::kGLImplementationDesktopGL:
  #if defined(USE_X11)
        va_display_ = vaGetDisplay(gfx::GetXDisplay());
@@ -341,7 +341,7 @@ Index: beta/media/gpu/vaapi/vaapi_wrapper.cc
        break;
      // Cannot infer platform from GL, try all available displays
      case gl::kGLImplementationNone:
-@@ -415,8 +416,19 @@ bool VADisplayState::InitializeOnce() {
+@@ -479,8 +480,19 @@ bool VADisplayState::InitializeOnce() {
    int major_version, minor_version;
    VAStatus va_res = vaInitialize(va_display_, &major_version, &minor_version);
    if (va_res != VA_STATUS_SUCCESS) {
@@ -363,7 +363,7 @@ Index: beta/media/gpu/vaapi/vaapi_wrapper.cc
    }
  
    va_initialized_ = true;
-@@ -424,7 +436,7 @@ bool VADisplayState::InitializeOnce() {
+@@ -488,7 +500,7 @@ bool VADisplayState::InitializeOnce() {
    va_vendor_string_ = vaQueryVendorString(va_display_);
    DLOG_IF(WARNING, va_vendor_string_.empty())
        << "Vendor string empty or error reading.";
@@ -372,7 +372,7 @@ Index: beta/media/gpu/vaapi/vaapi_wrapper.cc
             << va_vendor_string_;
  
    // The VAAPI version is determined from what is loaded on the system by
-@@ -765,7 +777,7 @@ bool VASupportedProfiles::AreAttribsSupp
+@@ -829,7 +841,7 @@ bool VASupportedProfiles::AreAttribsSupp
      if (attribs[i].type != required_attribs[i].type ||
          (attribs[i].value & required_attribs[i].value) !=
              required_attribs[i].value) {
@@ -381,7 +381,7 @@ Index: beta/media/gpu/vaapi/vaapi_wrapper.cc
                 << " for attribute type " << required_attribs[i].type;
        return false;
      }
-@@ -2120,6 +2132,8 @@ bool VaapiWrapper::CreateSurfaces(unsign
+@@ -2216,6 +2228,8 @@ bool VaapiWrapper::CreateSurfaces(unsign
    DCHECK(va_surfaces->empty());
  
    va_surfaces->resize(num_surfaces);
@@ -390,7 +390,7 @@ Index: beta/media/gpu/vaapi/vaapi_wrapper.cc
    VASurfaceAttrib attribute{};
    attribute.type = VASurfaceAttribUsageHint;
    attribute.flags = VA_SURFACE_ATTRIB_SETTABLE;
-@@ -2138,14 +2152,22 @@ bool VaapiWrapper::CreateSurfaces(unsign
+@@ -2234,14 +2248,22 @@ bool VaapiWrapper::CreateSurfaces(unsign
        attribute.value.value.i = VA_SURFACE_ATTRIB_USAGE_HINT_GENERIC;
        break;
    }

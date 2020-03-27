@@ -1,3 +1,10 @@
+chromium-browser (81.0.4044.83-0ubuntu1~ppa1~20.04.1) focal; urgency=low
+
+  * New upstream version 81.0.4044.83
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 27 Mar 2020 19:25:01 -0400
+
 chromium-browser (81.0.4044.17-0ubuntu1~ppa2~20.04.1) focal; urgency=low
 
   * Fix build errors in Xenial-Eoan.

@@ -42,5 +42,7 @@ constexpr-errors-with-old-clang.patch
 #revert-commit-cd95d725015aa.patch
 fix-node-path-to-system-node.patch
 remove-clang-debug-path.patch
-gn-experimental-string_view.patch
+#gn-experimental-string_view.patch
 fix-vaapi-with-glx.patch
+gn-link-with-libc.patch
+rename-python-to-python2.patch

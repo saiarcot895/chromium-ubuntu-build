@@ -20,7 +20,7 @@ Index: beta/components/search_engines/template_url.cc
 ===================================================================
 --- beta.orig/components/search_engines/template_url.cc
 +++ beta/components/search_engines/template_url.cc
-@@ -1114,7 +1114,7 @@ std::string TemplateURLRef::HandleReplac
+@@ -1122,7 +1122,7 @@ std::string TemplateURLRef::HandleReplac
  
        case GOOGLE_SEARCH_CLIENT: {
          DCHECK(!i->is_post_param);

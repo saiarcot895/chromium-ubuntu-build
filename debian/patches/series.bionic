@@ -43,3 +43,5 @@ constexpr-errors-with-old-clang.patch
 fix-node-path-to-system-node.patch
 remove-clang-debug-path.patch
 fix-vaapi-with-glx.patch
+gn-link-with-libc.patch
+rename-python-to-python2.patch
