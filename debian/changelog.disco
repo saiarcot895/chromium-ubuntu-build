@@ -1,3 +1,9 @@
+chromium-browser (81.0.4044.83-0ubuntu1~ppa2~19.04.1) disco; urgency=low
+
+  * Fix debian/control.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 27 Mar 2020 22:26:27 -0400
+
 chromium-browser (81.0.4044.83-0ubuntu1~ppa1~19.04.1) disco; urgency=low
 
   * New upstream version 81.0.4044.83
