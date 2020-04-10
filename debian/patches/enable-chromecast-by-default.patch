@@ -6,7 +6,7 @@ Index: dev/extensions/common/feature_switch.cc
 ===================================================================
 --- dev.orig/extensions/common/feature_switch.cc
 +++ dev/extensions/common/feature_switch.cc
-@@ -42,11 +42,7 @@ class CommonSwitches {
+@@ -39,11 +39,7 @@ class CommonSwitches {
                           FeatureSwitch::DEFAULT_ENABLED),
          load_media_router_component_extension(
              kLoadMediaRouterComponentExtensionFlag,

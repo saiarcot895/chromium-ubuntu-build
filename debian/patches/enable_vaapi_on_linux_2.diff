@@ -40,7 +40,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -1944,7 +1944,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -2146,7 +2146,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
          flag_descriptions::kAcceleratedVideoDecodeDescription,
@@ -49,7 +49,7 @@ Index: dev/chrome/browser/about_flags.cc
          SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
      {
-@@ -2371,10 +2371,10 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -2578,10 +2578,10 @@ const FeatureEntry kFeatureEntries[] = {
       flag_descriptions::kWebXrForceRuntimeDescription, kOsDesktop,
       MULTI_VALUE_TYPE(kWebXrForceRuntimeChoices)},
  #endif  // ENABLE_VR
@@ -66,7 +66,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
 ===================================================================
 --- dev.orig/chrome/browser/flag_descriptions.cc
 +++ dev/chrome/browser/flag_descriptions.cc
-@@ -2911,9 +2911,7 @@ const char kMetalDescription[] =
+@@ -2974,9 +2974,7 @@ const char kMetalDescription[] =
  
  #endif
  
@@ -77,7 +77,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
  
  const char kAcceleratedMjpegDecodeName[] =
      "Hardware-accelerated mjpeg decode for captured frame";
-@@ -2921,6 +2919,12 @@ const char kAcceleratedMjpegDecodeDescri
+@@ -2984,6 +2982,12 @@ const char kAcceleratedMjpegDecodeDescri
      "Enable hardware-accelerated mjpeg decode for captured frame where "
      "available.";
  
@@ -94,7 +94,7 @@ Index: dev/chrome/browser/flag_descriptions.h
 ===================================================================
 --- dev.orig/chrome/browser/flag_descriptions.h
 +++ dev/chrome/browser/flag_descriptions.h
-@@ -1672,13 +1672,17 @@ extern const char kMetalDescription[];
+@@ -1708,13 +1708,17 @@ extern const char kMetalDescription[];
  
  #endif  // defined(OS_MACOSX)
  
@@ -167,7 +167,7 @@ Index: dev/media/base/media_switches.cc
 ===================================================================
 --- dev.orig/media/base/media_switches.cc
 +++ dev/media/base/media_switches.cc
-@@ -710,7 +710,7 @@ bool IsVideoCaptureAcceleratedJpegDecodi
+@@ -718,7 +718,7 @@ bool IsVideoCaptureAcceleratedJpegDecodi
            switches::kUseFakeMjpegDecodeAccelerator)) {
      return true;
    }
@@ -180,7 +180,7 @@ Index: dev/media/gpu/BUILD.gn
 ===================================================================
 --- dev.orig/media/gpu/BUILD.gn
 +++ dev/media/gpu/BUILD.gn
-@@ -455,6 +455,7 @@ if (use_v4l2_codec || use_vaapi || is_ma
+@@ -460,6 +460,7 @@ if (use_v4l2_codec || use_vaapi || is_ma
      if (use_ozone) {
        deps += [ "//ui/ozone" ]
      }
@@ -213,7 +213,7 @@ Index: dev/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
 +++ dev/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
-@@ -380,6 +380,7 @@ bool GpuVideoDecodeAccelerator::Initiali
+@@ -381,6 +381,7 @@ bool GpuVideoDecodeAccelerator::Initiali
      LOG(ERROR) << "Failed creating the VDA factory";
      return false;
    }
@@ -221,7 +221,7 @@ Index: dev/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
  
    const gpu::GpuDriverBugWorkarounds& gpu_workarounds =
        stub_->channel()->gpu_channel_manager()->gpu_driver_bug_workarounds();
-@@ -393,6 +394,7 @@ bool GpuVideoDecodeAccelerator::Initiali
+@@ -394,6 +395,7 @@ bool GpuVideoDecodeAccelerator::Initiali
                 << (config.is_encrypted() ? " with encryption" : "");
      return false;
    }
@@ -233,7 +233,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
 +++ dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
-@@ -65,6 +65,7 @@ void ReportToUMA(VAVDADecoderFailure fai
+@@ -66,6 +66,7 @@ void ReportToUMA(VAVDADecoderFailure fai
                              VAVDA_DECODER_FAILURES_MAX + 1);
  }
  
@@ -241,15 +241,15 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
  // Returns true if the CPU is an Intel Gemini Lake or later (including Kaby
  // Lake) Cpu platform id's are referenced from the following file in kernel
  // source arch/x86/include/asm/intel-family.h
-@@ -77,6 +78,7 @@ bool IsGeminiLakeOrLater() {
+@@ -78,6 +79,7 @@ bool IsGeminiLakeOrLater() {
        cpuid.model() >= kGeminiLakeModelId;
    return is_geminilake_or_later;
  }
 +#endif
  
- // Returns the size of a rectangle whose upper left corner is at the origin (0,
- // 0) and whose bottom right corner is the same as that of |rect|. This is
-@@ -692,6 +694,10 @@ void VaapiVideoDecodeAccelerator::Assign
+ }  // namespace
+ 
+@@ -659,6 +661,10 @@ void VaapiVideoDecodeAccelerator::Assign
    va_surface_format_ = GetVaFormatForVideoCodecProfile(profile_);
    std::vector<VASurfaceID> va_surface_ids;
  
@@ -260,7 +260,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
    // If we aren't in BufferAllocationMode::kNone, we have to allocate a
    // |vpp_vaapi_wrapper_| for VaapiPicture to DownloadFromSurface() the VA's
    // internal decoded frame.
-@@ -709,6 +715,7 @@ void VaapiVideoDecodeAccelerator::Assign
+@@ -676,6 +682,7 @@ void VaapiVideoDecodeAccelerator::Assign
                                   "Failed to create Context",
                                   PLATFORM_FAILURE, );
    }
@@ -268,7 +268,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
  
    for (size_t i = 0; i < buffers.size(); ++i) {
      // If we aren't in BufferAllocationMode::kNone, this |picture| is
-@@ -727,9 +734,13 @@ void VaapiVideoDecodeAccelerator::Assign
+@@ -694,9 +701,13 @@ void VaapiVideoDecodeAccelerator::Assign
              : gfx::Size();
  
      std::unique_ptr<VaapiPicture> picture = vaapi_picture_factory_->Create(
@@ -282,7 +282,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
          make_context_current_cb_, bind_image_cb_, buffer, size_to_bind);
      RETURN_AND_NOTIFY_ON_FAILURE(picture, "Failed creating a VaapiPicture",
                                   PLATFORM_FAILURE, );
-@@ -1183,6 +1194,9 @@ VaapiVideoDecodeAccelerator::GetSupporte
+@@ -1150,6 +1161,9 @@ VaapiVideoDecodeAccelerator::GetSupporte
  
  VaapiVideoDecodeAccelerator::BufferAllocationMode
  VaapiVideoDecodeAccelerator::DecideBufferAllocationMode() {
@@ -292,7 +292,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
    // TODO(crbug.com/912295): Enable a better BufferAllocationMode for IMPORT
    // |output_mode_| as well.
    if (output_mode_ == VideoDecodeAccelerator::Config::OutputMode::IMPORT)
-@@ -1218,6 +1232,7 @@ VaapiVideoDecodeAccelerator::DecideBuffe
+@@ -1185,6 +1199,7 @@ VaapiVideoDecodeAccelerator::DecideBuffe
      return BufferAllocationMode::kReduced;
  
    return BufferAllocationMode::kSuperReduced;
@@ -304,7 +304,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -405,6 +405,11 @@ void VADisplayState::PreSandboxInitializ
+@@ -403,6 +403,11 @@ void VADisplayState::PreSandboxInitializ
        base::File::FLAG_OPEN | base::File::FLAG_READ | base::File::FLAG_WRITE);
    if (drm_file.IsValid())
      VADisplayState::Get()->SetDrmFd(drm_file.GetPlatformFile());
@@ -316,7 +316,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  }
  
  VADisplayState::VADisplayState()
-@@ -432,10 +437,6 @@ bool VADisplayState::Initialize() {
+@@ -430,10 +435,6 @@ bool VADisplayState::Initialize() {
  }
  
  bool VADisplayState::InitializeOnce() {
@@ -327,7 +327,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    switch (gl::GetGLImplementation()) {
      case gl::kGLImplementationEGLGLES2:
        va_display_ = vaGetDisplayDRM(drm_fd_.get());
-@@ -443,10 +444,10 @@ bool VADisplayState::InitializeOnce() {
+@@ -441,10 +442,10 @@ bool VADisplayState::InitializeOnce() {
      case gl::kGLImplementationDesktopGL:
  #if defined(USE_X11)
        va_display_ = vaGetDisplay(gfx::GetXDisplay());
@@ -341,7 +341,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
        break;
      // Cannot infer platform from GL, try all available displays
      case gl::kGLImplementationNone:
-@@ -479,8 +480,19 @@ bool VADisplayState::InitializeOnce() {
+@@ -477,8 +478,19 @@ bool VADisplayState::InitializeOnce() {
    int major_version, minor_version;
    VAStatus va_res = vaInitialize(va_display_, &major_version, &minor_version);
    if (va_res != VA_STATUS_SUCCESS) {
@@ -363,7 +363,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
  
    va_initialized_ = true;
-@@ -488,7 +500,7 @@ bool VADisplayState::InitializeOnce() {
+@@ -486,7 +498,7 @@ bool VADisplayState::InitializeOnce() {
    va_vendor_string_ = vaQueryVendorString(va_display_);
    DLOG_IF(WARNING, va_vendor_string_.empty())
        << "Vendor string empty or error reading.";
@@ -372,7 +372,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
             << va_vendor_string_;
  
    // The VAAPI version is determined from what is loaded on the system by
-@@ -870,7 +882,7 @@ bool VASupportedProfiles::AreAttribsSupp
+@@ -878,7 +890,7 @@ bool VASupportedProfiles::AreAttribsSupp
      if (attribs[i].type != required_attribs[i].type ||
          (attribs[i].value & required_attribs[i].value) !=
              required_attribs[i].value) {
@@ -381,7 +381,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
                 << " for attribute type " << required_attribs[i].type;
        return false;
      }
-@@ -2260,6 +2272,8 @@ bool VaapiWrapper::CreateSurfaces(unsign
+@@ -2257,6 +2269,8 @@ bool VaapiWrapper::CreateSurfaces(unsign
    DCHECK(va_surfaces->empty());
  
    va_surfaces->resize(num_surfaces);
@@ -390,7 +390,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    VASurfaceAttrib attribute{};
    attribute.type = VASurfaceAttribUsageHint;
    attribute.flags = VA_SURFACE_ATTRIB_SETTABLE;
-@@ -2278,14 +2292,22 @@ bool VaapiWrapper::CreateSurfaces(unsign
+@@ -2275,14 +2289,22 @@ bool VaapiWrapper::CreateSurfaces(unsign
        attribute.value.value.i = VA_SURFACE_ATTRIB_USAGE_HINT_GENERIC;
        break;
    }
@@ -417,7 +417,7 @@ Index: dev/media/gpu/test/BUILD.gn
 ===================================================================
 --- dev.orig/media/gpu/test/BUILD.gn
 +++ dev/media/gpu/test/BUILD.gn
-@@ -181,7 +181,7 @@ if (use_vaapi || use_v4l2_codec) {
+@@ -179,7 +179,7 @@ if (use_vaapi || use_v4l2_codec) {
    }
  }
  

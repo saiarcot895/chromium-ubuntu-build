@@ -1,3 +1,10 @@
+chromium-browser (83.0.4103.7-0ubuntu1~ppa1~19.10.1) eoan; urgency=low
+
+  * New upstream version 83.0.4103.7
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 10 Apr 2020 02:43:10 -0400
+
 chromium-browser (82.0.4085.12-0ubuntu1~ppa1~19.10.1) eoan; urgency=low
 
   * New upstream version 82.0.4085.12

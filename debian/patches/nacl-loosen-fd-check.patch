@@ -2,7 +2,7 @@ Index: dev/components/nacl/loader/sandbox_linux/nacl_sandbox_linux.cc
 ===================================================================
 --- dev.orig/components/nacl/loader/sandbox_linux/nacl_sandbox_linux.cc
 +++ dev/components/nacl/loader/sandbox_linux/nacl_sandbox_linux.cc
-@@ -167,14 +167,16 @@ void NaClSandbox::CheckForExpectedNumber
+@@ -165,14 +165,16 @@ void NaClSandbox::CheckForExpectedNumber
    //
    // This sanity check ensures that dynamically loaded libraries don't
    // leave any FDs open before we enable the sandbox.
