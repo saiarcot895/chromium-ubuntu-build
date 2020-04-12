@@ -1,3 +1,9 @@
+chromium-browser (83.0.4103.7-0ubuntu1~ppa4~20.04.1) focal; urgency=low
+
+  * Fix build errors.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 12 Apr 2020 11:37:36 -0400
+
 chromium-browser (83.0.4103.7-0ubuntu1~ppa3~20.04.1) focal; urgency=low
 
   * Fix build errors.

@@ -106,7 +106,7 @@ Index: dev/third_party/blink/renderer/platform/wtf/vector.h
  
    template <bool = Allocator::kIsGarbageCollected>
 -  static void MoveOverlappingImpl(const T* src, const T* src_end, T* dst);
-+  struct MoveOverlappingImplStruct;
++  struct MoveOverlappingImpl;
 +
    template <>
 -  static void MoveOverlappingImpl<false>(const T* src,
