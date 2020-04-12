@@ -101,19 +101,29 @@ Index: dev/third_party/blink/renderer/platform/wtf/vector.h
 ===================================================================
 --- dev.orig/third_party/blink/renderer/platform/wtf/vector.h
 +++ dev/third_party/blink/renderer/platform/wtf/vector.h
-@@ -207,30 +207,6 @@ struct VectorMover<true, T, Allocator> {
+@@ -206,29 +206,31 @@ struct VectorMover<true, T, Allocator> {
+   }
  
    template <bool = Allocator::kIsGarbageCollected>
-   static void MoveOverlappingImpl(const T* src, const T* src_end, T* dst);
--  template <>
+-  static void MoveOverlappingImpl(const T* src, const T* src_end, T* dst);
++  struct MoveOverlappingImplStruct;
++
+   template <>
 -  static void MoveOverlappingImpl<false>(const T* src,
 -                                         const T* src_end,
 -                                         T* dst) {
 -    memmove(dst, src,
 -            reinterpret_cast<const char*>(src_end) -
 -                reinterpret_cast<const char*>(src));
--  }
--  template <>
++  struct MoveOverlappingImpl<false> {
++    static void func(const T* src, const T* src_end, T* dst) {
++      memmove(dst, src,
++          reinterpret_cast<const char*>(src_end) -
++          reinterpret_cast<const char*>(src));
++    }
+   }
++
+   template <>
 -  static void MoveOverlappingImpl<true>(const T* src,
 -                                        const T* src_end,
 -                                        T* dst) {
@@ -127,38 +137,44 @@ Index: dev/third_party/blink/renderer/platform/wtf/vector.h
 -      T* dst_end = dst + (src_end - src);
 -      for (; src_end >= src; --src_end, --dst_end)
 -        AtomicWriteMemcpy<sizeof(T)>(dst_end, src_end);
--    }
--  }
++  struct MoveOverlappingImpl<true> {
++    static void func(const T* src, const T* src_end, T* dst) {
++      if (src == dst)
++        return;
++      if (dst < src) {
++        for (; src < src_end; ++src, ++dst)
++          AtomicWriteMemcpy<sizeof(T)>(dst, src);
++      } else {
++        --src_end;
++        T* dst_end = dst + (src_end - src);
++        for (; src_end >= src; --src_end, --dst_end)
++          AtomicWriteMemcpy<sizeof(T)>(dst_end, src_end);
++      }
+     }
+   }
  
-   static void MoveOverlapping(const T* src,
-                               const T* src_end,
-@@ -252,6 +228,31 @@ struct VectorMover<true, T, Allocator> {
+@@ -237,7 +239,7 @@ struct VectorMover<true, T, Allocator> {
+                               T* dst,
+                               bool has_inline_buffer) {
+     if (LIKELY(dst && src)) {
+-      MoveOverlappingImpl(src, src_end, dst);
++      MoveOverlappingImpl::func(src, src_end, dst);
+       if (has_inline_buffer)
+         Traits::NotifyNewElements(dst, src_end - src);
+     }
+@@ -252,6 +254,17 @@ struct VectorMover<true, T, Allocator> {
    }
  };
  
 +template <typename T, typename Allocator>
-+static void VectorMover<true, T, Allocator>::MoveOverlappingImpl<false>(const T* src,
++void VectorMover<true, T, Allocator>::MoveOverlappingImpl<false>(const T* src,
 +                                       const T* src_end,
 +                                       T* dst) {
-+  memmove(dst, src,
-+          reinterpret_cast<const char*>(src_end) -
-+              reinterpret_cast<const char*>(src));
 +}
 +template <typename T, typename Allocator>
-+static void VectorMover<true, T, Allocator>::MoveOverlappingImpl<true>(const T* src,
++void VectorMover<true, T, Allocator>::MoveOverlappingImpl<true>(const T* src,
 +                                      const T* src_end,
 +                                      T* dst) {
-+  if (src == dst)
-+    return;
-+  if (dst < src) {
-+    for (; src < src_end; ++src, ++dst)
-+      AtomicWriteMemcpy<sizeof(T)>(dst, src);
-+  } else {
-+    --src_end;
-+    T* dst_end = dst + (src_end - src);
-+    for (; src_end >= src; --src_end, --dst_end)
-+      AtomicWriteMemcpy<sizeof(T)>(dst_end, src_end);
-+  }
 +}
 +
  template <bool canCopyWithMemcpy, typename T, typename Allocator>
