@@ -101,7 +101,7 @@ Index: dev/third_party/blink/renderer/platform/wtf/vector.h
 ===================================================================
 --- dev.orig/third_party/blink/renderer/platform/wtf/vector.h
 +++ dev/third_party/blink/renderer/platform/wtf/vector.h
-@@ -206,29 +206,31 @@ struct VectorMover<true, T, Allocator> {
+@@ -206,38 +206,40 @@ struct VectorMover<true, T, Allocator> {
    }
  
    template <bool = Allocator::kIsGarbageCollected>
@@ -115,13 +115,14 @@ Index: dev/third_party/blink/renderer/platform/wtf/vector.h
 -    memmove(dst, src,
 -            reinterpret_cast<const char*>(src_end) -
 -                reinterpret_cast<const char*>(src));
+-  }
 +  struct MoveOverlappingImpl<false> {
 +    static void func(const T* src, const T* src_end, T* dst) {
 +      memmove(dst, src,
 +          reinterpret_cast<const char*>(src_end) -
 +          reinterpret_cast<const char*>(src));
 +    }
-   }
++  };
 +
    template <>
 -  static void MoveOverlappingImpl<true>(const T* src,
@@ -151,9 +152,11 @@ Index: dev/third_party/blink/renderer/platform/wtf/vector.h
 +          AtomicWriteMemcpy<sizeof(T)>(dst_end, src_end);
 +      }
      }
-   }
+-  }
++  };
  
-@@ -237,7 +239,7 @@ struct VectorMover<true, T, Allocator> {
+   static void MoveOverlapping(const T* src,
+                               const T* src_end,
                                T* dst,
                                bool has_inline_buffer) {
      if (LIKELY(dst && src)) {
