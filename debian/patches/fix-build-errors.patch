@@ -161,25 +161,7 @@ Index: dev/third_party/blink/renderer/platform/wtf/vector.h
                                bool has_inline_buffer) {
      if (LIKELY(dst && src)) {
 -      MoveOverlappingImpl(src, src_end, dst);
-+      MoveOverlappingImpl::func(src, src_end, dst);
++      MoveOverlappingImpl<>::func(src, src_end, dst);
        if (has_inline_buffer)
          Traits::NotifyNewElements(dst, src_end - src);
      }
-@@ -252,6 +254,17 @@ struct VectorMover<true, T, Allocator> {
-   }
- };
- 
-+template <typename T, typename Allocator>
-+void VectorMover<true, T, Allocator>::MoveOverlappingImpl<false>(const T* src,
-+                                       const T* src_end,
-+                                       T* dst) {
-+}
-+template <typename T, typename Allocator>
-+void VectorMover<true, T, Allocator>::MoveOverlappingImpl<true>(const T* src,
-+                                      const T* src_end,
-+                                      T* dst) {
-+}
-+
- template <bool canCopyWithMemcpy, typename T, typename Allocator>
- struct VectorCopier;
- 
