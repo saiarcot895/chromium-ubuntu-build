@@ -2,10 +2,10 @@ Description: Enable chromecast extension
 Author: Olivier Tilloy <olivier.tilloy@canonical.com>
 Bug-Ubuntu: https://launchpad.net/bugs/1621753
 
-Index: dev/extensions/common/feature_switch.cc
+Index: beta/extensions/common/feature_switch.cc
 ===================================================================
---- dev.orig/extensions/common/feature_switch.cc
-+++ dev/extensions/common/feature_switch.cc
+--- beta.orig/extensions/common/feature_switch.cc
++++ beta/extensions/common/feature_switch.cc
 @@ -39,11 +39,7 @@ class CommonSwitches {
                           FeatureSwitch::DEFAULT_ENABLED),
          load_media_router_component_extension(

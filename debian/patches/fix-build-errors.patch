@@ -1,7 +1,7 @@
-Index: dev/content/public/browser/web_ui.h
+Index: beta/content/public/browser/web_ui.h
 ===================================================================
---- dev.orig/content/public/browser/web_ui.h
-+++ dev/content/public/browser/web_ui.h
+--- beta.orig/content/public/browser/web_ui.h
++++ beta/content/public/browser/web_ui.h
 @@ -138,22 +138,6 @@ class CONTENT_EXPORT WebUI {
    template <typename T>
    static T GetValue(const base::Value& value);
@@ -48,10 +48,10 @@ Index: dev/content/public/browser/web_ui.h
  }  // namespace content
  
  #endif  // CONTENT_PUBLIC_BROWSER_WEB_UI_H_
-Index: dev/base/stl_util.h
+Index: beta/base/stl_util.h
 ===================================================================
---- dev.orig/base/stl_util.h
-+++ dev/base/stl_util.h
+--- beta.orig/base/stl_util.h
++++ beta/base/stl_util.h
 @@ -561,14 +561,6 @@ size_t EraseIf(std::vector<T, Allocator>
    return removed;
  }
@@ -97,10 +97,10 @@ Index: dev/base/stl_util.h
  template <class Key, class T, class Compare, class Allocator, class Predicate>
  size_t EraseIf(std::map<Key, T, Compare, Allocator>& container,
                 Predicate pred) {
-Index: dev/third_party/blink/renderer/platform/wtf/vector.h
+Index: beta/third_party/blink/renderer/platform/wtf/vector.h
 ===================================================================
---- dev.orig/third_party/blink/renderer/platform/wtf/vector.h
-+++ dev/third_party/blink/renderer/platform/wtf/vector.h
+--- beta.orig/third_party/blink/renderer/platform/wtf/vector.h
++++ beta/third_party/blink/renderer/platform/wtf/vector.h
 @@ -205,30 +205,25 @@ struct VectorMover<true, T, Allocator> {
      }
    }

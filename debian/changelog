@@ -1,3 +1,10 @@
+chromium-browser (83.0.4103.44-0ubuntu1~ppa1~20.04.1) focal; urgency=low
+
+  * New upstream version 83.0.4103.44
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 07 May 2020 00:58:30 -0400
+
 chromium-browser (83.0.4103.7-0ubuntu1~ppa6~20.04.1) focal; urgency=low
 
   * Fix build errors.

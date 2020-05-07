@@ -1,7 +1,7 @@
-Index: dev/third_party/blink/renderer/bindings/scripts/bind_gen/style_format.py
+Index: beta/third_party/blink/renderer/bindings/scripts/bind_gen/style_format.py
 ===================================================================
---- dev.orig/third_party/blink/renderer/bindings/scripts/bind_gen/style_format.py
-+++ dev/third_party/blink/renderer/bindings/scripts/bind_gen/style_format.py
+--- beta.orig/third_party/blink/renderer/bindings/scripts/bind_gen/style_format.py
++++ beta/third_party/blink/renderer/bindings/scripts/bind_gen/style_format.py
 @@ -70,15 +70,10 @@ def gn_format(contents, filename=None):
  
  
