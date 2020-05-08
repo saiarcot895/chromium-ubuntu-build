@@ -6,15 +6,15 @@ Index: dev/chrome/BUILD.gn
 ===================================================================
 --- dev.orig/chrome/BUILD.gn
 +++ dev/chrome/BUILD.gn
-@@ -281,6 +281,8 @@ if (!is_android && !is_mac) {
-                      rebase_path(version_script, root_build_dir) ]
-       }
+@@ -286,7 +286,7 @@ if (!is_android && !is_mac) {
  
-+      configs += [ "//build/config/gcc:rpath_for_built_shared_libraries" ]
-+
-       if (use_x11) {
-         configs += [
-           "//build/config/linux:x11",
+     # ChromeOS by design is safe to have rpath=$ORIGIN. This simplifies shared
+     # library usage.
+-    if (is_chromeos && !is_component_build) {
++    if (is_linux && !is_component_build) {
+       configs += [ "//build/config/gcc:rpath_for_built_shared_libraries" ]
+     }
+ 
 Index: dev/tools/v8_context_snapshot/BUILD.gn
 ===================================================================
 --- dev.orig/tools/v8_context_snapshot/BUILD.gn

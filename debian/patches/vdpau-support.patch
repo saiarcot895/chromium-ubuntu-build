@@ -70,7 +70,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
    return media::VAImplementation::kOther;
  }
-@@ -1623,6 +1626,11 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+@@ -1638,6 +1641,11 @@ VaapiWrapper::ExportVASurfaceAsNativePix
      return nullptr;
    }
  
@@ -82,7 +82,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    VADRMPRIMESurfaceDescriptor descriptor;
    {
      base::AutoLock auto_lock(*va_lock_);
-@@ -2269,32 +2277,43 @@ bool VaapiWrapper::CreateSurfaces(unsign
+@@ -2284,32 +2292,43 @@ bool VaapiWrapper::CreateSurfaces(unsign
    DCHECK(va_surfaces->empty());
  
    va_surfaces->resize(num_surfaces);

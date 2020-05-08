@@ -5,8 +5,8 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -489,19 +489,6 @@ config("compiler") {
-     }
+@@ -499,19 +499,6 @@ config("compiler") {
+     ldflags += [ "-Wl,-z,keep-text-section-prefix" ]
    }
  
 -  if (is_clang && !is_nacl && !use_xcode_clang) {
