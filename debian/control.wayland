@@ -46,6 +46,7 @@ Build-Depends: debhelper (>= 9),
 		chrpath,
 		default-jre-headless,
 		nodejs,
+		xcb-proto,
 		libwayland-dev,
 		libgbm-dev
 Standards-Version: 3.9.5
