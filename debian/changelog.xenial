@@ -1,3 +1,10 @@
+chromium-browser (84.0.4136.5-0ubuntu1~ppa3~16.04.1) xenial; urgency=low
+
+  * Force Clang 8.0 or newer
+  * Add python-xcbgen as a dependency
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 14 May 2020 12:08:38 -0400
+
 chromium-browser (84.0.4136.5-0ubuntu1~ppa2~16.04.1) xenial; urgency=low
 
   * Add dependency on xcb-proto.
