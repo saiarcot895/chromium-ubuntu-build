@@ -37,7 +37,7 @@ Index: dev/tools/gn/src/gn/setup.cc
      build_settings_.set_python_path(python_path.NormalizePathSeparatorsTo('/'));
  #else
 -    build_settings_.set_python_path(base::FilePath("python"));
-+    build_settings_.set_python_path(base::FilePath("python2"));
++    build_settings_.set_python_path(base::FilePath("python3"));
  #endif
    }
    return true;

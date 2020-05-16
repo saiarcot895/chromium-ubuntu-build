@@ -1,3 +1,10 @@
+chromium-browser (84.0.4136.5-0ubuntu1~ppa4~20.04.1) focal; urgency=low
+
+  * Fix clang dependency.
+  * Try switching to python 3.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 16 May 2020 02:15:37 -0400
+
 chromium-browser (84.0.4136.5-0ubuntu1~ppa3~20.04.1) focal; urgency=low
 
   * Force Clang 8.0 or newer
