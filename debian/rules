@@ -172,9 +172,12 @@ common_defines += \
 endif
 
 ifeq (,$(filter 16.04% 18.04%,$(UBUNTU_DIST)))
-common_defines += init_stack_vars=true
+common_defines += init_stack_vars=true \
+									clang_use_compiler_version_suffix=false
 else
-common_defines += init_stack_vars=false
+common_defines += init_stack_vars=false \
+									clang_use_compiler_version_suffix=true \
+									clang_compiler_version_suffix="8"
 endif
 
 ### Official interfaces.

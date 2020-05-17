@@ -1,4 +1,3 @@
 debian/chromium-browser.desktop usr/share/applications
 debian/chromium-browser.xml usr/share/gnome-control-center/default-apps
-debian/apport/chromium-browser.py usr/share/apport/package-hooks/
 debian/chromium-drirc-disable-10bpc-color-configs.conf usr/share/drirc.d/

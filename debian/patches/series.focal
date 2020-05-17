@@ -19,7 +19,7 @@ widevine-other-locations
 #nacl-loosen-fd-check.patch
 #tcmalloc-add-support-for-arm64.patch
 #gn-dont-use-git.patch
-gn-fix-for-i386-build.patch
+#gn-fix-for-i386-build.patch
 use-clang-versioned.patch
 gn-nacl-use-gcc-toolchain.patch
 #nacl-dont-use-icf.patch
@@ -42,8 +42,7 @@ constexpr-errors-with-old-clang.patch
 #revert-commit-cd95d725015aa.patch
 fix-node-path-to-system-node.patch
 remove-clang-debug-path.patch
-#gn-experimental-string_view.patch
 dont-run-code-formatting.patch
 gn-link-with-libc.patch
 fix-build-errors.patch
-rename-python-to-python2.patch
+rename-python-to-python3.patch

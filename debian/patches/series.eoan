@@ -19,8 +19,8 @@ widevine-other-locations
 #nacl-loosen-fd-check.patch
 #tcmalloc-add-support-for-arm64.patch
 #gn-dont-use-git.patch
-gn-fix-for-i386-build.patch
-use-clang-versioned-bionic.patch
+#gn-fix-for-i386-build.patch
+use-clang-versioned.patch
 gn-nacl-use-gcc-toolchain.patch
 #nacl-dont-use-icf.patch
 #linux45-madvfree

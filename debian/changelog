@@ -1,3 +1,14 @@
+chromium-browser (84.0.4136.5-0ubuntu1~ppa5~20.04.1) focal; urgency=low
+
+  * Change up the packaging files to have Focal use only python 3 stuff,
+    while older releases use python 2
+  * Make the clang executable name a little controllable via
+    debian/rules.
+  * Remove apport package hook; I'm not checking there for crashes
+    anyways.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 17 May 2020 16:41:25 -0400
+
 chromium-browser (84.0.4136.5-0ubuntu1~ppa4~20.04.1) focal; urgency=low
 
   * Fix clang dependency.
