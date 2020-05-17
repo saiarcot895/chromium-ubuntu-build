@@ -6,10 +6,10 @@ Index: dev/build/toolchain/gcc_toolchain.gni
        # Don't enable for Android-on-Chrome OS so that they can build with
        # symbol_level=0 without this failing (crbug.com/891164).
        (target_os == "android" || target_os == "win")
-+	
-+	clang_use_compiler_version_suffix = false
++  
++  clang_use_compiler_version_suffix = false
 +
-+	clang_compiler_version_suffix = ""
++  clang_compiler_version_suffix = ""
  }
  
  # When the arg is set via args.gn, it applies to all toolchains. In order to not
@@ -20,13 +20,13 @@ Index: dev/build/toolchain/gcc_toolchain.gni
 -    prefix = rebase_path("$clang_base_path/bin", root_build_dir)
 -    cc = "$prefix/clang"
 -    cxx = "$prefix/clang++"
-+		if (clang_use_compiler_version_suffix) {
-+			cc = "/usr/bin/clang-${clang_compiler_version_suffix}"
-+			cxx = "/usr/bin/clang++-${clang_compiler_version_suffix}"
-+		} else {
-+			cc = "/usr/bin/clang"
-+			cxx = "/usr/bin/clang++"
-+		}
++    if (clang_use_compiler_version_suffix) {
++      cc = "/usr/bin/clang-${clang_compiler_version_suffix}"
++      cxx = "/usr/bin/clang++-${clang_compiler_version_suffix}"
++    } else {
++      cc = "/usr/bin/clang"
++      cxx = "/usr/bin/clang++"
++    }
      ld = cxx
      readelf = "${toolprefix}readelf"
 -    ar = "${prefix}/llvm-ar"

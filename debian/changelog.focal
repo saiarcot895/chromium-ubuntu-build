@@ -1,3 +1,9 @@
+chromium-browser (84.0.4136.5-0ubuntu1~ppa6~20.04.1) focal; urgency=low
+
+  * Remove tabs.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 17 May 2020 17:37:01 -0400
+
 chromium-browser (84.0.4136.5-0ubuntu1~ppa5~20.04.1) focal; urgency=low
 
   * Change up the packaging files to have Focal use only python 3 stuff,
