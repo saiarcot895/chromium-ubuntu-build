@@ -1,3 +1,11 @@
+chromium-browser (84.0.4136.5-0ubuntu1~ppa7~19.10.1) eoan; urgency=low
+
+  * Add an option for the xcbproto files whether to use python 2 or
+    python 3.
+  * Consolidate series files.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 22 May 2020 02:01:03 -0400
+
 chromium-browser (84.0.4136.5-0ubuntu1~ppa6~19.10.1) eoan; urgency=low
 
   * Remove tabs.

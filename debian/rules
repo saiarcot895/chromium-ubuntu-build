@@ -180,6 +180,10 @@ common_defines += init_stack_vars=false \
 									clang_compiler_version_suffix="8"
 endif
 
+ifneq (,$(filter 20.04%,$(UBUNTU_DIST)))
+common_defines += xcbproto_python_path="/usr/bin/python3"
+endif
+
 ### Official interfaces.
 
 # Debian Policy §4.9
@@ -308,17 +312,15 @@ override_dh_clean:
 	rm -rf $(SRC_DIR)/out $(FFMPEG_SRC_DIR)/yasm $(FFMPEG_SRC_DIR)/out $(FFMPEG_SRC_DIR)/*.mk
 	find $(SRC_DIR) \( -name \*.pyc -o -name \*.pyo -name \*.o \) -delete
 	find $(SRC_DIR) -regex '.*/\([^/]*\)/\1[^/]*\.\(Makefile\|\(target\|host\)\.mk\)' -delete
-	sed -i 's,/etc/$(DEBIAN_NAME)/policies,/etc/chromium/policies,' \
-		$(SRC_DIR)/chrome/common/chrome_paths.cc
 	
 	dh_clean
 
 $(SRC_DIR)/gn:
 ifeq (,$(filter 16.04%,$(UBUNTU_DIST)))
-	CC=$(shell which clang-6.0 clang | head -n 1) CXX=$(shell which clang++-6.0 clang++ | head -n 1) tools/gn/bootstrap/bootstrap.py --gn-gen-args '$(common_defines)'
+	CC=$(shell which clang-8 clang | head -n 1) CXX=$(shell which clang++-8 clang++ | head -n 1) tools/gn/bootstrap/bootstrap.py --gn-gen-args '$(common_defines)'
 	cp $(SRC_DIR)/out/Release/gn $(SRC_DIR)/
 else
-	CC=$(shell which clang-6.0 clang | head -n 1) CXX=$(shell which clang++-6.0 clang++ | head -n 1) tools/gn/bootstrap/bootstrap.py --use-custom-libcxx --gn-gen-args '$(common_defines)'
+	CC=$(shell which clang-8 clang | head -n 1) CXX=$(shell which clang++-8 clang++ | head -n 1) tools/gn/bootstrap/bootstrap.py --use-custom-libcxx --gn-gen-args '$(common_defines)'
 	cp $(SRC_DIR)/out/Release/gn $(SRC_DIR)/out/Release/libc++.gn.so $(SRC_DIR)/
 endif
 	rm -rf $(SRC_DIR)/out
