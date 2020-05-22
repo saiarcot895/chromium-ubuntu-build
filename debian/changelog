@@ -1,3 +1,9 @@
+chromium-browser (84.0.4136.5-0ubuntu1~ppa8~20.04.1) focal; urgency=low
+
+  * Fix typo in variable name.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 22 May 2020 12:18:15 -0400
+
 chromium-browser (84.0.4136.5-0ubuntu1~ppa7~20.04.1) focal; urgency=low
 
   * Add an option for the xcbproto files whether to use python 2 or
