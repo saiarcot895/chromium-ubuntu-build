@@ -89,8 +89,8 @@ Index: dev/ui/gfx/x/BUILD.gn
  action_foreach("gen_xprotos") {
    visibility = [ ":xprotos" ]
    script = "gen_xproto.py"
-+  if (xcb_python_path != "") {
-+    python_path = xcb_python_path
++  if (xcbproto_python_path != "") {
++    python_path = xcbproto_python_path
 +  }
    sources = [
      "$xcbproto_path/bigreq.xml",
