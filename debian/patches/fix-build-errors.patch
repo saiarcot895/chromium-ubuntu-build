@@ -2,7 +2,7 @@ Index: dev/content/public/browser/web_ui.h
 ===================================================================
 --- dev.orig/content/public/browser/web_ui.h
 +++ dev/content/public/browser/web_ui.h
-@@ -138,22 +138,6 @@ class CONTENT_EXPORT WebUI {
+@@ -140,22 +140,6 @@ class CONTENT_EXPORT WebUI {
    template <typename T>
    static T GetValue(const base::Value& value);
  
@@ -25,7 +25,7 @@ Index: dev/content/public/browser/web_ui.h
    template <typename Is, typename... Args>
    struct Call;
  
-@@ -169,6 +153,22 @@ class CONTENT_EXPORT WebUI {
+@@ -171,6 +155,22 @@ class CONTENT_EXPORT WebUI {
    };
  };
  
