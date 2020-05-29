@@ -180,10 +180,6 @@ common_defines += init_stack_vars=false \
 									clang_compiler_version_suffix="8"
 endif
 
-ifneq (,$(filter 20.04%,$(UBUNTU_DIST)))
-common_defines += xcbproto_python_path="/usr/bin/python3"
-endif
-
 ### Official interfaces.
 
 # Debian Policy §4.9

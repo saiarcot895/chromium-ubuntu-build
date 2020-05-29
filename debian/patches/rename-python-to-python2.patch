@@ -73,25 +73,24 @@ Index: dev/third_party/catapult/common/py_vulcanize/py_vulcanize/generate.py
      p = subprocess.Popen(rcssmin_args,
                           stdin=subprocess.PIPE,
                           stdout=subprocess.PIPE,
-Index: dev/ui/gfx/x/BUILD.gn
+Index: dev/ui/gfx/x/gen_xproto.py
 ===================================================================
---- dev.orig/ui/gfx/x/BUILD.gn
-+++ dev/ui/gfx/x/BUILD.gn
-@@ -11,6 +11,7 @@ assert(use_x11 || ozone_platform_x11)
+--- dev.orig/ui/gfx/x/gen_xproto.py
++++ dev/ui/gfx/x/gen_xproto.py
+@@ -1015,8 +1015,14 @@ def main():
+                             'dist-packages')
+         sys.path.insert(1, path)
  
- declare_args() {
-   xcbproto_path = ""
-+  xcbproto_python_path = ""
- }
+-    import xcbgen.xtypes
+-    import xcbgen.state
++    try:
++        import xcbgen.xtypes
++        import xcbgen.state
++    except:
++        if sys.version_info < (3, 0):
++            import subprocess
++            subprocess.check_call(["python3"] + sys.argv)
++            return 0
  
- if (xcbproto_path == "") {
-@@ -35,6 +36,9 @@ config("x11_private_config") {
- action_foreach("gen_xprotos") {
-   visibility = [ ":xprotos" ]
-   script = "gen_xproto.py"
-+  if (xcbproto_python_path != "") {
-+    python_path = xcbproto_python_path
-+  }
-   sources = [
-     "$xcbproto_path/bigreq.xml",
-     "$xcbproto_path/composite.xml",
+     generator = GenXproto(args, xcbgen)
+     generator.generate()

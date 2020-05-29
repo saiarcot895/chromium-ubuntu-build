@@ -2,7 +2,7 @@ Index: dev/content/public/browser/web_ui.h
 ===================================================================
 --- dev.orig/content/public/browser/web_ui.h
 +++ dev/content/public/browser/web_ui.h
-@@ -140,22 +140,6 @@ class CONTENT_EXPORT WebUI {
+@@ -138,22 +138,6 @@ class CONTENT_EXPORT WebUI {
    template <typename T>
    static T GetValue(const base::Value& value);
  
@@ -25,7 +25,7 @@ Index: dev/content/public/browser/web_ui.h
    template <typename Is, typename... Args>
    struct Call;
  
-@@ -171,6 +155,22 @@ class CONTENT_EXPORT WebUI {
+@@ -169,6 +153,22 @@ class CONTENT_EXPORT WebUI {
    };
  };
  
@@ -97,3 +97,33 @@ Index: dev/base/stl_util.h
  template <class Key, class T, class Compare, class Allocator, class Predicate>
  size_t EraseIf(std::map<Key, T, Compare, Allocator>& container,
                 Predicate pred) {
+Index: dev/cc/trees/frame_rate_estimator.cc
+===================================================================
+--- dev.orig/cc/trees/frame_rate_estimator.cc
++++ dev/cc/trees/frame_rate_estimator.cc
+@@ -47,8 +47,8 @@ void FrameRateEstimator::WillDraw(base::
+   // we assume that BeginFrames can not be throttled. But if the animation
+   // frequency is lower than that, then using a lower frame rate is permitted.
+   // The delta below is to account for minor offsets in frame times.
+-  constexpr auto kFudgeDelta = base::TimeDelta::FromMilliseconds(1);
+-  constexpr auto kMinDelta =
++  auto kFudgeDelta = base::TimeDelta::FromMilliseconds(1);
++  auto kMinDelta =
+       (viz::BeginFrameArgs::DefaultInterval() * 2) + kFudgeDelta;
+   if (draw_delta < kMinDelta)
+     num_of_consecutive_frames_with_min_delta_++;
+Index: dev/media/base/media_serializers.h
+===================================================================
+--- dev.orig/media/base/media_serializers.h
++++ dev/media/base/media_serializers.h
+@@ -378,8 +378,8 @@ template <>
+ struct MediaSerializer<base::Location> {
+   static base::Value Serialize(const base::Location& value) {
+     base::Value result(base::Value::Type::DICTIONARY);
+-    FIELD_SERIALIZE("file", value.file_name());
+-    FIELD_SERIALIZE("line", value.line_number());
++    FIELD_SERIALIZE("file", value.file_name() ? value.file_name() : "unknown");
++    FIELD_SERIALIZE("line", value.line_number() ? value.line_number() : 0);
+     return result;
+   }
+ };

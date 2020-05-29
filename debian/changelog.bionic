@@ -1,3 +1,13 @@
+chromium-browser (84.0.4147.21-0ubuntu1~ppa1~18.04.1) bionic; urgency=low
+
+  * New upstream version 84.0.4147.21
+  * Updated patches.
+  * Try to fix Focal build.
+  * Handle the case of source code location not being available. (Fixes
+    #82).
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 29 May 2020 11:37:50 -0400
+
 chromium-browser (84.0.4147.13-0ubuntu1~ppa1~18.04.1) bionic; urgency=low
 
   * New upstream version 84.0.4147.13
