@@ -106,7 +106,36 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -1175,10 +1175,10 @@ bool VASupportedImageFormats::InitSuppor
+@@ -575,10 +575,16 @@ std::vector<VAEntrypoint> GetEntryPoints
+   std::vector<VAEntrypoint>
+       whitelisted_entrypoints[VaapiWrapper::CodecMode::kCodecModeMax] = {
+           {VAEntrypointVLD},  // For kDecode.
+-          {VAEntrypointEncSlice, VAEntrypointEncPicture,
+-           VAEntrypointEncSliceLP},  // For kEncode.
+-          {VAEntrypointEncSlice,
+-           VAEntrypointEncSliceLP},  // For
++          {VAEntrypointEncSlice, VAEntrypointEncPicture
++#if VA_CHECK_VERSION(0, 39, 1)
++           , VAEntrypointEncSliceLP
++#endif
++          },  // For kEncode.
++          {VAEntrypointEncSlice
++#if VA_CHECK_VERSION(0, 39, 1)
++           , VAEntrypointEncSliceLP
++#endif
++                                 },  // For
+                                      // kEncodeConstantQuantizationParameter.
+           {VAEntrypointVideoProc}    // For kVideoProcess.
+       };
+@@ -648,6 +654,7 @@ static bool GetRequiredAttribs(const bas
+ class VASupportedProfiles {
+  public:
+   struct ProfileInfo {
++#endif
+     VAProfile va_profile;
+     VAEntrypoint va_entrypoint;
+     gfx::Size min_resolution;
+@@ -1175,10 +1182,10 @@ bool VASupportedImageFormats::InitSuppor
      // Remove this workaround once b/128340287 is resolved.
      if (std::find_if(supported_formats_.cbegin(), supported_formats_.cend(),
                       [](const VAImageFormat& format) {
@@ -119,7 +148,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
        supported_formats_.push_back(i420_format);
      }
    }
-@@ -1354,7 +1354,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1354,7 +1361,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      // The VAAPI mesa state tracker only supports conversion from NV12 to YV12
      // and IYUV (synonym of I420).
      if (rt_format == VA_RT_FORMAT_YUV420) {
@@ -128,7 +157,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
            preferred_fourcc != VA_FOURCC_YV12) {
          preferred_fourcc = VA_FOURCC_NV12;
        }
-@@ -1384,18 +1384,18 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1384,18 +1391,18 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      //
      if (preferred_fourcc == VA_FOURCC_422H ||
          preferred_fourcc == VA_FOURCC_P010) {
@@ -150,7 +179,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
  
    // After workarounds, assume the conversion is supported.
-@@ -1613,7 +1613,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
+@@ -1613,7 +1620,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
    }
    // We only have to pass the first file descriptor to a driver. A VA-API driver
    // shall create a VASurface from the single fd correctly.
@@ -162,7 +191,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    va_attrib_extbuf.buffers = &fd;
    va_attrib_extbuf.num_buffers = 1u;
  
-@@ -1663,6 +1667,7 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+@@ -1663,6 +1674,7 @@ VaapiWrapper::ExportVASurfaceAsNativePix
      return nullptr;
    }
  
@@ -170,7 +199,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    VADRMPRIMESurfaceDescriptor descriptor;
    {
      base::AutoLock auto_lock(*va_lock_);
-@@ -1755,6 +1760,10 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+@@ -1755,6 +1767,10 @@ VaapiWrapper::ExportVASurfaceAsNativePix
    exported_pixmap->pixmap = base::MakeRefCounted<gfx::NativePixmapDmaBuf>(
        scoped_va_surface.size(), buffer_format, std::move(handle));
    return exported_pixmap;
@@ -181,7 +210,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  }
  
  bool VaapiWrapper::SyncSurface(VASurfaceID va_surface_id) {
-@@ -2240,11 +2249,14 @@ bool VaapiWrapper::Initialize(CodecMode
+@@ -2240,11 +2256,14 @@ bool VaapiWrapper::Initialize(CodecMode
      TryToSetVADisplayAttributeToLocalGPU();
  
    VAEntrypoint entrypoint = GetDefaultVaEntryPoint(mode, va_profile);
@@ -196,7 +225,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  
    base::AutoLock auto_lock(*va_lock_);
    std::vector<VAConfigAttrib> required_attribs;
-@@ -2475,6 +2487,7 @@ void VaapiWrapper::TryToSetVADisplayAttr
+@@ -2475,6 +2494,7 @@ void VaapiWrapper::TryToSetVADisplayAttr
      DVLOG(2) << "vaSetDisplayAttributes unsupported, ignoring by default.";
  }
  
@@ -204,7 +233,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  // Check the support for low-power encode
  bool VaapiWrapper::IsLowPowerEncSupported(VAProfile va_profile,
                                            CodecMode mode) const {
-@@ -2511,5 +2524,6 @@ bool VaapiWrapper::IsLowPowerEncSupporte
+@@ -2511,5 +2531,6 @@ bool VaapiWrapper::IsLowPowerEncSupporte
    }
    return true;
  }
@@ -271,3 +300,79 @@ Index: dev/ui/gfx/x/gen_xproto.py
              return 'Event'
          return ''
  
+@@ -525,7 +525,8 @@ class GenXproto:
+             self.copy_primitive(name)
+ 
+     def declare_case(self, case):
+-        assert case.type.is_case != case.type.is_bitcase
++        if hasattr(case.type, 'is_case'):
++            assert case.type.is_case != case.type.is_bitcase
+ 
+         with (Indent(self, 'struct {', '} %s;' % safe_name(case.field_name))
+               if case.field_name else NullContext()):
+@@ -533,7 +534,10 @@ class GenXproto:
+                 self.declare_field(case_field)
+ 
+     def copy_case(self, case, switch_var):
+-        op = 'CaseEq' if case.type.is_case else 'BitAnd'
++        if hasattr(case.type, "is_case"):
++            op = 'CaseEq' if case.type.is_case else 'BitAnd'
++        else:
++            op = 'BitAnd'
+         condition = ' || '.join([
+             '%s(%s, %s)' % (op, switch_var, self.expr(expr))
+             for expr in case.type.expr
+@@ -851,7 +855,7 @@ class GenXproto:
+         for field in fields.values():
+             field.parent = t
+             field.for_list = None
+-            if field.type.is_switch or field.type.is_case_or_bitcase:
++            if field.type.is_switch or (field.type.is_case_or_bitcase if hasattr(field.type, 'is_case_or_bitcase') else field.type.is_bitcase):
+                 self.resolve_type(field.type, field.field_type)
+             elif field.type.is_list:
+                 self.resolve_type(field.type.member, field.type.member.name)
+@@ -887,7 +891,7 @@ class GenXproto:
+             l = list(self.types[t])
+             # For some reason, FDs always have distint types so they appear
+             # duplicated in the set.  If the set contains only FDs, then bail.
+-            if all(x.is_fd for x in l):
++            if all(hasattr(x, 'is_fd') and x.is_fd for x in l):
+                 continue
+             if len(l) == 1:
+                 continue
+Index: dev/ui/gtk/gtk_util.cc
+===================================================================
+--- dev.orig/ui/gtk/gtk_util.cc
++++ dev/ui/gtk/gtk_util.cc
+@@ -32,7 +32,9 @@
+ #include "ui/ozone/public/ozone_platform.h"
+ #include "ui/views/linux_ui/linux_ui.h"
+ 
++#if GTK_CHECK_VERSION(3, 20, 0)
+ WEAK_GTK_FN(gtk_widget_path_iter_set_object_name);
++#endif
+ WEAK_GTK_FN(gtk_widget_path_iter_set_state);
+ 
+ namespace {
+@@ -342,8 +344,10 @@ ScopedStyleContext AppendCssNodeToStyleC
+           break;
+         case CSS_OBJECT_NAME:
+           if (GtkCheckVersion(3, 20)) {
++#if GTK_CHECK_VERSION(3, 20, 0)
+             DCHECK(gtk_widget_path_iter_set_object_name);
+             gtk_widget_path_iter_set_object_name(path, -1, t.token().c_str());
++#endif
+           } else {
+             gtk_widget_path_iter_add_class(path, -1, t.token().c_str());
+           }
+@@ -353,8 +357,10 @@ ScopedStyleContext AppendCssNodeToStyleC
+           DCHECK(type);
+           gtk_widget_path_append_type(path, type);
+           if (GtkCheckVersion(3, 20) && t.token() == "GtkLabel") {
++#if GTK_CHECK_VERSION(3, 20, 0)
+             DCHECK(gtk_widget_path_iter_set_object_name);
+             gtk_widget_path_iter_set_object_name(path, -1, "label");
++#endif
+           }
+           break;
+         }
