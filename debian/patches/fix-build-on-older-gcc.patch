@@ -127,14 +127,6 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
                                       // kEncodeConstantQuantizationParameter.
            {VAEntrypointVideoProc}    // For kVideoProcess.
        };
-@@ -648,6 +654,7 @@ static bool GetRequiredAttribs(const bas
- class VASupportedProfiles {
-  public:
-   struct ProfileInfo {
-+#endif
-     VAProfile va_profile;
-     VAEntrypoint va_entrypoint;
-     gfx::Size min_resolution;
 @@ -1175,10 +1182,10 @@ bool VASupportedImageFormats::InitSuppor
      // Remove this workaround once b/128340287 is resolved.
      if (std::find_if(supported_formats_.cbegin(), supported_formats_.cend(),

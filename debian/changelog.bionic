@@ -1,3 +1,10 @@
+chromium-browser (84.0.4147.21-0ubuntu1~ppa3~18.04.1) bionic; urgency=low
+
+  * Remove stray #endif that got added.
+  * Fix python 3 support for gfx python file.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 02 Jun 2020 02:23:21 -0400
+
 chromium-browser (84.0.4147.21-0ubuntu1~ppa2~18.04.1) bionic; urgency=low
 
   * Fix build for xenial and focal.
