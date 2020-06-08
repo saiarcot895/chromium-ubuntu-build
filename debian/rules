@@ -115,7 +115,12 @@ common_defines += arm_float_abi="hard" arm_use_thumb=true
 else ifeq (arm64,$(DEB_HOST_ARCH))
 common_defines += target_cpu="arm64" symbol_level=1
 else ifeq (i386,$(DEB_HOST_ARCH))
+ifeq (,$(filter 16.04%,$(UBUNTU_DIST)))
 common_defines += target_cpu="x86" symbol_level=1
+else
+# Ubuntu 16.04 i386 needs too much memory for even symbol_level=1
+common_defines += target_cpu="x86" symbol_level=0
+endif
 else ifeq (amd64,$(DEB_HOST_ARCH))
 common_defines += target_cpu="x64" symbol_level=1
 else ifeq (mipsel,$(DEB_HOST_ARCH))
