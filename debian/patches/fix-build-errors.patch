@@ -1,7 +1,7 @@
-Index: dev/content/public/browser/web_ui.h
+Index: beta/content/public/browser/web_ui.h
 ===================================================================
---- dev.orig/content/public/browser/web_ui.h
-+++ dev/content/public/browser/web_ui.h
+--- beta.orig/content/public/browser/web_ui.h
++++ beta/content/public/browser/web_ui.h
 @@ -138,22 +138,6 @@ class CONTENT_EXPORT WebUI {
    template <typename T>
    static T GetValue(const base::Value& value);
@@ -48,10 +48,10 @@ Index: dev/content/public/browser/web_ui.h
  }  // namespace content
  
  #endif  // CONTENT_PUBLIC_BROWSER_WEB_UI_H_
-Index: dev/base/stl_util.h
+Index: beta/base/stl_util.h
 ===================================================================
---- dev.orig/base/stl_util.h
-+++ dev/base/stl_util.h
+--- beta.orig/base/stl_util.h
++++ beta/base/stl_util.h
 @@ -561,14 +561,6 @@ size_t EraseIf(std::vector<T, Allocator>
    return removed;
  }
@@ -97,10 +97,10 @@ Index: dev/base/stl_util.h
  template <class Key, class T, class Compare, class Allocator, class Predicate>
  size_t EraseIf(std::map<Key, T, Compare, Allocator>& container,
                 Predicate pred) {
-Index: dev/cc/trees/frame_rate_estimator.cc
+Index: beta/cc/trees/frame_rate_estimator.cc
 ===================================================================
---- dev.orig/cc/trees/frame_rate_estimator.cc
-+++ dev/cc/trees/frame_rate_estimator.cc
+--- beta.orig/cc/trees/frame_rate_estimator.cc
++++ beta/cc/trees/frame_rate_estimator.cc
 @@ -47,8 +47,8 @@ void FrameRateEstimator::WillDraw(base::
    // we assume that BeginFrames can not be throttled. But if the animation
    // frequency is lower than that, then using a lower frame rate is permitted.
@@ -112,10 +112,10 @@ Index: dev/cc/trees/frame_rate_estimator.cc
        (viz::BeginFrameArgs::DefaultInterval() * 2) + kFudgeDelta;
    if (draw_delta < kMinDelta)
      num_of_consecutive_frames_with_min_delta_++;
-Index: dev/media/base/media_serializers.h
+Index: beta/media/base/media_serializers.h
 ===================================================================
---- dev.orig/media/base/media_serializers.h
-+++ dev/media/base/media_serializers.h
+--- beta.orig/media/base/media_serializers.h
++++ beta/media/base/media_serializers.h
 @@ -378,8 +378,8 @@ template <>
  struct MediaSerializer<base::Location> {
    static base::Value Serialize(const base::Location& value) {
