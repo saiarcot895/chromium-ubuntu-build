@@ -5,7 +5,7 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -472,19 +472,6 @@ config("compiler") {
+@@ -481,19 +481,6 @@ config("compiler") {
      ldflags += [ "-Wl,-z,keep-text-section-prefix" ]
    }
  
@@ -25,7 +25,7 @@ Index: dev/build/config/compiler/BUILD.gn
  
    # C11/C++11 compiler flags setup.
    # ---------------------------
-@@ -2249,13 +2236,6 @@ config("symbols") {
+@@ -2257,13 +2244,6 @@ config("symbols") {
        cflags += [ "-g2" ]
      }
  

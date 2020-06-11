@@ -86,32 +86,40 @@ Index: dev/ui/gfx/x/gen_xproto.py
  # __main__.output must be defined before importing xcbgen,
  # so this global is unavoidable.
  output = collections.defaultdict(int)
-@@ -852,7 +854,7 @@ class GenXproto:
+@@ -990,7 +992,7 @@ class GenXproto(FileWriter):
  
          self.resolve_element(t.elt, fields)
  
 -        for field in fields.values():
 +        for field in list(fields.values()):
-             field.parent = t
-             field.for_list = None
-             if field.type.is_switch or (field.type.is_case_or_bitcase if hasattr(field.type, 'is_case_or_bitcase') else field.type.is_bitcase):
-@@ -923,11 +925,13 @@ class GenXproto:
-                 return 3
-             return 2
+             if field.field_name == 'sequence':
+                 field.visible = True
+             field.parent = (t, name)
+@@ -1063,7 +1065,8 @@ class GenXproto(FileWriter):
+         # The order of types in xcbproto's xml files are inconsistent, so sort
+         # them in the order {type aliases, enums, xidunions, structs,
+         # requests/replies}.
+-        def type_order_priority((name, item)):
++        def type_order_priority(tuple_type):
++            (name, item) = tuple_type
+             if item.is_simple:
+                 return 2 if self.get_xidunion_element(name) else 0
+             if isinstance(item, self.xcbgen.xtypes.Enum):
+@@ -1072,11 +1075,11 @@ class GenXproto(FileWriter):
+                 return 4
+             return 3
  
--        def cmp((_1, item1), (_2, item2)):
-+        def cmp_func(tuple1, tuple2):
-+            (_1, item1) = tuple1
-+            (_2, item2) = tuple2
-             return type_order_priority(item1) - type_order_priority(item2)
+-        def cmp(type1, type2):
++        def cmp_func(type1, type2):
+             return type_order_priority(type1) - type_order_priority(type2)
  
          # sort() is guaranteed to be stable.
 -        self.module.all.sort(cmp=cmp)
 +        self.module.all.sort(key=cmp_to_key(cmp_func))
  
      def gen_header(self):
-         self.file = self.args.headerfile
-@@ -1019,8 +1023,14 @@ def main():
+         self.file = self.header_file
+@@ -1301,8 +1304,14 @@ def main():
                              'dist-packages')
          sys.path.insert(1, path)
  
@@ -126,5 +134,5 @@ Index: dev/ui/gfx/x/gen_xproto.py
 +            subprocess.check_call(["python3"] + sys.argv)
 +            return 0
  
-     generator = GenXproto(args, xcbgen)
-     generator.generate()
+     all_types = {}
+     genprotos = [
