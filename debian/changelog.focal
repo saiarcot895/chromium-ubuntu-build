@@ -1,3 +1,9 @@
+chromium-browser (85.0.4164.2-0ubuntu1~ppa2~20.04.1) focal; urgency=low
+
+  * Try to fix xenial build.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 13 Jun 2020 13:57:43 -0400
+
 chromium-browser (85.0.4164.2-0ubuntu1~ppa1~20.04.1) focal; urgency=low
 
   * New upstream version 85.0.4164.2

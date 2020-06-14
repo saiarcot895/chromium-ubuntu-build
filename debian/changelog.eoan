@@ -1,3 +1,9 @@
+chromium-browser (85.0.4164.2-0ubuntu1~ppa2~19.10.1) eoan; urgency=low
+
+  * Try to fix xenial build.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 13 Jun 2020 13:57:42 -0400
+
 chromium-browser (85.0.4164.2-0ubuntu1~ppa1~19.10.1) eoan; urgency=low
 
   * New upstream version 85.0.4164.2
