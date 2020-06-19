@@ -106,7 +106,7 @@ Index: beta/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- beta.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ beta/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -575,10 +575,16 @@ std::vector<VAEntrypoint> GetEntryPoints
+@@ -620,10 +620,16 @@ std::vector<VAEntrypoint> GetEntryPoints
    std::vector<VAEntrypoint>
        whitelisted_entrypoints[VaapiWrapper::CodecMode::kCodecModeMax] = {
            {VAEntrypointVLD},  // For kDecode.
@@ -127,7 +127,7 @@ Index: beta/media/gpu/vaapi/vaapi_wrapper.cc
                                       // kEncodeConstantQuantizationParameter.
            {VAEntrypointVideoProc}    // For kVideoProcess.
        };
-@@ -1175,10 +1181,10 @@ bool VASupportedImageFormats::InitSuppor
+@@ -1220,10 +1226,10 @@ bool VASupportedImageFormats::InitSuppor
      // Remove this workaround once b/128340287 is resolved.
      if (std::find_if(supported_formats_.cbegin(), supported_formats_.cend(),
                       [](const VAImageFormat& format) {
@@ -140,7 +140,7 @@ Index: beta/media/gpu/vaapi/vaapi_wrapper.cc
        supported_formats_.push_back(i420_format);
      }
    }
-@@ -1354,7 +1360,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1399,7 +1405,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      // The VAAPI mesa state tracker only supports conversion from NV12 to YV12
      // and IYUV (synonym of I420).
      if (rt_format == VA_RT_FORMAT_YUV420) {
@@ -149,7 +149,7 @@ Index: beta/media/gpu/vaapi/vaapi_wrapper.cc
            preferred_fourcc != VA_FOURCC_YV12) {
          preferred_fourcc = VA_FOURCC_NV12;
        }
-@@ -1384,18 +1390,18 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1429,18 +1435,18 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      //
      if (preferred_fourcc == VA_FOURCC_422H ||
          preferred_fourcc == VA_FOURCC_P010) {
@@ -171,7 +171,7 @@ Index: beta/media/gpu/vaapi/vaapi_wrapper.cc
    }
  
    // After workarounds, assume the conversion is supported.
-@@ -1613,7 +1619,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
+@@ -1658,7 +1664,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
    }
    // We only have to pass the first file descriptor to a driver. A VA-API driver
    // shall create a VASurface from the single fd correctly.
@@ -183,7 +183,7 @@ Index: beta/media/gpu/vaapi/vaapi_wrapper.cc
    va_attrib_extbuf.buffers = &fd;
    va_attrib_extbuf.num_buffers = 1u;
  
-@@ -1663,6 +1673,7 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+@@ -1708,6 +1718,7 @@ VaapiWrapper::ExportVASurfaceAsNativePix
      return nullptr;
    }
  
@@ -191,7 +191,7 @@ Index: beta/media/gpu/vaapi/vaapi_wrapper.cc
    VADRMPRIMESurfaceDescriptor descriptor;
    {
      base::AutoLock auto_lock(*va_lock_);
-@@ -1755,6 +1766,10 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+@@ -1800,6 +1811,10 @@ VaapiWrapper::ExportVASurfaceAsNativePix
    exported_pixmap->pixmap = base::MakeRefCounted<gfx::NativePixmapDmaBuf>(
        scoped_va_surface.size(), buffer_format, std::move(handle));
    return exported_pixmap;
@@ -202,7 +202,7 @@ Index: beta/media/gpu/vaapi/vaapi_wrapper.cc
  }
  
  bool VaapiWrapper::SyncSurface(VASurfaceID va_surface_id) {
-@@ -2240,11 +2255,14 @@ bool VaapiWrapper::Initialize(CodecMode
+@@ -2285,11 +2300,14 @@ bool VaapiWrapper::Initialize(CodecMode
      TryToSetVADisplayAttributeToLocalGPU();
  
    VAEntrypoint entrypoint = GetDefaultVaEntryPoint(mode, va_profile);
@@ -217,7 +217,7 @@ Index: beta/media/gpu/vaapi/vaapi_wrapper.cc
  
    base::AutoLock auto_lock(*va_lock_);
    std::vector<VAConfigAttrib> required_attribs;
-@@ -2475,6 +2493,7 @@ void VaapiWrapper::TryToSetVADisplayAttr
+@@ -2520,6 +2538,7 @@ void VaapiWrapper::TryToSetVADisplayAttr
      DVLOG(2) << "vaSetDisplayAttributes unsupported, ignoring by default.";
  }
  
@@ -225,7 +225,7 @@ Index: beta/media/gpu/vaapi/vaapi_wrapper.cc
  // Check the support for low-power encode
  bool VaapiWrapper::IsLowPowerEncSupported(VAProfile va_profile,
                                            CodecMode mode) const {
-@@ -2511,5 +2530,6 @@ bool VaapiWrapper::IsLowPowerEncSupporte
+@@ -2556,5 +2575,6 @@ bool VaapiWrapper::IsLowPowerEncSupporte
    }
    return true;
  }

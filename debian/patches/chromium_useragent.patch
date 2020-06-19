@@ -5,7 +5,7 @@ Index: beta/content/common/user_agent.cc
 ===================================================================
 --- beta.orig/content/common/user_agent.cc
 +++ beta/content/common/user_agent.cc
-@@ -270,13 +270,21 @@ std::string BuildUserAgentFromOSAndProdu
+@@ -280,13 +280,21 @@ std::string BuildUserAgentFromOSAndProdu
    // Derived from Safari's UA string.
    // This is done to expose our product name in a manner that is maximally
    // compatible with Safari, we hope!!
