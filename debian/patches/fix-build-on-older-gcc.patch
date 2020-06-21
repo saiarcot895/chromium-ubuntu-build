@@ -109,7 +109,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -602,10 +602,16 @@ std::vector<VAEntrypoint> GetEntryPoints
+@@ -569,10 +569,16 @@ std::vector<VAEntrypoint> GetEntryPoints
    std::vector<VAEntrypoint>
        whitelisted_entrypoints[VaapiWrapper::CodecMode::kCodecModeMax] = {
            {VAEntrypointVLD},  // For kDecode.
@@ -130,7 +130,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
                                       // kEncodeConstantQuantizationParameter.
            {VAEntrypointVideoProc}    // For kVideoProcess.
        };
-@@ -1202,16 +1208,17 @@ bool VASupportedImageFormats::InitSuppor
+@@ -1169,16 +1175,17 @@ bool VASupportedImageFormats::InitSuppor
      // Remove this workaround once b/128340287 is resolved.
      if (std::find_if(supported_formats_.cbegin(), supported_formats_.cend(),
                       [](const VAImageFormat& format) {
@@ -150,7 +150,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  bool IsLowPowerEncSupported(VAProfile va_profile) {
    // Enabled only for H264/AVC & VP9 Encoders
    if (va_profile != VAProfileH264ConstrainedBaseline &&
-@@ -1239,6 +1246,7 @@ bool IsLowPowerEncSupported(VAProfile va
+@@ -1206,6 +1213,7 @@ bool IsLowPowerEncSupported(VAProfile va
  
    return false;
  }
@@ -158,7 +158,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  
  }  // namespace
  
-@@ -1409,7 +1417,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1376,7 +1384,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      // The VAAPI mesa state tracker only supports conversion from NV12 to YV12
      // and IYUV (synonym of I420).
      if (rt_format == VA_RT_FORMAT_YUV420) {
@@ -167,7 +167,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
            preferred_fourcc != VA_FOURCC_YV12) {
          preferred_fourcc = VA_FOURCC_NV12;
        }
-@@ -1439,18 +1447,18 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1406,18 +1414,18 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      //
      if (preferred_fourcc == VA_FOURCC_422H ||
          preferred_fourcc == VA_FOURCC_P010) {
@@ -189,7 +189,18 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
  
    // After workarounds, assume the conversion is supported.
-@@ -1670,7 +1678,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
+@@ -1507,8 +1515,10 @@ VAEntrypoint VaapiWrapper::GetDefaultVaE
+       if (profile == VAProfileJPEGBaseline)
+         return VAEntrypointEncPicture;
+       DCHECK(IsModeEncoding(mode));
++#if VA_CHECK_VERSION(0, 39, 1)
+       if (IsLowPowerEncSupported(profile))
+         return VAEntrypointEncSliceLP;
++#endif
+       return VAEntrypointEncSlice;
+     case VaapiWrapper::kVideoProcess:
+       return VAEntrypointVideoProc;
+@@ -1639,7 +1649,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
    }
    // We only have to pass the first file descriptor to a driver. A VA-API driver
    // shall create a VASurface from the single fd correctly.
@@ -201,7 +212,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    va_attrib_extbuf.buffers = &fd;
    va_attrib_extbuf.num_buffers = 1u;
  
-@@ -1720,6 +1732,7 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+@@ -1689,6 +1703,7 @@ VaapiWrapper::ExportVASurfaceAsNativePix
      return nullptr;
    }
  
@@ -209,7 +220,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    VADRMPRIMESurfaceDescriptor descriptor;
    {
      base::AutoLock auto_lock(*va_lock_);
-@@ -1812,6 +1825,10 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+@@ -1781,6 +1796,10 @@ VaapiWrapper::ExportVASurfaceAsNativePix
    exported_pixmap->pixmap = base::MakeRefCounted<gfx::NativePixmapDmaBuf>(
        scoped_va_surface.size(), buffer_format, std::move(handle));
    return exported_pixmap;
@@ -220,19 +231,6 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  }
  
  bool VaapiWrapper::SyncSurface(VASurfaceID va_surface_id) {
-@@ -2297,10 +2314,12 @@ bool VaapiWrapper::Initialize(CodecMode
-     TryToSetVADisplayAttributeToLocalGPU();
- 
-   VAEntrypoint entrypoint = GetDefaultVaEntryPoint(mode, va_profile);
-+#if VA_CHECK_VERSION(0, 39, 1)
-   if (IsModeEncoding(mode) && IsLowPowerEncSupported(va_profile)) {
-     entrypoint = VAEntrypointEncSliceLP;
-     DVLOG(2) << "VA-API Low-Power Encode Entrypoint enabled";
-   }
-+#endif
- 
-   base::AutoLock auto_lock(*va_lock_);
-   std::vector<VAConfigAttrib> required_attribs;
 Index: dev/media/gpu/chromeos/fourcc.cc
 ===================================================================
 --- dev.orig/media/gpu/chromeos/fourcc.cc
@@ -269,7 +267,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
 ===================================================================
 --- dev.orig/ui/gfx/x/gen_xproto.py
 +++ dev/ui/gfx/x/gen_xproto.py
-@@ -375,7 +375,7 @@ class GenXproto(FileWriter):
+@@ -376,7 +376,7 @@ class GenXproto(FileWriter):
              return 'Request'
          elif t.is_reply:
              return 'Reply'
@@ -278,7 +276,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
              return 'Event'
          return ''
  
-@@ -573,7 +573,7 @@ class GenXproto(FileWriter):
+@@ -574,7 +574,7 @@ class GenXproto(FileWriter):
                  copy_basic()
              else:
                  container_type, container_name = field.parent
@@ -287,7 +285,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
                  opcode = container_type.opcodes[container_name]
                  self.write('%s %s = %s;' % (type_name, name, opcode))
                  self.copy_primitive(name)
-@@ -594,7 +594,8 @@ class GenXproto(FileWriter):
+@@ -595,7 +595,8 @@ class GenXproto(FileWriter):
              self.copy_primitive(name)
  
      def declare_case(self, case):
@@ -297,7 +295,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
  
          fields = [
              field for case_field in case.type.fields
-@@ -609,7 +610,10 @@ class GenXproto(FileWriter):
+@@ -610,7 +611,10 @@ class GenXproto(FileWriter):
          return [(name + '_t', name)]
  
      def copy_case(self, case, switch_name):
@@ -309,7 +307,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
          condition = ' || '.join([
              '%s(%s_expr, %s)' % (op, switch_name, self.expr(expr))
              for expr in case.type.expr
-@@ -749,7 +753,7 @@ class GenXproto(FileWriter):
+@@ -750,7 +754,7 @@ class GenXproto(FileWriter):
          elif t.is_container:
              with Indent(self, '{', '}'):
                  self.copy_container(t, name)
@@ -318,7 +316,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
              # TODO(https://crbug.com/1066670): Copy FDs out of band.
              self.write('NOTIMPLEMENTED();')
          else:
-@@ -801,7 +805,7 @@ class GenXproto(FileWriter):
+@@ -802,7 +806,7 @@ class GenXproto(FileWriter):
          name = struct_name[-1] + self.type_suffix(struct)
          self.undef(name)
          with Indent(self, 'struct %s {' % adjust_type_case(name), '};'):
@@ -327,7 +325,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
                  self.write('static constexpr uint8_t opcode = %s;' %
                             struct.opcodes[struct_name])
              for field in struct.fields:
-@@ -1004,7 +1008,7 @@ class GenXproto(FileWriter):
+@@ -1005,7 +1009,7 @@ class GenXproto(FileWriter):
                          and field_name in fields):
                      setattr(fields[field_name], for_type, field)
  
@@ -392,16 +390,29 @@ Index: dev/ui/gfx/linux/drm_util_linux.cc
  namespace ui {
  
  int GetFourCCFormatFromBufferFormat(gfx::BufferFormat format) {
-Index: dev/third_party/devtools-frontend/src/scripts/build/build_inspector_overlay.py
+Index: dev/ui/base/x/x11_display_util.cc
 ===================================================================
---- dev.orig/third_party/devtools-frontend/src/scripts/build/build_inspector_overlay.py
-+++ dev/third_party/devtools-frontend/src/scripts/build/build_inspector_overlay.py
-@@ -40,7 +40,7 @@ def check_size(filename, data, max_size)
- def rollup(input_path, output_path, filename, max_size):
-     target = join(input_path, filename)
-     rollup_process = subprocess.Popen(
--        [devtools_paths.node_path(),
-+        [devtools_paths.node_path(), "--harmony",
-          devtools_paths.rollup_path()] +
-         ['--format', 'iife', '-n', 'InspectorOverlay'] + ['--input', target],
-         stdout=subprocess.PIPE,
+--- dev.orig/ui/base/x/x11_display_util.cc
++++ dev/ui/base/x/x11_display_util.cc
+@@ -34,13 +34,15 @@ std::map<x11::RandR::Output, int> GetMon
+                                               x11::RandR* randr,
+                                               x11::Window window) {
+   std::map<x11::RandR::Output, int> output_to_monitor;
+-  if (version >= 105) {
+-    if (auto reply = randr->GetMonitors({window}).Sync()) {
+-      for (size_t monitor = 0; monitor < reply->monitors.size(); monitor++) {
+-        for (x11::RandR::Output output : reply->monitors[monitor].outputs)
+-          output_to_monitor[output] = monitor;
++  if constexpr (x11::RandR::version_minor >= 5) {
++      if (version >= 105) {
++        if (auto reply = randr->GetMonitors({window}).Sync()) {
++          for (size_t monitor = 0; monitor < reply->monitors.size(); monitor++) {
++            for (x11::RandR::Output output : reply->monitors[monitor].outputs)
++              output_to_monitor[output] = monitor;
++          }
++        }
+       }
+-    }
+   }
+   return output_to_monitor;
+ }

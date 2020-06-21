@@ -122,7 +122,7 @@ else
 common_defines += target_cpu="x86" symbol_level=0
 endif
 else ifeq (amd64,$(DEB_HOST_ARCH))
-common_defines += target_cpu="x64" symbol_level=2
+common_defines += target_cpu="x64" symbol_level=1
 else ifeq (mipsel,$(DEB_HOST_ARCH))
 common_defines += target_cpu="mipsel"
 else ifeq ($(DEB_HOST_ARCH),)
