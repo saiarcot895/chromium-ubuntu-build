@@ -1,3 +1,10 @@
+chromium-browser (85.0.4173.0-0ubuntu1~ppa2~20.04.1) focal; urgency=low
+
+  * constexpr if still requires the methods inside it to be declared.
+  * Fix issue of va_str.h not being available on libva <2.0.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 22 Jun 2020 12:00:49 -0400
+
 chromium-browser (85.0.4173.0-0ubuntu1~ppa1~20.04.1) focal; urgency=low
 
   * New upstream version 85.0.4173.0

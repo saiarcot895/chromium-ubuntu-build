@@ -109,7 +109,82 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -569,10 +569,16 @@ std::vector<VAEntrypoint> GetEntryPoints
+@@ -10,8 +10,10 @@
+ #include <va/va.h>
+ #include <va/va_drm.h>
+ #include <va/va_drmcommon.h>
+-#include <va/va_str.h>
+ #include <va/va_version.h>
++#if VA_MAJOR_VERSION >= 2
++#include <va/va_str.h>
++#endif
+ 
+ #include <algorithm>
+ #include <string>
+@@ -343,6 +345,62 @@ bool IsBlackListedDriver(const std::stri
+   return false;
+ }
+ 
++#if !VA_CHECK_VERSION(1, 0, 0)
++#define TOSTR(enumCase) case enumCase: return #enumCase
++
++const char *vaProfileStr(VAProfile profile)
++{
++  switch (profile) {
++    TOSTR(VAProfileNone);
++    TOSTR(VAProfileMPEG2Simple);
++    TOSTR(VAProfileMPEG2Main);
++    TOSTR(VAProfileMPEG4Simple);
++    TOSTR(VAProfileMPEG4AdvancedSimple);
++    TOSTR(VAProfileMPEG4Main);
++    TOSTR(VAProfileH264Baseline);
++    TOSTR(VAProfileH264Main);
++    TOSTR(VAProfileH264High);
++    TOSTR(VAProfileVC1Simple);
++    TOSTR(VAProfileVC1Main);
++    TOSTR(VAProfileVC1Advanced);
++    TOSTR(VAProfileH263Baseline);
++    TOSTR(VAProfileH264ConstrainedBaseline);
++    TOSTR(VAProfileJPEGBaseline);
++    TOSTR(VAProfileVP8Version0_3);
++    TOSTR(VAProfileH264MultiviewHigh);
++    TOSTR(VAProfileH264StereoHigh);
++    TOSTR(VAProfileHEVCMain);
++    TOSTR(VAProfileHEVCMain10);
++    TOSTR(VAProfileVP9Profile0);
++    TOSTR(VAProfileVP9Profile1);
++    TOSTR(VAProfileVP9Profile2);
++    TOSTR(VAProfileVP9Profile3);
++  }
++  return "<unknown profile>";
++}
++
++
++const char *vaEntrypointStr(VAEntrypoint entrypoint)
++{
++  switch (entrypoint) {
++    TOSTR(VAEntrypointVLD);
++    TOSTR(VAEntrypointIZZ);
++    TOSTR(VAEntrypointIDCT);
++    TOSTR(VAEntrypointMoComp);
++    TOSTR(VAEntrypointDeblocking);
++    TOSTR(VAEntrypointEncSlice);
++    TOSTR(VAEntrypointEncPicture);
++#if VA_CHECK_VERSION(0, 39, 1)
++    TOSTR(VAEntrypointEncSliceLP);
++#endif
++    TOSTR(VAEntrypointVideoProc);
++  }
++  return "<unknown entrypoint>";
++}
++
++#undef TOSTR
++#endif
++
+ // This class is a wrapper around its |va_display_| (and its associated
+ // |va_lock_|) to guarantee mutual exclusion and singleton behaviour.
+ class VADisplayState {
+@@ -569,10 +627,16 @@ std::vector<VAEntrypoint> GetEntryPoints
    std::vector<VAEntrypoint>
        whitelisted_entrypoints[VaapiWrapper::CodecMode::kCodecModeMax] = {
            {VAEntrypointVLD},  // For kDecode.
@@ -130,7 +205,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
                                       // kEncodeConstantQuantizationParameter.
            {VAEntrypointVideoProc}    // For kVideoProcess.
        };
-@@ -1169,16 +1175,17 @@ bool VASupportedImageFormats::InitSuppor
+@@ -1169,16 +1233,17 @@ bool VASupportedImageFormats::InitSuppor
      // Remove this workaround once b/128340287 is resolved.
      if (std::find_if(supported_formats_.cbegin(), supported_formats_.cend(),
                       [](const VAImageFormat& format) {
@@ -150,7 +225,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  bool IsLowPowerEncSupported(VAProfile va_profile) {
    // Enabled only for H264/AVC & VP9 Encoders
    if (va_profile != VAProfileH264ConstrainedBaseline &&
-@@ -1206,6 +1213,7 @@ bool IsLowPowerEncSupported(VAProfile va
+@@ -1206,6 +1271,7 @@ bool IsLowPowerEncSupported(VAProfile va
  
    return false;
  }
@@ -158,7 +233,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  
  }  // namespace
  
-@@ -1376,7 +1384,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1376,7 +1442,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      // The VAAPI mesa state tracker only supports conversion from NV12 to YV12
      // and IYUV (synonym of I420).
      if (rt_format == VA_RT_FORMAT_YUV420) {
@@ -167,7 +242,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
            preferred_fourcc != VA_FOURCC_YV12) {
          preferred_fourcc = VA_FOURCC_NV12;
        }
-@@ -1406,18 +1414,18 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1406,18 +1472,18 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      //
      if (preferred_fourcc == VA_FOURCC_422H ||
          preferred_fourcc == VA_FOURCC_P010) {
@@ -189,7 +264,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
  
    // After workarounds, assume the conversion is supported.
-@@ -1507,8 +1515,10 @@ VAEntrypoint VaapiWrapper::GetDefaultVaE
+@@ -1507,8 +1573,10 @@ VAEntrypoint VaapiWrapper::GetDefaultVaE
        if (profile == VAProfileJPEGBaseline)
          return VAEntrypointEncPicture;
        DCHECK(IsModeEncoding(mode));
@@ -200,7 +275,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
        return VAEntrypointEncSlice;
      case VaapiWrapper::kVideoProcess:
        return VAEntrypointVideoProc;
-@@ -1639,7 +1649,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
+@@ -1639,7 +1707,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
    }
    // We only have to pass the first file descriptor to a driver. A VA-API driver
    // shall create a VASurface from the single fd correctly.
@@ -212,7 +287,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    va_attrib_extbuf.buffers = &fd;
    va_attrib_extbuf.num_buffers = 1u;
  
-@@ -1689,6 +1703,7 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+@@ -1689,6 +1761,7 @@ VaapiWrapper::ExportVASurfaceAsNativePix
      return nullptr;
    }
  
@@ -220,7 +295,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    VADRMPRIMESurfaceDescriptor descriptor;
    {
      base::AutoLock auto_lock(*va_lock_);
-@@ -1781,6 +1796,10 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+@@ -1781,6 +1854,10 @@ VaapiWrapper::ExportVASurfaceAsNativePix
    exported_pixmap->pixmap = base::MakeRefCounted<gfx::NativePixmapDmaBuf>(
        scoped_va_surface.size(), buffer_format, std::move(handle));
    return exported_pixmap;
@@ -231,6 +306,41 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  }
  
  bool VaapiWrapper::SyncSurface(VASurfaceID va_surface_id) {
+@@ -2135,6 +2212,7 @@ void VaapiWrapper::DestroyVABuffers() {
+ }
+ 
+ bool VaapiWrapper::IsRotationSupported() {
++#if VA_CHECK_VERSION(1, 1, 0)
+   base::AutoLock auto_lock(*va_lock_);
+   VAProcPipelineCaps pipeline_caps;
+   memset(&pipeline_caps, 0, sizeof(pipeline_caps));
+@@ -2149,6 +2227,10 @@ bool VaapiWrapper::IsRotationSupported()
+     return false;
+   }
+   return true;
++#else
++  DVLOG(2) << "VA-API driver doesn't support any rotation";
++  return false;
++#endif
+ }
+ 
+ bool VaapiWrapper::BlitSurface(const VASurface& va_surface_src,
+@@ -2204,6 +2286,7 @@ bool VaapiWrapper::BlitSurface(const VAS
+     pipeline_param->output_color_standard = VAProcColorStandardNone;
+     pipeline_param->filter_flags = VA_FILTER_SCALING_DEFAULT;
+ 
++#if VA_CHECK_VERSION(1, 1, 0)
+     switch (rotation) {
+       case VIDEO_ROTATION_0:
+         pipeline_param->rotation_state = VA_ROTATION_NONE;
+@@ -2218,6 +2301,7 @@ bool VaapiWrapper::BlitSurface(const VAS
+         pipeline_param->rotation_state = VA_ROTATION_270;
+         break;
+     }
++#endif
+ 
+     VA_SUCCESS_OR_RETURN(mapping.Unmap(), "Vpp Buffer unmapping", false);
+   }
 Index: dev/media/gpu/chromeos/fourcc.cc
 ===================================================================
 --- dev.orig/media/gpu/chromeos/fourcc.cc
@@ -334,6 +444,18 @@ Index: dev/ui/gfx/x/gen_xproto.py
                  self.resolve_type(field.type, field.field_type)
  
          if isinstance(t, self.xcbgen.xtypes.Request) and t.reply:
+@@ -1097,6 +1101,11 @@ class GenXproto(FileWriter):
+             self.write('#include "%s.h"' % direct_import[-1])
+         self.write('#include "%s_undef.h"' % self.module.namespace.header)
+         self.write()
++        self.write('#define X11_%s_MAJOR_VERSION %s' %
++                (self.class_name.upper(), self.module.namespace.major_version))
++        self.write('#define X11_%s_MINOR_VERSION %s' %
++                (self.class_name.upper(), self.module.namespace.minor_version))
++        self.write()
+         self.write('namespace x11 {')
+         self.write()
+         self.write('class Connection;')
 Index: dev/ui/gtk/gtk_util.cc
 ===================================================================
 --- dev.orig/ui/gtk/gtk_util.cc
@@ -394,25 +516,19 @@ Index: dev/ui/base/x/x11_display_util.cc
 ===================================================================
 --- dev.orig/ui/base/x/x11_display_util.cc
 +++ dev/ui/base/x/x11_display_util.cc
-@@ -34,13 +34,15 @@ std::map<x11::RandR::Output, int> GetMon
+@@ -34,6 +34,7 @@ std::map<x11::RandR::Output, int> GetMon
                                                x11::RandR* randr,
                                                x11::Window window) {
    std::map<x11::RandR::Output, int> output_to_monitor;
--  if (version >= 105) {
--    if (auto reply = randr->GetMonitors({window}).Sync()) {
--      for (size_t monitor = 0; monitor < reply->monitors.size(); monitor++) {
--        for (x11::RandR::Output output : reply->monitors[monitor].outputs)
--          output_to_monitor[output] = monitor;
-+  if constexpr (x11::RandR::version_minor >= 5) {
-+      if (version >= 105) {
-+        if (auto reply = randr->GetMonitors({window}).Sync()) {
-+          for (size_t monitor = 0; monitor < reply->monitors.size(); monitor++) {
-+            for (x11::RandR::Output output : reply->monitors[monitor].outputs)
-+              output_to_monitor[output] = monitor;
-+          }
-+        }
++#if X11_RANDR_MINOR_VERSION >= 5
+   if (version >= 105) {
+     if (auto reply = randr->GetMonitors({window}).Sync()) {
+       for (size_t monitor = 0; monitor < reply->monitors.size(); monitor++) {
+@@ -42,6 +43,7 @@ std::map<x11::RandR::Output, int> GetMon
        }
--    }
+     }
    }
++#endif
    return output_to_monitor;
  }
+ 

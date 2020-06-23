@@ -86,7 +86,23 @@ Index: dev/ui/gfx/x/gen_xproto.py
              if field.field_name == 'sequence':
                  field.visible = True
              field.parent = (t, name)
-@@ -1304,8 +1304,14 @@ def main():
+@@ -1101,10 +1101,11 @@ class GenXproto(FileWriter):
+             self.write('#include "%s.h"' % direct_import[-1])
+         self.write('#include "%s_undef.h"' % self.module.namespace.header)
+         self.write()
+-        self.write('#define X11_%s_MAJOR_VERSION %s' %
+-                (self.class_name.upper(), self.module.namespace.major_version))
+-        self.write('#define X11_%s_MINOR_VERSION %s' %
+-                (self.class_name.upper(), self.module.namespace.minor_version))
++        if self.module.namespace.is_ext:
++            self.write('#define X11_%s_MAJOR_VERSION %s' %
++                    (self.class_name.upper(), self.module.namespace.major_version))
++            self.write('#define X11_%s_MINOR_VERSION %s' %
++                    (self.class_name.upper(), self.module.namespace.minor_version))
+         self.write()
+         self.write('namespace x11 {')
+         self.write()
+@@ -1309,8 +1310,14 @@ def main():
                              'dist-packages')
          sys.path.insert(1, path)
  
