@@ -1,3 +1,9 @@
+chromium-browser (85.0.4173.0-0ubuntu1~ppa3~19.10.1) eoan; urgency=low
+
+  * Fix VAAPI version check.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 23 Jun 2020 11:22:03 -0400
+
 chromium-browser (85.0.4173.0-0ubuntu1~ppa2~19.10.1) eoan; urgency=low
 
   * constexpr if still requires the methods inside it to be declared.
