@@ -14,6 +14,7 @@ notifications-nicer
 #gyp-icu-m32-test
 enable-vaapi-on-linux.diff
 vdpau-support.patch
+ihd-support.patch
 widevine-other-locations
 #widevine-revision.patch
 #nacl-loosen-fd-check.patch

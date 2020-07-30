@@ -1,3 +1,10 @@
+chromium-browser (86.0.4214.2-0ubuntu1~ppa1~18.04.1) bionic; urgency=low
+
+  * New upstream version 86.0.4214.2
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 29 Jul 2020 21:34:37 -0400
+
 chromium-browser (85.0.4173.0-0ubuntu1~ppa3~18.04.1) bionic; urgency=low
 
   * Fix VAAPI version check.

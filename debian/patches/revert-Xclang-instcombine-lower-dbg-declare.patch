@@ -5,27 +5,24 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -480,19 +480,6 @@ config("compiler") {
+@@ -485,16 +485,6 @@ config("compiler") {
      ldflags += [ "-Wl,-z,keep-text-section-prefix" ]
    }
  
 -  if (is_clang && !is_nacl && !use_xcode_clang) {
--    cflags += [ "-fcrash-diagnostics-dir=" +
--                rebase_path("//tools/clang/crashreports", root_build_dir) ]
+-    cflags += [ "-fcrash-diagnostics-dir=" + clang_diagnostic_dir ]
 -
 -    cflags += [
 -      # TODO(hans): Remove this once Clang generates better optimized debug info
 -      # by default. https://crbug.com/765793
--      "-Xclang",
 -      "-mllvm",
--      "-Xclang",
 -      "-instcombine-lower-dbg-declare=0",
 -    ]
 -  }
  
    # C11/C++11 compiler flags setup.
    # ---------------------------
-@@ -2287,14 +2274,6 @@ config("symbols") {
+@@ -2302,14 +2292,6 @@ config("symbols") {
        cflags += [ "-g2" ]
      }
  
