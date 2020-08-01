@@ -20,6 +20,15 @@ Index: dev/build/config/compiler/BUILD.gn
    # Pass the same C/C++ flags to the objective C/C++ compiler.
    cflags_objc += cflags_c
    cflags_objcc += cflags_cc
+@@ -1055,7 +1047,7 @@ config("compiler_codegen") {
+     cflags += [
+       # TODO(thakis): Remove after next clang roll, see reviews.llvm.org/D82998
+       "-mllvm",
+-      "-basic-aa-recphi=0",
++      "-basicaa-recphi=0",
+     ]
+   }
+ 
 @@ -1476,6 +1468,9 @@ config("default_warnings") {
        # which we no longer use. Check if it makes sense to remove
        # this as well. http://crbug.com/316352
