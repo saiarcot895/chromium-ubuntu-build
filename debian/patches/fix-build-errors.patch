@@ -1,7 +1,7 @@
-Index: dev/cc/trees/frame_rate_estimator.cc
+Index: beta/cc/trees/frame_rate_estimator.cc
 ===================================================================
---- dev.orig/cc/trees/frame_rate_estimator.cc
-+++ dev/cc/trees/frame_rate_estimator.cc
+--- beta.orig/cc/trees/frame_rate_estimator.cc
++++ beta/cc/trees/frame_rate_estimator.cc
 @@ -47,8 +47,8 @@ void FrameRateEstimator::WillDraw(base::
    // we assume that BeginFrames can not be throttled. But if the animation
    // frequency is lower than that, then using a lower frame rate is permitted.
@@ -13,10 +13,10 @@ Index: dev/cc/trees/frame_rate_estimator.cc
        (viz::BeginFrameArgs::DefaultInterval() * 2) + kFudgeDelta;
    if (draw_delta < kMinDelta)
      num_of_consecutive_frames_with_min_delta_++;
-Index: dev/media/base/media_serializers.h
+Index: beta/media/base/media_serializers.h
 ===================================================================
---- dev.orig/media/base/media_serializers.h
-+++ dev/media/base/media_serializers.h
+--- beta.orig/media/base/media_serializers.h
++++ beta/media/base/media_serializers.h
 @@ -378,8 +378,8 @@ template <>
  struct MediaSerializer<base::Location> {
    static base::Value Serialize(const base::Location& value) {

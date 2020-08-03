@@ -2,11 +2,11 @@ Description: Prefer a /usr/share directory named after the package if it
   exists.
 Author: Chad Miller <chad.miller@canonical.com>
 
-Index: dev/chrome/common/chrome_paths.cc
+Index: beta/chrome/common/chrome_paths.cc
 ===================================================================
---- dev.orig/chrome/common/chrome_paths.cc
-+++ dev/chrome/common/chrome_paths.cc
-@@ -65,6 +65,9 @@ const base::FilePath::CharType kFilepath
+--- beta.orig/chrome/common/chrome_paths.cc
++++ beta/chrome/common/chrome_paths.cc
+@@ -66,6 +66,9 @@ const base::FilePath::CharType kFilepath
  // where it can find the latest component updated flash.
  const base::FilePath::CharType kComponentUpdatedFlashHint[] =
      FILE_PATH_LITERAL("latest-component-updated-flash");
@@ -16,7 +16,7 @@ Index: dev/chrome/common/chrome_paths.cc
  #endif  // defined(OS_LINUX)
  
  #if defined(OS_LINUX) && BUILDFLAG(ENABLE_WIDEVINE_CDM_COMPONENT)
-@@ -491,6 +494,9 @@ bool PathProvider(int key, base::FilePat
+@@ -492,6 +495,9 @@ bool PathProvider(int key, base::FilePat
        cur = base::FilePath(FILE_PATH_LITERAL("/etc/opt/chrome/policies"));
  #else
        cur = base::FilePath(FILE_PATH_LITERAL("/etc/chromium/policies"));
@@ -26,7 +26,7 @@ Index: dev/chrome/common/chrome_paths.cc
  #endif
        break;
      }
-@@ -506,6 +512,10 @@ bool PathProvider(int key, base::FilePat
+@@ -507,6 +513,10 @@ bool PathProvider(int key, base::FilePat
  #endif
  #if defined(OS_LINUX)
      case chrome::DIR_STANDALONE_EXTERNAL_EXTENSIONS: {
@@ -37,7 +37,7 @@ Index: dev/chrome/common/chrome_paths.cc
        cur = base::FilePath(kFilepathSinglePrefExtensions);
        break;
      }
-@@ -556,6 +566,10 @@ bool PathProvider(int key, base::FilePat
+@@ -557,6 +567,10 @@ bool PathProvider(int key, base::FilePat
  #else
        cur = base::FilePath(FILE_PATH_LITERAL(
            "/etc/chromium/native-messaging-hosts"));

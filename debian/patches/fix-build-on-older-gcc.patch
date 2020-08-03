@@ -1,7 +1,7 @@
-Index: dev/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
+Index: beta/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
 ===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
-+++ dev/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
+--- beta.orig/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
++++ beta/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
 @@ -89,7 +89,7 @@ static bool VerifyDataSize(const VAImage
    const gfx::Size dimensions(base::strict_cast<int>(image->width),
                               base::strict_cast<int>(image->height));
@@ -20,10 +20,10 @@ Index: dev/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
        DCHECK_EQ(image->num_planes, 3u);
        switch (video_frame->format()) {
          case PIXEL_FORMAT_I420:
-Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.h
+Index: beta/media/gpu/vaapi/vaapi_video_encode_accelerator.h
 ===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_video_encode_accelerator.h
-+++ dev/media/gpu/vaapi/vaapi_video_encode_accelerator.h
+--- beta.orig/media/gpu/vaapi/vaapi_video_encode_accelerator.h
++++ beta/media/gpu/vaapi/vaapi_video_encode_accelerator.h
 @@ -52,7 +52,9 @@ class MEDIA_GPU_EXPORT VaapiVideoEncodeA
    friend class VaapiVideoEncodeAcceleratorTest;
    class H264Accelerator;
@@ -34,11 +34,11 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.h
  
    // Encoder state.
    enum State {
-Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
+Index: beta/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
 ===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
-+++ dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
-@@ -224,6 +224,7 @@ class VaapiVideoEncodeAccelerator::VP8Ac
+--- beta.orig/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
++++ beta/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
+@@ -219,6 +219,7 @@ class VaapiVideoEncodeAccelerator::VP8Ac
    VaapiVideoEncodeAccelerator* const vea_;
  };
  
@@ -46,7 +46,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
  class VaapiVideoEncodeAccelerator::VP9Accelerator
      : public VP9Encoder::Accelerator {
   public:
-@@ -245,6 +246,7 @@ class VaapiVideoEncodeAccelerator::VP9Ac
+@@ -240,6 +241,7 @@ class VaapiVideoEncodeAccelerator::VP9Ac
   private:
    VaapiVideoEncodeAccelerator* const vea_;
  };
@@ -54,23 +54,23 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
  
  VaapiVideoEncodeAccelerator::VaapiVideoEncodeAccelerator()
      : output_buffer_byte_size_(0),
-@@ -385,6 +387,7 @@ void VaapiVideoEncodeAccelerator::Initia
-         DCHECK_EQ(ave_config.bitrate_control,
-                   AcceleratedVideoEncoder::BitrateControl::kConstantBitrate);
-         break;
+@@ -384,6 +386,7 @@ void VaapiVideoEncodeAccelerator::Initia
+       DCHECK_EQ(ave_config.bitrate_control,
+                 AcceleratedVideoEncoder::BitrateControl::kConstantBitrate);
+       break;
 +#if VA_CHECK_VERSION(0, 39, 2)
-       case kCodecVP9:
+     case kCodecVP9:
+       if (!IsConfiguredForTesting()) {
          encoder_ = std::make_unique<VP9Encoder>(
-             std::make_unique<VP9Accelerator>(this));
 @@ -392,6 +395,7 @@ void VaapiVideoEncodeAccelerator::Initia
-         DCHECK_EQ(ave_config.bitrate_control,
-                   AcceleratedVideoEncoder::BitrateControl::kConstantBitrate);
-         break;
+       ave_config.bitrate_control = AcceleratedVideoEncoder::BitrateControl::
+           kConstantQuantizationParameter;
+       break;
 +#endif
-       default:
-         NOTREACHED() << "Unsupported codec type " << GetCodecName(codec);
-         return;
-@@ -1152,7 +1156,9 @@ bool VaapiVideoEncodeAccelerator::H264Ac
+     default:
+       NOTREACHED() << "Unsupported codec type " << GetCodecName(codec);
+       return;
+@@ -1166,7 +1170,9 @@ bool VaapiVideoEncodeAccelerator::H264Ac
    rate_control_param.window_size = encode_params.cpb_window_size_ms;
    rate_control_param.initial_qp = pic_param.pic_init_qp;
    rate_control_param.min_qp = encode_params.scaling_settings.min_qp;
@@ -80,7 +80,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
    rate_control_param.rc_flags.bits.disable_frame_skip = true;
  
    VAEncMiscParameterFrameRate framerate_param = {};
-@@ -1364,7 +1370,9 @@ bool VaapiVideoEncodeAccelerator::VP8Acc
+@@ -1378,7 +1384,9 @@ bool VaapiVideoEncodeAccelerator::VP8Acc
    rate_control_param.window_size = encode_params.cpb_window_size_ms;
    rate_control_param.initial_qp = encode_params.initial_qp;
    rate_control_param.min_qp = encode_params.scaling_settings.min_qp;
@@ -90,7 +90,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
    rate_control_param.rc_flags.bits.disable_frame_skip = true;
  
    VAEncMiscParameterFrameRate framerate_param = {};
-@@ -1407,6 +1415,7 @@ bool VaapiVideoEncodeAccelerator::VP8Acc
+@@ -1421,6 +1429,7 @@ bool VaapiVideoEncodeAccelerator::VP8Acc
    return true;
  }
  
@@ -98,17 +98,17 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
  scoped_refptr<VP9Picture>
  VaapiVideoEncodeAccelerator::VP9Accelerator::GetPicture(
      AcceleratedVideoEncoder::EncodeJob* job) {
-@@ -1539,5 +1548,6 @@ bool VaapiVideoEncodeAccelerator::VP9Acc
+@@ -1562,5 +1571,6 @@ bool VaapiVideoEncodeAccelerator::VP9Acc
  
    return true;
  }
 +#endif
  
  }  // namespace media
-Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
+Index: beta/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
-+++ dev/media/gpu/vaapi/vaapi_wrapper.cc
+--- beta.orig/media/gpu/vaapi/vaapi_wrapper.cc
++++ beta/media/gpu/vaapi/vaapi_wrapper.cc
 @@ -10,8 +10,10 @@
  #include <va/va.h>
  #include <va/va_drm.h>
@@ -121,7 +121,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  
  #include <algorithm>
  #include <string>
-@@ -343,6 +345,62 @@ bool IsBlackListedDriver(const std::stri
+@@ -299,6 +301,62 @@ bool IsBlackListedDriver(const std::stri
    return false;
  }
  
@@ -184,7 +184,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  // This class is a wrapper around its |va_display_| (and its associated
  // |va_lock_|) to guarantee mutual exclusion and singleton behaviour.
  class VADisplayState {
-@@ -569,10 +627,16 @@ std::vector<VAEntrypoint> GetEntryPoints
+@@ -525,10 +583,16 @@ std::vector<VAEntrypoint> GetEntryPoints
    std::vector<VAEntrypoint>
        whitelisted_entrypoints[VaapiWrapper::CodecMode::kCodecModeMax] = {
            {VAEntrypointVLD},  // For kDecode.
@@ -205,7 +205,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
                                       // kEncodeConstantQuantizationParameter.
            {VAEntrypointVideoProc}    // For kVideoProcess.
        };
-@@ -1169,16 +1233,17 @@ bool VASupportedImageFormats::InitSuppor
+@@ -1141,16 +1205,17 @@ bool VASupportedImageFormats::InitSuppor
      // Remove this workaround once b/128340287 is resolved.
      if (std::find_if(supported_formats_.cbegin(), supported_formats_.cend(),
                       [](const VAImageFormat& format) {
@@ -223,9 +223,9 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  
 +#if VA_CHECK_VERSION(0, 39, 1)
  bool IsLowPowerEncSupported(VAProfile va_profile) {
-   // Enabled only for H264/AVC & VP9 Encoders
-   if (va_profile != VAProfileH264ConstrainedBaseline &&
-@@ -1206,6 +1271,7 @@ bool IsLowPowerEncSupported(VAProfile va
+   constexpr VAProfile kSupportedLowPowerEncodeProfiles[] = {
+       VAProfileH264ConstrainedBaseline,
+@@ -1181,6 +1246,7 @@ bool IsLowPowerEncSupported(VAProfile va
  
    return false;
  }
@@ -233,7 +233,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  
  }  // namespace
  
-@@ -1376,7 +1442,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1351,7 +1417,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      // The VAAPI mesa state tracker only supports conversion from NV12 to YV12
      // and IYUV (synonym of I420).
      if (rt_format == VA_RT_FORMAT_YUV420) {
@@ -242,7 +242,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
            preferred_fourcc != VA_FOURCC_YV12) {
          preferred_fourcc = VA_FOURCC_NV12;
        }
-@@ -1406,18 +1472,18 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1381,18 +1447,18 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      //
      if (preferred_fourcc == VA_FOURCC_422H ||
          preferred_fourcc == VA_FOURCC_P010) {
@@ -264,7 +264,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
  
    // After workarounds, assume the conversion is supported.
-@@ -1507,8 +1573,10 @@ VAEntrypoint VaapiWrapper::GetDefaultVaE
+@@ -1482,8 +1548,10 @@ VAEntrypoint VaapiWrapper::GetDefaultVaE
        if (profile == VAProfileJPEGBaseline)
          return VAEntrypointEncPicture;
        DCHECK(IsModeEncoding(mode));
@@ -275,7 +275,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
        return VAEntrypointEncSlice;
      case VaapiWrapper::kVideoProcess:
        return VAEntrypointVideoProc;
-@@ -1639,7 +1707,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
+@@ -1614,7 +1682,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
    }
    // We only have to pass the first file descriptor to a driver. A VA-API driver
    // shall create a VASurface from the single fd correctly.
@@ -287,7 +287,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    va_attrib_extbuf.buffers = &fd;
    va_attrib_extbuf.num_buffers = 1u;
  
-@@ -1689,6 +1761,7 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+@@ -1664,6 +1736,7 @@ VaapiWrapper::ExportVASurfaceAsNativePix
      return nullptr;
    }
  
@@ -295,7 +295,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    VADRMPRIMESurfaceDescriptor descriptor;
    {
      base::AutoLock auto_lock(*va_lock_);
-@@ -1781,6 +1854,10 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+@@ -1756,6 +1829,10 @@ VaapiWrapper::ExportVASurfaceAsNativePix
    exported_pixmap->pixmap = base::MakeRefCounted<gfx::NativePixmapDmaBuf>(
        scoped_va_surface.size(), buffer_format, std::move(handle));
    return exported_pixmap;
@@ -306,7 +306,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  }
  
  bool VaapiWrapper::SyncSurface(VASurfaceID va_surface_id) {
-@@ -2135,6 +2212,7 @@ void VaapiWrapper::DestroyVABuffers() {
+@@ -2130,6 +2207,7 @@ void VaapiWrapper::DestroyVABuffers() {
  }
  
  bool VaapiWrapper::IsRotationSupported() {
@@ -314,7 +314,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    base::AutoLock auto_lock(*va_lock_);
    VAProcPipelineCaps pipeline_caps;
    memset(&pipeline_caps, 0, sizeof(pipeline_caps));
-@@ -2149,6 +2227,10 @@ bool VaapiWrapper::IsRotationSupported()
+@@ -2144,6 +2222,10 @@ bool VaapiWrapper::IsRotationSupported()
      return false;
    }
    return true;
@@ -325,7 +325,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  }
  
  bool VaapiWrapper::BlitSurface(const VASurface& va_surface_src,
-@@ -2204,6 +2286,7 @@ bool VaapiWrapper::BlitSurface(const VAS
+@@ -2199,6 +2281,7 @@ bool VaapiWrapper::BlitSurface(const VAS
      pipeline_param->output_color_standard = VAProcColorStandardNone;
      pipeline_param->filter_flags = VA_FILTER_SCALING_DEFAULT;
  
@@ -333,7 +333,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
      switch (rotation) {
        case VIDEO_ROTATION_0:
          pipeline_param->rotation_state = VA_ROTATION_NONE;
-@@ -2218,6 +2301,7 @@ bool VaapiWrapper::BlitSurface(const VAS
+@@ -2213,6 +2296,7 @@ bool VaapiWrapper::BlitSurface(const VAS
          pipeline_param->rotation_state = VA_ROTATION_270;
          break;
      }
@@ -341,11 +341,11 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  
      VA_SUCCESS_OR_RETURN(mapping.Unmap(), "Vpp Buffer unmapping", false);
    }
-Index: dev/media/gpu/chromeos/fourcc.cc
+Index: beta/media/gpu/chromeos/fourcc.cc
 ===================================================================
---- dev.orig/media/gpu/chromeos/fourcc.cc
-+++ dev/media/gpu/chromeos/fourcc.cc
-@@ -214,11 +214,11 @@ uint32_t Fourcc::ToV4L2PixFmt() const {
+--- beta.orig/media/gpu/chromeos/fourcc.cc
++++ beta/media/gpu/chromeos/fourcc.cc
+@@ -215,11 +215,11 @@ uint32_t Fourcc::ToV4L2PixFmt() const {
  // static
  base::Optional<Fourcc> Fourcc::FromVAFourCC(uint32_t va_fourcc) {
    switch (va_fourcc) {
@@ -359,7 +359,7 @@ Index: dev/media/gpu/chromeos/fourcc.cc
        return Fourcc(NV21);
      case VA_FOURCC_YV12:
        return Fourcc(YV12);
-@@ -244,11 +244,11 @@ base::Optional<Fourcc> Fourcc::FromVAFou
+@@ -245,11 +245,11 @@ base::Optional<Fourcc> Fourcc::FromVAFou
  base::Optional<uint32_t> Fourcc::ToVAFourCC() const {
    switch (value_) {
      case YU12:
@@ -373,11 +373,11 @@ Index: dev/media/gpu/chromeos/fourcc.cc
      case YV12:
        return VA_FOURCC_YV12;
      case YUYV:
-Index: dev/ui/gfx/x/gen_xproto.py
+Index: beta/ui/gfx/x/gen_xproto.py
 ===================================================================
---- dev.orig/ui/gfx/x/gen_xproto.py
-+++ dev/ui/gfx/x/gen_xproto.py
-@@ -376,7 +376,7 @@ class GenXproto(FileWriter):
+--- beta.orig/ui/gfx/x/gen_xproto.py
++++ beta/ui/gfx/x/gen_xproto.py
+@@ -411,7 +411,7 @@ class GenXproto(FileWriter):
              return 'Request'
          elif t.is_reply:
              return 'Reply'
@@ -386,7 +386,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
              return 'Event'
          return ''
  
-@@ -574,7 +574,7 @@ class GenXproto(FileWriter):
+@@ -617,7 +617,7 @@ class GenXproto(FileWriter):
                  copy_basic()
              else:
                  container_type, container_name = field.parent
@@ -395,7 +395,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
                  opcode = container_type.opcodes[container_name]
                  self.write('%s %s = %s;' % (type_name, name, opcode))
                  self.copy_primitive(name)
-@@ -595,7 +595,8 @@ class GenXproto(FileWriter):
+@@ -638,7 +638,8 @@ class GenXproto(FileWriter):
              self.copy_primitive(name)
  
      def declare_case(self, case):
@@ -405,7 +405,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
  
          fields = [
              field for case_field in case.type.fields
-@@ -610,7 +611,10 @@ class GenXproto(FileWriter):
+@@ -653,7 +654,10 @@ class GenXproto(FileWriter):
          return [(name + '_t', name)]
  
      def copy_case(self, case, switch_name):
@@ -417,7 +417,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
          condition = ' || '.join([
              '%s(%s_expr, %s)' % (op, switch_name, self.expr(expr))
              for expr in case.type.expr
-@@ -750,7 +754,7 @@ class GenXproto(FileWriter):
+@@ -793,7 +797,7 @@ class GenXproto(FileWriter):
          elif t.is_container:
              with Indent(self, '{', '}'):
                  self.copy_container(t, name)
@@ -426,16 +426,25 @@ Index: dev/ui/gfx/x/gen_xproto.py
              # TODO(https://crbug.com/1066670): Copy FDs out of band.
              self.write('NOTIMPLEMENTED();')
          else:
-@@ -802,7 +806,7 @@ class GenXproto(FileWriter):
-         name = struct_name[-1] + self.type_suffix(struct)
-         self.undef(name)
-         with Indent(self, 'struct %s {' % adjust_type_case(name), '};'):
--            if struct.is_event:
-+            if isinstance(struct, self.xcbgen.xtypes.Event):
-                 self.write('static constexpr uint8_t opcode = %s;' %
-                            struct.opcodes[struct_name])
-             for field in struct.fields:
-@@ -1005,7 +1009,7 @@ class GenXproto(FileWriter):
+@@ -1015,7 +1019,7 @@ class GenXproto(FileWriter):
+             self.write_special_container(item, name)
+         if isinstance(item, self.xcbgen.xtypes.Request):
+             self.define_request(item)
+-        elif item.is_event:
++        elif isinstance(item, self.xcbgen.xtypes.Event):
+             self.define_event(item, name)
+ 
+     def declare_type(self, item, name):
+@@ -1023,7 +1027,7 @@ class GenXproto(FileWriter):
+             self.declare_union(item)
+         elif isinstance(item, self.xcbgen.xtypes.Request):
+             self.declare_request(item)
+-        elif item.is_event:
++        elif isinstance(item, self.xcbgen.xtypes.Event):
+             self.declare_event(item, name)
+         elif item.is_container:
+             self.declare_container(item, name)
+@@ -1097,7 +1101,7 @@ class GenXproto(FileWriter):
                          and field_name in fields):
                      setattr(fields[field_name], for_type, field)
  
@@ -444,7 +453,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
                  self.resolve_type(field.type, field.field_type)
  
          if isinstance(t, self.xcbgen.xtypes.Request) and t.reply:
-@@ -1097,6 +1101,11 @@ class GenXproto(FileWriter):
+@@ -1255,6 +1259,11 @@ class GenXproto(FileWriter):
              self.write('#include "%s.h"' % direct_import[-1])
          self.write('#include "%s_undef.h"' % self.module.namespace.header)
          self.write()
@@ -456,10 +465,10 @@ Index: dev/ui/gfx/x/gen_xproto.py
          self.write('namespace x11 {')
          self.write()
          self.write('class Connection;')
-Index: dev/ui/gtk/gtk_util.cc
+Index: beta/ui/gtk/gtk_util.cc
 ===================================================================
---- dev.orig/ui/gtk/gtk_util.cc
-+++ dev/ui/gtk/gtk_util.cc
+--- beta.orig/ui/gtk/gtk_util.cc
++++ beta/ui/gtk/gtk_util.cc
 @@ -32,7 +32,9 @@
  #include "ui/ozone/public/ozone_platform.h"
  #include "ui/views/linux_ui/linux_ui.h"
@@ -492,10 +501,10 @@ Index: dev/ui/gtk/gtk_util.cc
            }
            break;
          }
-Index: dev/ui/gfx/linux/drm_util_linux.cc
+Index: beta/ui/gfx/linux/drm_util_linux.cc
 ===================================================================
---- dev.orig/ui/gfx/linux/drm_util_linux.cc
-+++ dev/ui/gfx/linux/drm_util_linux.cc
+--- beta.orig/ui/gfx/linux/drm_util_linux.cc
++++ beta/ui/gfx/linux/drm_util_linux.cc
 @@ -8,6 +8,15 @@
  
  #include "base/notreached.h"
@@ -512,10 +521,10 @@ Index: dev/ui/gfx/linux/drm_util_linux.cc
  namespace ui {
  
  int GetFourCCFormatFromBufferFormat(gfx::BufferFormat format) {
-Index: dev/ui/base/x/x11_display_util.cc
+Index: beta/ui/base/x/x11_display_util.cc
 ===================================================================
---- dev.orig/ui/base/x/x11_display_util.cc
-+++ dev/ui/base/x/x11_display_util.cc
+--- beta.orig/ui/base/x/x11_display_util.cc
++++ beta/ui/base/x/x11_display_util.cc
 @@ -34,6 +34,7 @@ std::map<x11::RandR::Output, int> GetMon
                                                x11::RandR* randr,
                                                x11::Window window) {

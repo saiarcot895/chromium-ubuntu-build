@@ -1,3 +1,10 @@
+chromium-browser (85.0.4183.49-0ubuntu1~ppa1~19.10.1) eoan; urgency=low
+
+  * New upstream version 85.0.4183.49
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 03 Aug 2020 19:50:09 -0400
+
 chromium-browser (85.0.4173.0-0ubuntu1~ppa3~19.10.1) eoan; urgency=low
 
   * Fix VAAPI version check.

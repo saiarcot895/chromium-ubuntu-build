@@ -1,3 +1,10 @@
+chromium-browser (85.0.4183.49-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
+
+  * New upstream version 85.0.4183.49
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 03 Aug 2020 19:50:08 -0400
+
 chromium-browser (85.0.4173.0-0ubuntu1~ppa3~16.04.1) xenial; urgency=low
 
   * Fix VAAPI version check.
