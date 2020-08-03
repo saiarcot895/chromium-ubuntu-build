@@ -20,3 +20,19 @@ Index: dev/third_party/devtools-frontend/src/scripts/devtools_paths.py
  
  
  def devtools_root_path():
+Index: dev/third_party/node/node.py
+===================================================================
+--- dev.orig/third_party/node/node.py
++++ dev/third_party/node/node.py
+@@ -11,6 +11,11 @@ import os
+ 
+ 
+ def GetBinaryPath():
++  if platform.system() == 'Linux':
++    if os_path.exists("/usr/lib/nodejs-mozilla/bin/node"):
++      return "/usr/lib/nodejs-mozilla/bin/node"
++    else:
++      return "/usr/bin/nodejs"
+   return os_path.join(os_path.dirname(__file__), *{
+     'Darwin': ('mac', 'node-darwin-x64', 'bin', 'node'),
+     'Linux': ('linux', 'node-linux-x64', 'bin', 'node'),

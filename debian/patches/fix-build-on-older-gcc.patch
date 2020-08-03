@@ -184,7 +184,28 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  // This class is a wrapper around its |va_display_| (and its associated
  // |va_lock_|) to guarantee mutual exclusion and singleton behaviour.
  class VADisplayState {
-@@ -1075,16 +1133,17 @@ bool VASupportedImageFormats::InitSuppor
+@@ -568,10 +626,16 @@ std::vector<VAEntrypoint> GetEntryPoints
+ 
+   const std::vector<VAEntrypoint> kAllowedEntryPoints[] = {
+       {VAEntrypointVLD},  // kDecode.
+-      {VAEntrypointEncSlice, VAEntrypointEncPicture,
+-       VAEntrypointEncSliceLP},  // kEncode.
+-      {VAEntrypointEncSlice,
+-       VAEntrypointEncSliceLP},  // kEncodeConstantQuantizationParameter.
++      {VAEntrypointEncSlice, VAEntrypointEncPicture
++#if VA_CHECK_VERSION(0, 39, 1)
++       , VAEntrypointEncSliceLP
++#endif
++      },  // kEncode.
++      {VAEntrypointEncSlice
++#if VA_CHECK_VERSION(0, 39, 1)
++       , VAEntrypointEncSliceLP
++#endif
++      },  // kEncodeConstantQuantizationParameter.
+       {VAEntrypointVideoProc}    // kVideoProcess.
+   };
+   static_assert(base::size(kAllowedEntryPoints) == VaapiWrapper::kCodecModeMax,
+@@ -1075,16 +1139,17 @@ bool VASupportedImageFormats::InitSuppor
      // Remove this workaround once b/128340287 is resolved.
      if (std::find_if(supported_formats_.cbegin(), supported_formats_.cend(),
                       [](const VAImageFormat& format) {
@@ -204,7 +225,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  bool IsLowPowerEncSupported(VAProfile va_profile) {
    constexpr VAProfile kSupportedLowPowerEncodeProfiles[] = {
        VAProfileH264ConstrainedBaseline,
-@@ -1108,6 +1167,7 @@ bool IsLowPowerEncSupported(VAProfile va
+@@ -1108,6 +1173,7 @@ bool IsLowPowerEncSupported(VAProfile va
    }
    return false;
  }
@@ -212,7 +233,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  
  }  // namespace
  
-@@ -1278,7 +1338,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1278,7 +1344,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      // The VAAPI mesa state tracker only supports conversion from NV12 to YV12
      // and IYUV (synonym of I420).
      if (rt_format == VA_RT_FORMAT_YUV420) {
@@ -221,7 +242,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
            preferred_fourcc != VA_FOURCC_YV12) {
          preferred_fourcc = VA_FOURCC_NV12;
        }
-@@ -1308,7 +1368,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1308,7 +1374,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      //
      if (preferred_fourcc == VA_FOURCC_422H ||
          preferred_fourcc == VA_FOURCC_P010) {
@@ -230,9 +251,14 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
      }
    } else if (GetImplementationType() == VAImplementation::kIntelIHD) {
      // TODO(b/155939640): iHD v19.4 fails to allocate AYUV surfaces for the VPP
-@@ -1319,13 +1379,13 @@ bool VaapiWrapper::GetJpegDecodeSuitable
-         preferred_fourcc == VA_FOURCC_Y216 ||
-         preferred_fourcc == VA_FOURCC_Y416 ||
+@@ -1316,16 +1382,16 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+     // (b/159896972): iHD v20.1.1 cannot create Y216 and Y416 images from a
+     // decoded JPEG on gen 12. It is also failing to support Y800 format.
+     if (preferred_fourcc == VA_FOURCC_AYUV ||
+-        preferred_fourcc == VA_FOURCC_Y216 ||
+-        preferred_fourcc == VA_FOURCC_Y416 ||
++        preferred_fourcc == VA_FOURCC('Y', '2', '1', '6') ||
++        preferred_fourcc == VA_FOURCC('Y', '4', '1', '6') ||
          preferred_fourcc == VA_FOURCC_Y800) {
 -      preferred_fourcc = VA_FOURCC_I420;
 +      preferred_fourcc = VA_FOURCC('I', '4', '2', '0');
@@ -246,7 +272,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
  
    // After workarounds, assume the conversion is supported.
-@@ -1416,8 +1476,10 @@ VAEntrypoint VaapiWrapper::GetDefaultVaE
+@@ -1422,8 +1488,10 @@ VAEntrypoint VaapiWrapper::GetDefaultVaE
        if (profile == VAProfileJPEGBaseline)
          return VAEntrypointEncPicture;
        DCHECK(IsModeEncoding(mode));
@@ -257,7 +283,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
        return VAEntrypointEncSlice;
      case VaapiWrapper::kVideoProcess:
        return VAEntrypointVideoProc;
-@@ -1549,7 +1611,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
+@@ -1555,7 +1623,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
    }
    // We only have to pass the first file descriptor to a driver. A VA-API driver
    // shall create a VASurface from the single fd correctly.
@@ -269,7 +295,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    va_attrib_extbuf.buffers = &fd;
    va_attrib_extbuf.num_buffers = 1u;
  
-@@ -1599,6 +1665,7 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+@@ -1605,6 +1677,7 @@ VaapiWrapper::ExportVASurfaceAsNativePix
      return nullptr;
    }
  
@@ -277,7 +303,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    VADRMPRIMESurfaceDescriptor descriptor;
    {
      base::AutoLock auto_lock(*va_lock_);
-@@ -1691,6 +1758,10 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+@@ -1697,6 +1770,10 @@ VaapiWrapper::ExportVASurfaceAsNativePix
    exported_pixmap->pixmap = base::MakeRefCounted<gfx::NativePixmapDmaBuf>(
        scoped_va_surface.size(), buffer_format, std::move(handle));
    return exported_pixmap;
@@ -288,7 +314,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  }
  
  bool VaapiWrapper::SyncSurface(VASurfaceID va_surface_id) {
-@@ -2064,6 +2135,7 @@ void VaapiWrapper::DestroyVABuffers() {
+@@ -2070,6 +2147,7 @@ void VaapiWrapper::DestroyVABuffers() {
  }
  
  bool VaapiWrapper::IsRotationSupported() {
@@ -296,7 +322,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    base::AutoLock auto_lock(*va_lock_);
    VAProcPipelineCaps pipeline_caps;
    memset(&pipeline_caps, 0, sizeof(pipeline_caps));
-@@ -2078,6 +2150,10 @@ bool VaapiWrapper::IsRotationSupported()
+@@ -2084,6 +2162,10 @@ bool VaapiWrapper::IsRotationSupported()
      return false;
    }
    return true;
@@ -307,7 +333,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  }
  
  bool VaapiWrapper::BlitSurface(const VASurface& va_surface_src,
-@@ -2133,6 +2209,7 @@ bool VaapiWrapper::BlitSurface(const VAS
+@@ -2139,6 +2221,7 @@ bool VaapiWrapper::BlitSurface(const VAS
      pipeline_param->output_color_standard = VAProcColorStandardNone;
      pipeline_param->filter_flags = VA_FILTER_SCALING_DEFAULT;
  
@@ -315,7 +341,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
      switch (rotation) {
        case VIDEO_ROTATION_0:
          pipeline_param->rotation_state = VA_ROTATION_NONE;
-@@ -2147,6 +2224,7 @@ bool VaapiWrapper::BlitSurface(const VAS
+@@ -2153,6 +2236,7 @@ bool VaapiWrapper::BlitSurface(const VAS
          pipeline_param->rotation_state = VA_ROTATION_270;
          break;
      }
@@ -513,4 +539,53 @@ Index: dev/ui/base/x/x11_display_util.cc
 +#endif
    return output_to_monitor;
  }
+ 
+Index: dev/third_party/nearby/src/cpp/core_v2/internal/payload_manager.cc
+===================================================================
+--- dev.orig/third_party/nearby/src/cpp/core_v2/internal/payload_manager.cc
++++ dev/third_party/nearby/src/cpp/core_v2/internal/payload_manager.cc
+@@ -946,7 +946,7 @@ PayloadManager::PendingPayload::PendingP
+   for (const auto& id : endpoint_ids) {
+     endpoints_.emplace(id, EndpointInfo{
+                                .id = id,
+-                               .status {EndpointInfo::Status::kAvailable},
++                               .status = AtomicReference<EndpointInfo::Status>(EndpointInfo::Status::kAvailable),
+                            });
+   }
+ }
+Index: dev/ui/gfx/x/xproto_internal.cc
+===================================================================
+--- dev.orig/ui/gfx/x/xproto_internal.cc
++++ dev/ui/gfx/x/xproto_internal.cc
+@@ -15,7 +15,7 @@
+ 
+ // Declare the function in case this is a packager build on an older distro with
+ // use_sysroot=false.
+-unsigned int xcb_send_request_with_fds(xcb_connection_t* c,
++extern "C" unsigned int xcb_send_request_with_fds(xcb_connection_t* c,
+                                        int flags,
+                                        struct iovec* vector,
+                                        const xcb_protocol_request_t* request,
+Index: dev/ui/gfx/x/event.cc
+===================================================================
+--- dev.orig/ui/gfx/x/event.cc
++++ dev/ui/gfx/x/event.cc
+@@ -63,6 +63,10 @@ Event::Event(scoped_refptr<base::RefCoun
+     if ((xcb_event->response_type & ~kSendEventMask) ==
+         x11::GeGenericEvent::opcode) {
+       auto* ge = reinterpret_cast<xcb_ge_event_t*>(xcb_event);
++#if 1
++      // Xenial doesn't know what xcb_raw_generic_event_t is
++      memmove(&ge->full_sequence, &ge[1], ge->length * 4);
++#else
+       constexpr size_t ge_length = sizeof(xcb_raw_generic_event_t);
+       constexpr size_t offset = sizeof(ge->full_sequence);
+       size_t extended_length = ge->length * 4;
+@@ -78,6 +82,7 @@ Event::Event(scoped_refptr<base::RefCoun
+             event_bytes, offset, ge_length + extended_length);
+         xcb_event = reinterpret_cast<xcb_generic_event_t*>(addr + offset);
+       }
++#endif
+     }
+   }
  

@@ -1,3 +1,9 @@
+chromium-browser (86.0.4214.2-0ubuntu1~ppa3~16.04.1) xenial; urgency=low
+
+  * Fix node binary path.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 01 Aug 2020 14:32:00 -0400
+
 chromium-browser (86.0.4214.2-0ubuntu1~ppa2~16.04.1) xenial; urgency=low
 
   * Fix compiler option name.
