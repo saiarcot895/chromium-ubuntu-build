@@ -1,3 +1,10 @@
+chromium-browser (86.0.4221.3-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
+
+  * New upstream version 86.0.4221.3
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 10 Aug 2020 01:47:16 -0400
+
 chromium-browser (86.0.4214.2-0ubuntu1~ppa3~16.04.1) xenial; urgency=low
 
   * Fix node binary path.

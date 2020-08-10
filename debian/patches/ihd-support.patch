@@ -20,8 +20,8 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
              ? vaapi_wrapper_
              : vpp_vaapi_wrapper_,
          make_context_current_cb_, bind_image_cb_, buffer, size_to_bind);
-@@ -1164,6 +1166,11 @@ VaapiVideoDecodeAccelerator::GetSupporte
-   return VaapiWrapper::GetSupportedDecodeProfiles();
+@@ -1170,6 +1172,11 @@ VaapiVideoDecodeAccelerator::GetSupporte
+   return profiles;
  }
  
 +// static
@@ -49,7 +49,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -1334,6 +1334,12 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1324,6 +1324,12 @@ bool VaapiWrapper::GetJpegDecodeSuitable
  }
  
  // static

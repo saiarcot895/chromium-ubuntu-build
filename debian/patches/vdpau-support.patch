@@ -22,7 +22,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
              ? vaapi_wrapper_
              : vpp_vaapi_wrapper_,
          make_context_current_cb_, bind_image_cb_, buffer, size_to_bind);
-@@ -1164,6 +1166,12 @@ VaapiVideoDecodeAccelerator::GetSupporte
+@@ -1170,6 +1172,12 @@ VaapiVideoDecodeAccelerator::GetSupporte
  
  VaapiVideoDecodeAccelerator::BufferAllocationMode
  VaapiVideoDecodeAccelerator::DecideBufferAllocationMode() {
@@ -35,7 +35,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
    // TODO(crbug.com/912295): Enable a better BufferAllocationMode for IMPORT
    // |output_mode_| as well.
    if (output_mode_ == VideoDecodeAccelerator::Config::OutputMode::IMPORT)
-@@ -1174,7 +1182,7 @@ VaapiVideoDecodeAccelerator::DecideBuffe
+@@ -1180,7 +1188,7 @@ VaapiVideoDecodeAccelerator::DecideBuffe
    // associated format reconciliation copy, avoiding all internal buffer
    // allocations.
    // TODO(crbug.com/911754): Enable for VP9 Profile 2.
@@ -70,7 +70,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
    return media::VAImplementation::kOther;
  }
-@@ -1591,6 +1594,11 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+@@ -1581,6 +1584,11 @@ VaapiWrapper::ExportVASurfaceAsNativePix
      return nullptr;
    }
  
@@ -82,7 +82,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    VADRMPRIMESurfaceDescriptor descriptor;
    {
      base::AutoLock auto_lock(*va_lock_);
-@@ -2288,32 +2296,43 @@ bool VaapiWrapper::CreateSurfaces(unsign
+@@ -2278,32 +2286,43 @@ bool VaapiWrapper::CreateSurfaces(unsign
    DCHECK(va_surfaces->empty());
  
    va_surfaces->resize(num_surfaces);

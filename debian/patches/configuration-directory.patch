@@ -46,5 +46,5 @@ Index: dev/chrome/common/chrome_paths.cc
 +            "/etc/chromium-browser/native-messaging-hosts"));
 +
  #endif
- #endif  // !defined(OS_MACOSX)
+ #endif  // !defined(OS_MAC)
        break;
