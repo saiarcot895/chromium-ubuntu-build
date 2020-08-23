@@ -4,28 +4,20 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
 +++ dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
-@@ -677,6 +677,7 @@ void VaapiVideoDecodeAccelerator::Assign
+@@ -710,7 +710,8 @@ void VaapiVideoDecodeAccelerator::Assign
+   // If we aren't in BufferAllocationMode::kNone, we have to allocate a
    // |vpp_vaapi_wrapper_| for VaapiPicture to DownloadFromSurface() the VA's
    // internal decoded frame.
-   if (buffer_allocation_mode_ != BufferAllocationMode::kNone &&
-+      buffer_allocation_mode_ != BufferAllocationMode::kWrapVdpau &&
-       !vpp_vaapi_wrapper_) {
-     vpp_vaapi_wrapper_ = VaapiWrapper::Create(
-         VaapiWrapper::kVideoProcess, VAProfileNone,
-@@ -708,7 +709,8 @@ void VaapiVideoDecodeAccelerator::Assign
-             : gfx::Size();
- 
-     std::unique_ptr<VaapiPicture> picture = vaapi_picture_factory_->Create(
--        (buffer_allocation_mode_ == BufferAllocationMode::kNone)
-+        ((buffer_allocation_mode_ == BufferAllocationMode::kNone) ||
-+         (buffer_allocation_mode_ == BufferAllocationMode::kWrapVdpau))
-             ? vaapi_wrapper_
-             : vpp_vaapi_wrapper_,
-         make_context_current_cb_, bind_image_cb_, buffer, size_to_bind);
-@@ -1170,6 +1172,12 @@ VaapiVideoDecodeAccelerator::GetSupporte
- 
- VaapiVideoDecodeAccelerator::BufferAllocationMode
- VaapiVideoDecodeAccelerator::DecideBufferAllocationMode() {
+-  if (buffer_allocation_mode_ != BufferAllocationMode::kNone) {
++  if (buffer_allocation_mode_ != BufferAllocationMode::kNone &&
++      buffer_allocation_mode_ != BufferAllocationMode::kWrapVdpau) {
+     if (!vpp_vaapi_wrapper_) {
+       vpp_vaapi_wrapper_ = VaapiWrapper::Create(
+           VaapiWrapper::kVideoProcess, VAProfileNone,
+@@ -1215,6 +1216,12 @@ VaapiVideoDecodeAccelerator::DecideBuffe
+     return BufferAllocationMode::kReduced;
+   return BufferAllocationMode::kSuperReduced;
+ #else
 +  // NVIDIA blobs use VDPAU
 +  if (VaapiWrapper::GetImplementationType() == VAImplementation::kNVIDIAVDPAU) {
 +    LOG(INFO) << "VA-API driver on VDPAU backend";
@@ -35,7 +27,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
    // TODO(crbug.com/912295): Enable a better BufferAllocationMode for IMPORT
    // |output_mode_| as well.
    if (output_mode_ == VideoDecodeAccelerator::Config::OutputMode::IMPORT)
-@@ -1180,7 +1188,7 @@ VaapiVideoDecodeAccelerator::DecideBuffe
+@@ -1225,7 +1232,7 @@ VaapiVideoDecodeAccelerator::DecideBuffe
    // associated format reconciliation copy, avoiding all internal buffer
    // allocations.
    // TODO(crbug.com/911754): Enable for VP9 Profile 2.
@@ -48,7 +40,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.h
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_video_decode_accelerator.h
 +++ dev/media/gpu/vaapi/vaapi_video_decode_accelerator.h
-@@ -209,6 +209,7 @@ class MEDIA_GPU_EXPORT VaapiVideoDecodeA
+@@ -212,6 +212,7 @@ class MEDIA_GPU_EXPORT VaapiVideoDecodeA
      // Using |client_|s provided PictureBuffers and as many internally
      // allocated.
      kNormal,
@@ -60,7 +52,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -135,6 +135,9 @@ media::VAImplementation VendorStringToIm
+@@ -136,6 +136,9 @@ media::VAImplementation VendorStringToIm
    } else if (base::StartsWith(va_vendor_string, "Intel iHD driver",
                                base::CompareCase::SENSITIVE)) {
      return media::VAImplementation::kIntelIHD;
@@ -70,7 +62,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
    return media::VAImplementation::kOther;
  }
-@@ -1581,6 +1584,11 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+@@ -1598,6 +1601,11 @@ VaapiWrapper::ExportVASurfaceAsNativePix
      return nullptr;
    }
  
@@ -82,7 +74,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    VADRMPRIMESurfaceDescriptor descriptor;
    {
      base::AutoLock auto_lock(*va_lock_);
-@@ -2278,32 +2286,43 @@ bool VaapiWrapper::CreateSurfaces(unsign
+@@ -2283,32 +2291,43 @@ bool VaapiWrapper::CreateSurfaces(unsign
    DCHECK(va_surfaces->empty());
  
    va_surfaces->resize(num_surfaces);

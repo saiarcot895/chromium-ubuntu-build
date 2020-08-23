@@ -40,7 +40,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -2614,7 +2614,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -2632,7 +2632,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
          flag_descriptions::kAcceleratedVideoDecodeDescription,
@@ -48,8 +48,8 @@ Index: dev/chrome/browser/about_flags.cc
 +        kOsAll,
          SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
-     {
-@@ -3071,10 +3071,10 @@ const FeatureEntry kFeatureEntries[] = {
+ #endif  // defined(OS_LINUX) && !defined(OS_CHROMEOS) && !defined(OS_ANDROID)
+@@ -3097,10 +3097,10 @@ const FeatureEntry kFeatureEntries[] = {
       flag_descriptions::kWebXrForceRuntimeDescription, kOsDesktop,
       MULTI_VALUE_TYPE(kWebXrForceRuntimeChoices)},
  #endif  // ENABLE_VR
@@ -66,7 +66,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
 ===================================================================
 --- dev.orig/chrome/browser/flag_descriptions.cc
 +++ dev/chrome/browser/flag_descriptions.cc
-@@ -3365,9 +3365,7 @@ const char kMetalDescription[] =
+@@ -3465,9 +3465,7 @@ const char kMetalDescription[] =
  
  #endif
  
@@ -77,7 +77,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
  
  const char kAcceleratedMjpegDecodeName[] =
      "Hardware-accelerated mjpeg decode for captured frame";
-@@ -3375,6 +3373,12 @@ const char kAcceleratedMjpegDecodeDescri
+@@ -3475,6 +3473,12 @@ const char kAcceleratedMjpegDecodeDescri
      "Enable hardware-accelerated mjpeg decode for captured frame where "
      "available.";
  
@@ -94,7 +94,7 @@ Index: dev/chrome/browser/flag_descriptions.h
 ===================================================================
 --- dev.orig/chrome/browser/flag_descriptions.h
 +++ dev/chrome/browser/flag_descriptions.h
-@@ -1936,13 +1936,17 @@ extern const char kMetalDescription[];
+@@ -1999,13 +1999,17 @@ extern const char kMetalDescription[];
  
  #endif  // defined(OS_MAC)
  
@@ -119,7 +119,7 @@ Index: dev/content/gpu/BUILD.gn
 ===================================================================
 --- dev.orig/content/gpu/BUILD.gn
 +++ dev/content/gpu/BUILD.gn
-@@ -6,6 +6,7 @@ import("//build/config/jumbo.gni")
+@@ -5,6 +5,7 @@
  import("//build/config/ui.gni")
  import("//gpu/vulkan/features.gni")
  import("//media/media_options.gni")
@@ -127,7 +127,7 @@ Index: dev/content/gpu/BUILD.gn
  import("//ui/ozone/ozone.gni")
  
  # See //content/BUILD.gn for how this works.
-@@ -129,4 +130,8 @@ target(link_target_type, "gpu_sources")
+@@ -128,4 +129,8 @@ target(link_target_type, "gpu_sources")
        (!is_chromecast || is_cast_desktop_build)) {
      configs += [ "//build/config/linux/dri" ]
    }
@@ -136,38 +136,11 @@ Index: dev/content/gpu/BUILD.gn
 +    public_configs = [ "//build/config/linux/libva" ]
 +  }
  }
-Index: dev/gpu/config/software_rendering_list.json
-===================================================================
---- dev.orig/gpu/config/software_rendering_list.json
-+++ dev/gpu/config/software_rendering_list.json
-@@ -336,22 +336,6 @@
-       ]
-     },
-     {
--      "id": 48,
--      "description": "Accelerated video decode is unavailable on Linux",
--      "cr_bugs": [137247, 1032907],
--      "os": {
--        "type": "linux"
--      },
--      "exceptions": [
--        {
--          "machine_model_name": ["Chromecast"]
--        }
--      ],
--      "features": [
--        "accelerated_video_decode"
--      ]
--    },
--    {
-       "id": 50,
-       "description": "Disable VMware software renderer on older Mesa",
-       "cr_bugs": [145531, 332596, 571899, 629434],
 Index: dev/media/base/media_switches.cc
 ===================================================================
 --- dev.orig/media/base/media_switches.cc
 +++ dev/media/base/media_switches.cc
-@@ -775,7 +775,7 @@ bool IsVideoCaptureAcceleratedJpegDecodi
+@@ -789,7 +789,7 @@ bool IsVideoCaptureAcceleratedJpegDecodi
            switches::kUseFakeMjpegDecodeAccelerator)) {
      return true;
    }
@@ -176,18 +149,6 @@ Index: dev/media/base/media_switches.cc
    return true;
  #endif
    return false;
-Index: dev/media/gpu/BUILD.gn
-===================================================================
---- dev.orig/media/gpu/BUILD.gn
-+++ dev/media/gpu/BUILD.gn
-@@ -463,6 +463,7 @@ if (use_v4l2_codec || use_vaapi || is_ma
-     if (use_ozone) {
-       deps += [ "//ui/ozone" ]
-     }
-+    public_configs = [ "//build/config/linux/libva" ]
-   }
- }
- 
 Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
 ===================================================================
 --- dev.orig/media/gpu/gpu_video_decode_accelerator_factory.cc
@@ -233,7 +194,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -372,6 +372,11 @@ void VADisplayState::PreSandboxInitializ
+@@ -373,6 +373,11 @@ void VADisplayState::PreSandboxInitializ
        base::File::FLAG_OPEN | base::File::FLAG_READ | base::File::FLAG_WRITE);
    if (drm_file.IsValid())
      VADisplayState::Get()->SetDrmFd(drm_file.GetPlatformFile());
@@ -245,7 +206,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  }
  
  VADisplayState::VADisplayState()
-@@ -399,10 +404,6 @@ bool VADisplayState::Initialize() {
+@@ -400,10 +405,6 @@ bool VADisplayState::Initialize() {
  }
  
  bool VADisplayState::InitializeOnce() {
@@ -256,21 +217,39 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    switch (gl::GetGLImplementation()) {
      case gl::kGLImplementationEGLGLES2:
        va_display_ = vaGetDisplayDRM(drm_fd_.get());
-@@ -410,10 +411,10 @@ bool VADisplayState::InitializeOnce() {
-     case gl::kGLImplementationDesktopGL:
+@@ -419,9 +420,13 @@ bool VADisplayState::InitializeOnce() {
+       break;
+     case gl::kGLImplementationEGLANGLE:
  #if defined(USE_X11)
-       va_display_ = vaGetDisplay(gfx::GetXDisplay());
--#else
--      LOG(WARNING) << "VAAPI video acceleration not available without "
--                      "DesktopGL (GLX).";
-+      if (vaDisplayIsValid(va_display_))
-+        break;
+-      if (!features::IsUsingOzonePlatform())
++      if (!features::IsUsingOzonePlatform()) {
+         va_display_ = vaGetDisplay(gfx::GetXDisplay());
++        if (vaDisplayIsValid(va_display_))
++          break;
++      }
  #endif  // USE_X11
 +      va_display_ = vaGetDisplayDRM(drm_fd_.get());
        break;
      // Cannot infer platform from GL, try all available displays
      case gl::kGLImplementationNone:
-@@ -446,8 +447,19 @@ bool VADisplayState::InitializeOnce() {
+@@ -452,25 +457,23 @@ bool VADisplayState::InitializeOnce() {
+   if (!env->HasVar(libva_log_level_env))
+     env->SetVar(libva_log_level_env, "1");
+ 
+-#if defined(USE_X11)
+-  if (gl::GetGLImplementation() == gl::kGLImplementationEGLANGLE) {
+-    DCHECK(!features::IsUsingOzonePlatform());
+-    constexpr char libva_driver_impl_env[] = "LIBVA_DRIVER_NAME";
+-    // TODO(crbug/1116703) The libva intel-media driver has a known segfault in
+-    // vaPutSurface, so until this is fixed, fall back to the i965 driver. There
+-    // is discussion of the issue here:
+-    // https://github.com/intel/media-driver/issues/818
+-    if (!env->HasVar(libva_driver_impl_env))
+-      env->SetVar(libva_driver_impl_env, "i965");
+-  }
+-#endif  // USE_X11
+-
+   // The VAAPI version.
    int major_version, minor_version;
    VAStatus va_res = vaInitialize(va_display_, &major_version, &minor_version);
    if (va_res != VA_STATUS_SUCCESS) {
@@ -292,7 +271,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
  
    va_initialized_ = true;
-@@ -455,7 +467,7 @@ bool VADisplayState::InitializeOnce() {
+@@ -478,7 +481,7 @@ bool VADisplayState::InitializeOnce() {
    const std::string va_vendor_string = vaQueryVendorString(va_display_);
    DLOG_IF(WARNING, va_vendor_string.empty())
        << "Vendor string empty or error reading.";
@@ -301,7 +280,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
             << va_vendor_string;
    implementation_type_ = VendorStringToImplementationType(va_vendor_string);
  
-@@ -644,7 +656,7 @@ bool AreAttribsSupported(const base::Loc
+@@ -667,7 +670,7 @@ bool AreAttribsSupported(const base::Loc
      if (attribs[i].type != required_attribs[i].type ||
          (attribs[i].value & required_attribs[i].value) !=
              required_attribs[i].value) {
@@ -310,29 +289,3 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
                 << " for attribute type " << required_attribs[i].type;
        return false;
      }
-Index: dev/media/gpu/test/BUILD.gn
-===================================================================
---- dev.orig/media/gpu/test/BUILD.gn
-+++ dev/media/gpu/test/BUILD.gn
-@@ -214,7 +214,7 @@ if (use_vaapi || use_v4l2_codec) {
-   }
- }
- 
--if (is_chromeos) {
-+if (is_chromeos || use_vaapi) {
-   static_library("local_gpu_memory_buffer_manager") {
-     testonly = true
-     sources = [
-Index: dev/ui/gl/gl_features.cc
-===================================================================
---- dev.orig/ui/gl/gl_features.cc
-+++ dev/ui/gl/gl_features.cc
-@@ -13,7 +13,7 @@ namespace features {
- // Launched on Windows, still experimental on other platforms.
- const base::Feature kDefaultPassthroughCommandDecoder{
-   "DefaultPassthroughCommandDecoder",
--#if defined(OS_WIN) || (defined(OS_LINUX) && !defined(CHROMECAST_BUILD))
-+#if defined(OS_WIN)
-       base::FEATURE_ENABLED_BY_DEFAULT
- #else
-       base::FEATURE_DISABLED_BY_DEFAULT

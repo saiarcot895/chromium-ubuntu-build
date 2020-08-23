@@ -302,6 +302,7 @@ override_dh_install-indep:
 	(cd $(SRC_DIR)/out/$(BUILD_TYPE) && tar -cf - $$(find *locales -type f ! -name en-US.pak) --dereference;) | (cd debian/chromium-browser-l10n/$(LIB_DIR) && tar xvf -;)
 	install --directory debian/chromium-browser/etc/chromium-browser/customizations
 	install --owner=root --mode=0644 --no-target-directory debian/chromium-browser-customization-example debian/chromium-browser/etc/chromium-browser/customizations/00-example
+	install --owner=root --mode=0644 --no-target-directory debian/chromium-browser-customization-libva-i965 debian/chromium-browser/etc/chromium-browser/customizations/02-libva-i965
 
 override_dh_auto_test:
 	# No tests to run

@@ -121,7 +121,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  
  #include <algorithm>
  #include <string>
-@@ -312,6 +314,62 @@ bool IsBlockedDriver(VaapiWrapper::Codec
+@@ -313,6 +315,62 @@ bool IsBlockedDriver(VaapiWrapper::Codec
    return false;
  }
  
@@ -184,7 +184,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  // This class is a wrapper around its |va_display_| (and its associated
  // |va_lock_|) to guarantee mutual exclusion and singleton behaviour.
  class VADisplayState {
-@@ -566,10 +624,16 @@ std::vector<VAEntrypoint> GetEntryPoints
+@@ -580,10 +638,16 @@ std::vector<VAEntrypoint> GetEntryPoints
  
    const std::vector<VAEntrypoint> kAllowedEntryPoints[] = {
        {VAEntrypointVLD},  // kDecode.
@@ -205,7 +205,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
        {VAEntrypointVideoProc}    // kVideoProcess.
    };
    static_assert(base::size(kAllowedEntryPoints) == VaapiWrapper::kCodecModeMax,
-@@ -1065,16 +1129,17 @@ bool VASupportedImageFormats::InitSuppor
+@@ -1082,16 +1146,17 @@ bool VASupportedImageFormats::InitSuppor
      // Remove this workaround once b/128340287 is resolved.
      if (std::find_if(supported_formats_.cbegin(), supported_formats_.cend(),
                       [](const VAImageFormat& format) {
@@ -225,7 +225,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  bool IsLowPowerEncSupported(VAProfile va_profile) {
    constexpr VAProfile kSupportedLowPowerEncodeProfiles[] = {
        VAProfileH264ConstrainedBaseline,
-@@ -1098,6 +1163,7 @@ bool IsLowPowerEncSupported(VAProfile va
+@@ -1113,6 +1178,7 @@ bool IsLowPowerEncSupported(VAProfile va
    }
    return false;
  }
@@ -233,7 +233,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  
  }  // namespace
  
-@@ -1268,7 +1334,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1285,7 +1351,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      // The VAAPI mesa state tracker only supports conversion from NV12 to YV12
      // and IYUV (synonym of I420).
      if (rt_format == VA_RT_FORMAT_YUV420) {
@@ -242,7 +242,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
            preferred_fourcc != VA_FOURCC_YV12) {
          preferred_fourcc = VA_FOURCC_NV12;
        }
-@@ -1298,7 +1364,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1315,7 +1381,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      //
      if (preferred_fourcc == VA_FOURCC_422H ||
          preferred_fourcc == VA_FOURCC_P010) {
@@ -251,7 +251,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
      }
    } else if (GetImplementationType() == VAImplementation::kIntelIHD) {
      // TODO(b/155939640): iHD v19.4 fails to allocate AYUV surfaces for the VPP
-@@ -1306,16 +1372,16 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1323,16 +1389,16 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      // (b/159896972): iHD v20.1.1 cannot create Y216 and Y416 images from a
      // decoded JPEG on gen 12. It is also failing to support Y800 format.
      if (preferred_fourcc == VA_FOURCC_AYUV ||
@@ -272,7 +272,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
  
    // After workarounds, assume the conversion is supported.
-@@ -1412,8 +1478,10 @@ VAEntrypoint VaapiWrapper::GetDefaultVaE
+@@ -1429,8 +1495,10 @@ VAEntrypoint VaapiWrapper::GetDefaultVaE
        if (profile == VAProfileJPEGBaseline)
          return VAEntrypointEncPicture;
        DCHECK(IsModeEncoding(mode));
@@ -283,7 +283,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
        return VAEntrypointEncSlice;
      case VaapiWrapper::kVideoProcess:
        return VAEntrypointVideoProc;
-@@ -1545,7 +1613,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
+@@ -1562,7 +1630,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
    }
    // We only have to pass the first file descriptor to a driver. A VA-API driver
    // shall create a VASurface from the single fd correctly.
@@ -295,7 +295,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    va_attrib_extbuf.buffers = &fd;
    va_attrib_extbuf.num_buffers = 1u;
  
-@@ -1595,6 +1667,7 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+@@ -1612,6 +1684,7 @@ VaapiWrapper::ExportVASurfaceAsNativePix
      return nullptr;
    }
  
@@ -303,7 +303,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    VADRMPRIMESurfaceDescriptor descriptor;
    {
      base::AutoLock auto_lock(*va_lock_);
-@@ -1687,6 +1760,10 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+@@ -1704,6 +1777,10 @@ VaapiWrapper::ExportVASurfaceAsNativePix
    exported_pixmap->pixmap = base::MakeRefCounted<gfx::NativePixmapDmaBuf>(
        scoped_va_surface.size(), buffer_format, std::move(handle));
    return exported_pixmap;
@@ -314,7 +314,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  }
  
  bool VaapiWrapper::SyncSurface(VASurfaceID va_surface_id) {
-@@ -2060,6 +2137,7 @@ void VaapiWrapper::DestroyVABuffers() {
+@@ -2064,6 +2141,7 @@ void VaapiWrapper::DestroyVABuffers() {
  }
  
  bool VaapiWrapper::IsRotationSupported() {
@@ -322,7 +322,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    base::AutoLock auto_lock(*va_lock_);
    VAProcPipelineCaps pipeline_caps;
    memset(&pipeline_caps, 0, sizeof(pipeline_caps));
-@@ -2074,6 +2152,10 @@ bool VaapiWrapper::IsRotationSupported()
+@@ -2078,6 +2156,10 @@ bool VaapiWrapper::IsRotationSupported()
      return false;
    }
    return true;
@@ -333,7 +333,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  }
  
  bool VaapiWrapper::BlitSurface(const VASurface& va_surface_src,
-@@ -2129,6 +2211,7 @@ bool VaapiWrapper::BlitSurface(const VAS
+@@ -2133,6 +2215,7 @@ bool VaapiWrapper::BlitSurface(const VAS
      pipeline_param->output_color_standard = VAProcColorStandardNone;
      pipeline_param->filter_flags = VA_FILTER_SCALING_DEFAULT;
  
@@ -341,7 +341,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
      switch (rotation) {
        case VIDEO_ROTATION_0:
          pipeline_param->rotation_state = VA_ROTATION_NONE;
-@@ -2143,6 +2226,7 @@ bool VaapiWrapper::BlitSurface(const VAS
+@@ -2147,6 +2230,7 @@ bool VaapiWrapper::BlitSurface(const VAS
          pipeline_param->rotation_state = VA_ROTATION_270;
          break;
      }
@@ -385,7 +385,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
 ===================================================================
 --- dev.orig/ui/gfx/x/gen_xproto.py
 +++ dev/ui/gfx/x/gen_xproto.py
-@@ -417,7 +417,7 @@ class GenXproto(FileWriter):
+@@ -418,7 +418,7 @@ class GenXproto(FileWriter):
              return 'Request'
          elif t.is_reply:
              return 'Reply'
@@ -394,7 +394,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
              return 'Event'
          return ''
  
-@@ -629,7 +629,7 @@ class GenXproto(FileWriter):
+@@ -630,7 +630,7 @@ class GenXproto(FileWriter):
                  copy_basic()
              else:
                  container_type, container_name = field.parent
@@ -403,7 +403,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
                  opcode = container_type.opcodes[container_name]
                  self.write('%s %s = %s;' % (type_name, name, opcode))
                  self.copy_primitive(name)
-@@ -650,7 +650,8 @@ class GenXproto(FileWriter):
+@@ -651,7 +651,8 @@ class GenXproto(FileWriter):
              self.copy_primitive(name)
  
      def declare_case(self, case):
@@ -413,7 +413,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
  
          fields = [
              field for case_field in case.type.fields
-@@ -666,7 +667,10 @@ class GenXproto(FileWriter):
+@@ -667,7 +668,10 @@ class GenXproto(FileWriter):
          return [(typename, name)]
  
      def copy_case(self, case, switch_name):
@@ -425,7 +425,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
          condition = ' || '.join([
              '%s(%s_expr, %s)' % (op, switch_name, self.expr(expr))
              for expr in case.type.expr
-@@ -1075,7 +1079,7 @@ class GenXproto(FileWriter):
+@@ -1076,7 +1080,7 @@ class GenXproto(FileWriter):
              self.write_special_container(item, name)
          if isinstance(item, self.xcbgen.xtypes.Request):
              self.define_request(item)
@@ -434,7 +434,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
              self.define_event(item, name)
  
      def declare_type(self, item, name):
-@@ -1083,7 +1087,7 @@ class GenXproto(FileWriter):
+@@ -1084,7 +1088,7 @@ class GenXproto(FileWriter):
              self.declare_union(item)
          elif isinstance(item, self.xcbgen.xtypes.Request):
              self.declare_request(item)
@@ -443,7 +443,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
              self.declare_event(item, name)
          elif item.is_container:
              self.declare_container(item, name)
-@@ -1163,7 +1167,7 @@ class GenXproto(FileWriter):
+@@ -1164,7 +1168,7 @@ class GenXproto(FileWriter):
                          and field_name in fields):
                      setattr(fields[field_name], for_type, field)
  
@@ -452,7 +452,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
                  self.resolve_type(field.type, field.field_type)
  
          if isinstance(t, self.xcbgen.xtypes.Request) and t.reply:
-@@ -1324,6 +1328,11 @@ class GenXproto(FileWriter):
+@@ -1325,6 +1329,11 @@ class GenXproto(FileWriter):
              self.write('#include "%s.h"' % direct_import[-1])
          self.write('#include "%s_undef.h"' % self.module.namespace.header)
          self.write()
@@ -570,7 +570,7 @@ Index: dev/ui/gfx/x/event.cc
 ===================================================================
 --- dev.orig/ui/gfx/x/event.cc
 +++ dev/ui/gfx/x/event.cc
-@@ -63,6 +63,10 @@ Event::Event(scoped_refptr<base::RefCoun
+@@ -54,6 +54,10 @@ Event::Event(scoped_refptr<base::RefCoun
      if ((xcb_event->response_type & ~kSendEventMask) ==
          x11::GeGenericEvent::opcode) {
        auto* ge = reinterpret_cast<xcb_ge_event_t*>(xcb_event);
@@ -581,7 +581,7 @@ Index: dev/ui/gfx/x/event.cc
        constexpr size_t ge_length = sizeof(xcb_raw_generic_event_t);
        constexpr size_t offset = sizeof(ge->full_sequence);
        size_t extended_length = ge->length * 4;
-@@ -78,6 +82,7 @@ Event::Event(scoped_refptr<base::RefCoun
+@@ -69,6 +73,7 @@ Event::Event(scoped_refptr<base::RefCoun
              event_bytes, offset, ge_length + extended_length);
          xcb_event = reinterpret_cast<xcb_generic_event_t*>(addr + offset);
        }

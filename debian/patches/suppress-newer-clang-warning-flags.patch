@@ -5,8 +5,8 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -690,14 +690,6 @@ config("compiler") {
-     ldflags += [ "-Wl,--no-call-graph-profile-sort" ]
+@@ -699,14 +699,6 @@ config("compiler") {
+     }
    }
  
 -  # This flag enforces that member pointer base types are complete. It helps
@@ -20,7 +20,7 @@ Index: dev/build/config/compiler/BUILD.gn
    # Pass the same C/C++ flags to the objective C/C++ compiler.
    cflags_objc += cflags_c
    cflags_objcc += cflags_cc
-@@ -1475,6 +1467,9 @@ config("default_warnings") {
+@@ -1484,6 +1476,9 @@ config("default_warnings") {
        # which we no longer use. Check if it makes sense to remove
        # this as well. http://crbug.com/316352
        "-Wno-unneeded-internal-declaration",

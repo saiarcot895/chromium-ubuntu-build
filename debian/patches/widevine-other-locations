@@ -2,9 +2,9 @@ Index: dev/chrome/common/chrome_paths.cc
 ===================================================================
 --- dev.orig/chrome/common/chrome_paths.cc
 +++ dev/chrome/common/chrome_paths.cc
-@@ -379,6 +379,20 @@ bool PathProvider(int key, base::FilePat
- 
- #if defined(OS_LINUX) && BUILDFLAG(BUNDLE_WIDEVINE_CDM)
+@@ -382,6 +382,20 @@ bool PathProvider(int key, base::FilePat
+ #if (defined(OS_LINUX) || defined(OS_CHROMEOS)) && \
+     BUILDFLAG(BUNDLE_WIDEVINE_CDM)
      case chrome::DIR_BUNDLED_WIDEVINE_CDM:
 +      if (base::PathExists(base::FilePath("/opt/google/chrome-unstable/").AppendASCII(kWidevineCdmBaseDirectory)) {
 +        cur = base::FilePath("/opt/google/chrome-unstable/").AppendASCII(kWidevineCdmBaseDirectory);
