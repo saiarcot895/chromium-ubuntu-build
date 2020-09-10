@@ -5,7 +5,7 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -488,16 +488,6 @@ config("compiler") {
+@@ -492,16 +492,6 @@ config("compiler") {
      ldflags += [ "-Wl,-z,keep-text-section-prefix" ]
    }
  
@@ -22,7 +22,7 @@ Index: dev/build/config/compiler/BUILD.gn
  
    # C11/C++11 compiler flags setup.
    # ---------------------------
-@@ -2304,14 +2294,6 @@ config("symbols") {
+@@ -2305,14 +2295,6 @@ config("symbols") {
        cflags += [ "-g2" ]
      }
  
@@ -34,6 +34,6 @@ Index: dev/build/config/compiler/BUILD.gn
 -      ]
 -    }
 -
-     if (use_debug_fission && !is_nacl && !is_android) {
-       # NOTE: Some Chrome OS builds globally set |use_debug_fission| to true,
-       # but they also build some targets against Android toolchains which aren't
+     if (is_apple) {
+       swiftflags = [ "-g" ]
+     }

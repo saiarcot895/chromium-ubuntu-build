@@ -13,7 +13,7 @@ Index: dev/build/toolchain/gcc_toolchain.gni
  }
  
  # When the arg is set via args.gn, it applies to all toolchains. In order to not
-@@ -589,12 +593,16 @@ template("clang_toolchain") {
+@@ -590,12 +594,16 @@ template("clang_toolchain") {
    }
  
    gcc_toolchain(target_name) {
@@ -32,5 +32,5 @@ Index: dev/build/toolchain/gcc_toolchain.gni
 -    ar = "${prefix}/llvm-ar"
 +    ar = "${toolprefix}ar"
      nm = "${toolprefix}nm"
+     dwp = "${toolprefix}dwp"
  
-     forward_variables_from(invoker,

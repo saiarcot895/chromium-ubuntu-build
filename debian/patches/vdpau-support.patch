@@ -4,7 +4,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
 +++ dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
-@@ -710,7 +710,8 @@ void VaapiVideoDecodeAccelerator::Assign
+@@ -702,7 +702,8 @@ void VaapiVideoDecodeAccelerator::Assign
    // If we aren't in BufferAllocationMode::kNone, we have to allocate a
    // |vpp_vaapi_wrapper_| for VaapiPicture to DownloadFromSurface() the VA's
    // internal decoded frame.
@@ -14,7 +14,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
      if (!vpp_vaapi_wrapper_) {
        vpp_vaapi_wrapper_ = VaapiWrapper::Create(
            VaapiWrapper::kVideoProcess, VAProfileNone,
-@@ -1215,6 +1216,12 @@ VaapiVideoDecodeAccelerator::DecideBuffe
+@@ -1208,6 +1209,12 @@ VaapiVideoDecodeAccelerator::DecideBuffe
      return BufferAllocationMode::kReduced;
    return BufferAllocationMode::kSuperReduced;
  #else
@@ -27,7 +27,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
    // TODO(crbug.com/912295): Enable a better BufferAllocationMode for IMPORT
    // |output_mode_| as well.
    if (output_mode_ == VideoDecodeAccelerator::Config::OutputMode::IMPORT)
-@@ -1225,7 +1232,7 @@ VaapiVideoDecodeAccelerator::DecideBuffe
+@@ -1218,7 +1225,7 @@ VaapiVideoDecodeAccelerator::DecideBuffe
    // associated format reconciliation copy, avoiding all internal buffer
    // allocations.
    // TODO(crbug.com/911754): Enable for VP9 Profile 2.
@@ -52,7 +52,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -136,6 +136,9 @@ media::VAImplementation VendorStringToIm
+@@ -214,6 +214,9 @@ media::VAImplementation VendorStringToIm
    } else if (base::StartsWith(va_vendor_string, "Intel iHD driver",
                                base::CompareCase::SENSITIVE)) {
      return media::VAImplementation::kIntelIHD;
@@ -62,7 +62,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
    return media::VAImplementation::kOther;
  }
-@@ -1598,6 +1601,11 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+@@ -1674,6 +1677,11 @@ VaapiWrapper::ExportVASurfaceAsNativePix
      return nullptr;
    }
  
@@ -74,7 +74,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    VADRMPRIMESurfaceDescriptor descriptor;
    {
      base::AutoLock auto_lock(*va_lock_);
-@@ -2283,32 +2291,43 @@ bool VaapiWrapper::CreateSurfaces(unsign
+@@ -2365,32 +2373,43 @@ bool VaapiWrapper::CreateSurfaces(unsign
    DCHECK(va_surfaces->empty());
  
    va_surfaces->resize(num_surfaces);
@@ -136,13 +136,13 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 +          num_surfaces, &attribute, 1u);
 +    }
    }
-   VA_LOG_ON_ERROR(va_res, "vaCreateSurfaces (allocate mode)");
+   VA_LOG_ON_ERROR(va_res, VaapiFunctions::kVACreateSurfaces_Allocating);
    return va_res == VA_STATUS_SUCCESS;
 Index: dev/media/gpu/vaapi/vaapi_wrapper.h
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.h
 +++ dev/media/gpu/vaapi/vaapi_wrapper.h
-@@ -80,6 +80,7 @@ enum class VAImplementation {
+@@ -87,6 +87,7 @@ enum class VAImplementation {
    kIntelIHD,
    kOther,
    kInvalid,

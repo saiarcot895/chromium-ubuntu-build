@@ -1,3 +1,11 @@
+chromium-browser (1:87.0.4252.0-0ubuntu1~ppa1~19.10.1) eoan; urgency=low
+
+  * New upstream version 87.0.4252.0
+  * Do a epoch bump on all versions to match Ubuntu 20.04's epoch bump.
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 09 Sep 2020 20:09:49 -0400
+
 chromium-browser (86.0.4238.0-0ubuntu1~ppa1~19.10.1) eoan; urgency=low
 
   * New upstream version 86.0.4238.0
