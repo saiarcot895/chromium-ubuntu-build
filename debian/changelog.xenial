@@ -1,3 +1,11 @@
+chromium-browser (1:86.0.4240.30-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
+
+  * New upstream version 86.0.4240.30
+  * Do a epoch bump on all versions to match Ubuntu 20.04's epoch bump.
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 11 Sep 2020 12:19:09 -0400
+
 chromium-browser (86.0.4238.0-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
 
   * New upstream version 86.0.4238.0
