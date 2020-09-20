@@ -40,7 +40,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -2733,7 +2733,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -2672,7 +2672,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
          flag_descriptions::kAcceleratedVideoDecodeDescription,
@@ -49,7 +49,7 @@ Index: dev/chrome/browser/about_flags.cc
          SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
  #endif  // defined(OS_LINUX) && !defined(OS_CHROMEOS) && !defined(OS_ANDROID)
-@@ -3182,10 +3182,10 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -3110,10 +3110,10 @@ const FeatureEntry kFeatureEntries[] = {
       flag_descriptions::kWebXrForceRuntimeDescription, kOsDesktop,
       MULTI_VALUE_TYPE(kWebXrForceRuntimeChoices)},
  #endif  // ENABLE_VR
@@ -66,7 +66,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
 ===================================================================
 --- dev.orig/chrome/browser/flag_descriptions.cc
 +++ dev/chrome/browser/flag_descriptions.cc
-@@ -3535,9 +3535,7 @@ const char kVideoToolboxVp9DecodingDescr
+@@ -3524,9 +3524,7 @@ const char kVideoToolboxVp9DecodingDescr
  
  #endif
  
@@ -77,7 +77,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
  
  const char kAcceleratedMjpegDecodeName[] =
      "Hardware-accelerated mjpeg decode for captured frame";
-@@ -3545,6 +3543,12 @@ const char kAcceleratedMjpegDecodeDescri
+@@ -3534,6 +3532,12 @@ const char kAcceleratedMjpegDecodeDescri
      "Enable hardware-accelerated mjpeg decode for captured frame where "
      "available.";
  
@@ -94,7 +94,7 @@ Index: dev/chrome/browser/flag_descriptions.h
 ===================================================================
 --- dev.orig/chrome/browser/flag_descriptions.h
 +++ dev/chrome/browser/flag_descriptions.h
-@@ -2037,13 +2037,17 @@ extern const char kVideoToolboxVp9Decodi
+@@ -2027,13 +2027,17 @@ extern const char kVideoToolboxVp9Decodi
  
  #endif  // defined(OS_MAC)
  
@@ -140,7 +140,7 @@ Index: dev/media/base/media_switches.cc
 ===================================================================
 --- dev.orig/media/base/media_switches.cc
 +++ dev/media/base/media_switches.cc
-@@ -799,7 +799,7 @@ bool IsVideoCaptureAcceleratedJpegDecodi
+@@ -814,7 +814,7 @@ bool IsVideoCaptureAcceleratedJpegDecodi
            switches::kUseFakeMjpegDecodeAccelerator)) {
      return true;
    }
@@ -153,7 +153,7 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
 ===================================================================
 --- dev.orig/media/gpu/gpu_video_decode_accelerator_factory.cc
 +++ dev/media/gpu/gpu_video_decode_accelerator_factory.cc
-@@ -160,6 +160,8 @@ GpuVideoDecodeAcceleratorFactory::Create
+@@ -168,6 +168,8 @@ GpuVideoDecodeAcceleratorFactory::Create
      vda = (this->*create_vda_function)(workarounds, gpu_preferences, media_log);
      if (vda && vda->Initialize(config, client))
        return vda;
@@ -162,7 +162,7 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
    }
  
    return nullptr;
-@@ -218,6 +220,7 @@ GpuVideoDecodeAcceleratorFactory::Create
+@@ -226,6 +228,7 @@ GpuVideoDecodeAcceleratorFactory::Create
      const gpu::GpuDriverBugWorkarounds& workarounds,
      const gpu::GpuPreferences& gpu_preferences,
      MediaLog* media_log) const {
