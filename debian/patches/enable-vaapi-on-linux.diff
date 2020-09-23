@@ -289,3 +289,63 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
                 << vaConfigAttribTypeStr(required_attribs[i].type);
        return false;
      }
+Index: dev/ui/gfx/x/x11.h
+===================================================================
+--- dev.orig/ui/gfx/x/x11.h
++++ dev/ui/gfx/x/x11.h
+@@ -139,6 +139,9 @@ using xcb_connection_t = struct xcb_conn
+ 
+ enum XEventQueueOwner { XlibOwnsEventQueue = 0, XCBOwnsEventQueue };
+ 
++#ifndef _X11_XLIB_H_
++#define _X11_XLIB_H_
++
+ using XErrorEvent = struct {
+   int type;
+   Display* display;
+@@ -261,12 +264,14 @@ using XWindowChanges = struct {
+ 
+ using XModifierKeymap = struct {
+   int max_keypermod;
+-  KeyCode* modifiermap;
+-};
++  KeyCode* modifiermap;};
++
+ 
+ using XErrorHandler = int (*)(Display*, XErrorEvent*);
+ using XIOErrorHandler = int (*)(Display*);
+ 
++#endif
++
+ Status XInitThreads(void);
+ Display* XOpenDisplay(const char*);
+ int XCloseDisplay(Display*);
+@@ -276,6 +281,7 @@ xcb_connection_t* XGetXCBConnection(Disp
+ void XSetEventQueueOwner(Display* dpy, enum XEventQueueOwner owner);
+ int XDefaultScreen(Display*);
+ Window XDefaultRootWindow(Display*);
++Window XRootWindow(Display*, int);
+ Visual* XDefaultVisual(Display*, int);
+ unsigned long XLastKnownRequestProcessed(Display*);
+ int (*XSynchronize(Display*, Bool))(Display*);
+@@ -297,6 +303,7 @@ int XGrabKey(Display*, int, unsigned int
+ int XUngrabKey(Display*, int, unsigned int, Window);
+ int XSelectInput(Display*, Window, long);
+ int XSetWindowBackgroundPixmap(Display*, Window, Pixmap);
++int XFreePixmap(Display*, Pixmap);
+ Window XCreateWindow(Display*,
+                      Window,
+                      int,
+Index: dev/media/gpu/vaapi/vaapi_picture_tfp.cc
+===================================================================
+--- dev.orig/media/gpu/vaapi/vaapi_picture_tfp.cc
++++ dev/media/gpu/vaapi/vaapi_picture_tfp.cc
+@@ -85,7 +85,7 @@ Status VaapiTFPPicture::Allocate(gfx::Bu
+   }
+ 
+   XWindowAttributes win_attr;
+-  int screen = DefaultScreen(x_display_);
++  int screen = XDefaultScreen(x_display_);
+   XGetWindowAttributes(x_display_, XRootWindow(x_display_, screen), &win_attr);
+   // TODO(posciak): pass the depth required by libva, not the RootWindow's
+   // depth
