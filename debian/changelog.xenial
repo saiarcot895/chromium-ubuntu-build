@@ -1,3 +1,9 @@
+chromium-browser (1:87.0.4263.3-0ubuntu1~ppa3~16.04.1) xenial; urgency=low
+
+  * Add more missing Xlib definitions.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 27 Sep 2020 02:25:49 -0400
+
 chromium-browser (1:87.0.4263.3-0ubuntu1~ppa2~16.04.1) xenial; urgency=low
 
   * Fix Xlib definition conflicts.

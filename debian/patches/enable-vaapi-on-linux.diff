@@ -293,7 +293,11 @@ Index: dev/ui/gfx/x/x11.h
 ===================================================================
 --- dev.orig/ui/gfx/x/x11.h
 +++ dev/ui/gfx/x/x11.h
-@@ -139,6 +139,9 @@ using xcb_connection_t = struct xcb_conn
+@@ -136,9 +136,13 @@ using Time = unsigned long;
+ using GC = struct _XGC*;
+ using Display = struct _XDisplay;
+ using xcb_connection_t = struct xcb_connection_t;
++using Drawable = XID;
  
  enum XEventQueueOwner { XlibOwnsEventQueue = 0, XCBOwnsEventQueue };
  
@@ -303,7 +307,7 @@ Index: dev/ui/gfx/x/x11.h
  using XErrorEvent = struct {
    int type;
    Display* display;
-@@ -261,12 +264,14 @@ using XWindowChanges = struct {
+@@ -261,12 +265,14 @@ using XWindowChanges = struct {
  
  using XModifierKeymap = struct {
    int max_keypermod;
@@ -320,7 +324,7 @@ Index: dev/ui/gfx/x/x11.h
  Status XInitThreads(void);
  Display* XOpenDisplay(const char*);
  int XCloseDisplay(Display*);
-@@ -276,6 +281,7 @@ xcb_connection_t* XGetXCBConnection(Disp
+@@ -276,6 +282,7 @@ xcb_connection_t* XGetXCBConnection(Disp
  void XSetEventQueueOwner(Display* dpy, enum XEventQueueOwner owner);
  int XDefaultScreen(Display*);
  Window XDefaultRootWindow(Display*);
@@ -328,14 +332,23 @@ Index: dev/ui/gfx/x/x11.h
  Visual* XDefaultVisual(Display*, int);
  unsigned long XLastKnownRequestProcessed(Display*);
  int (*XSynchronize(Display*, Bool))(Display*);
-@@ -297,6 +303,7 @@ int XGrabKey(Display*, int, unsigned int
+@@ -297,6 +304,8 @@ int XGrabKey(Display*, int, unsigned int
  int XUngrabKey(Display*, int, unsigned int, Window);
  int XSelectInput(Display*, Window, long);
  int XSetWindowBackgroundPixmap(Display*, Window, Pixmap);
++Pixmap XCreatePixmap(Display*, Drawable, unsigned int, unsigned int, unsigned int);
 +int XFreePixmap(Display*, Pixmap);
  Window XCreateWindow(Display*,
                       Window,
                       int,
+@@ -383,6 +392,7 @@ static constexpr long CurrentTime = 0L;
+ static constexpr int False = 0;
+ static constexpr int True = 1;
+ static constexpr int Success = 0;
++static constexpr int BadValue = 2;
+ }  // namespace x11
+ 
+ #endif  // UI_GFX_X_X11_H_
 Index: dev/media/gpu/vaapi/vaapi_picture_tfp.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_picture_tfp.cc
@@ -349,3 +362,16 @@ Index: dev/media/gpu/vaapi/vaapi_picture_tfp.cc
    XGetWindowAttributes(x_display_, XRootWindow(x_display_, screen), &win_attr);
    // TODO(posciak): pass the depth required by libva, not the RootWindow's
    // depth
+Index: dev/media/gpu/vaapi/vaapi_picture_native_pixmap_angle.cc
+===================================================================
+--- dev.orig/media/gpu/vaapi/vaapi_picture_native_pixmap_angle.cc
++++ dev/media/gpu/vaapi/vaapi_picture_native_pixmap_angle.cc
+@@ -20,7 +20,7 @@ inline Pixmap CreatePixmap(const gfx::Si
+   if (!display)
+     return 0;
+ 
+-  int screen = DefaultScreen(display);
++  int screen = XDefaultScreen(display);
+   auto root = XRootWindow(display, screen);
+   if (root == BadValue)
+     return 0;
