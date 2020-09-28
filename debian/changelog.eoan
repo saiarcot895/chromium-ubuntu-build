@@ -1,3 +1,9 @@
+chromium-browser (1:87.0.4263.3-0ubuntu1~ppa4~19.10.1) eoan; urgency=low
+
+  * Fix more Xlib issues.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 28 Sep 2020 14:31:54 -0400
+
 chromium-browser (1:87.0.4263.3-0ubuntu1~ppa3~19.10.1) eoan; urgency=low
 
   * Add more missing Xlib definitions.
