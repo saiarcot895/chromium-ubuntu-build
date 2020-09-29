@@ -1,3 +1,9 @@
+chromium-browser (1:87.0.4263.3-0ubuntu1~ppa5~16.04.1) xenial; urgency=low
+
+  * Fix more build errors.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 29 Sep 2020 02:32:54 -0400
+
 chromium-browser (1:87.0.4263.3-0ubuntu1~ppa4~16.04.1) xenial; urgency=low
 
   * Fix more Xlib issues.

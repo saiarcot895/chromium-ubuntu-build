@@ -366,12 +366,15 @@ Index: dev/media/gpu/vaapi/vaapi_picture_native_pixmap_angle.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_picture_native_pixmap_angle.cc
 +++ dev/media/gpu/vaapi/vaapi_picture_native_pixmap_angle.cc
-@@ -20,7 +20,7 @@ inline Pixmap CreatePixmap(const gfx::Si
+@@ -20,9 +20,9 @@ inline Pixmap CreatePixmap(const gfx::Si
    if (!display)
      return 0;
  
 -  int screen = DefaultScreen(display);
 +  int screen = XDefaultScreen(display);
    auto root = XRootWindow(display, screen);
-   if (root == BadValue)
+-  if (root == BadValue)
++  if (root == x11::BadValue)
      return 0;
+ 
+   XWindowAttributes win_attr = {};
