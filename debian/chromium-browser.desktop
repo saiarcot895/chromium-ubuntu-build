@@ -167,7 +167,7 @@ Comment[vi]=Truy cập Internet
 Comment[zh_CN]=访问互联网
 Comment[zh_HK]=連線到網際網路
 Comment[zh_TW]=連線到網際網路
-Exec=chromium-browser %U
+Exec=chromium-browser %U --user-agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36"
 Terminal=false
 X-MultipleArgs=false
 Type=Application
@@ -216,7 +216,7 @@ Name[uk]=Відкрити нове вікно
 Name[vi]=Mở cửa sổ mới
 Name[zh_CN]=打开新窗口
 Name[zh_TW]=開啟新視窗
-Exec=chromium-browser
+Exec=chromium-browser --user-agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36"
 
 [Desktop Action Incognito]
 Name=Open a New Window in incognito mode
@@ -254,7 +254,7 @@ Name[uk]=Відкрити нове вікно у приватному режим
 Name[vi]=Mở cửa sổ mới trong chế độ ẩn danh
 Name[zh_CN]=以隐身模式打开新窗口
 Name[zh_TW]=以匿名模式開啟新視窗
-Exec=chromium-browser --incognito
+Exec=chromium-browser --incognito --user-agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36"
 
 [Desktop Action TempProfile]
 Name=Open a New Window with a temporary profile
@@ -292,4 +292,4 @@ Name[ug]=ۋاقىتلىق سەپلىمە ھۆججەت بىلەن يېڭى كۆز
 Name[vi]=Mở cửa sổ mới với hồ sơ tạm
 Name[zh_CN]=以临时配置文件打开新窗口
 Name[zh_TW]=以暫時性個人身分開啟新視窗
-Exec=chromium-browser --temp-profile
+Exec=chromium-browser --temp-profile --user-agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36"
