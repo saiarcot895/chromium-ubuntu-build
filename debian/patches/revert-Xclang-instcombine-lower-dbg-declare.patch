@@ -5,7 +5,7 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -492,16 +492,6 @@ config("compiler") {
+@@ -480,35 +480,6 @@ config("compiler") {
      ldflags += [ "-Wl,-z,keep-text-section-prefix" ]
    }
  
@@ -18,16 +18,35 @@ Index: dev/build/config/compiler/BUILD.gn
 -      "-mllvm",
 -      "-instcombine-lower-dbg-declare=0",
 -    ]
+-
+-    # Pinned clang has enable-dse-memoryssa enabled by default but it's broken,
+-    # so we have to force it off.
+-    # Trunk clang has it disabled by default but it might work, so we force it
+-    # on so the ToT bots can check if it works now.
+-    if (!llvm_force_head_revision) {
+-      cflags += [
+-        # TODO(https://crbug.com/1127713): Investigate, remove.
+-        "-mllvm",
+-        "-enable-dse-memoryssa=false",
+-      ]
+-    }
+-    if (llvm_force_head_revision) {
+-      cflags += [
+-        # TODO(https://crbug.com/1127713): Investigate, remove.
+-        "-mllvm",
+-        "-enable-dse-memoryssa=true",
+-      ]
+-    }
 -  }
  
    # C11/C++11 compiler flags setup.
    # ---------------------------
-@@ -2302,14 +2292,6 @@ config("symbols") {
+@@ -2300,14 +2271,6 @@ config("symbols") {
        cflags += [ "-g2" ]
      }
  
 -    # TODO(https://crbug.com/1050118): Investigate missing debug info on mac.
--    if (is_clang && !is_nacl && !use_xcode_clang && !is_mac && !is_ios) {
+-    if (is_clang && !is_nacl && !use_xcode_clang && !is_apple) {
 -      cflags += [
 -        "-Xclang",
 -        "-debug-info-kind=constructor",

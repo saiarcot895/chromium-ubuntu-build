@@ -40,7 +40,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -2672,7 +2672,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -2849,7 +2849,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
          flag_descriptions::kAcceleratedVideoDecodeDescription,
@@ -49,7 +49,7 @@ Index: dev/chrome/browser/about_flags.cc
          SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
  #endif  // defined(OS_LINUX) && !defined(OS_CHROMEOS) && !defined(OS_ANDROID)
-@@ -3110,10 +3110,10 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -3311,10 +3311,10 @@ const FeatureEntry kFeatureEntries[] = {
       flag_descriptions::kWebXrForceRuntimeDescription, kOsDesktop,
       MULTI_VALUE_TYPE(kWebXrForceRuntimeChoices)},
  #endif  // ENABLE_VR
@@ -66,7 +66,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
 ===================================================================
 --- dev.orig/chrome/browser/flag_descriptions.cc
 +++ dev/chrome/browser/flag_descriptions.cc
-@@ -3524,9 +3524,7 @@ const char kVideoToolboxVp9DecodingDescr
+@@ -3548,9 +3548,7 @@ const char kVideoToolboxVp9DecodingDescr
  
  #endif
  
@@ -77,7 +77,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
  
  const char kAcceleratedMjpegDecodeName[] =
      "Hardware-accelerated mjpeg decode for captured frame";
-@@ -3534,6 +3532,12 @@ const char kAcceleratedMjpegDecodeDescri
+@@ -3558,6 +3556,12 @@ const char kAcceleratedMjpegDecodeDescri
      "Enable hardware-accelerated mjpeg decode for captured frame where "
      "available.";
  
@@ -94,7 +94,7 @@ Index: dev/chrome/browser/flag_descriptions.h
 ===================================================================
 --- dev.orig/chrome/browser/flag_descriptions.h
 +++ dev/chrome/browser/flag_descriptions.h
-@@ -2027,13 +2027,17 @@ extern const char kVideoToolboxVp9Decodi
+@@ -2036,13 +2036,17 @@ extern const char kVideoToolboxVp9Decodi
  
  #endif  // defined(OS_MAC)
  
@@ -124,10 +124,10 @@ Index: dev/content/gpu/BUILD.gn
  import("//gpu/vulkan/features.gni")
  import("//media/media_options.gni")
 +import("//media/gpu/args.gni")
- import("//ui/ozone/ozone.gni")
  
- # See //content/BUILD.gn for how this works.
-@@ -128,4 +129,8 @@ target(link_target_type, "gpu_sources")
+ # This file depends on the legacy global sources assignment filter. It should
+ # be converted to check target platform before assigning source files to the
+@@ -133,4 +134,8 @@ target(link_target_type, "gpu_sources")
        (!is_chromecast || is_cast_desktop_build)) {
      configs += [ "//build/config/linux/dri" ]
    }
@@ -140,7 +140,7 @@ Index: dev/media/base/media_switches.cc
 ===================================================================
 --- dev.orig/media/base/media_switches.cc
 +++ dev/media/base/media_switches.cc
-@@ -814,7 +814,7 @@ bool IsVideoCaptureAcceleratedJpegDecodi
+@@ -827,7 +827,7 @@ bool IsVideoCaptureAcceleratedJpegDecodi
            switches::kUseFakeMjpegDecodeAccelerator)) {
      return true;
    }
@@ -153,7 +153,7 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
 ===================================================================
 --- dev.orig/media/gpu/gpu_video_decode_accelerator_factory.cc
 +++ dev/media/gpu/gpu_video_decode_accelerator_factory.cc
-@@ -168,6 +168,8 @@ GpuVideoDecodeAcceleratorFactory::Create
+@@ -160,6 +160,8 @@ GpuVideoDecodeAcceleratorFactory::Create
      vda = (this->*create_vda_function)(workarounds, gpu_preferences, media_log);
      if (vda && vda->Initialize(config, client))
        return vda;
@@ -162,7 +162,7 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
    }
  
    return nullptr;
-@@ -226,6 +228,7 @@ GpuVideoDecodeAcceleratorFactory::Create
+@@ -218,6 +220,7 @@ GpuVideoDecodeAcceleratorFactory::Create
      const gpu::GpuDriverBugWorkarounds& workarounds,
      const gpu::GpuPreferences& gpu_preferences,
      MediaLog* media_log) const {
@@ -174,7 +174,7 @@ Index: dev/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
 +++ dev/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
-@@ -378,6 +378,7 @@ bool GpuVideoDecodeAccelerator::Initiali
+@@ -384,6 +384,7 @@ bool GpuVideoDecodeAccelerator::Initiali
      LOG(ERROR) << "Failed creating the VDA factory";
      return false;
    }
@@ -182,7 +182,7 @@ Index: dev/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
  
    const gpu::GpuDriverBugWorkarounds& gpu_workarounds =
        stub_->channel()->gpu_channel_manager()->gpu_driver_bug_workarounds();
-@@ -398,6 +399,7 @@ bool GpuVideoDecodeAccelerator::Initiali
+@@ -404,6 +405,7 @@ bool GpuVideoDecodeAccelerator::Initiali
                 << (config.is_encrypted() ? " with encryption" : "");
      return false;
    }
@@ -194,7 +194,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -446,6 +446,11 @@ void VADisplayState::PreSandboxInitializ
+@@ -461,6 +461,11 @@ void VADisplayState::PreSandboxInitializ
        base::File::FLAG_OPEN | base::File::FLAG_READ | base::File::FLAG_WRITE);
    if (drm_file.IsValid())
      VADisplayState::Get()->SetDrmFd(drm_file.GetPlatformFile());
@@ -206,7 +206,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  }
  
  VADisplayState::VADisplayState()
-@@ -473,10 +478,6 @@ bool VADisplayState::Initialize() {
+@@ -567,10 +572,6 @@ bool VADisplayState::InitializeVaDriver_
  }
  
  bool VADisplayState::InitializeOnce() {
@@ -214,73 +214,18 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 -      VA_MAJOR_VERSION >= 2 || (VA_MAJOR_VERSION == 1 && VA_MINOR_VERSION >= 1),
 -      "Requires VA-API >= 1.1.0");
 -
-   switch (gl::GetGLImplementation()) {
-     case gl::kGLImplementationEGLGLES2:
-       va_display_ = vaGetDisplayDRM(drm_fd_.get());
-@@ -492,9 +493,13 @@ bool VADisplayState::InitializeOnce() {
-       break;
-     case gl::kGLImplementationEGLANGLE:
- #if defined(USE_X11)
--      if (!features::IsUsingOzonePlatform())
-+      if (!features::IsUsingOzonePlatform()) {
-         va_display_ = vaGetDisplay(gfx::GetXDisplay());
-+        if (vaDisplayIsValid(va_display_))
-+          break;
-+      }
- #endif  // USE_X11
-+      va_display_ = vaGetDisplayDRM(drm_fd_.get());
-       break;
-     // Cannot infer platform from GL, try all available displays
-     case gl::kGLImplementationNone:
-@@ -525,25 +530,23 @@ bool VADisplayState::InitializeOnce() {
-   if (!env->HasVar(libva_log_level_env))
-     env->SetVar(libva_log_level_env, "1");
- 
--#if defined(USE_X11)
--  if (gl::GetGLImplementation() == gl::kGLImplementationEGLANGLE) {
--    DCHECK(!features::IsUsingOzonePlatform());
--    constexpr char libva_driver_impl_env[] = "LIBVA_DRIVER_NAME";
--    // TODO(crbug/1116703) The libva intel-media driver has a known segfault in
--    // vaPutSurface, so until this is fixed, fall back to the i965 driver. There
--    // is discussion of the issue here:
--    // https://github.com/intel/media-driver/issues/818
--    if (!env->HasVar(libva_driver_impl_env))
--      env->SetVar(libva_driver_impl_env, "i965");
--  }
--#endif  // USE_X11
+   // Set VA logging level, unless already set.
+   constexpr char libva_log_level_env[] = "LIBVA_MESSAGING_LEVEL";
+   std::unique_ptr<base::Environment> env(base::Environment::Create());
+@@ -591,7 +592,6 @@ bool VADisplayState::InitializeOnce() {
+     // https://github.com/intel/media-driver/issues/818
+     if (!env->HasVar(libva_driver_impl_env))
+       env->SetVar(libva_driver_impl_env, "i965");
 -
-   // The VAAPI version.
-   int major_version, minor_version;
-   VAStatus va_res = vaInitialize(va_display_, &major_version, &minor_version);
-   if (va_res != VA_STATUS_SUCCESS) {
--    LOG(ERROR) << "vaInitialize failed: " << vaErrorStr(va_res);
--    return false;
-+    LOG(ERROR) << "vaInitialize failed (ignore if using Wayland desktop environment): " << vaErrorStr(va_res);
-+    va_display_ = vaGetDisplayDRM(drm_fd_.get());
-+    if (!vaDisplayIsValid(va_display_)) {
-+      LOG(ERROR) << "Could not get a valid DRM VA display";
-+      return false;
-+    }
-+    va_res = vaInitialize(va_display_, &major_version, &minor_version);
-+    if (va_res != VA_STATUS_SUCCESS) {
-+      LOG(ERROR) << "vaInitialize failed using DRM: " << vaErrorStr(va_res);
-+      return false;
-+    } else {
-+      LOG(WARNING) << "vaInitialize succeeded for DRM";
-+    }
-   }
- 
-   va_initialized_ = true;
-@@ -551,7 +554,7 @@ bool VADisplayState::InitializeOnce() {
-   const std::string va_vendor_string = vaQueryVendorString(va_display_);
-   DLOG_IF(WARNING, va_vendor_string.empty())
-       << "Vendor string empty or error reading.";
--  DVLOG(1) << "VAAPI version: " << major_version << "." << minor_version << " "
-+  VLOG(1) << "VAAPI version: " << major_version << "." << minor_version << " "
-            << va_vendor_string;
-   implementation_type_ = VendorStringToImplementationType(va_vendor_string);
- 
-@@ -740,7 +743,7 @@ bool AreAttribsSupported(const base::Loc
+     // Re-initialize with the new driver.
+     va_display_ = nullptr;
+     va_initialized_ = false;
+@@ -774,7 +774,7 @@ bool AreAttribsSupported(const base::Loc
      if (attribs[i].type != required_attribs[i].type ||
          (attribs[i].value & required_attribs[i].value) !=
              required_attribs[i].value) {
@@ -293,7 +238,7 @@ Index: dev/ui/gfx/x/x11.h
 ===================================================================
 --- dev.orig/ui/gfx/x/x11.h
 +++ dev/ui/gfx/x/x11.h
-@@ -136,9 +136,13 @@ using Time = unsigned long;
+@@ -34,6 +34,7 @@ using Time = unsigned long;
  using GC = struct _XGC*;
  using Display = struct _XDisplay;
  using xcb_connection_t = struct xcb_connection_t;
@@ -301,80 +246,20 @@ Index: dev/ui/gfx/x/x11.h
  
  enum XEventQueueOwner { XlibOwnsEventQueue = 0, XCBOwnsEventQueue };
  
-+#ifndef _X11_XLIB_H_
-+#define _X11_XLIB_H_
-+
- using XErrorEvent = struct {
-   int type;
-   Display* display;
-@@ -261,12 +265,14 @@ using XWindowChanges = struct {
- 
- using XModifierKeymap = struct {
-   int max_keypermod;
--  KeyCode* modifiermap;
--};
-+  KeyCode* modifiermap;};
-+
- 
- using XErrorHandler = int (*)(Display*, XErrorEvent*);
- using XIOErrorHandler = int (*)(Display*);
- 
-+#endif
-+
- Status XInitThreads(void);
- Display* XOpenDisplay(const char*);
- int XCloseDisplay(Display*);
-@@ -276,6 +282,7 @@ xcb_connection_t* XGetXCBConnection(Disp
+@@ -56,6 +57,7 @@ int XCloseDisplay(Display*);
+ int XFlush(Display*);
+ xcb_connection_t* XGetXCBConnection(Display* dpy);
  void XSetEventQueueOwner(Display* dpy, enum XEventQueueOwner owner);
- int XDefaultScreen(Display*);
- Window XDefaultRootWindow(Display*);
 +Window XRootWindow(Display*, int);
- Visual* XDefaultVisual(Display*, int);
  unsigned long XLastKnownRequestProcessed(Display*);
  int (*XSynchronize(Display*, Bool))(Display*);
-@@ -297,6 +304,8 @@ int XGrabKey(Display*, int, unsigned int
- int XUngrabKey(Display*, int, unsigned int, Window);
- int XSelectInput(Display*, Window, long);
- int XSetWindowBackgroundPixmap(Display*, Window, Pixmap);
+ int XGetErrorDatabaseText(Display*,
+@@ -68,6 +70,8 @@ int XGetErrorText(Display*, int, char*,
+ XErrorHandler XSetErrorHandler(XErrorHandler);
+ XIOErrorHandler XSetIOErrorHandler(XIOErrorHandler);
+ int XStoreName(Display*, Window, const char*);
 +Pixmap XCreatePixmap(Display*, Drawable, unsigned int, unsigned int, unsigned int);
 +int XFreePixmap(Display*, Pixmap);
- Window XCreateWindow(Display*,
-                      Window,
-                      int,
-@@ -383,6 +392,7 @@ static constexpr long CurrentTime = 0L;
- static constexpr int False = 0;
- static constexpr int True = 1;
- static constexpr int Success = 0;
-+static constexpr int BadValue = 2;
- }  // namespace x11
+ }
  
  #endif  // UI_GFX_X_X11_H_
-Index: dev/media/gpu/vaapi/vaapi_picture_tfp.cc
-===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_picture_tfp.cc
-+++ dev/media/gpu/vaapi/vaapi_picture_tfp.cc
-@@ -85,7 +85,7 @@ Status VaapiTFPPicture::Allocate(gfx::Bu
-   }
- 
-   XWindowAttributes win_attr;
--  int screen = DefaultScreen(x_display_);
-+  int screen = XDefaultScreen(x_display_);
-   XGetWindowAttributes(x_display_, XRootWindow(x_display_, screen), &win_attr);
-   // TODO(posciak): pass the depth required by libva, not the RootWindow's
-   // depth
-Index: dev/media/gpu/vaapi/vaapi_picture_native_pixmap_angle.cc
-===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_picture_native_pixmap_angle.cc
-+++ dev/media/gpu/vaapi/vaapi_picture_native_pixmap_angle.cc
-@@ -20,9 +20,9 @@ inline Pixmap CreatePixmap(const gfx::Si
-   if (!display)
-     return 0;
- 
--  int screen = DefaultScreen(display);
-+  int screen = XDefaultScreen(display);
-   auto root = XRootWindow(display, screen);
--  if (root == BadValue)
-+  if (root == x11::BadValue)
-     return 0;
- 
-   XWindowAttributes win_attr = {};
