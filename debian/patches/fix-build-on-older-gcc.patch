@@ -665,3 +665,23 @@ Index: dev/ui/ozone/platform/wayland/host/gtk_ui_delegate_wayland.cc
  
  namespace ui {
  
+Index: dev/sandbox/policy/linux/bpf_gpu_policy_linux.cc
+===================================================================
+--- dev.orig/sandbox/policy/linux/bpf_gpu_policy_linux.cc
++++ dev/sandbox/policy/linux/bpf_gpu_policy_linux.cc
+@@ -46,6 +46,7 @@ ResultExpr GpuProcessPolicy::EvaluateSys
+       return Allow();
+ #endif  // defined(OS_CHROMEOS)
+     case __NR_fcntl: {
++#if defined(F_SEAL_SEAL)
+       // The Nvidia driver uses flags not in the baseline policy
+       // fcntl(fd, F_ADD_SEALS, F_SEAL_SEAL | F_SEAL_SHRINK | F_SEAL_GROW)
+       // https://crbug.com/1128175
+@@ -55,6 +56,7 @@ ResultExpr GpuProcessPolicy::EvaluateSys
+       const uint64_t kAllowedMask = F_SEAL_SEAL | F_SEAL_SHRINK | F_SEAL_GROW;
+       if (cmd == F_ADD_SEALS && (long_arg & ~kAllowedMask) == 0)
+         return Allow();
++#endif
+ 
+       break;
+     }
