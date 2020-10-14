@@ -46,3 +46,4 @@ dont-run-code-formatting.patch
 gn-link-with-libc.patch
 fix-build-errors.patch
 rename-python-to-python2.patch
+fix-pipewire-library-name.patch

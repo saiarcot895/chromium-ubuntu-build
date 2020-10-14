@@ -1,3 +1,9 @@
+chromium-browser (1:87.0.4280.11-0ubuntu1~ppa3~20.10.1) groovy; urgency=low
+
+  * Fix pipewire library name in Groovy.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 14 Oct 2020 15:13:03 -0400
+
 chromium-browser (1:87.0.4280.11-0ubuntu1~ppa2~20.10.1) groovy; urgency=low
 
   * Fix builds.
