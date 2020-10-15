@@ -1,3 +1,10 @@
+chromium-browser (1:87.0.4280.20-0ubuntu1~ppa1~20.04.1) focal; urgency=low
+
+  * New upstream version 87.0.4280.20
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 15 Oct 2020 01:51:38 -0400
+
 chromium-browser (1:87.0.4280.11-0ubuntu1~ppa3~20.04.1) focal; urgency=low
 
   * Fix pipewire library name in Groovy.
