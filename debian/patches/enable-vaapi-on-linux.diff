@@ -40,7 +40,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -2869,7 +2869,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -2841,7 +2841,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
          flag_descriptions::kAcceleratedVideoDecodeDescription,
@@ -49,7 +49,7 @@ Index: dev/chrome/browser/about_flags.cc
          SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
  #endif  // defined(OS_LINUX) && !defined(OS_CHROMEOS) && !defined(OS_ANDROID)
-@@ -3335,10 +3335,10 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -3309,10 +3309,10 @@ const FeatureEntry kFeatureEntries[] = {
       flag_descriptions::kWebXrForceRuntimeDescription, kOsDesktop,
       MULTI_VALUE_TYPE(kWebXrForceRuntimeChoices)},
  #endif  // ENABLE_VR
@@ -66,7 +66,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
 ===================================================================
 --- dev.orig/chrome/browser/flag_descriptions.cc
 +++ dev/chrome/browser/flag_descriptions.cc
-@@ -3570,9 +3570,7 @@ const char kVideoToolboxVp9DecodingDescr
+@@ -3528,9 +3528,7 @@ const char kVideoToolboxVp9DecodingDescr
  
  #endif
  
@@ -77,7 +77,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
  
  const char kAcceleratedMjpegDecodeName[] =
      "Hardware-accelerated mjpeg decode for captured frame";
-@@ -3580,6 +3578,12 @@ const char kAcceleratedMjpegDecodeDescri
+@@ -3538,6 +3536,12 @@ const char kAcceleratedMjpegDecodeDescri
      "Enable hardware-accelerated mjpeg decode for captured frame where "
      "available.";
  
@@ -94,7 +94,7 @@ Index: dev/chrome/browser/flag_descriptions.h
 ===================================================================
 --- dev.orig/chrome/browser/flag_descriptions.h
 +++ dev/chrome/browser/flag_descriptions.h
-@@ -2049,13 +2049,17 @@ extern const char kVideoToolboxVp9Decodi
+@@ -2028,13 +2028,17 @@ extern const char kVideoToolboxVp9Decodi
  
  #endif  // defined(OS_MAC)
  
@@ -125,9 +125,9 @@ Index: dev/content/gpu/BUILD.gn
  import("//media/media_options.gni")
 +import("//media/gpu/args.gni")
  
- # This file depends on the legacy global sources assignment filter. It should
- # be converted to check target platform before assigning source files to the
-@@ -133,4 +134,8 @@ target(link_target_type, "gpu_sources")
+ # See //content/BUILD.gn for how this works.
+ group("gpu") {
+@@ -131,4 +132,8 @@ target(link_target_type, "gpu_sources")
        (!is_chromecast || is_cast_desktop_build)) {
      configs += [ "//build/config/linux/dri" ]
    }
@@ -140,7 +140,7 @@ Index: dev/media/base/media_switches.cc
 ===================================================================
 --- dev.orig/media/base/media_switches.cc
 +++ dev/media/base/media_switches.cc
-@@ -827,7 +827,7 @@ bool IsVideoCaptureAcceleratedJpegDecodi
+@@ -823,7 +823,7 @@ bool IsVideoCaptureAcceleratedJpegDecodi
            switches::kUseFakeMjpegDecodeAccelerator)) {
      return true;
    }
@@ -246,20 +246,11 @@ Index: dev/ui/gfx/x/x11.h
  
  enum XEventQueueOwner { XlibOwnsEventQueue = 0, XCBOwnsEventQueue };
  
-@@ -56,6 +57,7 @@ int XCloseDisplay(Display*);
+@@ -43,6 +44,7 @@ int XCloseDisplay(Display*);
  int XFlush(Display*);
  xcb_connection_t* XGetXCBConnection(Display* dpy);
  void XSetEventQueueOwner(Display* dpy, enum XEventQueueOwner owner);
 +Window XRootWindow(Display*, int);
- unsigned long XLastKnownRequestProcessed(Display*);
  int (*XSynchronize(Display*, Bool))(Display*);
- int XGetErrorDatabaseText(Display*,
-@@ -68,6 +70,8 @@ int XGetErrorText(Display*, int, char*,
- XErrorHandler XSetErrorHandler(XErrorHandler);
- XIOErrorHandler XSetIOErrorHandler(XIOErrorHandler);
- int XStoreName(Display*, Window, const char*);
-+Pixmap XCreatePixmap(Display*, Drawable, unsigned int, unsigned int, unsigned int);
-+int XFreePixmap(Display*, Pixmap);
  }
  
- #endif  // UI_GFX_X_X11_H_

@@ -461,25 +461,25 @@ Index: dev/ui/gfx/x/gen_xproto.py
          condition = ' || '.join([
              '%s(%s_expr, %s)' % (op, switch_name, self.expr(expr))
              for expr in case.type.expr
-@@ -1073,7 +1077,7 @@ class GenXproto(FileWriter):
+@@ -1105,7 +1109,7 @@ class GenXproto(FileWriter):
              self.write_special_container(item, name)
          if isinstance(item, self.xcbgen.xtypes.Request):
              self.define_request(item)
 -        elif item.is_event:
 +        elif isinstance(item, self.xcbgen.xtypes.Event):
              self.define_event(item, name)
- 
-     def declare_type(self, item, name):
-@@ -1081,7 +1085,7 @@ class GenXproto(FileWriter):
+         elif isinstance(item, self.xcbgen.xtypes.Error):
+             self.define_error(item, name)
+@@ -1115,7 +1119,7 @@ class GenXproto(FileWriter):
              self.declare_union(item)
          elif isinstance(item, self.xcbgen.xtypes.Request):
              self.declare_request(item)
 -        elif item.is_event:
 +        elif isinstance(item, self.xcbgen.xtypes.Event):
              self.declare_event(item, name)
-         elif item.is_container:
-             self.declare_container(item, name)
-@@ -1161,7 +1165,7 @@ class GenXproto(FileWriter):
+         elif isinstance(item, self.xcbgen.xtypes.Error):
+             self.declare_error(item, name)
+@@ -1197,7 +1201,7 @@ class GenXproto(FileWriter):
                          and field_name in fields):
                      setattr(fields[field_name], for_type, field)
  
@@ -488,7 +488,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
                  self.resolve_type(field.type, field.field_type)
  
          if isinstance(t, self.xcbgen.xtypes.Request) and t.reply:
-@@ -1321,6 +1325,11 @@ class GenXproto(FileWriter):
+@@ -1358,6 +1362,11 @@ class GenXproto(FileWriter):
          for direct_import in sorted(list(imports)):
              self.write('#include "%s.h"' % direct_import[-1])
          self.write()
