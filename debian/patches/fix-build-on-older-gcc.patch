@@ -121,7 +121,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  
  #include <algorithm>
  #include <string>
-@@ -399,6 +401,62 @@ bool IsBlockedDriver(VaapiWrapper::Codec
+@@ -407,6 +409,62 @@ bool IsBlockedDriver(VaapiWrapper::Codec
    return false;
  }
  
@@ -184,7 +184,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  // This class is a wrapper around its |va_display_| (and its associated
  // |va_lock_|) to guarantee mutual exclusion and singleton behaviour.
  class VADisplayState {
-@@ -684,10 +742,16 @@ std::vector<VAEntrypoint> GetEntryPoints
+@@ -692,10 +750,16 @@ std::vector<VAEntrypoint> GetEntryPoints
  
    const std::vector<VAEntrypoint> kAllowedEntryPoints[] = {
        {VAEntrypointVLD},  // kDecode.
@@ -205,7 +205,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
        {VAEntrypointVideoProc}    // kVideoProcess.
    };
    static_assert(base::size(kAllowedEntryPoints) == VaapiWrapper::kCodecModeMax,
-@@ -777,8 +841,13 @@ bool AreAttribsSupported(const base::Loc
+@@ -785,8 +849,13 @@ bool AreAttribsSupported(const base::Loc
      if (attribs[i].type != required_attribs[i].type ||
          (attribs[i].value & required_attribs[i].value) !=
              required_attribs[i].value) {
@@ -219,7 +219,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
        return false;
      }
    }
-@@ -1039,8 +1108,10 @@ bool VASupportedProfiles::FillProfileInf
+@@ -1047,8 +1116,10 @@ bool VASupportedProfiles::FillProfileInf
        continue;
      if (attrib.value & VA_RT_FORMAT_YUV420)
        profile_info->supported_internal_formats.yuv420 = true;
@@ -230,7 +230,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
      if (attrib.value & VA_RT_FORMAT_YUV422)
        profile_info->supported_internal_formats.yuv422 = true;
      if (attrib.value & VA_RT_FORMAT_YUV444)
-@@ -1188,16 +1259,17 @@ bool VASupportedImageFormats::InitSuppor
+@@ -1196,16 +1267,17 @@ bool VASupportedImageFormats::InitSuppor
      // Remove this workaround once b/128340287 is resolved.
      if (std::find_if(supported_formats_.cbegin(), supported_formats_.cend(),
                       [](const VAImageFormat& format) {
@@ -250,7 +250,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  bool IsLowPowerEncSupported(VAProfile va_profile) {
    constexpr VAProfile kSupportedLowPowerEncodeProfiles[] = {
        VAProfileH264ConstrainedBaseline,
-@@ -1219,6 +1291,7 @@ bool IsLowPowerEncSupported(VAProfile va
+@@ -1227,6 +1299,7 @@ bool IsLowPowerEncSupported(VAProfile va
    }
    return false;
  }
@@ -258,7 +258,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  
  }  // namespace
  
-@@ -1347,8 +1420,10 @@ bool VaapiWrapper::IsDecodingSupportedFo
+@@ -1355,8 +1428,10 @@ bool VaapiWrapper::IsDecodingSupportedFo
    switch (rt_format) {
      case VA_RT_FORMAT_YUV420:
        return supported_internal_formats->yuv420;
@@ -269,7 +269,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
      case VA_RT_FORMAT_YUV422:
        return supported_internal_formats->yuv422;
      case VA_RT_FORMAT_YUV444:
-@@ -1396,7 +1471,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1404,7 +1479,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      // The VAAPI mesa state tracker only supports conversion from NV12 to YV12
      // and IYUV (synonym of I420).
      if (rt_format == VA_RT_FORMAT_YUV420) {
@@ -278,7 +278,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
            preferred_fourcc != VA_FOURCC_YV12) {
          preferred_fourcc = VA_FOURCC_NV12;
        }
-@@ -1426,7 +1501,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1434,7 +1509,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      //
      if (preferred_fourcc == VA_FOURCC_422H ||
          preferred_fourcc == VA_FOURCC_P010) {
@@ -287,7 +287,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
      }
    } else if (GetImplementationType() == VAImplementation::kIntelIHD) {
      // TODO(b/155939640): iHD v19.4 fails to allocate AYUV surfaces for the VPP
-@@ -1434,16 +1509,16 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1442,16 +1517,16 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      // (b/159896972): iHD v20.1.1 cannot create Y216 and Y416 images from a
      // decoded JPEG on gen 12. It is also failing to support Y800 format.
      if (preferred_fourcc == VA_FOURCC_AYUV ||
@@ -308,7 +308,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
  
    // After workarounds, assume the conversion is supported.
-@@ -1540,8 +1615,10 @@ VAEntrypoint VaapiWrapper::GetDefaultVaE
+@@ -1548,8 +1623,10 @@ VAEntrypoint VaapiWrapper::GetDefaultVaE
        if (profile == VAProfileJPEGBaseline)
          return VAEntrypointEncPicture;
        DCHECK(IsModeEncoding(mode));
@@ -319,7 +319,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
        return VAEntrypointEncSlice;
      case VaapiWrapper::kVideoProcess:
        return VAEntrypointVideoProc;
-@@ -1673,7 +1750,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
+@@ -1681,7 +1758,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
    }
    // We only have to pass the first file descriptor to a driver. A VA-API driver
    // shall create a VASurface from the single fd correctly.
@@ -331,7 +331,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    va_attrib_extbuf.buffers = &fd;
    va_attrib_extbuf.num_buffers = 1u;
  
-@@ -1724,6 +1805,7 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+@@ -1732,6 +1813,7 @@ VaapiWrapper::ExportVASurfaceAsNativePix
      return nullptr;
    }
  
@@ -339,7 +339,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    VADRMPRIMESurfaceDescriptor descriptor;
    {
      base::AutoLock auto_lock(*va_lock_);
-@@ -1817,6 +1899,10 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+@@ -1825,6 +1907,10 @@ VaapiWrapper::ExportVASurfaceAsNativePix
    exported_pixmap->pixmap = base::MakeRefCounted<gfx::NativePixmapDmaBuf>(
        scoped_va_surface.size(), buffer_format, std::move(handle));
    return exported_pixmap;
@@ -350,7 +350,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  }
  
  bool VaapiWrapper::SyncSurface(VASurfaceID va_surface_id) {
-@@ -2144,6 +2230,7 @@ bool VaapiWrapper::GetVAEncMaxNumOfRefFr
+@@ -2152,6 +2238,7 @@ bool VaapiWrapper::GetVAEncMaxNumOfRefFr
  }
  
  bool VaapiWrapper::IsRotationSupported() {
@@ -358,7 +358,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    base::AutoLock auto_lock(*va_lock_);
    VAProcPipelineCaps pipeline_caps;
    memset(&pipeline_caps, 0, sizeof(pipeline_caps));
-@@ -2157,6 +2244,10 @@ bool VaapiWrapper::IsRotationSupported()
+@@ -2165,6 +2252,10 @@ bool VaapiWrapper::IsRotationSupported()
      return false;
    }
    return true;
@@ -369,7 +369,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  }
  
  bool VaapiWrapper::BlitSurface(const VASurface& va_surface_src,
-@@ -2211,6 +2302,7 @@ bool VaapiWrapper::BlitSurface(const VAS
+@@ -2219,6 +2310,7 @@ bool VaapiWrapper::BlitSurface(const VAS
      pipeline_param->output_color_standard = VAProcColorStandardNone;
      pipeline_param->filter_flags = VA_FILTER_SCALING_DEFAULT;
  
@@ -377,7 +377,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
      switch (rotation) {
        case VIDEO_ROTATION_0:
          pipeline_param->rotation_state = VA_ROTATION_NONE;
-@@ -2225,6 +2317,7 @@ bool VaapiWrapper::BlitSurface(const VAS
+@@ -2233,6 +2325,7 @@ bool VaapiWrapper::BlitSurface(const VAS
          pipeline_param->rotation_state = VA_ROTATION_270;
          break;
      }

@@ -40,7 +40,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -2841,7 +2841,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -2838,7 +2838,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
          flag_descriptions::kAcceleratedVideoDecodeDescription,
@@ -49,7 +49,7 @@ Index: dev/chrome/browser/about_flags.cc
          SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
  #endif  // defined(OS_LINUX) && !defined(OS_CHROMEOS) && !defined(OS_ANDROID)
-@@ -3309,10 +3309,10 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -3306,10 +3306,10 @@ const FeatureEntry kFeatureEntries[] = {
       flag_descriptions::kWebXrForceRuntimeDescription, kOsDesktop,
       MULTI_VALUE_TYPE(kWebXrForceRuntimeChoices)},
  #endif  // ENABLE_VR
@@ -66,7 +66,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
 ===================================================================
 --- dev.orig/chrome/browser/flag_descriptions.cc
 +++ dev/chrome/browser/flag_descriptions.cc
-@@ -3528,9 +3528,7 @@ const char kVideoToolboxVp9DecodingDescr
+@@ -3551,9 +3551,7 @@ const char kVideoToolboxVp9DecodingDescr
  
  #endif
  
@@ -77,7 +77,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
  
  const char kAcceleratedMjpegDecodeName[] =
      "Hardware-accelerated mjpeg decode for captured frame";
-@@ -3538,6 +3536,12 @@ const char kAcceleratedMjpegDecodeDescri
+@@ -3561,6 +3559,12 @@ const char kAcceleratedMjpegDecodeDescri
      "Enable hardware-accelerated mjpeg decode for captured frame where "
      "available.";
  
@@ -87,14 +87,14 @@ Index: dev/chrome/browser/flag_descriptions.cc
 +
 +#if defined(OS_CHROMEOS)
 +
- const char kAggregatedMlAppRankingName[] = "Rank suggested apps with ML.";
- const char kAggregatedMlAppRankingDescription[] =
-     "Use the aggregated ML model to rank the suggested apps.";
+ const char kAllowDisableMouseAccelerationName[] =
+     "Allow disabling mouse acceleration";
+ const char kAllowDisableMouseAccelerationDescription[] =
 Index: dev/chrome/browser/flag_descriptions.h
 ===================================================================
 --- dev.orig/chrome/browser/flag_descriptions.h
 +++ dev/chrome/browser/flag_descriptions.h
-@@ -2028,13 +2028,17 @@ extern const char kVideoToolboxVp9Decodi
+@@ -2046,13 +2046,17 @@ extern const char kVideoToolboxVp9Decodi
  
  #endif  // defined(OS_MAC)
  
@@ -112,8 +112,8 @@ Index: dev/chrome/browser/flag_descriptions.h
 +
 +#if defined(OS_CHROMEOS)
 +
- extern const char kAggregatedMlAppRankingName[];
- extern const char kAggregatedMlAppRankingDescription[];
+ extern const char kAllowDisableMouseAccelerationName[];
+ extern const char kAllowDisableMouseAccelerationDescription[];
  
 Index: dev/content/gpu/BUILD.gn
 ===================================================================
@@ -132,7 +132,7 @@ Index: dev/content/gpu/BUILD.gn
      configs += [ "//build/config/linux/dri" ]
    }
 +
-+  if (is_desktop_linux && use_vaapi) {
++  if (is_linux && use_vaapi) {
 +    public_configs = [ "//build/config/linux/libva" ]
 +  }
  }
@@ -194,7 +194,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -461,6 +461,11 @@ void VADisplayState::PreSandboxInitializ
+@@ -469,6 +469,11 @@ void VADisplayState::PreSandboxInitializ
        base::File::FLAG_OPEN | base::File::FLAG_READ | base::File::FLAG_WRITE);
    if (drm_file.IsValid())
      VADisplayState::Get()->SetDrmFd(drm_file.GetPlatformFile());
@@ -206,7 +206,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  }
  
  VADisplayState::VADisplayState()
-@@ -567,10 +572,6 @@ bool VADisplayState::InitializeVaDriver_
+@@ -575,10 +580,6 @@ bool VADisplayState::InitializeVaDriver_
  }
  
  bool VADisplayState::InitializeOnce() {
@@ -217,7 +217,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    // Set VA logging level, unless already set.
    constexpr char libva_log_level_env[] = "LIBVA_MESSAGING_LEVEL";
    std::unique_ptr<base::Environment> env(base::Environment::Create());
-@@ -591,7 +592,6 @@ bool VADisplayState::InitializeOnce() {
+@@ -599,7 +600,6 @@ bool VADisplayState::InitializeOnce() {
      // https://github.com/intel/media-driver/issues/818
      if (!env->HasVar(libva_driver_impl_env))
        env->SetVar(libva_driver_impl_env, "i965");
@@ -225,7 +225,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
      // Re-initialize with the new driver.
      va_display_ = nullptr;
      va_initialized_ = false;
-@@ -774,7 +774,7 @@ bool AreAttribsSupported(const base::Loc
+@@ -782,7 +782,7 @@ bool AreAttribsSupported(const base::Loc
      if (attribs[i].type != required_attribs[i].type ||
          (attribs[i].value & required_attribs[i].value) !=
              required_attribs[i].value) {

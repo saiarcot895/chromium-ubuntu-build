@@ -12,7 +12,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
      if (!vpp_vaapi_wrapper_) {
        vpp_vaapi_wrapper_ = VaapiWrapper::Create(
            VaapiWrapper::kVideoProcess, VAProfileNone,
-@@ -1203,6 +1204,11 @@ VaapiVideoDecodeAccelerator::GetSupporte
+@@ -1206,6 +1207,11 @@ VaapiVideoDecodeAccelerator::GetSupporte
    return profiles;
  }
  
@@ -41,7 +41,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -1452,6 +1452,12 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1460,6 +1460,12 @@ bool VaapiWrapper::GetJpegDecodeSuitable
  }
  
  // static

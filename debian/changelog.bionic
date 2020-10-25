@@ -1,3 +1,10 @@
+chromium-browser (1:88.0.4298.4-0ubuntu1~ppa1~18.04.1) bionic; urgency=low
+
+  * New upstream version 88.0.4298.4
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 25 Oct 2020 11:39:44 -0400
+
 chromium-browser (1:88.0.4292.2-0ubuntu1~ppa1~18.04.1) bionic; urgency=low
 
   * New upstream version 88.0.4292.2
