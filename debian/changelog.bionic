@@ -1,3 +1,10 @@
+chromium-browser (1:87.0.4280.27-0ubuntu1~ppa1~18.04.1) bionic; urgency=low
+
+  * New upstream version 87.0.4280.27
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 25 Oct 2020 17:32:47 -0400
+
 chromium-browser (1:87.0.4280.20-0ubuntu1~ppa1~18.04.1) bionic; urgency=low
 
   * New upstream version 87.0.4280.20

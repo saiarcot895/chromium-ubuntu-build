@@ -176,7 +176,7 @@ common_defines += \
 				  rtc_link_pipewire=true
 endif
 
-ifneq (,$(filter 20.10%,$(UBUNTU_DIST)))
+ifneq (,$(filter 20.10,$(UBUNTU_DIST)))
 common_defines += \
 				  rtc_use_new_pipewire_version=true
 else

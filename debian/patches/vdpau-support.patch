@@ -1,9 +1,9 @@
 Taken from https://aur.archlinux.org/cgit/aur.git/tree/vdpau-support.patch?h=chromium-vaapi
 
-Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
+Index: beta/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
 ===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
-+++ dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
+--- beta.orig/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
++++ beta/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
 @@ -706,7 +706,8 @@ void VaapiVideoDecodeAccelerator::Assign
    // If we aren't in BufferAllocationMode::kNone, we have to allocate a
    // |vpp_vaapi_wrapper_| for VaapiPicture to DownloadFromSurface() the VA's
@@ -36,10 +36,10 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
        (profile_ == VP9PROFILE_PROFILE0 || profile_ == VP8PROFILE_ANY ||
         (profile_ >= H264PROFILE_MIN && profile_ <= H264PROFILE_MAX))) {
      // Add one to the reference frames for the one being currently egressed, and
-Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.h
+Index: beta/media/gpu/vaapi/vaapi_video_decode_accelerator.h
 ===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_video_decode_accelerator.h
-+++ dev/media/gpu/vaapi/vaapi_video_decode_accelerator.h
+--- beta.orig/media/gpu/vaapi/vaapi_video_decode_accelerator.h
++++ beta/media/gpu/vaapi/vaapi_video_decode_accelerator.h
 @@ -217,6 +217,7 @@ class MEDIA_GPU_EXPORT VaapiVideoDecodeA
      // Using |client_|s provided PictureBuffers and as many internally
      // allocated.
@@ -48,10 +48,10 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.h
    };
  
    // Decides the concrete buffer allocation mode, depending on the hardware
-Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
+Index: beta/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
-+++ dev/media/gpu/vaapi/vaapi_wrapper.cc
+--- beta.orig/media/gpu/vaapi/vaapi_wrapper.cc
++++ beta/media/gpu/vaapi/vaapi_wrapper.cc
 @@ -220,6 +220,9 @@ media::VAImplementation VendorStringToIm
    } else if (base::StartsWith(va_vendor_string, "Intel iHD driver",
                                base::CompareCase::SENSITIVE)) {
@@ -138,10 +138,10 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
    VA_LOG_ON_ERROR(va_res, VaapiFunctions::kVACreateSurfaces_Allocating);
    return va_res == VA_STATUS_SUCCESS;
-Index: dev/media/gpu/vaapi/vaapi_wrapper.h
+Index: beta/media/gpu/vaapi/vaapi_wrapper.h
 ===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_wrapper.h
-+++ dev/media/gpu/vaapi/vaapi_wrapper.h
+--- beta.orig/media/gpu/vaapi/vaapi_wrapper.h
++++ beta/media/gpu/vaapi/vaapi_wrapper.h
 @@ -91,6 +91,7 @@ enum class VAImplementation {
    kIntelIHD,
    kOther,
