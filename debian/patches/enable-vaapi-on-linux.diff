@@ -40,7 +40,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -2838,7 +2838,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -2817,7 +2817,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
          flag_descriptions::kAcceleratedVideoDecodeDescription,
@@ -49,7 +49,7 @@ Index: dev/chrome/browser/about_flags.cc
          SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
  #endif  // defined(OS_LINUX) && !defined(OS_CHROMEOS) && !defined(OS_ANDROID)
-@@ -3306,10 +3306,10 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -3293,10 +3293,10 @@ const FeatureEntry kFeatureEntries[] = {
       flag_descriptions::kWebXrForceRuntimeDescription, kOsDesktop,
       MULTI_VALUE_TYPE(kWebXrForceRuntimeChoices)},
  #endif  // ENABLE_VR
@@ -66,7 +66,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
 ===================================================================
 --- dev.orig/chrome/browser/flag_descriptions.cc
 +++ dev/chrome/browser/flag_descriptions.cc
-@@ -3551,9 +3551,7 @@ const char kVideoToolboxVp9DecodingDescr
+@@ -3542,9 +3542,7 @@ const char kVideoToolboxVp9DecodingDescr
  
  #endif
  
@@ -77,7 +77,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
  
  const char kAcceleratedMjpegDecodeName[] =
      "Hardware-accelerated mjpeg decode for captured frame";
-@@ -3561,6 +3559,12 @@ const char kAcceleratedMjpegDecodeDescri
+@@ -3552,6 +3550,12 @@ const char kAcceleratedMjpegDecodeDescri
      "Enable hardware-accelerated mjpeg decode for captured frame where "
      "available.";
  
@@ -94,7 +94,7 @@ Index: dev/chrome/browser/flag_descriptions.h
 ===================================================================
 --- dev.orig/chrome/browser/flag_descriptions.h
 +++ dev/chrome/browser/flag_descriptions.h
-@@ -2046,13 +2046,17 @@ extern const char kVideoToolboxVp9Decodi
+@@ -2049,13 +2049,17 @@ extern const char kVideoToolboxVp9Decodi
  
  #endif  // defined(OS_MAC)
  
@@ -136,19 +136,6 @@ Index: dev/content/gpu/BUILD.gn
 +    public_configs = [ "//build/config/linux/libva" ]
 +  }
  }
-Index: dev/media/base/media_switches.cc
-===================================================================
---- dev.orig/media/base/media_switches.cc
-+++ dev/media/base/media_switches.cc
-@@ -823,7 +823,7 @@ bool IsVideoCaptureAcceleratedJpegDecodi
-           switches::kUseFakeMjpegDecodeAccelerator)) {
-     return true;
-   }
--#if defined(OS_CHROMEOS)
-+#if defined(OS_LINUX) && !defined(OS_ANDROID)
-   return true;
- #endif
-   return false;
 Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
 ===================================================================
 --- dev.orig/media/gpu/gpu_video_decode_accelerator_factory.cc
@@ -194,7 +181,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -469,6 +469,11 @@ void VADisplayState::PreSandboxInitializ
+@@ -471,6 +471,11 @@ void VADisplayState::PreSandboxInitializ
        base::File::FLAG_OPEN | base::File::FLAG_READ | base::File::FLAG_WRITE);
    if (drm_file.IsValid())
      VADisplayState::Get()->SetDrmFd(drm_file.GetPlatformFile());
@@ -206,7 +193,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  }
  
  VADisplayState::VADisplayState()
-@@ -575,10 +580,6 @@ bool VADisplayState::InitializeVaDriver_
+@@ -577,10 +582,6 @@ bool VADisplayState::InitializeVaDriver_
  }
  
  bool VADisplayState::InitializeOnce() {
@@ -217,7 +204,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    // Set VA logging level, unless already set.
    constexpr char libva_log_level_env[] = "LIBVA_MESSAGING_LEVEL";
    std::unique_ptr<base::Environment> env(base::Environment::Create());
-@@ -599,7 +600,6 @@ bool VADisplayState::InitializeOnce() {
+@@ -601,7 +602,6 @@ bool VADisplayState::InitializeOnce() {
      // https://github.com/intel/media-driver/issues/818
      if (!env->HasVar(libva_driver_impl_env))
        env->SetVar(libva_driver_impl_env, "i965");
@@ -225,7 +212,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
      // Re-initialize with the new driver.
      va_display_ = nullptr;
      va_initialized_ = false;
-@@ -782,7 +782,7 @@ bool AreAttribsSupported(const base::Loc
+@@ -784,7 +784,7 @@ bool AreAttribsSupported(const base::Loc
      if (attribs[i].type != required_attribs[i].type ||
          (attribs[i].value & required_attribs[i].value) !=
              required_attribs[i].value) {
@@ -234,23 +221,3 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
                 << vaConfigAttribTypeStr(required_attribs[i].type);
        return false;
      }
-Index: dev/ui/gfx/x/x11.h
-===================================================================
---- dev.orig/ui/gfx/x/x11.h
-+++ dev/ui/gfx/x/x11.h
-@@ -34,6 +34,7 @@ using Time = unsigned long;
- using GC = struct _XGC*;
- using Display = struct _XDisplay;
- using xcb_connection_t = struct xcb_connection_t;
-+using Drawable = XID;
- 
- enum XEventQueueOwner { XlibOwnsEventQueue = 0, XCBOwnsEventQueue };
- 
-@@ -43,6 +44,7 @@ int XCloseDisplay(Display*);
- int XFlush(Display*);
- xcb_connection_t* XGetXCBConnection(Display* dpy);
- void XSetEventQueueOwner(Display* dpy, enum XEventQueueOwner owner);
-+Window XRootWindow(Display*, int);
- int (*XSynchronize(Display*, Bool))(Display*);
- }
- 

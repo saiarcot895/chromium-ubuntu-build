@@ -6,7 +6,7 @@ Index: dev/chrome/BUILD.gn
 ===================================================================
 --- dev.orig/chrome/BUILD.gn
 +++ dev/chrome/BUILD.gn
-@@ -294,7 +294,7 @@ if (!is_android && !is_mac) {
+@@ -297,7 +297,7 @@ if (!is_android && !is_mac) {
  
      # ChromeOS by design is safe to have rpath=$ORIGIN. This simplifies shared
      # library usage.
@@ -19,7 +19,7 @@ Index: dev/tools/v8_context_snapshot/BUILD.gn
 ===================================================================
 --- dev.orig/tools/v8_context_snapshot/BUILD.gn
 +++ dev/tools/v8_context_snapshot/BUILD.gn
-@@ -109,6 +109,10 @@ if (use_v8_context_snapshot) {
+@@ -112,6 +112,10 @@ if (use_v8_context_snapshot) {
        "//v8",
      ]
  

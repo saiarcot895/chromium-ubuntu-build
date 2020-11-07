@@ -41,7 +41,7 @@ Index: dev/build/config/compiler/BUILD.gn
  
    # C11/C++11 compiler flags setup.
    # ---------------------------
-@@ -2336,14 +2307,6 @@ config("symbols") {
+@@ -2344,14 +2315,6 @@ config("symbols") {
        cflags += [ "-g2" ]
      }
  

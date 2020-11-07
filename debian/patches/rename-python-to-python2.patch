@@ -32,7 +32,7 @@ Index: dev/tools/gn/src/gn/setup.cc
 ===================================================================
 --- dev.orig/tools/gn/src/gn/setup.cc
 +++ dev/tools/gn/src/gn/setup.cc
-@@ -743,7 +743,7 @@ bool Setup::FillPythonPath(const base::C
+@@ -746,7 +746,7 @@ bool Setup::FillPythonPath(const base::C
      }
      build_settings_.set_python_path(python_path.NormalizePathSeparatorsTo('/'));
  #else
