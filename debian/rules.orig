@@ -184,13 +184,13 @@ common_defines += \
 				  rtc_use_new_pipewire_version=false
 endif
 
-ifeq (,$(filter 16.04%,$(UBUNTU_DIST)))
+ifeq (,$(filter 16.04% 18.04%,$(UBUNTU_DIST)))
 common_defines += init_stack_vars=true \
 									clang_use_compiler_version_suffix=false
 else
 common_defines += init_stack_vars=false \
 									clang_use_compiler_version_suffix=true \
-									clang_compiler_version_suffix="10"
+									clang_compiler_version_suffix="8"
 endif
 
 ### Official interfaces.
@@ -327,10 +327,10 @@ override_dh_clean:
 
 $(SRC_DIR)/gn:
 ifeq (,$(filter 16.04%,$(UBUNTU_DIST)))
-	CC=$(shell which clang-10 clang-8 clang | head -n 1) CXX=$(shell which clang++-10 clang++-8 clang++ | head -n 1) tools/gn/bootstrap/bootstrap.py --gn-gen-args '$(common_defines)'
+	CC=$(shell which clang-8 clang | head -n 1) CXX=$(shell which clang++-8 clang++ | head -n 1) tools/gn/bootstrap/bootstrap.py --gn-gen-args '$(common_defines)'
 	cp $(SRC_DIR)/out/Release/gn $(SRC_DIR)/
 else
-	CC=$(shell which clang-10 clang-8 clang | head -n 1) CXX=$(shell which clang++-10 clang++-8 clang++ | head -n 1) tools/gn/bootstrap/bootstrap.py --use-custom-libcxx --gn-gen-args '$(common_defines)'
+	CC=$(shell which clang-8 clang | head -n 1) CXX=$(shell which clang++-8 clang++ | head -n 1) tools/gn/bootstrap/bootstrap.py --use-custom-libcxx --gn-gen-args '$(common_defines)'
 	cp $(SRC_DIR)/out/Release/gn $(SRC_DIR)/out/Release/libc++.gn.so $(SRC_DIR)/
 endif
 	rm -rf $(SRC_DIR)/out
