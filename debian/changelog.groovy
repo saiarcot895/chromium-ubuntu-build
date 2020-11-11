@@ -1,3 +1,9 @@
+chromium-browser (1:87.0.4280.47-0ubuntu1~ppa2~20.10.1) groovy; urgency=low
+
+  * Fix typos in compiler selection.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 11 Nov 2020 13:23:38 -0500
+
 chromium-browser (1:87.0.4280.47-0ubuntu1~ppa1~20.10.1) groovy; urgency=low
 
   * New upstream version 87.0.4280.47

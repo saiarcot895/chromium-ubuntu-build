@@ -177,20 +177,25 @@ common_defines += \
 endif
 
 ifneq (,$(filter 20.10,$(UBUNTU_DIST)))
+# Groovy
 common_defines += \
 				  rtc_use_new_pipewire_version=true
 else
+# Focal and older
 common_defines += \
 				  rtc_use_new_pipewire_version=false
 endif
 
 ifeq (,$(filter 16.04%,$(UBUNTU_DIST)))
+# Bionic and newer
 common_defines += init_stack_vars=true \
-									clang_use_compiler_version_suffix=false
-else
-common_defines += init_stack_vars=false \
 									clang_use_compiler_version_suffix=true \
 									clang_compiler_version_suffix="10"
+else
+# Xenial
+common_defines += init_stack_vars=false \
+									clang_use_compiler_version_suffix=true \
+									clang_compiler_version_suffix="8"
 endif
 
 ### Official interfaces.
