@@ -1,0 +1,23 @@
+Ubuntu 20.10 (Groovy)'s gold linker has some double free corruption when using multiple threads.
+
+Index: beta/build/config/compiler/BUILD.gn
+===================================================================
+--- beta.orig/build/config/compiler/BUILD.gn
++++ beta/build/config/compiler/BUILD.gn
+@@ -416,16 +416,6 @@ config("compiler") {
+       if (gold_path != "") {
+         ldflags += [ "-B$gold_path" ]
+       }
+-
+-      ldflags += [
+-        # Experimentation found that using four linking threads
+-        # saved ~20% of link time.
+-        # https://groups.google.com/a/chromium.org/group/chromium-dev/browse_thread/thread/281527606915bb36
+-        # Only apply this to the target linker, since the host
+-        # linker might not be gold, but isn't used much anyway.
+-        "-Wl,--threads",
+-        "-Wl,--thread-count=4",
+-      ]
+     }
+ 
+     # TODO(thestig): Make this flag work with GN.

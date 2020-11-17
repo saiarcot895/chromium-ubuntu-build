@@ -142,7 +142,7 @@ Index: beta/media/gpu/vaapi/vaapi_wrapper.h
 ===================================================================
 --- beta.orig/media/gpu/vaapi/vaapi_wrapper.h
 +++ beta/media/gpu/vaapi/vaapi_wrapper.h
-@@ -91,6 +91,7 @@ enum class VAImplementation {
+@@ -92,6 +92,7 @@ enum class VAImplementation {
    kIntelIHD,
    kOther,
    kInvalid,

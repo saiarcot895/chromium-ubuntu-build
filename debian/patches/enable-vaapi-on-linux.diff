@@ -40,7 +40,7 @@ Index: beta/chrome/browser/about_flags.cc
 ===================================================================
 --- beta.orig/chrome/browser/about_flags.cc
 +++ beta/chrome/browser/about_flags.cc
-@@ -2869,7 +2869,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -2870,7 +2870,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
          flag_descriptions::kAcceleratedVideoDecodeDescription,
@@ -49,7 +49,7 @@ Index: beta/chrome/browser/about_flags.cc
          SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
  #endif  // defined(OS_LINUX) && !defined(OS_CHROMEOS) && !defined(OS_ANDROID)
-@@ -3335,10 +3335,10 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -3336,10 +3336,10 @@ const FeatureEntry kFeatureEntries[] = {
       flag_descriptions::kWebXrForceRuntimeDescription, kOsDesktop,
       MULTI_VALUE_TYPE(kWebXrForceRuntimeChoices)},
  #endif  // ENABLE_VR

@@ -58,7 +58,7 @@ Index: beta/media/gpu/vaapi/vaapi_wrapper.h
 ===================================================================
 --- beta.orig/media/gpu/vaapi/vaapi_wrapper.h
 +++ beta/media/gpu/vaapi/vaapi_wrapper.h
-@@ -196,6 +196,9 @@ class MEDIA_GPU_EXPORT VaapiWrapper
+@@ -197,6 +197,9 @@ class MEDIA_GPU_EXPORT VaapiWrapper
                                                 uint32_t preferred_fourcc,
                                                 uint32_t* suitable_fourcc);
  
