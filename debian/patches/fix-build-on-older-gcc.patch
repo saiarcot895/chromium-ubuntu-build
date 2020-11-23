@@ -2,7 +2,7 @@ Index: dev/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
 +++ dev/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
-@@ -73,7 +73,7 @@ static bool VerifyDataSize(const VAImage
+@@ -72,7 +72,7 @@ static bool VerifyDataSize(const VAImage
    const gfx::Size dimensions(base::strict_cast<int>(image->width),
                               base::strict_cast<int>(image->height));
    size_t min_size = 0;
@@ -11,7 +11,7 @@ Index: dev/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
      min_size = VideoFrame::AllocationSize(PIXEL_FORMAT_I420, dimensions);
    } else if (image->format.fourcc == VA_FOURCC_NV12) {
      min_size = VideoFrame::AllocationSize(PIXEL_FORMAT_NV12, dimensions);
-@@ -255,7 +255,7 @@ bool VaapiMjpegDecodeAccelerator::Output
+@@ -254,7 +254,7 @@ bool VaapiMjpegDecodeAccelerator::Output
    }
  
    switch (image->format.fourcc) {
@@ -38,7 +38,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
 +++ dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
-@@ -206,6 +206,7 @@ class VaapiVideoEncodeAccelerator::VP8Ac
+@@ -205,6 +205,7 @@ class VaapiVideoEncodeAccelerator::VP8Ac
    VaapiVideoEncodeAccelerator* const vea_;
  };
  
@@ -46,7 +46,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
  class VaapiVideoEncodeAccelerator::VP9Accelerator
      : public VP9Encoder::Accelerator {
   public:
-@@ -227,6 +228,7 @@ class VaapiVideoEncodeAccelerator::VP9Ac
+@@ -226,6 +227,7 @@ class VaapiVideoEncodeAccelerator::VP9Ac
   private:
    VaapiVideoEncodeAccelerator* const vea_;
  };
@@ -54,7 +54,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
  
  VaapiVideoEncodeAccelerator::VaapiVideoEncodeAccelerator()
      : output_buffer_byte_size_(0),
-@@ -381,6 +383,7 @@ void VaapiVideoEncodeAccelerator::Initia
+@@ -380,6 +382,7 @@ void VaapiVideoEncodeAccelerator::Initia
        DCHECK_EQ(ave_config.bitrate_control,
                  AcceleratedVideoEncoder::BitrateControl::kConstantBitrate);
        break;
@@ -62,7 +62,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
      case kCodecVP9:
        if (!IsConfiguredForTesting()) {
          encoder_ = std::make_unique<VP9Encoder>(
-@@ -389,6 +392,7 @@ void VaapiVideoEncodeAccelerator::Initia
+@@ -388,6 +391,7 @@ void VaapiVideoEncodeAccelerator::Initia
        ave_config.bitrate_control = AcceleratedVideoEncoder::BitrateControl::
            kConstantQuantizationParameter;
        break;
@@ -121,7 +121,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  
  #include <algorithm>
  #include <string>
-@@ -409,6 +411,62 @@ bool IsBlockedDriver(VaapiWrapper::Codec
+@@ -419,6 +421,62 @@ bool IsBlockedDriver(VaapiWrapper::Codec
    return false;
  }
  
@@ -184,7 +184,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  // This class is a wrapper around its |va_display_| (and its associated
  // |va_lock_|) to guarantee mutual exclusion and singleton behaviour.
  class VADisplayState {
-@@ -694,10 +752,16 @@ std::vector<VAEntrypoint> GetEntryPoints
+@@ -704,10 +762,16 @@ std::vector<VAEntrypoint> GetEntryPoints
  
    const std::vector<VAEntrypoint> kAllowedEntryPoints[] = {
        {VAEntrypointVLD},  // kDecode.
@@ -205,7 +205,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
        {VAEntrypointVideoProc}    // kVideoProcess.
    };
    static_assert(base::size(kAllowedEntryPoints) == VaapiWrapper::kCodecModeMax,
-@@ -787,8 +851,13 @@ bool AreAttribsSupported(const base::Loc
+@@ -797,8 +861,13 @@ bool AreAttribsSupported(const base::Loc
      if (attribs[i].type != required_attribs[i].type ||
          (attribs[i].value & required_attribs[i].value) !=
              required_attribs[i].value) {
@@ -219,7 +219,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
        return false;
      }
    }
-@@ -1049,8 +1118,10 @@ bool VASupportedProfiles::FillProfileInf
+@@ -1059,8 +1128,10 @@ bool VASupportedProfiles::FillProfileInf
        continue;
      if (attrib.value & VA_RT_FORMAT_YUV420)
        profile_info->supported_internal_formats.yuv420 = true;
@@ -230,7 +230,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
      if (attrib.value & VA_RT_FORMAT_YUV422)
        profile_info->supported_internal_formats.yuv422 = true;
      if (attrib.value & VA_RT_FORMAT_YUV444)
-@@ -1198,16 +1269,17 @@ bool VASupportedImageFormats::InitSuppor
+@@ -1208,16 +1279,17 @@ bool VASupportedImageFormats::InitSuppor
      // Remove this workaround once b/128340287 is resolved.
      if (std::find_if(supported_formats_.cbegin(), supported_formats_.cend(),
                       [](const VAImageFormat& format) {
@@ -250,7 +250,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  bool IsLowPowerEncSupported(VAProfile va_profile) {
    constexpr VAProfile kSupportedLowPowerEncodeProfiles[] = {
        VAProfileH264ConstrainedBaseline,
-@@ -1229,6 +1301,7 @@ bool IsLowPowerEncSupported(VAProfile va
+@@ -1239,6 +1311,7 @@ bool IsLowPowerEncSupported(VAProfile va
    }
    return false;
  }
@@ -258,7 +258,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  
  }  // namespace
  
-@@ -1357,8 +1430,10 @@ bool VaapiWrapper::IsDecodingSupportedFo
+@@ -1371,8 +1444,10 @@ bool VaapiWrapper::IsDecodingSupportedFo
    switch (rt_format) {
      case VA_RT_FORMAT_YUV420:
        return supported_internal_formats->yuv420;
@@ -269,7 +269,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
      case VA_RT_FORMAT_YUV422:
        return supported_internal_formats->yuv422;
      case VA_RT_FORMAT_YUV444:
-@@ -1406,7 +1481,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1420,7 +1495,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      // The VAAPI mesa state tracker only supports conversion from NV12 to YV12
      // and IYUV (synonym of I420).
      if (rt_format == VA_RT_FORMAT_YUV420) {
@@ -278,7 +278,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
            preferred_fourcc != VA_FOURCC_YV12) {
          preferred_fourcc = VA_FOURCC_NV12;
        }
-@@ -1436,7 +1511,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1450,7 +1525,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      //
      if (preferred_fourcc == VA_FOURCC_422H ||
          preferred_fourcc == VA_FOURCC_P010) {
@@ -287,7 +287,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
      }
    } else if (GetImplementationType() == VAImplementation::kIntelIHD) {
      // TODO(b/155939640): iHD v19.4 fails to allocate AYUV surfaces for the VPP
-@@ -1444,16 +1519,16 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1458,16 +1533,16 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      // (b/159896972): iHD v20.1.1 cannot create Y216 and Y416 images from a
      // decoded JPEG on gen 12. It is also failing to support Y800 format.
      if (preferred_fourcc == VA_FOURCC_AYUV ||
@@ -308,7 +308,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
  
    // After workarounds, assume the conversion is supported.
-@@ -1550,8 +1625,10 @@ VAEntrypoint VaapiWrapper::GetDefaultVaE
+@@ -1564,8 +1639,10 @@ VAEntrypoint VaapiWrapper::GetDefaultVaE
        if (profile == VAProfileJPEGBaseline)
          return VAEntrypointEncPicture;
        DCHECK(IsModeEncoding(mode));
@@ -319,7 +319,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
        return VAEntrypointEncSlice;
      case VaapiWrapper::kVideoProcess:
        return VAEntrypointVideoProc;
-@@ -1683,7 +1760,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
+@@ -1697,7 +1774,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
    }
    // We only have to pass the first file descriptor to a driver. A VA-API driver
    // shall create a VASurface from the single fd correctly.
@@ -331,7 +331,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    va_attrib_extbuf.buffers = &fd;
    va_attrib_extbuf.num_buffers = 1u;
  
-@@ -1734,6 +1815,7 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+@@ -1748,6 +1829,7 @@ VaapiWrapper::ExportVASurfaceAsNativePix
      return nullptr;
    }
  
@@ -339,7 +339,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    VADRMPRIMESurfaceDescriptor descriptor;
    {
      base::AutoLock auto_lock(*va_lock_);
-@@ -1827,6 +1909,10 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+@@ -1841,6 +1923,10 @@ VaapiWrapper::ExportVASurfaceAsNativePix
    exported_pixmap->pixmap = base::MakeRefCounted<gfx::NativePixmapDmaBuf>(
        scoped_va_surface.size(), buffer_format, std::move(handle));
    return exported_pixmap;
@@ -350,7 +350,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  }
  
  bool VaapiWrapper::SyncSurface(VASurfaceID va_surface_id) {
-@@ -2152,6 +2238,7 @@ bool VaapiWrapper::GetVAEncMaxNumOfRefFr
+@@ -2166,6 +2252,7 @@ bool VaapiWrapper::GetVAEncMaxNumOfRefFr
  }
  
  bool VaapiWrapper::IsRotationSupported() {
@@ -358,7 +358,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    base::AutoLock auto_lock(*va_lock_);
    VAProcPipelineCaps pipeline_caps;
    memset(&pipeline_caps, 0, sizeof(pipeline_caps));
-@@ -2165,6 +2252,10 @@ bool VaapiWrapper::IsRotationSupported()
+@@ -2179,6 +2266,10 @@ bool VaapiWrapper::IsRotationSupported()
      return false;
    }
    return true;
@@ -369,7 +369,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  }
  
  bool VaapiWrapper::BlitSurface(const VASurface& va_surface_src,
-@@ -2219,6 +2310,7 @@ bool VaapiWrapper::BlitSurface(const VAS
+@@ -2233,6 +2324,7 @@ bool VaapiWrapper::BlitSurface(const VAS
      pipeline_param->output_color_standard = VAProcColorStandardNone;
      pipeline_param->filter_flags = VA_FILTER_SCALING_DEFAULT;
  
@@ -377,7 +377,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
      switch (rotation) {
        case VIDEO_ROTATION_0:
          pipeline_param->rotation_state = VA_ROTATION_NONE;
-@@ -2233,6 +2325,7 @@ bool VaapiWrapper::BlitSurface(const VAS
+@@ -2247,6 +2339,7 @@ bool VaapiWrapper::BlitSurface(const VAS
          pipeline_param->rotation_state = VA_ROTATION_270;
          break;
      }
@@ -593,7 +593,7 @@ Index: dev/ui/gfx/x/event.cc
 ===================================================================
 --- dev.orig/ui/gfx/x/event.cc
 +++ dev/ui/gfx/x/event.cc
-@@ -50,6 +50,10 @@ Event::Event(scoped_refptr<base::RefCoun
+@@ -37,6 +37,10 @@ Event::Event(scoped_refptr<base::RefCoun
      if ((xcb_event->response_type & ~kSendEventMask) ==
          x11::GeGenericEvent::opcode) {
        auto* ge = reinterpret_cast<xcb_ge_event_t*>(xcb_event);
@@ -604,7 +604,7 @@ Index: dev/ui/gfx/x/event.cc
        constexpr size_t ge_length = sizeof(xcb_raw_generic_event_t);
        constexpr size_t offset = sizeof(ge->full_sequence);
        size_t extended_length = ge->length * 4;
-@@ -65,6 +69,7 @@ Event::Event(scoped_refptr<base::RefCoun
+@@ -52,6 +56,7 @@ Event::Event(scoped_refptr<base::RefCoun
              event_bytes, offset, ge_length + extended_length);
          xcb_event = reinterpret_cast<xcb_generic_event_t*>(addr + offset);
        }
@@ -669,15 +669,15 @@ Index: dev/sandbox/policy/linux/bpf_gpu_policy_linux.cc
 ===================================================================
 --- dev.orig/sandbox/policy/linux/bpf_gpu_policy_linux.cc
 +++ dev/sandbox/policy/linux/bpf_gpu_policy_linux.cc
-@@ -46,6 +46,7 @@ ResultExpr GpuProcessPolicy::EvaluateSys
+@@ -47,6 +47,7 @@ ResultExpr GpuProcessPolicy::EvaluateSys
        return Allow();
- #endif  // defined(OS_CHROMEOS)
+ #endif  // BUILDFLAG(IS_CHROMEOS_ASH)
      case __NR_fcntl: {
 +#if defined(F_SEAL_SEAL)
        // The Nvidia driver uses flags not in the baseline policy
        // fcntl(fd, F_ADD_SEALS, F_SEAL_SEAL | F_SEAL_SHRINK | F_SEAL_GROW)
        // https://crbug.com/1128175
-@@ -55,6 +56,7 @@ ResultExpr GpuProcessPolicy::EvaluateSys
+@@ -56,6 +57,7 @@ ResultExpr GpuProcessPolicy::EvaluateSys
        const uint64_t kAllowedMask = F_SEAL_SEAL | F_SEAL_SHRINK | F_SEAL_GROW;
        if (cmd == F_ADD_SEALS && (long_arg & ~kAllowedMask) == 0)
          return Allow();

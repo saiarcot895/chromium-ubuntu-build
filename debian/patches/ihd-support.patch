@@ -2,17 +2,17 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
 +++ dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
-@@ -707,7 +707,8 @@ void VaapiVideoDecodeAccelerator::Assign
-   // |vpp_vaapi_wrapper_| for VaapiPicture to DownloadFromSurface() the VA's
-   // internal decoded frame.
-   if (buffer_allocation_mode_ != BufferAllocationMode::kNone &&
+@@ -706,7 +706,8 @@ void VaapiVideoDecodeAccelerator::Assign
+   // processing pipeline for downloading the decoded frame from the internal
+   // surface, we need to create a |vpp_vaapi_wrapper_|.
+   if (requires_vpp && buffer_allocation_mode_ != BufferAllocationMode::kNone &&
 -      buffer_allocation_mode_ != BufferAllocationMode::kWrapVdpau) {
 +      buffer_allocation_mode_ != BufferAllocationMode::kWrapVdpau &&
 +      IsVppProfileSupported()) {
      if (!vpp_vaapi_wrapper_) {
        vpp_vaapi_wrapper_ = VaapiWrapper::Create(
            VaapiWrapper::kVideoProcess, VAProfileNone,
-@@ -1206,6 +1207,11 @@ VaapiVideoDecodeAccelerator::GetSupporte
+@@ -1204,6 +1205,11 @@ VaapiVideoDecodeAccelerator::GetSupporte
    return profiles;
  }
  
@@ -41,7 +41,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -1462,6 +1462,12 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1476,6 +1476,12 @@ bool VaapiWrapper::GetJpegDecodeSuitable
  }
  
  // static

@@ -5,7 +5,7 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -481,35 +481,6 @@ config("compiler") {
+@@ -478,17 +478,6 @@ config("compiler") {
      ldflags += [ "-Wl,-z,keep-text-section-prefix" ]
    }
  
@@ -18,30 +18,12 @@ Index: dev/build/config/compiler/BUILD.gn
 -      "-mllvm",
 -      "-instcombine-lower-dbg-declare=0",
 -    ]
--
--    # Pinned clang has enable-dse-memoryssa enabled by default but it's broken,
--    # so we have to force it off.
--    # Trunk clang has it disabled by default but it might work, so we force it
--    # on so the ToT bots can check if it works now.
--    if (!llvm_force_head_revision) {
--      cflags += [
--        # TODO(https://crbug.com/1127713): Investigate, remove.
--        "-mllvm",
--        "-enable-dse-memoryssa=false",
--      ]
--    }
--    if (llvm_force_head_revision) {
--      cflags += [
--        # TODO(https://crbug.com/1127713): Investigate, remove.
--        "-mllvm",
--        "-enable-dse-memoryssa=true",
--      ]
--    }
 -  }
- 
+-
    # C11/C++11 compiler flags setup.
    # ---------------------------
-@@ -2344,14 +2315,6 @@ config("symbols") {
+   if (is_linux || is_chromeos || is_android || (is_nacl && is_clang) ||
+@@ -2320,14 +2309,6 @@ config("symbols") {
        cflags += [ "-g2" ]
      }
  

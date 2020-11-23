@@ -4,17 +4,17 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
 +++ dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
-@@ -706,7 +706,8 @@ void VaapiVideoDecodeAccelerator::Assign
-   // If we aren't in BufferAllocationMode::kNone, we have to allocate a
-   // |vpp_vaapi_wrapper_| for VaapiPicture to DownloadFromSurface() the VA's
-   // internal decoded frame.
--  if (buffer_allocation_mode_ != BufferAllocationMode::kNone) {
-+  if (buffer_allocation_mode_ != BufferAllocationMode::kNone &&
+@@ -705,7 +705,8 @@ void VaapiVideoDecodeAccelerator::Assign
+   // implementation we get from |vaapi_picture_factory_| requires the video
+   // processing pipeline for downloading the decoded frame from the internal
+   // surface, we need to create a |vpp_vaapi_wrapper_|.
+-  if (requires_vpp && buffer_allocation_mode_ != BufferAllocationMode::kNone) {
++  if (requires_vpp && buffer_allocation_mode_ != BufferAllocationMode::kNone &&
 +      buffer_allocation_mode_ != BufferAllocationMode::kWrapVdpau) {
      if (!vpp_vaapi_wrapper_) {
        vpp_vaapi_wrapper_ = VaapiWrapper::Create(
            VaapiWrapper::kVideoProcess, VAProfileNone,
-@@ -1221,6 +1222,12 @@ VaapiVideoDecodeAccelerator::DecideBuffe
+@@ -1219,6 +1220,12 @@ VaapiVideoDecodeAccelerator::DecideBuffe
      return BufferAllocationMode::kReduced;
    return BufferAllocationMode::kSuperReduced;
  #else
@@ -27,7 +27,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
    // TODO(crbug.com/912295): Enable a better BufferAllocationMode for IMPORT
    // |output_mode_| as well.
    if (output_mode_ == VideoDecodeAccelerator::Config::OutputMode::IMPORT)
-@@ -1231,7 +1238,7 @@ VaapiVideoDecodeAccelerator::DecideBuffe
+@@ -1229,7 +1236,7 @@ VaapiVideoDecodeAccelerator::DecideBuffe
    // associated format reconciliation copy, avoiding all internal buffer
    // allocations.
    // TODO(crbug.com/911754): Enable for VP9 Profile 2.
@@ -62,7 +62,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
    return media::VAImplementation::kOther;
  }
-@@ -1720,6 +1723,11 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+@@ -1734,6 +1737,11 @@ VaapiWrapper::ExportVASurfaceAsNativePix
      return nullptr;
    }
  
@@ -74,7 +74,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    VADRMPRIMESurfaceDescriptor descriptor;
    {
      base::AutoLock auto_lock(*va_lock_);
-@@ -2373,32 +2381,43 @@ bool VaapiWrapper::CreateSurfaces(unsign
+@@ -2387,32 +2395,43 @@ bool VaapiWrapper::CreateSurfaces(unsign
    DCHECK(va_surfaces->empty());
  
    va_surfaces->resize(num_surfaces);

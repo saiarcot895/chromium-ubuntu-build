@@ -45,4 +45,4 @@ remove-clang-debug-path.patch
 gn-link-with-libc.patch
 fix-build-errors.patch
 rename-python-to-python2.patch
-fix-pipewire-library-name.patch
+gold-dont-use-threads-due-to-groovy.patch

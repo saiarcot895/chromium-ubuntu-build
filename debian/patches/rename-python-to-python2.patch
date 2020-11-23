@@ -32,7 +32,7 @@ Index: dev/tools/gn/src/gn/setup.cc
 ===================================================================
 --- dev.orig/tools/gn/src/gn/setup.cc
 +++ dev/tools/gn/src/gn/setup.cc
-@@ -746,7 +746,7 @@ bool Setup::FillPythonPath(const base::C
+@@ -762,7 +762,7 @@ bool Setup::FillPythonPath(const base::C
      }
      build_settings_.set_python_path(python_path.NormalizePathSeparatorsTo('/'));
  #else
@@ -102,7 +102,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
          self.write()
          self.write('namespace x11 {')
          self.write()
-@@ -1739,8 +1740,14 @@ def main():
+@@ -1743,8 +1744,14 @@ def main():
      args = parser.parse_args()
  
      sys.path.insert(1, args.xcbproto_dir)
