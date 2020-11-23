@@ -1,3 +1,9 @@
+chromium-browser (1:88.0.4324.11-0ubuntu1~ppa2~16.04.1) xenial; urgency=low
+
+  * Remove pipewire dependency for groovy.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 23 Nov 2020 11:43:17 -0500
+
 chromium-browser (1:88.0.4324.11-0ubuntu1~ppa1~16.04.1) xenial; urgency=low
 
   * New upstream version 88.0.4324.11
