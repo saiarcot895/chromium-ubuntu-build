@@ -168,22 +168,13 @@ else
 $(warning Google API info is not set in build variables GOOGLEAPI_APIKEY_$(DISTRIBUTION) GOOGLEAPI_CLIENTID_$(DISTRIBUTION) GOOGLEAPI_CLIENTSECRET_$(DISTRIBUTION))
 endif
 
-# Pipewire isn't available on 16.04, and has been backported to 18.04 in my PPA
-# 19.04 Pipewire has some build issue, so exclude it for now
-ifeq (,$(filter 16.04% 19.04%,$(UBUNTU_DIST)))
+# Pipewire isn't available on 16.04, and has been backported to 18.04 in my PPA.
+# 19.04 Pipewire has some build issue, so exclude it for now.
+# 20.10 has pipewire 0.3, which requires code changes.
+ifeq (,$(filter 16.04% 19.04% 20.10,$(UBUNTU_DIST)))
 common_defines += \
 				  rtc_use_pipewire=true \
 				  rtc_link_pipewire=true
-endif
-
-ifneq (,$(filter 20.10,$(UBUNTU_DIST)))
-# Groovy
-common_defines += \
-				  rtc_use_new_pipewire_version=true
-else
-# Focal and older
-common_defines += \
-				  rtc_use_new_pipewire_version=false
 endif
 
 ifeq (,$(filter 16.04%,$(UBUNTU_DIST)))

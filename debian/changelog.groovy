@@ -1,3 +1,10 @@
+chromium-browser (1:87.0.4280.66-0ubuntu1~ppa1~20.10.1) groovy; urgency=low
+
+  * New upstream version 87.0.4280.66
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 24 Nov 2020 17:22:29 -0500
+
 chromium-browser (1:87.0.4280.63-0ubuntu1~ppa1~20.10.1) groovy; urgency=low
 
   * New upstream version 87.0.4280.63
