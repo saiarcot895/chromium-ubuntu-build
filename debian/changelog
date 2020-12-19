@@ -1,3 +1,10 @@
+chromium-browser (1:89.0.4356.6-0ubuntu1~ppa1~20.10.1) groovy; urgency=low
+
+  * New upstream version 89.0.4356.6
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 19 Dec 2020 12:01:23 -0500
+
 chromium-browser (1:88.0.4324.11-0ubuntu1~ppa2~20.10.1) groovy; urgency=low
 
   * Remove pipewire dependency for groovy.

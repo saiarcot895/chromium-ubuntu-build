@@ -2,7 +2,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
 +++ dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
-@@ -706,7 +706,8 @@ void VaapiVideoDecodeAccelerator::Assign
+@@ -712,7 +712,8 @@ void VaapiVideoDecodeAccelerator::Assign
    // processing pipeline for downloading the decoded frame from the internal
    // surface, we need to create a |vpp_vaapi_wrapper_|.
    if (requires_vpp && buffer_allocation_mode_ != BufferAllocationMode::kNone &&
@@ -12,7 +12,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
      if (!vpp_vaapi_wrapper_) {
        vpp_vaapi_wrapper_ = VaapiWrapper::Create(
            VaapiWrapper::kVideoProcess, VAProfileNone,
-@@ -1204,6 +1205,11 @@ VaapiVideoDecodeAccelerator::GetSupporte
+@@ -1210,6 +1211,11 @@ VaapiVideoDecodeAccelerator::GetSupporte
    return profiles;
  }
  
@@ -41,7 +41,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -1476,6 +1476,12 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1637,6 +1637,12 @@ bool VaapiWrapper::GetJpegDecodeSuitable
  }
  
  // static
@@ -58,7 +58,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.h
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.h
 +++ dev/media/gpu/vaapi/vaapi_wrapper.h
-@@ -197,6 +197,9 @@ class MEDIA_GPU_EXPORT VaapiWrapper
+@@ -208,6 +208,9 @@ class MEDIA_GPU_EXPORT VaapiWrapper
                                                 uint32_t preferred_fourcc,
                                                 uint32_t* suitable_fourcc);
  

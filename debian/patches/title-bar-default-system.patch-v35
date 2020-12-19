@@ -5,7 +5,7 @@ Index: dev/ui/base/x/x11_util.cc
 ===================================================================
 --- dev.orig/ui/base/x/x11_util.cc
 +++ dev/ui/base/x/x11_util.cc
-@@ -717,6 +717,7 @@ bool GetCustomFramePrefDefault() {
+@@ -718,6 +718,7 @@ bool GetCustomFramePrefDefault() {
    // Also disable custom frames for (at-least-partially-)EWMH-supporting tiling
    // window managers.
    ui::WindowManagerName wm = GuessWindowManager();

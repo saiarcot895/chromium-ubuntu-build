@@ -2,7 +2,7 @@ Index: dev/third_party/angle/third_party/vulkan-validation-layers/src/BUILD.gn
 ===================================================================
 --- dev.orig/third_party/angle/third_party/vulkan-validation-layers/src/BUILD.gn
 +++ dev/third_party/angle/third_party/vulkan-validation-layers/src/BUILD.gn
-@@ -240,6 +240,7 @@ source_set("vulkan_layer_utils") {
+@@ -254,6 +254,7 @@ source_set("vulkan_layer_utils") {
    configs += [ "//build/config/compiler:no_chromium_code" ]
    public_deps = [ "$vulkan_headers_dir:vulkan_headers" ]
    configs -= vulkan_undefine_configs
