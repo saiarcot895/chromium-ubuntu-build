@@ -1,3 +1,9 @@
+chromium-browser (1:89.0.4356.6-0ubuntu1~ppa2~20.10.1) groovy; urgency=low
+
+  * Add libxshmfence-dev as a dependency.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 20 Dec 2020 19:18:31 -0500
+
 chromium-browser (1:89.0.4356.6-0ubuntu1~ppa1~20.10.1) groovy; urgency=low
 
   * New upstream version 89.0.4356.6
