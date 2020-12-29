@@ -1,7 +1,7 @@
-Index: dev/ui/gfx/linux/client_native_pixmap_dmabuf.cc
+Index: beta/ui/gfx/linux/client_native_pixmap_dmabuf.cc
 ===================================================================
---- dev.orig/ui/gfx/linux/client_native_pixmap_dmabuf.cc
-+++ dev/ui/gfx/linux/client_native_pixmap_dmabuf.cc
+--- beta.orig/ui/gfx/linux/client_native_pixmap_dmabuf.cc
++++ beta/ui/gfx/linux/client_native_pixmap_dmabuf.cc
 @@ -5,7 +5,6 @@
  #include "ui/gfx/linux/client_native_pixmap_dmabuf.h"
  

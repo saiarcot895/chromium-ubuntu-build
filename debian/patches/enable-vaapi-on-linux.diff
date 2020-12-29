@@ -36,11 +36,11 @@ Change-Id: Ifbbf5c9e5221a8b5733fc6d4d0cf984a1f103171
 Signed-off-by: Daniel Charles <daniel.charles@intel.com>
 ---
 
-Index: dev/chrome/browser/about_flags.cc
+Index: beta/chrome/browser/about_flags.cc
 ===================================================================
---- dev.orig/chrome/browser/about_flags.cc
-+++ dev/chrome/browser/about_flags.cc
-@@ -2836,7 +2836,7 @@ const FeatureEntry kFeatureEntries[] = {
+--- beta.orig/chrome/browser/about_flags.cc
++++ beta/chrome/browser/about_flags.cc
+@@ -2877,7 +2877,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
          flag_descriptions::kAcceleratedVideoDecodeDescription,
@@ -49,7 +49,7 @@ Index: dev/chrome/browser/about_flags.cc
          SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
  #endif  // defined(OS_LINUX) && !defined(OS_CHROMEOS) && !defined(OS_ANDROID)
-@@ -3309,10 +3309,10 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -3354,10 +3354,10 @@ const FeatureEntry kFeatureEntries[] = {
       flag_descriptions::kWebXrForceRuntimeDescription, kOsDesktop,
       MULTI_VALUE_TYPE(kWebXrForceRuntimeChoices)},
  #endif  // ENABLE_VR
@@ -62,11 +62,11 @@ Index: dev/chrome/browser/about_flags.cc
       SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedMjpegDecode)},
  #endif  // OS_CHROMEOS
      {"system-keyboard-lock", flag_descriptions::kSystemKeyboardLockName,
-Index: dev/chrome/browser/flag_descriptions.cc
+Index: beta/chrome/browser/flag_descriptions.cc
 ===================================================================
---- dev.orig/chrome/browser/flag_descriptions.cc
-+++ dev/chrome/browser/flag_descriptions.cc
-@@ -3572,9 +3572,7 @@ const char kVideoToolboxVp9DecodingDescr
+--- beta.orig/chrome/browser/flag_descriptions.cc
++++ beta/chrome/browser/flag_descriptions.cc
+@@ -3583,9 +3583,7 @@ const char kVideoToolboxVp9DecodingDescr
  
  #endif
  
@@ -77,7 +77,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
  
  const char kAcceleratedMjpegDecodeName[] =
      "Hardware-accelerated mjpeg decode for captured frame";
-@@ -3582,6 +3580,12 @@ const char kAcceleratedMjpegDecodeDescri
+@@ -3593,6 +3591,12 @@ const char kAcceleratedMjpegDecodeDescri
      "Enable hardware-accelerated mjpeg decode for captured frame where "
      "available.";
  
@@ -90,11 +90,11 @@ Index: dev/chrome/browser/flag_descriptions.cc
  const char kAllowDisableMouseAccelerationName[] =
      "Allow disabling mouse acceleration";
  const char kAllowDisableMouseAccelerationDescription[] =
-Index: dev/chrome/browser/flag_descriptions.h
+Index: beta/chrome/browser/flag_descriptions.h
 ===================================================================
---- dev.orig/chrome/browser/flag_descriptions.h
-+++ dev/chrome/browser/flag_descriptions.h
-@@ -2068,13 +2068,17 @@ extern const char kVideoToolboxVp9Decodi
+--- beta.orig/chrome/browser/flag_descriptions.h
++++ beta/chrome/browser/flag_descriptions.h
+@@ -2074,13 +2074,17 @@ extern const char kVideoToolboxVp9Decodi
  
  #endif  // defined(OS_MAC)
  
@@ -115,10 +115,10 @@ Index: dev/chrome/browser/flag_descriptions.h
  extern const char kAllowDisableMouseAccelerationName[];
  extern const char kAllowDisableMouseAccelerationDescription[];
  
-Index: dev/content/gpu/BUILD.gn
+Index: beta/content/gpu/BUILD.gn
 ===================================================================
---- dev.orig/content/gpu/BUILD.gn
-+++ dev/content/gpu/BUILD.gn
+--- beta.orig/content/gpu/BUILD.gn
++++ beta/content/gpu/BUILD.gn
 @@ -5,6 +5,7 @@
  import("//build/config/ui.gni")
  import("//gpu/vulkan/features.gni")
@@ -136,10 +136,10 @@ Index: dev/content/gpu/BUILD.gn
 +    public_configs = [ "//build/config/linux/libva" ]
 +  }
  }
-Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
+Index: beta/media/gpu/gpu_video_decode_accelerator_factory.cc
 ===================================================================
---- dev.orig/media/gpu/gpu_video_decode_accelerator_factory.cc
-+++ dev/media/gpu/gpu_video_decode_accelerator_factory.cc
+--- beta.orig/media/gpu/gpu_video_decode_accelerator_factory.cc
++++ beta/media/gpu/gpu_video_decode_accelerator_factory.cc
 @@ -160,6 +160,8 @@ GpuVideoDecodeAcceleratorFactory::Create
      vda = (this->*create_vda_function)(workarounds, gpu_preferences, media_log);
      if (vda && vda->Initialize(config, client))
@@ -157,10 +157,10 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
    std::unique_ptr<VideoDecodeAccelerator> decoder;
    decoder.reset(new VaapiVideoDecodeAccelerator(gl_client_.make_context_current,
                                                  gl_client_.bind_image));
-Index: dev/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
+Index: beta/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
 ===================================================================
---- dev.orig/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
-+++ dev/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
+--- beta.orig/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
++++ beta/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
 @@ -384,6 +384,7 @@ bool GpuVideoDecodeAccelerator::Initiali
      LOG(ERROR) << "Failed creating the VDA factory";
      return false;
@@ -177,10 +177,10 @@ Index: dev/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
  
    // Attempt to set up performing decoding tasks on IO thread, if supported by
    // the VDA.
-Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
+Index: beta/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
-+++ dev/media/gpu/vaapi/vaapi_wrapper.cc
+--- beta.orig/media/gpu/vaapi/vaapi_wrapper.cc
++++ beta/media/gpu/vaapi/vaapi_wrapper.cc
 @@ -481,6 +481,11 @@ void VADisplayState::PreSandboxInitializ
        base::File::FLAG_OPEN | base::File::FLAG_READ | base::File::FLAG_WRITE);
    if (drm_file.IsValid())
