@@ -35,8 +35,6 @@ ifneq (,$(findstring Debian,$(DEBIAN_DIST)))
 DISTRIBUTION=DEBIAN
 endif
 
-WANT_OZONE       := 0
-
 common_defines :=
 browser_defines :=
 ffmpeg_std_defines :=
@@ -76,6 +74,7 @@ common_defines += \
 				use_sysroot=false \
 				use_system_harfbuzz=false \
 				use_system_libjpeg=false \
+				use_system_libwayland=true \
 				rtc_enable_protobuf=false \
 				is_clang=true \
 				clang_base_path="/usr" \
@@ -87,6 +86,8 @@ common_defines += \
 				target_os="linux" \
 				current_os="linux" \
 				optimize_webui=false \
+				use_ozone=true \
+				use_vaapi=true \
 				force_local_build_id=true
 
 # FFmpeg-mt
@@ -129,13 +130,6 @@ else ifeq ($(DEB_HOST_ARCH),)
 else
 $(warning unanticipated arch $(DEB_HOST_ARCH))
 common_defines += target_arch="$(DEB_HOST_ARCH)"
-endif
-
-ifeq (1,$(WANT_OZONE))
-#common_defines += use_ozone=true use_xkbcommon=true use_system_minigbm=true use_v4lplugin=true use_v4l2_codec=true use_linux_v4l2_only=true
-common_defines += use_ozone=true use_xkbcommon=true use_system_minigbm=true
-else
-common_defines += use_vaapi=true
 endif
 
 subst_files = \

@@ -11,7 +11,7 @@ Index: dev/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
      min_size = VideoFrame::AllocationSize(PIXEL_FORMAT_I420, dimensions);
    } else if (image->format.fourcc == VA_FOURCC_NV12) {
      min_size = VideoFrame::AllocationSize(PIXEL_FORMAT_NV12, dimensions);
-@@ -254,7 +254,7 @@ bool VaapiMjpegDecodeAccelerator::Output
+@@ -255,7 +255,7 @@ bool VaapiMjpegDecodeAccelerator::Output
    }
  
    switch (image->format.fourcc) {
@@ -70,7 +70,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
      default:
        NOTREACHED() << "Unsupported codec type " << GetCodecName(output_codec_);
        return;
-@@ -1188,7 +1192,9 @@ bool VaapiVideoEncodeAccelerator::H264Ac
+@@ -1189,7 +1193,9 @@ bool VaapiVideoEncodeAccelerator::H264Ac
    rate_control_param.window_size = encode_params.cpb_window_size_ms;
    rate_control_param.initial_qp = pic_param.pic_init_qp;
    rate_control_param.min_qp = encode_params.scaling_settings.min_qp;
@@ -80,7 +80,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
    rate_control_param.rc_flags.bits.disable_frame_skip = true;
  
    VAEncMiscParameterFrameRate framerate_param = {};
-@@ -1400,7 +1406,9 @@ bool VaapiVideoEncodeAccelerator::VP8Acc
+@@ -1401,7 +1407,9 @@ bool VaapiVideoEncodeAccelerator::VP8Acc
    rate_control_param.window_size = encode_params.cpb_window_size_ms;
    rate_control_param.initial_qp = encode_params.initial_qp;
    rate_control_param.min_qp = encode_params.scaling_settings.min_qp;
@@ -90,7 +90,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
    rate_control_param.rc_flags.bits.disable_frame_skip = true;
  
    VAEncMiscParameterFrameRate framerate_param = {};
-@@ -1443,6 +1451,7 @@ bool VaapiVideoEncodeAccelerator::VP8Acc
+@@ -1444,6 +1452,7 @@ bool VaapiVideoEncodeAccelerator::VP8Acc
    return true;
  }
  
@@ -98,7 +98,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
  scoped_refptr<VP9Picture>
  VaapiVideoEncodeAccelerator::VP9Accelerator::GetPicture(
      AcceleratedVideoEncoder::EncodeJob* job) {
-@@ -1584,5 +1593,6 @@ bool VaapiVideoEncodeAccelerator::VP9Acc
+@@ -1585,5 +1594,6 @@ bool VaapiVideoEncodeAccelerator::VP9Acc
  
    return true;
  }
@@ -121,7 +121,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  
  #include <algorithm>
  #include <string>
-@@ -488,6 +490,62 @@ bool IsBlockedDriver(VaapiWrapper::Codec
+@@ -458,6 +460,62 @@ bool IsBlockedDriver(VaapiWrapper::Codec
    return false;
  }
  
@@ -184,7 +184,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  // This class is a wrapper around its |va_display_| (and its associated
  // |va_lock_|) to guarantee mutual exclusion and singleton behaviour.
  class VADisplayState {
-@@ -776,10 +834,16 @@ std::vector<VAEntrypoint> GetEntryPoints
+@@ -746,10 +804,16 @@ std::vector<VAEntrypoint> GetEntryPoints
  #if BUILDFLAG(IS_CHROMEOS_ASH)
      {VAEntrypointVLD, VAEntrypointProtectedContent},  // kDecodeProtected.
  #endif
@@ -205,7 +205,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
      {VAEntrypointVideoProc}    // kVideoProcess.
    };
    static_assert(base::size(kAllowedEntryPoints) == VaapiWrapper::kCodecModeMax,
-@@ -899,8 +963,13 @@ bool AreAttribsSupported(const base::Loc
+@@ -859,8 +923,13 @@ bool AreAttribsSupported(const base::Loc
      if (attribs[i].type != required_attribs[i].type ||
          (attribs[i].value & required_attribs[i].value) !=
              required_attribs[i].value) {
@@ -219,7 +219,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
        return false;
      }
    }
-@@ -1212,8 +1281,10 @@ bool VASupportedProfiles::FillProfileInf
+@@ -1136,8 +1205,10 @@ bool VASupportedProfiles::FillProfileInf
        continue;
      if (attrib.value & VA_RT_FORMAT_YUV420)
        profile_info->supported_internal_formats.yuv420 = true;
@@ -230,7 +230,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
      if (attrib.value & VA_RT_FORMAT_YUV422)
        profile_info->supported_internal_formats.yuv422 = true;
      if (attrib.value & VA_RT_FORMAT_YUV444)
-@@ -1361,16 +1432,17 @@ bool VASupportedImageFormats::InitSuppor
+@@ -1285,16 +1356,17 @@ bool VASupportedImageFormats::InitSuppor
      // Remove this workaround once b/128340287 is resolved.
      if (std::find_if(supported_formats_.cbegin(), supported_formats_.cend(),
                       [](const VAImageFormat& format) {
@@ -250,7 +250,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  bool IsLowPowerEncSupported(VAProfile va_profile) {
    constexpr VAProfile kSupportedLowPowerEncodeProfiles[] = {
        VAProfileH264ConstrainedBaseline,
-@@ -1392,6 +1464,7 @@ bool IsLowPowerEncSupported(VAProfile va
+@@ -1316,6 +1388,7 @@ bool IsLowPowerEncSupported(VAProfile va
    }
    return false;
  }
@@ -258,7 +258,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  
  }  // namespace
  
-@@ -1532,8 +1605,10 @@ bool VaapiWrapper::IsDecodingSupportedFo
+@@ -1461,8 +1534,10 @@ bool VaapiWrapper::IsDecodingSupportedFo
    switch (rt_format) {
      case VA_RT_FORMAT_YUV420:
        return supported_internal_formats->yuv420;
@@ -269,7 +269,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
      case VA_RT_FORMAT_YUV422:
        return supported_internal_formats->yuv422;
      case VA_RT_FORMAT_YUV444:
-@@ -1581,7 +1656,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1510,7 +1585,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      // The VAAPI mesa state tracker only supports conversion from NV12 to YV12
      // and IYUV (synonym of I420).
      if (rt_format == VA_RT_FORMAT_YUV420) {
@@ -278,7 +278,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
            preferred_fourcc != VA_FOURCC_YV12) {
          preferred_fourcc = VA_FOURCC_NV12;
        }
-@@ -1611,7 +1686,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1540,7 +1615,7 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      //
      if (preferred_fourcc == VA_FOURCC_422H ||
          preferred_fourcc == VA_FOURCC_P010) {
@@ -287,7 +287,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
      }
    } else if (GetImplementationType() == VAImplementation::kIntelIHD) {
      // TODO(b/155939640): iHD v19.4 fails to allocate AYUV surfaces for the VPP
-@@ -1619,16 +1694,16 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1548,16 +1623,16 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      // (b/159896972): iHD v20.1.1 cannot create Y216 and Y416 images from a
      // decoded JPEG on gen 12. It is also failing to support Y800 format.
      if (preferred_fourcc == VA_FOURCC_AYUV ||
@@ -308,7 +308,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
  
    // After workarounds, assume the conversion is supported.
-@@ -1731,8 +1806,10 @@ VAEntrypoint VaapiWrapper::GetDefaultVaE
+@@ -1660,8 +1735,10 @@ VAEntrypoint VaapiWrapper::GetDefaultVaE
        if (profile == VAProfileJPEGBaseline)
          return VAEntrypointEncPicture;
        DCHECK(IsModeEncoding(mode));
@@ -319,7 +319,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
        return VAEntrypointEncSlice;
      case VaapiWrapper::kVideoProcess:
        return VAEntrypointVideoProc;
-@@ -1994,7 +2071,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
+@@ -1899,7 +1976,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
    }
    // We only have to pass the first file descriptor to a driver. A VA-API driver
    // shall create a VASurface from the single fd correctly.
@@ -331,7 +331,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    va_attrib_extbuf.buffers = &fd;
    va_attrib_extbuf.num_buffers = 1u;
  
-@@ -2086,6 +2167,7 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+@@ -1991,6 +2072,7 @@ VaapiWrapper::ExportVASurfaceAsNativePix
      return nullptr;
    }
  
@@ -339,7 +339,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    VADRMPRIMESurfaceDescriptor descriptor;
    {
      base::AutoLock auto_lock(*va_lock_);
-@@ -2179,6 +2261,10 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+@@ -2084,6 +2166,10 @@ VaapiWrapper::ExportVASurfaceAsNativePix
    exported_pixmap->pixmap = base::MakeRefCounted<gfx::NativePixmapDmaBuf>(
        scoped_va_surface.size(), buffer_format, std::move(handle));
    return exported_pixmap;
@@ -350,7 +350,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  }
  
  bool VaapiWrapper::SyncSurface(VASurfaceID va_surface_id) {
-@@ -2511,6 +2597,7 @@ bool VaapiWrapper::GetVAEncMaxNumOfRefFr
+@@ -2416,6 +2502,7 @@ bool VaapiWrapper::GetVAEncMaxNumOfRefFr
  }
  
  bool VaapiWrapper::IsRotationSupported() {
@@ -358,7 +358,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    base::AutoLock auto_lock(*va_lock_);
    VAProcPipelineCaps pipeline_caps;
    memset(&pipeline_caps, 0, sizeof(pipeline_caps));
-@@ -2524,6 +2611,10 @@ bool VaapiWrapper::IsRotationSupported()
+@@ -2429,6 +2516,10 @@ bool VaapiWrapper::IsRotationSupported()
      return false;
    }
    return true;
@@ -369,7 +369,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  }
  
  bool VaapiWrapper::BlitSurface(const VASurface& va_surface_src,
-@@ -2578,6 +2669,7 @@ bool VaapiWrapper::BlitSurface(const VAS
+@@ -2483,6 +2574,7 @@ bool VaapiWrapper::BlitSurface(const VAS
      pipeline_param->output_color_standard = VAProcColorStandardNone;
      pipeline_param->filter_flags = VA_FILTER_SCALING_DEFAULT;
  
@@ -377,7 +377,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
      switch (rotation) {
        case VIDEO_ROTATION_0:
          pipeline_param->rotation_state = VA_ROTATION_NONE;
-@@ -2592,6 +2684,7 @@ bool VaapiWrapper::BlitSurface(const VAS
+@@ -2497,6 +2589,7 @@ bool VaapiWrapper::BlitSurface(const VAS
          pipeline_param->rotation_state = VA_ROTATION_270;
          break;
      }
@@ -514,7 +514,7 @@ Index: dev/ui/gtk/gtk_util.cc
  WEAK_GTK_FN(gtk_widget_path_iter_set_state);
  
  namespace {
-@@ -344,8 +346,10 @@ ScopedStyleContext AppendCssNodeToStyleC
+@@ -332,8 +334,10 @@ ScopedStyleContext AppendCssNodeToStyleC
            break;
          case CSS_OBJECT_NAME:
            if (GtkCheckVersion(3, 20)) {
@@ -525,7 +525,7 @@ Index: dev/ui/gtk/gtk_util.cc
            } else {
              gtk_widget_path_iter_add_class(path, -1, t.token().c_str());
            }
-@@ -355,8 +359,10 @@ ScopedStyleContext AppendCssNodeToStyleC
+@@ -343,8 +347,10 @@ ScopedStyleContext AppendCssNodeToStyleC
            DCHECK(type);
            gtk_widget_path_append_type(path, type);
            if (GtkCheckVersion(3, 20) && t.token() == "GtkLabel") {
@@ -560,7 +560,7 @@ Index: dev/ui/base/x/x11_display_util.cc
 ===================================================================
 --- dev.orig/ui/base/x/x11_display_util.cc
 +++ dev/ui/base/x/x11_display_util.cc
-@@ -33,6 +33,7 @@ std::map<x11::RandR::Output, int> GetMon
+@@ -34,6 +34,7 @@ std::map<x11::RandR::Output, int> GetMon
                                                x11::RandR* randr,
                                                x11::Window window) {
    std::map<x11::RandR::Output, int> output_to_monitor;
@@ -568,7 +568,7 @@ Index: dev/ui/base/x/x11_display_util.cc
    if (version >= 105) {
      if (auto reply = randr->GetMonitors({window}).Sync()) {
        for (size_t monitor = 0; monitor < reply->monitors.size(); monitor++) {
-@@ -41,6 +42,7 @@ std::map<x11::RandR::Output, int> GetMon
+@@ -42,6 +43,7 @@ std::map<x11::RandR::Output, int> GetMon
        }
      }
    }
@@ -580,7 +580,7 @@ Index: dev/third_party/nearby/src/cpp/core/internal/payload_manager.cc
 ===================================================================
 --- dev.orig/third_party/nearby/src/cpp/core/internal/payload_manager.cc
 +++ dev/third_party/nearby/src/cpp/core/internal/payload_manager.cc
-@@ -957,7 +957,7 @@ PayloadManager::PendingPayload::PendingP
+@@ -942,7 +942,7 @@ PayloadManager::PendingPayload::PendingP
    for (const auto& id : endpoint_ids) {
      endpoints_.emplace(id, EndpointInfo{
                                 .id = id,
@@ -595,7 +595,7 @@ Index: dev/ui/gfx/x/event.cc
 +++ dev/ui/gfx/x/event.cc
 @@ -35,6 +35,10 @@ Event::Event(scoped_refptr<base::RefCoun
      if ((xcb_event->response_type & ~kSendEventMask) ==
-         x11::GeGenericEvent::opcode) {
+         GeGenericEvent::opcode) {
        auto* ge = reinterpret_cast<xcb_ge_event_t*>(xcb_event);
 +#if 1
 +      // Xenial doesn't know what xcb_raw_generic_event_t is
@@ -654,7 +654,7 @@ Index: dev/ui/ozone/platform/wayland/host/gtk_ui_delegate_wayland.cc
 ===================================================================
 --- dev.orig/ui/ozone/platform/wayland/host/gtk_ui_delegate_wayland.cc
 +++ dev/ui/ozone/platform/wayland/host/gtk_ui_delegate_wayland.cc
-@@ -20,9 +20,7 @@
+@@ -21,9 +21,7 @@
  #include "ui/ozone/platform/wayland/host/xdg_foreign_wrapper.h"
  #include "ui/platform_window/platform_window_init_properties.h"
  
@@ -685,3 +685,25 @@ Index: dev/sandbox/policy/linux/bpf_gpu_policy_linux.cc
  
        break;
      }
+Index: dev/third_party/wayland/src/src/scanner.c
+===================================================================
+--- dev.orig/third_party/wayland/src/src/scanner.c
++++ dev/third_party/wayland/src/src/scanner.c
+@@ -974,17 +974,6 @@ verify_arguments(struct parse_context *c
+ 
+ }
+ 
+-#ifndef HAVE_STRNDUP
+-char *
+-strndup(const char *s, size_t size)
+-{
+-	char *r = malloc(size + 1);
+-	strncpy(r, s, size);
+-	r[size] = '\0';
+-	return r;
+-}
+-#endif
+-
+ static void
+ end_element(void *data, const XML_Char *name)
+ {

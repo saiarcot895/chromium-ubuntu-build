@@ -40,7 +40,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -2949,7 +2949,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -2972,7 +2972,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
          flag_descriptions::kAcceleratedVideoDecodeDescription,
@@ -49,7 +49,7 @@ Index: dev/chrome/browser/about_flags.cc
          SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
  #endif  // (defined(OS_LINUX) || BUILDFLAG(IS_CHROMEOS_LACROS)) &&
-@@ -3457,10 +3457,10 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -3468,10 +3468,10 @@ const FeatureEntry kFeatureEntries[] = {
       flag_descriptions::kWebXrForceRuntimeDescription, kOsDesktop,
       MULTI_VALUE_TYPE(kWebXrForceRuntimeChoices)},
  #endif  // ENABLE_VR
@@ -66,7 +66,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
 ===================================================================
 --- dev.orig/chrome/browser/flag_descriptions.cc
 +++ dev/chrome/browser/flag_descriptions.cc
-@@ -3682,7 +3682,7 @@ const char kVideoToolboxVp9DecodingDescr
+@@ -3662,7 +3662,7 @@ const char kVideoToolboxVp9DecodingDescr
  
  // Chrome OS -------------------------------------------------------------------
  
@@ -75,7 +75,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
  
  const char kAccountManagementFlowsV2Name[] =
      "Enable redesign of account management flows";
-@@ -3697,6 +3697,12 @@ const char kAcceleratedMjpegDecodeDescri
+@@ -3677,6 +3677,12 @@ const char kAcceleratedMjpegDecodeDescri
      "Enable hardware-accelerated mjpeg decode for captured frame where "
      "available.";
  
@@ -92,7 +92,7 @@ Index: dev/chrome/browser/flag_descriptions.h
 ===================================================================
 --- dev.orig/chrome/browser/flag_descriptions.h
 +++ dev/chrome/browser/flag_descriptions.h
-@@ -2130,7 +2130,7 @@ extern const char kVideoToolboxVp9Decodi
+@@ -2121,7 +2121,7 @@ extern const char kVideoToolboxVp9Decodi
  
  // Chrome OS ------------------------------------------------------------------
  
@@ -101,7 +101,7 @@ Index: dev/chrome/browser/flag_descriptions.h
  
  extern const char kAccountManagementFlowsV2Name[];
  extern const char kAccountManagementFlowsV2Description[];
-@@ -2138,6 +2138,12 @@ extern const char kAccountManagementFlow
+@@ -2129,6 +2129,12 @@ extern const char kAccountManagementFlow
  extern const char kAcceleratedMjpegDecodeName[];
  extern const char kAcceleratedMjpegDecodeDescription[];
  
@@ -180,7 +180,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -550,6 +550,11 @@ void VADisplayState::PreSandboxInitializ
+@@ -520,6 +520,11 @@ void VADisplayState::PreSandboxInitializ
        base::File::FLAG_OPEN | base::File::FLAG_READ | base::File::FLAG_WRITE);
    if (drm_file.IsValid())
      VADisplayState::Get()->SetDrmFd(drm_file.GetPlatformFile());
@@ -192,7 +192,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  }
  
  VADisplayState::VADisplayState()
-@@ -656,10 +661,6 @@ bool VADisplayState::InitializeVaDriver_
+@@ -626,10 +631,6 @@ bool VADisplayState::InitializeVaDriver_
  }
  
  bool VADisplayState::InitializeOnce() {
@@ -203,7 +203,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    // Set VA logging level, unless already set.
    constexpr char libva_log_level_env[] = "LIBVA_MESSAGING_LEVEL";
    std::unique_ptr<base::Environment> env(base::Environment::Create());
-@@ -680,7 +681,6 @@ bool VADisplayState::InitializeOnce() {
+@@ -650,7 +651,6 @@ bool VADisplayState::InitializeOnce() {
      // https://github.com/intel/media-driver/issues/818
      if (!env->HasVar(libva_driver_impl_env))
        env->SetVar(libva_driver_impl_env, "i965");
@@ -211,7 +211,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
      // Re-initialize with the new driver.
      va_display_ = nullptr;
      va_initialized_ = false;
-@@ -896,7 +896,7 @@ bool AreAttribsSupported(const base::Loc
+@@ -856,7 +856,7 @@ bool AreAttribsSupported(const base::Loc
      if (attribs[i].type != required_attribs[i].type ||
          (attribs[i].value & required_attribs[i].value) !=
              required_attribs[i].value) {

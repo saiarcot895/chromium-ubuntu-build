@@ -1,3 +1,10 @@
+chromium-browser (1:89.0.4385.0-0ubuntu1~ppa1~20.10.1) groovy; urgency=low
+
+  * New upstream version 89.0.4385.0
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 18 Jan 2021 01:57:17 -0500
+
 chromium-browser (1:89.0.4356.6-0ubuntu1~ppa2~20.10.1) groovy; urgency=low
 
   * Add libxshmfence-dev as a dependency.

@@ -12,7 +12,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
      if (!vpp_vaapi_wrapper_) {
        vpp_vaapi_wrapper_ = VaapiWrapper::Create(
            VaapiWrapper::kVideoProcess, VAProfileNone,
-@@ -1210,6 +1211,11 @@ VaapiVideoDecodeAccelerator::GetSupporte
+@@ -1211,6 +1212,11 @@ VaapiVideoDecodeAccelerator::GetSupporte
    return profiles;
  }
  
@@ -41,7 +41,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -1637,6 +1637,12 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1566,6 +1566,12 @@ bool VaapiWrapper::GetJpegDecodeSuitable
  }
  
  // static
@@ -58,7 +58,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.h
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.h
 +++ dev/media/gpu/vaapi/vaapi_wrapper.h
-@@ -208,6 +208,9 @@ class MEDIA_GPU_EXPORT VaapiWrapper
+@@ -210,6 +210,9 @@ class MEDIA_GPU_EXPORT VaapiWrapper
                                                 uint32_t preferred_fourcc,
                                                 uint32_t* suitable_fourcc);
  
