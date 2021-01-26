@@ -40,7 +40,7 @@ Index: dev/chrome/browser/about_flags.cc
 ===================================================================
 --- dev.orig/chrome/browser/about_flags.cc
 +++ dev/chrome/browser/about_flags.cc
-@@ -2972,7 +2972,7 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -3014,7 +3014,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
          flag_descriptions::kAcceleratedVideoDecodeDescription,
@@ -49,7 +49,7 @@ Index: dev/chrome/browser/about_flags.cc
          SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
  #endif  // (defined(OS_LINUX) || BUILDFLAG(IS_CHROMEOS_LACROS)) &&
-@@ -3468,10 +3468,10 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -3510,10 +3510,10 @@ const FeatureEntry kFeatureEntries[] = {
       flag_descriptions::kWebXrForceRuntimeDescription, kOsDesktop,
       MULTI_VALUE_TYPE(kWebXrForceRuntimeChoices)},
  #endif  // ENABLE_VR
@@ -66,7 +66,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
 ===================================================================
 --- dev.orig/chrome/browser/flag_descriptions.cc
 +++ dev/chrome/browser/flag_descriptions.cc
-@@ -3662,7 +3662,7 @@ const char kVideoToolboxVp9DecodingDescr
+@@ -3656,7 +3656,7 @@ const char kVideoToolboxVp9DecodingDescr
  
  // Chrome OS -------------------------------------------------------------------
  
@@ -75,7 +75,7 @@ Index: dev/chrome/browser/flag_descriptions.cc
  
  const char kAccountManagementFlowsV2Name[] =
      "Enable redesign of account management flows";
-@@ -3677,6 +3677,12 @@ const char kAcceleratedMjpegDecodeDescri
+@@ -3671,6 +3671,12 @@ const char kAcceleratedMjpegDecodeDescri
      "Enable hardware-accelerated mjpeg decode for captured frame where "
      "available.";
  
@@ -92,7 +92,7 @@ Index: dev/chrome/browser/flag_descriptions.h
 ===================================================================
 --- dev.orig/chrome/browser/flag_descriptions.h
 +++ dev/chrome/browser/flag_descriptions.h
-@@ -2121,7 +2121,7 @@ extern const char kVideoToolboxVp9Decodi
+@@ -2114,7 +2114,7 @@ extern const char kVideoToolboxVp9Decodi
  
  // Chrome OS ------------------------------------------------------------------
  
@@ -101,7 +101,7 @@ Index: dev/chrome/browser/flag_descriptions.h
  
  extern const char kAccountManagementFlowsV2Name[];
  extern const char kAccountManagementFlowsV2Description[];
-@@ -2129,6 +2129,12 @@ extern const char kAccountManagementFlow
+@@ -2122,6 +2122,12 @@ extern const char kAccountManagementFlow
  extern const char kAcceleratedMjpegDecodeName[];
  extern const char kAcceleratedMjpegDecodeDescription[];
  

@@ -514,7 +514,7 @@ Index: dev/ui/gtk/gtk_util.cc
  WEAK_GTK_FN(gtk_widget_path_iter_set_state);
  
  namespace {
-@@ -332,8 +334,10 @@ ScopedStyleContext AppendCssNodeToStyleC
+@@ -327,8 +329,10 @@ ScopedStyleContext AppendCssNodeToStyleC
            break;
          case CSS_OBJECT_NAME:
            if (GtkCheckVersion(3, 20)) {
@@ -525,7 +525,7 @@ Index: dev/ui/gtk/gtk_util.cc
            } else {
              gtk_widget_path_iter_add_class(path, -1, t.token().c_str());
            }
-@@ -343,8 +347,10 @@ ScopedStyleContext AppendCssNodeToStyleC
+@@ -338,8 +342,10 @@ ScopedStyleContext AppendCssNodeToStyleC
            DCHECK(type);
            gtk_widget_path_append_type(path, type);
            if (GtkCheckVersion(3, 20) && t.token() == "GtkLabel") {
@@ -707,3 +707,38 @@ Index: dev/third_party/wayland/src/src/scanner.c
  static void
  end_element(void *data, const XML_Char *name)
  {
+Index: dev/third_party/libva_protected_content/va_protected_content.h
+===================================================================
+--- dev.orig/third_party/libva_protected_content/va_protected_content.h
++++ dev/third_party/libva_protected_content/va_protected_content.h
+@@ -132,6 +132,10 @@ extern "C" {
+ #define VA_PC_SAMPLE_TYPE_FULLSAMPLE 0x00000001
+ #define VA_PC_SAMPLE_TYPE_SUBSAMPLE 0x00000002
+ 
++#ifndef VA_PADDING_MEDIUM
++#define VA_PADDING_MEDIUM 8
++#endif
++
+ /** \brief TeeExec Function Codes. */
+ typedef enum _VA_TEE_EXEC_FUNCTION_ID {
+   VA_TEE_EXEC_TEE_FUNCID_PASS_THROUGH_NONE = 0x0,
+Index: dev/third_party/snappy/src/snappy.cc
+===================================================================
+--- dev.orig/third_party/snappy/src/snappy.cc
++++ dev/third_party/snappy/src/snappy.cc
+@@ -1026,15 +1026,8 @@ size_t AdvanceToNextTag(const uint8_t**
+   size_t literal_len = *tag >> 2;
+   size_t tag_type = *tag;
+   bool is_literal;
+-#if defined(__GNUC__) && defined(__x86_64__)
+-  // TODO clang misses the fact that the (c & 3) already correctly
+-  // sets the zero flag.
+-  asm("and $3, %k[tag_type]\n\t"
+-      : [tag_type] "+r"(tag_type), "=@ccz"(is_literal));
+-#else
+   tag_type &= 3;
+   is_literal = (tag_type == 0);
+-#endif
+   // TODO
+   // This is code is subtle. Loading the values first and then cmov has less
+   // latency then cmov ip and then load. However clang would move the loads
