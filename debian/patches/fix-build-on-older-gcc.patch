@@ -742,3 +742,18 @@ Index: dev/third_party/snappy/src/snappy.cc
    // TODO
    // This is code is subtle. Loading the values first and then cmov has less
    // latency then cmov ip and then load. However clang would move the loads
+Index: dev/media/gpu/chromeos/platform_video_frame_utils.cc
+===================================================================
+--- dev.orig/media/gpu/chromeos/platform_video_frame_utils.cc
++++ dev/media/gpu/chromeos/platform_video_frame_utils.cc
+@@ -37,6 +37,10 @@
+ #include "ui/gfx/linux/native_pixmap_dmabuf.h"
+ #include "ui/gfx/native_pixmap.h"
+ 
++#ifndef DRM_FORMAT_INVALID
++#define DRM_FORMAT_INVALID 0
++#endif
++
+ namespace media {
+ 
+ namespace {
