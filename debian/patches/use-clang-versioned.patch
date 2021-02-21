@@ -13,7 +13,7 @@ Index: dev/build/toolchain/gcc_toolchain.gni
  }
  
  # When the arg is set via args.gn, it applies to all toolchains. In order to not
-@@ -639,12 +643,16 @@ template("clang_toolchain") {
+@@ -646,12 +650,16 @@ template("clang_toolchain") {
    }
  
    gcc_toolchain(target_name) {

@@ -6,17 +6,17 @@ Index: dev/chrome/common/chrome_paths.cc
 ===================================================================
 --- dev.orig/chrome/common/chrome_paths.cc
 +++ dev/chrome/common/chrome_paths.cc
-@@ -62,6 +62,9 @@ const base::FilePath::CharType kFilepath
- // where it can find the latest component updated flash.
- const base::FilePath::CharType kComponentUpdatedFlashHint[] =
-     FILE_PATH_LITERAL("latest-component-updated-flash");
+@@ -54,6 +54,9 @@ const base::FilePath::CharType kFilepath
+     FILE_PATH_LITERAL("/usr/share/chromium/extensions");
+ #endif  // BUILDFLAG(GOOGLE_CHROME_BRANDING)
+ 
 +
 +const base::FilePath::CharType kFilepathSinglePrefExtensionsNew[] =
 +    FILE_PATH_LITERAL("/usr/share/chromium-browser/extensions");
  #endif  // defined(OS_LINUX) || defined(OS_CHROMEOS)
  
  #if (defined(OS_LINUX) || defined(OS_CHROMEOS)) && \
-@@ -449,6 +452,9 @@ bool PathProvider(int key, base::FilePat
+@@ -427,6 +430,9 @@ bool PathProvider(int key, base::FilePat
        cur = base::FilePath(FILE_PATH_LITERAL("/etc/opt/chrome/policies"));
  #else
        cur = base::FilePath(FILE_PATH_LITERAL("/etc/chromium/policies"));
@@ -26,7 +26,7 @@ Index: dev/chrome/common/chrome_paths.cc
  #endif
        break;
      }
-@@ -468,6 +474,10 @@ bool PathProvider(int key, base::FilePat
+@@ -446,6 +452,10 @@ bool PathProvider(int key, base::FilePat
  #endif
  #if defined(OS_LINUX) || defined(OS_CHROMEOS)
      case chrome::DIR_STANDALONE_EXTERNAL_EXTENSIONS: {
@@ -37,7 +37,7 @@ Index: dev/chrome/common/chrome_paths.cc
        cur = base::FilePath(kFilepathSinglePrefExtensions);
        break;
      }
-@@ -518,6 +528,10 @@ bool PathProvider(int key, base::FilePat
+@@ -496,6 +506,10 @@ bool PathProvider(int key, base::FilePat
  #else
        cur = base::FilePath(FILE_PATH_LITERAL(
            "/etc/chromium/native-messaging-hosts"));
