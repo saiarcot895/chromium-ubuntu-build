@@ -358,18 +358,19 @@ Index: dev/base/rand_util_posix.cc
  
  #include "base/check.h"
  #include "base/compiler_specific.h"
-@@ -22,8 +23,10 @@
+@@ -18,7 +19,11 @@
+ #include "build/build_config.h"
+ 
+ #if (defined(OS_LINUX) || defined(OS_CHROMEOS)) && !defined(OS_NACL)
++#if __GLIBC_PREREQ(2, 25)
++#include <sys/random.h>
++#else
+ #include "third_party/lss/linux_syscall_support.h"
++#endif
  #elif defined(OS_MAC)
  // TODO(crbug.com/995996): Waiting for this header to appear in the iOS SDK.
  // (See below.)
-+#if __GLIBC_PREREQ(2, 25)
- #include <sys/random.h>
- #endif
-+#endif
- 
- namespace {
- 
-@@ -63,10 +66,14 @@ namespace base {
+@@ -63,10 +68,14 @@ namespace base {
  // it or some form of it.
  void RandBytes(void* output, size_t output_length) {
  #if (defined(OS_LINUX) || defined(OS_CHROMEOS)) && !defined(OS_NACL)
