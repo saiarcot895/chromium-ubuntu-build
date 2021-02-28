@@ -119,11 +119,63 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  #include <va/va_version.h>
  #include <xf86drm.h>
  
+@@ -405,7 +407,9 @@ const ProfileCodecMap& GetProfileCodecMa
+           {VP9PROFILE_PROFILE2, VAProfileVP9Profile2},
+       // VaapiWrapper does not support Profile 3.
+       //{VP9PROFILE_PROFILE3, VAProfileVP9Profile3},
++#if VA_CHECK_VERSION(1, 7, 0)
+           {AV1PROFILE_PROFILE_MAIN, VAProfileAV1Profile0},
++#endif
+         // VaapiWrapper does not support AV1 Profile 1.
+         // {AV1PROFILE_PROFILE_HIGH, VAProfileAV1Profile1},
+ #if BUILDFLAG(ENABLE_PLATFORM_HEVC)
+@@ -442,8 +446,12 @@ bool IsVAProfileSupported(VAProfile va_p
+ 
+ bool IsBlockedDriver(VaapiWrapper::CodecMode mode, VAProfile va_profile) {
+   if (!IsModeEncoding(mode)) {
++#if VA_CHECK_VERSION(1, 7, 0)
+     return va_profile == VAProfileAV1Profile0 &&
+            !base::FeatureList::IsEnabled(kVaapiAV1Decoder);
++#else
++    return false;
++#endif
+   }
+ 
+   // TODO(posciak): Remove once VP8 encoding is to be enabled by default.
+@@ -1179,7 +1187,7 @@ bool VASupportedProfiles::FillProfileInf
+       continue;
+     if (attrib.value & VA_RT_FORMAT_YUV420)
+       profile_info->supported_internal_formats.yuv420 = true;
+-    if (attrib.value & VA_RT_FORMAT_YUV420_10)
++    if (attrib.value & VA_RT_FORMAT_YUV420_10BPP)
+       profile_info->supported_internal_formats.yuv420_10 = true;
+     if (attrib.value & VA_RT_FORMAT_YUV422)
+       profile_info->supported_internal_formats.yuv422 = true;
+@@ -1501,7 +1509,7 @@ bool VaapiWrapper::IsDecodingSupportedFo
+   switch (rt_format) {
+     case VA_RT_FORMAT_YUV420:
+       return supported_internal_formats->yuv420;
+-    case VA_RT_FORMAT_YUV420_10:
++    case VA_RT_FORMAT_YUV420_10BPP:
+       return supported_internal_formats->yuv420_10;
+     case VA_RT_FORMAT_YUV422:
+       return supported_internal_formats->yuv422;
+@@ -1588,8 +1596,10 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+     // (b/159896972): iHD v20.1.1 cannot create Y216 and Y416 images from a
+     // decoded JPEG on gen 12. It is also failing to support Y800 format.
+     if (preferred_fourcc == VA_FOURCC_AYUV ||
++#if VA_CHECK_VERSION(1, 2, 0)
+         preferred_fourcc == VA_FOURCC_Y216 ||
+         preferred_fourcc == VA_FOURCC_Y416 ||
++#endif
+         preferred_fourcc == VA_FOURCC_Y800) {
+       preferred_fourcc = VA_FOURCC_I420;
+     }
 Index: dev/media/gpu/chromeos/fourcc.cc
 ===================================================================
 --- dev.orig/media/gpu/chromeos/fourcc.cc
 +++ dev/media/gpu/chromeos/fourcc.cc
-@@ -215,11 +215,11 @@ uint32_t Fourcc::ToV4L2PixFmt() const {
+@@ -217,11 +217,11 @@ uint32_t Fourcc::ToV4L2PixFmt() const {
  // static
  base::Optional<Fourcc> Fourcc::FromVAFourCC(uint32_t va_fourcc) {
    switch (va_fourcc) {
@@ -137,7 +189,7 @@ Index: dev/media/gpu/chromeos/fourcc.cc
        return Fourcc(NV21);
      case VA_FOURCC_YV12:
        return Fourcc(YV12);
-@@ -245,11 +245,11 @@ base::Optional<Fourcc> Fourcc::FromVAFou
+@@ -247,11 +247,11 @@ base::Optional<Fourcc> Fourcc::FromVAFou
  base::Optional<uint32_t> Fourcc::ToVAFourCC() const {
    switch (value_) {
      case YU12:
@@ -195,7 +247,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
          condition = ' || '.join([
              '%s(%s_expr, %s)' % (op, switch_name, self.expr(expr))
              for expr in case.type.expr
-@@ -952,7 +956,7 @@ class GenXproto(FileWriter):
+@@ -1016,7 +1020,7 @@ class GenXproto(FileWriter):
              self.write_special_container(item, name)
          if isinstance(item, self.xcbgen.xtypes.Request):
              self.define_request(item)
@@ -204,7 +256,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
              self.define_event(item, name)
          elif isinstance(item, self.xcbgen.xtypes.Error):
              self.define_error(item, name)
-@@ -962,7 +966,7 @@ class GenXproto(FileWriter):
+@@ -1026,7 +1030,7 @@ class GenXproto(FileWriter):
              self.declare_union(item)
          elif isinstance(item, self.xcbgen.xtypes.Request):
              self.declare_request(item)
@@ -213,7 +265,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
              self.declare_event(item, name)
          elif isinstance(item, self.xcbgen.xtypes.Error):
              self.declare_error(item, name)
-@@ -1044,7 +1048,7 @@ class GenXproto(FileWriter):
+@@ -1108,7 +1112,7 @@ class GenXproto(FileWriter):
                          and field_name in fields):
                      setattr(fields[field_name], for_type, field)
  
@@ -222,7 +274,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
                  self.resolve_type(field.type, field.field_type)
  
          if isinstance(t, self.xcbgen.xtypes.Request) and t.reply:
-@@ -1167,6 +1171,11 @@ class GenXproto(FileWriter):
+@@ -1232,6 +1236,11 @@ class GenXproto(FileWriter):
          for direct_import in sorted(list(imports)):
              self.write('#include "%s.h"' % direct_import[-1])
          self.write()
@@ -389,17 +441,17 @@ Index: dev/ui/ozone/platform/wayland/host/gtk_ui_delegate_wayland.cc
 ===================================================================
 --- dev.orig/ui/ozone/platform/wayland/host/gtk_ui_delegate_wayland.cc
 +++ dev/ui/ozone/platform/wayland/host/gtk_ui_delegate_wayland.cc
-@@ -21,9 +21,7 @@
- #include "ui/ozone/platform/wayland/host/xdg_foreign_wrapper.h"
- #include "ui/platform_window/platform_window_init_properties.h"
+@@ -25,9 +25,7 @@
+ #else
+ #include <gdk/gdkwayland.h>
  
 -#define WEAK_GTK_FN(x) extern "C" __attribute__((weak)) decltype(x) x
 -
 -WEAK_GTK_FN(gdk_wayland_window_set_transient_for_exported);
 +extern "C" gboolean gdk_wayland_window_set_transient_for_exported (GdkWindow *window,  char *parent_handle_str) __attribute__((weak));
+ #endif
  
  namespace ui {
- 
 Index: dev/sandbox/policy/linux/bpf_gpu_policy_linux.cc
 ===================================================================
 --- dev.orig/sandbox/policy/linux/bpf_gpu_policy_linux.cc
@@ -446,9 +498,9 @@ Index: dev/third_party/libva_protected_content/va_protected_content.h
 ===================================================================
 --- dev.orig/third_party/libva_protected_content/va_protected_content.h
 +++ dev/third_party/libva_protected_content/va_protected_content.h
-@@ -138,6 +138,10 @@ extern "C" {
- 
- #endif  // LEGACY_UPSTREAM_PROTECTED_LIBVA
+@@ -50,6 +50,10 @@ extern "C" {
+  * The buffer corresponds to #VACencStatusParameters for va/cp*/
+ #define VACencStatusParameterBufferType ((VABufferType)0x20002)
  
 +#ifndef VA_PADDING_MEDIUM
 +#define VA_PADDING_MEDIUM 8
@@ -492,3 +544,92 @@ Index: dev/media/gpu/chromeos/platform_video_frame_utils.cc
  namespace media {
  
  namespace {
+Index: dev/media/gpu/vaapi/av1_vaapi_video_decoder_delegate.cc
+===================================================================
+--- dev.orig/media/gpu/vaapi/av1_vaapi_video_decoder_delegate.cc
++++ dev/media/gpu/vaapi/av1_vaapi_video_decoder_delegate.cc
+@@ -20,6 +20,7 @@
+ #include "third_party/libgav1/src/src/warp_prediction.h"
+ 
+ namespace media {
++#if VA_CHECK_VERSION(1, 7, 0)
+ namespace {
+ 
+ #define ARRAY_SIZE(ar) (sizeof(ar) / sizeof(ar[0]))
+@@ -716,6 +717,7 @@ bool FillAV1SliceParameters(
+   return true;
+ }
+ }  // namespace
++#endif
+ 
+ AV1VaapiVideoDecoderDelegate::AV1VaapiVideoDecoderDelegate(
+     DecodeSurfaceHandler<VASurface>* const vaapi_dec,
+@@ -734,6 +736,7 @@ AV1VaapiVideoDecoderDelegate::~AV1VaapiV
+ scoped_refptr<AV1Picture> AV1VaapiVideoDecoderDelegate::CreateAV1Picture(
+     bool apply_grain) {
+   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
++#if VA_CHECK_VERSION(1, 7, 0)
+   const auto display_va_surface = vaapi_dec_->CreateSurface();
+   if (!display_va_surface)
+     return nullptr;
+@@ -754,15 +757,22 @@ scoped_refptr<AV1Picture> AV1VaapiVideoD
+ 
+   return base::MakeRefCounted<VaapiAV1Picture>(
+       std::move(display_va_surface), std::move(reconstruct_va_surface));
++#else
++  return nullptr;
++#endif
+ }
+ 
+ bool AV1VaapiVideoDecoderDelegate::OutputPicture(const AV1Picture& pic) {
+   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
++#if VA_CHECK_VERSION(1, 7, 0)
+   const auto* vaapi_pic = static_cast<const VaapiAV1Picture*>(&pic);
+   vaapi_dec_->SurfaceReady(vaapi_pic->display_va_surface(),
+                            vaapi_pic->bitstream_id(), vaapi_pic->visible_rect(),
+                            vaapi_pic->get_colorspace());
+   return true;
++#else
++  return false;
++#endif
+ }
+ 
+ bool AV1VaapiVideoDecoderDelegate::SubmitDecode(
+@@ -778,6 +788,7 @@ bool AV1VaapiVideoDecoderDelegate::Submi
+   const size_t tile_columns =
+       base::checked_cast<size_t>(pic.frame_header.tile_info.tile_columns);
+ 
++#if VA_CHECK_VERSION(1, 7, 0)
+   VADecPictureParameterBufferAV1 pic_param;
+   std::vector<VASliceParameterBufferAV1> slice_params;
+   if (!FillAV1PictureParameter(pic, seq_header, ref_frames, pic_param) ||
+@@ -828,6 +839,9 @@ bool AV1VaapiVideoDecoderDelegate::Submi
+   const auto* vaapi_pic = static_cast<const VaapiAV1Picture*>(&pic);
+   return vaapi_wrapper_->MapAndCopyAndExecute(
+       vaapi_pic->reconstruct_va_surface()->id(), buffers);
++#else
++  return false;
++#endif
+ }
+ 
+ void AV1VaapiVideoDecoderDelegate::OnVAContextDestructionSoon() {
+Index: dev/media/gpu/vaapi/vaapi_video_decoder.cc
+===================================================================
+--- dev.orig/media/gpu/vaapi/vaapi_video_decoder.cc
++++ dev/media/gpu/vaapi/vaapi_video_decoder.cc
+@@ -961,6 +961,7 @@ Status VaapiVideoDecoder::CreateAccelera
+         new H265Decoder(std::move(accelerator), profile_, color_space_));
+   }
+ #endif  // BUILDFLAG(ENABLE_PLATFORM_HEVC)
++#if VA_CHECK_VERSION(1, 7, 0)
+   else if (profile_ >= AV1PROFILE_MIN && profile_ <= AV1PROFILE_MAX) {
+     auto accelerator =
+         std::make_unique<AV1VaapiVideoDecoderDelegate>(this, vaapi_wrapper_);
+@@ -968,6 +969,7 @@ Status VaapiVideoDecoder::CreateAccelera
+ 
+     decoder_.reset(new AV1Decoder(std::move(accelerator), profile_));
+   }
++#endif
+   else {
+     return Status(StatusCode::kDecoderUnsupportedProfile)
+         .WithData("profile", profile_);
