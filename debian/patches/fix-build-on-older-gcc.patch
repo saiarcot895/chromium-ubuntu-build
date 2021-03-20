@@ -1,7 +1,7 @@
-Index: dev/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
+Index: beta/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
 ===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
-+++ dev/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
+--- beta.orig/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
++++ beta/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
 @@ -72,7 +72,7 @@ static bool VerifyDataSize(const VAImage
    const gfx::Size dimensions(base::strict_cast<int>(image->width),
                               base::strict_cast<int>(image->height));
@@ -20,10 +20,10 @@ Index: dev/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
        DCHECK_EQ(image->num_planes, 3u);
        switch (video_frame->format()) {
          case PIXEL_FORMAT_I420:
-Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.h
+Index: beta/media/gpu/vaapi/vaapi_video_encode_accelerator.h
 ===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_video_encode_accelerator.h
-+++ dev/media/gpu/vaapi/vaapi_video_encode_accelerator.h
+--- beta.orig/media/gpu/vaapi/vaapi_video_encode_accelerator.h
++++ beta/media/gpu/vaapi/vaapi_video_encode_accelerator.h
 @@ -52,7 +52,9 @@ class MEDIA_GPU_EXPORT VaapiVideoEncodeA
    friend class VaapiVideoEncodeAcceleratorTest;
    class H264Accelerator;
@@ -34,10 +34,10 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.h
  
    // Encoder state.
    enum State {
-Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
+Index: beta/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
 ===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
-+++ dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
+--- beta.orig/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
++++ beta/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
 @@ -202,6 +202,7 @@ class VaapiVideoEncodeAccelerator::VP8Ac
    VaapiVideoEncodeAccelerator* const vea_;
  };
@@ -105,10 +105,10 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
 +#endif
  
  }  // namespace media
-Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
+Index: beta/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
-+++ dev/media/gpu/vaapi/vaapi_wrapper.cc
+--- beta.orig/media/gpu/vaapi/vaapi_wrapper.cc
++++ beta/media/gpu/vaapi/vaapi_wrapper.cc
 @@ -11,7 +11,9 @@
  #include <va/va.h>
  #include <va/va_drm.h>
@@ -171,10 +171,10 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
          preferred_fourcc == VA_FOURCC_Y800) {
        preferred_fourcc = VA_FOURCC_I420;
      }
-Index: dev/media/gpu/chromeos/fourcc.cc
+Index: beta/media/gpu/chromeos/fourcc.cc
 ===================================================================
---- dev.orig/media/gpu/chromeos/fourcc.cc
-+++ dev/media/gpu/chromeos/fourcc.cc
+--- beta.orig/media/gpu/chromeos/fourcc.cc
++++ beta/media/gpu/chromeos/fourcc.cc
 @@ -217,11 +217,11 @@ uint32_t Fourcc::ToV4L2PixFmt() const {
  // static
  base::Optional<Fourcc> Fourcc::FromVAFourCC(uint32_t va_fourcc) {
@@ -203,10 +203,10 @@ Index: dev/media/gpu/chromeos/fourcc.cc
      case YV12:
        return VA_FOURCC_YV12;
      case YUYV:
-Index: dev/ui/gfx/x/gen_xproto.py
+Index: beta/ui/gfx/x/gen_xproto.py
 ===================================================================
---- dev.orig/ui/gfx/x/gen_xproto.py
-+++ dev/ui/gfx/x/gen_xproto.py
+--- beta.orig/ui/gfx/x/gen_xproto.py
++++ beta/ui/gfx/x/gen_xproto.py
 @@ -274,7 +274,7 @@ class GenXproto(FileWriter):
              return 'Request'
          elif t.is_reply:
@@ -286,10 +286,10 @@ Index: dev/ui/gfx/x/gen_xproto.py
          self.write('namespace x11 {')
          self.write()
          self.write('class Connection;')
-Index: dev/ui/gtk/gtk_util.cc
+Index: beta/ui/gtk/gtk_util.cc
 ===================================================================
---- dev.orig/ui/gtk/gtk_util.cc
-+++ dev/ui/gtk/gtk_util.cc
+--- beta.orig/ui/gtk/gtk_util.cc
++++ beta/ui/gtk/gtk_util.cc
 @@ -32,7 +32,9 @@
  #include "ui/ozone/public/ozone_platform.h"
  #include "ui/views/linux_ui/linux_ui.h"
@@ -322,10 +322,10 @@ Index: dev/ui/gtk/gtk_util.cc
            }
            break;
          }
-Index: dev/ui/gfx/linux/drm_util_linux.cc
+Index: beta/ui/gfx/linux/drm_util_linux.cc
 ===================================================================
---- dev.orig/ui/gfx/linux/drm_util_linux.cc
-+++ dev/ui/gfx/linux/drm_util_linux.cc
+--- beta.orig/ui/gfx/linux/drm_util_linux.cc
++++ beta/ui/gfx/linux/drm_util_linux.cc
 @@ -8,6 +8,15 @@
  
  #include "base/notreached.h"
@@ -342,10 +342,10 @@ Index: dev/ui/gfx/linux/drm_util_linux.cc
  namespace ui {
  
  int GetFourCCFormatFromBufferFormat(gfx::BufferFormat format) {
-Index: dev/ui/base/x/x11_display_util.cc
+Index: beta/ui/base/x/x11_display_util.cc
 ===================================================================
---- dev.orig/ui/base/x/x11_display_util.cc
-+++ dev/ui/base/x/x11_display_util.cc
+--- beta.orig/ui/base/x/x11_display_util.cc
++++ beta/ui/base/x/x11_display_util.cc
 @@ -34,6 +34,7 @@ std::map<x11::RandR::Output, int> GetMon
                                                x11::RandR* randr,
                                                x11::Window window) {
@@ -362,10 +362,10 @@ Index: dev/ui/base/x/x11_display_util.cc
    return output_to_monitor;
  }
  
-Index: dev/third_party/nearby/src/cpp/core/internal/payload_manager.cc
+Index: beta/third_party/nearby/src/cpp/core/internal/payload_manager.cc
 ===================================================================
---- dev.orig/third_party/nearby/src/cpp/core/internal/payload_manager.cc
-+++ dev/third_party/nearby/src/cpp/core/internal/payload_manager.cc
+--- beta.orig/third_party/nearby/src/cpp/core/internal/payload_manager.cc
++++ beta/third_party/nearby/src/cpp/core/internal/payload_manager.cc
 @@ -944,7 +944,7 @@ PayloadManager::PendingPayload::PendingP
    for (const auto& id : endpoint_ids) {
      endpoints_.emplace(id, EndpointInfo{
@@ -375,10 +375,10 @@ Index: dev/third_party/nearby/src/cpp/core/internal/payload_manager.cc
                             });
    }
  }
-Index: dev/ui/gfx/x/event.cc
+Index: beta/ui/gfx/x/event.cc
 ===================================================================
---- dev.orig/ui/gfx/x/event.cc
-+++ dev/ui/gfx/x/event.cc
+--- beta.orig/ui/gfx/x/event.cc
++++ beta/ui/gfx/x/event.cc
 @@ -35,6 +35,10 @@ Event::Event(scoped_refptr<base::RefCoun
      if ((xcb_event->response_type & ~kSendEventMask) ==
          GeGenericEvent::opcode) {
@@ -398,10 +398,10 @@ Index: dev/ui/gfx/x/event.cc
      }
    }
  
-Index: dev/base/rand_util_posix.cc
+Index: beta/base/rand_util_posix.cc
 ===================================================================
---- dev.orig/base/rand_util_posix.cc
-+++ dev/base/rand_util_posix.cc
+--- beta.orig/base/rand_util_posix.cc
++++ beta/base/rand_util_posix.cc
 @@ -9,6 +9,7 @@
  #include <stddef.h>
  #include <stdint.h>
@@ -437,10 +437,10 @@ Index: dev/base/rand_util_posix.cc
  
    // Return success only on total success. In case errno == ENOSYS (or any other
    // error), we'll fall through to reading from urandom below.
-Index: dev/ui/ozone/platform/wayland/host/gtk_ui_delegate_wayland.cc
+Index: beta/ui/ozone/platform/wayland/host/gtk_ui_delegate_wayland.cc
 ===================================================================
---- dev.orig/ui/ozone/platform/wayland/host/gtk_ui_delegate_wayland.cc
-+++ dev/ui/ozone/platform/wayland/host/gtk_ui_delegate_wayland.cc
+--- beta.orig/ui/ozone/platform/wayland/host/gtk_ui_delegate_wayland.cc
++++ beta/ui/ozone/platform/wayland/host/gtk_ui_delegate_wayland.cc
 @@ -25,9 +25,7 @@
  #else
  #include <gdk/gdkwayland.h>
@@ -452,10 +452,10 @@ Index: dev/ui/ozone/platform/wayland/host/gtk_ui_delegate_wayland.cc
  #endif
  
  namespace ui {
-Index: dev/sandbox/policy/linux/bpf_gpu_policy_linux.cc
+Index: beta/sandbox/policy/linux/bpf_gpu_policy_linux.cc
 ===================================================================
---- dev.orig/sandbox/policy/linux/bpf_gpu_policy_linux.cc
-+++ dev/sandbox/policy/linux/bpf_gpu_policy_linux.cc
+--- beta.orig/sandbox/policy/linux/bpf_gpu_policy_linux.cc
++++ beta/sandbox/policy/linux/bpf_gpu_policy_linux.cc
 @@ -47,6 +47,7 @@ ResultExpr GpuProcessPolicy::EvaluateSys
        return Allow();
  #endif  // BUILDFLAG(IS_CHROMEOS_ASH)
@@ -472,10 +472,10 @@ Index: dev/sandbox/policy/linux/bpf_gpu_policy_linux.cc
  
        break;
      }
-Index: dev/third_party/wayland/src/src/scanner.c
+Index: beta/third_party/wayland/src/src/scanner.c
 ===================================================================
---- dev.orig/third_party/wayland/src/src/scanner.c
-+++ dev/third_party/wayland/src/src/scanner.c
+--- beta.orig/third_party/wayland/src/src/scanner.c
++++ beta/third_party/wayland/src/src/scanner.c
 @@ -974,17 +974,6 @@ verify_arguments(struct parse_context *c
  
  }
@@ -494,10 +494,10 @@ Index: dev/third_party/wayland/src/src/scanner.c
  static void
  end_element(void *data, const XML_Char *name)
  {
-Index: dev/third_party/libva_protected_content/va_protected_content.h
+Index: beta/third_party/libva_protected_content/va_protected_content.h
 ===================================================================
---- dev.orig/third_party/libva_protected_content/va_protected_content.h
-+++ dev/third_party/libva_protected_content/va_protected_content.h
+--- beta.orig/third_party/libva_protected_content/va_protected_content.h
++++ beta/third_party/libva_protected_content/va_protected_content.h
 @@ -50,6 +50,10 @@ extern "C" {
   * The buffer corresponds to #VACencStatusParameters for va/cp*/
  #define VACencStatusParameterBufferType ((VABufferType)0x20002)
@@ -509,10 +509,10 @@ Index: dev/third_party/libva_protected_content/va_protected_content.h
  /** \brief TeeExec Function Codes. */
  #define VA_TEE_EXEC_TEE_FUNCID_HW_UPDATE 0x40000002
  #define VA_TEE_EXEC_TEE_FUNCID_IS_SESSION_ALIVE 0x40000103
-Index: dev/third_party/snappy/src/snappy.cc
+Index: beta/third_party/snappy/src/snappy.cc
 ===================================================================
---- dev.orig/third_party/snappy/src/snappy.cc
-+++ dev/third_party/snappy/src/snappy.cc
+--- beta.orig/third_party/snappy/src/snappy.cc
++++ beta/third_party/snappy/src/snappy.cc
 @@ -1026,15 +1026,8 @@ size_t AdvanceToNextTag(const uint8_t**
    size_t literal_len = *tag >> 2;
    size_t tag_type = *tag;
@@ -529,10 +529,10 @@ Index: dev/third_party/snappy/src/snappy.cc
    // TODO
    // This is code is subtle. Loading the values first and then cmov has less
    // latency then cmov ip and then load. However clang would move the loads
-Index: dev/media/gpu/chromeos/platform_video_frame_utils.cc
+Index: beta/media/gpu/chromeos/platform_video_frame_utils.cc
 ===================================================================
---- dev.orig/media/gpu/chromeos/platform_video_frame_utils.cc
-+++ dev/media/gpu/chromeos/platform_video_frame_utils.cc
+--- beta.orig/media/gpu/chromeos/platform_video_frame_utils.cc
++++ beta/media/gpu/chromeos/platform_video_frame_utils.cc
 @@ -37,6 +37,10 @@
  #include "ui/gfx/linux/native_pixmap_dmabuf.h"
  #include "ui/gfx/native_pixmap.h"
@@ -544,10 +544,10 @@ Index: dev/media/gpu/chromeos/platform_video_frame_utils.cc
  namespace media {
  
  namespace {
-Index: dev/media/gpu/vaapi/av1_vaapi_video_decoder_delegate.cc
+Index: beta/media/gpu/vaapi/av1_vaapi_video_decoder_delegate.cc
 ===================================================================
---- dev.orig/media/gpu/vaapi/av1_vaapi_video_decoder_delegate.cc
-+++ dev/media/gpu/vaapi/av1_vaapi_video_decoder_delegate.cc
+--- beta.orig/media/gpu/vaapi/av1_vaapi_video_decoder_delegate.cc
++++ beta/media/gpu/vaapi/av1_vaapi_video_decoder_delegate.cc
 @@ -20,6 +20,7 @@
  #include "third_party/libgav1/src/src/warp_prediction.h"
  
@@ -613,10 +613,10 @@ Index: dev/media/gpu/vaapi/av1_vaapi_video_decoder_delegate.cc
  }
  
  void AV1VaapiVideoDecoderDelegate::OnVAContextDestructionSoon() {
-Index: dev/media/gpu/vaapi/vaapi_video_decoder.cc
+Index: beta/media/gpu/vaapi/vaapi_video_decoder.cc
 ===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_video_decoder.cc
-+++ dev/media/gpu/vaapi/vaapi_video_decoder.cc
+--- beta.orig/media/gpu/vaapi/vaapi_video_decoder.cc
++++ beta/media/gpu/vaapi/vaapi_video_decoder.cc
 @@ -961,6 +961,7 @@ Status VaapiVideoDecoder::CreateAccelera
          new H265Decoder(std::move(accelerator), profile_, color_space_));
    }

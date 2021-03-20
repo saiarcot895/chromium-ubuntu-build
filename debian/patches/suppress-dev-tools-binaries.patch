@@ -1,7 +1,7 @@
-Index: dev/third_party/blink/renderer/bindings/scripts/bind_gen/style_format.py
+Index: beta/third_party/blink/renderer/bindings/scripts/bind_gen/style_format.py
 ===================================================================
---- dev.orig/third_party/blink/renderer/bindings/scripts/bind_gen/style_format.py
-+++ dev/third_party/blink/renderer/bindings/scripts/bind_gen/style_format.py
+--- beta.orig/third_party/blink/renderer/bindings/scripts/bind_gen/style_format.py
++++ beta/third_party/blink/renderer/bindings/scripts/bind_gen/style_format.py
 @@ -70,20 +70,10 @@ def gn_format(contents, filename=None):
  
  
@@ -26,10 +26,10 @@ Index: dev/third_party/blink/renderer/bindings/scripts/bind_gen/style_format.py
          filename=filename)
  
  
-Index: dev/third_party/devtools-frontend/src/scripts/devtools_paths.py
+Index: beta/third_party/devtools-frontend/src/scripts/devtools_paths.py
 ===================================================================
---- dev.orig/third_party/devtools-frontend/src/scripts/devtools_paths.py
-+++ dev/third_party/devtools-frontend/src/scripts/devtools_paths.py
+--- beta.orig/third_party/devtools-frontend/src/scripts/devtools_paths.py
++++ beta/third_party/devtools-frontend/src/scripts/devtools_paths.py
 @@ -37,13 +37,10 @@ def third_party_path():
  
  # This points to the node binary downloaded as part of the checkout.
@@ -48,10 +48,10 @@ Index: dev/third_party/devtools-frontend/src/scripts/devtools_paths.py
  
  
  def devtools_root_path():
-Index: dev/third_party/node/node.py
+Index: beta/third_party/node/node.py
 ===================================================================
---- dev.orig/third_party/node/node.py
-+++ dev/third_party/node/node.py
+--- beta.orig/third_party/node/node.py
++++ beta/third_party/node/node.py
 @@ -11,6 +11,11 @@ import os
  
  
@@ -64,10 +64,10 @@ Index: dev/third_party/node/node.py
    return os_path.join(os_path.dirname(__file__), *{
      'Darwin': ('mac', 'node-darwin-x64', 'bin', 'node'),
      'Linux': ('linux', 'node-linux-x64', 'bin', 'node'),
-Index: dev/tools/metrics/histograms/expand_owners.py
+Index: beta/tools/metrics/histograms/expand_owners.py
 ===================================================================
---- dev.orig/tools/metrics/histograms/expand_owners.py
-+++ dev/tools/metrics/histograms/expand_owners.py
+--- beta.orig/tools/metrics/histograms/expand_owners.py
++++ beta/tools/metrics/histograms/expand_owners.py
 @@ -429,9 +429,7 @@ def ExpandHistogramsOWNERS(histograms):
  
        _UpdateHistogramOwners(histogram, owner, owners_to_add)
