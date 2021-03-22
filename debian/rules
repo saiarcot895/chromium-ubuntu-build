@@ -164,13 +164,12 @@ endif
 
 # Pipewire isn't available on 16.04, and has been backported to 18.04 in my PPA.
 # 19.04 Pipewire has some build issue, so exclude it for now.
-# 20.10 has pipewire 0.3, which requires code changes.
 ifneq (,$(filter 18.04% 20.04%,$(UBUNTU_DIST)))
 common_defines += \
 				  rtc_use_pipewire=true \
 				  rtc_link_pipewire=true \
 				  rtc_pipewire_version="0.2"
-else ifneq (,$(filter 20.10,$(UBUNTU_DIST)))
+else ifneq (,$(filter 20.10 21.04,$(UBUNTU_DIST)))
 common_defines += \
 				  rtc_use_pipewire=true \
 				  rtc_link_pipewire=true \

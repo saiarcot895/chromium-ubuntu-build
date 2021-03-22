@@ -2,7 +2,7 @@ Index: dev/tools/gn/bootstrap/bootstrap.py
 ===================================================================
 --- dev.orig/tools/gn/bootstrap/bootstrap.py
 +++ dev/tools/gn/bootstrap/bootstrap.py
-@@ -99,7 +99,7 @@ def main(argv):
+@@ -100,7 +100,7 @@ def main(argv):
  
      append_to_env('LDFLAGS', [
          '-nodefaultlibs', 'libc++.gn.so',

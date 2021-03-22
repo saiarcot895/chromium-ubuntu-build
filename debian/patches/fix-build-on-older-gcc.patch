@@ -38,7 +38,17 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
 +++ dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
-@@ -202,6 +202,7 @@ class VaapiVideoEncodeAccelerator::VP8Ac
+@@ -75,7 +75,9 @@ void FillVAEncRateControlParams(
+   rate_control_param.window_size = window_size;
+   rate_control_param.initial_qp = initial_qp;
+   rate_control_param.min_qp = min_qp;
++#if VA_CHECK_VERSION(1, 1, 0)
+   rate_control_param.max_qp = max_qp;
++#endif
+   rate_control_param.rc_flags.bits.disable_frame_skip = true;
+ 
+   memset(&framerate_param, 0, sizeof(framerate_param));
+@@ -226,6 +228,7 @@ class VaapiVideoEncodeAccelerator::VP8Ac
    VaapiVideoEncodeAccelerator* const vea_;
  };
  
@@ -46,7 +56,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
  class VaapiVideoEncodeAccelerator::VP9Accelerator
      : public VP9Encoder::Accelerator {
   public:
-@@ -223,6 +224,7 @@ class VaapiVideoEncodeAccelerator::VP9Ac
+@@ -247,6 +250,7 @@ class VaapiVideoEncodeAccelerator::VP9Ac
   private:
    VaapiVideoEncodeAccelerator* const vea_;
  };
@@ -54,7 +64,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
  
  VaapiVideoEncodeAccelerator::VaapiVideoEncodeAccelerator()
      : output_buffer_byte_size_(0),
-@@ -377,6 +379,7 @@ void VaapiVideoEncodeAccelerator::Initia
+@@ -401,6 +405,7 @@ void VaapiVideoEncodeAccelerator::Initia
        DCHECK_EQ(ave_config.bitrate_control,
                  AcceleratedVideoEncoder::BitrateControl::kConstantBitrate);
        break;
@@ -62,7 +72,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
      case kCodecVP9:
        if (!IsConfiguredForTesting()) {
          encoder_ = std::make_unique<VP9Encoder>(
-@@ -385,6 +388,7 @@ void VaapiVideoEncodeAccelerator::Initia
+@@ -409,6 +414,7 @@ void VaapiVideoEncodeAccelerator::Initia
        ave_config.bitrate_control = AcceleratedVideoEncoder::BitrateControl::
            kConstantQuantizationParameter;
        break;
@@ -70,27 +80,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
      default:
        NOTREACHED() << "Unsupported codec type " << GetCodecName(output_codec_);
        return;
-@@ -1188,7 +1192,9 @@ bool VaapiVideoEncodeAccelerator::H264Ac
-   rate_control_param.window_size = encode_params.cpb_window_size_ms;
-   rate_control_param.initial_qp = pic_param.pic_init_qp;
-   rate_control_param.min_qp = encode_params.scaling_settings.min_qp;
-+#if VA_CHECK_VERSION(1, 1, 0)
-   rate_control_param.max_qp = encode_params.scaling_settings.max_qp;
-+#endif
-   rate_control_param.rc_flags.bits.disable_frame_skip = true;
- 
-   VAEncMiscParameterFrameRate framerate_param = {};
-@@ -1400,7 +1406,9 @@ bool VaapiVideoEncodeAccelerator::VP8Acc
-   rate_control_param.window_size = encode_params.cpb_window_size_ms;
-   rate_control_param.initial_qp = encode_params.initial_qp;
-   rate_control_param.min_qp = encode_params.scaling_settings.min_qp;
-+#if VA_CHECK_VERSION(1, 1, 0)
-   rate_control_param.max_qp = encode_params.scaling_settings.max_qp;
-+#endif
-   rate_control_param.rc_flags.bits.disable_frame_skip = true;
- 
-   VAEncMiscParameterFrameRate framerate_param = {};
-@@ -1443,6 +1451,7 @@ bool VaapiVideoEncodeAccelerator::VP8Acc
+@@ -1457,6 +1463,7 @@ bool VaapiVideoEncodeAccelerator::VP8Acc
    return true;
  }
  
@@ -98,7 +88,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
  scoped_refptr<VP9Picture>
  VaapiVideoEncodeAccelerator::VP9Accelerator::GetPicture(
      AcceleratedVideoEncoder::EncodeJob* job) {
-@@ -1584,5 +1593,6 @@ bool VaapiVideoEncodeAccelerator::VP9Acc
+@@ -1603,5 +1610,6 @@ bool VaapiVideoEncodeAccelerator::VP9Acc
  
    return true;
  }
@@ -290,38 +280,27 @@ Index: dev/ui/gtk/gtk_util.cc
 ===================================================================
 --- dev.orig/ui/gtk/gtk_util.cc
 +++ dev/ui/gtk/gtk_util.cc
-@@ -32,7 +32,9 @@
- #include "ui/ozone/public/ozone_platform.h"
+@@ -33,7 +33,9 @@
  #include "ui/views/linux_ui/linux_ui.h"
  
+ #if BUILDFLAG(GTK_VERSION) < 4
 +#if GTK_CHECK_VERSION(3, 20, 0)
  WEAK_GTK_FN(gtk_widget_path_iter_set_object_name);
 +#endif
  WEAK_GTK_FN(gtk_widget_path_iter_set_state);
+ #endif
  
- namespace {
-@@ -327,8 +329,10 @@ ScopedStyleContext AppendCssNodeToStyleC
-           break;
-         case CSS_OBJECT_NAME:
-           if (GtkCheckVersion(3, 20)) {
+@@ -130,8 +132,10 @@ GtkCssContext AppendCssNodeToStyleContex
+ 
+   if (!object_name.empty()) {
+     if (GtkCheckVersion(3, 20)) {
 +#if GTK_CHECK_VERSION(3, 20, 0)
-             DCHECK(gtk_widget_path_iter_set_object_name);
-             gtk_widget_path_iter_set_object_name(path, -1, t.token().c_str());
+       DCHECK(gtk_widget_path_iter_set_object_name);
+       gtk_widget_path_iter_set_object_name(path, -1, object_name.c_str());
 +#endif
-           } else {
-             gtk_widget_path_iter_add_class(path, -1, t.token().c_str());
-           }
-@@ -338,8 +342,10 @@ ScopedStyleContext AppendCssNodeToStyleC
-           DCHECK(type);
-           gtk_widget_path_append_type(path, type);
-           if (GtkCheckVersion(3, 20) && t.token() == "GtkLabel") {
-+#if GTK_CHECK_VERSION(3, 20, 0)
-             DCHECK(gtk_widget_path_iter_set_object_name);
-             gtk_widget_path_iter_set_object_name(path, -1, "label");
-+#endif
-           }
-           break;
-         }
+     } else {
+       gtk_widget_path_iter_add_class(path, -1, object_name.c_str());
+     }
 Index: dev/ui/gfx/linux/drm_util_linux.cc
 ===================================================================
 --- dev.orig/ui/gfx/linux/drm_util_linux.cc
@@ -617,7 +596,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decoder.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_video_decoder.cc
 +++ dev/media/gpu/vaapi/vaapi_video_decoder.cc
-@@ -961,6 +961,7 @@ Status VaapiVideoDecoder::CreateAccelera
+@@ -981,6 +981,7 @@ Status VaapiVideoDecoder::CreateAccelera
          new H265Decoder(std::move(accelerator), profile_, color_space_));
    }
  #endif  // BUILDFLAG(ENABLE_PLATFORM_HEVC)
@@ -625,7 +604,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decoder.cc
    else if (profile_ >= AV1PROFILE_MIN && profile_ <= AV1PROFILE_MAX) {
      auto accelerator =
          std::make_unique<AV1VaapiVideoDecoderDelegate>(this, vaapi_wrapper_);
-@@ -968,6 +969,7 @@ Status VaapiVideoDecoder::CreateAccelera
+@@ -988,6 +989,7 @@ Status VaapiVideoDecoder::CreateAccelera
  
      decoder_.reset(new AV1Decoder(std::move(accelerator), profile_));
    }
