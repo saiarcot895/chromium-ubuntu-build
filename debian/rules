@@ -156,10 +156,8 @@ DEB_FIXPERMS_EXCLUDE := chrome-sandbox
 ifneq (,$(GOOGLEAPI_APIKEY_$(DISTRIBUTION)))
 common_defines += \
 	google_api_key="$(GOOGLEAPI_APIKEY_$(DISTRIBUTION))" \
-	google_default_client_id="$(GOOGLEAPI_CLIENTID_$(DISTRIBUTION))" \
-	google_default_client_secret="$(GOOGLEAPI_CLIENTSECRET_$(DISTRIBUTION))"
 else
-$(warning Google API info is not set in build variables GOOGLEAPI_APIKEY_$(DISTRIBUTION) GOOGLEAPI_CLIENTID_$(DISTRIBUTION) GOOGLEAPI_CLIENTSECRET_$(DISTRIBUTION))
+$(warning Google API info is not set in build variables GOOGLEAPI_APIKEY_$(DISTRIBUTION))
 endif
 
 # Pipewire isn't available on 16.04, and has been backported to 18.04 in my PPA.
@@ -176,16 +174,23 @@ common_defines += \
 				  rtc_pipewire_version="0.3"
 endif
 
-ifeq (,$(filter 16.04%,$(UBUNTU_DIST)))
-# Bionic and newer
-common_defines += init_stack_vars=true \
-									clang_use_compiler_version_suffix=true \
-									clang_compiler_version_suffix="10"
-else
+ifneq (,$(filter 16.04%,$(UBUNTU_DIST)))
 # Xenial
-common_defines += init_stack_vars=false \
-									clang_use_compiler_version_suffix=true \
-									clang_compiler_version_suffix="8"
+common_defines += \
+				  init_stack_vars=false \
+				  clang_use_compiler_version_suffix=true \
+				  clang_compiler_version_suffix="8"
+else ifneq (,$(filter 18.04%,$(UBUNTU_DIST)))
+# Bionic
+common_defines += \
+				  init_stack_vars=true \
+				  clang_use_compiler_version_suffix=true \
+				  clang_compiler_version_suffix="10"
+else
+# Focal and newer
+common_defines += \
+				  init_stack_vars=true \
+				  clang_use_compiler_version_suffix=false
 endif
 
 ### Official interfaces.
