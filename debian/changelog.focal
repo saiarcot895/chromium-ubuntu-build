@@ -1,3 +1,9 @@
+chromium-browser (1:91.0.4472.19-0ubuntu1~ppa2~20.04.1) focal; urgency=low
+
+  * Add llvm as a dependency.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 25 Apr 2021 16:35:58 -0400
+
 chromium-browser (1:91.0.4472.19-0ubuntu1~ppa1~20.04.1) focal; urgency=low
 
   * New upstream version 91.0.4472.19
