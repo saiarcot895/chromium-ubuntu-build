@@ -1,8 +1,8 @@
-Index: dev/build/config/compiler/BUILD.gn
+Index: beta/build/config/compiler/BUILD.gn
 ===================================================================
---- dev.orig/build/config/compiler/BUILD.gn
-+++ dev/build/config/compiler/BUILD.gn
-@@ -1160,10 +1160,6 @@ config("compiler_deterministic") {
+--- beta.orig/build/config/compiler/BUILD.gn
++++ beta/build/config/compiler/BUILD.gn
+@@ -1173,10 +1173,6 @@ config("compiler_deterministic") {
        "-Xclang",
        ".",
      ]

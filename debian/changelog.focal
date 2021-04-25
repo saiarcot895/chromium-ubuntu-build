@@ -1,3 +1,10 @@
+chromium-browser (1:91.0.4472.19-0ubuntu1~ppa1~20.04.1) focal; urgency=low
+
+  * New upstream version 91.0.4472.19
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 25 Apr 2021 13:45:05 -0400
+
 chromium-browser (1:91.0.4449.6-0ubuntu1~ppa1~20.04.1) focal; urgency=low
 
   * New upstream version 91.0.4449.6

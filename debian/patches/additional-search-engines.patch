@@ -1,7 +1,7 @@
-Index: dev/components/search_engines/prepopulated_engines.json
+Index: beta/components/search_engines/prepopulated_engines.json
 ===================================================================
---- dev.orig/components/search_engines/prepopulated_engines.json
-+++ dev/components/search_engines/prepopulated_engines.json
+--- beta.orig/components/search_engines/prepopulated_engines.json
++++ beta/components/search_engines/prepopulated_engines.json
 @@ -96,7 +96,7 @@
        "name": "DuckDuckGo",
        "keyword": "duckduckgo.com",
@@ -11,10 +11,10 @@ Index: dev/components/search_engines/prepopulated_engines.json
        "suggest_url": "https://duckduckgo.com/ac/?q={searchTerms}&type=list",
        "new_tab_url": "https://duckduckgo.com/chrome_newtab",
        "type": "SEARCH_ENGINE_DUCKDUCKGO",
-Index: dev/components/search_engines/template_url_prepopulate_data.cc
+Index: beta/components/search_engines/template_url_prepopulate_data.cc
 ===================================================================
---- dev.orig/components/search_engines/template_url_prepopulate_data.cc
-+++ dev/components/search_engines/template_url_prepopulate_data.cc
+--- beta.orig/components/search_engines/template_url_prepopulate_data.cc
++++ beta/components/search_engines/template_url_prepopulate_data.cc
 @@ -32,6 +32,7 @@ const PrepopulatedEngine* const engines_
      &google,
      &bing,

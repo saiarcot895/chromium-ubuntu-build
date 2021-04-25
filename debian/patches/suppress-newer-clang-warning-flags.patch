@@ -1,12 +1,12 @@
 Author: Olivier Tilloy <olivier.tilloy@canonical.com>
 Description: Do not use warning flags that require a newer Clang
 
-Index: dev/build/config/compiler/BUILD.gn
+Index: beta/build/config/compiler/BUILD.gn
 ===================================================================
---- dev.orig/build/config/compiler/BUILD.gn
-+++ dev/build/config/compiler/BUILD.gn
-@@ -715,16 +715,6 @@ config("compiler") {
-     }
+--- beta.orig/build/config/compiler/BUILD.gn
++++ beta/build/config/compiler/BUILD.gn
+@@ -723,16 +723,6 @@ config("compiler") {
+     cflags += [ "-H" ]
    }
  
 -  # This flag enforces that member pointer base types are complete. It helps
@@ -19,10 +19,10 @@ Index: dev/build/config/compiler/BUILD.gn
 -    cflags += [ "-fcomplete-member-pointers" ]
 -  }
 -
-   # Pass the same C/C++ flags to the objective C/C++ compiler.
-   cflags_objc += cflags_c
-   cflags_objcc += cflags_cc
-@@ -1537,6 +1527,9 @@ config("default_warnings") {
+   # TODO(crbug/1185183): Remove after next clang roll
+   if (is_clang && !is_nacl && is_linux && is_msan) {
+     cflags += [ "-flegacy-pass-manager" ]
+@@ -1550,6 +1540,9 @@ config("default_warnings") {
        # which we no longer use. Check if it makes sense to remove
        # this as well. http://crbug.com/316352
        "-Wno-unneeded-internal-declaration",
