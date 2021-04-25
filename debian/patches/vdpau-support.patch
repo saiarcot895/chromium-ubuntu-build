@@ -142,11 +142,11 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.h
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.h
 +++ dev/media/gpu/vaapi/vaapi_wrapper.h
-@@ -93,6 +93,7 @@ enum class VAImplementation {
+@@ -91,6 +91,7 @@ enum class VAImplementation {
+   kMesaGallium,
+   kIntelI965,
    kIntelIHD,
++  kNVIDIAVDPAU,
    kOther,
    kInvalid,
-+  kNVIDIAVDPAU,
  };
- 
- // This class handles VA-API calls and ensures proper locking of VA-API calls
