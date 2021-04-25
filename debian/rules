@@ -157,7 +157,8 @@ ifneq (,$(GOOGLEAPI_APIKEY_$(DISTRIBUTION)))
 common_defines += \
 	google_api_key="$(GOOGLEAPI_APIKEY_$(DISTRIBUTION))" \
 else
-$(warning Google API info is not set in build variables GOOGLEAPI_APIKEY_$(DISTRIBUTION))
+common_defines += \
+	google_api_key="AIzaSyC4TF2l4o5nfmK4MAB-VaEVnf7h-sxENXw" \
 endif
 
 # Pipewire isn't available on 16.04, and has been backported to 18.04 in my PPA.
