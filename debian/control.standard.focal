@@ -56,7 +56,8 @@ Build-Depends: debhelper (>= 9),
 		xcb-proto,
 		python3-xcbgen,
 		libwayland-dev,
-		libgbm-dev
+		libgbm-dev,
+		libcurl4-openssl-dev
 Standards-Version: 3.9.5
 
 Package: chromium-browser

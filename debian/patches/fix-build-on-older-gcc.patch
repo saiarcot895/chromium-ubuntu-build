@@ -336,11 +336,11 @@ Index: beta/third_party/nearby/src/cpp/core/internal/payload_manager.cc
 ===================================================================
 --- beta.orig/third_party/nearby/src/cpp/core/internal/payload_manager.cc
 +++ beta/third_party/nearby/src/cpp/core/internal/payload_manager.cc
-@@ -957,7 +957,7 @@ PayloadManager::PendingPayload::PendingP
+@@ -1049,7 +1049,7 @@ PayloadManager::PendingPayload::PendingP
    for (const auto& id : endpoint_ids) {
      endpoints_.emplace(id, EndpointInfo{
                                 .id = id,
--                               .status {EndpointInfo::Status::kAvailable},
+-                               .status{EndpointInfo::Status::kAvailable},
 +                               .status = AtomicReference<EndpointInfo::Status>(EndpointInfo::Status::kAvailable),
                             });
    }
@@ -588,3 +588,41 @@ Index: beta/media/gpu/vaapi/vaapi_video_decoder.cc
    else {
      return Status(StatusCode::kDecoderUnsupportedProfile)
          .WithData("profile", profile_);
+Index: beta/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
+===================================================================
+--- beta.orig/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
++++ beta/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
+@@ -6,6 +6,7 @@
+ 
+ #include <errno.h>
+ #include <fcntl.h>
++#include <linux/fcntl.h>
+ #include <linux/net.h>
+ #include <sched.h>
+ #include <signal.h>
+Index: beta/mojo/core/channel_linux.cc
+===================================================================
+--- beta.orig/mojo/core/channel_linux.cc
++++ beta/mojo/core/channel_linux.cc
+@@ -5,6 +5,7 @@
+ #include "mojo/core/channel_linux.h"
+ 
+ #include <fcntl.h>
++#include <linux/fcntl.h>
+ #include <linux/futex.h>
+ #include <linux/memfd.h>
+ #include <sys/eventfd.h>
+Index: beta/base/compiler_specific.h
+===================================================================
+--- beta.orig/base/compiler_specific.h
++++ beta/base/compiler_specific.h
+@@ -340,7 +340,8 @@ inline constexpr bool AnalyzerAssumeTrue
+ #endif  // defined(__clang_analyzer__)
+ 
+ // Use nomerge attribute to disable optimization of merging multiple same calls.
+-#if defined(__clang__) && __has_attribute(nomerge)
++// Clang 11 doesn't support nomerge on function declarations.
++#if defined(__clang__) && __has_attribute(nomerge) && __clang_major__ >= 12
+ #define NOMERGE [[clang::nomerge]]
+ #else
+ #define NOMERGE
