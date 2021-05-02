@@ -592,26 +592,82 @@ Index: beta/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
 ===================================================================
 --- beta.orig/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
 +++ beta/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
-@@ -6,6 +6,7 @@
+@@ -34,6 +34,36 @@
+ #include "sandbox/linux/system_headers/linux_syscalls.h"
+ #include "sandbox/linux/system_headers/linux_time.h"
  
- #include <errno.h>
- #include <fcntl.h>
-+#include <linux/fcntl.h>
- #include <linux/net.h>
- #include <sched.h>
- #include <signal.h>
++#if defined(OS_LINUX)
++#if !defined(F_ADD_SEALS)
++#define F_ADD_SEALS	1033
++#endif
++
++#if !defined(F_GET_SEALS)
++#define F_GET_SEALS	1034
++#endif
++
++#if !defined(F_SEAL_SEAL)
++#define F_SEAL_SEAL	0x0001	
++#endif
++
++#if !defined(F_SEAL_SHRINK)
++#define F_SEAL_SHRINK	0x0002
++#endif
++
++#if !defined(F_SEAL_GROW)
++#define F_SEAL_GROW	0x0004
++#endif
++
++#if !defined(F_SEAL_WRITE)
++#define F_SEAL_WRITE	0x0008
++#endif
++
++#if !defined(F_SEAL_FUTURE_WRITE)
++#define F_SEAL_FUTURE_WRITE	0x0010
++#endif
++#endif
++
+ // PNaCl toolchain does not provide sys/ioctl.h and sys/ptrace.h headers.
+ #if !defined(OS_NACL_NONSFI)
+ #include <sys/ioctl.h>
 Index: beta/mojo/core/channel_linux.cc
 ===================================================================
 --- beta.orig/mojo/core/channel_linux.cc
 +++ beta/mojo/core/channel_linux.cc
-@@ -5,6 +5,7 @@
- #include "mojo/core/channel_linux.h"
+@@ -43,6 +43,34 @@
+ #define EFD_ZERO_ON_WAKE O_NOFOLLOW
+ #endif
  
- #include <fcntl.h>
-+#include <linux/fcntl.h>
- #include <linux/futex.h>
- #include <linux/memfd.h>
- #include <sys/eventfd.h>
++#if !defined(F_ADD_SEALS)
++#define F_ADD_SEALS	1033
++#endif
++
++#if !defined(F_GET_SEALS)
++#define F_GET_SEALS	1034
++#endif
++
++#if !defined(F_SEAL_SEAL)
++#define F_SEAL_SEAL	0x0001	
++#endif
++
++#if !defined(F_SEAL_SHRINK)
++#define F_SEAL_SHRINK	0x0002
++#endif
++
++#if !defined(F_SEAL_GROW)
++#define F_SEAL_GROW	0x0004
++#endif
++
++#if !defined(F_SEAL_WRITE)
++#define F_SEAL_WRITE	0x0008
++#endif
++
++#if !defined(F_SEAL_FUTURE_WRITE)
++#define F_SEAL_FUTURE_WRITE	0x0010
++#endif
++
+ namespace mojo {
+ namespace core {
+ 
 Index: beta/base/compiler_specific.h
 ===================================================================
 --- beta.orig/base/compiler_specific.h
