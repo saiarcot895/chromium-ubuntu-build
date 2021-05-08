@@ -61,14 +61,14 @@ Index: dev/third_party/node/node.py
 +      return "/usr/lib/nodejs-mozilla/bin/node"
 +    else:
 +      return "/usr/bin/nodejs"
-   return os_path.join(os_path.dirname(__file__), *{
-     'Darwin': ('mac', 'node-darwin-x64', 'bin', 'node'),
-     'Linux': ('linux', 'node-linux-x64', 'bin', 'node'),
+   # TODO: Node 16.0 will likely ship with an official universal node binary
+   # on macOS. Once node 16.0 is released, remove this special case here
+   # and use node-darwin-universal in the dict in the main return statement.
 Index: dev/tools/metrics/histograms/expand_owners.py
 ===================================================================
 --- dev.orig/tools/metrics/histograms/expand_owners.py
 +++ dev/tools/metrics/histograms/expand_owners.py
-@@ -429,9 +429,7 @@ def ExpandHistogramsOWNERS(histograms):
+@@ -433,9 +433,7 @@ def ExpandHistogramsOWNERS(histograms):
  
        _UpdateHistogramOwners(histogram, owner, owners_to_add)
  
@@ -79,3 +79,17 @@ Index: dev/tools/metrics/histograms/expand_owners.py
        if component and component not in components_with_dom_elements:
          components_with_dom_elements.add(component)
          _AddHistogramComponent(histogram, component)
+Index: dev/third_party/closure_compiler/compiler.py
+===================================================================
+--- dev.orig/third_party/closure_compiler/compiler.py
++++ dev/third_party/closure_compiler/compiler.py
+@@ -13,8 +13,7 @@ import subprocess
+ 
+ 
+ _CURRENT_DIR = os.path.join(os.path.dirname(__file__))
+-_JAVA_PATH = os.path.join(_CURRENT_DIR, "..", "jdk", "current", "bin", "java")
+-assert os.path.isfile(_JAVA_PATH), "java only allowed in android builds"
++_JAVA_PATH = "java"
+ 
+ class Compiler(object):
+   """Runs the Closure compiler on given source files to typecheck them

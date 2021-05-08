@@ -61,7 +61,7 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
 ===================================================================
 --- dev.orig/media/gpu/gpu_video_decode_accelerator_factory.cc
 +++ dev/media/gpu/gpu_video_decode_accelerator_factory.cc
-@@ -164,6 +164,8 @@ GpuVideoDecodeAcceleratorFactory::Create
+@@ -160,6 +160,8 @@ GpuVideoDecodeAcceleratorFactory::Create
      vda = (this->*create_vda_function)(workarounds, gpu_preferences, media_log);
      if (vda && vda->Initialize(config, client))
        return vda;
@@ -70,14 +70,14 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
    }
  
    return nullptr;
-@@ -222,6 +224,7 @@ GpuVideoDecodeAcceleratorFactory::Create
+@@ -229,6 +231,7 @@ GpuVideoDecodeAcceleratorFactory::Create
      const gpu::GpuDriverBugWorkarounds& workarounds,
      const gpu::GpuPreferences& gpu_preferences,
      MediaLog* media_log) const {
 +  LOG(WARNING) << "Initializing VAAPI VDA.";
    std::unique_ptr<VideoDecodeAccelerator> decoder;
-   decoder.reset(new VaapiVideoDecodeAccelerator(gl_client_.make_context_current,
-                                                 gl_client_.bind_image));
+   decoder.reset(
+       new VTVideoDecodeAccelerator(gl_client_, workarounds, media_log));
 Index: dev/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
@@ -102,7 +102,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -526,6 +526,11 @@ void VADisplayState::PreSandboxInitializ
+@@ -525,6 +525,11 @@ void VADisplayState::PreSandboxInitializ
        base::File::FLAG_OPEN | base::File::FLAG_READ | base::File::FLAG_WRITE);
    if (drm_file.IsValid())
      VADisplayState::Get()->SetDrmFd(drm_file.GetPlatformFile());

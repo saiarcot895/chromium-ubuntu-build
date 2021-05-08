@@ -9,6 +9,7 @@ Build-Depends: debhelper (>= 9),
 		pkg-config,
 		ninja-build (>= 1.7.2),
 		clang (>= 1:10) | clang-10 | clang-8,
+		llvm (>= 1:10) | llvm-10 | llvm-8,
 		lsb-release,
 		python | python2,
 		python-pkg-resources,
@@ -52,7 +53,8 @@ Build-Depends: debhelper (>= 9),
 		nodejs-mozilla,
 		xcb-proto,
 		python-xcbgen,
-		libgbm-dev
+		libgbm-dev,
+		libcurl4-openssl-dev
 Standards-Version: 3.9.5
 
 Package: chromium-browser

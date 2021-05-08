@@ -41,16 +41,6 @@ Index: dev/tools/gn/src/gn/setup.cc
  #endif
    }
    return true;
-Index: dev/third_party/dom_distiller_js/protoc_plugins/json_values_converter.py
-===================================================================
---- dev.orig/third_party/dom_distiller_js/protoc_plugins/json_values_converter.py
-+++ dev/third_party/dom_distiller_js/protoc_plugins/json_values_converter.py
-@@ -1,4 +1,4 @@
--#!/usr/bin/env python
-+#!/usr/bin/env python2
- # Copyright 2016 The Chromium Authors. All rights reserved.
- # Use of this source code is governed by a BSD-style license that can be
- # found in the LICENSE file.
 Index: dev/third_party/catapult/common/py_vulcanize/py_vulcanize/generate.py
 ===================================================================
 --- dev.orig/third_party/catapult/common/py_vulcanize/py_vulcanize/generate.py
@@ -64,15 +54,6 @@ Index: dev/third_party/catapult/common/py_vulcanize/py_vulcanize/generate.py
          rjsmin_path
      ]
      p = subprocess.Popen(args,
-@@ -203,7 +203,7 @@ def _MinifyCSS(css_text):
-       os.path.join(py_vulcanize_path, 'third_party', 'rcssmin', 'rcssmin.py'))
- 
-   with tempfile.NamedTemporaryFile() as _:
--    rcssmin_args = ['python', rcssmin_path]
-+    rcssmin_args = ['python3', rcssmin_path]
-     p = subprocess.Popen(rcssmin_args,
-                          stdin=subprocess.PIPE,
-                          stdout=subprocess.PIPE,
 Index: dev/ui/gfx/x/gen_xproto.py
 ===================================================================
 --- dev.orig/ui/gfx/x/gen_xproto.py

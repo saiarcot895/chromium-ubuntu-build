@@ -13,7 +13,7 @@ Index: dev/build/toolchain/gcc_toolchain.gni
  }
  
  # When the arg is set via args.gn, it applies to all toolchains. In order to not
-@@ -654,12 +658,16 @@ template("clang_toolchain") {
+@@ -654,13 +658,19 @@ template("clang_toolchain") {
    }
  
    gcc_toolchain(target_name) {
@@ -21,16 +21,20 @@ Index: dev/build/toolchain/gcc_toolchain.gni
 -    cc = "$prefix/clang"
 -    cxx = "$prefix/clang++"
 +    if (clang_use_compiler_version_suffix) {
-+      cc = "/usr/bin/clang-${clang_compiler_version_suffix}"
-+      cxx = "/usr/bin/clang++-${clang_compiler_version_suffix}"
++      cc = "clang-${clang_compiler_version_suffix}"
++      cxx = "clang++-${clang_compiler_version_suffix}"
++      ar = "llvm-ar-${clang_compiler_version_suffix}"
++      nm = "llvm-nm-${clang_compiler_version_suffix}"
 +    } else {
-+      cc = "/usr/bin/clang"
-+      cxx = "/usr/bin/clang++"
++      cc = "clang"
++      cxx = "clang++"
++      ar = "llvm-ar"
++      nm = "llvm-nm"
 +    }
      ld = cxx
      readelf = "${toolprefix}readelf"
 -    ar = "${prefix}/llvm-ar"
-+    ar = "${toolprefix}ar"
-     nm = "${toolprefix}nm"
+-    nm = "${prefix}/llvm-nm"
  
      forward_variables_from(invoker,
+                            [

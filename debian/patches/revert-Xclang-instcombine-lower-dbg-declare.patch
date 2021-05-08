@@ -5,25 +5,32 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -515,17 +515,6 @@ config("compiler") {
+@@ -518,24 +518,6 @@ config("compiler") {
      ldflags += [ "-Wl,-z,keep-text-section-prefix" ]
    }
  
 -  if (is_clang && !is_nacl && !use_xcode_clang) {
 -    cflags += [ "-fcrash-diagnostics-dir=" + clang_diagnostic_dir ]
 -
+-    # TODO(hans): Remove this once Clang generates better optimized debug info
+-    # by default. https://crbug.com/765793
 -    cflags += [
--      # TODO(hans): Remove this once Clang generates better optimized debug info
--      # by default. https://crbug.com/765793
 -      "-mllvm",
 -      "-instcombine-lower-dbg-declare=0",
 -    ]
+-    if (!is_debug && use_thin_lto && is_a_target_toolchain) {
+-      if (is_win) {
+-        ldflags += [ "-mllvm:-instcombine-lower-dbg-declare=0" ]
+-      } else {
+-        ldflags += [ "-Wl,-mllvm,-instcombine-lower-dbg-declare=0" ]
+-      }
+-    }
 -  }
 -
    # C11/C++11 compiler flags setup.
    # ---------------------------
    if (is_linux || is_chromeos || is_android || (is_nacl && is_clang) ||
-@@ -2356,14 +2345,6 @@ config("symbols") {
+@@ -2373,14 +2355,6 @@ config("symbols") {
        cflags += [ "-g2" ]
      }
  
