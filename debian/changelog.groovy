@@ -1,3 +1,9 @@
+chromium-browser (1:92.0.4496.0-0ubuntu1~ppa2~20.10.1) groovy; urgency=low
+
+  * Fix long-standing Widevine build error.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 09 May 2021 01:48:54 -0400
+
 chromium-browser (1:92.0.4496.0-0ubuntu1~ppa1~20.10.1) groovy; urgency=low
 
   * New upstream version 92.0.4496.0
