@@ -16,7 +16,7 @@ Index: dev/chrome/common/chrome_paths.cc
 +      }
 +      if (!base::PathService::Get(chrome::DIR_USER_DATA, &cur))
 +          return false;
-+      if (base::PathExists(cur.AppendASCII(kWidevineCdmBaseDirectory)) {
++      if (base::PathExists(cur.AppendASCII(kWidevineCdmBaseDirectory))) {
 +        cur = cur.AppendASCII(kWidevineCdmBaseDirectory);
 +        break;
 +      }

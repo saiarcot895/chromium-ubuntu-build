@@ -10,6 +10,6 @@ Index: dev/cc/trees/frame_rate_estimator.cc
 -  constexpr auto kMinDelta =
 +  auto kFudgeDelta = base::TimeDelta::FromMilliseconds(1);
 +  auto kMinDelta =
-       (viz::BeginFrameArgs::DefaultInterval() * 2) + kFudgeDelta;
+       (viz::BeginFrameArgs::DefaultInterval() * 2) - kFudgeDelta;
    if (draw_delta < kMinDelta)
      num_of_consecutive_frames_with_min_delta_++;

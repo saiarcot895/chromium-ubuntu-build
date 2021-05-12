@@ -336,11 +336,11 @@ Index: dev/third_party/nearby/src/cpp/core/internal/payload_manager.cc
 ===================================================================
 --- dev.orig/third_party/nearby/src/cpp/core/internal/payload_manager.cc
 +++ dev/third_party/nearby/src/cpp/core/internal/payload_manager.cc
-@@ -1049,7 +1049,7 @@ PayloadManager::PendingPayload::PendingP
+@@ -966,7 +966,7 @@ PayloadManager::PendingPayload::PendingP
    for (const auto& id : endpoint_ids) {
      endpoints_.emplace(id, EndpointInfo{
                                 .id = id,
--                               .status{EndpointInfo::Status::kAvailable},
+-                               .status {EndpointInfo::Status::kAvailable},
 +                               .status = AtomicReference<EndpointInfo::Status>(EndpointInfo::Status::kAvailable),
                             });
    }
@@ -488,7 +488,7 @@ Index: dev/media/gpu/chromeos/platform_video_frame_utils.cc
 ===================================================================
 --- dev.orig/media/gpu/chromeos/platform_video_frame_utils.cc
 +++ dev/media/gpu/chromeos/platform_video_frame_utils.cc
-@@ -37,6 +37,10 @@
+@@ -38,6 +38,10 @@
  #include "ui/gfx/linux/native_pixmap_dmabuf.h"
  #include "ui/gfx/native_pixmap.h"
  
@@ -633,7 +633,7 @@ Index: dev/mojo/core/channel_linux.cc
 ===================================================================
 --- dev.orig/mojo/core/channel_linux.cc
 +++ dev/mojo/core/channel_linux.cc
-@@ -43,6 +43,34 @@
+@@ -47,6 +47,34 @@
  #define EFD_ZERO_ON_WAKE O_NOFOLLOW
  #endif
  
