@@ -102,7 +102,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -525,6 +525,11 @@ void VADisplayState::PreSandboxInitializ
+@@ -526,6 +526,11 @@ void VADisplayState::PreSandboxInitializ
        base::File::FLAG_OPEN | base::File::FLAG_READ | base::File::FLAG_WRITE);
    if (drm_file.IsValid())
      VADisplayState::Get()->SetDrmFd(drm_file.GetPlatformFile());
@@ -114,7 +114,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  }
  
  VADisplayState::VADisplayState()
-@@ -632,10 +637,6 @@ bool VADisplayState::InitializeVaDriver_
+@@ -633,10 +638,6 @@ bool VADisplayState::InitializeVaDriver_
  }
  
  bool VADisplayState::InitializeOnce() {
@@ -125,7 +125,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    // Set VA logging level, unless already set.
    constexpr char libva_log_level_env[] = "LIBVA_MESSAGING_LEVEL";
    std::unique_ptr<base::Environment> env(base::Environment::Create());
-@@ -656,7 +657,6 @@ bool VADisplayState::InitializeOnce() {
+@@ -657,7 +658,6 @@ bool VADisplayState::InitializeOnce() {
      // https://github.com/intel/media-driver/issues/818
      if (!env->HasVar(libva_driver_impl_env))
        env->SetVar(libva_driver_impl_env, "i965");
@@ -133,7 +133,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
      // Re-initialize with the new driver.
      va_display_ = nullptr;
      va_initialized_ = false;
-@@ -864,7 +864,7 @@ bool AreAttribsSupported(const base::Loc
+@@ -865,7 +865,7 @@ bool AreAttribsSupported(const base::Loc
      if (attribs[i].type != required_attribs[i].type ||
          (attribs[i].value & required_attribs[i].value) !=
              required_attribs[i].value) {

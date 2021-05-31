@@ -30,7 +30,7 @@ Index: dev/build/config/compiler/BUILD.gn
    # C11/C++11 compiler flags setup.
    # ---------------------------
    if (is_linux || is_chromeos || is_android || (is_nacl && is_clang) ||
-@@ -2387,14 +2369,6 @@ config("symbols") {
+@@ -2384,14 +2366,6 @@ config("symbols") {
        cflags += [ "-g2" ]
      }
  

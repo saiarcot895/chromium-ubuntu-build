@@ -109,7 +109,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  #include <va/va_version.h>
  #include <xf86drm.h>
  
-@@ -404,7 +406,9 @@ const ProfileCodecMap& GetProfileCodecMa
+@@ -405,7 +407,9 @@ const ProfileCodecMap& GetProfileCodecMa
            {VP9PROFILE_PROFILE2, VAProfileVP9Profile2},
        // VaapiWrapper does not support Profile 3.
        //{VP9PROFILE_PROFILE3, VAProfileVP9Profile3},
@@ -119,7 +119,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
          // VaapiWrapper does not support AV1 Profile 1.
          // {AV1PROFILE_PROFILE_HIGH, VAProfileAV1Profile1},
  #if BUILDFLAG(ENABLE_PLATFORM_HEVC)
-@@ -441,8 +445,12 @@ bool IsVAProfileSupported(VAProfile va_p
+@@ -442,8 +446,12 @@ bool IsVAProfileSupported(VAProfile va_p
  
  bool IsBlockedDriver(VaapiWrapper::CodecMode mode, VAProfile va_profile) {
    if (!IsModeEncoding(mode)) {
@@ -132,7 +132,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
  
    // TODO(posciak): Remove once VP8 encoding is to be enabled by default.
-@@ -1170,7 +1178,7 @@ bool VASupportedProfiles::FillProfileInf
+@@ -1171,7 +1179,7 @@ bool VASupportedProfiles::FillProfileInf
        continue;
      if (attrib.value & VA_RT_FORMAT_YUV420)
        profile_info->supported_internal_formats.yuv420 = true;
@@ -141,7 +141,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
        profile_info->supported_internal_formats.yuv420_10 = true;
      if (attrib.value & VA_RT_FORMAT_YUV422)
        profile_info->supported_internal_formats.yuv422 = true;
-@@ -1482,7 +1490,7 @@ bool VaapiWrapper::IsDecodingSupportedFo
+@@ -1483,7 +1491,7 @@ bool VaapiWrapper::IsDecodingSupportedFo
    switch (rt_format) {
      case VA_RT_FORMAT_YUV420:
        return supported_internal_formats->yuv420;
@@ -150,7 +150,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
        return supported_internal_formats->yuv420_10;
      case VA_RT_FORMAT_YUV422:
        return supported_internal_formats->yuv422;
-@@ -1569,8 +1577,10 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1570,8 +1578,10 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      // (b/159896972): iHD v20.1.1 cannot create Y216 and Y416 images from a
      // decoded JPEG on gen 12. It is also failing to support Y800 format.
      if (preferred_fourcc == VA_FOURCC_AYUV ||
@@ -167,7 +167,7 @@ Index: dev/media/gpu/chromeos/fourcc.cc
 +++ dev/media/gpu/chromeos/fourcc.cc
 @@ -216,11 +216,11 @@ uint32_t Fourcc::ToV4L2PixFmt() const {
  // static
- base::Optional<Fourcc> Fourcc::FromVAFourCC(uint32_t va_fourcc) {
+ absl::optional<Fourcc> Fourcc::FromVAFourCC(uint32_t va_fourcc) {
    switch (va_fourcc) {
 -    case VA_FOURCC_I420:
 +    case VA_FOURCC('I', '4', '2', '0'):
@@ -179,8 +179,8 @@ Index: dev/media/gpu/chromeos/fourcc.cc
        return Fourcc(NV21);
      case VA_FOURCC_YV12:
        return Fourcc(YV12);
-@@ -246,11 +246,11 @@ base::Optional<Fourcc> Fourcc::FromVAFou
- base::Optional<uint32_t> Fourcc::ToVAFourCC() const {
+@@ -246,11 +246,11 @@ absl::optional<Fourcc> Fourcc::FromVAFou
+ absl::optional<uint32_t> Fourcc::ToVAFourCC() const {
    switch (value_) {
      case YU12:
 -      return VA_FOURCC_I420;
@@ -572,7 +572,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decoder.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_video_decoder.cc
 +++ dev/media/gpu/vaapi/vaapi_video_decoder.cc
-@@ -980,6 +980,7 @@ Status VaapiVideoDecoder::CreateAccelera
+@@ -981,6 +981,7 @@ Status VaapiVideoDecoder::CreateAccelera
          new H265Decoder(std::move(accelerator), profile_, color_space_));
    }
  #endif  // BUILDFLAG(ENABLE_PLATFORM_HEVC)
@@ -580,7 +580,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decoder.cc
    else if (profile_ >= AV1PROFILE_MIN && profile_ <= AV1PROFILE_MAX) {
      auto accelerator =
          std::make_unique<AV1VaapiVideoDecoderDelegate>(this, vaapi_wrapper_);
-@@ -987,6 +988,7 @@ Status VaapiVideoDecoder::CreateAccelera
+@@ -988,6 +989,7 @@ Status VaapiVideoDecoder::CreateAccelera
  
      decoder_.reset(new AV1Decoder(std::move(accelerator), profile_));
    }
