@@ -4,7 +4,7 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -468,16 +468,6 @@ config("compiler") {
+@@ -465,16 +465,6 @@ config("compiler") {
        if (gold_path != "") {
          ldflags += [ "-B$gold_path" ]
        }

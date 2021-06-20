@@ -2,9 +2,9 @@ Index: dev/build/toolchain/gcc_toolchain.gni
 ===================================================================
 --- dev.orig/build/toolchain/gcc_toolchain.gni
 +++ dev/build/toolchain/gcc_toolchain.gni
-@@ -28,6 +28,10 @@ declare_args() {
-       # Don't enable for Android-on-Chrome OS so that they can build with
-       # symbol_level=0 without this failing (crbug.com/891164).
+@@ -27,6 +27,10 @@ declare_args() {
+       is_official_build &&
+       # Don't enable for Android-on-Chrome OS.
        (target_os == "android" || target_os == "win")
 +  
 +  clang_use_compiler_version_suffix = false
@@ -13,7 +13,7 @@ Index: dev/build/toolchain/gcc_toolchain.gni
  }
  
  # When the arg is set via args.gn, it applies to all toolchains. In order to not
-@@ -654,13 +658,19 @@ template("clang_toolchain") {
+@@ -673,13 +677,19 @@ template("clang_toolchain") {
    }
  
    gcc_toolchain(target_name) {

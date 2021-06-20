@@ -2,7 +2,7 @@ Index: dev/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
 +++ dev/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
-@@ -72,7 +72,7 @@ static bool VerifyDataSize(const VAImage
+@@ -73,7 +73,7 @@ static bool VerifyDataSize(const VAImage
    const gfx::Size dimensions(base::strict_cast<int>(image->width),
                               base::strict_cast<int>(image->height));
    size_t min_size = 0;
@@ -11,7 +11,7 @@ Index: dev/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
      min_size = VideoFrame::AllocationSize(PIXEL_FORMAT_I420, dimensions);
    } else if (image->format.fourcc == VA_FOURCC_NV12) {
      min_size = VideoFrame::AllocationSize(PIXEL_FORMAT_NV12, dimensions);
-@@ -255,7 +255,7 @@ bool VaapiMjpegDecodeAccelerator::Output
+@@ -300,7 +300,7 @@ bool VaapiMjpegDecodeAccelerator::Output
    }
  
    switch (image->format.fourcc) {
@@ -20,25 +20,11 @@ Index: dev/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
        DCHECK_EQ(image->num_planes, 3u);
        switch (video_frame->format()) {
          case PIXEL_FORMAT_I420:
-Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.h
-===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_video_encode_accelerator.h
-+++ dev/media/gpu/vaapi/vaapi_video_encode_accelerator.h
-@@ -52,7 +52,9 @@ class MEDIA_GPU_EXPORT VaapiVideoEncodeA
-   friend class VaapiVideoEncodeAcceleratorTest;
-   class H264Accelerator;
-   class VP8Accelerator;
-+#if VA_CHECK_VERSION(0, 39, 2)
-   class VP9Accelerator;
-+#endif
- 
-   // Encoder state.
-   enum State {
 Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
 +++ dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
-@@ -75,7 +75,9 @@ void FillVAEncRateControlParams(
+@@ -77,7 +77,9 @@ void FillVAEncRateControlParams(
    rate_control_param.window_size = window_size;
    rate_control_param.initial_qp = initial_qp;
    rate_control_param.min_qp = min_qp;
@@ -48,53 +34,6 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
    rate_control_param.rc_flags.bits.disable_frame_skip = true;
  
    memset(&framerate_param, 0, sizeof(framerate_param));
-@@ -226,6 +228,7 @@ class VaapiVideoEncodeAccelerator::VP8Ac
-   VaapiVideoEncodeAccelerator* const vea_;
- };
- 
-+#if VA_CHECK_VERSION(0, 39, 2)
- class VaapiVideoEncodeAccelerator::VP9Accelerator
-     : public VP9Encoder::Accelerator {
-  public:
-@@ -247,6 +250,7 @@ class VaapiVideoEncodeAccelerator::VP9Ac
-  private:
-   VaapiVideoEncodeAccelerator* const vea_;
- };
-+#endif
- 
- VaapiVideoEncodeAccelerator::VaapiVideoEncodeAccelerator()
-     : output_buffer_byte_size_(0),
-@@ -401,6 +405,7 @@ void VaapiVideoEncodeAccelerator::Initia
-       DCHECK_EQ(ave_config.bitrate_control,
-                 AcceleratedVideoEncoder::BitrateControl::kConstantBitrate);
-       break;
-+#if VA_CHECK_VERSION(0, 39, 2)
-     case kCodecVP9:
-       if (!IsConfiguredForTesting()) {
-         encoder_ = std::make_unique<VP9Encoder>(
-@@ -409,6 +414,7 @@ void VaapiVideoEncodeAccelerator::Initia
-       ave_config.bitrate_control = AcceleratedVideoEncoder::BitrateControl::
-           kConstantQuantizationParameter;
-       break;
-+#endif
-     default:
-       NOTREACHED() << "Unsupported codec type " << GetCodecName(output_codec_);
-       return;
-@@ -1457,6 +1463,7 @@ bool VaapiVideoEncodeAccelerator::VP8Acc
-   return true;
- }
- 
-+#if VA_CHECK_VERSION(0, 39, 2)
- scoped_refptr<VP9Picture>
- VaapiVideoEncodeAccelerator::VP9Accelerator::GetPicture(
-     AcceleratedVideoEncoder::EncodeJob* job) {
-@@ -1603,5 +1610,6 @@ bool VaapiVideoEncodeAccelerator::VP9Acc
- 
-   return true;
- }
-+#endif
- 
- }  // namespace media
 Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
@@ -132,7 +71,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
  
    // TODO(posciak): Remove once VP8 encoding is to be enabled by default.
-@@ -1171,7 +1179,7 @@ bool VASupportedProfiles::FillProfileInf
+@@ -1175,7 +1183,7 @@ bool VASupportedProfiles::FillProfileInf
        continue;
      if (attrib.value & VA_RT_FORMAT_YUV420)
        profile_info->supported_internal_formats.yuv420 = true;
@@ -141,7 +80,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
        profile_info->supported_internal_formats.yuv420_10 = true;
      if (attrib.value & VA_RT_FORMAT_YUV422)
        profile_info->supported_internal_formats.yuv422 = true;
-@@ -1483,7 +1491,7 @@ bool VaapiWrapper::IsDecodingSupportedFo
+@@ -1487,7 +1495,7 @@ bool VaapiWrapper::IsDecodingSupportedFo
    switch (rt_format) {
      case VA_RT_FORMAT_YUV420:
        return supported_internal_formats->yuv420;
@@ -150,7 +89,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
        return supported_internal_formats->yuv420_10;
      case VA_RT_FORMAT_YUV422:
        return supported_internal_formats->yuv422;
-@@ -1570,8 +1578,10 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1574,8 +1582,10 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      // (b/159896972): iHD v20.1.1 cannot create Y216 and Y416 images from a
      // decoded JPEG on gen 12. It is also failing to support Y800 format.
      if (preferred_fourcc == VA_FOURCC_AYUV ||
@@ -165,7 +104,7 @@ Index: dev/media/gpu/chromeos/fourcc.cc
 ===================================================================
 --- dev.orig/media/gpu/chromeos/fourcc.cc
 +++ dev/media/gpu/chromeos/fourcc.cc
-@@ -216,11 +216,11 @@ uint32_t Fourcc::ToV4L2PixFmt() const {
+@@ -219,11 +219,11 @@ uint32_t Fourcc::ToV4L2PixFmt() const {
  // static
  absl::optional<Fourcc> Fourcc::FromVAFourCC(uint32_t va_fourcc) {
    switch (va_fourcc) {
@@ -179,7 +118,7 @@ Index: dev/media/gpu/chromeos/fourcc.cc
        return Fourcc(NV21);
      case VA_FOURCC_YV12:
        return Fourcc(YV12);
-@@ -246,11 +246,11 @@ absl::optional<Fourcc> Fourcc::FromVAFou
+@@ -249,11 +249,11 @@ absl::optional<Fourcc> Fourcc::FromVAFou
  absl::optional<uint32_t> Fourcc::ToVAFourCC() const {
    switch (value_) {
      case YU12:
@@ -368,45 +307,6 @@ Index: dev/ui/gfx/x/event.cc
      }
    }
  
-Index: dev/base/rand_util_posix.cc
-===================================================================
---- dev.orig/base/rand_util_posix.cc
-+++ dev/base/rand_util_posix.cc
-@@ -9,6 +9,7 @@
- #include <stddef.h>
- #include <stdint.h>
- #include <unistd.h>
-+#include <features.h>
- 
- #include "base/check.h"
- #include "base/compiler_specific.h"
-@@ -18,7 +19,11 @@
- #include "build/build_config.h"
- 
- #if (defined(OS_LINUX) || defined(OS_CHROMEOS)) && !defined(OS_NACL)
-+#if __GLIBC_PREREQ(2, 25)
-+#include <sys/random.h>
-+#else
- #include "third_party/lss/linux_syscall_support.h"
-+#endif
- #elif defined(OS_MAC)
- // TODO(crbug.com/995996): Waiting for this header to appear in the iOS SDK.
- // (See below.)
-@@ -63,10 +68,14 @@ namespace base {
- // it or some form of it.
- void RandBytes(void* output, size_t output_length) {
- #if (defined(OS_LINUX) || defined(OS_CHROMEOS)) && !defined(OS_NACL)
-+#if __GLIBC_PREREQ(2, 25)
-+  const ssize_t r = getrandom(output, output_length, 0);
-+#else
-   // We have to call `getrandom` via Linux Syscall Support, rather than through
-   // the libc wrapper, because we might not have an up-to-date libc (e.g. on
-   // some bots).
-   const ssize_t r = HANDLE_EINTR(sys_getrandom(output, output_length, 0));
-+#endif
- 
-   // Return success only on total success. In case errno == ENOSYS (or any other
-   // error), we'll fall through to reading from urandom below.
 Index: dev/sandbox/policy/linux/bpf_gpu_policy_linux.cc
 ===================================================================
 --- dev.orig/sandbox/policy/linux/bpf_gpu_policy_linux.cc

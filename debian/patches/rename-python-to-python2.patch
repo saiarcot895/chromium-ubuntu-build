@@ -49,7 +49,7 @@ Index: dev/third_party/catapult/common/py_vulcanize/py_vulcanize/generate.py
  
    with tempfile.NamedTemporaryFile() as _:
      args = [
--        'python',
+-        sys.executable,
 +        'python3',
          rjsmin_path
      ]

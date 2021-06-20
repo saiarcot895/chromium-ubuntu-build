@@ -2,20 +2,9 @@ Index: dev/third_party/blink/renderer/bindings/scripts/bind_gen/style_format.py
 ===================================================================
 --- dev.orig/third_party/blink/renderer/bindings/scripts/bind_gen/style_format.py
 +++ dev/third_party/blink/renderer/bindings/scripts/bind_gen/style_format.py
-@@ -70,20 +70,10 @@ def gn_format(contents, filename=None):
+@@ -95,9 +95,9 @@ def _invoke_format_command(command_line,
+     exit_code = proc.wait()
  
- 
- def _invoke_format_command(command_line, filename, contents):
--    kwargs = {}
--    if sys.version_info.major != 2:
--        kwargs['encoding'] = 'utf-8'
--    proc = subprocess.Popen(command_line,
--                            stdin=subprocess.PIPE,
--                            stdout=subprocess.PIPE,
--                            **kwargs)
--    stdout_output, stderr_output = proc.communicate(input=contents)
--    exit_code = proc.wait()
--
      return StyleFormatResult(
 -        stdout_output=stdout_output,
 -        stderr_output=stderr_output,
@@ -68,14 +57,14 @@ Index: dev/tools/metrics/histograms/expand_owners.py
 ===================================================================
 --- dev.orig/tools/metrics/histograms/expand_owners.py
 +++ dev/tools/metrics/histograms/expand_owners.py
-@@ -433,9 +433,7 @@ def ExpandHistogramsOWNERS(histograms):
+@@ -401,7 +401,9 @@ def ExpandHistogramsOWNERS(histograms):
  
        _UpdateHistogramOwners(histogram, owner, owners_to_add)
  
 -      component = _ExtractComponentViaDirmd(os.path.dirname(path))
--      if not component:
--        component = _ExtractComponentFromOWNERS(path)
-+      component = _ExtractComponentFromOWNERS(path)
++      # Chromium's way of getting the component info involves downloading an
++      # external bianry and running it to get some info. Block it for now.
++      component = None
        if component and component not in components_with_dom_elements:
          components_with_dom_elements.add(component)
          _AddHistogramComponent(histogram, component)

@@ -5,7 +5,7 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -532,24 +532,6 @@ config("compiler") {
+@@ -529,24 +529,6 @@ config("compiler") {
      ldflags += [ "-Wl,-z,keep-text-section-prefix" ]
    }
  
@@ -30,7 +30,7 @@ Index: dev/build/config/compiler/BUILD.gn
    # C11/C++11 compiler flags setup.
    # ---------------------------
    if (is_linux || is_chromeos || is_android || (is_nacl && is_clang) ||
-@@ -2384,14 +2366,6 @@ config("symbols") {
+@@ -2382,14 +2364,6 @@ config("symbols") {
        cflags += [ "-g2" ]
      }
  

@@ -2,7 +2,7 @@ Index: dev/v8/src/objects/js-display-names.cc
 ===================================================================
 --- dev.orig/v8/src/objects/js-display-names.cc
 +++ dev/v8/src/objects/js-display-names.cc
-@@ -130,9 +130,7 @@ class LanguageNames : public LocaleDispl
+@@ -129,9 +129,7 @@ class LanguageNames : public LocaleDispl
      // 1.b If IsStructurallyValidLanguageTag(code) is false, throw a RangeError
      // exception.
      icu::Locale l =

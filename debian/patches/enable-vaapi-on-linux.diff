@@ -82,7 +82,7 @@ Index: dev/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
 +++ dev/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
-@@ -384,6 +384,7 @@ bool GpuVideoDecodeAccelerator::Initiali
+@@ -383,6 +383,7 @@ bool GpuVideoDecodeAccelerator::Initiali
      LOG(ERROR) << "Failed creating the VDA factory";
      return false;
    }
@@ -90,7 +90,7 @@ Index: dev/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
  
    const gpu::GpuDriverBugWorkarounds& gpu_workarounds =
        stub_->channel()->gpu_channel_manager()->gpu_driver_bug_workarounds();
-@@ -404,6 +405,7 @@ bool GpuVideoDecodeAccelerator::Initiali
+@@ -403,6 +404,7 @@ bool GpuVideoDecodeAccelerator::Initiali
                 << (config.is_encrypted() ? " with encryption" : "");
      return false;
    }
@@ -133,7 +133,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
      // Re-initialize with the new driver.
      va_display_ = nullptr;
      va_initialized_ = false;
-@@ -865,7 +865,7 @@ bool AreAttribsSupported(const base::Loc
+@@ -869,7 +869,7 @@ bool AreAttribsSupported(const base::Loc
      if (attribs[i].type != required_attribs[i].type ||
          (attribs[i].value & required_attribs[i].value) !=
              required_attribs[i].value) {

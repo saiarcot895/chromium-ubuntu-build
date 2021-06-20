@@ -88,7 +88,8 @@ common_defines += \
 				optimize_webui=false \
 				use_ozone=true \
 				use_vaapi=true \
-				force_local_build_id=true
+				force_local_build_id=true \
+				blink_enable_generated_code_formatting=false
 
 # FFmpeg-mt
 # Ignore the version built as part of chromium. Build it separately twice, once with
