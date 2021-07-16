@@ -2,7 +2,7 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -1180,10 +1180,6 @@ config("compiler_deterministic") {
+@@ -1189,10 +1189,6 @@ config("compiler_deterministic") {
        "-Xclang",
        ".",
      ]

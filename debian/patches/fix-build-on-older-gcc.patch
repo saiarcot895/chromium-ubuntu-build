@@ -24,7 +24,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
 +++ dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
-@@ -77,7 +77,9 @@ void FillVAEncRateControlParams(
+@@ -80,7 +80,9 @@ void FillVAEncRateControlParams(
    rate_control_param.window_size = window_size;
    rate_control_param.initial_qp = initial_qp;
    rate_control_param.min_qp = min_qp;
@@ -48,7 +48,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  #include <va/va_version.h>
  #include <xf86drm.h>
  
-@@ -405,7 +407,9 @@ const ProfileCodecMap& GetProfileCodecMa
+@@ -406,7 +408,9 @@ const ProfileCodecMap& GetProfileCodecMa
            {VP9PROFILE_PROFILE2, VAProfileVP9Profile2},
        // VaapiWrapper does not support Profile 3.
        //{VP9PROFILE_PROFILE3, VAProfileVP9Profile3},
@@ -58,7 +58,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
          // VaapiWrapper does not support AV1 Profile 1.
          // {AV1PROFILE_PROFILE_HIGH, VAProfileAV1Profile1},
  #if BUILDFLAG(ENABLE_PLATFORM_HEVC)
-@@ -442,8 +446,12 @@ bool IsVAProfileSupported(VAProfile va_p
+@@ -443,8 +447,12 @@ bool IsVAProfileSupported(VAProfile va_p
  
  bool IsBlockedDriver(VaapiWrapper::CodecMode mode, VAProfile va_profile) {
    if (!IsModeEncoding(mode)) {
@@ -71,7 +71,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
  
    // TODO(posciak): Remove once VP8 encoding is to be enabled by default.
-@@ -1175,7 +1183,7 @@ bool VASupportedProfiles::FillProfileInf
+@@ -1176,7 +1184,7 @@ bool VASupportedProfiles::FillProfileInf
        continue;
      if (attrib.value & VA_RT_FORMAT_YUV420)
        profile_info->supported_internal_formats.yuv420 = true;
@@ -83,12 +83,12 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 @@ -1487,7 +1495,7 @@ bool VaapiWrapper::IsDecodingSupportedFo
    switch (rt_format) {
      case VA_RT_FORMAT_YUV420:
-       return supported_internal_formats->yuv420;
+       return supported_internal_formats.yuv420;
 -    case VA_RT_FORMAT_YUV420_10:
 +    case VA_RT_FORMAT_YUV420_10BPP:
-       return supported_internal_formats->yuv420_10;
+       return supported_internal_formats.yuv420_10;
      case VA_RT_FORMAT_YUV422:
-       return supported_internal_formats->yuv422;
+       return supported_internal_formats.yuv422;
 @@ -1574,8 +1582,10 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      // (b/159896972): iHD v20.1.1 cannot create Y216 and Y416 images from a
      // decoded JPEG on gen 12. It is also failing to support Y800 format.
@@ -255,7 +255,7 @@ Index: dev/ui/base/x/x11_display_util.cc
 ===================================================================
 --- dev.orig/ui/base/x/x11_display_util.cc
 +++ dev/ui/base/x/x11_display_util.cc
-@@ -34,6 +34,7 @@ std::map<x11::RandR::Output, int> GetMon
+@@ -35,6 +35,7 @@ std::map<x11::RandR::Output, int> GetMon
                                                x11::RandR* randr,
                                                x11::Window window) {
    std::map<x11::RandR::Output, int> output_to_monitor;
@@ -263,7 +263,7 @@ Index: dev/ui/base/x/x11_display_util.cc
    if (version >= 105) {
      if (auto reply = randr->GetMonitors({window}).Sync()) {
        for (size_t monitor = 0; monitor < reply->monitors.size(); monitor++) {
-@@ -42,6 +43,7 @@ std::map<x11::RandR::Output, int> GetMon
+@@ -43,6 +44,7 @@ std::map<x11::RandR::Output, int> GetMon
        }
      }
    }
@@ -403,15 +403,16 @@ Index: dev/media/gpu/vaapi/av1_vaapi_video_decoder_delegate.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/av1_vaapi_video_decoder_delegate.cc
 +++ dev/media/gpu/vaapi/av1_vaapi_video_decoder_delegate.cc
-@@ -21,6 +21,7 @@
- #include "third_party/libgav1/src/src/warp_prediction.h"
+@@ -24,6 +24,8 @@ namespace media {
  
- namespace media {
+ using DecodeStatus = AV1Decoder::AV1Accelerator::Status;
+ 
 +#if VA_CHECK_VERSION(1, 7, 0)
++
  namespace {
  
  #define ARRAY_SIZE(ar) (sizeof(ar) / sizeof(ar[0]))
-@@ -717,6 +718,7 @@ bool FillAV1SliceParameters(
+@@ -720,6 +722,7 @@ bool FillAV1SliceParameters(
    return true;
  }
  }  // namespace
@@ -419,7 +420,7 @@ Index: dev/media/gpu/vaapi/av1_vaapi_video_decoder_delegate.cc
  
  AV1VaapiVideoDecoderDelegate::AV1VaapiVideoDecoderDelegate(
      DecodeSurfaceHandler<VASurface>* const vaapi_dec,
-@@ -735,6 +737,7 @@ AV1VaapiVideoDecoderDelegate::~AV1VaapiV
+@@ -738,6 +741,7 @@ AV1VaapiVideoDecoderDelegate::~AV1VaapiV
  scoped_refptr<AV1Picture> AV1VaapiVideoDecoderDelegate::CreateAV1Picture(
      bool apply_grain) {
    DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
@@ -427,7 +428,7 @@ Index: dev/media/gpu/vaapi/av1_vaapi_video_decoder_delegate.cc
    const auto display_va_surface = vaapi_dec_->CreateSurface();
    if (!display_va_surface)
      return nullptr;
-@@ -755,15 +758,22 @@ scoped_refptr<AV1Picture> AV1VaapiVideoD
+@@ -758,15 +762,22 @@ scoped_refptr<AV1Picture> AV1VaapiVideoD
  
    return base::MakeRefCounted<VaapiAV1Picture>(
        std::move(display_va_surface), std::move(reconstruct_va_surface));
@@ -449,8 +450,8 @@ Index: dev/media/gpu/vaapi/av1_vaapi_video_decoder_delegate.cc
 +#endif
  }
  
- bool AV1VaapiVideoDecoderDelegate::SubmitDecode(
-@@ -779,6 +789,7 @@ bool AV1VaapiVideoDecoderDelegate::Submi
+ DecodeStatus AV1VaapiVideoDecoderDelegate::SubmitDecode(
+@@ -782,6 +793,7 @@ DecodeStatus AV1VaapiVideoDecoderDelegat
    const size_t tile_columns =
        base::checked_cast<size_t>(pic.frame_header.tile_info.tile_columns);
  
@@ -458,10 +459,10 @@ Index: dev/media/gpu/vaapi/av1_vaapi_video_decoder_delegate.cc
    VADecPictureParameterBufferAV1 pic_param;
    std::vector<VASliceParameterBufferAV1> slice_params;
    if (!FillAV1PictureParameter(pic, seq_header, ref_frames, pic_param) ||
-@@ -829,6 +840,9 @@ bool AV1VaapiVideoDecoderDelegate::Submi
-   const auto* vaapi_pic = static_cast<const VaapiAV1Picture*>(&pic);
-   return vaapi_wrapper_->MapAndCopyAndExecute(
-       vaapi_pic->reconstruct_va_surface()->id(), buffers);
+@@ -834,6 +846,9 @@ DecodeStatus AV1VaapiVideoDecoderDelegat
+              vaapi_pic->reconstruct_va_surface()->id(), buffers)
+              ? DecodeStatus::kOk
+              : DecodeStatus::kFail;
 +#else
 +  return false;
 +#endif
@@ -472,7 +473,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decoder.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_video_decoder.cc
 +++ dev/media/gpu/vaapi/vaapi_video_decoder.cc
-@@ -981,6 +981,7 @@ Status VaapiVideoDecoder::CreateAccelera
+@@ -992,6 +992,7 @@ Status VaapiVideoDecoder::CreateAccelera
          new H265Decoder(std::move(accelerator), profile_, color_space_));
    }
  #endif  // BUILDFLAG(ENABLE_PLATFORM_HEVC)
@@ -480,7 +481,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decoder.cc
    else if (profile_ >= AV1PROFILE_MIN && profile_ <= AV1PROFILE_MAX) {
      auto accelerator =
          std::make_unique<AV1VaapiVideoDecoderDelegate>(this, vaapi_wrapper_);
-@@ -988,6 +989,7 @@ Status VaapiVideoDecoder::CreateAccelera
+@@ -999,6 +1000,7 @@ Status VaapiVideoDecoder::CreateAccelera
  
      decoder_.reset(new AV1Decoder(std::move(accelerator), profile_));
    }
@@ -533,7 +534,7 @@ Index: dev/mojo/core/channel_linux.cc
 ===================================================================
 --- dev.orig/mojo/core/channel_linux.cc
 +++ dev/mojo/core/channel_linux.cc
-@@ -47,6 +47,34 @@
+@@ -48,6 +48,34 @@
  #define EFD_ZERO_ON_WAKE O_NOFOLLOW
  #endif
  

@@ -5,11 +5,11 @@ Index: dev/ui/base/x/x11_util.cc
 ===================================================================
 --- dev.orig/ui/base/x/x11_util.cc
 +++ dev/ui/base/x/x11_util.cc
-@@ -641,6 +641,7 @@ bool GetCustomFramePrefDefault() {
-   // Also disable custom frames for (at-least-partially-)EWMH-supporting tiling
-   // window managers.
-   ui::WindowManagerName wm = GuessWindowManager();
+@@ -629,6 +629,7 @@ bool HasWMSpecProperty(const base::flat_
+ }
+ 
+ bool GetCustomFramePrefDefault() {
 +  return false;
-   if (wm == WM_AWESOME || wm == WM_I3 || wm == WM_ION3 || wm == WM_MATCHBOX ||
-       wm == WM_NOTION || wm == WM_QTILE || wm == WM_RATPOISON ||
-       wm == WM_STUMPWM || wm == WM_WMII)
+   // _NET_WM_MOVERESIZE is needed for frame-drag-initiated window movement.
+   if (!WmSupportsHint(x11::GetAtom("_NET_WM_MOVERESIZE")))
+     return false;

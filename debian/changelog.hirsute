@@ -1,3 +1,10 @@
+chromium-browser (1:93.0.4573.0-0ubuntu1~ppa1~21.04.1) hirsute; urgency=low
+
+  * New upstream version 93.0.4573.0
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 16 Jul 2021 00:28:26 -0400
+
 chromium-browser (1:93.0.4542.2-0ubuntu1~ppa1~21.04.1) hirsute; urgency=low
 
   * New upstream version 93.0.4542.2

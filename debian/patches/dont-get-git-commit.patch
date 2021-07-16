@@ -1,0 +1,56 @@
+Index: dev/build/util/lastchange.py
+===================================================================
+--- dev.orig/build/util/lastchange.py
++++ dev/build/util/lastchange.py
+@@ -271,29 +271,34 @@ def main(argv=None):
+   except GitError as e:
+     logging.error("Failed to get git top directory from '%s': %s",
+                   source_dir, e)
+-    return 2
+-
+-  if args.merge_base_ref:
+-    try:
+-      merge_base_sha = GetMergeBase(git_top_dir, args.merge_base_ref)
+-    except GitError as e:
+-      logging.error("You requested a --merge-base-ref value of '%s' but no "
+-                    "merge base could be found between it and HEAD. Git "
+-                    "reports: %s", args.merge_base_ref, e)
+-      return 3
+-  else:
+-    merge_base_sha = 'HEAD'
+-
+-  try:
+-    version_info = FetchGitRevision(git_top_dir, commit_filter, merge_base_sha)
+-  except GitError as e:
+-    logging.error("Failed to get version info: %s", e)
+     logging.info(("Falling back to a version of 0.0.0 to allow script to "
+         "finish. This is normal if you are bootstrapping a new environment "
+         "or do not have a git repository for any other reason. If not, this "
+         "could represent a serious error."))
+     version_info = VersionInfo('0', '0', 0)
+ 
++  if git_top_dir:
++    if args.merge_base_ref:
++      try:
++        merge_base_sha = GetMergeBase(git_top_dir, args.merge_base_ref)
++      except GitError as e:
++        logging.error("You requested a --merge-base-ref value of '%s' but no "
++                      "merge base could be found between it and HEAD. Git "
++                      "reports: %s", args.merge_base_ref, e)
++        return 3
++    else:
++      merge_base_sha = 'HEAD'
++  
++    try:
++      version_info = FetchGitRevision(git_top_dir, commit_filter, merge_base_sha)
++    except GitError as e:
++      logging.error("Failed to get version info: %s", e)
++      logging.info(("Falling back to a version of 0.0.0 to allow script to "
++          "finish. This is normal if you are bootstrapping a new environment "
++          "or do not have a git repository for any other reason. If not, this "
++          "could represent a serious error."))
++      version_info = VersionInfo('0', '0', 0)
++
+   revision_string = version_info.revision
+   if args.revision_id_only:
+     revision_string = version_info.revision_id

@@ -5,8 +5,8 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -735,16 +735,6 @@ config("compiler") {
-     ]
+@@ -744,16 +744,6 @@ config("compiler") {
+     }
    }
  
 -  # This flag enforces that member pointer base types are complete. It helps
@@ -22,7 +22,7 @@ Index: dev/build/config/compiler/BUILD.gn
    # Pass the same C/C++ flags to the objective C/C++ compiler.
    cflags_objc += cflags_c
    cflags_objcc += cflags_cc
-@@ -1557,6 +1547,9 @@ config("default_warnings") {
+@@ -1560,6 +1550,9 @@ config("default_warnings") {
        # which we no longer use. Check if it makes sense to remove
        # this as well. http://crbug.com/316352
        "-Wno-unneeded-internal-declaration",

@@ -34,3 +34,4 @@ fix-build-errors.patch
 rename-python-to-python2.patch
 gold-dont-use-threads-due-to-groovy.patch
 fix-font-rendering.patch
+dont-get-git-commit.patch

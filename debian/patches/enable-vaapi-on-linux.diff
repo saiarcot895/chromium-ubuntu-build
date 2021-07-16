@@ -48,7 +48,7 @@ Index: dev/content/gpu/BUILD.gn
  
  # See //content/BUILD.gn for how this works.
  group("gpu") {
-@@ -140,4 +141,8 @@ target(link_target_type, "gpu_sources")
+@@ -139,4 +140,8 @@ target(link_target_type, "gpu_sources")
        (!is_chromecast || is_cast_desktop_build)) {
      configs += [ "//build/config/linux/dri" ]
    }
@@ -82,7 +82,7 @@ Index: dev/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
 +++ dev/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
-@@ -383,6 +383,7 @@ bool GpuVideoDecodeAccelerator::Initiali
+@@ -432,6 +432,7 @@ bool GpuVideoDecodeAccelerator::Initiali
      LOG(ERROR) << "Failed creating the VDA factory";
      return false;
    }
@@ -90,19 +90,19 @@ Index: dev/media/gpu/ipc/service/gpu_video_decode_accelerator.cc
  
    const gpu::GpuDriverBugWorkarounds& gpu_workarounds =
        stub_->channel()->gpu_channel_manager()->gpu_driver_bug_workarounds();
-@@ -403,6 +404,7 @@ bool GpuVideoDecodeAccelerator::Initiali
+@@ -452,6 +453,7 @@ bool GpuVideoDecodeAccelerator::Initiali
                 << (config.is_encrypted() ? " with encryption" : "");
      return false;
    }
 +  LOG(WARNING) << "Created VDA";
  
-   // Attempt to set up performing decoding tasks on IO thread, if supported by
-   // the VDA.
+   decoder_client_.Bind(std::move(client), io_task_runner_);
+ 
 Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -526,6 +526,11 @@ void VADisplayState::PreSandboxInitializ
+@@ -527,6 +527,11 @@ void VADisplayState::PreSandboxInitializ
        base::File::FLAG_OPEN | base::File::FLAG_READ | base::File::FLAG_WRITE);
    if (drm_file.IsValid())
      VADisplayState::Get()->SetDrmFd(drm_file.GetPlatformFile());
@@ -114,7 +114,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  }
  
  VADisplayState::VADisplayState()
-@@ -633,10 +638,6 @@ bool VADisplayState::InitializeVaDriver_
+@@ -634,10 +639,6 @@ bool VADisplayState::InitializeVaDriver_
  }
  
  bool VADisplayState::InitializeOnce() {
@@ -125,7 +125,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    // Set VA logging level, unless already set.
    constexpr char libva_log_level_env[] = "LIBVA_MESSAGING_LEVEL";
    std::unique_ptr<base::Environment> env(base::Environment::Create());
-@@ -657,7 +658,6 @@ bool VADisplayState::InitializeOnce() {
+@@ -658,7 +659,6 @@ bool VADisplayState::InitializeOnce() {
      // https://github.com/intel/media-driver/issues/818
      if (!env->HasVar(libva_driver_impl_env))
        env->SetVar(libva_driver_impl_env, "i965");
@@ -133,7 +133,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
      // Re-initialize with the new driver.
      va_display_ = nullptr;
      va_initialized_ = false;
-@@ -869,7 +869,7 @@ bool AreAttribsSupported(const base::Loc
+@@ -870,7 +870,7 @@ bool AreAttribsSupported(const base::Loc
      if (attribs[i].type != required_attribs[i].type ||
          (attribs[i].value & required_attribs[i].value) !=
              required_attribs[i].value) {
