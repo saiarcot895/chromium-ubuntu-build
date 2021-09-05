@@ -1,11 +1,11 @@
 Author: Olivier Tilloy <olivier.tilloy@canonical.com>
 Description: revert of 074fa51f85b15ad2e2d6c804a03825d48dbeb063, which requires Clang r313108 (unreleased yet)
 
-Index: dev/build/config/compiler/BUILD.gn
+Index: beta/build/config/compiler/BUILD.gn
 ===================================================================
---- dev.orig/build/config/compiler/BUILD.gn
-+++ dev/build/config/compiler/BUILD.gn
-@@ -530,24 +530,6 @@ config("compiler") {
+--- beta.orig/build/config/compiler/BUILD.gn
++++ beta/build/config/compiler/BUILD.gn
+@@ -530,31 +530,6 @@ config("compiler") {
      ldflags += [ "-Wl,-z,keep-text-section-prefix" ]
    }
  
@@ -24,6 +24,13 @@ Index: dev/build/config/compiler/BUILD.gn
 -      } else {
 -        ldflags += [ "-Wl,-mllvm,-instcombine-lower-dbg-declare=0" ]
 -      }
+-    }
+-
+-    # TODO(crbug.com/1235145): Investigate why/if this should be needed.
+-    if (is_win) {
+-      cflags += [ "/clang:-ffp-contract=off" ]
+-    } else {
+-      cflags += [ "-ffp-contract=off" ]
 -    }
 -  }
 -

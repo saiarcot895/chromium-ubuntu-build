@@ -1,10 +1,10 @@
 Taken from https://aur.archlinux.org/cgit/aur.git/tree/vdpau-support.patch?h=chromium-vaapi
 
-Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
+Index: beta/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
 ===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
-+++ dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
-@@ -714,7 +714,8 @@ void VaapiVideoDecodeAccelerator::Assign
+--- beta.orig/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
++++ beta/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
+@@ -713,7 +713,8 @@ void VaapiVideoDecodeAccelerator::Assign
    // implementation we get from |vaapi_picture_factory_| requires the video
    // processing pipeline for downloading the decoded frame from the internal
    // surface, we need to create a |vpp_vaapi_wrapper_|.
@@ -14,7 +14,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
      if (!vpp_vaapi_wrapper_) {
        vpp_vaapi_wrapper_ = VaapiWrapper::Create(
            VaapiWrapper::kVideoProcess, VAProfileNone,
-@@ -1228,6 +1229,12 @@ VaapiVideoDecodeAccelerator::DecideBuffe
+@@ -1227,6 +1228,12 @@ VaapiVideoDecodeAccelerator::DecideBuffe
      return BufferAllocationMode::kReduced;
    return BufferAllocationMode::kSuperReduced;
  #else
@@ -27,7 +27,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
    // TODO(crbug.com/912295): Enable a better BufferAllocationMode for IMPORT
    // |output_mode_| as well.
    if (output_mode_ == VideoDecodeAccelerator::Config::OutputMode::IMPORT)
-@@ -1238,7 +1245,7 @@ VaapiVideoDecodeAccelerator::DecideBuffe
+@@ -1237,7 +1244,7 @@ VaapiVideoDecodeAccelerator::DecideBuffe
    // associated format reconciliation copy, avoiding all internal buffer
    // allocations.
    // TODO(crbug.com/911754): Enable for VP9 Profile 2.
@@ -36,10 +36,10 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
        (profile_ == VP9PROFILE_PROFILE0 || profile_ == VP8PROFILE_ANY ||
         (profile_ >= H264PROFILE_MIN && profile_ <= H264PROFILE_MAX))) {
      // Add one to the reference frames for the one being currently egressed, and
-Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.h
+Index: beta/media/gpu/vaapi/vaapi_video_decode_accelerator.h
 ===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_video_decode_accelerator.h
-+++ dev/media/gpu/vaapi/vaapi_video_decode_accelerator.h
+--- beta.orig/media/gpu/vaapi/vaapi_video_decode_accelerator.h
++++ beta/media/gpu/vaapi/vaapi_video_decode_accelerator.h
 @@ -212,6 +212,7 @@ class MEDIA_GPU_EXPORT VaapiVideoDecodeA
      // Using |client_|s provided PictureBuffers and as many internally
      // allocated.
@@ -48,10 +48,10 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.h
    };
  
    // Decides the concrete buffer allocation mode, depending on the hardware
-Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
+Index: beta/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
-+++ dev/media/gpu/vaapi/vaapi_wrapper.cc
+--- beta.orig/media/gpu/vaapi/vaapi_wrapper.cc
++++ beta/media/gpu/vaapi/vaapi_wrapper.cc
 @@ -224,6 +224,9 @@ media::VAImplementation VendorStringToIm
    } else if (base::StartsWith(va_vendor_string, "Intel iHD driver",
                                base::CompareCase::SENSITIVE)) {
@@ -62,7 +62,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
    return media::VAImplementation::kOther;
  }
-@@ -2180,6 +2183,11 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+@@ -2217,6 +2220,11 @@ VaapiWrapper::ExportVASurfaceAsNativePix
      return nullptr;
    }
  
@@ -74,48 +74,40 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    VADRMPRIMESurfaceDescriptor descriptor;
    {
      base::AutoLock auto_lock(*va_lock_);
-@@ -2888,32 +2896,43 @@ bool VaapiWrapper::CreateSurfaces(unsign
+@@ -2927,27 +2935,38 @@ bool VaapiWrapper::CreateSurfaces(
    DCHECK(va_surfaces->empty());
  
    va_surfaces->resize(num_surfaces);
-+
-   VASurfaceAttrib attribute{};
+-  VASurfaceAttrib attribute;
+-  memset(&attribute, 0, sizeof(attribute));
 -  attribute.type = VASurfaceAttribUsageHint;
 -  attribute.flags = VA_SURFACE_ATTRIB_SETTABLE;
 -  attribute.value.type = VAGenericValueTypeInteger;
--  switch (usage_hint) {
--    case SurfaceUsageHint::kVideoDecoder:
--      attribute.value.value.i = VA_SURFACE_ATTRIB_USAGE_HINT_DECODER;
--      break;
--    case SurfaceUsageHint::kVideoEncoder:
--      attribute.value.value.i = VA_SURFACE_ATTRIB_USAGE_HINT_ENCODER;
--      break;
--    case SurfaceUsageHint::kVideoProcessWrite:
--      attribute.value.value.i = VA_SURFACE_ATTRIB_USAGE_HINT_VPP_WRITE;
--      break;
--    case SurfaceUsageHint::kGeneric:
--      attribute.value.value.i = VA_SURFACE_ATTRIB_USAGE_HINT_GENERIC;
--      break;
+-  attribute.value.value.i = 0;
+-  for (SurfaceUsageHint usage_hint : usage_hints)
+-    attribute.value.value.i |= static_cast<int32_t>(usage_hint);
+-  static_assert(std::is_same<decltype(attribute.value.value.i), int32_t>::value,
+-                "attribute.value.value.i is not int32_t");
+-  static_assert(std::is_same<std::underlying_type<SurfaceUsageHint>::type,
+-                             int32_t>::value,
+-                "The underlying type of SurfaceUsageHint is not int32_t");
++
 +  if (GetImplementationType() != VAImplementation::kNVIDIAVDPAU) {
 +    // Nvidia's VAAPI-VDPAU driver doesn't support this attribute
++    VASurfaceAttrib attribute;
++    memset(&attribute, 0, sizeof(attribute));
 +    attribute.type = VASurfaceAttribUsageHint;
 +    attribute.flags = VA_SURFACE_ATTRIB_SETTABLE;
 +    attribute.value.type = VAGenericValueTypeInteger;
-+    switch (usage_hint) {
-+      case SurfaceUsageHint::kVideoDecoder:
-+        attribute.value.value.i = VA_SURFACE_ATTRIB_USAGE_HINT_DECODER;
-+        break;
-+      case SurfaceUsageHint::kVideoEncoder:
-+        attribute.value.value.i = VA_SURFACE_ATTRIB_USAGE_HINT_ENCODER;
-+        break;
-+      case SurfaceUsageHint::kVideoProcessWrite:
-+        attribute.value.value.i = VA_SURFACE_ATTRIB_USAGE_HINT_VPP_WRITE;
-+        break;
-+      case SurfaceUsageHint::kGeneric:
-+        attribute.value.value.i = VA_SURFACE_ATTRIB_USAGE_HINT_GENERIC;
-+        break;
-+    }
-   }
++    attribute.value.value.i = 0;
++    for (SurfaceUsageHint usage_hint : usage_hints)
++      attribute.value.value.i |= static_cast<int32_t>(usage_hint);
++    static_assert(std::is_same<decltype(attribute.value.value.i), int32_t>::value,
++                  "attribute.value.value.i is not int32_t");
++    static_assert(std::is_same<std::underlying_type<SurfaceUsageHint>::type,
++                               int32_t>::value,
++                  "The underlying type of SurfaceUsageHint is not int32_t");
++  }
  
    VAStatus va_res;
    {
@@ -138,10 +130,10 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
    VA_LOG_ON_ERROR(va_res, VaapiFunctions::kVACreateSurfaces_Allocating);
    return va_res == VA_STATUS_SUCCESS;
-Index: dev/media/gpu/vaapi/vaapi_wrapper.h
+Index: beta/media/gpu/vaapi/vaapi_wrapper.h
 ===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_wrapper.h
-+++ dev/media/gpu/vaapi/vaapi_wrapper.h
+--- beta.orig/media/gpu/vaapi/vaapi_wrapper.h
++++ beta/media/gpu/vaapi/vaapi_wrapper.h
 @@ -87,6 +87,7 @@ enum class VAImplementation {
    kMesaGallium,
    kIntelI965,

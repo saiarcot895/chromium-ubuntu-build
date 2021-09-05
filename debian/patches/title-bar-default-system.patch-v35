@@ -1,11 +1,11 @@
 Description: Never default to using the custom title bar. Chromium should
   integrate, not be a special little snowflake.
 
-Index: dev/ui/base/x/x11_util.cc
+Index: beta/ui/base/x/x11_util.cc
 ===================================================================
---- dev.orig/ui/base/x/x11_util.cc
-+++ dev/ui/base/x/x11_util.cc
-@@ -629,6 +629,7 @@ bool HasWMSpecProperty(const base::flat_
+--- beta.orig/ui/base/x/x11_util.cc
++++ beta/ui/base/x/x11_util.cc
+@@ -615,6 +615,7 @@ bool HasWMSpecProperty(const base::flat_
  }
  
  bool GetCustomFramePrefDefault() {

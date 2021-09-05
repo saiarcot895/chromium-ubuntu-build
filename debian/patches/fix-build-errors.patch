@@ -1,7 +1,7 @@
-Index: dev/cc/trees/frame_rate_estimator.cc
+Index: beta/cc/trees/frame_rate_estimator.cc
 ===================================================================
---- dev.orig/cc/trees/frame_rate_estimator.cc
-+++ dev/cc/trees/frame_rate_estimator.cc
+--- beta.orig/cc/trees/frame_rate_estimator.cc
++++ beta/cc/trees/frame_rate_estimator.cc
 @@ -47,8 +47,8 @@ void FrameRateEstimator::WillDraw(base::
    // we assume that BeginFrames can not be throttled. But if the animation
    // frequency is lower than that, then using a lower frame rate is permitted.

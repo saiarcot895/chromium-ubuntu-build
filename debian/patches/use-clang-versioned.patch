@@ -1,7 +1,7 @@
-Index: dev/build/toolchain/gcc_toolchain.gni
+Index: beta/build/toolchain/gcc_toolchain.gni
 ===================================================================
---- dev.orig/build/toolchain/gcc_toolchain.gni
-+++ dev/build/toolchain/gcc_toolchain.gni
+--- beta.orig/build/toolchain/gcc_toolchain.gni
++++ beta/build/toolchain/gcc_toolchain.gni
 @@ -27,6 +27,10 @@ declare_args() {
        is_official_build &&
        # Don't enable for Android-on-Chrome OS.
