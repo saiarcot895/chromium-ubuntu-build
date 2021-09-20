@@ -114,7 +114,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  }
  
  VADisplayState::VADisplayState()
-@@ -634,10 +639,6 @@ bool VADisplayState::InitializeVaDriver_
+@@ -665,10 +670,6 @@ bool VADisplayState::InitializeVaDriver_
  }
  
  bool VADisplayState::InitializeOnce() {
@@ -125,7 +125,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    // Set VA logging level, unless already set.
    constexpr char libva_log_level_env[] = "LIBVA_MESSAGING_LEVEL";
    std::unique_ptr<base::Environment> env(base::Environment::Create());
-@@ -658,7 +659,6 @@ bool VADisplayState::InitializeOnce() {
+@@ -689,7 +690,6 @@ bool VADisplayState::InitializeOnce() {
      // https://github.com/intel/media-driver/issues/818
      if (!env->HasVar(libva_driver_impl_env))
        env->SetVar(libva_driver_impl_env, "i965");
@@ -133,7 +133,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
      // Re-initialize with the new driver.
      va_display_ = nullptr;
      va_initialized_ = false;
-@@ -870,7 +870,7 @@ bool AreAttribsSupported(const base::Loc
+@@ -899,7 +899,7 @@ bool AreAttribsSupported(const base::Loc
      if (attribs[i].type != required_attribs[i].type ||
          (attribs[i].value & required_attribs[i].value) !=
              required_attribs[i].value) {

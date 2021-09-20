@@ -2,7 +2,7 @@ Index: dev/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
 +++ dev/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
-@@ -73,7 +73,7 @@ static bool VerifyDataSize(const VAImage
+@@ -73,7 +73,7 @@ bool VerifyDataSize(const VAImage* image
    const gfx::Size dimensions(base::strict_cast<int>(image->width),
                               base::strict_cast<int>(image->height));
    size_t min_size = 0;
@@ -11,20 +11,11 @@ Index: dev/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
      min_size = VideoFrame::AllocationSize(PIXEL_FORMAT_I420, dimensions);
    } else if (image->format.fourcc == VA_FOURCC_NV12) {
      min_size = VideoFrame::AllocationSize(PIXEL_FORMAT_NV12, dimensions);
-@@ -300,7 +300,7 @@ bool VaapiMjpegDecodeAccelerator::Output
-   }
- 
-   switch (image->format.fourcc) {
--    case VA_FOURCC_I420:
-+    case VA_FOURCC('I', '4', '2', '0'):
-       DCHECK_EQ(image->num_planes, 3u);
-       switch (video_frame->format()) {
-         case PIXEL_FORMAT_I420:
 Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
 +++ dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
-@@ -80,7 +80,9 @@ void FillVAEncRateControlParams(
+@@ -83,7 +83,9 @@ void FillVAEncRateControlParams(
    rate_control_param.window_size = window_size;
    rate_control_param.initial_qp = initial_qp;
    rate_control_param.min_qp = min_qp;
@@ -57,7 +48,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 +#endif
          // VaapiWrapper does not support AV1 Profile 1.
          // {AV1PROFILE_PROFILE_HIGH, VAProfileAV1Profile1},
- #if BUILDFLAG(ENABLE_PLATFORM_HEVC)
+ #if BUILDFLAG(ENABLE_PLATFORM_HEVC_DECODING)
 @@ -443,8 +447,12 @@ bool IsVAProfileSupported(VAProfile va_p
  
  bool IsBlockedDriver(VaapiWrapper::CodecMode mode, VAProfile va_profile) {
@@ -71,7 +62,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
  
    // TODO(posciak): Remove once VP8 encoding is to be enabled by default.
-@@ -1176,7 +1184,7 @@ bool VASupportedProfiles::FillProfileInf
+@@ -1205,7 +1213,7 @@ bool VASupportedProfiles::FillProfileInf
        continue;
      if (attrib.value & VA_RT_FORMAT_YUV420)
        profile_info->supported_internal_formats.yuv420 = true;
@@ -80,7 +71,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
        profile_info->supported_internal_formats.yuv420_10 = true;
      if (attrib.value & VA_RT_FORMAT_YUV422)
        profile_info->supported_internal_formats.yuv422 = true;
-@@ -1487,7 +1495,7 @@ bool VaapiWrapper::IsDecodingSupportedFo
+@@ -1518,7 +1526,7 @@ bool VaapiWrapper::IsDecodingSupportedFo
    switch (rt_format) {
      case VA_RT_FORMAT_YUV420:
        return supported_internal_formats.yuv420;
@@ -89,7 +80,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
        return supported_internal_formats.yuv420_10;
      case VA_RT_FORMAT_YUV422:
        return supported_internal_formats.yuv422;
-@@ -1574,8 +1582,10 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1605,8 +1613,10 @@ bool VaapiWrapper::GetJpegDecodeSuitable
      // (b/159896972): iHD v20.1.1 cannot create Y216 and Y416 images from a
      // decoded JPEG on gen 12. It is also failing to support Y800 format.
      if (preferred_fourcc == VA_FOURCC_AYUV ||
@@ -219,7 +210,7 @@ Index: dev/ui/gtk/gtk_util.cc
 ===================================================================
 --- dev.orig/ui/gtk/gtk_util.cc
 +++ dev/ui/gtk/gtk_util.cc
-@@ -112,9 +112,11 @@ GtkCssContext AppendCssNodeToStyleContex
+@@ -101,9 +101,11 @@ GtkCssContext AppendCssNodeToStyleContex
      gtk_widget_path_append_type(path, gtype);
  
      if (!object_name.empty()) {
@@ -275,11 +266,11 @@ Index: dev/third_party/nearby/src/cpp/core/internal/payload_manager.cc
 ===================================================================
 --- dev.orig/third_party/nearby/src/cpp/core/internal/payload_manager.cc
 +++ dev/third_party/nearby/src/cpp/core/internal/payload_manager.cc
-@@ -966,7 +966,7 @@ PayloadManager::PendingPayload::PendingP
+@@ -1066,7 +1066,7 @@ PayloadManager::PendingPayload::PendingP
    for (const auto& id : endpoint_ids) {
      endpoints_.emplace(id, EndpointInfo{
                                 .id = id,
--                               .status {EndpointInfo::Status::kAvailable},
+-                               .status{EndpointInfo::Status::kAvailable},
 +                               .status = AtomicReference<EndpointInfo::Status>(EndpointInfo::Status::kAvailable),
                             });
    }
@@ -420,7 +411,7 @@ Index: dev/media/gpu/vaapi/av1_vaapi_video_decoder_delegate.cc
  
  AV1VaapiVideoDecoderDelegate::AV1VaapiVideoDecoderDelegate(
      DecodeSurfaceHandler<VASurface>* const vaapi_dec,
-@@ -738,6 +741,7 @@ AV1VaapiVideoDecoderDelegate::~AV1VaapiV
+@@ -743,6 +746,7 @@ AV1VaapiVideoDecoderDelegate::~AV1VaapiV
  scoped_refptr<AV1Picture> AV1VaapiVideoDecoderDelegate::CreateAV1Picture(
      bool apply_grain) {
    DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
@@ -428,7 +419,7 @@ Index: dev/media/gpu/vaapi/av1_vaapi_video_decoder_delegate.cc
    const auto display_va_surface = vaapi_dec_->CreateSurface();
    if (!display_va_surface)
      return nullptr;
-@@ -758,15 +762,22 @@ scoped_refptr<AV1Picture> AV1VaapiVideoD
+@@ -763,15 +767,22 @@ scoped_refptr<AV1Picture> AV1VaapiVideoD
  
    return base::MakeRefCounted<VaapiAV1Picture>(
        std::move(display_va_surface), std::move(reconstruct_va_surface));
@@ -451,7 +442,7 @@ Index: dev/media/gpu/vaapi/av1_vaapi_video_decoder_delegate.cc
  }
  
  DecodeStatus AV1VaapiVideoDecoderDelegate::SubmitDecode(
-@@ -782,6 +793,7 @@ DecodeStatus AV1VaapiVideoDecoderDelegat
+@@ -820,6 +831,7 @@ DecodeStatus AV1VaapiVideoDecoderDelegat
    const size_t tile_columns =
        base::checked_cast<size_t>(pic.frame_header.tile_info.tile_columns);
  
@@ -459,10 +450,10 @@ Index: dev/media/gpu/vaapi/av1_vaapi_video_decoder_delegate.cc
    VADecPictureParameterBufferAV1 pic_param;
    std::vector<VASliceParameterBufferAV1> slice_params;
    if (!FillAV1PictureParameter(pic, seq_header, ref_frames, pic_param) ||
-@@ -834,6 +846,9 @@ DecodeStatus AV1VaapiVideoDecoderDelegat
-              vaapi_pic->reconstruct_va_surface()->id(), buffers)
-              ? DecodeStatus::kOk
-              : DecodeStatus::kFail;
+@@ -886,6 +898,9 @@ DecodeStatus AV1VaapiVideoDecoderDelegat
+     ProtectedDecodedSucceeded();
+ 
+   return success ? DecodeStatus::kOk : DecodeStatus::kFail;
 +#else
 +  return false;
 +#endif
@@ -473,22 +464,25 @@ Index: dev/media/gpu/vaapi/vaapi_video_decoder.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_video_decoder.cc
 +++ dev/media/gpu/vaapi/vaapi_video_decoder.cc
-@@ -992,6 +992,7 @@ Status VaapiVideoDecoder::CreateAccelera
+@@ -1084,6 +1084,7 @@ Status VaapiVideoDecoder::CreateAccelera
          new H265Decoder(std::move(accelerator), profile_, color_space_));
    }
- #endif  // BUILDFLAG(ENABLE_PLATFORM_HEVC)
+ #endif  // BUILDFLAG(ENABLE_PLATFORM_HEVC_DECODING)
 +#if VA_CHECK_VERSION(1, 7, 0)
    else if (profile_ >= AV1PROFILE_MIN && profile_ <= AV1PROFILE_MAX) {
-     auto accelerator =
-         std::make_unique<AV1VaapiVideoDecoderDelegate>(this, vaapi_wrapper_);
-@@ -999,6 +1000,7 @@ Status VaapiVideoDecoder::CreateAccelera
+     auto accelerator = std::make_unique<AV1VaapiVideoDecoderDelegate>(
+         this, vaapi_wrapper_, std::move(protected_update_cb),
+@@ -1092,7 +1093,9 @@ Status VaapiVideoDecoder::CreateAccelera
+     decoder_delegate_ = accelerator.get();
  
      decoder_.reset(new AV1Decoder(std::move(accelerator), profile_));
-   }
+-  } else {
++  }
 +#endif
-   else {
++  else {
      return Status(StatusCode::kDecoderUnsupportedProfile)
          .WithData("profile", profile_);
+   }
 Index: dev/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
 ===================================================================
 --- dev.orig/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
@@ -573,7 +567,7 @@ Index: dev/base/compiler_specific.h
 ===================================================================
 --- dev.orig/base/compiler_specific.h
 +++ dev/base/compiler_specific.h
-@@ -340,7 +340,8 @@ inline constexpr bool AnalyzerAssumeTrue
+@@ -365,7 +365,8 @@ inline constexpr bool AnalyzerAssumeTrue
  #endif  // defined(__clang_analyzer__)
  
  // Use nomerge attribute to disable optimization of merging multiple same calls.
@@ -583,3 +577,40 @@ Index: dev/base/compiler_specific.h
  #define NOMERGE [[clang::nomerge]]
  #else
  #define NOMERGE
+Index: dev/third_party/devtools-frontend/src/node_modules/minify-html-literals/src/strategy.js
+===================================================================
+--- dev.orig/third_party/devtools-frontend/src/node_modules/minify-html-literals/src/strategy.js
++++ dev/third_party/devtools-frontend/src/node_modules/minify-html-literals/src/strategy.js
+@@ -71,25 +71,6 @@ exports.defaultStrategy = {
+             ...options,
+             minifyCSS: adjustedMinifyCSSOptions
+         });
+-        if (options.collapseWhitespace) {
+-            // html-minifier does not support removing newlines inside <svg>
+-            // attributes. Support this, but be careful not to remove newlines from
+-            // supported areas (such as within <pre> and <textarea> tags).
+-            const matches = Array.from(result.matchAll(/<svg/g)).reverse();
+-            for (const match of matches) {
+-                const startTagIndex = match.index;
+-                const closeTagIndex = result.indexOf('</svg', startTagIndex);
+-                if (closeTagIndex < 0) {
+-                    // Malformed SVG without a closing tag
+-                    continue;
+-                }
+-                const start = result.substring(0, startTagIndex);
+-                let svg = result.substring(startTagIndex, closeTagIndex);
+-                const end = result.substring(closeTagIndex);
+-                svg = svg.replace(/\r?\n/g, '');
+-                result = start + svg + end;
+-            }
+-        }
+         if (adjustedMinifyCSSOptions &&
+             adjustedMinifyCSSOptions.level[optimization_level_1.OptimizationLevel.One].tidySelectors) {
+             // Fix https://github.com/jakubpawlowicz/clean-css/issues/996
+@@ -163,4 +144,4 @@ function fixCleanCssTidySelectors(origin
+     }
+     return result;
+ }
+-//# sourceMappingURL=strategy.js.map
+\ No newline at end of file
++//# sourceMappingURL=strategy.js.map

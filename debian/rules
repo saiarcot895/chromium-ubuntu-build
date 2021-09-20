@@ -72,6 +72,7 @@ common_defines += \
 				use_libpci=true \
 				use_pulseaudio=true \
 				use_sysroot=false \
+				use_system_freetype=true \
 				use_system_harfbuzz=false \
 				use_system_libjpeg=false \
 				use_system_libwayland=true \
