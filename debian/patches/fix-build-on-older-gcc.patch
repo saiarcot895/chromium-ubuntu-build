@@ -585,3 +585,40 @@ Index: beta/base/compiler_specific.h
  #define NOMERGE [[clang::nomerge]]
  #else
  #define NOMERGE
+Index: beta/third_party/devtools-frontend/src/node_modules/minify-html-literals/src/strategy.js
+===================================================================
+--- beta.orig/third_party/devtools-frontend/src/node_modules/minify-html-literals/src/strategy.js
++++ beta/third_party/devtools-frontend/src/node_modules/minify-html-literals/src/strategy.js
+@@ -71,25 +71,6 @@ exports.defaultStrategy = {
+             ...options,
+             minifyCSS: adjustedMinifyCSSOptions
+         });
+-        if (options.collapseWhitespace) {
+-            // html-minifier does not support removing newlines inside <svg>
+-            // attributes. Support this, but be careful not to remove newlines from
+-            // supported areas (such as within <pre> and <textarea> tags).
+-            const matches = Array.from(result.matchAll(/<svg/g)).reverse();
+-            for (const match of matches) {
+-                const startTagIndex = match.index;
+-                const closeTagIndex = result.indexOf('</svg', startTagIndex);
+-                if (closeTagIndex < 0) {
+-                    // Malformed SVG without a closing tag
+-                    continue;
+-                }
+-                const start = result.substring(0, startTagIndex);
+-                let svg = result.substring(startTagIndex, closeTagIndex);
+-                const end = result.substring(closeTagIndex);
+-                svg = svg.replace(/\r?\n/g, '');
+-                result = start + svg + end;
+-            }
+-        }
+         if (adjustedMinifyCSSOptions &&
+             adjustedMinifyCSSOptions.level[optimization_level_1.OptimizationLevel.One].tidySelectors) {
+             // Fix https://github.com/jakubpawlowicz/clean-css/issues/996
+@@ -163,4 +144,4 @@ function fixCleanCssTidySelectors(origin
+     }
+     return result;
+ }
+-//# sourceMappingURL=strategy.js.map
+\ No newline at end of file
++//# sourceMappingURL=strategy.js.map

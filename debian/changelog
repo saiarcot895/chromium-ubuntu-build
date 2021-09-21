@@ -1,3 +1,11 @@
+chromium-browser (1:94.0.4606.54-0ubuntu1~ppa1~21.10.1) impish; urgency=low
+
+  * New upstream version 94.0.4606.54
+  * Updated patches.
+  * Use system version of freetype library.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 21 Sep 2021 19:03:41 -0400
+
 chromium-browser (1:94.0.4606.31-0ubuntu1~ppa2~21.10.1) impish; urgency=low
 
   * Try to fix build.
