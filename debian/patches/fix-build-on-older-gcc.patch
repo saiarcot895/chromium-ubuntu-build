@@ -455,7 +455,7 @@ Index: dev/media/gpu/vaapi/av1_vaapi_video_decoder_delegate.cc
  
    return success ? DecodeStatus::kOk : DecodeStatus::kFail;
 +#else
-+  return false;
++  return DecodeStatus::kFail;
 +#endif
  }
  

@@ -74,11 +74,10 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    VADRMPRIMESurfaceDescriptor descriptor;
    {
      base::AutoLock auto_lock(*va_lock_);
-@@ -2981,27 +2989,38 @@ bool VaapiWrapper::CreateSurfaces(
-   DCHECK(va_surfaces->empty());
+@@ -2982,26 +2990,37 @@ bool VaapiWrapper::CreateSurfaces(
  
    va_surfaces->resize(num_surfaces);
--  VASurfaceAttrib attribute;
+   VASurfaceAttrib attribute;
 -  memset(&attribute, 0, sizeof(attribute));
 -  attribute.type = VASurfaceAttribUsageHint;
 -  attribute.flags = VA_SURFACE_ATTRIB_SETTABLE;
@@ -94,7 +93,6 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 +
 +  if (GetImplementationType() != VAImplementation::kNVIDIAVDPAU) {
 +    // Nvidia's VAAPI-VDPAU driver doesn't support this attribute
-+    VASurfaceAttrib attribute;
 +    memset(&attribute, 0, sizeof(attribute));
 +    attribute.type = VASurfaceAttribUsageHint;
 +    attribute.flags = VA_SURFACE_ATTRIB_SETTABLE;

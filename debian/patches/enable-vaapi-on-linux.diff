@@ -142,3 +142,28 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
                 << vaConfigAttribTypeStr(required_attribs[i].type);
        return false;
      }
+@@ -2811,8 +2811,7 @@ void VaapiWrapper::PreSandboxInitializat
+   paths[kModuleVa].push_back(std::string("libva.so.") + va_suffix);
+   paths[kModuleVa_drm].push_back(std::string("libva-drm.so.") + va_suffix);
+ #if defined(USE_X11)
+-  if (!features::IsUsingOzonePlatform())
+-    paths[kModuleVa_x11].push_back(std::string("libva-x11.so.") + va_suffix);
++  paths[kModuleVa_x11].push_back(std::string("libva-x11.so.") + va_suffix);
+ #endif
+ #if BUILDFLAG(IS_CHROMEOS_ASH)
+   paths[kModuleVa_prot].push_back(std::string("libva.so.") + va_suffix);
+@@ -2825,13 +2824,7 @@ void VaapiWrapper::PreSandboxInitializat
+   static bool result = InitializeStubs(paths);
+   if (!result) {
+     static const char kErrorMsg[] = "Failed to initialize VAAPI libs";
+-#if defined(OS_CHROMEOS)
+-    // When Chrome runs on Linux with target_os="chromeos", do not log error
+-    // message without VAAPI libraries.
+-    LOG_IF(ERROR, base::SysInfo::IsRunningOnChromeOS()) << kErrorMsg;
+-#else
+-    DVLOG(1) << kErrorMsg;
+-#endif
++    LOG(ERROR) << kErrorMsg;
+   }
+ 
+   // VASupportedProfiles::Get creates VADisplayState and in so doing

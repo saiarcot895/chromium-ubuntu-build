@@ -1,3 +1,11 @@
+chromium-browser (1:95.0.4638.17-0ubuntu1~ppa1~20.04.1) focal; urgency=low
+
+  * New upstream version 95.0.4638.17
+  * Updated patches.
+  * Use system version of freetype library.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 24 Sep 2021 01:49:56 -0400
+
 chromium-browser (1:95.0.4638.10-0ubuntu1~ppa1~20.04.1) focal; urgency=low
 
   * New upstream version 95.0.4638.10

@@ -84,6 +84,7 @@ common_defines += \
 				is_cfi=false \
 				use_thin_lto=false \
 				fatal_linker_warnings=false \
+				dcheck_always_on=false \
 				target_os="linux" \
 				current_os="linux" \
 				optimize_webui=false \
@@ -118,12 +119,7 @@ common_defines += arm_float_abi="hard" arm_use_thumb=true
 else ifeq (arm64,$(DEB_HOST_ARCH))
 common_defines += target_cpu="arm64" symbol_level=1
 else ifeq (i386,$(DEB_HOST_ARCH))
-ifeq (,$(filter 16.04%,$(UBUNTU_DIST)))
 common_defines += target_cpu="x86" symbol_level=1
-else
-# Ubuntu 16.04 i386 needs too much memory for even symbol_level=1
-common_defines += target_cpu="x86" symbol_level=0
-endif
 else ifeq (amd64,$(DEB_HOST_ARCH))
 common_defines += target_cpu="x64" symbol_level=1
 else ifeq (mipsel,$(DEB_HOST_ARCH))
@@ -163,27 +159,20 @@ common_defines += \
 	google_api_key="AIzaSyC4TF2l4o5nfmK4MAB-VaEVnf7h-sxENXw"
 endif
 
-# Pipewire isn't available on 16.04, and has been backported to 18.04 in my PPA.
-# 19.04 Pipewire has some build issue, so exclude it for now.
+# Pipewire has been backported to 18.04 in my PPA.
 ifneq (,$(filter 18.04% 20.04%,$(UBUNTU_DIST)))
 common_defines += \
 				  rtc_use_pipewire=true \
 				  rtc_link_pipewire=true \
 				  rtc_pipewire_version="0.2"
-else ifneq (,$(filter 20.10 21.04,$(UBUNTU_DIST)))
+else ifneq (,$(filter 20.10 21.04 21.10,$(UBUNTU_DIST)))
 common_defines += \
 				  rtc_use_pipewire=true \
 				  rtc_link_pipewire=true \
 				  rtc_pipewire_version="0.3"
 endif
 
-ifneq (,$(filter 16.04%,$(UBUNTU_DIST)))
-# Xenial
-common_defines += \
-				  init_stack_vars=false \
-				  clang_use_compiler_version_suffix=true \
-				  clang_compiler_version_suffix="8"
-else ifneq (,$(filter 18.04%,$(UBUNTU_DIST)))
+ifneq (,$(filter 18.04%,$(UBUNTU_DIST)))
 # Bionic
 common_defines += \
 				  init_stack_vars=true \
@@ -251,7 +240,7 @@ override_dh_builddeb:
 override_dh_shlibdeps:
 	dh_shlibdeps -l$(CURDIR)/debian/chromium-browser/usr/lib/chromium-browser/ 2>&1 | grep -v "dpkg-shlibdeps: warning: can't extract name and version from library name" || true
 
-override_dh_install-arch: TRASH := .deps gen obj obj.host obj.target \*.lock build.\* .landmines mksnapshot\* protoc pyproto re2c resources yasm \*.TOC product_logo_\*png gen\* lib/\* lib libvpx_obj_int_extract .ninja\* chrome-wrapper \*.breakpad.\* java_mojo dump_syms browser_test_resources ar_sample_test_driver unittests app_streaming/dev locales remoting_locales v8_build_config.json v8_context_snapshot_generator args.gn gn \*.ninja angledata brotli character_data_generator \*.pak.info flatc \*.service libVkLayer_\* libwidevinecdm\* bytecode_builtins_list_generator cddl cppgen_plugin make_top_domain_list_variables protozero_plugin top_domain_generator torque transport_security_state_generator \*.runtime_deps
+override_dh_install-arch: TRASH := .deps gen obj obj.host obj.target \*.lock build.\* .landmines mksnapshot\* protoc pyproto re2c resources yasm \*.TOC product_logo_\*png gen\* lib/\* lib libvpx_obj_int_extract .ninja\* chrome-wrapper \*.breakpad.\* java_mojo dump_syms browser_test_resources ar_sample_test_driver unittests app_streaming/dev locales remoting_locales v8_build_config.json v8_context_snapshot_generator args.gn gn \*.ninja angledata brotli character_data_generator \*.pak.info flatc \*.service libVkLayer_\* libwidevinecdm\* bytecode_builtins_list_generator cddl cppgen_plugin make_top_domain_list_variables protozero_plugin top_domain_generator torque transport_security_state_generator \*.runtime_deps gn_logs.txt chromedriver.\*
 override_dh_install-arch: debian/chromium-browser.sh
 	@set -eux
 	# Two stages: Install out of source tree. Copy to packaging.
@@ -329,13 +318,8 @@ override_dh_clean:
 	dh_clean
 
 $(SRC_DIR)/gn:
-ifeq (,$(filter 16.04%,$(UBUNTU_DIST)))
 	CC=$(shell which clang-10 clang-8 clang | head -n 1) CXX=$(shell which clang++-10 clang++-8 clang++ | head -n 1) tools/gn/bootstrap/bootstrap.py --gn-gen-args '$(common_defines)'
 	cp $(SRC_DIR)/out/Release/gn $(SRC_DIR)/
-else
-	CC=$(shell which clang-10 clang-8 clang | head -n 1) CXX=$(shell which clang++-10 clang++-8 clang++ | head -n 1) tools/gn/bootstrap/bootstrap.py --use-custom-libcxx --gn-gen-args '$(common_defines)'
-	cp $(SRC_DIR)/out/Release/gn $(SRC_DIR)/out/Release/libc++.gn.so $(SRC_DIR)/
-endif
 	rm -rf $(SRC_DIR)/out
 
 debian/chromium-browser.sh: debian/chromium-browser.sh.in
