@@ -318,7 +318,7 @@ override_dh_clean:
 	dh_clean
 
 $(SRC_DIR)/gn:
-	CC=$(shell which clang-10 clang-8 clang | head -n 1) CXX=$(shell which clang++-10 clang++-8 clang++ | head -n 1) tools/gn/bootstrap/bootstrap.py --gn-gen-args '$(common_defines)'
+	CC=$(shell which clang-10 clang-8 clang | head -n 1) CXX=$(shell which clang++-10 clang++-8 clang++ | head -n 1) AR=llvm-ar tools/gn/bootstrap/bootstrap.py --skip-generate-buildfiles
 	cp $(SRC_DIR)/out/Release/gn $(SRC_DIR)/
 	rm -rf $(SRC_DIR)/out
 
