@@ -240,7 +240,7 @@ override_dh_builddeb:
 override_dh_shlibdeps:
 	dh_shlibdeps -l$(CURDIR)/debian/chromium-browser/usr/lib/chromium-browser/ 2>&1 | grep -v "dpkg-shlibdeps: warning: can't extract name and version from library name" || true
 
-override_dh_install-arch: TRASH := .deps gen obj obj.host obj.target \*.lock build.\* .landmines mksnapshot\* protoc pyproto re2c resources yasm \*.TOC product_logo_\*png gen\* lib/\* lib libvpx_obj_int_extract .ninja\* chrome-wrapper \*.breakpad.\* java_mojo dump_syms browser_test_resources ar_sample_test_driver unittests app_streaming/dev locales remoting_locales v8_build_config.json v8_context_snapshot_generator args.gn gn \*.ninja angledata brotli character_data_generator \*.pak.info flatc \*.service libVkLayer_\* libwidevinecdm\* bytecode_builtins_list_generator cddl cppgen_plugin make_top_domain_list_variables protozero_plugin top_domain_generator torque transport_security_state_generator \*.runtime_deps gn_logs.txt chromedriver.\*
+override_dh_install-arch: TRASH := .deps gen obj obj.host obj.target \*.lock build.\* .landmines mksnapshot\* protoc pyproto re2c resources yasm \*.TOC product_logo_\*png gen\* lib/\* lib libvpx_obj_int_extract .ninja\* chrome-wrapper \*.breakpad.\* java_mojo dump_syms browser_test_resources ar_sample_test_driver unittests app_streaming/dev locales remoting_locales v8_build_config.json v8_context_snapshot_generator args.gn gn \*.ninja angledata brotli character_data_generator \*.pak.info flatc \*.service libVkLayer_\* libwidevinecdm\* bytecode_builtins_list_generator cddl cppgen_plugin make_top_domain_list_variables protozero_plugin top_domain_generator torque transport_security_state_generator \*.runtime_deps gn_logs.txt
 override_dh_install-arch: debian/chromium-browser.sh
 	@set -eux
 	# Two stages: Install out of source tree. Copy to packaging.
@@ -318,7 +318,7 @@ override_dh_clean:
 	dh_clean
 
 $(SRC_DIR)/gn:
-	CC=$(shell which clang-10 clang-8 clang | head -n 1) CXX=$(shell which clang++-10 clang++-8 clang++ | head -n 1) AR=llvm-ar tools/gn/bootstrap/bootstrap.py --skip-generate-buildfiles
+	CC=$(shell which clang-10 clang-8 clang | head -n 1) CXX=$(shell which clang++-10 clang++-8 clang++ | head -n 1) AR=$(shell which llvm-ar-10 llvm-ar-8 llvm-ar | head -n 1) tools/gn/bootstrap/bootstrap.py --skip-generate-buildfiles
 	cp $(SRC_DIR)/out/Release/gn $(SRC_DIR)/
 	rm -rf $(SRC_DIR)/out
 

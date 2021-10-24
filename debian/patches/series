@@ -38,3 +38,4 @@ dont-get-git-commit.patch
 handle-fstatat.patch
 fix-sandbox-for-audio.patch
 readd-support-for-pipewire-02.patch
+dont-strip-chromedriver.patch

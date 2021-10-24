@@ -1,3 +1,9 @@
+chromium-browser (1:95.0.4638.17-0ubuntu1~ppa3~18.04.1) bionic; urgency=low
+
+  * Fix some more build errors.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 24 Oct 2021 11:38:19 -0400
+
 chromium-browser (1:95.0.4638.17-0ubuntu1~ppa2~18.04.1) bionic; urgency=low
 
   * Re-add pipewire 0.2 support.

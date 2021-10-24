@@ -1,0 +1,44 @@
+Index: dev/chrome/test/chromedriver/BUILD.gn
+===================================================================
+--- dev.orig/chrome/test/chromedriver/BUILD.gn
++++ dev/chrome/test/chromedriver/BUILD.gn
+@@ -4,9 +4,6 @@
+ 
+ import("//build/config/python.gni")
+ import("//build/config/ui.gni")
+-if (is_linux) {
+-  import("//build/linux/strip_binary.gni")
+-}
+ import("//build/util/lastchange.gni")
+ import("//testing/test.gni")
+ import("//third_party/ffmpeg/ffmpeg_options.gni")
+@@ -308,11 +305,7 @@ source_set("lib") {
+   }
+ }
+ 
+-if (is_linux) {
+-  chromedriver_output = "chromedriver.unstripped"
+-} else {
+-  chromedriver_output = "chromedriver"
+-}
++chromedriver_output = "chromedriver"
+ 
+ executable("$chromedriver_output") {
+   testonly = true
+@@ -336,16 +329,6 @@ executable("$chromedriver_output") {
+   }
+ }
+ 
+-if (is_linux) {
+-  strip_binary("chromedriver") {
+-    testonly = true
+-    binary_input = "$root_out_dir/$chromedriver_output"
+-    symbol_output = "$root_out_dir/chromedriver.debug"
+-    stripped_binary_output = "$root_out_dir/chromedriver"
+-    deps = [ ":$chromedriver_output" ]
+-  }
+-}
+-
+ python_library("chromedriver_py_tests") {
+   testonly = true
+   deps = [
