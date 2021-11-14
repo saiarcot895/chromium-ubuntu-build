@@ -13,26 +13,28 @@ Index: dev/build/toolchain/gcc_toolchain.gni
  }
  
  # When the arg is set via args.gn, it applies to all toolchains. In order to not
-@@ -736,13 +740,19 @@ template("clang_toolchain") {
-   }
- 
+@@ -731,13 +735,20 @@ template("gcc_toolchain") {
+ # use_gold too.
+ template("clang_toolchain") {
    gcc_toolchain(target_name) {
 -    prefix = rebase_path("$clang_base_path/bin", root_build_dir)
--    cc = "$prefix/clang"
--    cxx = "$prefix/clang++"
+-    cc = "${prefix}/clang"
+-    cxx = "${prefix}/clang++"
 +    if (clang_use_compiler_version_suffix) {
 +      cc = "clang-${clang_compiler_version_suffix}"
 +      cxx = "clang++-${clang_compiler_version_suffix}"
 +      ar = "llvm-ar-${clang_compiler_version_suffix}"
 +      nm = "llvm-nm-${clang_compiler_version_suffix}"
++      readelf = "llvm-readelf"
 +    } else {
 +      cc = "clang"
 +      cxx = "clang++"
 +      ar = "llvm-ar"
 +      nm = "llvm-nm"
++      readelf = "llvm-readelf"
 +    }
      ld = cxx
-     readelf = "${toolprefix}readelf"
+-    readelf = "${prefix}/llvm-readelf"
 -    ar = "${prefix}/llvm-ar"
 -    nm = "${prefix}/llvm-nm"
  

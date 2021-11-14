@@ -159,13 +159,8 @@ common_defines += \
 	google_api_key="AIzaSyC4TF2l4o5nfmK4MAB-VaEVnf7h-sxENXw"
 endif
 
-# Pipewire has been backported to 18.04 in my PPA.
-ifneq (,$(filter 18.04% 20.04%,$(UBUNTU_DIST)))
-common_defines += \
-				  rtc_use_pipewire=true \
-				  rtc_link_pipewire=true \
-				  rtc_pipewire_version="0.2"
-else ifneq (,$(filter 20.10 21.04 21.10,$(UBUNTU_DIST)))
+# Google has dropped support for Pipewire 0.2
+ifneq (,$(filter 20.10 21.04 21.10,$(UBUNTU_DIST)))
 common_defines += \
 				  rtc_use_pipewire=true \
 				  rtc_link_pipewire=true \
@@ -318,7 +313,7 @@ override_dh_clean:
 	dh_clean
 
 $(SRC_DIR)/gn:
-	CC=$(shell which clang-10 clang-8 clang | head -n 1) CXX=$(shell which clang++-10 clang++-8 clang++ | head -n 1) AR=$(shell which llvm-ar-10 llvm-ar-8 llvm-ar | head -n 1) tools/gn/bootstrap/bootstrap.py --skip-generate-buildfiles
+	CC=$(shell which clang-10 clang | head -n 1) CXX=$(shell which clang++-10 clang++ | head -n 1) AR=$(shell which llvm-ar-10 llvm-ar | head -n 1) tools/gn/bootstrap/bootstrap.py --skip-generate-buildfiles
 	cp $(SRC_DIR)/out/Release/gn $(SRC_DIR)/
 	rm -rf $(SRC_DIR)/out
 

@@ -6,7 +6,7 @@ Index: dev/chrome/BUILD.gn
 ===================================================================
 --- dev.orig/chrome/BUILD.gn
 +++ dev/chrome/BUILD.gn
-@@ -327,7 +327,7 @@ if (!is_android && !is_mac) {
+@@ -338,7 +338,7 @@ if (!is_android && !is_mac) {
  
      # ChromeOS by design is safe to have rpath=$ORIGIN. This simplifies shared
      # library usage.
@@ -19,14 +19,14 @@ Index: dev/tools/v8_context_snapshot/BUILD.gn
 ===================================================================
 --- dev.orig/tools/v8_context_snapshot/BUILD.gn
 +++ dev/tools/v8_context_snapshot/BUILD.gn
-@@ -115,6 +115,10 @@ if (use_v8_context_snapshot) {
-       "//v8",
-     ]
+@@ -117,6 +117,10 @@ if (use_v8_context_snapshot) {
+         "//v8",
+       ]
  
-+    if (is_linux) {
-+      configs += [ "//build/config/gcc:rpath_for_built_shared_libraries" ]
-+    }
-+
-     configs += [
-       "//v8:external_startup_data",
-       ":disable_icf",
++      if (is_linux) {
++        configs += [ "//build/config/gcc:rpath_for_built_shared_libraries" ]
++      }
++  
+       configs += [
+         "//v8:external_startup_data",
+         ":disable_icf",

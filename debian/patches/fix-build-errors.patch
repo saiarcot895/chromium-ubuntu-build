@@ -6,10 +6,41 @@ Index: dev/cc/trees/frame_rate_estimator.cc
    // we assume that BeginFrames can not be throttled. But if the animation
    // frequency is lower than that, then using a lower frame rate is permitted.
    // The delta below is to account for minor offsets in frame times.
--  constexpr auto kFudgeDelta = base::TimeDelta::FromMilliseconds(1);
+-  constexpr auto kFudgeDelta = base::Milliseconds(1);
 -  constexpr auto kMinDelta =
-+  auto kFudgeDelta = base::TimeDelta::FromMilliseconds(1);
++  auto kFudgeDelta = base::Milliseconds(1);
 +  auto kMinDelta =
        (viz::BeginFrameArgs::DefaultInterval() * 2) - kFudgeDelta;
    if (draw_delta < kMinDelta)
      num_of_consecutive_frames_with_min_delta_++;
+Index: dev/third_party/blink/renderer/platform/wtf/math_extras.h
+===================================================================
+--- dev.orig/third_party/blink/renderer/platform/wtf/math_extras.h
++++ dev/third_party/blink/renderer/platform/wtf/math_extras.h
+@@ -127,11 +127,11 @@ constexpr float Grad2turn(float g) {
+   return g * (1.0f / 400.0f);
+ }
+ 
+-constexpr double RoundHalfTowardsPositiveInfinity(double value) {
++inline double RoundHalfTowardsPositiveInfinity(double value) {
+   return std::floor(value + 0.5);
+ }
+ 
+-constexpr float RoundHalfTowardsPositiveInfinity(float value) {
++inline float RoundHalfTowardsPositiveInfinity(float value) {
+   return std::floor(value + 0.5f);
+ }
+ 
+Index: dev/ui/gfx/geometry/point.h
+===================================================================
+--- dev.orig/ui/gfx/geometry/point.h
++++ dev/ui/gfx/geometry/point.h
+@@ -95,7 +95,7 @@ class GEOMETRY_EXPORT Point {
+   int y_;
+ };
+ 
+-inline bool operator==(const Point& lhs, const Point& rhs) {
++constexpr inline bool operator==(const Point& lhs, const Point& rhs) {
+   return lhs.x() == rhs.x() && lhs.y() == rhs.y();
+ }
+ 

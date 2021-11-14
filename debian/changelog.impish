@@ -1,3 +1,10 @@
+chromium-browser (1:97.0.4692.8-0ubuntu1~ppa1~21.10.1) impish; urgency=low
+
+  * New upstream version 97.0.4692.8
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 14 Nov 2021 14:32:38 -0500
+
 chromium-browser (1:95.0.4638.17-0ubuntu1~ppa3~21.10.1) impish; urgency=low
 
   * Fix some more build errors.
