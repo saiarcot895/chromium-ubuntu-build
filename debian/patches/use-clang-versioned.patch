@@ -25,7 +25,7 @@ Index: dev/build/toolchain/gcc_toolchain.gni
 +      cxx = "clang++-${clang_compiler_version_suffix}"
 +      ar = "llvm-ar-${clang_compiler_version_suffix}"
 +      nm = "llvm-nm-${clang_compiler_version_suffix}"
-+      readelf = "llvm-readelf"
++      readelf = "llvm-readelf-${clang_compiler_version_suffix}"
 +    } else {
 +      cc = "clang"
 +      cxx = "clang++"
