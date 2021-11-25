@@ -1,3 +1,10 @@
+chromium-browser (1:97.0.4692.20-0ubuntu1~ppa2~18.04.1) bionic; urgency=low
+
+  * Fix build for Impish.
+  * Add some code to try to properly get symbols in stacktraces.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 25 Nov 2021 01:47:03 -0500
+
 chromium-browser (1:97.0.4692.20-0ubuntu1~ppa1~18.04.1) bionic; urgency=low
 
   * New upstream version 97.0.4692.20

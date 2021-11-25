@@ -1,0 +1,118 @@
+Index: dev/base/debug/stack_trace_posix.cc
+===================================================================
+--- dev.orig/base/debug/stack_trace_posix.cc
++++ dev/base/debug/stack_trace_posix.cc
+@@ -23,6 +23,8 @@
+ #include <ostream>
+ #include <string>
+ #include <vector>
++#include <sstream>
++#include <iostream>
+ 
+ #if !defined(USE_SYMBOLIZE)
+ #include <cxxabi.h>
+@@ -711,6 +713,89 @@ class SandboxSymbolizeHelper {
+     return true;
+   }
+ 
++  static int GetDebugSymbolFile(int elf_fd) {
++    if (elf_fd < 0)
++      return -1;
++
++    auto safe_memcpy = [&elf_fd](void* dst, uintptr_t src, size_t size) {
++      return HANDLE_EINTR(pread(elf_fd, dst, size, src)) == ssize_t(size);
++    };
++
++    ElfW(Ehdr) ehdr;
++    static_assert(SELFMAG <= sizeof(ElfW(Ehdr)), "SELFMAG too large");
++    if (safe_memcpy(&ehdr, 0, sizeof(ElfW(Ehdr))) &&
++        memcmp(ehdr.e_ident, ELFMAG, SELFMAG) == 0) {
++      switch (ehdr.e_type) {
++        case ET_EXEC:
++        case ET_DYN:
++          ElfW(Shdr) shdr_shstr;
++          if (!safe_memcpy(&shdr_shstr, ehdr.e_shoff + ehdr.e_shstrndx * sizeof(shdr_shstr),
++                          sizeof(shdr_shstr)) ||
++              shdr_shstr.sh_type != SHT_STRTAB) {
++            return -1;
++          }
++
++          // Look for the .note.gnu.build-id string
++          for (unsigned i = 0; i != ehdr.e_shnum; ++i) {
++            ElfW(Shdr) shdr;
++            if (!safe_memcpy(&shdr, ehdr.e_shoff + i * sizeof(shdr),
++                            sizeof(shdr)) ||
++                shdr.sh_type != SHT_NOTE) {
++              continue;
++            }
++
++            char buf[sizeof(".note.gnu.build-id")] = { '\0' };
++            if (!safe_memcpy(&buf, shdr_shstr.sh_offset + shdr.sh_name,
++                            sizeof(buf)) ||
++                strncmp(buf, ".note.gnu.build-id", sizeof(buf))) {
++              continue;
++            }
++
++            uint8_t *build_id_section = new uint8_t[shdr.sh_size];
++            if (!safe_memcpy(build_id_section, shdr.sh_offset, shdr.sh_size)) {
++              delete[] build_id_section;
++              continue;
++            }
++            ElfW(Nhdr) *nhdr = (ElfW(Nhdr)*)build_id_section;
++            if (nhdr->n_namesz != sizeof(ELF_NOTE_GNU) ||
++                    nhdr->n_descsz == 0 ||
++                    nhdr->n_type != NT_GNU_BUILD_ID) {
++              delete[] build_id_section;
++              continue;
++            }
++
++            uint8_t *build_id_data = build_id_section + sizeof(*nhdr) + nhdr->n_namesz;
++            std::ostringstream build_id_sstream;
++            for (unsigned i = 0; i != nhdr->n_descsz; i++) {
++              char buffer[3];
++              std::snprintf(buffer, sizeof(buffer), "%02x", build_id_data[i]);
++              build_id_sstream << buffer;
++            }
++            std::string build_id = build_id_sstream.str();
++            delete[] build_id_section;
++
++            std::ostringstream debug_symbol_path_sstream;
++            debug_symbol_path_sstream << "/usr/lib/debug/.build-id/"
++              << build_id.substr(0, 2) << "/" << build_id.substr(2) << ".debug";
++            std::string debug_symbol_path = debug_symbol_path_sstream.str();
++            int fd = open(debug_symbol_path.c_str(), O_RDONLY | O_CLOEXEC);
++            if (fd >= 0) {
++              return fd;
++            } else {
++              LOG(WARNING) << "Failed to open file: " << debug_symbol_path
++                           << "\n  Error: " << strerror(errno);
++              return -1;
++            }
++          }
++          break;
++        default:
++          break;
++      }
++    }
++
++    return -1;
++  }
++
+   // Opens all object files and caches their file descriptors.
+   void OpenSymbolFiles() {
+     // Pre-opening and caching the file descriptors of all loaded modules is
+@@ -745,7 +830,13 @@ class SandboxSymbolizeHelper {
+         if (modules_.find(region.path) == modules_.end()) {
+           int fd = open(region.path.c_str(), O_RDONLY | O_CLOEXEC);
+           if (fd >= 0) {
+-            modules_.emplace(region.path, base::ScopedFD(fd));
++            int debug_symbol_fd = GetDebugSymbolFile(fd);
++            if (debug_symbol_fd >= 0) {
++              close(fd);
++              modules_.emplace(region.path, base::ScopedFD(debug_symbol_fd));
++            } else {
++              modules_.emplace(region.path, base::ScopedFD(fd));
++            }
+           } else {
+             LOG(WARNING) << "Failed to open file: " << region.path
+                          << "\n  Error: " << strerror(errno);

@@ -36,3 +36,4 @@ gold-dont-use-threads-due-to-groovy.patch
 fix-font-rendering.patch
 dont-get-git-commit.patch
 dont-strip-chromedriver.patch
+load-debug-symbols-for-backtrace.patch

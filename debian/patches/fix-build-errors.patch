@@ -88,7 +88,7 @@ Index: dev/third_party/breakpad/breakpad/src/client/linux/handler/exception_hand
    // the alternative stack. Ensure that the size of the alternative stack is
    // large enough.
 -  static const unsigned kSigStackSize = std::max(16384, SIGSTKSZ);
-+  static const ssize_t kSigStackSize = std::max(16384, SIGSTKSZ);
++  static const ssize_t kSigStackSize = std::max<ssize_t>(16384, SIGSTKSZ);
  
    // Only set an alternative stack if there isn't already one, or if the current
    // one is too small.
