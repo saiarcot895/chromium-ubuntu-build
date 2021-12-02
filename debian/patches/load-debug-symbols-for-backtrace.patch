@@ -84,8 +84,6 @@ Index: dev/base/debug/stack_trace_posix.cc
 +            if (fd >= 0) {
 +              return fd;
 +            } else {
-+              LOG(WARNING) << "Failed to open file: " << debug_symbol_path
-+                           << "\n  Error: " << strerror(errno);
 +              return -1;
 +            }
 +          }
