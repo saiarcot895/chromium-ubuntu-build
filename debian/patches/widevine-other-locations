@@ -2,7 +2,7 @@ Index: dev/chrome/common/chrome_paths.cc
 ===================================================================
 --- dev.orig/chrome/common/chrome_paths.cc
 +++ dev/chrome/common/chrome_paths.cc
-@@ -323,6 +323,20 @@ bool PathProvider(int key, base::FilePat
+@@ -322,6 +322,20 @@ bool PathProvider(int key, base::FilePat
  
  #if BUILDFLAG(ENABLE_WIDEVINE)
      case chrome::DIR_BUNDLED_WIDEVINE_CDM:

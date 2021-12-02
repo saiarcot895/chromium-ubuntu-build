@@ -7,31 +7,6 @@
 #  Fabien Tassin <fta@sofaraway.org>
 # License: GPLv2 or later
 
-PLUGIN_PARAMETERS=""
-
-discover_registration () {
-	local FILE_NAME
-	local PLUGIN_NAME
-	local VERSION
-	local VISIBLE_VERSION
-	local DESCRIPTION
-	local MIME_TYPES
-
-	registration_file=$1
-	option_prefix=$2
-
-	test -f "${registration_file}" || return 1
-	. "${registration_file}" 
-
-	test "$VERSION" || return 2
-	test "$FILE_NAME" || return 3
-
-	echo "$PLUGIN_PARAMETERS" |grep -- "--${option_prefix}-path=" >/dev/null && return 4
-
-	PLUGIN_PARAMETERS="--${option_prefix}-path=${FILE_NAME} --${option_prefix}-version=${VERSION%%-*} ${PLUGIN_PARAMETERS}"
-	return 0
-}
-
 # Explicitly set the PATH to that of ENV_SUPATH in /etc/login.defs and unset
 # various other variables. (LP: #1045986). This can be removed once AppArmor
 # supports environment filtering (LP: #1045985)
@@ -83,26 +58,7 @@ if test -d /etc/$APPNAME/customizations; then
 		. "$f"
 	done < <(run-parts --list -- /etc/$APPNAME/customizations)
 fi
-test -f ~/.chromium-browser.init && . ~/.chromium-browser.init
-
-FLASH_GOOD_PACKAGE="adobe-flashplugin"
-if test "$FLASH_GOOD_PACKAGE"; then
-	PREVIOUS_CANDIDATE=""
-	CANDIDATE="$CHROMIUM_FLAGS"
-	while test "$PREVIOUS_CANDIDATE" != "$CANDIDATE"; do  # Strip ppapi-flash-xxxx params off that are outside our known good params, for as long as we still make progress.
-		PREVIOUS_CANDIDATE="$CANDIDATE"
-		CANDIDATE=$(echo "$CANDIDATE" |sed -e "s,--ppapi-flash-\w*=\S*\s\(.*--ppapi-flash-path=/usr/lib/${FLASH_GOOD_PACKAGE}/libpepflashplayer.so --ppapi-flash-version=\),\1,")
-		CANDIDATE=$(echo "$CANDIDATE" |sed -e "s,\(.*--ppapi-flash-path=/usr/lib/${FLASH_GOOD_PACKAGE}/libpepflashplayer.so --ppapi-flash-version=.*\) --ppapi-flash-\w*=\S*,\1,")
-	done
-	CHROMIUM_FLAGS="$CANDIDATE"
-fi
-
-if test -x /usr/bin/python3 -a -f "/usr/lib/adobe-flashplugin/manifest.json"; then
-	if echo "$CHROMIUM_FLAGS" |grep -E -- "--ppapi-flash-version=( |\$)"; then
-		ver=$(python -c 'import json,sys; print(json.load(open("/usr/lib/adobe-flashplugin/manifest.json"))["version"]);')
-		CHROMIUM_FLAGS=${CHROMIUM_FLAGS/--ppapi-flash-version=/--ppapi-flash-version="${ver}" }
-	fi
-fi
+test -f $HOME/.chromium-browser.init && . $HOME/.chromium-browser.init
 
 # Prefer user defined CHROMIUM_USER_FLAGS (fron env) over system
 # default CHROMIUM_FLAGS (from /etc/$APPNAME/default)
@@ -172,10 +128,6 @@ while [ $# -gt 0 ]; do
       break ;;
   esac
 done
-
-discover_registration ${LIBDIR}/pepper/pepper-flash.info ppapi-flash && echo "Pepper Flash detected."
-
-CHROMIUM_FLAGS="${CHROMIUM_FLAGS} ${PLUGIN_PARAMETERS}"
 
 if [ $want_verbose -eq 1 ] ; then
   CHROMIUM_FLAGS="${CHROMIUM_FLAGS} --enable-logging=stderr --v=${want_verbose}"

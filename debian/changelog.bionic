@@ -1,3 +1,10 @@
+chromium-browser (1:98.0.4736.0-0ubuntu1~ppa1~18.04.1) bionic; urgency=low
+
+  * New upstream version 98.0.4736.0
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 02 Dec 2021 15:00:23 -0500
+
 chromium-browser (1:97.0.4692.20-0ubuntu1~ppa2~18.04.1) bionic; urgency=low
 
   * Fix build for Impish.

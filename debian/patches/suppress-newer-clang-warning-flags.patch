@@ -5,7 +5,7 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -758,16 +758,6 @@ config("compiler") {
+@@ -745,16 +745,6 @@ config("compiler") {
      }
    }
  
@@ -14,15 +14,15 @@ Index: dev/build/config/compiler/BUILD.gn
 -  # https://crbug.com/847724).
 -  # TODO(crbug/1052397): Remove is_chromeos_lacros once lacros-chrome switches
 -  # to target_os="chromeos".
--  if (is_clang && !is_nacl && target_os != "chromeos" && !use_xcode_clang &&
--      !is_chromeos_lacros && (is_win || use_custom_libcxx)) {
+-  if (is_clang && !is_nacl && target_os != "chromeos" && !is_chromeos_lacros &&
+-      (is_win || use_custom_libcxx)) {
 -    cflags += [ "-fcomplete-member-pointers" ]
 -  }
 -
    # Pass the same C/C++ flags to the objective C/C++ compiler.
    cflags_objc += cflags_c
    cflags_objcc += cflags_cc
-@@ -1483,6 +1473,9 @@ config("default_warnings") {
+@@ -1489,6 +1479,9 @@ config("default_warnings") {
        # which we no longer use. Check if it makes sense to remove
        # this as well. http://crbug.com/316352
        "-Wno-unneeded-internal-declaration",
@@ -31,4 +31,4 @@ Index: dev/build/config/compiler/BUILD.gn
 +      "-Wno-unknown-warning-option",
      ]
  
-     # use_xcode_clang only refers to the iOS toolchain, host binaries use
+     if (!is_nacl || is_nacl_saigo) {

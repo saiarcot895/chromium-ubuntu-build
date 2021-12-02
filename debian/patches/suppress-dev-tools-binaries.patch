@@ -50,9 +50,9 @@ Index: dev/third_party/node/node.py
 +      return "/usr/lib/nodejs-mozilla/bin/node"
 +    else:
 +      return "/usr/bin/nodejs"
-   # TODO: Node 16.0 will likely ship with an official universal node binary
-   # on macOS. Once node 16.0 is released, remove this special case here
-   # and use node-darwin-universal in the dict in the main return statement.
+   darwin_name = ('node-darwin-arm64' if platform.machine() == 'arm64' else
+                  'node-darwin-x64')
+   return os_path.join(os_path.dirname(__file__), *{
 Index: dev/tools/metrics/histograms/expand_owners.py
 ===================================================================
 --- dev.orig/tools/metrics/histograms/expand_owners.py
