@@ -15,7 +15,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
 +++ dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
-@@ -84,7 +84,9 @@ void FillVAEncRateControlParams(
+@@ -85,7 +85,9 @@ void FillVAEncRateControlParams(
    rate_control_param.window_size = window_size;
    rate_control_param.initial_qp = initial_qp;
    rate_control_param.min_qp = min_qp;
@@ -328,7 +328,7 @@ Index: dev/third_party/snappy/src/snappy.cc
 ===================================================================
 --- dev.orig/third_party/snappy/src/snappy.cc
 +++ dev/third_party/snappy/src/snappy.cc
-@@ -1026,15 +1026,8 @@ size_t AdvanceToNextTag(const uint8_t**
+@@ -1041,15 +1041,8 @@ size_t AdvanceToNextTagX86Optimized(cons
    size_t literal_len = *tag >> 2;
    size_t tag_type = *tag;
    bool is_literal;
@@ -348,7 +348,7 @@ Index: dev/media/gpu/chromeos/platform_video_frame_utils.cc
 ===================================================================
 --- dev.orig/media/gpu/chromeos/platform_video_frame_utils.cc
 +++ dev/media/gpu/chromeos/platform_video_frame_utils.cc
-@@ -38,6 +38,10 @@
+@@ -41,6 +41,10 @@
  #include "ui/gfx/linux/native_pixmap_dmabuf.h"
  #include "ui/gfx/native_pixmap.h"
  
@@ -456,7 +456,7 @@ Index: dev/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
 ===================================================================
 --- dev.orig/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
 +++ dev/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
-@@ -33,6 +33,36 @@
+@@ -35,6 +35,36 @@
  #include "sandbox/linux/system_headers/linux_syscalls.h"
  #include "sandbox/linux/system_headers/linux_time.h"
  
@@ -490,9 +490,9 @@ Index: dev/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
 +#endif
 +#endif
 +
- // PNaCl toolchain does not provide sys/ioctl.h and sys/ptrace.h headers.
- #if !defined(OS_NACL_NONSFI)
- #include <sys/ioctl.h>
+ #if (defined(OS_LINUX) || BUILDFLAG(IS_CHROMEOS_LACROS)) && \
+     !defined(__arm__) && !defined(__aarch64__) &&           \
+     !defined(PTRACE_GET_THREAD_AREA)
 Index: dev/mojo/core/channel_linux.cc
 ===================================================================
 --- dev.orig/mojo/core/channel_linux.cc

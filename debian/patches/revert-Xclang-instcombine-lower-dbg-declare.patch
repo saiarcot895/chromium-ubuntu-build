@@ -5,7 +5,7 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -534,24 +534,6 @@ config("compiler") {
+@@ -534,31 +534,6 @@ config("compiler") {
      ldflags += [ "-Wl,-z,keep-text-section-prefix" ]
    }
  
@@ -24,6 +24,13 @@ Index: dev/build/config/compiler/BUILD.gn
 -      } else {
 -        ldflags += [ "-Wl,-mllvm,-instcombine-lower-dbg-declare=0" ]
 -      }
+-    }
+-
+-    # TODO(crbug.com/1235145): Investigate why/if this should be needed.
+-    if (is_win) {
+-      cflags += [ "/clang:-ffp-contract=off" ]
+-    } else {
+-      cflags += [ "-ffp-contract=off" ]
 -    }
 -  }
 -

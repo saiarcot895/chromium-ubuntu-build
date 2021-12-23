@@ -110,12 +110,12 @@ ffmpeg_extra_defines += proprietary_codecs=true ffmpeg_branding="Chrome"
 ifeq (armel,$(DEB_HOST_ARCH))
 common_defines += target_cpu="arm"
 common_defines += arm_use_neon=false
-common_defines += v8_use_arm_eabi_hardfloat=false
 common_defines += arm_float_abi="soft" arm_use_thumb=false
 else ifeq (armhf,$(DEB_HOST_ARCH))
 common_defines += target_cpu="arm"
 common_defines += arm_use_neon=false
 common_defines += arm_float_abi="hard" arm_use_thumb=true
+common_defines += symbol_level=1
 else ifeq (arm64,$(DEB_HOST_ARCH))
 common_defines += target_cpu="arm64" symbol_level=1
 else ifeq (i386,$(DEB_HOST_ARCH))
@@ -136,9 +136,6 @@ subst_files = \
 
 DEB_DH_SHLIBDEPS_ARGS_chromium-codecs-ffmpeg := -ldebian/chromium-codecs-ffmpeg/$(LIB_DIR)
 DEB_DH_SHLIBDEPS_ARGS_chromium-codecs-ffmpeg-extra := -ldebian/chromium-codecs-ffmpeg-extra/$(LIB_DIR)
-
-# enable compile-time dependency on gnome-keyring
-# TODO: do this?
 
 # Build chrome and chrome_sandbox, and chromedriver
 BUILD_TARGETS += \
