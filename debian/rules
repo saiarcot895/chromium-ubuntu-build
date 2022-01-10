@@ -50,7 +50,6 @@ common_defines += \
 				enable_vr=false \
 				enable_wayland_server=false \
 				enable_widevine=true \
-				fieldtrial_testing_like_official_build=true \
 				is_component_ffmpeg=true \
 				is_debug=false \
 				is_desktop_linux=true \
@@ -114,8 +113,10 @@ common_defines += arm_float_abi="soft" arm_use_thumb=false
 else ifeq (armhf,$(DEB_HOST_ARCH))
 common_defines += target_cpu="arm"
 common_defines += arm_use_neon=false
+common_defines += use_libgav1_parser=true
 common_defines += arm_float_abi="hard" arm_use_thumb=true
 common_defines += symbol_level=1
+common_defines += is_component_build=true
 else ifeq (arm64,$(DEB_HOST_ARCH))
 common_defines += target_cpu="arm64" symbol_level=1
 else ifeq (i386,$(DEB_HOST_ARCH))
