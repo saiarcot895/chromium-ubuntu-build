@@ -37,9 +37,9 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  #include <va/va_str.h>
 +#endif
  #include <va/va_version.h>
+ #include <xf86drm.h>
  
- #include <algorithm>
-@@ -426,7 +428,9 @@ const ProfileCodecMap& GetProfileCodecMa
+@@ -441,7 +443,9 @@ const ProfileCodecMap& GetProfileCodecMa
            {VP9PROFILE_PROFILE2, VAProfileVP9Profile2},
        // VaapiWrapper does not support Profile 3.
        //{VP9PROFILE_PROFILE3, VAProfileVP9Profile3},
@@ -49,7 +49,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
          // VaapiWrapper does not support AV1 Profile 1.
          // {AV1PROFILE_PROFILE_HIGH, VAProfileAV1Profile1},
  #if BUILDFLAG(ENABLE_PLATFORM_HEVC_DECODING)
-@@ -463,8 +467,12 @@ bool IsVAProfileSupported(VAProfile va_p
+@@ -478,8 +482,12 @@ bool IsVAProfileSupported(VAProfile va_p
  
  bool IsBlockedDriver(VaapiWrapper::CodecMode mode, VAProfile va_profile) {
    if (!IsModeEncoding(mode)) {
@@ -62,7 +62,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
  
    // TODO(posciak): Remove once VP8 encoding is to be enabled by default.
-@@ -1200,7 +1208,7 @@ bool VASupportedProfiles::FillProfileInf
+@@ -1241,7 +1249,7 @@ bool VASupportedProfiles::FillProfileInf
        continue;
      if (attrib.value & VA_RT_FORMAT_YUV420)
        profile_info->supported_internal_formats.yuv420 = true;
@@ -71,7 +71,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
        profile_info->supported_internal_formats.yuv420_10 = true;
      if (attrib.value & VA_RT_FORMAT_YUV422)
        profile_info->supported_internal_formats.yuv422 = true;
-@@ -1555,7 +1563,7 @@ bool VaapiWrapper::IsDecodingSupportedFo
+@@ -1609,7 +1617,7 @@ bool VaapiWrapper::IsDecodingSupportedFo
    switch (rt_format) {
      case VA_RT_FORMAT_YUV420:
        return supported_internal_formats.yuv420;
@@ -80,7 +80,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
        return supported_internal_formats.yuv420_10;
      case VA_RT_FORMAT_YUV422:
        return supported_internal_formats.yuv422;
-@@ -1639,8 +1647,11 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1693,8 +1701,11 @@ bool VaapiWrapper::GetJpegDecodeSuitable
    } else if (GetImplementationType() == VAImplementation::kIntelIHD) {
      // (b/159896972): iHD v20.1.1 cannot create Y216 and Y416 images from a
      // decoded JPEG on gen 12. It is also failing to support Y800 format.
@@ -97,7 +97,7 @@ Index: dev/media/gpu/chromeos/fourcc.cc
 ===================================================================
 --- dev.orig/media/gpu/chromeos/fourcc.cc
 +++ dev/media/gpu/chromeos/fourcc.cc
-@@ -219,11 +219,11 @@ uint32_t Fourcc::ToV4L2PixFmt() const {
+@@ -215,11 +215,11 @@ uint32_t Fourcc::ToV4L2PixFmt() const {
  // static
  absl::optional<Fourcc> Fourcc::FromVAFourCC(uint32_t va_fourcc) {
    switch (va_fourcc) {
@@ -111,7 +111,7 @@ Index: dev/media/gpu/chromeos/fourcc.cc
        return Fourcc(NV21);
      case VA_FOURCC_YV12:
        return Fourcc(YV12);
-@@ -249,11 +249,11 @@ absl::optional<Fourcc> Fourcc::FromVAFou
+@@ -245,11 +245,11 @@ absl::optional<Fourcc> Fourcc::FromVAFou
  absl::optional<uint32_t> Fourcc::ToVAFourCC() const {
    switch (value_) {
      case YU12:
@@ -169,7 +169,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
          condition = ' || '.join([
              '%s(%s_expr, %s)' % (op, switch_name, self.expr(expr))
              for expr in case.type.expr
-@@ -1016,7 +1020,7 @@ class GenXproto(FileWriter):
+@@ -1015,7 +1019,7 @@ class GenXproto(FileWriter):
              self.write_special_container(item, name)
          if isinstance(item, self.xcbgen.xtypes.Request):
              self.define_request(item)
@@ -178,7 +178,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
              self.define_event(item, name)
          elif isinstance(item, self.xcbgen.xtypes.Error):
              self.define_error(item, name)
-@@ -1026,7 +1030,7 @@ class GenXproto(FileWriter):
+@@ -1025,7 +1029,7 @@ class GenXproto(FileWriter):
              self.declare_union(item)
          elif isinstance(item, self.xcbgen.xtypes.Request):
              self.declare_request(item)
@@ -187,7 +187,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
              self.declare_event(item, name)
          elif isinstance(item, self.xcbgen.xtypes.Error):
              self.declare_error(item, name)
-@@ -1108,7 +1112,7 @@ class GenXproto(FileWriter):
+@@ -1107,7 +1111,7 @@ class GenXproto(FileWriter):
                          and field_name in fields):
                      setattr(fields[field_name], for_type, field)
  
@@ -196,7 +196,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
                  self.resolve_type(field.type, field.field_type)
  
          if isinstance(t, self.xcbgen.xtypes.Request) and t.reply:
-@@ -1232,6 +1236,11 @@ class GenXproto(FileWriter):
+@@ -1231,6 +1235,11 @@ class GenXproto(FileWriter):
          for direct_import in sorted(list(imports)):
              self.write('#include "%s.h"' % direct_import[-1])
          self.write()
@@ -269,8 +269,8 @@ Index: dev/ui/gfx/x/event.cc
 --- dev.orig/ui/gfx/x/event.cc
 +++ dev/ui/gfx/x/event.cc
 @@ -35,6 +35,10 @@ Event::Event(scoped_refptr<base::RefCoun
-     if ((xcb_event->response_type & ~kSendEventMask) ==
-         GeGenericEvent::opcode) {
+     // format, which is what Xlib and XProto are expecting.
+     if (response_type == GeGenericEvent::opcode) {
        auto* ge = reinterpret_cast<xcb_ge_event_t*>(xcb_event);
 +#if 1
 +      // Xenial doesn't know what xcb_raw_generic_event_t is
@@ -433,7 +433,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decoder.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_video_decoder.cc
 +++ dev/media/gpu/vaapi/vaapi_video_decoder.cc
-@@ -1119,6 +1119,7 @@ VaapiStatus VaapiVideoDecoder::CreateAcc
+@@ -1132,6 +1132,7 @@ VaapiStatus VaapiVideoDecoder::CreateAcc
                                               color_space_);
    }
  #endif  // BUILDFLAG(ENABLE_PLATFORM_HEVC_DECODING)
@@ -441,7 +441,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decoder.cc
    else if (profile_ >= AV1PROFILE_MIN && profile_ <= AV1PROFILE_MAX) {
      auto accelerator = std::make_unique<AV1VaapiVideoDecoderDelegate>(
          this, vaapi_wrapper_, std::move(protected_update_cb),
-@@ -1128,7 +1129,9 @@ VaapiStatus VaapiVideoDecoder::CreateAcc
+@@ -1141,7 +1142,9 @@ VaapiStatus VaapiVideoDecoder::CreateAcc
  
      decoder_ = std::make_unique<AV1Decoder>(std::move(accelerator), profile_,
                                              color_space_);
@@ -490,8 +490,8 @@ Index: dev/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
 +#endif
 +#endif
 +
- #if (defined(OS_LINUX) || BUILDFLAG(IS_CHROMEOS_LACROS)) && \
-     !defined(__arm__) && !defined(__aarch64__) &&           \
+ #if (BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS_LACROS)) && \
+     !defined(__arm__) && !defined(__aarch64__) &&             \
      !defined(PTRACE_GET_THREAD_AREA)
 Index: dev/mojo/core/channel_linux.cc
 ===================================================================
@@ -536,7 +536,7 @@ Index: dev/base/compiler_specific.h
 ===================================================================
 --- dev.orig/base/compiler_specific.h
 +++ dev/base/compiler_specific.h
-@@ -366,7 +366,8 @@ inline constexpr bool AnalyzerAssumeTrue
+@@ -328,7 +328,8 @@ inline constexpr bool AnalyzerAssumeTrue
  #endif  // defined(__clang_analyzer__)
  
  // Use nomerge attribute to disable optimization of merging multiple same calls.

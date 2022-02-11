@@ -19,7 +19,7 @@ Index: dev/tools/v8_context_snapshot/BUILD.gn
 ===================================================================
 --- dev.orig/tools/v8_context_snapshot/BUILD.gn
 +++ dev/tools/v8_context_snapshot/BUILD.gn
-@@ -117,6 +117,10 @@ if (use_v8_context_snapshot) {
+@@ -111,6 +111,10 @@ if (use_v8_context_snapshot) {
          "//v8",
        ]
  

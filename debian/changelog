@@ -1,3 +1,12 @@
+chromium-browser (1:100.0.4878.0-0ubuntu1~ppa1~21.10.1) impish; urgency=low
+
+  * New upstream version 100.0.4878.0
+  * Updated patches.
+  * Updated some support for building armhf.
+  * Added support for doing an arm64 cross-build from amd64.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 11 Feb 2022 12:42:02 -0500
+
 chromium-browser (1:98.0.4758.9-0ubuntu1~ppa2~21.10.1) impish; urgency=low
 
   * Fix a build error

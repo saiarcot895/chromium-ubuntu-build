@@ -37,3 +37,5 @@ fix-font-rendering.patch
 dont-get-git-commit.patch
 dont-strip-chromedriver.patch
 load-debug-symbols-for-backtrace.patch
+fix-pkg-config-for-v8.patch
+disable-multiprocessing-for-mojom.patch

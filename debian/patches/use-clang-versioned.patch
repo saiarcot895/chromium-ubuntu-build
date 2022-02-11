@@ -2,10 +2,10 @@ Index: dev/build/toolchain/gcc_toolchain.gni
 ===================================================================
 --- dev.orig/build/toolchain/gcc_toolchain.gni
 +++ dev/build/toolchain/gcc_toolchain.gni
-@@ -28,6 +28,10 @@ declare_args() {
-       is_official_build &&
-       # Don't enable for Android-on-Chrome OS.
-       (target_os == "android" || target_os == "win")
+@@ -32,6 +32,10 @@ declare_args() {
+   # Use -MD instead of -MMD for compiler commands. This is useful for tracking
+   # the comprehensive set of dependencies.
+   system_headers_in_deps = false
 +  
 +  clang_use_compiler_version_suffix = false
 +
@@ -13,7 +13,7 @@ Index: dev/build/toolchain/gcc_toolchain.gni
  }
  
  # When the arg is set via args.gn, it applies to all toolchains. In order to not
-@@ -737,13 +741,20 @@ template("gcc_toolchain") {
+@@ -758,13 +762,20 @@ template("gcc_toolchain") {
  # use_gold too.
  template("clang_toolchain") {
    gcc_toolchain(target_name) {

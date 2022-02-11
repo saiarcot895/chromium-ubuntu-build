@@ -1,0 +1,18 @@
+Index: dev/mojo/public/tools/mojom/mojom_parser.py
+===================================================================
+--- dev.orig/mojo/public/tools/mojom/mojom_parser.py
++++ dev/mojo/public/tools/mojom/mojom_parser.py
+@@ -31,7 +31,12 @@ from mojom.parse import conditional_feat
+ 
+ # Disable this for easier debugging.
+ # In Python 2, subprocesses just hang when exceptions are thrown :(.
+-_ENABLE_MULTIPROCESSING = sys.version_info[0] > 2
++#
++# When doing a local armhf compilation (through qemu), this script seems to
++# hang, possibly due to multiprocessing, so just disable it. There's other
++# processes running anyways in a regular build that can use the other CPU
++# cores.
++_ENABLE_MULTIPROCESSING = False
+ 
+ if sys.version_info < (3, 4):
+   _MULTIPROCESSING_USES_FORK = sys.platform.startswith('linux')

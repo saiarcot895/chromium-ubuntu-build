@@ -34,6 +34,6 @@ Index: dev/build/config/compiler/BUILD.gn
 -    }
 -  }
 -
-   # C11/C++11 compiler flags setup.
-   # ---------------------------
-   if (is_linux || is_chromeos || is_android || (is_nacl && is_clang) ||
+   # Rust compiler setup (for either clang or rustc).
+   if (enable_rust) {
+     defines += [ "RUST_ENABLED" ]

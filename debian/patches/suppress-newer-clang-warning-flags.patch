@@ -5,16 +5,14 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -758,16 +758,6 @@ config("compiler") {
+@@ -760,14 +760,6 @@ config("compiler") {
      }
    }
  
 -  # This flag enforces that member pointer base types are complete. It helps
 -  # prevent us from running into problems in the Microsoft C++ ABI (see
 -  # https://crbug.com/847724).
--  # TODO(crbug/1052397): Remove is_chromeos_lacros once lacros-chrome switches
--  # to target_os="chromeos".
--  if (is_clang && !is_nacl && target_os != "chromeos" && !is_chromeos_lacros &&
+-  if (is_clang && !is_nacl && target_os != "chromeos" &&
 -      (is_win || use_custom_libcxx)) {
 -    cflags += [ "-fcomplete-member-pointers" ]
 -  }
@@ -22,7 +20,7 @@ Index: dev/build/config/compiler/BUILD.gn
    # Pass the same C/C++ flags to the objective C/C++ compiler.
    cflags_objc += cflags_c
    cflags_objcc += cflags_cc
-@@ -1475,6 +1465,9 @@ config("default_warnings") {
+@@ -1478,6 +1470,9 @@ config("default_warnings") {
        # which we no longer use. Check if it makes sense to remove
        # this as well. http://crbug.com/316352
        "-Wno-unneeded-internal-declaration",

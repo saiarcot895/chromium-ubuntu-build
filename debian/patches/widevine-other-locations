@@ -22,4 +22,4 @@ Index: dev/chrome/common/chrome_paths.cc
 +      }
        if (!GetComponentDirectory(&cur))
          return false;
- #if !BUILDFLAG(IS_CHROMEOS_ASH)
+       cur = cur.AppendASCII(kWidevineCdmBaseDirectory);

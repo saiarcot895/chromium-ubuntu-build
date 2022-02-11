@@ -1,238 +1,238 @@
-chromium-browser (1:100.0.4878.0-0ubuntu1~ppa1~20.04.1) focal; urgency=low
+chromium-browser (1:100.0.4878.0-0ubuntu1~ppa1~22.04.1) jammy; urgency=low
 
   * New upstream version 100.0.4878.0
   * Updated patches.
   * Updated some support for building armhf.
   * Added support for doing an arm64 cross-build from amd64.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 11 Feb 2022 12:42:01 -0500
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 11 Feb 2022 12:42:02 -0500
 
-chromium-browser (1:98.0.4758.9-0ubuntu1~ppa2~20.04.1) focal; urgency=low
+chromium-browser (1:98.0.4758.9-0ubuntu1~ppa2~21.10.1) impish; urgency=low
 
   * Fix a build error
   * Try to enable builds on armhf.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 09 Jan 2022 21:12:24 -0500
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 09 Jan 2022 21:12:25 -0500
 
-chromium-browser (1:98.0.4758.9-0ubuntu1~ppa1~20.04.1) focal; urgency=low
+chromium-browser (1:98.0.4758.9-0ubuntu1~ppa1~21.10.1) impish; urgency=low
 
   * New upstream version 98.0.4758.9
   * Updated patches.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 22 Dec 2021 21:08:40 -0500
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 22 Dec 2021 21:08:41 -0500
 
-chromium-browser (1:98.0.4736.0-0ubuntu1~ppa1~20.04.1) focal; urgency=low
+chromium-browser (1:98.0.4736.0-0ubuntu1~ppa1~21.10.1) impish; urgency=low
 
   * New upstream version 98.0.4736.0
   * Updated patches.
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 02 Dec 2021 15:00:24 -0500
 
-chromium-browser (1:97.0.4692.20-0ubuntu1~ppa2~20.04.1) focal; urgency=low
+chromium-browser (1:97.0.4692.20-0ubuntu1~ppa2~21.10.1) impish; urgency=low
 
   * Fix build for Impish.
   * Add some code to try to properly get symbols in stacktraces.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 25 Nov 2021 01:47:03 -0500
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 25 Nov 2021 01:47:04 -0500
 
-chromium-browser (1:97.0.4692.20-0ubuntu1~ppa1~20.04.1) focal; urgency=low
+chromium-browser (1:97.0.4692.20-0ubuntu1~ppa1~21.10.1) impish; urgency=low
 
   * New upstream version 97.0.4692.20
   * Updated patches.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 17 Nov 2021 02:00:39 -0500
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 17 Nov 2021 02:00:40 -0500
 
-chromium-browser (1:97.0.4692.8-0ubuntu1~ppa1~20.04.1) focal; urgency=low
+chromium-browser (1:97.0.4692.8-0ubuntu1~ppa1~21.10.1) impish; urgency=low
 
   * New upstream version 97.0.4692.8
   * Updated patches.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 14 Nov 2021 14:32:37 -0500
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 14 Nov 2021 14:32:38 -0500
 
-chromium-browser (1:95.0.4638.17-0ubuntu1~ppa3~20.04.1) focal; urgency=low
+chromium-browser (1:95.0.4638.17-0ubuntu1~ppa3~21.10.1) impish; urgency=low
 
   * Fix some more build errors.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 24 Oct 2021 11:38:19 -0400
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 24 Oct 2021 11:38:20 -0400
 
-chromium-browser (1:95.0.4638.17-0ubuntu1~ppa2~20.04.1) focal; urgency=low
+chromium-browser (1:95.0.4638.17-0ubuntu1~ppa2~21.10.1) impish; urgency=low
 
   * Re-add pipewire 0.2 support.
   * Fix gn build on 21.10.
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 24 Sep 2021 12:07:54 -0400
 
-chromium-browser (1:95.0.4638.17-0ubuntu1~ppa1~20.04.1) focal; urgency=low
+chromium-browser (1:95.0.4638.17-0ubuntu1~ppa1~21.10.1) impish; urgency=low
 
   * New upstream version 95.0.4638.17
   * Updated patches.
   * Use system version of freetype library.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 24 Sep 2021 01:49:56 -0400
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 24 Sep 2021 01:49:58 -0400
 
-chromium-browser (1:95.0.4638.10-0ubuntu1~ppa1~20.04.1) focal; urgency=low
+chromium-browser (1:95.0.4638.10-0ubuntu1~ppa1~21.04.1) hirsute; urgency=low
 
   * New upstream version 95.0.4638.10
   * Updated patches.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 20 Sep 2021 18:35:56 -0400
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 20 Sep 2021 18:35:57 -0400
 
-chromium-browser (1:93.0.4573.0-0ubuntu1~ppa1~20.04.1) focal; urgency=low
+chromium-browser (1:93.0.4573.0-0ubuntu1~ppa1~21.04.1) hirsute; urgency=low
 
   * New upstream version 93.0.4573.0
   * Updated patches.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 16 Jul 2021 00:28:25 -0400
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 16 Jul 2021 00:28:26 -0400
 
-chromium-browser (1:93.0.4542.2-0ubuntu1~ppa1~20.04.1) focal; urgency=low
+chromium-browser (1:93.0.4542.2-0ubuntu1~ppa1~21.04.1) hirsute; urgency=low
 
   * New upstream version 93.0.4542.2
   * Updated patches.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 20 Jun 2021 13:04:45 -0400
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 20 Jun 2021 13:04:46 -0400
 
-chromium-browser (1:92.0.4515.20-0ubuntu1~ppa1~20.04.1) focal; urgency=low
+chromium-browser (1:92.0.4515.20-0ubuntu1~ppa1~21.04.1) hirsute; urgency=low
 
   * New upstream version 92.0.4515.20
   * Updated patches.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 31 May 2021 16:16:32 -0400
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 31 May 2021 16:16:33 -0400
 
-chromium-browser (1:92.0.4503.0-0ubuntu1~ppa1~20.04.1) focal; urgency=low
+chromium-browser (1:92.0.4503.0-0ubuntu1~ppa1~21.04.1) hirsute; urgency=low
 
   * New upstream version 92.0.4503.0
   * Updated patches.
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 12 May 2021 02:20:31 -0400
 
-chromium-browser (1:92.0.4496.0-0ubuntu1~ppa2~20.04.1) focal; urgency=low
+chromium-browser (1:92.0.4496.0-0ubuntu1~ppa2~21.04.1) hirsute; urgency=low
 
   * Fix long-standing Widevine build error.
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 09 May 2021 01:48:54 -0400
 
-chromium-browser (1:92.0.4496.0-0ubuntu1~ppa1~20.04.1) focal; urgency=low
+chromium-browser (1:92.0.4496.0-0ubuntu1~ppa1~21.04.1) hirsute; urgency=low
 
   * New upstream version 92.0.4496.0
   * Updated patches.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 07 May 2021 21:00:15 -0400
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 07 May 2021 21:00:16 -0400
 
-chromium-browser (1:91.0.4449.6-0ubuntu1~ppa1~20.04.1) focal; urgency=low
+chromium-browser (1:91.0.4449.6-0ubuntu1~ppa1~21.04.1) hirsute; urgency=low
 
   * New upstream version 91.0.4449.6
   * Updated patches.
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 22 Mar 2021 19:06:05 -0400
 
-chromium-browser (1:90.0.4427.5-0ubuntu1~ppa1~20.04.1) focal; urgency=low
+chromium-browser (1:90.0.4427.5-0ubuntu1~ppa1~20.10.1) groovy; urgency=low
 
   * New upstream version 90.0.4427.5
   * Updated patches.
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 28 Feb 2021 12:51:21 -0500
 
-chromium-browser (1:90.0.4421.5-0ubuntu1~ppa2~20.04.1) focal; urgency=low
+chromium-browser (1:90.0.4421.5-0ubuntu1~ppa2~20.10.1) groovy; urgency=low
 
   * Fix build errors.
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 26 Feb 2021 00:00:43 -0500
 
-chromium-browser (1:90.0.4421.5-0ubuntu1~ppa1~20.04.1) focal; urgency=low
+chromium-browser (1:90.0.4421.5-0ubuntu1~ppa1~20.10.1) groovy; urgency=low
 
   * New upstream version 90.0.4421.5
   * Updated patches.
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 21 Feb 2021 14:06:43 -0500
 
-chromium-browser (1:90.0.4400.8-0ubuntu1~ppa1~20.04.1) focal; urgency=low
+chromium-browser (1:90.0.4400.8-0ubuntu1~ppa1~20.10.1) groovy; urgency=low
 
   * New upstream version 90.0.4400.8
   * Updated patches.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 30 Jan 2021 00:37:41 -0500
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 30 Jan 2021 00:37:42 -0500
 
-chromium-browser (1:89.0.4389.9-0ubuntu1~ppa1~20.04.1) focal; urgency=low
+chromium-browser (1:89.0.4389.9-0ubuntu1~ppa1~20.10.1) groovy; urgency=low
 
   * New upstream version 89.0.4389.9
   * Updated patches.
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 25 Jan 2021 23:07:57 -0500
 
-chromium-browser (1:89.0.4385.0-0ubuntu1~ppa1~20.04.1) focal; urgency=low
+chromium-browser (1:89.0.4385.0-0ubuntu1~ppa1~20.10.1) groovy; urgency=low
 
   * New upstream version 89.0.4385.0
   * Updated patches.
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 18 Jan 2021 01:57:17 -0500
 
-chromium-browser (1:89.0.4356.6-0ubuntu1~ppa2~20.04.1) focal; urgency=low
+chromium-browser (1:89.0.4356.6-0ubuntu1~ppa2~20.10.1) groovy; urgency=low
 
   * Add libxshmfence-dev as a dependency.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 20 Dec 2020 19:18:30 -0500
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 20 Dec 2020 19:18:31 -0500
 
-chromium-browser (1:89.0.4356.6-0ubuntu1~ppa1~20.04.1) focal; urgency=low
+chromium-browser (1:89.0.4356.6-0ubuntu1~ppa1~20.10.1) groovy; urgency=low
 
   * New upstream version 89.0.4356.6
   * Updated patches.
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 19 Dec 2020 12:01:23 -0500
 
-chromium-browser (1:88.0.4324.11-0ubuntu1~ppa2~20.04.1) focal; urgency=low
+chromium-browser (1:88.0.4324.11-0ubuntu1~ppa2~20.10.1) groovy; urgency=low
 
   * Remove pipewire dependency for groovy.
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 23 Nov 2020 11:43:18 -0500
 
-chromium-browser (1:88.0.4324.11-0ubuntu1~ppa1~20.04.1) focal; urgency=low
+chromium-browser (1:88.0.4324.11-0ubuntu1~ppa1~20.10.1) groovy; urgency=low
 
   * New upstream version 88.0.4324.11
   * Updated patches.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 22 Nov 2020 22:20:26 -0500
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 22 Nov 2020 22:20:27 -0500
 
-chromium-browser (1:88.0.4315.5-0ubuntu1~ppa1~20.04.1) focal; urgency=low
+chromium-browser (1:88.0.4315.5-0ubuntu1~ppa1~20.10.1) groovy; urgency=low
 
   * New upstream version 88.0.4315.5
   * Updated patches.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 07 Nov 2020 12:15:21 -0500
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 07 Nov 2020 12:15:22 -0500
 
-chromium-browser (1:88.0.4298.4-0ubuntu1~ppa1~20.04.1) focal; urgency=low
+chromium-browser (1:88.0.4298.4-0ubuntu1~ppa1~20.10.1) groovy; urgency=low
 
   * New upstream version 88.0.4298.4
   * Updated patches.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 25 Oct 2020 11:39:44 -0400
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 25 Oct 2020 11:39:45 -0400
 
-chromium-browser (1:88.0.4292.2-0ubuntu1~ppa1~20.04.1) focal; urgency=low
+chromium-browser (1:88.0.4292.2-0ubuntu1~ppa1~20.10.1) groovy; urgency=low
 
   * New upstream version 88.0.4292.2
   * Updated patches.
 
  -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 17 Oct 2020 17:22:37 -0400
 
-chromium-browser (1:87.0.4280.20-0ubuntu1~ppa1~20.04.1) focal; urgency=low
+chromium-browser (1:87.0.4280.20-0ubuntu1~ppa1~20.10.1) groovy; urgency=low
 
   * New upstream version 87.0.4280.20
   * Updated patches.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 15 Oct 2020 01:51:38 -0400
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Thu, 15 Oct 2020 01:51:39 -0400
 
-chromium-browser (1:87.0.4280.11-0ubuntu1~ppa3~20.04.1) focal; urgency=low
+chromium-browser (1:87.0.4280.11-0ubuntu1~ppa3~20.10.1) groovy; urgency=low
 
   * Fix pipewire library name in Groovy.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 14 Oct 2020 15:13:02 -0400
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 14 Oct 2020 15:13:03 -0400
 
-chromium-browser (1:87.0.4280.11-0ubuntu1~ppa2~20.04.1) focal; urgency=low
+chromium-browser (1:87.0.4280.11-0ubuntu1~ppa2~20.10.1) groovy; urgency=low
 
   * Fix builds.
 
- -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 11 Oct 2020 19:07:49 -0400
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 11 Oct 2020 19:07:50 -0400
 
-chromium-browser (1:87.0.4280.11-0ubuntu1~ppa1~20.04.1) focal; urgency=low
+chromium-browser (1:87.0.4280.11-0ubuntu1~ppa1~20.10.1) groovy; urgency=low
 
   * New upstream version 87.0.4280.11
   * Updated patches.
