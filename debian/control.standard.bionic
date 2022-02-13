@@ -75,8 +75,8 @@ Build-Depends: debhelper (>= 9),
 		libwayland-dev:native,
 		libepoxy-dev:native,
 		libdbus-1-dev:native,
-		libfreetype-dev,
-		libfreetype-dev:native
+		libfreetype6-dev,
+		libfreetype6-dev:native
 Standards-Version: 3.9.5
 
 Package: chromium-browser

@@ -1,0 +1,13 @@
+Index: dev/third_party/libaom/BUILD.gn
+===================================================================
+--- dev.orig/third_party/libaom/BUILD.gn
++++ dev/third_party/libaom/BUILD.gn
+@@ -31,7 +31,7 @@ if (current_cpu == "x86") {
+ } else if (current_cpu == "arm") {
+   if (arm_use_neon) {
+     cpu_arch_full = "arm-neon"
+-  } else if (is_android) {
++  } else if (is_android || arm_optionally_use_neon) {
+     cpu_arch_full = "arm-neon-cpu-detect"
+   } else {
+     cpu_arch_full = "arm"

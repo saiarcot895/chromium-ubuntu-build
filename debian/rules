@@ -90,7 +90,8 @@ common_defines += \
 				use_ozone=true \
 				use_vaapi=true \
 				blink_enable_generated_code_formatting=false \
-				use_system_wayland_scanner=true
+				use_system_wayland_scanner=true \
+				devtools_fast_bundle=true
 
 # FFmpeg-mt
 # Ignore the version built as part of chromium. Build it separately twice, once with
@@ -113,6 +114,7 @@ common_defines += arm_float_abi="soft" arm_use_thumb=false
 else ifeq (armhf,$(DEB_HOST_ARCH))
 common_defines += target_cpu="arm"
 common_defines += arm_use_neon=false
+common_defines += arm_optionally_use_neon=true
 common_defines += use_libgav1_parser=true
 common_defines += arm_float_abi="hard" arm_use_thumb=true
 common_defines += symbol_level=1

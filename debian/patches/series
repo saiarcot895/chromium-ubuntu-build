@@ -2,8 +2,6 @@ title-bar-default-system.patch-v35
 #third-party-cookies-off-by-default.patch
 search-credit.patch
 configuration-directory.patch
-#arm.patch
-#arm-neon.patch
 additional-search-engines.patch
 #gsettings-display-scaling
 notifications-nicer
@@ -39,3 +37,4 @@ dont-strip-chromedriver.patch
 load-debug-symbols-for-backtrace.patch
 fix-pkg-config-for-v8.patch
 disable-multiprocessing-for-mojom.patch
+enable-cpudetect-for-neon-in-libaom.patch
