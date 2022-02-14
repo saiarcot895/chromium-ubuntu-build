@@ -1,3 +1,9 @@
+chromium-browser (1:100.0.4878.0-0ubuntu1~ppa3~22.04.1) jammy; urgency=low
+
+  * Package the v8 snapshot, it's needed.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Mon, 14 Feb 2022 11:18:14 -0500
+
 chromium-browser (1:100.0.4878.0-0ubuntu1~ppa2~22.04.1) jammy; urgency=low
 
   * Fixed a build issue for arm64/armhf.
