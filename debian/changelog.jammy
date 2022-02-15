@@ -1,3 +1,9 @@
+chromium-browser (1:100.0.4878.0-0ubuntu1~ppa4~22.04.1) jammy; urgency=low
+
+  * Fix crash due to error in patch.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 15 Feb 2022 03:13:49 -0500
+
 chromium-browser (1:100.0.4878.0-0ubuntu1~ppa3~22.04.1) jammy; urgency=low
 
   * Package the v8 snapshot, it's needed.

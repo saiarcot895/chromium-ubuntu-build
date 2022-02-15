@@ -31,31 +31,6 @@ Index: dev/third_party/blink/renderer/platform/wtf/math_extras.h
    return std::floor(value + 0.5f);
  }
  
-Index: dev/sandbox/linux/services/credentials.cc
-===================================================================
---- dev.orig/sandbox/linux/services/credentials.cc
-+++ dev/sandbox/linux/services/credentials.cc
-@@ -89,7 +89,7 @@ bool ChrootToSafeEmptyDir() {
- #endif
- 
-   int clone_flags = CLONE_FS | LINUX_SIGCHLD;
--  void* tls = nullptr;
-+  char* tls = nullptr;
- #if (defined(ARCH_CPU_X86_64) || defined(ARCH_CPU_ARM_FAMILY)) && \
-     !defined(MEMORY_SANITIZER)
-   // Use CLONE_VM | CLONE_VFORK as an optimization to avoid copying page tables.
-@@ -114,6 +114,11 @@ bool ChrootToSafeEmptyDir() {
-   int status = -1;
-   PCHECK(HANDLE_EINTR(waitpid(pid, &status, 0)) == pid);
- 
-+#if (defined(ARCH_CPU_X86_64) || defined(ARCH_CPU_ARM_FAMILY)) && \
-+    !defined(MEMORY_SANITIZER)
-+  delete[] tls;
-+#endif
-+
-   return WIFEXITED(status) && WEXITSTATUS(status) == kExitSuccess;
- }
- 
 Index: dev/base/allocator/partition_allocator/starscan/state_bitmap.h
 ===================================================================
 --- dev.orig/base/allocator/partition_allocator/starscan/state_bitmap.h
