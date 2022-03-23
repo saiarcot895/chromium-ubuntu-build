@@ -68,9 +68,9 @@ Index: dev/base/debug/stack_trace_posix.cc
 +
 +            uint8_t *build_id_data = build_id_section + sizeof(*nhdr) + nhdr->n_namesz;
 +            std::ostringstream build_id_sstream;
-+            for (unsigned i = 0; i != nhdr->n_descsz; i++) {
++            for (unsigned j = 0; j != nhdr->n_descsz; j++) {
 +              char buffer[3];
-+              std::snprintf(buffer, sizeof(buffer), "%02x", build_id_data[i]);
++              std::snprintf(buffer, sizeof(buffer), "%02x", build_id_data[j]);
 +              build_id_sstream << buffer;
 +            }
 +            std::string build_id = build_id_sstream.str();

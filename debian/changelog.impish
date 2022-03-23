@@ -1,3 +1,9 @@
+chromium-browser (1:101.0.4947.0-0ubuntu1~ppa2~21.10.1) impish; urgency=low
+
+  * Fixed patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Wed, 23 Mar 2022 12:46:39 -0400
+
 chromium-browser (1:101.0.4947.0-0ubuntu1~ppa1~21.10.1) impish; urgency=low
 
   * New upstream version 101.0.4947.0

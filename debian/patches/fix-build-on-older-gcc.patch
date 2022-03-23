@@ -587,12 +587,14 @@ Index: dev/third_party/pdfium/core/fxge/cfx_font.cpp
 ===================================================================
 --- dev.orig/third_party/pdfium/core/fxge/cfx_font.cpp
 +++ dev/third_party/pdfium/core/fxge/cfx_font.cpp
-@@ -50,7 +50,7 @@ struct OUTLINE_PARAMS {
+@@ -50,7 +50,9 @@ struct OUTLINE_PARAMS {
  //
  // Use weak symbols to check if FT_Done_MM_Var() is available at runtime.
  #if !BUILDFLAG(IS_WIN)
 -extern "C" __attribute__((weak)) decltype(FT_Done_MM_Var) FT_Done_MM_Var;
-+extern "C" FT_Done_MM_Var(FT_Library library, FT_MM_Var *amaster) __attribute__((weak));
++#if FREETYPE_MAJOR > 2 || (FREETYPE_MAJOR == 2 && FREETYPE_MINOR >= 9)
++extern "C" FT_Error FT_Done_MM_Var(FT_Library library, FT_MM_Var *amaster) __attribute__((weak));
++#endif
  #endif
  
  void FreeMMVar(FXFT_FaceRec* rec, FXFT_MM_VarPtr variation_desc) {
