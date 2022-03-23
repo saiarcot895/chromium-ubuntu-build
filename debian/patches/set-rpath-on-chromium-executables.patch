@@ -6,7 +6,7 @@ Index: dev/chrome/BUILD.gn
 ===================================================================
 --- dev.orig/chrome/BUILD.gn
 +++ dev/chrome/BUILD.gn
-@@ -338,7 +338,7 @@ if (!is_android && !is_mac) {
+@@ -337,7 +337,7 @@ if (!is_android && !is_mac) {
  
      # ChromeOS by design is safe to have rpath=$ORIGIN. This simplifies shared
      # library usage.

@@ -15,7 +15,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
 +++ dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
-@@ -85,7 +85,9 @@ void FillVAEncRateControlParams(
+@@ -86,7 +86,9 @@ void FillVAEncRateControlParams(
    rate_control_param.window_size = window_size;
    rate_control_param.initial_qp = initial_qp;
    rate_control_param.min_qp = min_qp;
@@ -39,7 +39,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
  #include <va/va_version.h>
  #include <xf86drm.h>
  
-@@ -441,7 +443,9 @@ const ProfileCodecMap& GetProfileCodecMa
+@@ -436,7 +438,9 @@ const ProfileCodecMap& GetProfileCodecMa
            {VP9PROFILE_PROFILE2, VAProfileVP9Profile2},
        // VaapiWrapper does not support Profile 3.
        //{VP9PROFILE_PROFILE3, VAProfileVP9Profile3},
@@ -49,7 +49,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
          // VaapiWrapper does not support AV1 Profile 1.
          // {AV1PROFILE_PROFILE_HIGH, VAProfileAV1Profile1},
  #if BUILDFLAG(ENABLE_PLATFORM_HEVC_DECODING)
-@@ -478,8 +482,12 @@ bool IsVAProfileSupported(VAProfile va_p
+@@ -473,8 +477,12 @@ bool IsVAProfileSupported(VAProfile va_p
  
  bool IsBlockedDriver(VaapiWrapper::CodecMode mode, VAProfile va_profile) {
    if (!IsModeEncoding(mode)) {
@@ -62,7 +62,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
  
    // TODO(posciak): Remove once VP8 encoding is to be enabled by default.
-@@ -1241,7 +1249,7 @@ bool VASupportedProfiles::FillProfileInf
+@@ -1237,7 +1245,7 @@ bool VASupportedProfiles::FillProfileInf
        continue;
      if (attrib.value & VA_RT_FORMAT_YUV420)
        profile_info->supported_internal_formats.yuv420 = true;
@@ -71,7 +71,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
        profile_info->supported_internal_formats.yuv420_10 = true;
      if (attrib.value & VA_RT_FORMAT_YUV422)
        profile_info->supported_internal_formats.yuv422 = true;
-@@ -1609,7 +1617,7 @@ bool VaapiWrapper::IsDecodingSupportedFo
+@@ -1604,7 +1612,7 @@ bool VaapiWrapper::IsDecodingSupportedFo
    switch (rt_format) {
      case VA_RT_FORMAT_YUV420:
        return supported_internal_formats.yuv420;
@@ -80,7 +80,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
        return supported_internal_formats.yuv420_10;
      case VA_RT_FORMAT_YUV422:
        return supported_internal_formats.yuv422;
-@@ -1693,8 +1701,11 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1688,8 +1696,11 @@ bool VaapiWrapper::GetJpegDecodeSuitable
    } else if (GetImplementationType() == VAImplementation::kIntelIHD) {
      // (b/159896972): iHD v20.1.1 cannot create Y216 and Y416 images from a
      // decoded JPEG on gen 12. It is also failing to support Y800 format.
@@ -97,7 +97,7 @@ Index: dev/media/gpu/chromeos/fourcc.cc
 ===================================================================
 --- dev.orig/media/gpu/chromeos/fourcc.cc
 +++ dev/media/gpu/chromeos/fourcc.cc
-@@ -215,11 +215,11 @@ uint32_t Fourcc::ToV4L2PixFmt() const {
+@@ -195,11 +195,11 @@ uint32_t Fourcc::ToV4L2PixFmt() const {
  // static
  absl::optional<Fourcc> Fourcc::FromVAFourCC(uint32_t va_fourcc) {
    switch (va_fourcc) {
@@ -111,7 +111,7 @@ Index: dev/media/gpu/chromeos/fourcc.cc
        return Fourcc(NV21);
      case VA_FOURCC_YV12:
        return Fourcc(YV12);
-@@ -245,11 +245,11 @@ absl::optional<Fourcc> Fourcc::FromVAFou
+@@ -215,11 +215,11 @@ absl::optional<Fourcc> Fourcc::FromVAFou
  absl::optional<uint32_t> Fourcc::ToVAFourCC() const {
    switch (value_) {
      case YU12:
@@ -129,7 +129,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
 ===================================================================
 --- dev.orig/ui/gfx/x/gen_xproto.py
 +++ dev/ui/gfx/x/gen_xproto.py
-@@ -274,7 +274,7 @@ class GenXproto(FileWriter):
+@@ -286,7 +286,7 @@ class GenXproto(FileWriter):
              return 'Request'
          elif t.is_reply:
              return 'Reply'
@@ -138,7 +138,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
              return 'Event'
          return ''
  
-@@ -475,7 +475,7 @@ class GenXproto(FileWriter):
+@@ -487,7 +487,7 @@ class GenXproto(FileWriter):
                  copy_basic()
              else:
                  container_type, container_name = field.parent
@@ -147,7 +147,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
                  # Extension events require offsetting the opcode, so make
                  # sure this path is only hit for non-extension events for now.
                  assert not self.module.namespace.is_ext
-@@ -500,7 +500,8 @@ class GenXproto(FileWriter):
+@@ -512,7 +512,8 @@ class GenXproto(FileWriter):
              self.copy_primitive(name)
  
      def declare_case(self, case):
@@ -157,7 +157,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
  
          fields = [
              field for case_field in case.type.fields
-@@ -516,7 +517,10 @@ class GenXproto(FileWriter):
+@@ -528,7 +529,10 @@ class GenXproto(FileWriter):
          return [(typename, name)]
  
      def copy_case(self, case, switch_name):
@@ -169,7 +169,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
          condition = ' || '.join([
              '%s(%s_expr, %s)' % (op, switch_name, self.expr(expr))
              for expr in case.type.expr
-@@ -1015,7 +1019,7 @@ class GenXproto(FileWriter):
+@@ -1038,7 +1042,7 @@ class GenXproto(FileWriter):
              self.write_special_container(item, name)
          if isinstance(item, self.xcbgen.xtypes.Request):
              self.define_request(item)
@@ -178,7 +178,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
              self.define_event(item, name)
          elif isinstance(item, self.xcbgen.xtypes.Error):
              self.define_error(item, name)
-@@ -1025,7 +1029,7 @@ class GenXproto(FileWriter):
+@@ -1048,7 +1052,7 @@ class GenXproto(FileWriter):
              self.declare_union(item)
          elif isinstance(item, self.xcbgen.xtypes.Request):
              self.declare_request(item)
@@ -187,7 +187,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
              self.declare_event(item, name)
          elif isinstance(item, self.xcbgen.xtypes.Error):
              self.declare_error(item, name)
-@@ -1107,7 +1111,7 @@ class GenXproto(FileWriter):
+@@ -1130,7 +1134,7 @@ class GenXproto(FileWriter):
                          and field_name in fields):
                      setattr(fields[field_name], for_type, field)
  
@@ -196,7 +196,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
                  self.resolve_type(field.type, field.field_type)
  
          if isinstance(t, self.xcbgen.xtypes.Request) and t.reply:
-@@ -1231,6 +1235,11 @@ class GenXproto(FileWriter):
+@@ -1254,6 +1258,11 @@ class GenXproto(FileWriter):
          for direct_import in sorted(list(imports)):
              self.write('#include "%s.h"' % direct_import[-1])
          self.write()
@@ -212,7 +212,7 @@ Index: dev/ui/gtk/gtk_util.cc
 ===================================================================
 --- dev.orig/ui/gtk/gtk_util.cc
 +++ dev/ui/gtk/gtk_util.cc
-@@ -102,9 +102,11 @@ GtkCssContext AppendCssNodeToStyleContex
+@@ -93,9 +93,11 @@ GtkCssContext AppendCssNodeToStyleContex
      gtk_widget_path_append_type(path, gtype);
  
      if (!object_name.empty()) {
@@ -433,7 +433,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decoder.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_video_decoder.cc
 +++ dev/media/gpu/vaapi/vaapi_video_decoder.cc
-@@ -1132,6 +1132,7 @@ VaapiStatus VaapiVideoDecoder::CreateAcc
+@@ -1135,6 +1135,7 @@ VaapiStatus VaapiVideoDecoder::CreateAcc
                                               color_space_);
    }
  #endif  // BUILDFLAG(ENABLE_PLATFORM_HEVC_DECODING)
@@ -441,7 +441,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decoder.cc
    else if (profile_ >= AV1PROFILE_MIN && profile_ <= AV1PROFILE_MAX) {
      auto accelerator = std::make_unique<AV1VaapiVideoDecoderDelegate>(
          this, vaapi_wrapper_, std::move(protected_update_cb),
-@@ -1141,7 +1142,9 @@ VaapiStatus VaapiVideoDecoder::CreateAcc
+@@ -1144,7 +1145,9 @@ VaapiStatus VaapiVideoDecoder::CreateAcc
  
      decoder_ = std::make_unique<AV1Decoder>(std::move(accelerator), profile_,
                                              color_space_);
@@ -583,3 +583,16 @@ Index: dev/third_party/devtools-frontend/src/node_modules/minify-html-literals/s
 -//# sourceMappingURL=strategy.js.map
 \ No newline at end of file
 +//# sourceMappingURL=strategy.js.map
+Index: dev/third_party/pdfium/core/fxge/cfx_font.cpp
+===================================================================
+--- dev.orig/third_party/pdfium/core/fxge/cfx_font.cpp
++++ dev/third_party/pdfium/core/fxge/cfx_font.cpp
+@@ -50,7 +50,7 @@ struct OUTLINE_PARAMS {
+ //
+ // Use weak symbols to check if FT_Done_MM_Var() is available at runtime.
+ #if !BUILDFLAG(IS_WIN)
+-extern "C" __attribute__((weak)) decltype(FT_Done_MM_Var) FT_Done_MM_Var;
++extern "C" FT_Done_MM_Var(FT_Library library, FT_MM_Var *amaster) __attribute__((weak));
+ #endif
+ 
+ void FreeMMVar(FXFT_FaceRec* rec, FXFT_MM_VarPtr variation_desc) {

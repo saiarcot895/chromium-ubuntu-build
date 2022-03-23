@@ -48,7 +48,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
 ===================================================================
 --- dev.orig/ui/gfx/x/gen_xproto.py
 +++ dev/ui/gfx/x/gen_xproto.py
-@@ -1086,7 +1086,7 @@ class GenXproto(FileWriter):
+@@ -1109,7 +1109,7 @@ class GenXproto(FileWriter):
  
          self.resolve_element(t.elt, fields)
  
@@ -57,7 +57,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
              if field.field_name == 'sequence':
                  field.visible = True
              field.parent = (t, name)
-@@ -1235,10 +1235,11 @@ class GenXproto(FileWriter):
+@@ -1258,10 +1258,11 @@ class GenXproto(FileWriter):
          for direct_import in sorted(list(imports)):
              self.write('#include "%s.h"' % direct_import[-1])
          self.write()
@@ -73,7 +73,7 @@ Index: dev/ui/gfx/x/gen_xproto.py
          self.write()
          self.write('namespace x11 {')
          self.write()
-@@ -1627,8 +1628,14 @@ def main():
+@@ -1650,8 +1651,14 @@ def main():
      args = parser.parse_args()
  
      sys.path.insert(1, args.xcbproto_dir)

@@ -91,7 +91,7 @@ common_defines += \
 				use_vaapi=true \
 				blink_enable_generated_code_formatting=false \
 				use_system_wayland_scanner=true \
-				devtools_fast_bundle=false
+				devtools_skip_typecheck=false
 
 # FFmpeg-mt
 # Ignore the version built as part of chromium. Build it separately twice, once with

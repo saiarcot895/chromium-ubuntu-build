@@ -1,0 +1,21 @@
+Index: dev/skia/BUILD.gn
+===================================================================
+--- dev.orig/skia/BUILD.gn
++++ dev/skia/BUILD.gn
+@@ -778,15 +778,8 @@ skia_source_set("skia_opts") {
+ 
+     if (arm_version >= 7) {
+       sources = skia_opts.armv7_sources
+-      if (arm_use_neon || arm_optionally_use_neon) {
++      if (arm_use_neon) {
+         sources += skia_opts.neon_sources
+-
+-        # Root build config sets -mfpu=$arm_fpu, which we expect to be neon
+-        # when running this.
+-        if (!arm_use_neon) {
+-          configs -= [ "//build/config/compiler:compiler_arm_fpu" ]
+-          cflags += [ "-mfpu=neon" ]
+-        }
+       }
+     } else {
+       sources = skia_opts.none_sources
