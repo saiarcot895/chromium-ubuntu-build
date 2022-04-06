@@ -1,7 +1,7 @@
-Index: dev/skia/BUILD.gn
+Index: beta/skia/BUILD.gn
 ===================================================================
---- dev.orig/skia/BUILD.gn
-+++ dev/skia/BUILD.gn
+--- beta.orig/skia/BUILD.gn
++++ beta/skia/BUILD.gn
 @@ -778,15 +778,8 @@ skia_source_set("skia_opts") {
  
      if (arm_version >= 7) {

@@ -1,7 +1,7 @@
-Index: dev/build/util/lastchange.py
+Index: beta/build/util/lastchange.py
 ===================================================================
---- dev.orig/build/util/lastchange.py
-+++ dev/build/util/lastchange.py
+--- beta.orig/build/util/lastchange.py
++++ beta/build/util/lastchange.py
 @@ -271,29 +271,34 @@ def main(argv=None):
    except GitError as e:
      logging.error("Failed to get git top directory from '%s': %s",

@@ -1,7 +1,7 @@
-Index: dev/base/debug/stack_trace_posix.cc
+Index: beta/base/debug/stack_trace_posix.cc
 ===================================================================
---- dev.orig/base/debug/stack_trace_posix.cc
-+++ dev/base/debug/stack_trace_posix.cc
+--- beta.orig/base/debug/stack_trace_posix.cc
++++ beta/base/debug/stack_trace_posix.cc
 @@ -24,6 +24,8 @@
  #include <string>
  #include <tuple>

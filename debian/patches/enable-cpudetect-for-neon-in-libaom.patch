@@ -1,7 +1,7 @@
-Index: dev/third_party/libaom/BUILD.gn
+Index: beta/third_party/libaom/BUILD.gn
 ===================================================================
---- dev.orig/third_party/libaom/BUILD.gn
-+++ dev/third_party/libaom/BUILD.gn
+--- beta.orig/third_party/libaom/BUILD.gn
++++ beta/third_party/libaom/BUILD.gn
 @@ -31,7 +31,7 @@ if (current_cpu == "x86") {
  } else if (current_cpu == "arm") {
    if (arm_use_neon) {

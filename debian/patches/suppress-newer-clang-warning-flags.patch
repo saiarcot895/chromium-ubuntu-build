@@ -1,10 +1,10 @@
 Author: Olivier Tilloy <olivier.tilloy@canonical.com>
 Description: Do not use warning flags that require a newer Clang
 
-Index: dev/build/config/compiler/BUILD.gn
+Index: beta/build/config/compiler/BUILD.gn
 ===================================================================
---- dev.orig/build/config/compiler/BUILD.gn
-+++ dev/build/config/compiler/BUILD.gn
+--- beta.orig/build/config/compiler/BUILD.gn
++++ beta/build/config/compiler/BUILD.gn
 @@ -760,14 +760,6 @@ config("compiler") {
      }
    }
@@ -20,7 +20,7 @@ Index: dev/build/config/compiler/BUILD.gn
    # Pass the same C/C++ flags to the objective C/C++ compiler.
    cflags_objc += cflags_c
    cflags_objcc += cflags_cc
-@@ -1490,6 +1482,9 @@ config("default_warnings") {
+@@ -1492,6 +1484,9 @@ config("default_warnings") {
        # which we no longer use. Check if it makes sense to remove
        # this as well. http://crbug.com/316352
        "-Wno-unneeded-internal-declaration",

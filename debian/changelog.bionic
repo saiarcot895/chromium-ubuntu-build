@@ -1,3 +1,10 @@
+chromium-browser (1:101.0.4951.15-0ubuntu1~ppa1~18.04.1) bionic; urgency=low
+
+  * New upstream version 101.0.4951.15
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Tue, 05 Apr 2022 21:51:37 -0400
+
 chromium-browser (1:101.0.4947.0-0ubuntu1~ppa2~18.04.1) bionic; urgency=low
 
   * Fixed patches.

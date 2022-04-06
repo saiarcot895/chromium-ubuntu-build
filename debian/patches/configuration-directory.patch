@@ -2,10 +2,10 @@ Description: Prefer a /usr/share directory named after the package if it
   exists.
 Author: Chad Miller <chad.miller@canonical.com>
 
-Index: dev/chrome/common/chrome_paths.cc
+Index: beta/chrome/common/chrome_paths.cc
 ===================================================================
---- dev.orig/chrome/common/chrome_paths.cc
-+++ dev/chrome/common/chrome_paths.cc
+--- beta.orig/chrome/common/chrome_paths.cc
++++ beta/chrome/common/chrome_paths.cc
 @@ -58,6 +58,9 @@ const base::FilePath::CharType kFilepath
      FILE_PATH_LITERAL("/usr/share/chromium/extensions");
  #endif  // BUILDFLAG(GOOGLE_CHROME_BRANDING)
@@ -37,7 +37,7 @@ Index: dev/chrome/common/chrome_paths.cc
        cur = base::FilePath(kFilepathSinglePrefExtensions);
        break;
      }
-@@ -514,6 +524,10 @@ bool PathProvider(int key, base::FilePat
+@@ -513,6 +523,10 @@ bool PathProvider(int key, base::FilePat
  #else
        cur = base::FilePath(FILE_PATH_LITERAL(
            "/etc/chromium/native-messaging-hosts"));

@@ -1,7 +1,7 @@
-Index: dev/build/toolchain/gcc_toolchain.gni
+Index: beta/build/toolchain/gcc_toolchain.gni
 ===================================================================
---- dev.orig/build/toolchain/gcc_toolchain.gni
-+++ dev/build/toolchain/gcc_toolchain.gni
+--- beta.orig/build/toolchain/gcc_toolchain.gni
++++ beta/build/toolchain/gcc_toolchain.gni
 @@ -32,6 +32,10 @@ declare_args() {
    # Use -MD instead of -MMD for compiler commands. This is useful for tracking
    # the comprehensive set of dependencies.

@@ -1,7 +1,7 @@
-Index: dev/mojo/public/tools/mojom/mojom_parser.py
+Index: beta/mojo/public/tools/mojom/mojom_parser.py
 ===================================================================
---- dev.orig/mojo/public/tools/mojom/mojom_parser.py
-+++ dev/mojo/public/tools/mojom/mojom_parser.py
+--- beta.orig/mojo/public/tools/mojom/mojom_parser.py
++++ beta/mojo/public/tools/mojom/mojom_parser.py
 @@ -31,7 +31,12 @@ from mojom.parse import conditional_feat
  
  # Disable this for easier debugging.
