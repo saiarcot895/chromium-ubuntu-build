@@ -39,3 +39,4 @@ fix-pkg-config-for-v8.patch
 disable-multiprocessing-for-mojom.patch
 enable-cpudetect-for-neon-in-libaom.patch
 fix-skia-build-gn-for-arm-neon.patch
+fix-audio-sandbox.patch

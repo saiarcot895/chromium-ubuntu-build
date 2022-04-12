@@ -97,7 +97,7 @@ Index: dev/media/gpu/chromeos/fourcc.cc
 ===================================================================
 --- dev.orig/media/gpu/chromeos/fourcc.cc
 +++ dev/media/gpu/chromeos/fourcc.cc
-@@ -195,11 +195,11 @@ uint32_t Fourcc::ToV4L2PixFmt() const {
+@@ -205,11 +205,11 @@ uint32_t Fourcc::ToV4L2PixFmt() const {
  // static
  absl::optional<Fourcc> Fourcc::FromVAFourCC(uint32_t va_fourcc) {
    switch (va_fourcc) {
@@ -111,7 +111,7 @@ Index: dev/media/gpu/chromeos/fourcc.cc
        return Fourcc(NV21);
      case VA_FOURCC_YV12:
        return Fourcc(YV12);
-@@ -215,11 +215,11 @@ absl::optional<Fourcc> Fourcc::FromVAFou
+@@ -225,11 +225,11 @@ absl::optional<Fourcc> Fourcc::FromVAFou
  absl::optional<uint32_t> Fourcc::ToVAFourCC() const {
    switch (value_) {
      case YU12:
@@ -348,7 +348,7 @@ Index: dev/media/gpu/chromeos/platform_video_frame_utils.cc
 ===================================================================
 --- dev.orig/media/gpu/chromeos/platform_video_frame_utils.cc
 +++ dev/media/gpu/chromeos/platform_video_frame_utils.cc
-@@ -41,6 +41,10 @@
+@@ -42,6 +42,10 @@
  #include "ui/gfx/linux/native_pixmap_dmabuf.h"
  #include "ui/gfx/native_pixmap.h"
  

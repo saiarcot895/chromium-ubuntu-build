@@ -57,12 +57,12 @@ Index: dev/base/allocator/partition_allocator/partition_root.h
 ===================================================================
 --- dev.orig/base/allocator/partition_allocator/partition_root.h
 +++ dev/base/allocator/partition_allocator/partition_root.h
-@@ -195,7 +195,7 @@ struct PartitionOptions {
+@@ -196,7 +196,7 @@ struct PartitionOptions {
  // Never instantiate a PartitionRoot directly, instead use
  // PartitionAllocator.
  template <bool thread_safe>
--struct alignas(64) BASE_EXPORT PartitionRoot {
-+struct BASE_EXPORT alignas(64) PartitionRoot {
+-struct ALIGNAS(64) BASE_EXPORT PartitionRoot {
++struct BASE_EXPORT ALIGNAS(64) PartitionRoot {
    using SlotSpan = internal::SlotSpanMetadata<thread_safe>;
    using Page = internal::PartitionPage<thread_safe>;
    using Bucket = internal::PartitionBucket<thread_safe>;
@@ -101,3 +101,16 @@ Index: dev/base/sys_byteorder.h
  #if defined(COMPILER_MSVC) && !defined(__clang__)
    return _byteswap_ulong(x);
  #else
+Index: dev/base/debug/stack_trace.cc
+===================================================================
+--- dev.orig/base/debug/stack_trace.cc
++++ dev/base/debug/stack_trace.cc
+@@ -54,7 +54,7 @@ constexpr size_t kStackFrameAdjustment =
+ // Because the signature size can vary based on the system configuration, use
+ // the xpaclri instruction to remove the signature.
+ static uintptr_t StripPointerAuthenticationBits(uintptr_t ptr) {
+-#if defined(ARCH_CPU_ARM64)
++#if defined(ARCH_CPU_ARM64) && defined(__ARM_FEATURE_PAUTH)
+   // A single Chromium binary currently spans all Arm systems (including those
+   // with and without pointer authentication). xpaclri is used here because it's
+   // in the HINT space and treated as a no-op on older Arm cores (unlike the

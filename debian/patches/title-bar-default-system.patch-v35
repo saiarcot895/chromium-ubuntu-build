@@ -5,7 +5,7 @@ Index: dev/ui/base/x/x11_util.cc
 ===================================================================
 --- dev.orig/ui/base/x/x11_util.cc
 +++ dev/ui/base/x/x11_util.cc
-@@ -616,6 +616,7 @@ bool HasWMSpecProperty(const base::flat_
+@@ -474,6 +474,7 @@ bool HasWMSpecProperty(const base::flat_
  }
  
  bool GetCustomFramePrefDefault() {
