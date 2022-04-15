@@ -35,7 +35,7 @@ Index: dev/base/allocator/partition_allocator/starscan/state_bitmap.h
 ===================================================================
 --- dev.orig/base/allocator/partition_allocator/starscan/state_bitmap.h
 +++ dev/base/allocator/partition_allocator/starscan/state_bitmap.h
-@@ -388,7 +388,7 @@ template <size_t PageSize, size_t PageAl
+@@ -387,7 +387,7 @@ template <size_t PageSize, size_t PageAl
  template <typename Filter,
            typename CallbackForwarder,
            typename Callback,
@@ -44,7 +44,7 @@ Index: dev/base/allocator/partition_allocator/starscan/state_bitmap.h
  inline void
  StateBitmap<PageSize, PageAlignment, AllocationAlignment>::IterateImpl(
      size_t epoch,
-@@ -418,7 +418,7 @@ StateBitmap<PageSize, PageAlignment, All
+@@ -417,7 +417,7 @@ StateBitmap<PageSize, PageAlignment, All
  
        callback_forwarder(callback, object_address, bits);
  
@@ -57,7 +57,7 @@ Index: dev/base/allocator/partition_allocator/partition_root.h
 ===================================================================
 --- dev.orig/base/allocator/partition_allocator/partition_root.h
 +++ dev/base/allocator/partition_allocator/partition_root.h
-@@ -196,7 +196,7 @@ struct PartitionOptions {
+@@ -197,7 +197,7 @@ struct PartitionOptions {
  // Never instantiate a PartitionRoot directly, instead use
  // PartitionAllocator.
  template <bool thread_safe>

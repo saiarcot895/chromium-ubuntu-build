@@ -15,7 +15,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
 +++ dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
-@@ -86,7 +86,9 @@ void FillVAEncRateControlParams(
+@@ -85,7 +85,9 @@ void FillVAEncRateControlParams(
    rate_control_param.window_size = window_size;
    rate_control_param.initial_qp = initial_qp;
    rate_control_param.min_qp = min_qp;
