@@ -1,3 +1,9 @@
+chromium-browser (1:102.0.5005.12-0ubuntu1~ppa2~20.04.1) focal; urgency=low
+
+  * Remove unknown clang option.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 24 Apr 2022 13:38:06 -0400
+
 chromium-browser (1:102.0.5005.12-0ubuntu1~ppa1~20.04.1) focal; urgency=low
 
   * New upstream version 102.0.5005.12
