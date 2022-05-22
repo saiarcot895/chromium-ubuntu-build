@@ -57,7 +57,7 @@ Index: dev/base/allocator/partition_allocator/partition_root.h
 ===================================================================
 --- dev.orig/base/allocator/partition_allocator/partition_root.h
 +++ dev/base/allocator/partition_allocator/partition_root.h
-@@ -197,7 +197,7 @@ struct PartitionOptions {
+@@ -198,7 +198,7 @@ struct PartitionOptions {
  // Never instantiate a PartitionRoot directly, instead use
  // PartitionAllocator.
  template <bool thread_safe>
@@ -79,28 +79,6 @@ Index: dev/base/sequence_checker_impl.h
      BASE_EXPORT SequenceCheckerImpl {
   public:
    static void EnableStackLogging();
-Index: dev/base/sys_byteorder.h
-===================================================================
---- dev.orig/base/sys_byteorder.h
-+++ dev/base/sys_byteorder.h
-@@ -22,7 +22,7 @@
- namespace base {
- 
- // Returns a value with all bytes in |x| swapped, i.e. reverses the endianness.
--inline uint16_t ByteSwap(uint16_t x) {
-+inline constexpr uint16_t ByteSwap(uint16_t x) {
- #if defined(COMPILER_MSVC) && !defined(__clang__)
-   return _byteswap_ushort(x);
- #else
-@@ -30,7 +30,7 @@ inline uint16_t ByteSwap(uint16_t x) {
- #endif
- }
- 
--inline uint32_t ByteSwap(uint32_t x) {
-+inline constexpr uint32_t ByteSwap(uint32_t x) {
- #if defined(COMPILER_MSVC) && !defined(__clang__)
-   return _byteswap_ulong(x);
- #else
 Index: dev/base/debug/stack_trace.cc
 ===================================================================
 --- dev.orig/base/debug/stack_trace.cc

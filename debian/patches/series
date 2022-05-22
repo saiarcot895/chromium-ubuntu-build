@@ -41,3 +41,4 @@ enable-cpudetect-for-neon-in-libaom.patch
 fix-skia-build-gn-for-arm-neon.patch
 fix-audio-sandbox.patch
 disable-orchestrator.patch
+readd-x86-build-support.patch
