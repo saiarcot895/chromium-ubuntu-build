@@ -13,6 +13,9 @@ DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 DEB_BUILD_ARCH ?= $(shell dpkg-architecture -qDEB_BUILD_ARCH)
 DEB_BUILD_ARCH_BITS ?= $(shell dpkg-architecture -qDEB_BUILD_ARCH_BITS)
 
+# Disable LTO optimizations unless otherwise set by gn, Clang may or may not support the flags
+DEB_BUILD_MAINT_OPTIONS=optimize=-all
+
 # needed for easy job control, e.g, kill %1
 SHELL := /bin/bash
 
@@ -121,6 +124,7 @@ common_defines += symbol_level=1
 common_defines += is_component_build=true
 else ifeq (arm64,$(DEB_HOST_ARCH))
 common_defines += target_cpu="arm64" symbol_level=1
+common_defines += arm_control_flow_integrity="none"
 else ifeq (i386,$(DEB_HOST_ARCH))
 common_defines += target_cpu="x86" symbol_level=1
 else ifeq (amd64,$(DEB_HOST_ARCH))
