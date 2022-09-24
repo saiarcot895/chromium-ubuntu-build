@@ -12,7 +12,7 @@ Index: dev/chrome/test/chromedriver/BUILD.gn
  import("//build/util/lastchange.gni")
  import("//testing/test.gni")
  import("//third_party/ffmpeg/ffmpeg_options.gni")
-@@ -333,11 +330,7 @@ source_set("lib") {
+@@ -357,11 +354,7 @@ source_set("lib") {
    }
  }
  
@@ -25,7 +25,7 @@ Index: dev/chrome/test/chromedriver/BUILD.gn
  
  executable("$chromedriver_output") {
    testonly = true
-@@ -359,16 +352,6 @@ executable("$chromedriver_output") {
+@@ -383,16 +376,6 @@ executable("$chromedriver_output") {
    }
  }
  

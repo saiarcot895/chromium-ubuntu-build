@@ -9,9 +9,9 @@ Index: dev/base/debug/stack_trace_posix.cc
 +#include <sstream>
 +#include <iostream>
  
+ #include "base/memory/raw_ptr.h"
  #include "build/build_config.h"
- 
-@@ -714,6 +716,87 @@ class SandboxSymbolizeHelper {
+@@ -718,6 +720,87 @@ class SandboxSymbolizeHelper {
      return true;
    }
  
@@ -99,7 +99,7 @@ Index: dev/base/debug/stack_trace_posix.cc
    // Opens all object files and caches their file descriptors.
    void OpenSymbolFiles() {
      // Pre-opening and caching the file descriptors of all loaded modules is
-@@ -748,7 +831,13 @@ class SandboxSymbolizeHelper {
+@@ -752,7 +835,13 @@ class SandboxSymbolizeHelper {
          if (modules_.find(region.path) == modules_.end()) {
            int fd = open(region.path.c_str(), O_RDONLY | O_CLOEXEC);
            if (fd >= 0) {

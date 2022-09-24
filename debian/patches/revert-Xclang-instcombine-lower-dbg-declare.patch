@@ -5,7 +5,7 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -522,31 +522,6 @@ config("compiler") {
+@@ -527,39 +527,6 @@ config("compiler") {
      ldflags += [ "-Wl,-z,keep-text-section-prefix" ]
    }
  
@@ -31,6 +31,14 @@ Index: dev/build/config/compiler/BUILD.gn
 -      cflags += [ "/clang:-ffp-contract=off" ]
 -    } else {
 -      cflags += [ "-ffp-contract=off" ]
+-    }
+-
+-    if (default_toolchain != "//build/toolchain/cros:target") {
+-      # TODO(crbug.com/1361629): Fix the compiler so this is not needed.
+-      cflags += [
+-        "-mllvm",
+-        "-simplifycfg-hoist-common-skip-limit=0",
+-      ]
 -    }
 -  }
 -

@@ -5,7 +5,7 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -747,14 +747,6 @@ config("compiler") {
+@@ -730,14 +730,6 @@ config("compiler") {
      }
    }
  
@@ -17,10 +17,10 @@ Index: dev/build/config/compiler/BUILD.gn
 -    cflags += [ "-fcomplete-member-pointers" ]
 -  }
 -
-   # Pass the same C/C++ flags to the objective C/C++ compiler.
-   cflags_objc += cflags_c
-   cflags_objcc += cflags_cc
-@@ -1479,6 +1471,9 @@ config("default_warnings") {
+   # MLGO specific flags. These flags enable an ML-based inliner trained on
+   # Chrome on Android (arm32) with ThinLTO enabled, optimizing for size.
+   # The "release" ML model is embedded into clang as part of its build.
+@@ -1493,6 +1485,9 @@ config("default_warnings") {
        # which we no longer use. Check if it makes sense to remove
        # this as well. http://crbug.com/316352
        "-Wno-unneeded-internal-declaration",
@@ -30,19 +30,3 @@ Index: dev/build/config/compiler/BUILD.gn
      ]
  
      if (!is_nacl || is_nacl_saigo) {
-@@ -1509,15 +1504,6 @@ config("default_warnings") {
-         cflags += [ "-Wno-unqualified-std-cast-call" ]
-       }
- 
--      if (!is_nacl && !(is_chromeos ||
--                        default_toolchain == "//build/toolchain/cros:target")) {
--        # TODO(https://crbug.com/1316298): Re-enable once test failure is figured out
--        cflags += [
--          "-Xclang",
--          "-no-opaque-pointers",
--        ]
--      }
--
-       if (is_fuchsia) {
-         # TODO(https://bugs.chromium.org/p/fuchsia/issues/detail?id=77383)
-         cflags += [ "-Wno-deprecated-copy" ]

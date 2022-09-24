@@ -13,13 +13,18 @@ Index: dev/build/toolchain/gcc_toolchain.gni
  }
  
  # When the arg is set via args.gn, it applies to all toolchains. In order to not
-@@ -786,13 +790,20 @@ template("gcc_toolchain") {
+@@ -786,22 +790,20 @@ template("gcc_toolchain") {
  # use_gold too.
  template("clang_toolchain") {
    gcc_toolchain(target_name) {
--    prefix = rebase_path("$clang_base_path/bin", root_build_dir)
--    cc = "${prefix}/clang"
--    cxx = "${prefix}/clang++"
+-    _path = "$clang_base_path/bin"
+-    _is_path_absolute = get_path_info(_path, "abspath") == _path
+-
+-    # Preserve absolute paths for tools like distcc.
+-    if (_is_path_absolute && filter_include([ _path ], [ "//*" ]) == []) {
+-      prefix = _path
+-    } else {
+-      prefix = rebase_path(_path, root_build_dir)
 +    if (clang_use_compiler_version_suffix) {
 +      cc = "clang-${clang_compiler_version_suffix}"
 +      cxx = "clang++-${clang_compiler_version_suffix}"
@@ -32,7 +37,10 @@ Index: dev/build/toolchain/gcc_toolchain.gni
 +      ar = "llvm-ar"
 +      nm = "llvm-nm"
 +      readelf = "llvm-readelf"
-+    }
+     }
+-
+-    cc = "${prefix}/clang"
+-    cxx = "${prefix}/clang++"
      ld = cxx
 -    readelf = "${prefix}/llvm-readelf"
 -    ar = "${prefix}/llvm-ar"

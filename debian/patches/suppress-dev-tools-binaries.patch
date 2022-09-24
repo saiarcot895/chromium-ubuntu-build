@@ -63,11 +63,11 @@ Index: dev/tools/metrics/histograms/expand_owners.py
  
 -      component = _ExtractComponentViaDirmd(os.path.dirname(path))
 +      # Chromium's way of getting the component info involves downloading an
-+      # external bianry and running it to get some info. Block it for now.
++      # external binary and running it to get some info. Block it for now.
 +      component = None
        if component and component not in components_with_dom_elements:
          components_with_dom_elements.add(component)
-         _AddHistogramComponent(histogram, component)
+         AddHistogramComponent(histogram, component)
 Index: dev/third_party/closure_compiler/compiler.py
 ===================================================================
 --- dev.orig/third_party/closure_compiler/compiler.py

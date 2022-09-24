@@ -17,7 +17,7 @@ Index: dev/third_party/blink/renderer/platform/wtf/math_extras.h
 ===================================================================
 --- dev.orig/third_party/blink/renderer/platform/wtf/math_extras.h
 +++ dev/third_party/blink/renderer/platform/wtf/math_extras.h
-@@ -127,11 +127,11 @@ constexpr float Grad2turn(float g) {
+@@ -128,11 +128,11 @@ constexpr float Grad2turn(float g) {
    return g * (1.0f / 400.0f);
  }
  
@@ -35,7 +35,7 @@ Index: dev/base/allocator/partition_allocator/starscan/state_bitmap.h
 ===================================================================
 --- dev.orig/base/allocator/partition_allocator/starscan/state_bitmap.h
 +++ dev/base/allocator/partition_allocator/starscan/state_bitmap.h
-@@ -387,7 +387,7 @@ template <size_t PageSize, size_t PageAl
+@@ -391,7 +391,7 @@ template <size_t PageSize, size_t PageAl
  template <typename Filter,
            typename CallbackForwarder,
            typename Callback,
@@ -44,7 +44,7 @@ Index: dev/base/allocator/partition_allocator/starscan/state_bitmap.h
  inline void
  StateBitmap<PageSize, PageAlignment, AllocationAlignment>::IterateImpl(
      size_t epoch,
-@@ -417,7 +417,7 @@ StateBitmap<PageSize, PageAlignment, All
+@@ -421,7 +421,7 @@ StateBitmap<PageSize, PageAlignment, All
  
        callback_forwarder(callback, object_address, bits);
  
@@ -57,28 +57,15 @@ Index: dev/base/allocator/partition_allocator/partition_root.h
 ===================================================================
 --- dev.orig/base/allocator/partition_allocator/partition_root.h
 +++ dev/base/allocator/partition_allocator/partition_root.h
-@@ -198,7 +198,7 @@ struct PartitionOptions {
+@@ -224,7 +224,7 @@ struct PartitionOptions {
  // Never instantiate a PartitionRoot directly, instead use
  // PartitionAllocator.
  template <bool thread_safe>
--struct ALIGNAS(64) BASE_EXPORT PartitionRoot {
-+struct BASE_EXPORT ALIGNAS(64) PartitionRoot {
+-struct PA_ALIGNAS(64) PA_COMPONENT_EXPORT(PARTITION_ALLOC) PartitionRoot {
++struct PA_COMPONENT_EXPORT(PARTITION_ALLOC) PA_ALIGNAS(64) PartitionRoot {
    using SlotSpan = internal::SlotSpanMetadata<thread_safe>;
    using Page = internal::PartitionPage<thread_safe>;
    using Bucket = internal::PartitionBucket<thread_safe>;
-Index: dev/base/sequence_checker_impl.h
-===================================================================
---- dev.orig/base/sequence_checker_impl.h
-+++ dev/base/sequence_checker_impl.h
-@@ -24,7 +24,7 @@ class StackTrace;
- // version for your build configuration.
- // Note: This is marked with "context" capability in order to support
- // thread_annotations.h.
--class THREAD_ANNOTATION_ATTRIBUTE__(capability("context"))
-+class
-     BASE_EXPORT SequenceCheckerImpl {
-  public:
-   static void EnableStackLogging();
 Index: dev/base/debug/stack_trace.cc
 ===================================================================
 --- dev.orig/base/debug/stack_trace.cc
@@ -92,25 +79,58 @@ Index: dev/base/debug/stack_trace.cc
    // A single Chromium binary currently spans all Arm systems (including those
    // with and without pointer authentication). xpaclri is used here because it's
    // in the HINT space and treated as a no-op on older Arm cores (unlike the
-Index: dev/base/allocator/partition_allocator/partition_alloc_base/sys_byteorder.h
+Index: dev/v8/src/execution/pointer-authentication.h
 ===================================================================
---- dev.orig/base/allocator/partition_allocator/partition_alloc_base/sys_byteorder.h
-+++ dev/base/allocator/partition_allocator/partition_alloc_base/sys_byteorder.h
-@@ -23,7 +23,7 @@
- namespace partition_alloc::internal::base {
+--- dev.orig/v8/src/execution/pointer-authentication.h
++++ dev/v8/src/execution/pointer-authentication.h
+@@ -44,7 +44,7 @@ class PointerAuthentication : public All
+ }  // namespace internal
+ }  // namespace v8
  
- // Returns a value with all bytes in |x| swapped, i.e. reverses the endianness.
--inline uint16_t ByteSwap(uint16_t x) {
-+inline constexpr uint16_t ByteSwap(uint16_t x) {
- #if defined(COMPILER_MSVC) && !defined(__clang__)
-   return _byteswap_ushort(x);
- #else
-@@ -31,7 +31,7 @@ inline uint16_t ByteSwap(uint16_t x) {
- #endif
+-#ifdef V8_ENABLE_CONTROL_FLOW_INTEGRITY
++#if defined(V8_ENABLE_CONTROL_FLOW_INTEGRITY) && defined(__ARM_FEATURE_PAUTH)
+ 
+ #ifndef V8_TARGET_ARCH_ARM64
+ #error "V8_ENABLE_CONTROL_FLOW_INTEGRITY should imply V8_TARGET_ARCH_ARM64"
+Index: dev/third_party/angle/BUILD.gn
+===================================================================
+--- dev.orig/third_party/angle/BUILD.gn
++++ dev/third_party/angle/BUILD.gn
+@@ -1094,11 +1094,6 @@ if (angle_use_wayland) {
+         "wayland-egl",
+       ]
+     }
+-
+-    include_dirs = [
+-      "$wayland_dir/egl",
+-      "$wayland_dir/src",
+-    ]
+   }
+ 
+   group("angle_wayland") {
+Index: dev/third_party/angle/src/common/vulkan/BUILD.gn
+===================================================================
+--- dev.orig/third_party/angle/src/common/vulkan/BUILD.gn
++++ dev/third_party/angle/src/common/vulkan/BUILD.gn
+@@ -33,9 +33,6 @@ if (angle_enable_vulkan || angle_build_v
+     if (angle_shared_libvulkan) {
+       defines = [ "ANGLE_SHARED_LIBVULKAN=1" ]
+     }
+-    if (angle_use_wayland) {
+-      include_dirs = [ "$wayland_dir/src" ]
+-    }
+     configs = [ "$angle_root:angle_vulkan_wayland_config" ]
+   }
+ 
+Index: dev/third_party/angle/src/third_party/volk/BUILD.gn
+===================================================================
+--- dev.orig/third_party/angle/src/third_party/volk/BUILD.gn
++++ dev/third_party/angle/src/third_party/volk/BUILD.gn
+@@ -20,7 +20,4 @@ source_set("volk") {
+   public_configs = [ ":volk_config" ]
+   configs += [ "$angle_root:angle_no_cfi_icall" ]
+   public_deps = [ "$angle_vulkan_headers_dir:vulkan_headers" ]
+-  if (angle_use_wayland) {
+-    include_dirs = [ "$wayland_dir/src" ]
+-  }
  }
- 
--inline uint32_t ByteSwap(uint32_t x) {
-+inline constexpr uint32_t ByteSwap(uint32_t x) {
- #if defined(COMPILER_MSVC) && !defined(__clang__)
-   return _byteswap_ulong(x);
- #else

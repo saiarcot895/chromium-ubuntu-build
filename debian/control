@@ -73,10 +73,12 @@ Build-Depends: debhelper (>= 9),
 		libcurl4-openssl-dev,
 		libwayland-bin,
 		libwayland-dev:native,
+		libwayland-egl-backend-dev,
 		libepoxy-dev:native,
 		libdbus-1-dev:native,
 		libfreetype6-dev,
-		libfreetype6-dev:native
+		libfreetype6-dev:native,
+		qtbase5-dev
 Standards-Version: 3.9.5
 
 Package: chromium-browser

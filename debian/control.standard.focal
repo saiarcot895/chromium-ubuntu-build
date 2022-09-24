@@ -77,6 +77,7 @@ Build-Depends: debhelper (>= 9),
 		python3-xcbgen,
 		libwayland-dev,
 		libwayland-dev:native,
+		libwayland-egl-backend-dev,
 		libgbm-dev,
 		libgbm-dev:native,
 		libcurl4-openssl-dev,
@@ -88,7 +89,8 @@ Build-Depends: debhelper (>= 9),
 		libexpat1-dev,
 		libexpat1-dev:native,
 		libfontconfig1-dev,
-		libfontconfig1-dev:native
+		libfontconfig1-dev:native,
+		qtbase5-dev
 Standards-Version: 3.9.5
 
 Package: chromium-browser
