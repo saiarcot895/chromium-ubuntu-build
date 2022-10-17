@@ -169,21 +169,20 @@ common_defines += \
 endif
 
 # Google has dropped support for Pipewire 0.2
-ifneq (,$(filter 20.10 21.04 21.10,$(UBUNTU_DIST)))
+ifneq (,$(filter 22.04 22.10,$(UBUNTU_DIST)))
 common_defines += \
 				  rtc_use_pipewire=true \
-				  rtc_link_pipewire=true \
-				  rtc_pipewire_version="0.3"
+				  rtc_link_pipewire=true
 endif
 
-ifneq (,$(filter 18.04%,$(UBUNTU_DIST)))
-# Bionic
+ifneq (,$(filter 20.04%,$(UBUNTU_DIST)))
+# Focal
 common_defines += \
 				  init_stack_vars=true \
 				  clang_use_compiler_version_suffix=true \
-				  clang_compiler_version_suffix="10"
+				  clang_compiler_version_suffix="12"
 else
-# Focal and newer
+# Jammyand newer
 common_defines += \
 				  init_stack_vars=true \
 				  clang_use_compiler_version_suffix=false
@@ -322,7 +321,7 @@ override_dh_clean:
 	dh_clean
 
 $(SRC_DIR)/gn:
-	CC=$(shell which clang-10 clang | head -n 1) CXX=$(shell which clang++-10 clang++ | head -n 1) AR=$(shell which llvm-ar-10 llvm-ar | head -n 1) tools/gn/bootstrap/bootstrap.py --skip-generate-buildfiles
+	CC=$(shell which clang-12 clang | head -n 1) CXX=$(shell which clang++-12 clang++ | head -n 1) AR=$(shell which llvm-ar-12 llvm-ar | head -n 1) tools/gn/bootstrap/bootstrap.py --skip-generate-buildfiles
 	cp $(SRC_DIR)/out/Release/gn $(SRC_DIR)/
 	rm -rf $(SRC_DIR)/out
 

@@ -24,7 +24,6 @@ fix-build-on-older-gcc.patch
 #gn-remove-sysroot-use.patch
 widevine-allow-on-linux.patch
 set-rpath-on-chromium-executables.patch
-#ozone-wayland-support.patch
 suppress-dev-tools-binaries.patch
 remove-clang-debug-path.patch
 gn-link-with-libc.patch

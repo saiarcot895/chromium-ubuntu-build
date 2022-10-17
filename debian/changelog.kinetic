@@ -1,4 +1,4 @@
-chromium-browser (1:108.0.5355.0-0ubuntu1~ppa1~22.04.1) kinetic; urgency=low
+chromium-browser (1:108.0.5355.0-0ubuntu1~ppa1~22.10.1) kinetic; urgency=low
 
   * New upstream version 108.0.5355.0
   * Updated patches.

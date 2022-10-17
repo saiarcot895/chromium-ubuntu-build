@@ -5,7 +5,7 @@ Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -730,14 +730,6 @@ config("compiler") {
+@@ -741,14 +741,6 @@ config("compiler") {
      }
    }
  
@@ -20,7 +20,7 @@ Index: dev/build/config/compiler/BUILD.gn
    # MLGO specific flags. These flags enable an ML-based inliner trained on
    # Chrome on Android (arm32) with ThinLTO enabled, optimizing for size.
    # The "release" ML model is embedded into clang as part of its build.
-@@ -1493,6 +1485,9 @@ config("default_warnings") {
+@@ -1520,6 +1512,9 @@ config("default_warnings") {
        # which we no longer use. Check if it makes sense to remove
        # this as well. http://crbug.com/316352
        "-Wno-unneeded-internal-declaration",

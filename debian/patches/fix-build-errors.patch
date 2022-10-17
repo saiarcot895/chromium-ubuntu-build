@@ -96,7 +96,7 @@ Index: dev/third_party/angle/BUILD.gn
 ===================================================================
 --- dev.orig/third_party/angle/BUILD.gn
 +++ dev/third_party/angle/BUILD.gn
-@@ -1094,11 +1094,6 @@ if (angle_use_wayland) {
+@@ -1095,11 +1095,6 @@ if (angle_use_wayland) {
          "wayland-egl",
        ]
      }
