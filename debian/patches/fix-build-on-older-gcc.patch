@@ -1,134 +1,7 @@
-Index: dev/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
+Index: beta/ui/gfx/x/gen_xproto.py
 ===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
-+++ dev/media/gpu/vaapi/vaapi_mjpeg_decode_accelerator.cc
-@@ -74,7 +74,7 @@ bool VerifyDataSize(const VAImage* image
-   const gfx::Size dimensions(base::strict_cast<int>(image->width),
-                              base::strict_cast<int>(image->height));
-   size_t min_size = 0;
--  if (image->format.fourcc == VA_FOURCC_I420) {
-+  if (image->format.fourcc == VA_FOURCC('I', '4', '2', '0')) {
-     min_size = VideoFrame::AllocationSize(PIXEL_FORMAT_I420, dimensions);
-   } else if (image->format.fourcc == VA_FOURCC_NV12) {
-     min_size = VideoFrame::AllocationSize(PIXEL_FORMAT_NV12, dimensions);
-Index: dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
-===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
-+++ dev/media/gpu/vaapi/vaapi_video_encode_accelerator.cc
-@@ -86,7 +86,9 @@ void FillVAEncRateControlParams(
-   rate_control_param.window_size = window_size;
-   rate_control_param.initial_qp = initial_qp;
-   rate_control_param.min_qp = min_qp;
-+#if VA_CHECK_VERSION(1, 1, 0)
-   rate_control_param.max_qp = max_qp;
-+#endif
-   rate_control_param.rc_flags.bits.disable_frame_skip = true;
- 
-   memset(&framerate_param, 0, sizeof(framerate_param));
-Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
-===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
-+++ dev/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -11,7 +11,9 @@
- #include <va/va.h>
- #include <va/va_drm.h>
- #include <va/va_drmcommon.h>
-+#if VA_CHECK_VERSION(1, 0, 0)
- #include <va/va_str.h>
-+#endif
- #include <va/va_version.h>
- #include <xf86drm.h>
- 
-@@ -444,7 +446,9 @@ const ProfileCodecMap& GetProfileCodecMa
-           {VP9PROFILE_PROFILE2, VAProfileVP9Profile2},
-       // VaapiWrapper does not support Profile 3.
-       //{VP9PROFILE_PROFILE3, VAProfileVP9Profile3},
-+#if VA_CHECK_VERSION(1, 7, 0)
-           {AV1PROFILE_PROFILE_MAIN, VAProfileAV1Profile0},
-+#endif
-         // VaapiWrapper does not support AV1 Profile 1.
-         // {AV1PROFILE_PROFILE_HIGH, VAProfileAV1Profile1},
- #if BUILDFLAG(ENABLE_PLATFORM_HEVC_DECODING)
-@@ -481,8 +485,12 @@ bool IsVAProfileSupported(VAProfile va_p
- 
- bool IsBlockedDriver(VaapiWrapper::CodecMode mode, VAProfile va_profile) {
-   if (!IsModeEncoding(mode)) {
-+#if VA_CHECK_VERSION(1, 7, 0)
-     return va_profile == VAProfileAV1Profile0 &&
-            !base::FeatureList::IsEnabled(kVaapiAV1Decoder);
-+#else
-+    return false;
-+#endif
-   }
- 
-   // TODO(posciak): Remove once VP8 encoding is to be enabled by default.
-@@ -1245,7 +1253,7 @@ bool VASupportedProfiles::FillProfileInf
-       continue;
-     if (attrib.value & VA_RT_FORMAT_YUV420)
-       profile_info->supported_internal_formats.yuv420 = true;
--    if (attrib.value & VA_RT_FORMAT_YUV420_10)
-+    if (attrib.value & VA_RT_FORMAT_YUV420_10BPP)
-       profile_info->supported_internal_formats.yuv420_10 = true;
-     if (attrib.value & VA_RT_FORMAT_YUV422)
-       profile_info->supported_internal_formats.yuv422 = true;
-@@ -1612,7 +1620,7 @@ bool VaapiWrapper::IsDecodingSupportedFo
-   switch (rt_format) {
-     case VA_RT_FORMAT_YUV420:
-       return supported_internal_formats.yuv420;
--    case VA_RT_FORMAT_YUV420_10:
-+    case VA_RT_FORMAT_YUV420_10BPP:
-       return supported_internal_formats.yuv420_10;
-     case VA_RT_FORMAT_YUV422:
-       return supported_internal_formats.yuv422;
-@@ -1696,8 +1704,11 @@ bool VaapiWrapper::GetJpegDecodeSuitable
-   } else if (GetImplementationType() == VAImplementation::kIntelIHD) {
-     // (b/159896972): iHD v20.1.1 cannot create Y216 and Y416 images from a
-     // decoded JPEG on gen 12. It is also failing to support Y800 format.
--    if (preferred_fourcc == VA_FOURCC_Y216 ||
-+    if (
-+#if VA_CHECK_VERSION(1, 2, 0)
-+        preferred_fourcc == VA_FOURCC_Y216 ||
-         preferred_fourcc == VA_FOURCC_Y416 ||
-+#endif
-         preferred_fourcc == VA_FOURCC_Y800) {
-       preferred_fourcc = VA_FOURCC_I420;
-     }
-Index: dev/media/gpu/chromeos/fourcc.cc
-===================================================================
---- dev.orig/media/gpu/chromeos/fourcc.cc
-+++ dev/media/gpu/chromeos/fourcc.cc
-@@ -205,11 +205,11 @@ uint32_t Fourcc::ToV4L2PixFmt() const {
- // static
- absl::optional<Fourcc> Fourcc::FromVAFourCC(uint32_t va_fourcc) {
-   switch (va_fourcc) {
--    case VA_FOURCC_I420:
-+    case VA_FOURCC('I', '4', '2', '0'):
-       return Fourcc(YU12);
-     case VA_FOURCC_NV12:
-       return Fourcc(NV12);
--    case VA_FOURCC_NV21:
-+    case VA_FOURCC('N', 'V', '2', '1'):
-       return Fourcc(NV21);
-     case VA_FOURCC_YV12:
-       return Fourcc(YV12);
-@@ -225,11 +225,11 @@ absl::optional<Fourcc> Fourcc::FromVAFou
- absl::optional<uint32_t> Fourcc::ToVAFourCC() const {
-   switch (value_) {
-     case YU12:
--      return VA_FOURCC_I420;
-+      return VA_FOURCC('I', '4', '2', '0');
-     case NV12:
-       return VA_FOURCC_NV12;
-     case NV21:
--      return VA_FOURCC_NV21;
-+      return VA_FOURCC('N', 'V', '2', '1');
-     case YV12:
-       return VA_FOURCC_YV12;
-     case YUYV:
-Index: dev/ui/gfx/x/gen_xproto.py
-===================================================================
---- dev.orig/ui/gfx/x/gen_xproto.py
-+++ dev/ui/gfx/x/gen_xproto.py
+--- beta.orig/ui/gfx/x/gen_xproto.py
++++ beta/ui/gfx/x/gen_xproto.py
 @@ -286,7 +286,7 @@ class GenXproto(FileWriter):
              return 'Request'
          elif t.is_reply:
@@ -208,26 +81,10 @@ Index: dev/ui/gfx/x/gen_xproto.py
          self.write('namespace x11 {')
          self.write()
          self.write('class Connection;')
-Index: dev/ui/gtk/gtk_util.cc
+Index: beta/ui/gfx/linux/drm_util_linux.cc
 ===================================================================
---- dev.orig/ui/gtk/gtk_util.cc
-+++ dev/ui/gtk/gtk_util.cc
-@@ -81,9 +81,11 @@ GtkCssContext AppendCssNodeToStyleContex
-     gtk_widget_path_append_type(path, gtype);
- 
-     if (!object_name.empty()) {
-+#if GTK_CHECK_VERSION(3, 20, 0)
-       if (GtkCheckVersion(3, 20))
-         gtk_widget_path_iter_set_object_name(path, -1, object_name.c_str());
-       else
-+#endif
-         gtk_widget_path_iter_add_class(path, -1, object_name.c_str());
-     }
- 
-Index: dev/ui/gfx/linux/drm_util_linux.cc
-===================================================================
---- dev.orig/ui/gfx/linux/drm_util_linux.cc
-+++ dev/ui/gfx/linux/drm_util_linux.cc
+--- beta.orig/ui/gfx/linux/drm_util_linux.cc
++++ beta/ui/gfx/linux/drm_util_linux.cc
 @@ -8,6 +8,15 @@
  
  #include "base/notreached.h"
@@ -244,11 +101,11 @@ Index: dev/ui/gfx/linux/drm_util_linux.cc
  namespace ui {
  
  int GetFourCCFormatFromBufferFormat(gfx::BufferFormat format) {
-Index: dev/ui/base/x/x11_display_util.cc
+Index: beta/ui/base/x/x11_display_util.cc
 ===================================================================
---- dev.orig/ui/base/x/x11_display_util.cc
-+++ dev/ui/base/x/x11_display_util.cc
-@@ -35,6 +35,7 @@ std::map<x11::RandR::Output, int> GetMon
+--- beta.orig/ui/base/x/x11_display_util.cc
++++ beta/ui/base/x/x11_display_util.cc
+@@ -37,6 +37,7 @@ std::map<x11::RandR::Output, int> GetMon
                                                x11::RandR* randr,
                                                x11::Window window) {
    std::map<x11::RandR::Output, int> output_to_monitor;
@@ -256,7 +113,7 @@ Index: dev/ui/base/x/x11_display_util.cc
    if (version >= 105) {
      if (auto reply = randr->GetMonitors({window}).Sync()) {
        for (size_t monitor = 0; monitor < reply->monitors.size(); monitor++) {
-@@ -43,6 +44,7 @@ std::map<x11::RandR::Output, int> GetMon
+@@ -45,6 +46,7 @@ std::map<x11::RandR::Output, int> GetMon
        }
      }
    }
@@ -264,33 +121,10 @@ Index: dev/ui/base/x/x11_display_util.cc
    return output_to_monitor;
  }
  
-Index: dev/ui/gfx/x/event.cc
+Index: beta/third_party/wayland/src/src/scanner.c
 ===================================================================
---- dev.orig/ui/gfx/x/event.cc
-+++ dev/ui/gfx/x/event.cc
-@@ -35,6 +35,10 @@ Event::Event(scoped_refptr<base::RefCoun
-     // format, which is what Xlib and XProto are expecting.
-     if (response_type == GeGenericEvent::opcode) {
-       auto* ge = reinterpret_cast<xcb_ge_event_t*>(xcb_event);
-+#if 1
-+      // Xenial doesn't know what xcb_raw_generic_event_t is
-+      memmove(&ge->full_sequence, &ge[1], ge->length * 4);
-+#else
-       constexpr size_t ge_length = sizeof(xcb_raw_generic_event_t);
-       constexpr size_t offset = sizeof(ge->full_sequence);
-       size_t extended_length = ge->length * 4;
-@@ -50,6 +54,7 @@ Event::Event(scoped_refptr<base::RefCoun
-             event_bytes, offset, ge_length + extended_length);
-         xcb_event = reinterpret_cast<xcb_generic_event_t*>(addr + offset);
-       }
-+#endif
-     }
-   }
- 
-Index: dev/third_party/wayland/src/src/scanner.c
-===================================================================
---- dev.orig/third_party/wayland/src/src/scanner.c
-+++ dev/third_party/wayland/src/src/scanner.c
+--- beta.orig/third_party/wayland/src/src/scanner.c
++++ beta/third_party/wayland/src/src/scanner.c
 @@ -974,17 +974,6 @@ verify_arguments(struct parse_context *c
  
  }
@@ -309,25 +143,10 @@ Index: dev/third_party/wayland/src/src/scanner.c
  static void
  end_element(void *data, const XML_Char *name)
  {
-Index: dev/third_party/libva_protected_content/va_protected_content.h
+Index: beta/third_party/snappy/src/snappy.cc
 ===================================================================
---- dev.orig/third_party/libva_protected_content/va_protected_content.h
-+++ dev/third_party/libva_protected_content/va_protected_content.h
-@@ -50,6 +50,10 @@ extern "C" {
-  * The buffer corresponds to #VACencStatusParameters for va/cp*/
- #define VACencStatusParameterBufferType ((VABufferType)0x20002)
- 
-+#ifndef VA_PADDING_MEDIUM
-+#define VA_PADDING_MEDIUM 8
-+#endif
-+
- /** \brief TeeExec Function Codes. */
- #define VA_TEE_EXEC_TEE_FUNCID_HW_UPDATE 0x40000002
- #define VA_TEE_EXEC_TEE_FUNCID_IS_SESSION_ALIVE 0x40000103
-Index: dev/third_party/snappy/src/snappy.cc
-===================================================================
---- dev.orig/third_party/snappy/src/snappy.cc
-+++ dev/third_party/snappy/src/snappy.cc
+--- beta.orig/third_party/snappy/src/snappy.cc
++++ beta/third_party/snappy/src/snappy.cc
 @@ -1041,15 +1041,8 @@ size_t AdvanceToNextTagX86Optimized(cons
    size_t literal_len = *tag >> 2;
    size_t tag_type = *tag;
@@ -344,11 +163,11 @@ Index: dev/third_party/snappy/src/snappy.cc
    // TODO
    // This is code is subtle. Loading the values first and then cmov has less
    // latency then cmov ip and then load. However clang would move the loads
-Index: dev/media/gpu/chromeos/platform_video_frame_utils.cc
+Index: beta/media/gpu/chromeos/platform_video_frame_utils.cc
 ===================================================================
---- dev.orig/media/gpu/chromeos/platform_video_frame_utils.cc
-+++ dev/media/gpu/chromeos/platform_video_frame_utils.cc
-@@ -42,6 +42,10 @@
+--- beta.orig/media/gpu/chromeos/platform_video_frame_utils.cc
++++ beta/media/gpu/chromeos/platform_video_frame_utils.cc
+@@ -40,6 +40,10 @@
  #include "ui/gfx/linux/native_pixmap_dmabuf.h"
  #include "ui/gfx/native_pixmap.h"
  
@@ -359,144 +178,10 @@ Index: dev/media/gpu/chromeos/platform_video_frame_utils.cc
  namespace media {
  
  namespace {
-Index: dev/media/gpu/vaapi/av1_vaapi_video_decoder_delegate.cc
+Index: beta/mojo/core/channel_linux.cc
 ===================================================================
---- dev.orig/media/gpu/vaapi/av1_vaapi_video_decoder_delegate.cc
-+++ dev/media/gpu/vaapi/av1_vaapi_video_decoder_delegate.cc
-@@ -25,6 +25,8 @@ namespace media {
- 
- using DecodeStatus = AV1Decoder::AV1Accelerator::Status;
- 
-+#if VA_CHECK_VERSION(1, 7, 0)
-+
- namespace {
- 
- #define ARRAY_SIZE(ar) (sizeof(ar) / sizeof(ar[0]))
-@@ -721,6 +723,7 @@ bool FillAV1SliceParameters(
-   return true;
- }
- }  // namespace
-+#endif
- 
- AV1VaapiVideoDecoderDelegate::AV1VaapiVideoDecoderDelegate(
-     DecodeSurfaceHandler<VASurface>* const vaapi_dec,
-@@ -744,6 +747,7 @@ AV1VaapiVideoDecoderDelegate::~AV1VaapiV
- scoped_refptr<AV1Picture> AV1VaapiVideoDecoderDelegate::CreateAV1Picture(
-     bool apply_grain) {
-   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
-+#if VA_CHECK_VERSION(1, 7, 0)
-   const auto display_va_surface = vaapi_dec_->CreateSurface();
-   if (!display_va_surface)
-     return nullptr;
-@@ -764,15 +768,22 @@ scoped_refptr<AV1Picture> AV1VaapiVideoD
- 
-   return base::MakeRefCounted<VaapiAV1Picture>(
-       std::move(display_va_surface), std::move(reconstruct_va_surface));
-+#else
-+  return nullptr;
-+#endif
- }
- 
- bool AV1VaapiVideoDecoderDelegate::OutputPicture(const AV1Picture& pic) {
-   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
-+#if VA_CHECK_VERSION(1, 7, 0)
-   const auto* vaapi_pic = static_cast<const VaapiAV1Picture*>(&pic);
-   vaapi_dec_->SurfaceReady(vaapi_pic->display_va_surface(),
-                            vaapi_pic->bitstream_id(), vaapi_pic->visible_rect(),
-                            vaapi_pic->get_colorspace());
-   return true;
-+#else
-+  return false;
-+#endif
- }
- 
- DecodeStatus AV1VaapiVideoDecoderDelegate::SubmitDecode(
-@@ -821,6 +832,7 @@ DecodeStatus AV1VaapiVideoDecoderDelegat
-   const size_t tile_columns =
-       base::checked_cast<size_t>(pic.frame_header.tile_info.tile_columns);
- 
-+#if VA_CHECK_VERSION(1, 7, 0)
-   VADecPictureParameterBufferAV1 pic_param;
-   std::vector<VASliceParameterBufferAV1> slice_params;
-   if (!FillAV1PictureParameter(pic, seq_header, ref_frames, pic_param) ||
-@@ -887,6 +899,9 @@ DecodeStatus AV1VaapiVideoDecoderDelegat
-     ProtectedDecodedSucceeded();
- 
-   return success ? DecodeStatus::kOk : DecodeStatus::kFail;
-+#else
-+  return DecodeStatus::kFail;
-+#endif
- }
- 
- void AV1VaapiVideoDecoderDelegate::OnVAContextDestructionSoon() {
-Index: dev/media/gpu/vaapi/vaapi_video_decoder.cc
-===================================================================
---- dev.orig/media/gpu/vaapi/vaapi_video_decoder.cc
-+++ dev/media/gpu/vaapi/vaapi_video_decoder.cc
-@@ -1132,6 +1132,7 @@ VaapiStatus VaapiVideoDecoder::CreateAcc
-                                              color_space_);
-   }
- #endif  // BUILDFLAG(ENABLE_PLATFORM_HEVC_DECODING)
-+#if VA_CHECK_VERSION(1, 7, 0)
-   else if (profile_ >= AV1PROFILE_MIN && profile_ <= AV1PROFILE_MAX) {
-     auto accelerator = std::make_unique<AV1VaapiVideoDecoderDelegate>(
-         this, vaapi_wrapper_, std::move(protected_update_cb),
-@@ -1141,7 +1142,9 @@ VaapiStatus VaapiVideoDecoder::CreateAcc
- 
-     decoder_ = std::make_unique<AV1Decoder>(std::move(accelerator), profile_,
-                                             color_space_);
--  } else {
-+  }
-+#endif
-+  else {
-     return VaapiStatus(VaapiStatus::Codes::kUnsupportedProfile)
-         .WithData("profile", profile_);
-   }
-Index: dev/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
-===================================================================
---- dev.orig/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
-+++ dev/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
-@@ -35,6 +35,36 @@
- #include "sandbox/linux/system_headers/linux_syscalls.h"
- #include "sandbox/linux/system_headers/linux_time.h"
- 
-+#if defined(OS_LINUX)
-+#if !defined(F_ADD_SEALS)
-+#define F_ADD_SEALS	1033
-+#endif
-+
-+#if !defined(F_GET_SEALS)
-+#define F_GET_SEALS	1034
-+#endif
-+
-+#if !defined(F_SEAL_SEAL)
-+#define F_SEAL_SEAL	0x0001	
-+#endif
-+
-+#if !defined(F_SEAL_SHRINK)
-+#define F_SEAL_SHRINK	0x0002
-+#endif
-+
-+#if !defined(F_SEAL_GROW)
-+#define F_SEAL_GROW	0x0004
-+#endif
-+
-+#if !defined(F_SEAL_WRITE)
-+#define F_SEAL_WRITE	0x0008
-+#endif
-+
-+#if !defined(F_SEAL_FUTURE_WRITE)
-+#define F_SEAL_FUTURE_WRITE	0x0010
-+#endif
-+#endif
-+
- #if (BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS_LACROS)) && \
-     !defined(__arm__) && !defined(__aarch64__) &&             \
-     !defined(PTRACE_GET_THREAD_AREA)
-Index: dev/mojo/core/channel_linux.cc
-===================================================================
---- dev.orig/mojo/core/channel_linux.cc
-+++ dev/mojo/core/channel_linux.cc
+--- beta.orig/mojo/core/channel_linux.cc
++++ beta/mojo/core/channel_linux.cc
 @@ -48,6 +48,34 @@
  #define EFD_ZERO_ON_WAKE O_NOFOLLOW
  #endif
@@ -532,24 +217,10 @@ Index: dev/mojo/core/channel_linux.cc
  namespace mojo {
  namespace core {
  
-Index: dev/base/compiler_specific.h
+Index: beta/third_party/devtools-frontend/src/node_modules/minify-html-literals/src/strategy.js
 ===================================================================
---- dev.orig/base/compiler_specific.h
-+++ dev/base/compiler_specific.h
-@@ -329,7 +329,8 @@ inline constexpr bool AnalyzerAssumeTrue
- #endif  // defined(__clang_analyzer__)
- 
- // Use nomerge attribute to disable optimization of merging multiple same calls.
--#if defined(__clang__) && HAS_ATTRIBUTE(nomerge)
-+// Clang 11 doesn't support nomerge on function declarations.
-+#if defined(__clang__) && HAS_ATTRIBUTE(nomerge) && __clang_major__ >= 12
- #define NOMERGE [[clang::nomerge]]
- #else
- #define NOMERGE
-Index: dev/third_party/devtools-frontend/src/node_modules/minify-html-literals/src/strategy.js
-===================================================================
---- dev.orig/third_party/devtools-frontend/src/node_modules/minify-html-literals/src/strategy.js
-+++ dev/third_party/devtools-frontend/src/node_modules/minify-html-literals/src/strategy.js
+--- beta.orig/third_party/devtools-frontend/src/node_modules/minify-html-literals/src/strategy.js
++++ beta/third_party/devtools-frontend/src/node_modules/minify-html-literals/src/strategy.js
 @@ -71,25 +71,6 @@ exports.defaultStrategy = {
              ...options,
              minifyCSS: adjustedMinifyCSSOptions
@@ -583,18 +254,3 @@ Index: dev/third_party/devtools-frontend/src/node_modules/minify-html-literals/s
 -//# sourceMappingURL=strategy.js.map
 \ No newline at end of file
 +//# sourceMappingURL=strategy.js.map
-Index: dev/third_party/pdfium/core/fxge/cfx_font.cpp
-===================================================================
---- dev.orig/third_party/pdfium/core/fxge/cfx_font.cpp
-+++ dev/third_party/pdfium/core/fxge/cfx_font.cpp
-@@ -49,7 +49,9 @@ struct OUTLINE_PARAMS {
- //
- // Use weak symbols to check if FT_Done_MM_Var() is available at runtime.
- #if !BUILDFLAG(IS_WIN)
--extern "C" __attribute__((weak)) decltype(FT_Done_MM_Var) FT_Done_MM_Var;
-+#if FREETYPE_MAJOR < 2 || (FREETYPE_MAJOR == 2 && FREETYPE_MINOR <= 9)
-+extern "C" FT_Error FT_Done_MM_Var(FT_Library library, FT_MM_Var *amaster) __attribute__((weak));
-+#endif
- #endif
- 
- void FreeMMVar(FXFT_FaceRec* rec, FXFT_MM_VarPtr variation_desc) {

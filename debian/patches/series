@@ -24,13 +24,11 @@ fix-build-on-older-gcc.patch
 #gn-remove-sysroot-use.patch
 widevine-allow-on-linux.patch
 set-rpath-on-chromium-executables.patch
-#ozone-wayland-support.patch
 suppress-dev-tools-binaries.patch
 remove-clang-debug-path.patch
 gn-link-with-libc.patch
 fix-build-errors.patch
 rename-python-to-python2.patch
-gold-dont-use-threads-due-to-groovy.patch
 fix-font-rendering.patch
 dont-get-git-commit.patch
 dont-strip-chromedriver.patch
@@ -38,7 +36,9 @@ load-debug-symbols-for-backtrace.patch
 fix-pkg-config-for-v8.patch
 disable-multiprocessing-for-mojom.patch
 enable-cpudetect-for-neon-in-libaom.patch
-fix-skia-build-gn-for-arm-neon.patch
+#fix-skia-build-gn-for-arm-neon.patch
 fix-audio-sandbox.patch
 disable-orchestrator.patch
-readd-x86-build-support.patch
+#readd-x86-build-support.patch
+qt-use-moc.patch
+qt-dont-use-qcolorconstants.patch

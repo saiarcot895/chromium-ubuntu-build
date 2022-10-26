@@ -1,0 +1,43 @@
+From 44ceb9000c790a31dc21c1cae3eff76ce33975a3 Mon Sep 17 00:00:00 2001
+From: Tom Anderson <thomasanderson@chromium.org>
+Date: Mon, 26 Sep 2022 19:11:36 +0000
+Subject: [PATCH] Remove usage of QColorConstants
+
+It's not available in older versions of QT.
+
+R=thestig
+
+Bug: 1365358
+Change-Id: I3570d5ff804f8973a3588b079a8bcb0970f840f5
+Reviewed-on: https://chromium-review.googlesource.com/c/chromium/src/+/3919290
+Reviewed-by: Lei Zhang <thestig@chromium.org>
+Commit-Queue: Thomas Anderson <thomasanderson@chromium.org>
+Auto-Submit: Thomas Anderson <thomasanderson@chromium.org>
+Commit-Queue: Lei Zhang <thestig@chromium.org>
+Cr-Commit-Position: refs/heads/main@{#1051335}
+---
+ ui/qt/qt_shim.cc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+Index: beta/ui/qt/qt_shim.cc
+===================================================================
+--- beta.orig/ui/qt/qt_shim.cc
++++ beta/ui/qt/qt_shim.cc
+@@ -50,7 +50,7 @@ FontHinting QtHintingToFontHinting(QFont
+ SkColor GradientColor(const QGradient& gradient) {
+   QGradientStops stops = gradient.stops();
+   if (stops.empty())
+-    return QColorConstants::Transparent.rgba();
++    return qRgba(0, 0, 0, 0);
+ 
+   float a = 0;
+   float r = 0;
+@@ -84,7 +84,7 @@ SkColor GradientColor(const QGradient& g
+ SkColor TextureColor(QImage image) {
+   size_t size = image.width() * image.height();
+   if (!size)
+-    return QColorConstants::Transparent.rgba();
++    return qRgba(0, 0, 0, 0);
+ 
+   if (image.format() != QImage::Format_ARGB32_Premultiplied)
+     image = image.convertToFormat(QImage::Format_ARGB32_Premultiplied);

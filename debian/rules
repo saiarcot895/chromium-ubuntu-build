@@ -14,7 +14,7 @@ DEB_BUILD_ARCH ?= $(shell dpkg-architecture -qDEB_BUILD_ARCH)
 DEB_BUILD_ARCH_BITS ?= $(shell dpkg-architecture -qDEB_BUILD_ARCH_BITS)
 
 # Disable LTO optimizations unless otherwise set by gn, Clang may or may not support the flags
-DEB_BUILD_MAINT_OPTIONS=optimize=-all
+export DEB_BUILD_MAINT_OPTIONS=optimize=-all
 
 # needed for easy job control, e.g, kill %1
 SHELL := /bin/bash
@@ -55,8 +55,6 @@ common_defines += \
 				enable_widevine=true \
 				is_component_ffmpeg=true \
 				is_debug=false \
-				is_desktop_linux=true \
-				linux_use_bundled_binutils=false \
 				link_pulseaudio=true \
 				blink_symbol_level=0 \
 				treat_warnings_as_errors=false \
@@ -78,6 +76,8 @@ common_defines += \
 				use_system_harfbuzz=false \
 				use_system_libjpeg=false \
 				use_system_libwayland=true \
+				use_system_libwayland_client=true \
+				use_system_libwayland_server=true \
 				rtc_enable_protobuf=false \
 				is_clang=true \
 				clang_base_path="/usr" \
@@ -169,21 +169,20 @@ common_defines += \
 endif
 
 # Google has dropped support for Pipewire 0.2
-ifneq (,$(filter 20.10 21.04 21.10,$(UBUNTU_DIST)))
+ifneq (,$(filter 22.04 22.10,$(UBUNTU_DIST)))
 common_defines += \
 				  rtc_use_pipewire=true \
-				  rtc_link_pipewire=true \
-				  rtc_pipewire_version="0.3"
+				  rtc_link_pipewire=true
 endif
 
-ifneq (,$(filter 18.04%,$(UBUNTU_DIST)))
-# Bionic
+ifneq (,$(filter 20.04%,$(UBUNTU_DIST)))
+# Focal
 common_defines += \
 				  init_stack_vars=true \
 				  clang_use_compiler_version_suffix=true \
-				  clang_compiler_version_suffix="10"
+				  clang_compiler_version_suffix="12"
 else
-# Focal and newer
+# Jammy and newer
 common_defines += \
 				  init_stack_vars=true \
 				  clang_use_compiler_version_suffix=false
@@ -322,7 +321,7 @@ override_dh_clean:
 	dh_clean
 
 $(SRC_DIR)/gn:
-	CC=$(shell which clang-10 clang | head -n 1) CXX=$(shell which clang++-10 clang++ | head -n 1) AR=$(shell which llvm-ar-10 llvm-ar | head -n 1) tools/gn/bootstrap/bootstrap.py --skip-generate-buildfiles
+	CC=$(shell which clang-12 clang | head -n 1) CXX=$(shell which clang++-12 clang++ | head -n 1) AR=$(shell which llvm-ar-12 llvm-ar | head -n 1) tools/gn/bootstrap/bootstrap.py --skip-generate-buildfiles
 	cp $(SRC_DIR)/out/Release/gn $(SRC_DIR)/
 	rm -rf $(SRC_DIR)/out
 

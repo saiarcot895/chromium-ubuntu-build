@@ -2,10 +2,10 @@ When cross-compiling, V8 picks its own toolchain (for compiling binaries to run 
 needs to be run, it sees that the current toolchain isn't the host toolchain, and instead uses the target toolchain.
 Work around that by adding a check on the CPU type instead of the toolchain.
 
-Index: dev/build/config/linux/pkg_config.gni
+Index: beta/build/config/linux/pkg_config.gni
 ===================================================================
---- dev.orig/build/config/linux/pkg_config.gni
-+++ dev/build/config/linux/pkg_config.gni
+--- beta.orig/build/config/linux/pkg_config.gni
++++ beta/build/config/linux/pkg_config.gni
 @@ -94,6 +94,8 @@ template("pkg_config") {
    config(target_name) {
      if (host_toolchain == current_toolchain) {
