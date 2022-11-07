@@ -1,3 +1,10 @@
+chromium-browser (1:109.0.5396.2-0ubuntu1~ppa1~22.10.1) kinetic; urgency=low
+
+  * New upstream version 109.0.5396.2
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 06 Nov 2022 21:01:03 -0800
+
 chromium-browser (1:109.0.5384.0-0ubuntu1~ppa1~22.10.1) kinetic; urgency=low
 
   * New upstream version 109.0.5384.0
