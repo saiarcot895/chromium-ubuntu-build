@@ -61,7 +61,7 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
 ===================================================================
 --- dev.orig/media/gpu/gpu_video_decode_accelerator_factory.cc
 +++ dev/media/gpu/gpu_video_decode_accelerator_factory.cc
-@@ -160,6 +160,8 @@ GpuVideoDecodeAcceleratorFactory::Create
+@@ -164,6 +164,8 @@ GpuVideoDecodeAcceleratorFactory::Create
      vda = (this->*create_vda_function)(workarounds, gpu_preferences, media_log);
      if (vda && vda->Initialize(config, client))
        return vda;
@@ -70,7 +70,7 @@ Index: dev/media/gpu/gpu_video_decode_accelerator_factory.cc
    }
  
    return nullptr;
-@@ -229,6 +231,7 @@ GpuVideoDecodeAcceleratorFactory::Create
+@@ -234,6 +236,7 @@ GpuVideoDecodeAcceleratorFactory::Create
      const gpu::GpuDriverBugWorkarounds& workarounds,
      const gpu::GpuPreferences& gpu_preferences,
      MediaLog* media_log) const {

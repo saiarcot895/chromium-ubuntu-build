@@ -17,9 +17,7 @@ widevine-other-locations
 use-clang-versioned.patch
 #dont-assume-neon-exists.patch
 #dont-use-integrated-as-on-arm64.patch
-revert-Xclang-instcombine-lower-dbg-declare.patch
 suppress-newer-clang-warning-flags.patch
-fix-ffmpeg-build.patch
 fix-build-on-older-gcc.patch
 #gn-remove-sysroot-use.patch
 widevine-allow-on-linux.patch

@@ -40,7 +40,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.h
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_video_decode_accelerator.h
 +++ dev/media/gpu/vaapi/vaapi_video_decode_accelerator.h
-@@ -216,6 +216,7 @@ class MEDIA_GPU_EXPORT VaapiVideoDecodeA
+@@ -217,6 +217,7 @@ class MEDIA_GPU_EXPORT VaapiVideoDecodeA
      // Using |client_|s provided PictureBuffers and as many internally
      // allocated.
      kNormal,

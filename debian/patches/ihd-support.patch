@@ -28,7 +28,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.h
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_video_decode_accelerator.h
 +++ dev/media/gpu/vaapi/vaapi_video_decode_accelerator.h
-@@ -94,6 +94,8 @@ class MEDIA_GPU_EXPORT VaapiVideoDecodeA
+@@ -95,6 +95,8 @@ class MEDIA_GPU_EXPORT VaapiVideoDecodeA
  
    static VideoDecodeAccelerator::SupportedProfiles GetSupportedProfiles();
  

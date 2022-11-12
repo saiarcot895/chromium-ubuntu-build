@@ -57,7 +57,7 @@ Index: dev/tools/metrics/histograms/expand_owners.py
 ===================================================================
 --- dev.orig/tools/metrics/histograms/expand_owners.py
 +++ dev/tools/metrics/histograms/expand_owners.py
-@@ -402,7 +402,9 @@ def ExpandHistogramsOWNERS(histograms):
+@@ -403,7 +403,9 @@ def ExpandHistogramsOWNERS(histograms):
  
        _UpdateHistogramOwners(histogram, owner, owners_to_add)
  

@@ -1,26 +1,10 @@
-Author: Olivier Tilloy <olivier.tilloy@canonical.com>
 Description: Do not use warning flags that require a newer Clang
 
 Index: dev/build/config/compiler/BUILD.gn
 ===================================================================
 --- dev.orig/build/config/compiler/BUILD.gn
 +++ dev/build/config/compiler/BUILD.gn
-@@ -748,14 +748,6 @@ config("compiler") {
-     }
-   }
- 
--  # This flag enforces that member pointer base types are complete. It helps
--  # prevent us from running into problems in the Microsoft C++ ABI (see
--  # https://crbug.com/847724).
--  if (is_clang && !is_nacl && target_os != "chromeos" &&
--      (is_win || use_custom_libcxx)) {
--    cflags += [ "-fcomplete-member-pointers" ]
--  }
--
-   # MLGO specific flags. These flags enable an ML-based inliner trained on
-   # Chrome on Android (arm32) with ThinLTO enabled, optimizing for size.
-   # The "release" ML model is embedded into clang as part of its build.
-@@ -1527,6 +1519,9 @@ config("default_warnings") {
+@@ -1578,6 +1578,9 @@ config("default_warnings") {
        # which we no longer use. Check if it makes sense to remove
        # this as well. http://crbug.com/316352
        "-Wno-unneeded-internal-declaration",

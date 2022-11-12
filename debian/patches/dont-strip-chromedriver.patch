@@ -12,33 +12,31 @@ Index: dev/chrome/test/chromedriver/BUILD.gn
  import("//build/util/lastchange.gni")
  import("//testing/test.gni")
  import("//third_party/ffmpeg/ffmpeg_options.gni")
-@@ -360,11 +357,7 @@ source_set("lib") {
+@@ -362,10 +359,10 @@ source_set("lib") {
+ 
+ if (is_linux) {
+   # Linux
+-  executable("chromedriver_server.unstripped") {
++  executable("chromedriver_server") {
+     testonly = true
+     sources = [ "server/chromedriver_server.cc" ]
+-    output_name = "chromedriver.unstripped"
++    output_name = "chromedriver"
+ 
+     deps = [
+       ":automation_client_lib",
+@@ -376,14 +373,6 @@ if (is_linux) {
+       "//services/network/public/mojom",
+     ]
    }
- }
- 
--if (is_linux) {
--  chromedriver_output = "chromedriver.unstripped"
--} else {
--  chromedriver_output = "chromedriver"
--}
-+chromedriver_output = "chromedriver"
- 
- executable("$chromedriver_output") {
-   testonly = true
-@@ -386,16 +379,6 @@ executable("$chromedriver_output") {
-   }
- }
- 
--if (is_linux) {
--  strip_binary("chromedriver") {
+-
+-  strip_binary("chromedriver_server") {
 -    testonly = true
--    binary_input = "$root_out_dir/$chromedriver_output"
+-    binary_input = "$root_out_dir/chromedriver.unstripped"
 -    symbol_output = "$root_out_dir/chromedriver.debug"
 -    stripped_binary_output = "$root_out_dir/chromedriver"
--    deps = [ ":$chromedriver_output" ]
+-    deps = [ ":chromedriver_server.unstripped" ]
 -  }
--}
--
- python_library("chromedriver_py_tests") {
-   testonly = true
-   deps = [
+ } else {
+   # Non-Linux
+   executable("chromedriver_server") {
