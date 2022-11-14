@@ -1,17 +1,17 @@
-Index: dev/tools/gn/bootstrap/bootstrap.py
+Index: beta/tools/gn/bootstrap/bootstrap.py
 ===================================================================
---- dev.orig/tools/gn/bootstrap/bootstrap.py
-+++ dev/tools/gn/bootstrap/bootstrap.py
+--- beta.orig/tools/gn/bootstrap/bootstrap.py
++++ beta/tools/gn/bootstrap/bootstrap.py
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env python
 +#!/usr/bin/env python3
  # Copyright 2014 The Chromium Authors
  # Use of this source code is governed by a BSD-style license that can be
  # found in the LICENSE file.
-Index: dev/tools/gn/src/gn/setup.cc
+Index: beta/tools/gn/src/gn/setup.cc
 ===================================================================
---- dev.orig/tools/gn/src/gn/setup.cc
-+++ dev/tools/gn/src/gn/setup.cc
+--- beta.orig/tools/gn/src/gn/setup.cc
++++ beta/tools/gn/src/gn/setup.cc
 @@ -831,7 +831,7 @@ bool Setup::FillPythonPath(const base::C
      }
      build_settings_.set_python_path(python_path);
@@ -21,10 +21,10 @@ Index: dev/tools/gn/src/gn/setup.cc
  #endif
    }
    return true;
-Index: dev/third_party/catapult/common/py_vulcanize/py_vulcanize/generate.py
+Index: beta/third_party/catapult/common/py_vulcanize/py_vulcanize/generate.py
 ===================================================================
---- dev.orig/third_party/catapult/common/py_vulcanize/py_vulcanize/generate.py
-+++ dev/third_party/catapult/common/py_vulcanize/py_vulcanize/generate.py
+--- beta.orig/third_party/catapult/common/py_vulcanize/py_vulcanize/generate.py
++++ beta/third_party/catapult/common/py_vulcanize/py_vulcanize/generate.py
 @@ -83,7 +83,7 @@ def _MinifyJS(input_js):
  
    with tempfile.NamedTemporaryFile() as _:
@@ -34,10 +34,10 @@ Index: dev/third_party/catapult/common/py_vulcanize/py_vulcanize/generate.py
          rjsmin_path
      ]
      p = subprocess.Popen(args,
-Index: dev/ui/gfx/x/gen_xproto.py
+Index: beta/ui/gfx/x/gen_xproto.py
 ===================================================================
---- dev.orig/ui/gfx/x/gen_xproto.py
-+++ dev/ui/gfx/x/gen_xproto.py
+--- beta.orig/ui/gfx/x/gen_xproto.py
++++ beta/ui/gfx/x/gen_xproto.py
 @@ -1109,7 +1109,7 @@ class GenXproto(FileWriter):
  
          self.resolve_element(t.elt, fields)

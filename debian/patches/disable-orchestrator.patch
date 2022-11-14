@@ -1,7 +1,7 @@
-Index: dev/BUILD.gn
+Index: beta/BUILD.gn
 ===================================================================
---- dev.orig/BUILD.gn
-+++ dev/BUILD.gn
+--- beta.orig/BUILD.gn
++++ beta/BUILD.gn
 @@ -89,7 +89,6 @@ group("gn_all") {
      "//codelabs",
      "//components:components_unittests",

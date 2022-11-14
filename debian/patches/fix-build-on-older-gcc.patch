@@ -1,7 +1,7 @@
-Index: dev/ui/gfx/x/gen_xproto.py
+Index: beta/ui/gfx/x/gen_xproto.py
 ===================================================================
---- dev.orig/ui/gfx/x/gen_xproto.py
-+++ dev/ui/gfx/x/gen_xproto.py
+--- beta.orig/ui/gfx/x/gen_xproto.py
++++ beta/ui/gfx/x/gen_xproto.py
 @@ -286,7 +286,7 @@ class GenXproto(FileWriter):
              return 'Request'
          elif t.is_reply:
@@ -81,10 +81,10 @@ Index: dev/ui/gfx/x/gen_xproto.py
          self.write('namespace x11 {')
          self.write()
          self.write('class Connection;')
-Index: dev/ui/gfx/linux/drm_util_linux.cc
+Index: beta/ui/gfx/linux/drm_util_linux.cc
 ===================================================================
---- dev.orig/ui/gfx/linux/drm_util_linux.cc
-+++ dev/ui/gfx/linux/drm_util_linux.cc
+--- beta.orig/ui/gfx/linux/drm_util_linux.cc
++++ beta/ui/gfx/linux/drm_util_linux.cc
 @@ -8,6 +8,15 @@
  
  #include "base/notreached.h"
@@ -101,10 +101,10 @@ Index: dev/ui/gfx/linux/drm_util_linux.cc
  namespace ui {
  
  int GetFourCCFormatFromBufferFormat(gfx::BufferFormat format) {
-Index: dev/ui/base/x/x11_display_util.cc
+Index: beta/ui/base/x/x11_display_util.cc
 ===================================================================
---- dev.orig/ui/base/x/x11_display_util.cc
-+++ dev/ui/base/x/x11_display_util.cc
+--- beta.orig/ui/base/x/x11_display_util.cc
++++ beta/ui/base/x/x11_display_util.cc
 @@ -38,6 +38,7 @@ std::map<x11::RandR::Output, int> GetMon
                                                x11::RandR* randr,
                                                x11::Window window) {
@@ -121,10 +121,10 @@ Index: dev/ui/base/x/x11_display_util.cc
    return output_to_monitor;
  }
  
-Index: dev/third_party/wayland/src/src/scanner.c
+Index: beta/third_party/wayland/src/src/scanner.c
 ===================================================================
---- dev.orig/third_party/wayland/src/src/scanner.c
-+++ dev/third_party/wayland/src/src/scanner.c
+--- beta.orig/third_party/wayland/src/src/scanner.c
++++ beta/third_party/wayland/src/src/scanner.c
 @@ -980,17 +980,6 @@ verify_arguments(struct parse_context *c
  
  }
@@ -143,10 +143,10 @@ Index: dev/third_party/wayland/src/src/scanner.c
  static void
  end_element(void *data, const XML_Char *name)
  {
-Index: dev/third_party/snappy/src/snappy.cc
+Index: beta/third_party/snappy/src/snappy.cc
 ===================================================================
---- dev.orig/third_party/snappy/src/snappy.cc
-+++ dev/third_party/snappy/src/snappy.cc
+--- beta.orig/third_party/snappy/src/snappy.cc
++++ beta/third_party/snappy/src/snappy.cc
 @@ -1041,15 +1041,8 @@ size_t AdvanceToNextTagX86Optimized(cons
    size_t literal_len = *tag >> 2;
    size_t tag_type = *tag;
@@ -163,10 +163,10 @@ Index: dev/third_party/snappy/src/snappy.cc
    // TODO
    // This is code is subtle. Loading the values first and then cmov has less
    // latency then cmov ip and then load. However clang would move the loads
-Index: dev/media/gpu/chromeos/platform_video_frame_utils.cc
+Index: beta/media/gpu/chromeos/platform_video_frame_utils.cc
 ===================================================================
---- dev.orig/media/gpu/chromeos/platform_video_frame_utils.cc
-+++ dev/media/gpu/chromeos/platform_video_frame_utils.cc
+--- beta.orig/media/gpu/chromeos/platform_video_frame_utils.cc
++++ beta/media/gpu/chromeos/platform_video_frame_utils.cc
 @@ -40,6 +40,10 @@
  #include "ui/gfx/linux/native_pixmap_dmabuf.h"
  #include "ui/gfx/native_pixmap.h"
@@ -178,10 +178,10 @@ Index: dev/media/gpu/chromeos/platform_video_frame_utils.cc
  namespace media {
  
  namespace {
-Index: dev/mojo/core/channel_linux.cc
+Index: beta/mojo/core/channel_linux.cc
 ===================================================================
---- dev.orig/mojo/core/channel_linux.cc
-+++ dev/mojo/core/channel_linux.cc
+--- beta.orig/mojo/core/channel_linux.cc
++++ beta/mojo/core/channel_linux.cc
 @@ -48,6 +48,34 @@
  #define EFD_ZERO_ON_WAKE O_NOFOLLOW
  #endif
@@ -217,10 +217,10 @@ Index: dev/mojo/core/channel_linux.cc
  namespace mojo {
  namespace core {
  
-Index: dev/third_party/devtools-frontend/src/node_modules/minify-html-literals/src/strategy.js
+Index: beta/third_party/devtools-frontend/src/node_modules/minify-html-literals/src/strategy.js
 ===================================================================
---- dev.orig/third_party/devtools-frontend/src/node_modules/minify-html-literals/src/strategy.js
-+++ dev/third_party/devtools-frontend/src/node_modules/minify-html-literals/src/strategy.js
+--- beta.orig/third_party/devtools-frontend/src/node_modules/minify-html-literals/src/strategy.js
++++ beta/third_party/devtools-frontend/src/node_modules/minify-html-literals/src/strategy.js
 @@ -71,25 +71,6 @@ exports.defaultStrategy = {
              ...options,
              minifyCSS: adjustedMinifyCSSOptions

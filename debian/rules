@@ -168,13 +168,6 @@ common_defines += \
 	google_api_key="AIzaSyC4TF2l4o5nfmK4MAB-VaEVnf7h-sxENXw"
 endif
 
-# Google has dropped support for Pipewire 0.2
-ifneq (,$(filter 22.04 22.10,$(UBUNTU_DIST)))
-common_defines += \
-				  rtc_use_pipewire=true \
-				  rtc_link_pipewire=true
-endif
-
 ifneq (,$(filter 20.04%,$(UBUNTU_DIST)))
 # Focal
 common_defines += \
@@ -186,6 +179,11 @@ else
 common_defines += \
 				  init_stack_vars=true \
 				  clang_use_compiler_version_suffix=false
+
+# Google has dropped support for Pipewire 0.2
+common_defines += \
+				  rtc_use_pipewire=true \
+				  rtc_link_pipewire=true
 endif
 
 ### Official interfaces.

@@ -1,3 +1,10 @@
+chromium-browser (1:108.0.5359.40-0ubuntu1~ppa1~20.04.1) focal; urgency=low
+
+  * New upstream version 108.0.5359.40
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 13 Nov 2022 23:11:20 -0800
+
 chromium-browser (1:108.0.5355.0-0ubuntu1~ppa1~20.04.1) focal; urgency=low
 
   * New upstream version 108.0.5355.0

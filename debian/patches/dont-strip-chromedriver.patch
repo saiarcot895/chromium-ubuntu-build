@@ -1,7 +1,7 @@
-Index: dev/chrome/test/chromedriver/BUILD.gn
+Index: beta/chrome/test/chromedriver/BUILD.gn
 ===================================================================
---- dev.orig/chrome/test/chromedriver/BUILD.gn
-+++ dev/chrome/test/chromedriver/BUILD.gn
+--- beta.orig/chrome/test/chromedriver/BUILD.gn
++++ beta/chrome/test/chromedriver/BUILD.gn
 @@ -4,9 +4,6 @@
  
  import("//build/config/python.gni")
