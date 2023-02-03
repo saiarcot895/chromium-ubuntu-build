@@ -62,7 +62,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
    return media::VAImplementation::kOther;
  }
-@@ -2461,6 +2464,12 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+@@ -2477,6 +2480,12 @@ VaapiWrapper::ExportVASurfaceAsNativePix
          sequence_checker_.CalledOnValidSequence());
    DCHECK_NE(va_surface_id, VA_INVALID_SURFACE);
    DCHECK(!va_surface_size.IsEmpty());
@@ -75,7 +75,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    VADRMPRIMESurfaceDescriptor descriptor;
    {
      base::AutoLockMaybe auto_lock(va_lock_.get());
-@@ -3277,26 +3286,37 @@ bool VaapiWrapper::CreateSurfaces(
+@@ -3296,26 +3305,37 @@ bool VaapiWrapper::CreateSurfaces(
  
    va_surfaces->resize(num_surfaces);
    VASurfaceAttrib attribute;

@@ -41,7 +41,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -1876,6 +1876,12 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -1892,6 +1892,12 @@ bool VaapiWrapper::GetJpegDecodeSuitable
  }
  
  // static

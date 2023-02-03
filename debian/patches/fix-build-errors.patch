@@ -2,7 +2,7 @@ Index: dev/cc/trees/frame_rate_estimator.cc
 ===================================================================
 --- dev.orig/cc/trees/frame_rate_estimator.cc
 +++ dev/cc/trees/frame_rate_estimator.cc
-@@ -47,8 +47,8 @@ void FrameRateEstimator::WillDraw(base::
+@@ -48,8 +48,8 @@ void FrameRateEstimator::WillDraw(base::
    // we assume that BeginFrames can not be throttled. But if the animation
    // frequency is lower than that, then using a lower frame rate is permitted.
    // The delta below is to account for minor offsets in frame times.
@@ -96,7 +96,7 @@ Index: dev/third_party/angle/BUILD.gn
 ===================================================================
 --- dev.orig/third_party/angle/BUILD.gn
 +++ dev/third_party/angle/BUILD.gn
-@@ -1105,11 +1105,6 @@ if (angle_use_wayland) {
+@@ -1138,11 +1138,6 @@ if (angle_use_wayland) {
          "wayland-egl",
        ]
      }

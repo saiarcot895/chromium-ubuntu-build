@@ -2,7 +2,7 @@ Index: dev/build/util/lastchange.py
 ===================================================================
 --- dev.orig/build/util/lastchange.py
 +++ dev/build/util/lastchange.py
-@@ -282,29 +282,34 @@ def main(argv=None):
+@@ -281,29 +281,34 @@ def main(argv=None):
    except GitError as e:
      logging.error("Failed to get git top directory from '%s': %s",
                    source_dir, e)

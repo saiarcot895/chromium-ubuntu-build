@@ -167,7 +167,7 @@ Index: dev/media/gpu/chromeos/platform_video_frame_utils.cc
 ===================================================================
 --- dev.orig/media/gpu/chromeos/platform_video_frame_utils.cc
 +++ dev/media/gpu/chromeos/platform_video_frame_utils.cc
-@@ -40,6 +40,10 @@
+@@ -41,6 +41,10 @@
  #include "ui/gfx/linux/native_pixmap_dmabuf.h"
  #include "ui/gfx/native_pixmap.h"
  
@@ -182,7 +182,7 @@ Index: dev/mojo/core/channel_linux.cc
 ===================================================================
 --- dev.orig/mojo/core/channel_linux.cc
 +++ dev/mojo/core/channel_linux.cc
-@@ -48,6 +48,34 @@
+@@ -49,6 +49,34 @@
  #define EFD_ZERO_ON_WAKE O_NOFOLLOW
  #endif
  
