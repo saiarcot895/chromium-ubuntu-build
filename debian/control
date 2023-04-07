@@ -90,7 +90,8 @@ Build-Depends: debhelper (>= 9),
 		libexpat1-dev:native,
 		libfontconfig1-dev,
 		libfontconfig1-dev:native,
-		qtbase5-dev
+		qtbase5-dev,
+		libevdev-dev
 Standards-Version: 3.9.5
 
 Package: chromium-browser

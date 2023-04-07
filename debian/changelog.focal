@@ -1,3 +1,9 @@
+chromium-browser (1:114.0.5696.0-0ubuntu1~ppa2~20.04.1) focal; urgency=low
+
+  * Add libevdev dependency.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Fri, 07 Apr 2023 08:48:34 -0700
+
 chromium-browser (1:114.0.5696.0-0ubuntu1~ppa1~20.04.1) focal; urgency=low
 
   * New upstream version 114.0.5696.0
