@@ -6,7 +6,7 @@ Index: dev/chrome/common/chrome_paths.cc
 ===================================================================
 --- dev.orig/chrome/common/chrome_paths.cc
 +++ dev/chrome/common/chrome_paths.cc
-@@ -59,6 +59,9 @@ const base::FilePath::CharType kFilepath
+@@ -58,6 +58,9 @@ const base::FilePath::CharType kFilepath
      FILE_PATH_LITERAL("/usr/share/chromium/extensions");
  #endif  // BUILDFLAG(GOOGLE_CHROME_BRANDING)
  
@@ -16,7 +16,7 @@ Index: dev/chrome/common/chrome_paths.cc
  #endif  // BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS)
  
  #if BUILDFLAG(ENABLE_WIDEVINE)
-@@ -427,6 +430,9 @@ bool PathProvider(int key, base::FilePat
+@@ -424,6 +427,9 @@ bool PathProvider(int key, base::FilePat
        cur = base::FilePath(FILE_PATH_LITERAL("/etc/opt/chrome/policies"));
  #else
        cur = base::FilePath(FILE_PATH_LITERAL("/etc/chromium/policies"));
@@ -26,7 +26,7 @@ Index: dev/chrome/common/chrome_paths.cc
  #endif
        break;
      }
-@@ -446,6 +452,10 @@ bool PathProvider(int key, base::FilePat
+@@ -443,6 +449,10 @@ bool PathProvider(int key, base::FilePat
  #endif
  #if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS)
      case chrome::DIR_STANDALONE_EXTERNAL_EXTENSIONS: {
@@ -37,7 +37,7 @@ Index: dev/chrome/common/chrome_paths.cc
        cur = base::FilePath(kFilepathSinglePrefExtensions);
        break;
      }
-@@ -505,6 +515,10 @@ bool PathProvider(int key, base::FilePat
+@@ -502,6 +512,10 @@ bool PathProvider(int key, base::FilePat
  #else
        cur = base::FilePath(FILE_PATH_LITERAL(
            "/etc/chromium/native-messaging-hosts"));

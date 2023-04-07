@@ -6,14 +6,14 @@ Index: dev/chrome/BUILD.gn
 ===================================================================
 --- dev.orig/chrome/BUILD.gn
 +++ dev/chrome/BUILD.gn
-@@ -366,7 +366,7 @@ if (!is_android && !is_mac) {
+@@ -373,7 +373,7 @@ if (!is_android && !is_mac) {
  
-     # ChromeOS by design is safe to have rpath=$ORIGIN. This simplifies shared
-     # library usage.
--    if (is_chromeos_ash && !is_component_build) {
-+    if (is_linux && !is_component_build) {
-       configs += [ "//build/config/gcc:rpath_for_built_shared_libraries" ]
-     }
+       # ChromeOS by design is safe to have rpath=$ORIGIN. This simplifies shared
+       # library usage.
+-      if (is_chromeos_ash && !is_component_build) {
++      if (is_linux && !is_component_build) {
+         configs += [ "//build/config/gcc:rpath_for_built_shared_libraries" ]
+       }
  
 Index: dev/tools/v8_context_snapshot/BUILD.gn
 ===================================================================

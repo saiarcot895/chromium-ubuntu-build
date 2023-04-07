@@ -2,7 +2,7 @@ Index: dev/chrome/browser/background/background_mode_manager.cc
 ===================================================================
 --- dev.orig/chrome/browser/background/background_mode_manager.cc
 +++ dev/chrome/browser/background/background_mode_manager.cc
-@@ -371,7 +371,7 @@ BackgroundModeManager::~BackgroundModeMa
+@@ -363,7 +363,7 @@ BackgroundModeManager::~BackgroundModeMa
  
  // static
  void BackgroundModeManager::RegisterPrefs(PrefRegistrySimple* registry) {

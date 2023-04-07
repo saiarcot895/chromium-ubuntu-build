@@ -4,7 +4,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
 +++ dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
-@@ -707,7 +707,8 @@ void VaapiVideoDecodeAccelerator::Assign
+@@ -708,7 +708,8 @@ void VaapiVideoDecodeAccelerator::Assign
    // implementation we get from |vaapi_picture_factory_| requires the video
    // processing pipeline for downloading the decoded frame from the internal
    // surface, we need to create a |vpp_vaapi_wrapper_|.
@@ -14,7 +14,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
      if (!vpp_vaapi_wrapper_) {
        vpp_vaapi_wrapper_ = VaapiWrapper::Create(
            VaapiWrapper::kVideoProcess, VAProfileNone,
-@@ -1221,6 +1222,12 @@ VaapiVideoDecodeAccelerator::DecideBuffe
+@@ -1222,6 +1223,12 @@ VaapiVideoDecodeAccelerator::DecideBuffe
      return BufferAllocationMode::kReduced;
    return BufferAllocationMode::kSuperReduced;
  #else
@@ -27,7 +27,7 @@ Index: dev/media/gpu/vaapi/vaapi_video_decode_accelerator.cc
    // TODO(crbug.com/912295): Enable a better BufferAllocationMode for IMPORT
    // |output_mode_| as well.
    if (output_mode_ == VideoDecodeAccelerator::Config::OutputMode::IMPORT)
-@@ -1231,7 +1238,7 @@ VaapiVideoDecodeAccelerator::DecideBuffe
+@@ -1232,7 +1239,7 @@ VaapiVideoDecodeAccelerator::DecideBuffe
    // associated format reconciliation copy, avoiding all internal buffer
    // allocations.
    // TODO(crbug.com/911754): Enable for VP9 Profile 2.
@@ -62,7 +62,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
    return media::VAImplementation::kOther;
  }
-@@ -2477,6 +2480,12 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+@@ -2476,6 +2479,12 @@ VaapiWrapper::ExportVASurfaceAsNativePix
          sequence_checker_.CalledOnValidSequence());
    DCHECK_NE(va_surface_id, VA_INVALID_SURFACE);
    DCHECK(!va_surface_size.IsEmpty());
@@ -75,7 +75,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    VADRMPRIMESurfaceDescriptor descriptor;
    {
      base::AutoLockMaybe auto_lock(va_lock_.get());
-@@ -3296,26 +3305,37 @@ bool VaapiWrapper::CreateSurfaces(
+@@ -3300,26 +3309,37 @@ bool VaapiWrapper::CreateSurfaces(
  
    va_surfaces->resize(num_surfaces);
    VASurfaceAttrib attribute;
