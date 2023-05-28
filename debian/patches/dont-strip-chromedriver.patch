@@ -12,7 +12,7 @@ Index: dev/chrome/test/chromedriver/BUILD.gn
  import("//build/util/lastchange.gni")
  import("//testing/test.gni")
  import("//third_party/ffmpeg/ffmpeg_options.gni")
-@@ -362,10 +359,10 @@ source_set("lib") {
+@@ -368,10 +365,10 @@ source_set("lib") {
  
  if (is_linux) {
    # Linux
@@ -25,7 +25,7 @@ Index: dev/chrome/test/chromedriver/BUILD.gn
  
      deps = [
        ":automation_client_lib",
-@@ -376,14 +373,6 @@ if (is_linux) {
+@@ -382,14 +379,6 @@ if (is_linux) {
        "//services/network/public/mojom",
      ]
    }

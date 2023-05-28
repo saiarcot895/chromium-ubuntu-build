@@ -48,7 +48,7 @@ Index: dev/content/gpu/BUILD.gn
  
  # See //content/BUILD.gn for how this works.
  group("gpu") {
-@@ -141,4 +142,8 @@ target(link_target_type, "gpu_sources")
+@@ -143,4 +144,8 @@ target(link_target_type, "gpu_sources")
        !is_castos) {
      configs += [ "//build/config/linux/dri" ]
    }
@@ -102,9 +102,18 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -728,6 +728,13 @@ VADisplayState* VADisplayState::Get() {
- // static
- void VADisplayState::PreSandboxInitialization() {
+@@ -1009,7 +1009,7 @@ bool AreAttribsSupported(const base::Loc
+     if (attribs[i].type != required_attribs[i].type ||
+         (attribs[i].value & required_attribs[i].value) !=
+             required_attribs[i].value) {
+-      DVLOG(1) << "Unsupported value " << required_attribs[i].value << " for "
++      VLOG(1) << "Unsupported value " << required_attribs[i].value << " for "
+                << vaConfigAttribTypeStr(required_attribs[i].type);
+       return false;
+     }
+@@ -1561,6 +1561,13 @@ void VADisplayStateSingleton::PreSandbox
+   base::AutoLock lock(va_display_state.lock_);
+ 
    constexpr char kRenderNodeFilePattern[] = "/dev/dri/renderD%d";
 +  const char kNvidiaPath[] = "/dev/dri/nvidiactl";
 +
@@ -116,27 +125,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    // This loop ends on either the first card that does not exist or the first
    // render node that is not vgem.
    for (int i = 128;; i++) {
-@@ -885,10 +892,6 @@ bool VADisplayState::InitializeVaDriver_
- }
- 
- bool VADisplayState::InitializeOnce() {
--  static_assert(
--      VA_MAJOR_VERSION >= 2 || (VA_MAJOR_VERSION == 1 && VA_MINOR_VERSION >= 1),
--      "Requires VA-API >= 1.1.0");
--
-   // Set VA logging level, unless already set.
-   constexpr char libva_log_level_env[] = "LIBVA_MESSAGING_LEVEL";
-   std::unique_ptr<base::Environment> env(base::Environment::Create());
-@@ -1100,7 +1103,7 @@ bool AreAttribsSupported(const base::Loc
-     if (attribs[i].type != required_attribs[i].type ||
-         (attribs[i].value & required_attribs[i].value) !=
-             required_attribs[i].value) {
--      DVLOG(1) << "Unsupported value " << required_attribs[i].value << " for "
-+      VLOG(1) << "Unsupported value " << required_attribs[i].value << " for "
-                << vaConfigAttribTypeStr(required_attribs[i].type);
-       return false;
-     }
-@@ -3123,13 +3126,7 @@ void VaapiWrapper::PreSandboxInitializat
+@@ -3246,13 +3253,7 @@ void VaapiWrapper::PreSandboxInitializat
    static bool result = InitializeStubs(paths);
    if (!result) {
      static const char kErrorMsg[] = "Failed to initialize VAAPI libs";
@@ -150,4 +139,4 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 +    LOG(ERROR) << kErrorMsg;
    }
  
-   // VASupportedProfiles::Get creates VADisplayState and in so doing
+   // VASupportedProfiles::Get creates VADisplayStateSingleton and in so doing

@@ -57,7 +57,7 @@ Index: dev/base/allocator/partition_allocator/partition_root.h
 ===================================================================
 --- dev.orig/base/allocator/partition_allocator/partition_root.h
 +++ dev/base/allocator/partition_allocator/partition_root.h
-@@ -235,7 +235,7 @@ struct PartitionOptions {
+@@ -201,7 +201,7 @@ struct PartitionOptions {
  // Never instantiate a PartitionRoot directly, instead use
  // PartitionAllocator.
  template <bool thread_safe>
@@ -96,7 +96,7 @@ Index: dev/third_party/angle/BUILD.gn
 ===================================================================
 --- dev.orig/third_party/angle/BUILD.gn
 +++ dev/third_party/angle/BUILD.gn
-@@ -1131,11 +1131,6 @@ if (angle_use_wayland) {
+@@ -1142,11 +1142,6 @@ if (angle_use_wayland) {
          "wayland-egl",
        ]
      }

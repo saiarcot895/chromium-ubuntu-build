@@ -143,26 +143,6 @@ Index: dev/third_party/wayland/src/src/scanner.c
  static void
  end_element(void *data, const XML_Char *name)
  {
-Index: dev/third_party/snappy/src/snappy.cc
-===================================================================
---- dev.orig/third_party/snappy/src/snappy.cc
-+++ dev/third_party/snappy/src/snappy.cc
-@@ -1041,15 +1041,8 @@ size_t AdvanceToNextTagX86Optimized(cons
-   size_t literal_len = *tag >> 2;
-   size_t tag_type = *tag;
-   bool is_literal;
--#if defined(__GNUC__) && defined(__x86_64__)
--  // TODO clang misses the fact that the (c & 3) already correctly
--  // sets the zero flag.
--  asm("and $3, %k[tag_type]\n\t"
--      : [tag_type] "+r"(tag_type), "=@ccz"(is_literal));
--#else
-   tag_type &= 3;
-   is_literal = (tag_type == 0);
--#endif
-   // TODO
-   // This is code is subtle. Loading the values first and then cmov has less
-   // latency then cmov ip and then load. However clang would move the loads
 Index: dev/media/gpu/chromeos/platform_video_frame_utils.cc
 ===================================================================
 --- dev.orig/media/gpu/chromeos/platform_video_frame_utils.cc
@@ -254,3 +234,18 @@ Index: dev/third_party/devtools-frontend/src/node_modules/minify-html-literals/s
 -//# sourceMappingURL=strategy.js.map
 \ No newline at end of file
 +//# sourceMappingURL=strategy.js.map
+Index: dev/media/base/cdm_promise_adapter.cc
+===================================================================
+--- dev.orig/media/base/cdm_promise_adapter.cc
++++ dev/media/base/cdm_promise_adapter.cc
+@@ -95,9 +95,7 @@ void CdmPromiseAdapter::Clear(ClearReaso
+   // Reject all outstanding promises.
+   DCHECK(thread_checker_.CalledOnValidThread());
+   for (auto& [promise_id, promise] : promises_) {
+-    TRACE_EVENT_NESTABLE_ASYNC_END1(
+-        "media", "CdmPromise", TRACE_ID_WITH_SCOPE("CdmPromise", promise_id),
+-        "status", "cleared");
++    // Trace event call removed due to compiler error, fixed in Clang 16
+     promise->reject(CdmPromise::Exception::INVALID_STATE_ERROR,
+                     ToSystemCode(reason), "Operation aborted.");
+   }

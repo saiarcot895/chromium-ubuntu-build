@@ -41,7 +41,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -1898,6 +1898,12 @@ bool VaapiWrapper::GetJpegDecodeSuitable
+@@ -2026,6 +2026,12 @@ bool VaapiWrapper::GetJpegDecodeSuitable
  }
  
  // static
@@ -58,7 +58,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.h
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.h
 +++ dev/media/gpu/vaapi/vaapi_wrapper.h
-@@ -239,6 +239,9 @@ class MEDIA_GPU_EXPORT VaapiWrapper
+@@ -276,6 +276,9 @@ class MEDIA_GPU_EXPORT VaapiWrapper
                                                 uint32_t preferred_fourcc,
                                                 uint32_t* suitable_fourcc);
  

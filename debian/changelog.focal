@@ -1,3 +1,10 @@
+chromium-browser (1:115.0.5790.3-0ubuntu1~ppa1~20.04.1) focal; urgency=low
+
+  * New upstream version 115.0.5790.3
+  * Updated patches.
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sat, 27 May 2023 21:26:45 -0700
+
 chromium-browser (1:114.0.5696.0-0ubuntu1~ppa2~20.04.1) focal; urgency=low
 
   * Add libevdev dependency.

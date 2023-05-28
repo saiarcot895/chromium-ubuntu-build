@@ -2,7 +2,7 @@ Index: dev/BUILD.gn
 ===================================================================
 --- dev.orig/BUILD.gn
 +++ dev/BUILD.gn
-@@ -92,7 +92,6 @@ group("gn_all") {
+@@ -95,7 +95,6 @@ group("gn_all") {
        "//codelabs",
        "//components:components_unittests",
        "//components/gwp_asan:gwp_asan_unittests",

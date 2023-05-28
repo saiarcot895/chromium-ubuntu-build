@@ -52,7 +52,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.cc
 +++ dev/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -245,6 +245,9 @@ media::VAImplementation VendorStringToIm
+@@ -349,6 +349,9 @@ media::VAImplementation VendorStringToIm
    } else if (base::StartsWith(va_vendor_string, "Intel iHD driver",
                                base::CompareCase::SENSITIVE)) {
      return media::VAImplementation::kIntelIHD;
@@ -62,7 +62,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    }
    return media::VAImplementation::kOther;
  }
-@@ -2476,6 +2479,12 @@ VaapiWrapper::ExportVASurfaceAsNativePix
+@@ -2608,6 +2611,12 @@ VaapiWrapper::ExportVASurfaceAsNativePix
          sequence_checker_.CalledOnValidSequence());
    DCHECK_NE(va_surface_id, VA_INVALID_SURFACE);
    DCHECK(!va_surface_size.IsEmpty());
@@ -75,7 +75,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.cc
    VADRMPRIMESurfaceDescriptor descriptor;
    {
      base::AutoLockMaybe auto_lock(va_lock_.get());
-@@ -3300,26 +3309,37 @@ bool VaapiWrapper::CreateSurfaces(
+@@ -3423,26 +3432,37 @@ bool VaapiWrapper::CreateSurfaces(
  
    va_surfaces->resize(num_surfaces);
    VASurfaceAttrib attribute;
@@ -133,7 +133,7 @@ Index: dev/media/gpu/vaapi/vaapi_wrapper.h
 ===================================================================
 --- dev.orig/media/gpu/vaapi/vaapi_wrapper.h
 +++ dev/media/gpu/vaapi/vaapi_wrapper.h
-@@ -92,6 +92,7 @@ enum class VAImplementation {
+@@ -93,6 +93,7 @@ enum class VAImplementation {
    kMesaGallium,
    kIntelI965,
    kIntelIHD,
