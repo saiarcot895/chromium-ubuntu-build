@@ -1,3 +1,10 @@
+chromium-browser (1:115.0.5790.3-0ubuntu1~ppa2~22.10.1) kinetic; urgency=low
+
+  * Disable rust check in the hopes that Chromium will build (for now).
+  * Remove some dead code from debian/rules
+
+ -- Saikrishna Arcot <saiarcot895@gmail.com>  Sun, 28 May 2023 13:06:51 -0700
+
 chromium-browser (1:115.0.5790.3-0ubuntu1~ppa1~22.10.1) kinetic; urgency=low
 
   * New upstream version 115.0.5790.3

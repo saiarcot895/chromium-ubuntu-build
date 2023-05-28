@@ -26,9 +26,6 @@ FFMPEG_SRC_DIR := $(SRC_DIR)/$(FFMPEG_DIR)
 NINJA          := ninja
 BUILD_TYPE     := final
 
-# Whitelist LP provided new langs only in release builds, PPAs ship them all
-WANT_ONLY_WHITELISTED_NEW_LANGS ?= 0
-
 ifneq (,$(findstring Ubuntu,$(DEBIAN_DIST)))
 DISTRIBUTION=UBUNTU
 UBUNTU_DIST=$(DEBIAN_DIST)
@@ -94,7 +91,8 @@ common_defines += \
 				use_vaapi=true \
 				blink_enable_generated_code_formatting=false \
 				use_system_wayland_scanner=true \
-				devtools_skip_typecheck=false
+				devtools_skip_typecheck=false \
+				enable_rust=false
 
 # FFmpeg-mt
 # Ignore the version built as part of chromium. Build it separately twice, once with
@@ -125,8 +123,6 @@ common_defines += is_component_build=true
 else ifeq (arm64,$(DEB_HOST_ARCH))
 common_defines += target_cpu="arm64" symbol_level=1
 common_defines += arm_control_flow_integrity="none"
-else ifeq (i386,$(DEB_HOST_ARCH))
-common_defines += target_cpu="x86" symbol_level=1
 else ifeq (amd64,$(DEB_HOST_ARCH))
 common_defines += target_cpu="x64" symbol_level=1
 else ifeq (mipsel,$(DEB_HOST_ARCH))
@@ -156,9 +152,6 @@ BUILD_TARGETS += \
 	chromedriver \
 	clear_key_cdm \
 	$(NULL)
-
-# Needed to preserve the suid and make the sandbox happy
-DEB_FIXPERMS_EXCLUDE := chrome-sandbox
 
 ifneq (,$(GOOGLEAPI_APIKEY_$(DISTRIBUTION)))
 common_defines += \
@@ -234,9 +227,6 @@ override_dh_auto_build:
 	$(NINJA) -k 3 -C $(SRC_DIR)/out/$(BUILD_TYPE) $(BUILD_TARGETS)
 	$(NINJA) -C $(SRC_DIR)/out/$(BUILD_TYPE)-ffmpeg-extra third_party/ffmpeg
 	$(NINJA) -C $(SRC_DIR)/out/$(BUILD_TYPE)-ffmpeg-std third_party/ffmpeg
-
-override_dh_builddeb:
-	dh_builddeb -- -Zxz
 
 override_dh_shlibdeps:
 	dh_shlibdeps -l$(CURDIR)/debian/chromium-browser/usr/lib/chromium-browser/ 2>&1 | grep -v "dpkg-shlibdeps: warning: can't extract name and version from library name" || true
@@ -420,38 +410,4 @@ compare-arch:
 	for expr in $(PACKAGED_NOT_FROM_TREE_MATCH); do if ! grep -E $$expr $${T}/unfiltered-packaged >/dev/null; then echo "Warning: Unused packaged matcher: $$expr"; fi; done; \
 	rm -r $${T};
 
-###############################################################################################
-# Translations
-
-# New langs with enough coverage to land in official builds
-# (leave empty to accept all new lang)
-patch-translations: T := $(shell mktemp -d -t chromium-launchpad-translations-XXXXXXX)
-patch-translations: GRIT_WHITELISTED_LANGS ?= ca@valencia eu gl ug gd
-patch-translations: TRANSLATIONS_TOOLS_BRANCH  := http://bazaar.launchpad.net/~chromium-team/chromium-browser/chromium-translations-tools.head
-patch-translations: TRANSLATIONS_EXPORT_BRANCH := http://bazaar.launchpad.net/~chromium-team/chromium-browser/chromium-translations-exports.head
-patch-translations: GRIT_TEMPLATES := chrome/app/chromium_strings.grd chrome/app/generated_resources.grd components/policy/resources/policy_templates.grd ui/strings/ui_strings.grd
-patch-translations: OTHER_GRIT_TEMPLATES := ui/strings/app_locale_settings.grd chrome/app/resources/locale_settings.grd chrome/app/resources/locale_settings_linux.grd
-patch-translations: MAPPED_GRIT_TEMPLATES := --map-template-names ui/strings/ui_strings.grd=ui/strings/app_strings.grd
-patch-translations: GRIT_CONVERTER_FLAGS := --create-patches translations-patches --import-gettext ../translations-export --export-grit $(T)/translations-grit --build-gyp-file build/common.gypi --other-grd-files $(shell echo $(OTHER_GRIT_TEMPLATES) | tr ' ' ',') $(MAPPED_GRIT_TEMPLATES) 
-ifeq (1,$(WANT_ONLY_WHITELISTED_NEW_LANGS))
-patch-translations: GRIT_CONVERTER_FLAGS += --whitelisted-new-langs $(shell echo $(GRIT_WHITELISTED_LANGS) | tr ' ' ',')
-endif
-patch-translations: PATCH_FILE := launchpad_translations.patch
-patch-translations:
-	@set -eux
-	ls $(GRIT_TEMPLATES)
-	ls $(OTHER_GRIT_TEMPLATES)
-	test -d $(T)/translations-tools || bzr export $(T)/translations-tools $(TRANSLATIONS_TOOLS_BRANCH)
-	test -d $(T)/translations-export || bzr export $(T)/translations-export $(TRANSLATIONS_EXPORT_BRANCH)
-	( cd $(SRC_DIR); $(T)/translations-tools/chromium2pot.py $(GRIT_CONVERTER_FLAGS) $$(ls $(GRIT_TEMPLATES)); )
-	quilt delete "$(PATCH_FILE)" || true
-	quilt new "$(PATCH_FILE)"
-	( cd $(T)/translations-grit && find * -type f ) |while read updatedfile; do \
-		quilt add -P "$(PATCH_FILE)" $(SRC_DIR)/"$$updatedfile"; \
-		cp $(T)/translations-grit/"$$updatedfile" $(SRC_DIR)/"$$updatedfile"; \
-	done;
-	{ echo "Description: Contributed translations from Launchpad. "; echo; } |quilt header -r "$(PATCH_FILE)"
-	quilt refresh -pab "$(PATCH_FILE)"
-	@echo "Patch needs committing."
-
-.PHONY: build get-packaged-orig-source override_dh_* local-install-* patch-translations compare-*
+.PHONY: build get-packaged-orig-source override_dh_* local-install-* compare-*
